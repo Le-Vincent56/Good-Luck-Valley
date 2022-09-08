@@ -3,46 +3,34 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-	//Scriptable object which holds all the player's movement parameters. If you don't want to use it
-	//just paste in all the parameters, though you will need to manuly change all references in this script
-
-	//HOW TO: to add the scriptable object, right-click in the project window -> create -> Player Data
-	//Next, drag it into the slot in playerMovement on your player
-
-	public PlayerData Data;
-
-	#region Variables
-	//Components
-	public Rigidbody2D RB { get; private set; }
-	public Animator animator;
-
-	//Variables control the various actions the player can perform at any time.
-	//These are fields which can are public allowing for other sctipts to read them
-	//but can only be privately written to.
+    #region FIELDS
+    public PlayerData Data;
 	public bool IsFacingRight { get; private set; }
 	public bool IsJumping { get; private set; }
 
-	//Timers (also all fields, could be private and a method returning a bool could be used)
+	// Timers
 	public float LastOnGroundTime { get; private set; }
 	public float LastOnWallTime { get; private set; }
 	public float LastOnWallRightTime { get; private set; }
 	public float LastOnWallLeftTime { get; private set; }
 
-	//Jump
+	// Jump
 	private bool _isJumpCut;
 	private bool _isJumpFalling;
 
-	//Wall Jump
-	private float _wallJumpStartTime;
-	private int _lastWallJumpDir;
-
 	private Vector2 _moveInput;
 	public float LastPressedJumpTime { get; private set; }
+    #endregion
 
-	//Set all of these up in the inspector
+    #region VARIABLES
+    // Components
+    public Rigidbody2D RB { get; private set; }
+	public Animator animator;
+
+	// Set all of these up in the inspector
 	[Header("Checks")]
 	[SerializeField] private Transform _groundCheckPoint;
-	//Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
+	// Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
 	[SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
 	[Space(5)]
 	[SerializeField] private Transform _frontWallCheckPoint;
@@ -83,7 +71,9 @@ public class PlayerMovement : MonoBehaviour
 		animator.SetFloat("Speed", Mathf.Abs(_moveInput.x));
 
 		if (_moveInput.x != 0)
+        {
 			CheckDirectionToFace(_moveInput.x > 0);
+		}
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
 		{
@@ -99,23 +89,27 @@ public class PlayerMovement : MonoBehaviour
 		#region COLLISION CHECKS
 		if (!IsJumping)
 		{
-			//Ground Check
-			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) //checks if set box overlaps with ground
+			// Ground Check
+			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
 			{
-				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+				LastOnGroundTime = Data.coyoteTime; // If so sets the lastGrounded to coyoteTime
 			}
 
-			//Right Wall Check
+			// Right Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
 					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)))
+            {
 				LastOnWallRightTime = Data.coyoteTime;
+			}
 
-			//Right Wall Check
+			// Left Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
 				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)))
+            {
 				LastOnWallLeftTime = Data.coyoteTime;
+			}
 
-			//Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
+			// Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
 			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
 		}
 		#endregion
@@ -156,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		#endregion
 
-		//Jump
+		// Jump
 		if (CanJump() && LastPressedJumpTime > 0)
 		{
 			IsJumping = true;
@@ -167,17 +161,17 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 
 		#region GRAVITY
-		//Higher gravity if we've released the jump input or are falling
+		// Higher gravity if we've released the jump input or are falling
 		if (RB.velocity.y < 0 && _moveInput.y < 0)
 		{
-			//Much higher gravity if holding down
+			// Much higher gravity if holding down
 			SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-			//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+			// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
 		}
 		else if (_isJumpCut)
 		{
-			//Higher gravity if jump button released
+			// Higher gravity if jump button released
 			SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
 			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
 		}
@@ -187,14 +181,14 @@ public class PlayerMovement : MonoBehaviour
 		}
 		else if (RB.velocity.y < 0)
 		{
-			//Higher gravity if falling
+			// Higher gravity if falling
 			SetGravityScale(Data.gravityScale * Data.fallGravityMult);
-			//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+			// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
 		}
 		else
 		{
-			//Default gravity if standing on a platform or moving upwards
+			// Default gravity if standing on a platform or moving upwards
 			SetGravityScale(Data.gravityScale);
 		}
 		#endregion
@@ -202,12 +196,12 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		//Handle Run
+		// Handle Run
 		Run(1);
 	}
 
 	#region INPUT CALLBACKS
-	//Methods which whandle input detected in Update()
+	// Methods which whandle input detected in Update()
 	public void OnJumpInput()
 	{
 		LastPressedJumpTime = Data.jumpInputBufferTime;
@@ -216,7 +210,9 @@ public class PlayerMovement : MonoBehaviour
 	public void OnJumpUpInput()
 	{
 		if (CanJumpCut())
+        {
 			_isJumpCut = true;
+		}
 	}
 	#endregion
 
@@ -227,28 +223,32 @@ public class PlayerMovement : MonoBehaviour
 	}
 	#endregion
 
-	//MOVEMENT METHODS
+	// MOVEMENT METHODS
 	#region RUN METHODS
 	private void Run(float lerpAmount)
 	{
-		//Calculate the direction we want to move in and our desired velocity
+		// Calculate the direction we want to move in and our desired velocity
 		float targetSpeed = _moveInput.x * Data.runMaxSpeed;
-		//We can reduce are control using Lerp() this smooths changes to are direction and speed
+		// Reduce are control using Lerp() this smooths changes to are direction and speed
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
 		#region Calculate AccelRate
 		float accelRate;
 
-		//Gets an acceleration value based on if we are accelerating (includes turning) 
-		//or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
+		// Gets an acceleration value based on if we are accelerating (includes turning) 
+		// or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
 		if (LastOnGroundTime > 0)
+        {
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
-		else
+		}
+        else
+        {
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount * Data.accelInAir : Data.runDeccelAmount * Data.deccelInAir;
+		}
 		#endregion
 
 		#region Add Bonus Jump Apex Acceleration
-		//Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
+		// Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
 		if ((IsJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
 		{
 			accelRate *= Data.jumpHangAccelerationMult;
@@ -257,34 +257,28 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 
 		#region Conserve Momentum
-		//We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
+		// We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
 		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
-			//Prevent any deceleration from happening, or in other words conserve are current momentum
-			//You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
+			// Prevent any deceleration from happening, or in other words conserve are current momentum
+			// You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
 			accelRate = 0;
 		}
 		#endregion
 
-		//Calculate difference between current velocity and desired velocity
+		// Calculate difference between current velocity and desired velocity
 		float speedDif = targetSpeed - RB.velocity.x;
-		//Calculate force along x-axis to apply to thr player
+		// Calculate force along x-axis to apply to thr player
 
 		float movement = speedDif * accelRate;
 
-		//Convert this to a vector and apply to rigidbody
+		// Convert this to a vector and apply to rigidbody
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
-
-		/*
-		 * For those interested here is what AddForce() will do
-		 * RB.velocity = new Vector2(RB.velocity.x + (Time.fixedDeltaTime  * speedDif * accelRate) / RB.mass, RB.velocity.y);
-		 * Time.fixedDeltaTime is by default in Unity 0.02 seconds equal to 50 FixedUpdate() calls per second
-		*/
 	}
 
 	private void Turn()
 	{
-		//stores scale and flips the player along the x axis, 
+		// Stores scale and flips the player along the x axis, 
 		Vector3 scale = transform.localScale;
 		scale.x *= -1;
 		transform.localScale = scale;
@@ -296,17 +290,18 @@ public class PlayerMovement : MonoBehaviour
 	#region JUMP METHODS
 	private void Jump()
 	{
-		//Ensures we can't call Jump multiple times from one press
+		// Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
 
 		#region Perform Jump
-		//We increase the force applied if we are falling
-		//This means we'll always feel like we jump the same amount 
-		//(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
+		// We increase the force applied if we are falling
+		// This means we'll always feel like we jump the same amount 
 		float force = Data.jumpForce;
 		if (RB.velocity.y < 0)
+        {
 			force -= RB.velocity.y;
+		}
 
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 		#endregion
