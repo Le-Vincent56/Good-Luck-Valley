@@ -194,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 	}
 
-	private void FixedUpdate()
+    private void FixedUpdate()
 	{
 		// Handle Run
 		Run(1);
