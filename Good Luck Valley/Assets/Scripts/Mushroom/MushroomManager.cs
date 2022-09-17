@@ -86,9 +86,4 @@ public class MushroomManager : MonoBehaviour
             mushrooms.Dequeue();
         }
     }
-
-    //Vector3 GetFinalMushroomPos()
-    //{
-        
-    //}
 }
