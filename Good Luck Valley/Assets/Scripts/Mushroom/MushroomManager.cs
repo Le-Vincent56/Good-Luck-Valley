@@ -6,12 +6,15 @@ public class MushroomManager : MonoBehaviour
 {
     [SerializeField] GameObject organicShroom;
     [SerializeField] GameObject metallicShroom;
+    [SerializeField] Vector2 velocity;
     private Queue<GameObject> mushrooms;
     private const int mushroomLimit = 3;
     private int mushroomCount;
     private PlayerData playerData;
     private Rigidbody2D playerRB;     
     private PlayerMovement playerMove;
+    private Mushroom mushroom;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,7 @@ public class MushroomManager : MonoBehaviour
         playerMove = GetComponent<PlayerMovement>();
         playerData = playerMove.Data;
         mushrooms = new Queue<GameObject>();
+        mushroom = GetComponent<Mushroom>();
     }
 
     // Update is called once per frame
@@ -40,6 +44,7 @@ public class MushroomManager : MonoBehaviour
 
     }
 
+
     void ThrowMushrom(int type)
     {
         switch (type)
@@ -47,12 +52,13 @@ public class MushroomManager : MonoBehaviour
             case 0:
                 if (playerMove.IsFacingRight)
                 {
-                    Vector3 pos = new Vector3(playerRB.position.x + 4, playerRB.position.y, 0f);
-                    mushrooms.Enqueue(Instantiate(organicShroom, pos, Quaternion.identity));
+                    //Vector2 pos = new Vector3(playerRB.position.x + 4, playerRB.position.y);
+                    mushrooms.Enqueue(Instantiate(organicShroom, new Vector2(playerRB.position.x, playerRB.position.y), Quaternion.identity));
+                    mushroom.AddForce(mushrooms.Peek());
                 }
                 else
                 {
-                    Vector3 pos = new Vector3((playerRB.position.x - 4), playerRB.position.y, 0f);
+                    Vector2 pos = new Vector2((playerRB.position.x - 4), playerRB.position.y);
                     mushrooms.Enqueue(Instantiate(organicShroom, pos, Quaternion.identity));
                 }
                 break;
@@ -60,18 +66,19 @@ public class MushroomManager : MonoBehaviour
             case 1:
                 if (playerMove.IsFacingRight)
                 {
-                    Vector3 pos = new Vector3(playerRB.position.x + 4, playerRB.position.y, 0f);
+                    Vector2 pos = new Vector2(playerRB.position.x + 4, playerRB.position.y);
                     mushrooms.Enqueue(Instantiate(metallicShroom, pos, Quaternion.identity));
                 }
                 else
                 {
-                    Vector3 pos = new Vector3((playerRB.position.x - 4), playerRB.position.y, 0f);
+                    Vector2 pos = new Vector2((playerRB.position.x - 4), playerRB.position.y);
                     mushrooms.Enqueue(Instantiate(metallicShroom, pos, Quaternion.identity));
                 }
                 break;
         }
         
     }
+
 
     void DetermineTypeAndThrow(int type)
     {
@@ -87,8 +94,5 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
-    //Vector3 GetFinalMushroomPos()
-    //{
-        
-    //}
+
 }
