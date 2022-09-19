@@ -12,7 +12,6 @@ public class MushroomManager : MonoBehaviour
     private PlayerData playerData;
     private Rigidbody2D playerRB;     
     private PlayerMovement playerMove;
-    private ThrowShroom throw_script;
 
 
     // Start is called before the first frame update
@@ -72,7 +71,6 @@ public class MushroomManager : MonoBehaviour
                 }
                 break;
         }
-        
     }
 
     void DetermineTypeAndThrow(int type)
