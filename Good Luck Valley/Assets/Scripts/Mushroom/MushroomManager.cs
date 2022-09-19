@@ -13,7 +13,6 @@ public class MushroomManager : MonoBehaviour
     private Rigidbody2D playerRB;     
     private PlayerMovement playerMove;
 
-
     // Start is called before the first frame update
     void Start()
     {
