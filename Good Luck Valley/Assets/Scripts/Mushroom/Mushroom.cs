@@ -8,11 +8,12 @@ public class Mushroom : MonoBehaviour
 
  
     /// <summary>
-    /// Adding an initial force to the mushroom when thrown.
+    /// Adds an initial velocity to a mushroom, launching it in the direction of the mouse
     /// </summary>
-    /// <param name="mushroom"></param>
-    public void AddForce(GameObject mushroom)
+    /// <param name="mushroom"> the mushroom object to be launched </param>
+    /// <param name="dir"> the direction to launch in, either 1 for right or -1 for left </param>
+    public void AddForce(GameObject mushroom, int dir)
     {
-        mushroom.GetComponent<Rigidbody2D>().AddForce(new Vector2(10, 10), ForceMode2D.Impulse);
+        mushroom.GetComponent<Rigidbody2D>().AddForce(new Vector2(10 * dir, 10), ForceMode2D.Impulse);
     }
 }
