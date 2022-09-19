@@ -7,10 +7,9 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] GameObject organicShroom;
     [SerializeField] GameObject metallicShroom;
     [SerializeField] Vector2 velocity;
-    private Queue<GameObject> mushrooms;
+    private List<GameObject> mushrooms;
     private const int mushroomLimit = 3;
     private int mushroomCount;
-    private PlayerData playerData;
     private Rigidbody2D playerRB;     
     private PlayerMovement playerMove;
     private Mushroom mushroom;
@@ -20,8 +19,7 @@ public class MushroomManager : MonoBehaviour
     {
         playerRB = GetComponent<Rigidbody2D>();
         playerMove = GetComponent<PlayerMovement>();
-        playerData = playerMove.Data;
-        mushrooms = new Queue<GameObject>();
+        mushrooms = new List<GameObject>();
         mushroom = GetComponent<Mushroom>();
     }
 
@@ -52,13 +50,13 @@ public class MushroomManager : MonoBehaviour
                 if (playerMove.IsFacingRight)
                 {
                     //Vector2 pos = new Vector3(playerRB.position.x + 4, playerRB.position.y);
-                    mushrooms.Enqueue(Instantiate(organicShroom, new Vector2(playerRB.position.x, playerRB.position.y), Quaternion.identity));
-                    mushroom.AddForce(mushrooms.Peek());
+                    mushrooms.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x, playerRB.position.y), Quaternion.identity));
+                    mushroom.AddForce(mushrooms[mushroomCount]);
                 }
                 else
                 {
                     Vector2 pos = new Vector2((playerRB.position.x - 4), playerRB.position.y);
-                    mushrooms.Enqueue(Instantiate(organicShroom, pos, Quaternion.identity));
+                    mushrooms.Add(Instantiate(organicShroom, pos, Quaternion.identity));
                 }
                 break;
 
@@ -66,12 +64,12 @@ public class MushroomManager : MonoBehaviour
                 if (playerMove.IsFacingRight)
                 {
                     Vector2 pos = new Vector2(playerRB.position.x + 4, playerRB.position.y);
-                    mushrooms.Enqueue(Instantiate(metallicShroom, pos, Quaternion.identity));
+                    mushrooms.Add(Instantiate(metallicShroom, pos, Quaternion.identity));
                 }
                 else
                 {
                     Vector2 pos = new Vector2((playerRB.position.x - 4), playerRB.position.y);
-                    mushrooms.Enqueue(Instantiate(metallicShroom, pos, Quaternion.identity));
+                    mushrooms.Add(Instantiate(metallicShroom, pos, Quaternion.identity));
                 }
                 break;
         }
@@ -87,16 +85,8 @@ public class MushroomManager : MonoBehaviour
         else if (mushroomCount >= mushroomLimit)
         {
             ThrowMushrom(type);
-            Destroy(mushrooms.Peek());
-            mushrooms.Dequeue();
+            Destroy(mushrooms[0]);
+            mushrooms.RemoveAt(0);
         }
     }
-
-
-    //{
-        
-    //}
-    //{
-        
-    //}
 }
