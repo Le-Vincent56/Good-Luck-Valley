@@ -76,7 +76,6 @@ public class MushroomManager : MonoBehaviour
                 }
                 break;
         }
-        
     }
 
 
@@ -95,4 +94,10 @@ public class MushroomManager : MonoBehaviour
     }
 
 
+    //{
+        
+    //}
+    //{
+        
+    //}
 }
