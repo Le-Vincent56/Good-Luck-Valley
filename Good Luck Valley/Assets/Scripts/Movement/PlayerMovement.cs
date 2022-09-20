@@ -29,9 +29,10 @@ public class PlayerMovement : MonoBehaviour
 
 	// Set all of these up in the inspector
 	[Header("Checks")]
-	[SerializeField] private Transform _groundCheckPoint;
+	public Transform _groundCheckPoint;
+
 	// Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
-	[SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
+	public Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
 	[Space(5)]
 	[SerializeField] private Transform _frontWallCheckPoint;
 	[SerializeField] private Transform _backWallCheckPoint;
@@ -129,6 +130,11 @@ public class PlayerMovement : MonoBehaviour
 			if (!IsJumping)
 				_isJumpFalling = false;
 		}
+
+		if(RB.velocity.y <0)
+        {
+			_isJumpFalling = true;
+        }
 
 		#region JUMP ANIMATION CHECKS
 		if (IsJumping)
