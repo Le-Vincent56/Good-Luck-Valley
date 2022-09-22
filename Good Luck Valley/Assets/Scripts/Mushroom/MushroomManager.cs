@@ -13,6 +13,10 @@ public class MushroomManager : MonoBehaviour
     private Rigidbody2D playerRB;     
     private PlayerMovement playerMove;
     private Mushroom mushroom;
+    Transform firePoint;
+    Vector2 lookDirection;
+    float lookAngle;
+    Vector2 mousePos;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +30,8 @@ public class MushroomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        mousePos = new Vector2(Input.mousePosition.x % 5, Input.mousePosition.y % -5);
+        
         mushroomCount = mushrooms.Count;
         int type;
         if (Input.GetKeyDown(KeyCode.E))
@@ -51,7 +57,8 @@ public class MushroomManager : MonoBehaviour
                 {
                     //Vector2 pos = new Vector3(playerRB.position.x + 4, playerRB.position.y);
                     mushrooms.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x, playerRB.position.y), Quaternion.identity));
-                    mushroom.AddForce(mushrooms[mushroomCount]);
+
+                    mushroom.AddForce(mushrooms[mushroomCount], mousePos);
                 }
                 else
                 {
