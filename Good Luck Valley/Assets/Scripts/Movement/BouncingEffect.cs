@@ -8,26 +8,37 @@ public class BouncingEffect : MonoBehaviour
     public Rigidbody2D RB;
     public Animator animator;
 
-    Vector3 epicentro;
-
-    [Header("Properties")]
-    public float radius = 5.0F;
-    public float power = 1000.0F;
+    Vector3 lastVelocity;
     #endregion
 
     void Start()
     {
         RB = GetComponent<Rigidbody2D>();
-        Vector3 explosionPos = transform.position;
-        epicentro = explosionPos;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void Update()
+    {
+        lastVelocity = RB.velocity;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("Mushroom"))
         {
-            RB.AddExplosionForce(power, epicentro, radius);
-            Debug.Log("Player has collided with Bouncer");
+            // Get the calculated speed based on last Velocity
+            float speed = lastVelocity.magnitude;
+
+            // Set a minimum "bounce" speed
+            if(lastVelocity.magnitude < 300)
+            {
+                speed = 300;
+            }
+
+            // Set the direction
+            Vector3 direction = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
+
+            // Apply the bounce
+            RB.velocity = direction * Mathf.Max(speed, 0f);
         }
     }
 }
