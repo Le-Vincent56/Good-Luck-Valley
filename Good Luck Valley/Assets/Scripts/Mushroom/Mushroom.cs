@@ -7,7 +7,7 @@ public class Mushroom : MonoBehaviour
     Rigidbody2D mushroomRigidbody;
 
     /// <summary>
-    /// Adding an initial force to the mushroom when thrown.
+    /// Adds an initial velocity to a mushroom, launching it in the direction of the mouse
     /// </summary>
     /// <param name="mushroom"></param>
     public void AddForce(GameObject mushroom, Vector2 mousePos)
