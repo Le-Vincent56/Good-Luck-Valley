@@ -9,6 +9,7 @@ public class BouncingEffect : MonoBehaviour
     public Animator animator;
 
     Vector3 lastVelocity;
+    [SerializeField] float minimumBounce = 200;
     #endregion
 
     void Start()
@@ -29,9 +30,9 @@ public class BouncingEffect : MonoBehaviour
             float speed = lastVelocity.magnitude;
 
             // Set a minimum "bounce" speed
-            if(lastVelocity.magnitude < 300)
+            if(lastVelocity.magnitude < minimumBounce)
             {
-                speed = 300;
+                speed = minimumBounce;
             }
 
             // Set the direction
