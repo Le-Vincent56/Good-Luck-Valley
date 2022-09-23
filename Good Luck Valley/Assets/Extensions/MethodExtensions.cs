@@ -4,7 +4,8 @@ using UnityEngine;
 
 public static class MethodExtensions
 {
-    public static void AddExplosionForce(this Rigidbody2D rb, float explosionForce, Vector2 explosionPosition, float explosionRadius, float upwardsModifier = 0.0F, ForceMode2D mode = ForceMode2D.Impulse)
+    public static void AddExplosionForce(this Rigidbody2D rb, float explosionForce, Vector2 explosionPosition, float explosionRadius,
+        float upwardsModifier = 0.0F, ForceMode2D mode = ForceMode2D.Impulse)
     {
         Vector2 explosionDir = rb.position - explosionPosition;
         float explosionDistance = (explosionDir.magnitude / explosionRadius);
