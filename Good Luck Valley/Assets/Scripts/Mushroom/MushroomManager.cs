@@ -4,138 +4,79 @@ using UnityEngine;
 
 public class MushroomManager : MonoBehaviour
 {
-    // Prefabs for shroom types
-    [SerializeField] GameObject organicShroom;  
-    [SerializeField] GameObject metallicShroom;
-    [SerializeField] Vector2 velocity;
-    private List<GameObject> mushrooms;
-    private const int mushroomLimit = 3;
-    private int mushroomCount;
-    private Rigidbody2D playerRB;     
-    private PlayerMovement playerMove;
-    private Mushroom mushroom;
-    Transform firePoint;
-    Vector2 lookDirection;
-    float lookAngle;
-    Vector2 mousePos;
+    // MushroomManager PREFABS
+    [SerializeField] GameObject organicShroom;
+    [SerializeField] int throwMultiplier;
+    Vector2 forceDirection;    
+    Camera cam;
 
-    [SerializeField] Vector2 velocity;   // Velocity for launching shroom
-    private List<GameObject> mushrooms;  // List of currently spawned shrooms
-    private const int mushroomLimit = 3; // Constant for max amount of shrooms
-    [SerializeField] private int offset; // Offset for spawning shrooms outside of player hitbox
-    private int mushroomCount;           // How many shrooms are currently spawned in
-    private Rigidbody2D playerRB;        // The player's rigidbody used for spawning mushrooms
-    private PlayerMovement playerMove;   // PlayerMovement object for checking which direction
-                                         //   player is facing
-    private Mushroom mushroom;           // Mushroom object for calling AddForce on mushrooms
-    private int type;                    // Int to determine type of shroom to spawn and thron
-                                         //     0 is organic ; 1 is metallic
+    //public float power = 10f;              // Power of the force applied to shroom
+
+    private List<GameObject> mushroomList; // List of currently spawned shrooms
+
+    private const int mushroomLimit = 3;   // Constant for max amount of shrooms
+
+    [SerializeField] private int offset;   // Offset for spawning shrooms outside of player hitbox
+
+    private int mushroomCount;             // How many shrooms are currently spawned in
+
+    private Rigidbody2D playerRB;          // The player's rigidbody used for spawning mushrooms
+
+    private Rigidbody2D mushroomRigidbody; // Mushrooms rigidbody used for adding force
+
+    private PlayerMovement playerMove;     // PlayerMovement checks which direction player is facing
+                                           
 
     // Start is called before the first frame update
     void Start()
     {
+        cam = Camera.main;
         playerRB = GetComponent<Rigidbody2D>();
+        mushroomRigidbody = organicShroom.GetComponent<Rigidbody2D>();
         playerMove = GetComponent<PlayerMovement>();
-        mushrooms = new List<GameObject>();
-        mushroom = GetComponent<Mushroom>();
+        mushroomList = new List<GameObject>();        
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Updates mushroom count
-        mousePos = new Vector2(Input.mousePosition.x % 5, Input.mousePosition.y % -5);
-        
-        mushroomCount = mushrooms.Count;
+        // Updates mushroom count               
+        mushroomCount = mushroomList.Count;
 
-        // Checks to see which type of shroom is being thrown
-        // If E is pressed, type is set to organic shroom (0) and CheckShroomCount is called,
-        //      causing an organic shroom to be thrown
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            type = 0;
-            CheckShroomCount();
-        }
-        // If Q is pressed, type is set to metallic shroom (1) and CheckShroomCount is called,
-        //      causing a metallic shroom to be thrown
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            type = 1;
-            CheckShroomCount();
-        }
+        // Update mouse position
+        forceDirection = cam.ScreenToWorldPoint(Input.mousePosition);
+        Debug.Log(forceDirection);
 
+
+        // If E is pressed, CheckShroomCount is called
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            CheckShroomCount(); // Checks than throws            
+        }
     }
 
     /// <summary>
-    /// Creates a new mushroom, adds it to the list, and launches it in the 
-    ///     appropriate direction by calling Mushroom's AddForce method
+    /// Creates a shroom, adds it to mushroomList, launches shroom in the appropriate Direction
     /// </summary>
     /// <param name="type"> Which type of mushroom is being thrown</param>
     void ThrowMushrom()
-    {
-        switch (type)
+    {        
+        if (playerMove.IsFacingRight)
         {
-            case 0:
-                if (playerMove.IsFacingRight)
-                {
-                    // Adds a new mushroom to the list created using the organic shroom prefab,
-                    //  player position + offset, and default rotation
-                    mushrooms.Add(Instantiate(organicShroom, 
-                                              new Vector2(
-                                                   playerRB.position.x + offset, 
-                                                   playerRB.position.y), 
-                                              Quaternion.identity));
-                    // Calls AddForce method to launch shroom with a right direction
-                    mushroom.AddForce(mushrooms[mushroomCount], 1);
-                    //Vector2 pos = new Vector3(playerRB.position.x + 4, playerRB.position.y);
-                    mushrooms.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x, playerRB.position.y), Quaternion.identity));
-
-                    mushroom.AddForce(mushrooms[mushroomCount], mousePos);
-                }
-                else
-                {
-                    // Adds a new mushroom to the list created using the organic shroom prefab,
-                    //  player position + offset, and default rotation
-                    mushrooms.Add(Instantiate(organicShroom, 
-                                              new Vector2(playerRB.position.x - offset, 
-                                                          playerRB.position.y),
-                                              Quaternion.identity));
-                    // Calls AddForce method to launch shroom with a left direction
-                    mushroom.AddForce(mushrooms[mushroomCount], -1);
-                }
-                break;
-
-            case 1:
-                if (playerMove.IsFacingRight)
-                {
-                    // Adds a new mushroom to the list created using the organic shroom prefab,
-                    //  player position + offset, and default rotation
-                    mushrooms.Add(Instantiate(metallicShroom,
-                                              new Vector2(playerRB.position.x + offset, 
-                                                          playerRB.position.y), 
-                                              Quaternion.identity));
-                    // Calls AddForce method to launch shroom with a left direction
-                    mushroom.AddForce(mushrooms[mushroomCount], 1);
-                }
-                else
-                {
-                    // Adds a new mushroom to the list created using the organic shroom prefab,
-                    //  player position + offset, and default rotation
-                    mushrooms.Add(Instantiate(metallicShroom, 
-                                              new Vector2(playerRB.position.x - offset, 
-                                                          playerRB.position.y), 
-                                              Quaternion.identity));
-                    // Calls AddForce method to launch shroom with a right direction
-                    mushroom.AddForce(mushrooms[mushroomCount], -1);
-                }
-                break;
+            mushroomList.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x + offset, playerRB.position.y), Quaternion.identity));
+            mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
         }
+        else
+        {   
+            mushroomList.Add(Instantiate(organicShroom,new Vector2(playerRB.position.x - offset, playerRB.position.y), Quaternion.identity));
+            mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
+        }       
     }
 
     /// <summary>
-    /// Checks if the mushroom being thrown will cause there to be more than 3 mushrooms
-    ///     spawned; if so, deletes the first shroom thrown and calls the ThrowShroom method
-    ///              if not, calls the ThrowShroom method
+    /// Checks if the shroom being thrown will cause there to be more than 3 shrooms
+    /// spawned; if so, deletes the first shroom thrown and calls the ThrowShroom method
+    /// if not, calls the ThrowShroom method
     /// </summary>
     /// <param name="type"> Which type of mushroom is being thrown </param>
     void CheckShroomCount()
@@ -148,11 +89,10 @@ public class MushroomManager : MonoBehaviour
         }
         else if (mushroomCount >= mushroomLimit)
         {
-            // If not, ThrowMushroom is called and then the first shroom thrown is
-            //      destroyed and removed from the list of spawned shrooms
+            // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
             ThrowMushrom();
-            Destroy(mushrooms[0]);
-            mushrooms.RemoveAt(0);
-        }
+            Destroy(mushroomList[0]);
+            mushroomList.RemoveAt(0);
+        }  
     }
 }
