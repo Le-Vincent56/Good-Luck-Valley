@@ -15,34 +15,52 @@ public class ThrowUI : MonoBehaviour
     {
         width = 1f;
 
-        segments = 6;
+        segments = 150;  //just found by trial and arrow/error, since we don't know analytically when it will hit the ground (unless the ground happens to be flat) 
 
         lineRenderer = gameObject.GetComponent<LineRenderer>();
-        lineRenderer.positionCount = segments + 1;
+        lineRenderer.positionCount = (segments + 1);
         lineRenderer.startWidth = width;
-        lineRenderer.startColor = Color.white;
-        lineRenderer.endColor = lineRenderer.startColor;
+        lineRenderer.startColor = Color.black;
+        lineRenderer.endColor = Color.black;
         lineRenderer.useWorldSpace = true;
     }
 
-    public void PlotTrajectory(Vector2 playerPos, Vector2 forceDirection)
+    public void PlotTrajectory(Vector2 initPos, Vector2 initVel, int offset, bool facingRight)
     {
-        const float g = 1f;
-        float timestep = .2f;
-        float tt = 0f;  //elaplse time of the virtual flight
+        const float g = 9.8f;
+        float timeStep = .2f;
+        float tT = 0f;  //elaplse time of the virtual flight
         float x;
-        float y;
-        float z = 0f;  //since we're in 2d
+        float y;        
 
-        lineRenderer.SetPosition(0, playerPos);
+        switch (facingRight)
+        {
+            case true:
+                if (initPos.x + initVel.x < initPos.x)
+                {
+                    initVel = Vector2.zero;
+                }
+                initPos = new Vector2(initPos.x + offset, initPos.y);
+                break;
 
+            case false:
+                if (initPos.x - initVel.x < initPos.x)
+                {
+                    initVel = Vector2.zero;
+                }
+                initPos = new Vector2(initPos.x - offset, initPos.y);
+                break;
+        }
+
+        lineRenderer.SetPosition(0, initPos);
         for (int i = 1; i < (segments + 1); i++)
         {
-            tt += timestep;  //total elapsed time
-            x = playerPos.x + forceDirection.x * (tt);  //note that horizontal velocity component is not affected by gravity
-            y = playerPos.y + forceDirection.y * (tt) - 0.5f * g * (tt) * (tt);
+            tT += timeStep;  //total elapsed time
+            x = initPos.x + initVel.x * (tT);  //note that horizontal velocity component is not affected by gravity
+            y = initPos.y + initVel.y * (tT) - 0.5f * g * (tT) * (tT);
 
-            lineRenderer.SetPosition(i, new Vector3(x, y, z));
+            lineRenderer.SetPosition(i, new Vector3(x, y));
         }
+
     }
 }
