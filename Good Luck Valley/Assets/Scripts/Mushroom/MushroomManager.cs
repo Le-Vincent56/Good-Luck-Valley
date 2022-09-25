@@ -25,6 +25,8 @@ public class MushroomManager : MonoBehaviour
     private Rigidbody2D mushroomRigidbody; // Mushrooms rigidbody used for adding force
 
     private PlayerMovement playerMove;     // PlayerMovement checks which direction player is facing
+
+    public GameObject throwUI_Script;
                                            
 
     // Start is called before the first frame update
@@ -34,7 +36,7 @@ public class MushroomManager : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         mushroomRigidbody = organicShroom.GetComponent<Rigidbody2D>();
         playerMove = GetComponent<PlayerMovement>();
-        mushroomList = new List<GameObject>();        
+        mushroomList = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -51,7 +53,7 @@ public class MushroomManager : MonoBehaviour
         // If E is pressed, CheckShroomCount is called
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            CheckShroomCount(); // Checks than throws            
+            CheckShroomCount(); // Checks than throws
         }
     }
 
