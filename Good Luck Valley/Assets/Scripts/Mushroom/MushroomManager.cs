@@ -7,10 +7,10 @@ public class MushroomManager : MonoBehaviour
     // MushroomManager PREFABS
     [SerializeField] GameObject organicShroom;
     [SerializeField] int throwMultiplier;
-    Vector2 forceDirection;    
+    Vector2 forceDirection;
     Camera cam;
 
-    //public float power = 10f;              // Power of the force applied to shroom
+    //public float power = 10f;            // Power of the force applied to shroom
 
     private List<GameObject> mushroomList; // List of currently spawned shrooms
 
@@ -65,6 +65,7 @@ public class MushroomManager : MonoBehaviour
         {
             mushroomList.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x + offset, playerRB.position.y), Quaternion.identity));
             mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
+
         }
         else
         {   
