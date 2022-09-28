@@ -84,6 +84,10 @@ public class MushroomManager : MonoBehaviour
                     CheckShroomCount();
                     throwState = ThrowState.NotThrowing;
                 }
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    throwState = ThrowState.NotThrowing;
+                }
                 break;
         }
     }
