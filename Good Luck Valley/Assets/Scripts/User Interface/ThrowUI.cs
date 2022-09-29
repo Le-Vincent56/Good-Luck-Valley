@@ -32,9 +32,6 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.useWorldSpace = true;
 
         lineRenderer.sortingLayerName = "UI";
-
-        lineRenderer.textureMode = LineTextureMode.Tile;
-        lineRenderer.material.SetTextureScale("_MainTex", new Vector2(50, 50));
     }
 
     /// <summary>
@@ -114,6 +111,5 @@ public class ThrowUI : MonoBehaviour
             // Sets the position for this segment using the x and y generated above
             lineRenderer.SetPosition(i, new Vector3(x, y));
         }
-
     }
 }
