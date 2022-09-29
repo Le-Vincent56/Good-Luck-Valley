@@ -30,6 +30,11 @@ public class ThrowUI : MonoBehaviour
 
         // Tells the lineRenderer to use worldspace for defining segments
         lineRenderer.useWorldSpace = true;
+
+        lineRenderer.sortingLayerName = "UI";
+
+        lineRenderer.textureMode = LineTextureMode.Tile;
+        lineRenderer.material.SetTextureScale("_MainTex", new Vector2(50, 50));
     }
 
     /// <summary>
@@ -56,7 +61,7 @@ public class ThrowUI : MonoBehaviour
 
         // X and Y for each segment
         float x;
-        float y;        
+        float y;
 
         // Checks whether the player is facing right or left
         switch (facingRight)
@@ -89,7 +94,8 @@ public class ThrowUI : MonoBehaviour
         }
 
         // Sets the position for the first segment using player position
-        lineRenderer.SetPosition(0, playerPos);
+        Vector3 start = new Vector3(playerPos.x, playerPos.y);
+        lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
         for (int i = 1; i < (segments + 1); i++)

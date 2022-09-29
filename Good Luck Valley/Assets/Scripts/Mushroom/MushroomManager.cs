@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ThrowState
+{
+    NotThrowing,
+    Throwing
+}
+
 public class MushroomManager : MonoBehaviour
 {
     // MushroomManager PREFABS
@@ -25,7 +31,11 @@ public class MushroomManager : MonoBehaviour
     private Rigidbody2D mushroomRigidbody; // Mushrooms rigidbody used for adding force
 
     private PlayerMovement playerMove;     // PlayerMovement checks which direction player is facing
-                                           
+
+    public GameObject throwUI_Script;
+
+    private ThrowState throwState;
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,12 +56,38 @@ public class MushroomManager : MonoBehaviour
         // Update mouse position
         forceDirection = cam.ScreenToWorldPoint(Input.mousePosition);
         Debug.Log(forceDirection);
+        Debug.Log(playerRB.position);
 
-
-        // If E is pressed, CheckShroomCount is called
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        switch(throwState)
         {
-            CheckShroomCount(); // Checks than throws            
+            case ThrowState.NotThrowing:
+
+                // If Q is pressed, line trajectory is drawn
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    throwState = ThrowState.Throwing;
+                }
+                break;
+
+            case ThrowState.Throwing:
+                if (playerMove.IsFacingRight)
+                {
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
+                }
+                else
+                {
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
+                }
+                if(Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    CheckShroomCount();
+                    throwState = ThrowState.NotThrowing;
+                }
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    throwState = ThrowState.NotThrowing;
+                }
+                break;
         }
     }
 
