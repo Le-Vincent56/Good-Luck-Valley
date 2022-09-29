@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ThrowState
-{
-    NotThrowing,
-    Throwing
-}
-
 public class MushroomManager : MonoBehaviour
 {
     // MushroomManager PREFABS
@@ -31,11 +25,7 @@ public class MushroomManager : MonoBehaviour
     private Rigidbody2D mushroomRigidbody; // Mushrooms rigidbody used for adding force
 
     private PlayerMovement playerMove;     // PlayerMovement checks which direction player is facing
-
-    public GameObject throwUI_Script;
-
-    private ThrowState throwState;
-
+                                           
 
     // Start is called before the first frame update
     void Start()
@@ -44,8 +34,7 @@ public class MushroomManager : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         mushroomRigidbody = organicShroom.GetComponent<Rigidbody2D>();
         playerMove = GetComponent<PlayerMovement>();
-        mushroomList = new List<GameObject>();
-        throwState = ThrowState.NotThrowing;
+        mushroomList = new List<GameObject>();        
     }
 
     // Update is called once per frame
@@ -55,36 +44,14 @@ public class MushroomManager : MonoBehaviour
         mushroomCount = mushroomList.Count;
 
         // Update mouse position
-        forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
+        forceDirection = cam.ScreenToWorldPoint(Input.mousePosition);
         Debug.Log(forceDirection);
-        Debug.Log(playerRB.position);
 
-        switch(throwState)
+
+        // If E is pressed, CheckShroomCount is called
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            case ThrowState.NotThrowing:
-
-                // If Q is pressed, line trajectory is drawn
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    throwState = ThrowState.Throwing;
-                }
-                break;
-
-            case ThrowState.Throwing:
-                if (playerMove.IsFacingRight)
-                {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
-                }
-                else
-                {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
-                }
-                if(Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    CheckShroomCount();
-                    throwState = ThrowState.NotThrowing;
-                }
-                break;
+            CheckShroomCount(); // Checks than throws            
         }
     }
 
@@ -92,7 +59,7 @@ public class MushroomManager : MonoBehaviour
     /// Creates a shroom, adds it to mushroomList, launches shroom in the appropriate Direction
     /// </summary>
     /// <param name="type"> Which type of mushroom is being thrown</param>
-    void ThrowMushrom()
+    void ThrowMushroom()
     {        
         if (playerMove.IsFacingRight)
         {
@@ -119,14 +86,18 @@ public class MushroomManager : MonoBehaviour
         if (mushroomCount < mushroomLimit)
         {
             // If so, ThrowMushroom is called
-            ThrowMushrom();
+            ThrowMushroom();
         }
         else if (mushroomCount >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
-            ThrowMushrom();
+            ThrowMushroom();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
-        }  
+        }
     }
+
+
+
+
 }
