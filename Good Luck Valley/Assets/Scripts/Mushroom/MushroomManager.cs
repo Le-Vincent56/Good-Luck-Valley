@@ -15,7 +15,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] int throwMultiplier;
     Vector2 forceDirection;
     Camera cam;
-
+    
     //public float power = 10f;            // Power of the force applied to shroom
 
     private List<GameObject> mushroomList; // List of currently spawned shrooms
