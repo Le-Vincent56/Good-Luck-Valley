@@ -28,7 +28,7 @@ public class ThrowUI : MonoBehaviour
         // Sets the with in the lineRenderer using width field
         lineRenderer.startWidth = width;
 
-        // Tells the lineRenderer to use worldspace for defining segments
+        // Tells the lineRenderer to use worldspace for defining segmentsx`
         lineRenderer.useWorldSpace = true;
 
         lineRenderer.sortingLayerName = "UI";

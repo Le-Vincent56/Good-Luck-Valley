@@ -54,7 +54,7 @@ public class MushroomManager : MonoBehaviour
         mushroomCount = mushroomList.Count;
 
         // Update mouse position
-        forceDirection = cam.ScreenToWorldPoint(Input.mousePosition);
+        forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         Debug.Log(forceDirection);
         Debug.Log(playerRB.position);
 
