@@ -13,52 +13,104 @@ public class ThrowUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        width = 1f;
+        // Width of the line
+        width = 0.8f;
 
-        segments = 150;  //just found by trial and arrow/error, since we don't know analytically when it will hit the ground (unless the ground happens to be flat) 
+        // Number of segments for the trajectory line
+        segments = 30;  
 
+        // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
+
+        // Sets the number of segmens in the lineRenderer using segments field
         lineRenderer.positionCount = (segments + 1);
+
+        // Sets the with in the lineRenderer using width field
         lineRenderer.startWidth = width;
-        lineRenderer.startColor = Color.black;
-        lineRenderer.endColor = Color.black;
+
+        // Tells the lineRenderer to use worldspace for defining segmentsx`
         lineRenderer.useWorldSpace = true;
+
+        lineRenderer.sortingLayerName = "UI";
     }
 
-    public void PlotTrajectory(Vector2 initPos, Vector2 initVel, int offset, bool facingRight)
+    /// <summary>
+    /// Plots the trajeectory of the mushroom during aiming using the pleyer's position, 
+    ///     launch force on the mushroom, the offset for spawning, and whether the 
+    ///     player is facing right or left
+    /// </summary>
+    /// <param name="playerPos"> The position of the player AKA starting position for
+    ///                             the lineRenderer</param>
+    /// <param name="launchForce"> The force the mushroom is being launched at so the
+    ///                              lineRenderer can simulate a throw when plotting</param>
+    /// <param name="offset"> The offset used when spawning mushrooms</param>
+    /// <param name="facingRight"> Whether the player is facing left or right</param>
+    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
     {
-        const float g = 9.8f;
-        float timeStep = .2f;
-        float tT = 0f;  //elaplse time of the virtual flight
-        float x;
-        float y;        
+        lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
 
+        // Gravity acting on the shroom when it is being thrown
+        const float g = 9.8f;
+
+        // Determines how trajectoy line will be
+        float timeStep = .2f;
+
+        // Total time that has passed since the lineRenderer started rendering
+        float tT = 0f; 
+
+        // X and Y for each segment
+        float x;
+        float y;
+
+        // Checks whether the player is facing right or left
         switch (facingRight)
         {
             case true:
-                if (initPos.x + initVel.x < initPos.x)
+                // If they are facing right the trajectory line cannot go past the left 
+                //    side of the player 
+                if (playerPos.x + launchForce.x < playerPos.x)
                 {
-                    initVel = Vector2.zero;
+                    // Sets launchForce to zero to 'stop' the renderer
+                    launchForce = Vector2.zero;
                 }
-                initPos = new Vector2(initPos.x + offset, initPos.y);
+                // Sets starting position for line to match the location the shrooms are
+                //      spawned from with the offset
+                playerPos = new Vector2(playerPos.x + offset, playerPos.y);
                 break;
 
             case false:
-                if (initPos.x - initVel.x < initPos.x)
+                // If the player is facing left the trajectory line cannot go past
+                //      the right side of the player
+                if (playerPos.x - launchForce.x < playerPos.x)
                 {
-                    initVel = Vector2.zero;
+                    // Sets launchForce to zero to 'stop' the renderer
+                    launchForce = Vector2.zero;
                 }
-                initPos = new Vector2(initPos.x - offset, initPos.y);
+                // Sets starting position for line to match the location the shrooms are
+                //      spawned from with the offset
+                playerPos = new Vector2(playerPos.x - offset, playerPos.y);
                 break;
         }
 
-        lineRenderer.SetPosition(0, initPos);
+        // Sets the position for the first segment using player position
+        Vector3 start = new Vector3(playerPos.x, playerPos.y);
+        lineRenderer.SetPosition(0, start);
+
+        // Runs a loop for rendering each segment in the trajectory
         for (int i = 1; i < (segments + 1); i++)
         {
-            tT += timeStep;  //total elapsed time
-            x = initPos.x + initVel.x * (tT);  //note that horizontal velocity component is not affected by gravity
-            y = initPos.y + initVel.y * (tT) - 0.5f * g * (tT) * (tT);
+            // Total time passed
+            tT += timeStep;  
 
+            // x position is determined by player x + velocity X multiplied
+            //  by the amount of time passed
+            x = playerPos.x + launchForce.x * (tT); 
+
+            // y position is determined by player x + velocity x multiplied
+            //  by time passed - half of gravity multiplied by twice the time passed
+            y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
+
+            // Sets the position for this segment using the x and y generated above
             lineRenderer.SetPosition(i, new Vector3(x, y));
         }
 
