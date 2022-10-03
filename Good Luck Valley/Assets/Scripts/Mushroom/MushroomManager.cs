@@ -99,8 +99,6 @@ public class MushroomManager : MonoBehaviour
             {
                 obj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             }
-        }
-    }
 
     /// <summary>
     /// Creates a shroom, adds it to mushroomList, launches shroom in the appropriate Direction
