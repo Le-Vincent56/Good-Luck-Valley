@@ -32,9 +32,6 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.useWorldSpace = true;
 
         lineRenderer.sortingLayerName = "UI";
-
-        lineRenderer.textureMode = LineTextureMode.Tile;
-        lineRenderer.material.SetTextureScale("_MainTex", new Vector2(50, 50));
     }
 
     /// <summary>
@@ -50,6 +47,8 @@ public class ThrowUI : MonoBehaviour
     /// <param name="facingRight"> Whether the player is facing left or right</param>
     public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
     {
+        lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
+
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
 
