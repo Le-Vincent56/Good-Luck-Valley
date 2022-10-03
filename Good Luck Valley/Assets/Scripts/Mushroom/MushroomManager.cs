@@ -17,8 +17,6 @@ public class MushroomManager : MonoBehaviour
     Vector2 forceDirection;
     Camera cam;
 
-    //public float power = 10f;               // Power of the force applied to shroom
-
     private List<GameObject> mushroomList;    // List of currently spawned shrooms
 
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
@@ -103,13 +101,11 @@ public class MushroomManager : MonoBehaviour
         {
             mushroomList.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x + offset, playerRB.position.y), Quaternion.identity));
             mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
-            ShroomStick(mushroomList[mushroomCount].GetComponent<Collision>());
         }
         else
         {   
             mushroomList.Add(Instantiate(organicShroom,new Vector2(playerRB.position.x - offset, playerRB.position.y), Quaternion.identity));
             mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
-            ShroomStick(mushroomList[mushroomCount].GetComponent<Collision>());
         }
         
     }
@@ -137,16 +133,6 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Freeze the shroom in place if it colides with specifieder rigid body.
-    /// </summary>
-    void ShroomStick(Collision other)
-    {
-        if (other.gameObject.CompareTag(stuckSurfaceTag))
-        {
-            mushroomList[mushroomCount].GetComponent<Rigidbody2D>().isKinematic = true;
-        }
-    }
 
 
 }
