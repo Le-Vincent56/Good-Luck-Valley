@@ -28,8 +28,10 @@ public class ThrowUI : MonoBehaviour
         // Sets the with in the lineRenderer using width field
         lineRenderer.startWidth = width;
 
-        // Tells the lineRenderer to use worldspace for defining segments
+        // Tells the lineRenderer to use worldspace for defining segmentsx`
         lineRenderer.useWorldSpace = true;
+
+        lineRenderer.sortingLayerName = "UI";
     }
 
     /// <summary>
@@ -45,6 +47,8 @@ public class ThrowUI : MonoBehaviour
     /// <param name="facingRight"> Whether the player is facing left or right</param>
     public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
     {
+        lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
+
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
 
@@ -56,7 +60,7 @@ public class ThrowUI : MonoBehaviour
 
         // X and Y for each segment
         float x;
-        float y;        
+        float y;
 
         // Checks whether the player is facing right or left
         switch (facingRight)
@@ -89,7 +93,8 @@ public class ThrowUI : MonoBehaviour
         }
 
         // Sets the position for the first segment using player position
-        lineRenderer.SetPosition(0, playerPos);
+        Vector3 start = new Vector3(playerPos.x, playerPos.y);
+        lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
         for (int i = 1; i < (segments + 1); i++)
