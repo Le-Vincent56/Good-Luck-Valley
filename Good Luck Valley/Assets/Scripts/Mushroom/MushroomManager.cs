@@ -64,8 +64,8 @@ public class MushroomManager : MonoBehaviour
 
         // Update mouse position
         forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
-        Debug.Log(forceDirection);
-        Debug.Log(playerRB.position);
+        //Debug.Log(forceDirection);
+        //Debug.Log(playerRB.position);
 
         switch(throwState)
         {

@@ -9,7 +9,7 @@ public class BouncingEffect : MonoBehaviour
     public Animator animator;
 
     Vector3 lastVelocity;
-    [SerializeField] float minimumBounce = 200;
+    [SerializeField] float minimumBounce = 100;
     #endregion
 
     void Start()
@@ -20,7 +20,7 @@ public class BouncingEffect : MonoBehaviour
     void Update()
     {
         lastVelocity = RB.velocity;
-        Debug.Log(lastVelocity);
+        Debug.Log(lastVelocity.magnitude);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
