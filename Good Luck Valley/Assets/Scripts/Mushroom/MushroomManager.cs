@@ -33,6 +33,8 @@ public class MushroomManager : MonoBehaviour
 
     private ThrowState throwState;
 
+    private ContactFilter2D layer;         // A contact filter to filter out ground layers
+
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +42,14 @@ public class MushroomManager : MonoBehaviour
         cam = Camera.main;
         playerRB = GetComponent<Rigidbody2D>();
         playerMove = GetComponent<PlayerMovement>();
-        mushroomList = new List<GameObject>();        
+        mushroomList = new List<GameObject>();
+
+        // Instantiates layer field
+        layer = new ContactFilter2D();
+        // Allows the layer to use layer masks when filtering
+        layer.useLayerMask = true;
+        // Sets the layerMask property of layer to the ground layer 
+        layer.layerMask = LayerMask.GetMask("Ground");
     }
 
     // Update is called once per frame
@@ -88,17 +97,8 @@ public class MushroomManager : MonoBehaviour
                 }
                 break;                
         }
-        foreach (GameObject obj in mushroomList)
-        {
-            ContactFilter2D layer = new ContactFilter2D();
-            layer.useLayerMask = true;
-            layer.layerMask = LayerMask.GetMask("Ground");
-            List<Collider2D> list = new List<Collider2D>();
-            if (obj.GetComponent<BoxCollider2D>().OverlapCollider(layer, list) > 0)
-            {
-                obj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            }
-        }
+
+        StickShrooms();
     }
 
     /// <summary>
@@ -143,6 +143,28 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Runs through shroom list and checks if it is colliding with a platform
+    /// If so it freezes the shroom
+    /// </summary>
+    private void StickShrooms()
+    {
+        // Loops for each object in the mushroomlist
+        foreach (GameObject obj in mushroomList)
+        {
+            // An empty list to use in the OverlapCollider method
+            List<Collider2D> list = new List<Collider2D>();
+            
+            // Calls OverlapCollider method on the shroom's BoxCollider2D component
+            // OverlapCollider checks if any Collider in the scene is overlapping with
+            //  collider it is cecking against (the mushroom's BoxCollider2D) and
+            //  returns the number of colliders doing so as an int
+            if (obj.GetComponent<BoxCollider2D>().OverlapCollider(layer, list) > 0)
+            {
+                // If the method returns a number greater than 0 the mushroom is frozen in that position
+                obj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+        }
+    }
 
 }
