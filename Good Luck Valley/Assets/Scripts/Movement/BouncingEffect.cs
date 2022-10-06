@@ -8,8 +8,9 @@ public class BouncingEffect : MonoBehaviour
     public Rigidbody2D RB;
     public Animator animator;
 
-    Vector3 lastVelocity;
+    Vector2 lastVelocity;
     [SerializeField] float minimumBounce = 200;
+    [SerializeField] float maximumBounce = 205;
     #endregion
 
     void Start()
@@ -26,20 +27,29 @@ public class BouncingEffect : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Mushroom"))
         {
+            Debug.Log("RB Velocity Before Calc: " + RB.velocity);
+
             // Get the calculated speed based on last Velocity
             float speed = lastVelocity.magnitude;
 
+            Debug.Log("Speed Value: " + speed);
+
             // Set a minimum "bounce" speed
-            if(lastVelocity.magnitude < minimumBounce)
+            if(speed < minimumBounce)
             {
                 speed = minimumBounce;
             }
 
             // Set the direction
-            Vector3 direction = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
+            Vector2 direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
 
-            // Apply the bounce
-            RB.velocity = direction * Mathf.Max(speed, 0f);
+            Debug.Log("Direction Vector: " + direction);
+
+            RB.AddForce(direction * speed, ForceMode2D.Impulse);
+
+            Debug.Log("RB Velocity After Calc: " + RB.velocity);
+
+            
         }
     }
 }

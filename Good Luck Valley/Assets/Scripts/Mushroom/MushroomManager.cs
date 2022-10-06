@@ -62,8 +62,8 @@ public class MushroomManager : MonoBehaviour
 
         // Direction force is being applied to shroom
         forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
-        Debug.Log(forceDirection);
-        Debug.Log(playerRB.position);
+        //Debug.Log(forceDirection);
+        //Debug.Log(playerRB.position);
 
         switch(throwState)
         {
