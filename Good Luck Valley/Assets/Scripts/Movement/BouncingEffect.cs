@@ -20,6 +20,7 @@ public class BouncingEffect : MonoBehaviour
     void Update()
     {
         lastVelocity = RB.velocity;
+        Debug.Log(lastVelocity);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
