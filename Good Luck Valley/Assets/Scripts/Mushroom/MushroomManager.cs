@@ -88,7 +88,17 @@ public class MushroomManager : MonoBehaviour
                 }
                 break;                
         }
-        
+        foreach (GameObject obj in mushroomList)
+        {
+            ContactFilter2D layer = new ContactFilter2D();
+            layer.useLayerMask = true;
+            layer.layerMask = LayerMask.GetMask("Ground");
+            List<Collider2D> list = new List<Collider2D>();
+            if (obj.GetComponent<BoxCollider2D>().OverlapCollider(layer, list) > 0)
+            {
+                obj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+        }
     }
 
     /// <summary>
