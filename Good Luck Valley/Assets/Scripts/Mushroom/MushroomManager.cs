@@ -13,24 +13,21 @@ public class MushroomManager : MonoBehaviour
     // MushroomManager PREFABS
     [SerializeField] GameObject organicShroom;
     [SerializeField] int throwMultiplier;
+    [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
     Vector2 forceDirection;
     Camera cam;
-    
-    //public float power = 10f;            // Power of the force applied to shroom
 
-    private List<GameObject> mushroomList; // List of currently spawned shrooms
+    private List<GameObject> mushroomList;    // List of currently spawned shrooms
 
-    private const int mushroomLimit = 3;   // Constant for max amount of shrooms
+    private const int mushroomLimit = 3;      // Constant for max amount of shrooms
 
-    [SerializeField] private int offset;   // Offset for spawning shrooms outside of player hitbox
-
-    private int mushroomCount;             // How many shrooms are currently spawned in
-
-    private Rigidbody2D playerRB;          // The player's rigidbody used for spawning mushrooms
-
-    private Rigidbody2D mushroomRigidbody; // Mushrooms rigidbody used for adding force
-
-    private PlayerMovement playerMove;     // PlayerMovement checks which direction player is facing
+    [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox
+                                              
+    private int mushroomCount;                // How many shrooms are currently spawned in
+                                              
+    private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
+                                              
+    private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
 
     public GameObject throwUI_Script;
 
@@ -44,7 +41,6 @@ public class MushroomManager : MonoBehaviour
     {
         cam = Camera.main;
         playerRB = GetComponent<Rigidbody2D>();
-        mushroomRigidbody = organicShroom.GetComponent<Rigidbody2D>();
         playerMove = GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
 
@@ -63,9 +59,11 @@ public class MushroomManager : MonoBehaviour
         mushroomCount = mushroomList.Count;
 
         // Update mouse position
+
+        // Direction force is being applied to shroom
         forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
-        Debug.Log(forceDirection);
-        Debug.Log(playerRB.position);
+        //Debug.Log(forceDirection);
+        //Debug.Log(playerRB.position);
 
         switch(throwState)
         {
@@ -77,6 +75,7 @@ public class MushroomManager : MonoBehaviour
                     throwState = ThrowState.Throwing;
                 }
                 break;
+
 
             case ThrowState.Throwing:
                 if (playerMove.IsFacingRight)
@@ -96,7 +95,7 @@ public class MushroomManager : MonoBehaviour
                 {
                     throwState = ThrowState.NotThrowing;
                 }
-                break;
+                break;                
         }
 
         StickShrooms();
@@ -112,13 +111,13 @@ public class MushroomManager : MonoBehaviour
         {
             mushroomList.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x + offset, playerRB.position.y), Quaternion.identity));
             mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
-
         }
         else
         {   
             mushroomList.Add(Instantiate(organicShroom,new Vector2(playerRB.position.x - offset, playerRB.position.y), Quaternion.identity));
             mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
-        }       
+        }
+        
     }
 
     /// <summary>
@@ -167,4 +166,8 @@ public class MushroomManager : MonoBehaviour
             }
         }
     }
+
+
+
+
 }

@@ -7,39 +7,42 @@ public class BouncingEffect : MonoBehaviour
     #region FIELDS
     public Rigidbody2D RB;
     public Animator animator;
+    public PlayerMovement playerMovement;
 
-    Vector3 lastVelocity;
-    [SerializeField] float minimumBounce = 200;
+    Vector2 lastVelocity;
+    [SerializeField] float minSpeed = 100f;
+    public bool bouncing = false;
     #endregion
 
     void Start()
     {
         RB = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
         lastVelocity = RB.velocity;
+
+        if (!playerMovement._isJumpFalling)
+        {
+            bouncing = false;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("Mushroom"))
         {
+            bouncing = true;
+
             // Get the calculated speed based on last Velocity
             float speed = lastVelocity.magnitude;
 
-            // Set a minimum "bounce" speed
-            if(lastVelocity.magnitude < minimumBounce)
-            {
-                speed = minimumBounce;
-            }
-
             // Set the direction
-            Vector3 direction = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
-
-            // Apply the bounce
-            RB.velocity = direction * Mathf.Max(speed, 0f);
+            Vector2 direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
+            RB.velocity = (direction * Mathf.Max(speed, minSpeed));
         }
     }
 }

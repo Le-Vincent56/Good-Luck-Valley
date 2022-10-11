@@ -46,6 +46,11 @@ public class PlayerData : ScriptableObject
 
 	[Space(20)]
 
+	[Header("Bouncing")]
+	public BouncingEffect bounceEffect;
+
+	[Space(20)]
+
 	[Header("Assists")]
 	[Range(0.01f, 0.5f)] public float coyoteTime; //Grace period after falling off a platform, where you can still jump
 	[Range(0.01f, 0.5f)] public float jumpInputBufferTime; //Grace period after pressing jump where a jump will be automatically performed once the requirements (eg. being grounded) are met.
@@ -59,6 +64,7 @@ public class PlayerData : ScriptableObject
 
 		//Calculate the rigidbody's gravity scale (ie: gravity strength relative to unity's gravity value, see project settings/Physics2D)
 		gravityScale = gravityStrength / Physics2D.gravity.y;
+
 
 		//Calculate are run acceleration & deceleration forces using formula: amount = ((1 / Time.fixedDeltaTime) * acceleration) / runMaxSpeed
 		runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
