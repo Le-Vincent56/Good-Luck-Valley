@@ -13,7 +13,6 @@ public class MushroomManager : MonoBehaviour
     // MushroomManager PREFABS
     [SerializeField] GameObject organicShroom;
     [SerializeField] int throwMultiplier;
-    [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
     Vector2 forceDirection;
     Camera cam;
 
