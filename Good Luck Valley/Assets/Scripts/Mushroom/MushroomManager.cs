@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public enum ThrowState
 {
     NotThrowing,
@@ -61,19 +61,14 @@ public class MushroomManager : MonoBehaviour
         // Update mouse position
 
         // Direction force is being applied to shroom
-        forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
+        forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
+        // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
 
         switch(throwState)
         {
             case ThrowState.NotThrowing:
-
-                // If Q is pressed, line trajectory is drawn
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    throwState = ThrowState.Throwing;
-                }
                 break;
 
 
@@ -85,15 +80,6 @@ public class MushroomManager : MonoBehaviour
                 else
                 {
                     throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
-                }
-                if(Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    CheckShroomCount();
-                    throwState = ThrowState.NotThrowing;
-                }
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    throwState = ThrowState.NotThrowing;
                 }
                 break;                
         }
@@ -167,4 +153,36 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
+    #region INPUT HANDLER
+    public void OnTriggerAim(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            switch (throwState)
+            {
+                case ThrowState.NotThrowing:
+                    throwState = ThrowState.Throwing;
+                    break;
+
+                case ThrowState.Throwing:
+                    throwState = ThrowState.NotThrowing;
+                    break;
+            }
+        }
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            CheckShroomCount();
+            throwState = ThrowState.NotThrowing;
+        }
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        // Implement looking
+    }
+    #endregion
 }
