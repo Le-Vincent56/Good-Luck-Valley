@@ -14,6 +14,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] GameObject organicShroom;
     [SerializeField] int throwMultiplier;
     [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
+    [SerializeField] WeightedPlatform weightedPlatformScript;
     Vector2 forceDirection;
     Camera cam;
 
@@ -43,6 +44,7 @@ public class MushroomManager : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         playerMove = GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
+
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -149,6 +151,11 @@ public class MushroomManager : MonoBehaviour
             {
                 // If the method returns a number greater than 0 the mushroom is frozen in that position
                 obj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+                if (GameObject.FindGameObjectWithTag("weightablePlatform"))
+                {
+                    weightedPlatformScript.CheckWeight(mushroomCount);
+                }
             }
         }
     }
