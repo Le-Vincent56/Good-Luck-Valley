@@ -36,7 +36,7 @@ public class MushroomManager : MonoBehaviour
 
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
 
-    [SerializeField] List<BoxCollider2D> platforms; // A List of all platforms in the level
+    [SerializeField] List<BoxCollider2D> platforms; // A List of all platforms in the levels
 
     public List<GameObject> MushroomList { get { return mushroomList; } }
 
@@ -150,11 +150,16 @@ public class MushroomManager : MonoBehaviour
             foreach (BoxCollider2D p in platforms)
             {
                 // checks if the mushroom is touching the platform and hasn't rotated
-                if (m.GetComponent<CircleCollider2D>().IsTouching(p) && 
+                if (m.GetComponent<CircleCollider2D>().IsTouching(p) &&
                     !m.GetComponent<MushroomInfo>().hasRotated)
                 {
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
                     RotateAndFreezeShroom(p, m);
+
+                    if (GameObject.FindGameObjectWithTag("weightablePlatform"))
+                    {
+                        weightedPlatformScript.CheckWeight(mushroomCount);
+                    }
                 }
             }
         }
@@ -195,16 +200,6 @@ public class MushroomManager : MonoBehaviour
             }
         }
     }
-                // If the method returns a number greater than 0 the mushroom is frozen in that position
-                obj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-
-                if (GameObject.FindGameObjectWithTag("weightablePlatform"))
-                {
-                    weightedPlatformScript.CheckWeight(mushroomCount);
-                }
-            }
-        }
-    }
 
     /// <summary>
     /// Uses formula for finding point on circumference of a circle to determine a point on the 
@@ -224,41 +219,41 @@ public class MushroomManager : MonoBehaviour
         float y = Mathf.Round(mushroom.GetComponent<CircleCollider2D>().radius) * 
                   Mathf.Round(Mathf.Sin(angle)) + 
                   Mathf.Round(mushroom.GetComponent<CircleCollider2D>().bounds.center.y);
-    // Returns the newly calculated vector
-    return new Vector2(x, y);
-}
+        // Returns the newly calculated vector
+        return new Vector2(x, y);
+    }
 
-#region INPUT HANDLER
-public void OnTriggerAim(InputAction.CallbackContext context)
-    {
-        if (context.started)
+    #region INPUT HANDLER
+    public void OnTriggerAim(InputAction.CallbackContext context)
         {
-            switch (throwState)
+            if (context.started)
             {
-                case ThrowState.NotThrowing:
-                    throwState = ThrowState.Throwing;
-                    break;
-
-                case ThrowState.Throwing:
-                    throwState = ThrowState.NotThrowing;
-                    break;
+                switch (throwState)
+                {
+                    case ThrowState.NotThrowing:
+                        throwState = ThrowState.Throwing;
+                        break;
+    
+                    case ThrowState.Throwing:
+                        throwState = ThrowState.NotThrowing;
+                        break;
+                }
             }
         }
-    }
-      
-
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        if (context.canceled)
+          
+    
+        public void OnFire(InputAction.CallbackContext context)
         {
-            CheckShroomCount();
-            throwState = ThrowState.NotThrowing;
+            if (context.canceled)
+            {
+                CheckShroomCount();
+                throwState = ThrowState.NotThrowing;
+            }
         }
+    
+        public void OnAim(InputAction.CallbackContext context)
+        {
+            // Implement looking
+        }
+        #endregion
     }
-
-    public void OnAim(InputAction.CallbackContext context)
-    {
-        // Implement looking
-    }
-    #endregion
-}
