@@ -246,8 +246,13 @@ public class MushroomManager : MonoBehaviour
         {
             if (context.canceled)
             {
-                CheckShroomCount();
-                throwState = ThrowState.NotThrowing;
+                switch (throwState)
+                {
+                    case ThrowState.Throwing:
+                        CheckShroomCount();
+                        throwState = ThrowState.NotThrowing;
+                        break;
+                }
             }
         }
     
