@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public enum ThrowState
 {
     NotThrowing,
@@ -13,6 +13,8 @@ public class MushroomManager : MonoBehaviour
     // MushroomManager PREFABS
     [SerializeField] GameObject organicShroom;
     [SerializeField] int throwMultiplier;
+    [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
+    [SerializeField] WeightedPlatform weightedPlatformScript;
     Vector2 forceDirection;
     Camera cam;
 
@@ -46,6 +48,7 @@ public class MushroomManager : MonoBehaviour
         playerMove = GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
 
+
         // Instantiates layer field
         layer = new ContactFilter2D();
         // Allows the layer to use layer masks when filtering
@@ -63,19 +66,14 @@ public class MushroomManager : MonoBehaviour
         // Update mouse position
 
         // Direction force is being applied to shroom
-        forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
+        forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
+        // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
 
         switch(throwState)
         {
             case ThrowState.NotThrowing:
-
-                // If Q is pressed, line trajectory is drawn
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    throwState = ThrowState.Throwing;
-                }
                 break;
 
 
@@ -87,15 +85,6 @@ public class MushroomManager : MonoBehaviour
                 else
                 {
                     throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
-                }
-                if(Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    CheckShroomCount();
-                    throwState = ThrowState.NotThrowing;
-                }
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    throwState = ThrowState.NotThrowing;
                 }
                 break;                
         }
@@ -206,6 +195,16 @@ public class MushroomManager : MonoBehaviour
             }
         }
     }
+                // If the method returns a number greater than 0 the mushroom is frozen in that position
+                obj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+                if (GameObject.FindGameObjectWithTag("weightablePlatform"))
+                {
+                    weightedPlatformScript.CheckWeight(mushroomCount);
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Uses formula for finding point on circumference of a circle to determine a point on the 
@@ -225,10 +224,41 @@ public class MushroomManager : MonoBehaviour
         float y = Mathf.Round(mushroom.GetComponent<CircleCollider2D>().radius) * 
                   Mathf.Round(Mathf.Sin(angle)) + 
                   Mathf.Round(mushroom.GetComponent<CircleCollider2D>().bounds.center.y);
+    // Returns the newly calculated vector
+    return new Vector2(x, y);
+}
 
-        // Returns the newly calculated vector
-        return new Vector2(x, y);
+#region INPUT HANDLER
+public void OnTriggerAim(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            switch (throwState)
+            {
+                case ThrowState.NotThrowing:
+                    throwState = ThrowState.Throwing;
+                    break;
+
+                case ThrowState.Throwing:
+                    throwState = ThrowState.NotThrowing;
+                    break;
+            }
+        }
+    }
+      
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            CheckShroomCount();
+            throwState = ThrowState.NotThrowing;
+        }
     }
 
-
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        // Implement looking
+    }
+    #endregion
 }
