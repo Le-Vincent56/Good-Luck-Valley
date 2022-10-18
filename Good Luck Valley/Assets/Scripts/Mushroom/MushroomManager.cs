@@ -224,41 +224,57 @@ public class MushroomManager : MonoBehaviour
     }
 
     #region INPUT HANDLER
+    
+    // If we want a separate fire and aim button
     public void OnTriggerAim(InputAction.CallbackContext context)
+    {
+        if (context.started)
         {
-            if (context.started)
+            switch (throwState)
             {
-                switch (throwState)
-                {
-                    case ThrowState.NotThrowing:
-                        throwState = ThrowState.Throwing;
-                        break;
-    
-                    case ThrowState.Throwing:
-                        throwState = ThrowState.NotThrowing;
-                        break;
-                }
+                case ThrowState.NotThrowing:
+                    throwState = ThrowState.Throwing;
+                    break;
+
+                case ThrowState.Throwing:
+                    throwState = ThrowState.NotThrowing;
+                    break;
             }
         }
-          
-    
-        public void OnFire(InputAction.CallbackContext context)
-        {
-            if (context.canceled)
-            {
-                switch (throwState)
-                {
-                    case ThrowState.Throwing:
-                        CheckShroomCount();
-                        throwState = ThrowState.NotThrowing;
-                        break;
-                }
-            }
-        }
-    
-        public void OnAim(InputAction.CallbackContext context)
-        {
-            // Implement looking
-        }
-        #endregion
     }
+    
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        // If we want the same button for fire and aim - aim on press, fire on release
+        //if (context.started)
+        //{
+        //    switch (throwState)
+        //    {
+        //        case ThrowState.NotThrowing:
+        //            throwState = ThrowState.Throwing;
+        //            break;
+    
+        //        case ThrowState.Throwing:
+        //            throwState = ThrowState.NotThrowing;
+        //            break;
+        //    }
+        //}
+
+        if (context.canceled)
+        {
+            switch (throwState)
+            {
+                case ThrowState.Throwing:
+                    CheckShroomCount();
+                    throwState = ThrowState.NotThrowing;
+                    break;
+            }
+        }
+    }
+    
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        // Implement looking
+    }
+    #endregion
+}
