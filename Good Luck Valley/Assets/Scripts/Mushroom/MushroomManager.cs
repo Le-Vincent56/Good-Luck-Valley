@@ -275,6 +275,14 @@ public class MushroomManager : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         // Implement looking
+
+        // Check if context is mouse or controller
+
+            // Mouse -> ScreenSpace to WorldSpace to LocalSpace
+
+
+            // Controller read values
+            // forceDirection = cam.ScreenToWorldPoint(new Vector2(context.ReadValue<Vector2>().x, context.ReadValue<Vector2>().y)) - playerRB.transform.position;
     }
     #endregion
 }
