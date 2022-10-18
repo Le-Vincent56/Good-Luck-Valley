@@ -18,17 +18,12 @@ public class WeightedPlatform : MonoBehaviour
     void Start()
     {
         initialPosition = transform.position;
-        Debug.Log(initialPosition);
         isMoving = false;
         platformPosition = new Vector2(transform.position.x, transform.position.y);
     }
 
     void Update()
     {
-        Debug.Log(platformPosition);
-        Debug.Log(Mathf.Abs(initialPosition.y + maxDistance));
-        Debug.Log(Mathf.Abs(platformPosition.y));
-
         if (isMoving == true)
         {
             // What direction platfrom will move in
