@@ -25,11 +25,8 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] EnvironmentManager environmentManager;
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
 
-    [Header("Cursor")]
-    [SerializeField] Vector2 cursorPosition;
-    [SerializeField] Vector2 cursorVelocity;
-    [SerializeField] Vector2 cursorDirection;
-    [SerializeField] float cursorSpeed = 30f;
+    //[Header("Cursor")]
+    //[SerializeField] Cursor cursor;
 
     [Header("Mushroom")]
     [SerializeField] GameObject organicShroom;
@@ -58,10 +55,7 @@ public class MushroomManager : MonoBehaviour
         playerMove = player.GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
         environmentManager = FindObjectOfType<EnvironmentManager>();
-
-        // Cursor fields
-        cursorPosition = transform.position;
-        cursorDirection = Vector3.right;
+        //cursor = FindObjectOfType<Cursor>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -77,19 +71,9 @@ public class MushroomManager : MonoBehaviour
         // Updates mushroom count               
         mushroomCount = mushroomList.Count;
 
-        // Update cursor positiond
-        //if (playerMove._isMoving)
-        //{
-        //    cursorPosition += playerMove.distanceFromLastPosition;
-        //}
-        //cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
-        //cursorPosition += cursorVelocity;
-
-        //CheckCursorBounds();
-        //forceDirection = cursorPosition - (Vector2)playerRB.transform.position;
-
         // Direction force is being applied to shroom
 
+        //forceDirection = cursor.transform.position - playerRB.transform.position;
         forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
         // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
@@ -298,38 +282,5 @@ public class MushroomManager : MonoBehaviour
             }
         }
     }
-    
-    public void OnAim(InputAction.CallbackContext context)
-    {
-        // Implement looking
-
-        // Check if context is mouse or controller
-
-        // Mouse -> ScreenSpace to WorldSpace to LocalSpace
-
-        // Controller read values
-        //cursorDirection = context.ReadValue<Vector2>();
-        //Debug.Log(cursorDirection);
-    }
     #endregion
-
-    public void CheckCursorBounds()
-    {
-        if(cursorPosition.x < -camWidth)
-        {
-            cursorPosition.x = -camWidth;
-        } else if(cursorPosition.x > camWidth)
-        {
-            cursorPosition.x = camWidth;
-        }
-
-        if (cursorPosition.y < -camHeight)
-        {
-            cursorPosition.y = -camHeight;
-        }
-        else if (cursorPosition.y > camHeight)
-        {
-            cursorPosition.y = camHeight;
-        }
-    }
 }
