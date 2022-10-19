@@ -10,44 +10,58 @@ public enum ThrowState
 
 public class MushroomManager : MonoBehaviour
 {
-    // MushroomManager PREFABS
-    [SerializeField] GameObject organicShroom;
-    [SerializeField] int throwMultiplier;
-    [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
-    [SerializeField] WeightedPlatform weightedPlatformScript;
-    Vector2 forceDirection;
-    Camera cam;
-
-    private List<GameObject> mushroomList;    // List of currently spawned shrooms
-
-    private const int mushroomLimit = 3;      // Constant for max amount of shrooms
-
-    [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox
-                                              
-    private int mushroomCount;                // How many shrooms are currently spawned in
-                                              
+    [Header("Player")]
+    private GameObject player;
     private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
-                                              
     private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
 
-    public GameObject throwUI_Script;
+    [Header("Camera")]
+    Camera cam;
+    float camHeight;
+    float camWidth;
 
-    private ThrowState throwState;
-
+    [Header("Platform Interaction")]
+    [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
+    [SerializeField] EnvironmentManager environmentManager;
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
 
-    [SerializeField] List<BoxCollider2D> platforms; // A List of all platforms in the levels
+    [Header("Cursor")]
+    [SerializeField] Vector2 cursorPosition;
+    [SerializeField] Vector2 cursorVelocity;
+    [SerializeField] Vector2 cursorDirection;
+    [SerializeField] float cursorSpeed = 30f;
 
+    [Header("Mushroom")]
+    [SerializeField] GameObject organicShroom;
+    private List<GameObject> mushroomList;    // List of currently spawned shrooms
+    private const int mushroomLimit = 3;      // Constant for max amount of shrooms
+
+    [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox                                        
+    private int mushroomCount;                // How many shrooms are currently spawned in
     public List<GameObject> MushroomList { get { return mushroomList; } }
+
+    [Header("Throw")]
+    [SerializeField] int throwMultiplier;
+    Vector2 forceDirection;
+    public GameObject throwUI_Script;
+    private ThrowState throwState;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Grab components
         cam = Camera.main;
-        playerRB = GetComponent<Rigidbody2D>();
-        playerMove = GetComponent<PlayerMovement>();
+        camHeight = cam.orthographicSize;
+        camWidth = camHeight * cam.aspect;
+        player = GameObject.Find("Player");
+        playerRB = player.GetComponent<Rigidbody2D>();
+        playerMove = player.GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
+        environmentManager = FindObjectOfType<EnvironmentManager>();
 
+        // Cursor fields
+        cursorPosition = transform.position;
+        cursorDirection = Vector3.right;
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -63,15 +77,25 @@ public class MushroomManager : MonoBehaviour
         // Updates mushroom count               
         mushroomCount = mushroomList.Count;
 
-        // Update mouse position
+        // Update cursor positiond
+        //if (playerMove._isMoving)
+        //{
+        //    cursorPosition += playerMove.distanceFromLastPosition;
+        //}
+        //cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
+        //cursorPosition += cursorVelocity;
+
+        //CheckCursorBounds();
+        //forceDirection = cursorPosition - (Vector2)playerRB.transform.position;
 
         // Direction force is being applied to shroom
+
         forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
         // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
 
-        switch(throwState)
+        switch (throwState)
         {
             case ThrowState.NotThrowing:
                 break;
@@ -147,19 +171,26 @@ public class MushroomManager : MonoBehaviour
         foreach (GameObject m in mushroomList)
         {
             // loops for each platform's boxcollider in the platforms list
-            foreach (BoxCollider2D p in platforms)
+            foreach (GameObject p in environmentManager.collidablePlatforms)
             {
                 // checks if the mushroom is touching the platform and hasn't rotated
-                if (m.GetComponent<CircleCollider2D>().IsTouching(p) &&
+                if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
                     !m.GetComponent<MushroomInfo>().hasRotated)
                 {
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                    RotateAndFreezeShroom(p, m);
+                    RotateAndFreezeShroom(p.GetComponent<BoxCollider2D>(), m);
+                }
+            }
 
-                    if (GameObject.FindGameObjectWithTag("weightablePlatform"))
-                    {
-                        weightedPlatformScript.CheckWeight(mushroomCount);
-                    }
+            // loops through weighted platform box colliders
+            foreach(GameObject wp in environmentManager.weightedPlatforms)
+            {
+                if(m.GetComponent<CircleCollider2D>().IsTouching(wp.GetComponent<BoxCollider2D>()) && !m.GetComponent<MushroomInfo>().hasRotated)
+                {
+                    // If so, calls rotate shroom method to rotate and freeze the shroom properly
+                    RotateAndFreezeShroom(wp.GetComponent<BoxCollider2D>(), m);
+
+                    wp.GetComponent<WeightedPlatform>().CheckWeight();
                 }
             }
         }
@@ -228,24 +259,6 @@ public class MushroomManager : MonoBehaviour
     // If we want a separate fire and aim button
     public void OnTriggerAim(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            switch (throwState)
-            {
-                case ThrowState.NotThrowing:
-                    throwState = ThrowState.Throwing;
-                    break;
-
-                case ThrowState.Throwing:
-                    throwState = ThrowState.NotThrowing;
-                    break;
-            }
-        }
-    }
-    
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        // If we want the same button for fire and aim - aim on press, fire on release
         //if (context.started)
         //{
         //    switch (throwState)
@@ -253,12 +266,26 @@ public class MushroomManager : MonoBehaviour
         //        case ThrowState.NotThrowing:
         //            throwState = ThrowState.Throwing;
         //            break;
-    
+
         //        case ThrowState.Throwing:
         //            throwState = ThrowState.NotThrowing;
         //            break;
         //    }
         //}
+    }
+    
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        // If we want the same button for fire and aim - aim on press, fire on release
+        if (context.started)
+        {
+            switch (throwState)
+            {
+                case ThrowState.NotThrowing:
+                    throwState = ThrowState.Throwing;
+                    break;
+            }
+        }
 
         if (context.canceled)
         {
@@ -278,11 +305,31 @@ public class MushroomManager : MonoBehaviour
 
         // Check if context is mouse or controller
 
-            // Mouse -> ScreenSpace to WorldSpace to LocalSpace
+        // Mouse -> ScreenSpace to WorldSpace to LocalSpace
 
-
-            // Controller read values
-            // forceDirection = cam.ScreenToWorldPoint(new Vector2(context.ReadValue<Vector2>().x, context.ReadValue<Vector2>().y)) - playerRB.transform.position;
+        // Controller read values
+        //cursorDirection = context.ReadValue<Vector2>();
+        //Debug.Log(cursorDirection);
     }
     #endregion
+
+    public void CheckCursorBounds()
+    {
+        if(cursorPosition.x < -camWidth)
+        {
+            cursorPosition.x = -camWidth;
+        } else if(cursorPosition.x > camWidth)
+        {
+            cursorPosition.x = camWidth;
+        }
+
+        if (cursorPosition.y < -camHeight)
+        {
+            cursorPosition.y = -camHeight;
+        }
+        else if (cursorPosition.y > camHeight)
+        {
+            cursorPosition.y = camHeight;
+        }
+    }
 }

@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerData Data;
 	public bool IsFacingRight { get; private set; }
 	public bool IsJumping { get; private set; }
+	public bool _isMoving;
 
 	// Timers
 	public float LastOnGroundTime { get; private set; }
@@ -44,6 +45,10 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private LayerMask _groundLayer;
 	#endregion
 
+	public Vector2 playerPosition;
+	public Vector2 previousPlayerPosition;
+	public Vector2 distanceFromLastPosition;
+
 	private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
@@ -55,10 +60,22 @@ public class PlayerMovement : MonoBehaviour
 	{
 		SetGravityScale(Data.gravityScale);
 		IsFacingRight = true;
+		playerPosition = transform.position;
 	}
 
 	private void Update()
 	{
+		playerPosition = transform.position;
+		distanceFromLastPosition = playerPosition - previousPlayerPosition;
+
+		_isMoving = false;
+		if(RB.velocity != Vector2.zero)
+        {
+			_isMoving = true;
+        }
+
+		
+
 		#region TIMERS
 		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
@@ -192,6 +209,8 @@ public class PlayerMovement : MonoBehaviour
 			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
 		}
 		#endregion
+
+		previousPlayerPosition = playerPosition;
 	}
 
     private void FixedUpdate()
