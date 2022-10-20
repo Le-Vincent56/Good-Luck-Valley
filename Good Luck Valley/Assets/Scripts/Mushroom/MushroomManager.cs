@@ -25,8 +25,8 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] EnvironmentManager environmentManager;
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
 
-    //[Header("Cursor")]
-    //[SerializeField] Cursor cursor;
+    [Header("Cursor")]
+    [SerializeField] Cursor cursor;
 
     [Header("Mushroom")]
     [SerializeField] GameObject organicShroom;
@@ -55,7 +55,7 @@ public class MushroomManager : MonoBehaviour
         playerMove = player.GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
         environmentManager = FindObjectOfType<EnvironmentManager>();
-        //cursor = FindObjectOfType<Cursor>();
+        cursor = FindObjectOfType<Cursor>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -73,8 +73,8 @@ public class MushroomManager : MonoBehaviour
 
         // Direction force is being applied to shroom
 
-        //forceDirection = cursor.transform.position - playerRB.transform.position;
-        forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
+        forceDirection = cursor.transform.position - playerRB.transform.position;
+        //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
         // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
