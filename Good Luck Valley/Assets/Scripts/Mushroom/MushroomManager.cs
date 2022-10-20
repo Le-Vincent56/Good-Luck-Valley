@@ -11,12 +11,12 @@ public enum ThrowState
 public class MushroomManager : MonoBehaviour
 {
     [Header("Player")]
-    private GameObject player;
-    private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
+    [SerializeField] GameObject player;
+    [SerializeField] Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
 
     [Header("Camera")]
-    Camera cam;
+    [SerializeField] Camera cam;
     float camHeight;
     float camWidth;
 
@@ -72,10 +72,10 @@ public class MushroomManager : MonoBehaviour
         mushroomCount = mushroomList.Count;
 
         // Direction force is being applied to shroom
-
+        Debug.Log(cursor);
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
-        // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
+        //forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
 
@@ -88,11 +88,11 @@ public class MushroomManager : MonoBehaviour
             case ThrowState.Throwing:
                 if (playerMove.IsFacingRight)
                 {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight, environmentManager);
                 }
                 else
                 {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight, environmentManager);
                 }
                 break;                
         }
@@ -280,6 +280,18 @@ public class MushroomManager : MonoBehaviour
                     throwState = ThrowState.NotThrowing;
                     break;
             }
+        }
+    }
+
+    public void OnRecallShrooms(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            foreach (GameObject m in mushroomList)
+            {
+                Destroy(m);
+            }
+            mushroomList.Clear();
         }
     }
     #endregion
