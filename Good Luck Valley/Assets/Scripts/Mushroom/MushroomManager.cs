@@ -72,10 +72,10 @@ public class MushroomManager : MonoBehaviour
         mushroomCount = mushroomList.Count;
 
         // Direction force is being applied to shroom
-
+        Debug.Log(cursor);
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
-        // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
+        //forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
 
