@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class ThrowUI : MonoBehaviour
 {
+    [Header("UI Details")]
     public int segments;
-
     public float width;
 
-    LineRenderer lineRenderer;
+    LineRenderer lineRenderer = null;
+
+    Vector3[] lineRendererStartingPoints = null;
 
     // Start is called before the first frame update
     void Start()
@@ -25,8 +27,11 @@ public class ThrowUI : MonoBehaviour
         // Sets the number of segmens in the lineRenderer using segments field
         lineRenderer.positionCount = (segments + 1);
 
+        lineRendererStartingPoints = new Vector3[segments];
+
         // Sets the with in the lineRenderer using width field
         lineRenderer.startWidth = width;
+
 
         // Tells the lineRenderer to use worldspace for defining segmentsx`
         lineRenderer.useWorldSpace = true;
@@ -45,7 +50,7 @@ public class ThrowUI : MonoBehaviour
     ///                              lineRenderer can simulate a throw when plotting</param>
     /// <param name="offset"> The offset used when spawning mushrooms</param>
     /// <param name="facingRight"> Whether the player is facing left or right</param>
-    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
+    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight, EnvironmentManager enMan)
     {
         lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
 
@@ -97,22 +102,68 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
-        for (int i = 1; i < (segments + 1); i++)
+        for (int i = 1; i < (segments); i++)
         {
             // Total time passed
             tT += timeStep;  
 
             // x position is determined by player x + velocity X multiplied
             //  by the amount of time passed
-            x = playerPos.x + launchForce.x * (tT); 
+            Mathf.Round(x = playerPos.x + launchForce.x * (tT)); 
 
             // y position is determined by player x + velocity x multiplied
             //  by time passed - half of gravity multiplied by twice the time passed
-            y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
+            Mathf.Round(y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT));
 
             // Sets the position for this segment using the x and y generated above
             lineRenderer.SetPosition(i, new Vector3(x, y));
+            lineRendererStartingPoints[i] = new Vector3(x, y);
         }
 
+        bool collided = false;
+
+        if (lineRenderer)
+        {
+            RaycastHit2D hitInfo;
+
+            Vector3[] newPoints = null;
+
+            
+            for (int i = 0; i < lineRendererStartingPoints.Length - 1; i++)
+            {
+                LayerMask mask = LayerMask.GetMask("Ground");
+                hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
+                if (hitInfo) 
+                {
+                    Debug.Log(hitInfo.collider.transform.position);
+                    Debug.Log("Line cast between " + i + " " + lineRendererStartingPoints[i] +
+                              " and " + i + 1 + " " + lineRendererStartingPoints[i + 1]);
+
+                    newPoints = new Vector3[(i + 1) + 1];
+
+                    for (int k = 0; k < newPoints.Length; k++)
+                    {
+                        newPoints[k] = lineRendererStartingPoints[k];
+                    }
+
+                    newPoints[i + 1] = hitInfo.point;
+
+                    collided = true;
+
+                    break;
+                }
+            }
+
+            if (collided)
+            {
+                segments = newPoints.Length;
+            }
+            else
+            {
+                segments = 30;
+            }
+
+            lineRenderer.positionCount = segments;
+        }
     }
 }

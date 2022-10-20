@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class WeightedPlatform : MonoBehaviour
 {
-    [SerializeField] int requiredWeight;
+    [Header ("Movement")]
     [SerializeField] Vector2 direction;
     [SerializeField] float speed;
     [SerializeField] float maxDistance;
+    [SerializeField] bool isMoving;
+
     Vector2 initialPosition;
     Vector2 platformPosition;
     Vector2 moveDirection;
     Vector2 velocity;
-    bool isMoving;
-
 
     void Start()
     {
@@ -53,13 +53,9 @@ public class WeightedPlatform : MonoBehaviour
     /// <summary>
     /// Checks if the required amount of shroom to move the platform is on it
     /// </summary>
-    /// <param name="shrooms"></param>
-    public void CheckWeight(int shrooms)
+    public void CheckWeight()
     {
-        if (requiredWeight == shrooms)
-        {
-            isMoving = true;
-        }
+        isMoving = true;
     }
 
 }
