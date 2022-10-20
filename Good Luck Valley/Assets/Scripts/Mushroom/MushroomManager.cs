@@ -14,7 +14,6 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] GameObject organicShroom;
     [SerializeField] int throwMultiplier;
     [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
-    [SerializeField] WeightedPlatform weightedPlatformScript;
     Vector2 forceDirection;
     Camera cam;
 
@@ -24,7 +23,7 @@ public class MushroomManager : MonoBehaviour
 
     [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox
                                               
-    private int mushroomCount;                // How many shrooms are currently spawned in
+    public int mushroomCount;                // How many shrooms are currently spawned in
                                               
     private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
                                               
@@ -156,10 +155,10 @@ public class MushroomManager : MonoBehaviour
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
                     RotateAndFreezeShroom(p, m);
 
-                    if (GameObject.FindGameObjectWithTag("weightablePlatform"))
-                    {
-                        weightedPlatformScript.CheckWeight(mushroomCount);
-                    }
+                    //if (GameObject.FindGameObjectWithTag("weightablePlatform"))
+                    //{
+                    //    weightedPlatformScript.CheckWeight(mushroomCount);
+                    //}
                 }
             }
         }

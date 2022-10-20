@@ -12,7 +12,7 @@ public class WeightedPlatform : MonoBehaviour
     Vector2 platformPosition;
     Vector2 moveDirection;
     Vector2 velocity;
-    bool isMoving;
+    [SerializeField] bool isMoving;
 
 
     void Start()
@@ -49,12 +49,9 @@ public class WeightedPlatform : MonoBehaviour
     /// Checks if the required amount of shroom to move the platform is on it
     /// </summary>
     /// <param name="shrooms"></param>
-    public void CheckWeight(int shrooms)
+    public void CheckWeight()
     {
-        if (requiredWeight == shrooms)
-        {
-            isMoving = true;
-        }
+        isMoving = true;
     }
 
 }
