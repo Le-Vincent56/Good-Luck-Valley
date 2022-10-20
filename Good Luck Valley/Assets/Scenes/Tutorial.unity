@@ -559,7 +559,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 19
+  orthographic size: 40
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -583,7 +583,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 59, y: -0.3, z: -10}
+  m_LocalPosition: {x: -45.2, y: -2.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -763,9 +763,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   organicShroom: {fileID: 6833731681916643261, guid: 68b11bd986c107247b57f6e96a00495e, type: 3}
-  throwMultiplier: 20
+  throwMultiplier: 30
   offset: 4
   throwUI_Script: {fileID: 1560722559}
+  platforms:
+  - {fileID: 1381112478}
+  - {fileID: 9783753}
+  - {fileID: 1996308564}
+  - {fileID: 313470898}
+  - {fileID: 857518792}
+  - {fileID: 429028969}
+  - {fileID: 2147385192}
+  - {fileID: 1827293443}
+  - {fileID: 1817776270}
+  - {fileID: 885979959}
+  - {fileID: 1362824842}
+  - {fileID: 688023784}
+  - {fileID: 873134294}
 --- !u!95 &666690546 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7203912908089909880, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
@@ -811,7 +825,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RB: {fileID: 666690557}
   animator: {fileID: 666690546}
-  minimumBounce: 200
+  playerMovement: {fileID: 0}
+  minSpeed: 100
+  bouncing: 0
 --- !u!50 &666690557 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 7203912908089909881, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}

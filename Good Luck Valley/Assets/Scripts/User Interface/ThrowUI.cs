@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ThrowUI : MonoBehaviour
 {
+    [Header("UI Details")]
     public int segments;
-
     public float width;
 
     LineRenderer lineRenderer;
