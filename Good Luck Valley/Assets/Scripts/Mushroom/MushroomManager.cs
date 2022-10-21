@@ -43,6 +43,8 @@ public class MushroomManager : MonoBehaviour
     public GameObject throwUI_Script;
     private ThrowState throwState;
 
+    [SerializeField] GameObject shroomPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +74,6 @@ public class MushroomManager : MonoBehaviour
         mushroomCount = mushroomList.Count;
 
         // Direction force is being applied to shroom
-        Debug.Log(cursor);
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
@@ -119,7 +120,6 @@ public class MushroomManager : MonoBehaviour
             mushroomList.Add(Instantiate(organicShroom,new Vector2(playerRB.position.x - offset, playerRB.position.y), Quaternion.identity));
             mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
         }
-        
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ public class MushroomManager : MonoBehaviour
                     !m.GetComponent<MushroomInfo>().hasRotated)
                 {
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                    RotateAndFreezeShroom(p.GetComponent<BoxCollider2D>(), m);
+                    RotateAndFreezeShroom(m);
                 }
             }
 
@@ -172,7 +172,7 @@ public class MushroomManager : MonoBehaviour
                 if(m.GetComponent<CircleCollider2D>().IsTouching(wp.GetComponent<BoxCollider2D>()) && !m.GetComponent<MushroomInfo>().hasRotated)
                 {
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                    RotateAndFreezeShroom(wp.GetComponent<BoxCollider2D>(), m);
+                    RotateAndFreezeShroom(m);
 
                     wp.GetComponent<WeightedPlatform>().CheckWeight();
                 }
@@ -185,35 +185,28 @@ public class MushroomManager : MonoBehaviour
     /// </summary>
     /// <param name="platform"> The platform colliding with the shroom</param>
     /// <param name="mushroom"> The mushroom colliding with the platform</param>
-    private void RotateAndFreezeShroom(BoxCollider2D platform, GameObject mushroom)
+    private void RotateAndFreezeShroom(GameObject mushroom)
     {
-        // Loops 4 times to check the top, left, right, and bottom of the mushroom's circle
-        //  collider 2d for which side is hitting the platform
-        for(int i = 0; i < 4; i++)
-        {
-            // Determines the angle of the point to be checked by multipling the current iteration
-            //  by 90 degrees then subtracting 90 degrees because it worked (idk why)
-            float circumferenceAngle = i * 90 - 90;
+        // Saves the colliders of the platforms the shroom is coming into contact with into an array
+        ContactPoint2D[] contacts = new ContactPoint2D[1];
+        mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
 
-            // Checks if the shroom has rotated (in order to stop the loop sooner if the proper side
-            //  has already been determined) and checks if a point on the circle collider's
-            //  circumference is within the bounds of the platform collider by calling the
-            //  GetPointOnCircumference method (refer below)
-            if (mushroom.GetComponent<MushroomInfo>().hasRotated == false && 
-                platform.bounds.Contains(GetPointOnCircumference(mushroom, circumferenceAngle)))
-            {
-                // If so, rotates the mushroom 90 + angle for circumference point in degrees around the Z axis
-                //  by calling unity's Rotate method
-                mushroom.transform.Rotate(new Vector3(0f, 0f, circumferenceAngle + 90));
+        // The direction vector that the mushroom needs to point towards,
+        //      contacts[0].point is the point the shroom is touching the platform at
+        //      mushroom.transform.position is the mushroom's position,
+        //          casted to a vector 2 so it can be subtracted from the contact point
+        Vector2 direction = contacts[0].point - (Vector2)mushroom.transform.position;
 
-                // Also freezes all rotations and movements for the mushroom
-                mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        // The angle that the shroom is going to rotate at
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-                // Finally, sets the mushroom's 'HasRotated' method to true so the loop can stop sooner
-                //  and the shroom will no longer attempt to be checked for rotations
-                mushroom.GetComponent<MushroomInfo>().hasRotated = true;
-            }
-        }
+        // The quaternion that will rotate the s
+        Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+        mushroom.transform.rotation = rotation;
+
+        // Freezes shroom movement and rotation, and sets hasRotated to true
+        mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        mushroom.GetComponent<MushroomInfo>().hasRotated = true;
     }
 
     /// <summary>
@@ -227,13 +220,11 @@ public class MushroomManager : MonoBehaviour
     {
         // Rounds because vector2's round when they are created and it was causing issues,
         //  rounding everything beforehand fixed it
-        float x = Mathf.Round(mushroom.GetComponent<CircleCollider2D>().radius) * 
-                  Mathf.Round(Mathf.Cos(angle)) + 
-                  Mathf.Round(mushroom.GetComponent<CircleCollider2D>().bounds.center.x);
+        float x = (mushroom.GetComponent<CircleCollider2D>().radius * Mathf.Cos(angle * Mathf.Deg2Rad)) + mushroom.transform.localPosition.x;
 
-        float y = Mathf.Round(mushroom.GetComponent<CircleCollider2D>().radius) * 
-                  Mathf.Round(Mathf.Sin(angle)) + 
-                  Mathf.Round(mushroom.GetComponent<CircleCollider2D>().bounds.center.y);
+        float y = (mushroom.GetComponent<CircleCollider2D>().radius * Mathf.Sin(angle * Mathf.Deg2Rad)) + mushroom.transform.localPosition.y;
+
+
         // Returns the newly calculated vector
         return new Vector2(x, y);
     }
