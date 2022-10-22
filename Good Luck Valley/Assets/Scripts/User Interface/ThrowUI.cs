@@ -135,9 +135,9 @@ public class ThrowUI : MonoBehaviour
                 hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
                 if (hitInfo) 
                 {
-                    Debug.Log(hitInfo.collider.transform.position);
-                    Debug.Log("Line cast between " + i + " " + lineRendererStartingPoints[i] +
-                              " and " + i + 1 + " " + lineRendererStartingPoints[i + 1]);
+                //    Debug.Log(hitInfo.collider.transform.position);
+                //    Debug.Log("Line cast between " + i + " " + lineRendererStartingPoints[i] +
+                //              " and " + i + 1 + " " + lineRendererStartingPoints[i + 1]);
 
                     newPoints = new Vector3[(i + 1) + 1];
 
