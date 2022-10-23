@@ -89,11 +89,17 @@ public class MushroomManager : MonoBehaviour
             case ThrowState.Throwing:
                 if (playerMove.IsFacingRight)
                 {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight, environmentManager);
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, 
+                                                                          forceDirection.normalized * throwMultiplier, 
+                                                                          offset, 
+                                                                          playerMove.IsFacingRight);
                 }
                 else
                 {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight, environmentManager);
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, 
+                                                                          forceDirection.normalized * throwMultiplier, 
+                                                                          offset, 
+                                                                          playerMove.IsFacingRight);
                 }
                 break;                
         }
