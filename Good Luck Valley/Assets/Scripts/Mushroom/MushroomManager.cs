@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+
 public enum ThrowState
 {
     NotThrowing,
@@ -44,6 +46,7 @@ public class MushroomManager : MonoBehaviour
     private ThrowState throwState;
 
     [SerializeField] GameObject shroomPoint;
+    [SerializeField] GameObject tilemap;
 
     // Start is called before the first frame update
     void Start()
@@ -163,17 +166,18 @@ public class MushroomManager : MonoBehaviour
             // loops for each platform's boxcollider in the platforms list
             foreach (GameObject p in environmentManager.collidablePlatforms)
             {
-                // checks if the mushroom is touching the platform and hasn't rotated
-                if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
-                    !m.GetComponent<MushroomInfo>().hasRotated)
-                {
-                    // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                    RotateAndFreezeShroom(m);
-                }
+            }
+
+            // checks if the mushroom is touching the platform and hasn't rotated
+            if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
+                !m.GetComponent<MushroomInfo>().hasRotated)
+            {
+                // If so, calls rotate shroom method to rotate and freeze the shroom properly
+                RotateAndFreezeShroom(m);
             }
 
             // loops through weighted platform box colliders
-            foreach(GameObject wp in environmentManager.weightedPlatforms)
+            foreach (GameObject wp in environmentManager.weightedPlatforms)
             {
                 if(m.GetComponent<CircleCollider2D>().IsTouching(wp.GetComponent<BoxCollider2D>()) && !m.GetComponent<MushroomInfo>().hasRotated)
                 {
