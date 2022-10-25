@@ -215,26 +215,6 @@ public class MushroomManager : MonoBehaviour
         mushroom.GetComponent<MushroomInfo>().hasRotated = true;
     }
 
-    /// <summary>
-    /// Uses formula for finding point on circumference of a circle to determine a point on the 
-    ///     circumference of the mushroom's circle collider (x = r * cos(angle) + x1) and (y = r * sin(angle) + y1)
-    /// </summary>
-    /// <param name="mushroom"> The mushroom being checked</param>
-    /// <param name="angle"> The angle from the center of the shroom to the point in degrees</param>
-    /// <returns> A point in Vector2 form on the circumference of the mushroom's Circle collider 2d</returns>
-    private Vector2 GetPointOnCircumference(GameObject mushroom, float angle)
-    {
-        // Rounds because vector2's round when they are created and it was causing issues,
-        //  rounding everything beforehand fixed it
-        float x = (mushroom.GetComponent<CircleCollider2D>().radius * Mathf.Cos(angle * Mathf.Deg2Rad)) + mushroom.transform.localPosition.x;
-
-        float y = (mushroom.GetComponent<CircleCollider2D>().radius * Mathf.Sin(angle * Mathf.Deg2Rad)) + mushroom.transform.localPosition.y;
-
-
-        // Returns the newly calculated vector
-        return new Vector2(x, y);
-    }
-
     #region INPUT HANDLER
     
     // If we want a separate fire and aim button

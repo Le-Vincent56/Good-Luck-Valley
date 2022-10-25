@@ -122,7 +122,6 @@ public class ThrowUI : MonoBehaviour
 
         bool collided = false;
 
-
         RaycastHit2D hitInfo;
 
         Vector3[] newPoints = null;
