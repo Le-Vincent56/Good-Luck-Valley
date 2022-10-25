@@ -159,7 +159,5 @@ public class ThrowUI : MonoBehaviour
                 segments = 30;
             }
 
-            lineRenderer.positionCount = segments;
-        }
     }
 }
