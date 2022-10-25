@@ -122,42 +122,41 @@ public class ThrowUI : MonoBehaviour
 
         bool collided = false;
 
-        if (lineRenderer)
+
+        RaycastHit2D hitInfo;
+
+        Vector3[] newPoints = null;
+
+
+        for (int i = 0; i < lineRendererStartingPoints.Length; i++)
         {
-            RaycastHit2D hitInfo;
-
-            Vector3[] newPoints = null;
-
-
-            for (int i = 0; i < lineRendererStartingPoints.Length; i++)
+            LayerMask mask = LayerMask.GetMask("Ground");
+            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
+            if (hitInfo)
             {
-                LayerMask mask = LayerMask.GetMask("Ground");
-                hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
-                if (hitInfo)
+                newPoints = new Vector3[(i + 1) + 1];
+
+                for (int k = 0; k < newPoints.Length; k++)
                 {
-                    newPoints = new Vector3[(i + 1) + 1];
-
-                    for (int k = 0; k < newPoints.Length; k++)
-                    {
-                        newPoints[k] = lineRendererStartingPoints[k];
-                    }
-
-                    newPoints[i + 1] = hitInfo.point;
-
-                    collided = true;
-
-                    break;
+                    newPoints[k] = lineRendererStartingPoints[k];
                 }
-            }
 
-            if (collided)
-            {
-                segments = newPoints.Length;
+                newPoints[i + 1] = hitInfo.point;
+
+                collided = true;
+
+                break;
             }
-            else
-            {
-                segments = 30;
-            }
+        }
+
+        if (collided)
+        {
+            segments = newPoints.Length;
+        }
+        else
+        {
+            segments = 30;
+        }
 
     }
 }
