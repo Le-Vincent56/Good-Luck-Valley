@@ -12,9 +12,9 @@ public class PlayerMovement : MonoBehaviour
 
 	// Timers
 	public float LastOnGroundTime { get; private set; }
-	public float LastOnWallTime { get; private set; }
-	public float LastOnWallRightTime { get; private set; }
-	public float LastOnWallLeftTime { get; private set; }
+	//public float LastOnWallTime { get; private set; }
+	//public float LastOnWallRightTime { get; private set; }
+	//public float LastOnWallLeftTime { get; private set; }
 
 	// Jump
 	private bool _isJumpCut;
@@ -78,9 +78,9 @@ public class PlayerMovement : MonoBehaviour
 
 		#region TIMERS
 		LastOnGroundTime -= Time.deltaTime;
-		LastOnWallTime -= Time.deltaTime;
-		LastOnWallRightTime -= Time.deltaTime;
-		LastOnWallLeftTime -= Time.deltaTime;
+		//LastOnWallTime -= Time.deltaTime;
+		//LastOnWallRightTime -= Time.deltaTime;
+		//LastOnWallLeftTime -= Time.deltaTime;
 
 		LastPressedJumpTime -= Time.deltaTime;
 		#endregion
@@ -93,23 +93,22 @@ public class PlayerMovement : MonoBehaviour
 			{
 				LastOnGroundTime = Data.coyoteTime; // If so sets the lastGrounded to coyoteTime
 			}
+			//// Right Wall Check
+			//if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
+			//		|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)))
+   //         {
+			//	LastOnWallRightTime = Data.coyoteTime;
+			//}
 
-			// Right Wall Check
-			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
-					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)))
-            {
-				LastOnWallRightTime = Data.coyoteTime;
-			}
+			//// Left Wall Check
+			//if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
+			//	|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)))
+   //         {
+			//	LastOnWallLeftTime = Data.coyoteTime;
+			//}
 
-			// Left Wall Check
-			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
-				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)))
-            {
-				LastOnWallLeftTime = Data.coyoteTime;
-			}
-
-			// Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
-			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
+			//// Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
+			//LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
 		}
 		#endregion
 

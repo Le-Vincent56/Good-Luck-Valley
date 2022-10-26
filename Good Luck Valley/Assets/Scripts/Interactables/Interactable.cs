@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     #region FIELDS
     [Header("Interact Variables")]
@@ -24,6 +24,7 @@ public class Interactable : MonoBehaviour
     {
         if (controlTriggered)
         {
+            Interact();
             interacting = true;
             if (finishedInteracting)
             {
@@ -36,8 +37,5 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    public virtual void Interact()
-    {
-
-    }
+    public abstract void Interact();
 }
