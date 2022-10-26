@@ -214,6 +214,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
 	{
+		Debug.Log("X Velo: " + Mathf.Abs(RB.velocity.x) + "Y Velo: " + Mathf.Abs(RB.velocity.y));
+
 		// Handle Run
 		Run(1);
 	}
@@ -279,8 +281,13 @@ public class PlayerMovement : MonoBehaviour
 		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
 			// Prevent any deceleration from happening, or in other words conserve are current momentum
-			// You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
-			accelRate = 0;
+			if(!bounceEffect.bouncing)
+            {
+				accelRate = 0;
+			} else
+            {
+				accelRate = Data.deccelInAir;
+			}
 		}
 		#endregion
 
