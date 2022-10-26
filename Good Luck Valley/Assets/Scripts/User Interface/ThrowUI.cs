@@ -120,46 +120,64 @@ public class ThrowUI : MonoBehaviour
             lineRendererStartingPoints[i] = new Vector3(x, y);
         }
 
+        // Creates collided bool, sets to false,
+        //  will be used to determin if we should update the segments or not later on
         bool collided = false;
 
-        if (lineRenderer)
+        // Creates hit info variable for storing information about raycast hit
+        RaycastHit2D hitInfo;
+
+        // Create new array for storing the new points we will draw with
+        Vector3[] newPoints = null;
+
+        // Loops for each point in the previous frame's array of points
+        for (int i = 0; i < lineRendererStartingPoints.Length; i++)
         {
-            RaycastHit2D hitInfo;
+            // Create a mask to sort for only 'ground' tiles (collidable)
+            LayerMask mask = LayerMask.GetMask("Ground");
 
-            Vector3[] newPoints = null;
+            // Sets hit info to the return value of the linecast method,
+            //   using the current point on the line and the next point as the locations to check between
+            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i], mask);
 
-
-            for (int i = 0; i < lineRendererStartingPoints.Length; i++)
+            // If hit info isnt null, we create the new points
+            if (hitInfo)
             {
-                LayerMask mask = LayerMask.GetMask("Ground");
-                hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
-                if (hitInfo)
+                // Initializes new points array to be the current iteratin number + 2
+                newPoints = new Vector3[i + 2];
+
+                // Loops through each point in the new points array
+                for (int k = 0; k < newPoints.Length; k++)
                 {
-                    newPoints = new Vector3[(i + 1) + 1];
-
-                    for (int k = 0; k < newPoints.Length; k++)
-                    {
-                        newPoints[k] = lineRendererStartingPoints[k];
-                    }
-
-                    newPoints[i + 1] = hitInfo.point;
-
-                    collided = true;
-
-                    break;
+                    // Sets the values in the new points array to match the values in the prev points array
+                    newPoints[k] = lineRendererStartingPoints[k];
                 }
-            }
 
-            if (collided)
-            {
-                segments = newPoints.Length;
-            }
-            else
-            {
-                segments = 30;
-            }
+                // Sets the last position in the new array to be the location the hit occured
+                newPoints[i + 1] = hitInfo.point;
 
-            lineRenderer.positionCount = segments;
+                // Collided is true
+                collided = true;
+
+                // Breaks out of the array
+                break;
+            }
         }
+
+        // If collided is true
+        if (collided)
+        {
+            // Sets segments to be equal to the length of the new array so
+            //  the line is drawn properly when the top of the method is called
+            segments = newPoints.Length;
+        }
+        else
+        {
+            // Otherwise, segments is set back to its original value of 30
+            segments = 30;
+        }
+
+        // Sets the position count to be the segment count
+        lineRenderer.positionCount = segments;
     }
 }
