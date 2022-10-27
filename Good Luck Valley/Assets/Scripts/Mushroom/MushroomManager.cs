@@ -173,6 +173,7 @@ public class MushroomManager : MonoBehaviour
                 !m.GetComponent<MushroomInfo>().hasRotated)
             {
                 // If so, calls rotate shroom method to rotate and freeze the shroom properly
+                throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
                 RotateAndFreezeShroom(m);
             }
 

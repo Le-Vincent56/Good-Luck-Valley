@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class ThrowUI : MonoBehaviour
@@ -20,6 +21,23 @@ public class ThrowUI : MonoBehaviour
 
         // Number of segments for the trajectory line
         segments = 30;  
+
+        // Gets the LineRenderer component from the lineRenderer game object applied in inspector
+        lineRenderer = gameObject.GetComponent<LineRenderer>();
+
+        // Sets the number of segmens in the lineRenderer using segments field
+        lineRenderer.positionCount = segments;
+
+        lineRendererStartingPoints = new Vector3[segments];
+
+        // Sets the with in the lineRenderer using width field
+        lineRenderer.startWidth = width;
+
+
+        // Tells the lineRenderer to use worldspace for defining segmentsx`
+        lineRenderer.useWorldSpace = true;
+
+        lineRenderer.sortingLayerName = "UI";
     }
 
     /// <summary>
@@ -35,6 +53,10 @@ public class ThrowUI : MonoBehaviour
     /// <param name="facingRight"> Whether the player is facing left or right</param>
     public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
     {
+
+        // Sets the position count to be the segment count
+        lineRenderer.positionCount = segments;
+        
         lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
 
         // Gravity acting on the shroom when it is being thrown
@@ -99,8 +121,9 @@ public class ThrowUI : MonoBehaviour
             y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
 
             // Sets the position for this segment using the x and y generated above
-            lineRenderer.SetPosition(i, new Vector3(x, y));
-            lineRendererStartingPoints[i] = new Vector3(x, y);
+            Vector2 pos = new Vector3(x, y);
+            lineRenderer.SetPosition(i, pos);
+            lineRendererStartingPoints[i] = pos;
         }
 
         // Creates collided bool, sets to false,
@@ -159,8 +182,13 @@ public class ThrowUI : MonoBehaviour
             // Otherwise, segments is set back to its original value of 30
             segments = 30;
         }
+    }
 
-        // Sets the position count to be the segment count
-        lineRenderer.positionCount = segments;
+    /// <summary>
+    /// Removes the line
+    /// </summary>
+    public void DeleteLine()
+    {
+        lineRenderer.positionCount = 0;
     }
 }
