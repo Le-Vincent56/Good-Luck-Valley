@@ -20,23 +20,6 @@ public class ThrowUI : MonoBehaviour
 
         // Number of segments for the trajectory line
         segments = 30;  
-
-        // Gets the LineRenderer component from the lineRenderer game object applied in inspector
-        lineRenderer = gameObject.GetComponent<LineRenderer>();
-
-        // Sets the number of segmens in the lineRenderer using segments field
-        lineRenderer.positionCount = segments;
-
-        lineRendererStartingPoints = new Vector3[segments];
-
-        // Sets the with in the lineRenderer using width field
-        lineRenderer.startWidth = width;
-
-
-        // Tells the lineRenderer to use worldspace for defining segmentsx`
-        lineRenderer.useWorldSpace = true;
-
-        lineRenderer.sortingLayerName = "UI";
     }
 
     /// <summary>
