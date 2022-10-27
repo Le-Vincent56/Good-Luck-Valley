@@ -144,7 +144,7 @@ public class ThrowUI : MonoBehaviour
 
             // Sets hit info to the return value of the linecast method,
             //   using the current point on the line and the next point as the locations to check between
-            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
+            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i], mask);
 
             // If hit info isnt null, we create the new points
             if (hitInfo)
