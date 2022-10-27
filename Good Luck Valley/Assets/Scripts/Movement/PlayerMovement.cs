@@ -286,6 +286,7 @@ public class PlayerMovement : MonoBehaviour
 				accelRate = 0;
 			} else
             {
+				// If bouncing, add some air deceleration for consistency
 				accelRate = Data.deccelInAir;
 			}
 		}

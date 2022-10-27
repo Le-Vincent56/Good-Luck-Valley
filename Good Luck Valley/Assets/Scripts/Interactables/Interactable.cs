@@ -22,8 +22,10 @@ public abstract class Interactable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check if interactable is triggered
         if (controlTriggered)
         {
+            // Interact and set variables
             Interact();
             interacting = true;
             if (finishedInteracting)

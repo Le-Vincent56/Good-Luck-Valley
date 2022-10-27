@@ -12,6 +12,7 @@ public class EnvironmentManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Get all environment objects and add to appropriate list
         weightedPlatforms.AddRange(GameObject.FindGameObjectsWithTag("Weighted"));
         collidablePlatforms.AddRange(GameObject.FindGameObjectsWithTag("Collidable"));
         nonCollidablePlatforms.AddRange(GameObject.FindGameObjectsWithTag("Non-Collidable"));

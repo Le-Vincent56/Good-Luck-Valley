@@ -41,29 +41,39 @@ public class Cursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check if using mouse or gamepad input
         if (usingMouse)
         {
+            // If using mouse, track mouse
             cursorDirection = Vector3.zero;
             cursorVelocity = Vector3.zero;
             cursorPosition = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y));
         } else
         {
-            // Update cursor positiond
+            // Update cursor positiond with player
             if (player.GetComponent<PlayerMovement>()._isMoving)
             {
                 cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
             }
+
+            // Move cursor with gamepad
             cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
             cursorPosition += cursorVelocity;
         }
         
+        // Draw cursor
         transform.position = cursorPosition;
 
+        // Check bounds
         CheckCursorBounds();
     }
 
+    /// <summary>
+    /// Check cursor bounds
+    /// </summary>
     public void CheckCursorBounds()
     {
+        // Check x bounds against camera
         if (cursorPosition.x < -camWidth)
         {
             cursorPosition.x = -camWidth;
@@ -73,6 +83,7 @@ public class Cursor : MonoBehaviour
             cursorPosition.x = camWidth;
         }
 
+        // Check y bounds against camera
         if (cursorPosition.y < -camHeight)
         {
             cursorPosition.y = -camHeight;
@@ -86,8 +97,6 @@ public class Cursor : MonoBehaviour
     #region INPUT HANDLER
     public void OnAim(InputAction.CallbackContext context)
     {
-        // Implement looking
-
         // Check if context is mouse or controller
         if(context.control.name == "position")
         {
