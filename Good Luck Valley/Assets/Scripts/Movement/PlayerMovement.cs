@@ -214,8 +214,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
 	{
-		Debug.Log("X Velo: " + Mathf.Abs(RB.velocity.x) + "Y Velo: " + Mathf.Abs(RB.velocity.y));
-
 		// Handle Run
 		Run(1);
 	}

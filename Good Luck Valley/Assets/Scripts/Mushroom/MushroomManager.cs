@@ -28,7 +28,7 @@ public class MushroomManager : MonoBehaviour
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
 
     [Header("Cursor")]
-    [SerializeField] Cursor cursor;
+    [SerializeField] GameCursor cursor;
 
     [Header("Mushroom")]
     [SerializeField] GameObject organicShroom;
@@ -60,7 +60,7 @@ public class MushroomManager : MonoBehaviour
         playerMove = player.GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
         environmentManager = FindObjectOfType<EnvironmentManager>();
-        cursor = FindObjectOfType<Cursor>();
+        cursor = FindObjectOfType<GameCursor>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();

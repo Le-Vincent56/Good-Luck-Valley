@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
-public class Cursor : MonoBehaviour
+public class GameCursor : MonoBehaviour
 {
     #region FIELDS
     [Header("Camera")]
-    Camera cam;
-    float camHeight;
-    float camWidth;
+    private Camera cam;
+    private float camHeight;
+    private float camWidth;
 
     [Header("Player")]
     GameObject player;
@@ -26,6 +27,8 @@ public class Cursor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
+
         // Get components
         cam = Camera.main;
         player = GameObject.Find("Player");
@@ -60,12 +63,12 @@ public class Cursor : MonoBehaviour
             cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
             cursorPosition += cursorVelocity;
         }
-        
-        // Draw cursor
-        transform.position = cursorPosition;
 
         // Check bounds
         CheckCursorBounds();
+
+        // Draw cursor
+        transform.position = cursorPosition;
     }
 
     /// <summary>
@@ -74,23 +77,23 @@ public class Cursor : MonoBehaviour
     public void CheckCursorBounds()
     {
         // Check x bounds against camera
-        if (cursorPosition.x < -camWidth)
+        if (cursorPosition.x < player.transform.position.x  - camWidth)
         {
-            cursorPosition.x = -camWidth;
+            cursorPosition.x = player.transform.position.x - camWidth;
         }
-        else if (cursorPosition.x > camWidth)
+        else if (cursorPosition.x > player.transform.position.x + camWidth)
         {
-            cursorPosition.x = camWidth;
+            cursorPosition.x = player.transform.position.x + camWidth;
         }
 
         // Check y bounds against camera
-        if (cursorPosition.y < -camHeight)
+        if (cursorPosition.y < player.transform.position.y - camHeight)
         {
-            cursorPosition.y = -camHeight;
+            cursorPosition.y = player.transform.position.y - camHeight;
         }
-        else if (cursorPosition.y > camHeight)
+        else if (cursorPosition.y > player.transform.position.y + camHeight)
         {
-            cursorPosition.y = camHeight;
+            cursorPosition.y = player.transform.position.y + camHeight;
         }
     }
 
