@@ -313,6 +313,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7314356781987444244, guid: bf0c3f34c88dd6144b76a1b1cfee43d9, type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 16345667}
+    - target: {fileID: 7314356781987444244, guid: bf0c3f34c88dd6144b76a1b1cfee43d9, type: 3}
       propertyPath: cursor
       value: 
       objectReference: {fileID: 327728301}
@@ -19683,7 +19687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1309962445}
   - component: {fileID: 1309962444}
-  - component: {fileID: 1309962443}
+  - component: {fileID: 1309962446}
   m_Layer: 0
   m_Name: Line
   m_TagString: Untagged
@@ -19691,20 +19695,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1309962443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309962442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bfaaa088bf59344be05b1a6fd0063e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  segments: 0
-  width: 0
 --- !u!120 &1309962444
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -19819,6 +19809,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1309962446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309962442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bfaaa088bf59344be05b1a6fd0063e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  segments: 0
+  width: 0
 --- !u!1 &1310835839 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7203912908089909882, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
