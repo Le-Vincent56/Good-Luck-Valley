@@ -9,6 +9,7 @@ public class GameCursor : MonoBehaviour
     #region FIELDS
     [Header("Camera")]
     private Camera cam;
+    private Transform vcamTrans;
     private float camHeight;
     private float camWidth;
 
@@ -31,6 +32,7 @@ public class GameCursor : MonoBehaviour
 
         // Get components
         cam = Camera.main;
+        vcamTrans = cam.GetComponentInChildren<Transform>();
         player = GameObject.Find("Player");
 
         // Create bounds
@@ -76,24 +78,30 @@ public class GameCursor : MonoBehaviour
     /// </summary>
     public void CheckCursorBounds()
     {
+        float leftBound = player.transform.position.x - camWidth;
+        float rightBound = player.transform.position.x + camWidth;
+        float lowerBound = player.transform.position.y - camHeight;
+        float upperBound = player.transform.position.y + camHeight;
+
+
         // Check x bounds against camera
-        if (cursorPosition.x < player.transform.position.x  - camWidth)
+        if (cursorPosition.x < leftBound)
         {
-            cursorPosition.x = player.transform.position.x - camWidth;
+            cursorPosition.x = leftBound;
         }
-        else if (cursorPosition.x > player.transform.position.x + camWidth)
+        else if (cursorPosition.x > rightBound)
         {
-            cursorPosition.x = player.transform.position.x + camWidth;
+            cursorPosition.x = rightBound;
         }
 
         // Check y bounds against camera
-        if (cursorPosition.y < player.transform.position.y - camHeight)
+        if (cursorPosition.y < lowerBound)
         {
-            cursorPosition.y = player.transform.position.y - camHeight;
+            cursorPosition.y = lowerBound;
         }
-        else if (cursorPosition.y > player.transform.position.y + camHeight)
+        else if (cursorPosition.y > upperBound)
         {
-            cursorPosition.y = player.transform.position.y + camHeight;
+            cursorPosition.y = upperBound;
         }
     }
 
