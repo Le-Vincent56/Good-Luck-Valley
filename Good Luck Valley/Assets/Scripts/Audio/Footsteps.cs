@@ -56,8 +56,8 @@ public class Footsteps : MonoBehaviour
         if (playerMovement.isGrounded && playerMovement.inputHorizontal && (stepTimer <= stepTimerMax / 2f || stepTimer <= 0f))
         {
             // Create a random variation of the noise
-            footstepSound.volume = Random.Range(0.8f, 1f);
-            footstepSound.pitch = Random.Range(0.8f, 1.1f);
+            footstepSound.volume = Random.Range(0.3f, 0.5f);
+            footstepSound.pitch = Random.Range(2.0f, 2.5f);
 
             // Play the noise
             footstepSound.Play();
