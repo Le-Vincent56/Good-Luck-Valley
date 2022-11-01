@@ -22,6 +22,9 @@ public class MushroomManager : MonoBehaviour
     float camHeight;
     float camWidth;
 
+    private bool canThrow;
+    private float throwCooldown = 0.2f;
+
     [Header("Platform Interaction")]
     [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
     [SerializeField] EnvironmentManager environmentManager;
@@ -112,6 +115,8 @@ public class MushroomManager : MonoBehaviour
         {
             StickShrooms();
         }
+
+        CheckIfCanThrow();
     }
 
     /// <summary>
@@ -233,6 +238,24 @@ public class MushroomManager : MonoBehaviour
         mushroom.GetComponent<MushroomInfo>().hasRotated = true;
     }
 
+    /// <summary>
+    /// Check if the player can throw
+    /// </summary>
+    private void CheckIfCanThrow()
+    {
+        // Reduce time from the throw cooldown
+        throwCooldown -= Time.deltaTime;
+
+        // If enough time has passed, set canThrow to true, otherwise set it to false
+        if(throwCooldown <= 0)
+        {
+            canThrow = true;
+        } else
+        {
+            canThrow = false;
+        }
+    }
+
     private void ShroomInWallCheck()
     {
         LayerMask mask = LayerMask.GetMask("Ground");
@@ -292,6 +315,22 @@ public class MushroomManager : MonoBehaviour
 
         if (context.canceled)
         {
+            // Check if the shroom can be thrown
+            if (canThrow)
+            {
+                // Throw the shroom
+                switch (throwState)
+                {
+                    case ThrowState.Throwing:
+                        CheckShroomCount();
+                        throwState = ThrowState.NotThrowing;
+                        break;
+                }
+
+                // Reset throw variables
+                canThrow = false;
+                throwCooldown = 0.2f;
+            }
             switch (throwState)
             {
                 case ThrowState.Throwing:
