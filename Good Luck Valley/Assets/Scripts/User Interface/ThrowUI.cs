@@ -57,7 +57,7 @@ public class ThrowUI : MonoBehaviour
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
         
-        lineRenderer.material.mainTextureScale = new Vector2(5f, 1f);
+        lineRenderer.material.mainTextureScale = new Vector2(3f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
@@ -179,7 +179,7 @@ public class ThrowUI : MonoBehaviour
         {
             // Sets segments to be equal to the length of the new array so
             //  the line is drawn properly when the top of the method is called
-            segments = newPoints.Length;
+            segments = newPoints.Length - 1;
         }
         else
         {
