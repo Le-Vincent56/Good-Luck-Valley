@@ -208,17 +208,9 @@ public class MushroomManager : MonoBehaviour
         ContactPoint2D[] contacts = new ContactPoint2D[1];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
         Debug.Log(contacts[0].point);
-        float shroomShift;
-        if (playerMove.IsFacingRight)
-        {
-            shroomShift = -shiftAmount;
-        }
-        else
-        {
-            shroomShift = shiftAmount;
-        }
-        playerRB.transform.position = new Vector2(playerRB.transform.position.x + shroomShift, playerRB.transform.position.y);
-        mushroom.transform.position = new Vector2(mushroom.transform.position.x + shroomShift, mushroom.transform.position.y);
+
+        AdjustShroomAndPlayerPos(mushroom);
+
         // The direction vector that the mushroom needs to point towards,
         //      contacts[0].point is the point the shroom is touching the platform at
         //      mushroom.transform.position is the mushroom's position,
@@ -254,6 +246,22 @@ public class MushroomManager : MonoBehaviour
         {
             canThrow = false;
         }
+    }
+
+    private void AdjustShroomAndPlayerPos(GameObject mushroom)
+    {
+        float shroomShift;
+        if (playerMove.IsFacingRight)
+        {
+            shroomShift = -shiftAmount;
+        }
+        else
+        {
+            shroomShift = shiftAmount;
+        }
+        playerRB.transform.position = new Vector2(playerRB.transform.position.x + shroomShift, playerRB.transform.position.y);
+        mushroom.transform.position = new Vector2(mushroom.transform.position.x + shroomShift, mushroom.transform.position.y);
+
     }
 
     private void ShroomInWallCheck()
