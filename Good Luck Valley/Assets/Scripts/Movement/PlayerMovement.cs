@@ -12,9 +12,9 @@ public class PlayerMovement : MonoBehaviour
 
 	// Timers
 	public float LastOnGroundTime { get; private set; }
-	public float LastOnWallTime { get; private set; }
-	public float LastOnWallRightTime { get; private set; }
-	public float LastOnWallLeftTime { get; private set; }
+	//public float LastOnWallTime { get; private set; }
+	//public float LastOnWallRightTime { get; private set; }
+	//public float LastOnWallLeftTime { get; private set; }
 
 	// Jump
 	private bool _isJumpCut;
@@ -49,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
 	public Vector2 previousPlayerPosition;
 	public Vector2 distanceFromLastPosition;
 
+	public bool isGrounded;
+	public bool inputHorizontal;
+
 	private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
@@ -74,13 +77,8 @@ public class PlayerMovement : MonoBehaviour
 			_isMoving = true;
         }
 
-		
-
 		#region TIMERS
 		LastOnGroundTime -= Time.deltaTime;
-		LastOnWallTime -= Time.deltaTime;
-		LastOnWallRightTime -= Time.deltaTime;
-		LastOnWallLeftTime -= Time.deltaTime;
 
 		LastPressedJumpTime -= Time.deltaTime;
 		#endregion
@@ -91,25 +89,9 @@ public class PlayerMovement : MonoBehaviour
 			// Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
 			{
+				isGrounded = true;
 				LastOnGroundTime = Data.coyoteTime; // If so sets the lastGrounded to coyoteTime
 			}
-
-			// Right Wall Check
-			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
-					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)))
-            {
-				LastOnWallRightTime = Data.coyoteTime;
-			}
-
-			// Left Wall Check
-			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
-				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)))
-            {
-				LastOnWallLeftTime = Data.coyoteTime;
-			}
-
-			// Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
-			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
 		}
 		#endregion
 
@@ -137,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
 		#region JUMP ANIMATION CHECKS
 		if (IsJumping)
 		{
+			isGrounded = false;
 			animator.SetBool("Jump", true);
 		}
 		else if (!IsJumping)
@@ -146,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
 
 		if (_isJumpFalling)
 		{
+			isGrounded = false;
 			animator.SetBool("Falling", true);
 		}
 		else if (!_isJumpFalling)
@@ -280,8 +264,14 @@ public class PlayerMovement : MonoBehaviour
 		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
 			// Prevent any deceleration from happening, or in other words conserve are current momentum
-			// You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
-			accelRate = 0;
+			if(!bounceEffect.bouncing)
+            {
+				accelRate = 0;
+			} else
+            {
+				// If bouncing, add some air deceleration for consistency
+				accelRate = Data.deccelInAir;
+			}
 		}
 		#endregion
 
@@ -349,20 +339,29 @@ public class PlayerMovement : MonoBehaviour
 	#region INPUT HANDLER
 	public void OnMove(InputAction.CallbackContext context)
     {
+		// Set the move input to the value returned by context
 		_moveInput = context.ReadValue<Vector2>();
 
+		// Set animation and inputHorizontal variables
 		animator.SetFloat("Speed", Mathf.Abs(_moveInput.x));
+		inputHorizontal = true;
 
+		// Check direction to face based on vector
 		if (_moveInput.x != 0)
 		{
 			CheckDirectionToFace(_moveInput.x > 0);
 		}
 
-
+		// If the bind is no longer pressed, set inputHorizontal to false
+        if (context.canceled)
+        {
+			inputHorizontal = false;
+        }
 	}
 
 	public void OnJump(InputAction.CallbackContext context)
 	{
+		// Check jump based on whether the bind was pressed or released
 		if (context.started)
 		{
 			OnJumpInput();

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+
 public enum ThrowState
 {
     NotThrowing,
@@ -26,7 +28,7 @@ public class MushroomManager : MonoBehaviour
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
 
     [Header("Cursor")]
-    [SerializeField] Cursor cursor;
+    [SerializeField] GameCursor cursor;
 
     [Header("Mushroom")]
     [SerializeField] GameObject organicShroom;
@@ -44,6 +46,7 @@ public class MushroomManager : MonoBehaviour
     private ThrowState throwState;
 
     [SerializeField] GameObject shroomPoint;
+    [SerializeField] GameObject tilemap;
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +60,7 @@ public class MushroomManager : MonoBehaviour
         playerMove = player.GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
         environmentManager = FindObjectOfType<EnvironmentManager>();
-        cursor = FindObjectOfType<Cursor>();
+        cursor = FindObjectOfType<GameCursor>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -163,17 +166,19 @@ public class MushroomManager : MonoBehaviour
             // loops for each platform's boxcollider in the platforms list
             foreach (GameObject p in environmentManager.collidablePlatforms)
             {
-                // checks if the mushroom is touching the platform and hasn't rotated
-                if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
-                    !m.GetComponent<MushroomInfo>().hasRotated)
-                {
-                    // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                    RotateAndFreezeShroom(m);
-                }
+            }
+
+            // checks if the mushroom is touching the platform and hasn't rotated
+            if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
+                !m.GetComponent<MushroomInfo>().hasRotated)
+            {
+                // If so, calls rotate shroom method to rotate and freeze the shroom properly
+                throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
+                RotateAndFreezeShroom(m);
             }
 
             // loops through weighted platform box colliders
-            foreach(GameObject wp in environmentManager.weightedPlatforms)
+            foreach (GameObject wp in environmentManager.weightedPlatforms)
             {
                 if(m.GetComponent<CircleCollider2D>().IsTouching(wp.GetComponent<BoxCollider2D>()) && !m.GetComponent<MushroomInfo>().hasRotated)
                 {
@@ -213,26 +218,6 @@ public class MushroomManager : MonoBehaviour
         // Freezes shroom movement and rotation, and sets hasRotated to true
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         mushroom.GetComponent<MushroomInfo>().hasRotated = true;
-    }
-
-    /// <summary>
-    /// Uses formula for finding point on circumference of a circle to determine a point on the 
-    ///     circumference of the mushroom's circle collider (x = r * cos(angle) + x1) and (y = r * sin(angle) + y1)
-    /// </summary>
-    /// <param name="mushroom"> The mushroom being checked</param>
-    /// <param name="angle"> The angle from the center of the shroom to the point in degrees</param>
-    /// <returns> A point in Vector2 form on the circumference of the mushroom's Circle collider 2d</returns>
-    private Vector2 GetPointOnCircumference(GameObject mushroom, float angle)
-    {
-        // Rounds because vector2's round when they are created and it was causing issues,
-        //  rounding everything beforehand fixed it
-        float x = (mushroom.GetComponent<CircleCollider2D>().radius * Mathf.Cos(angle * Mathf.Deg2Rad)) + mushroom.transform.localPosition.x;
-
-        float y = (mushroom.GetComponent<CircleCollider2D>().radius * Mathf.Sin(angle * Mathf.Deg2Rad)) + mushroom.transform.localPosition.y;
-
-
-        // Returns the newly calculated vector
-        return new Vector2(x, y);
     }
 
     #region INPUT HANDLER

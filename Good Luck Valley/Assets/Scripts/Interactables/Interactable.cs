@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     #region FIELDS
     [Header("Interact Variables")]
@@ -22,9 +22,14 @@ public class Interactable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check if interactable is triggered
         if (controlTriggered)
         {
+            // Interact and set variables
+            Interact();
             interacting = true;
+
+            // If the inteaction has finished, reset the variables
             if (finishedInteracting)
             {
                 controlTriggered = false;
@@ -36,8 +41,8 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    public virtual void Interact()
-    {
-
-    }
+    /// <summary>
+    /// Interaction with the object
+    /// </summary>
+    public abstract void Interact();
 }
