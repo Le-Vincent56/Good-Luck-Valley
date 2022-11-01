@@ -1,32 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class ThrowUI : MonoBehaviour
 {
+    [Header("UI Details")]
     public int segments;
-
     public float width;
 
-    LineRenderer lineRenderer;
+    LineRenderer lineRenderer = null;
+
+    Vector3[] lineRendererStartingPoints = null;
 
     // Start is called before the first frame update
     void Start()
     {
         // Width of the line
-        width = 0.8f;
+        width = 0.5f;
 
         // Number of segments for the trajectory line
-        segments = 30;  
+        segments = 300;  
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
 
         // Sets the number of segmens in the lineRenderer using segments field
-        lineRenderer.positionCount = (segments + 1);
+        lineRenderer.positionCount = segments;
+
+        lineRendererStartingPoints = new Vector3[segments];
 
         // Sets the with in the lineRenderer using width field
         lineRenderer.startWidth = width;
+
 
         // Tells the lineRenderer to use worldspace for defining segmentsx`
         lineRenderer.useWorldSpace = true;
@@ -45,9 +51,13 @@ public class ThrowUI : MonoBehaviour
     ///                              lineRenderer can simulate a throw when plotting</param>
     /// <param name="offset"> The offset used when spawning mushrooms</param>
     /// <param name="facingRight"> Whether the player is facing left or right</param>
-    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
+    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, float offset, bool facingRight)
     {
-        lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
+
+        // Sets the position count to be the segment count
+        lineRenderer.positionCount = segments;
+        
+        lineRenderer.material.mainTextureScale = new Vector2(3f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
@@ -75,7 +85,7 @@ public class ThrowUI : MonoBehaviour
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x + offset, playerPos.y);
+                playerPos.x += offset;
                 break;
 
             case false:
@@ -88,7 +98,7 @@ public class ThrowUI : MonoBehaviour
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x - offset, playerPos.y);
+                playerPos.x -= offset;
                 break;
         }
 
@@ -97,22 +107,92 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
-        for (int i = 1; i < (segments + 1); i++)
+        for (int i = 1; i < segments; i++)
         {
             // Total time passed
             tT += timeStep;  
 
             // x position is determined by player x + velocity X multiplied
             //  by the amount of time passed
-            x = playerPos.x + launchForce.x * (tT); 
+            x = playerPos.x + launchForce.x * (tT);
 
             // y position is determined by player x + velocity x multiplied
             //  by time passed - half of gravity multiplied by twice the time passed
             y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
 
             // Sets the position for this segment using the x and y generated above
-            lineRenderer.SetPosition(i, new Vector3(x, y));
+            Vector2 pos = new Vector3(x, y);
+            lineRenderer.SetPosition(i, pos);
+            lineRendererStartingPoints[i] = pos;
         }
 
+        // Creates collided bool, sets to false,
+        //  will be used to determin if we should update the segments or not later on
+        bool collided = false;
+
+        // Creates hit info variable for storing information about raycast hit
+        RaycastHit2D hitInfo;
+
+        // Create new array for storing the new points we will draw with
+        Vector3[] newPoints = null;
+
+        // Loops for each point in the previous frame's array of points
+        for (int i = 0; i < lineRendererStartingPoints.Length; i++)
+        {
+            // Create a mask to sort for only 'ground' tiles (collidable)
+            LayerMask mask = LayerMask.GetMask("Ground");
+
+            // Sets hit info to the return value of the linecast method,
+            //   using the current point on the line and the next point as the locations to check between
+            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i], mask);
+
+            //if (hitInfo.pos)
+
+            // If hit info isnt null, we create the new points
+            if (hitInfo)
+            {
+                //Debug.Log(hitInfo.point);
+                Debug.Log(playerPos);
+                // Initializes new points array to be the current iteratin number + 2
+                newPoints = new Vector3[i + 2];
+
+                // Loops through each point in the new points array
+                for (int k = 0; k < newPoints.Length - 1; k++)
+                {
+                    // Sets the values in the new points array to match the values in the prev points array
+                    newPoints[k] = lineRendererStartingPoints[k];
+                }
+
+                // Sets the last position in the new array to be the location the hit occured
+                newPoints[i + 1] = hitInfo.point;
+
+                // Collided is true
+                collided = true;
+
+                // Breaks out of the array
+                break;
+            }
+        }
+
+        // If collided is true
+        if (collided)
+        {
+            // Sets segments to be equal to the length of the new array so
+            //  the line is drawn properly when the top of the method is called
+            segments = newPoints.Length - 1;
+        }
+        else
+        {
+            // Otherwise, segments is set back to its original value of 30
+            segments = 300;
+        }
+    }
+
+    /// <summary>
+    /// Removes the line
+    /// </summary>
+    public void DeleteLine()
+    {
+        lineRenderer.positionCount = 0;
     }
 }

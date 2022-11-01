@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+
 public enum ThrowState
 {
     NotThrowing,
@@ -10,17 +12,41 @@ public enum ThrowState
 
 public class MushroomManager : MonoBehaviour
 {
-    // MushroomManager PREFABS
-    [SerializeField] GameObject organicShroom;
-    [SerializeField] int throwMultiplier;
+    [Header("Player")]
+    [SerializeField] GameObject player;
+    [SerializeField] Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
+    private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
+
+    [Header("Camera")]
+    [SerializeField] Camera cam;
+    float camHeight;
+    float camWidth;
+
+    private bool canThrow;
+    private float throwCooldown = 0.2f;
+
+    [Header("Platform Interaction")]
     [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
+    [SerializeField] EnvironmentManager environmentManager;
+    private ContactFilter2D layer;         // A contact filter to filter out ground layers
     Vector2 forceDirection;
     Camera cam;
 
-    private List<GameObject> mushroomList;    // List of currently spawned shrooms
+    [Header("Cursor")]
+    [SerializeField] GameCursor cursor;
 
+    [Header("Mushroom")]
+    [SerializeField] GameObject organicShroom;
+    private List<GameObject> mushroomList;    // List of currently spawned shrooms
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
 
+    [SerializeField] private float offset;      // Offset for spawning shrooms outside of player hitbox                                        
+    private int mushroomCount;                // How many shrooms are currently spawned in
+    public List<GameObject> MushroomList { get { return mushroomList; } }
+
+    [Header("Throw")]
+    [SerializeField] int throwMultiplier;
+    Vector2 forceDirection;
     [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox
                                               
     public int mushroomCount;                // How many shrooms are currently spawned in
@@ -30,23 +56,25 @@ public class MushroomManager : MonoBehaviour
     private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
 
     public GameObject throwUI_Script;
-
     private ThrowState throwState;
 
-    private ContactFilter2D layer;         // A contact filter to filter out ground layers
-
-    [SerializeField] List<BoxCollider2D> platforms; // A List of all platforms in the levels
-
-    public List<GameObject> MushroomList { get { return mushroomList; } }
+    [SerializeField] GameObject shroomPoint;
+    [SerializeField] GameObject tilemap;
+    private float shiftAmount;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Grab components
         cam = Camera.main;
-        playerRB = GetComponent<Rigidbody2D>();
-        playerMove = GetComponent<PlayerMovement>();
+        camHeight = cam.orthographicSize;
+        camWidth = camHeight * cam.aspect;
+        player = GameObject.Find("Player");
+        playerRB = player.GetComponent<Rigidbody2D>();
+        playerMove = player.GetComponent<PlayerMovement>();
         mushroomList = new List<GameObject>();
-
+        environmentManager = FindObjectOfType<EnvironmentManager>();
+        cursor = FindObjectOfType<GameCursor>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -62,15 +90,14 @@ public class MushroomManager : MonoBehaviour
         // Updates mushroom count               
         mushroomCount = mushroomList.Count;
 
-        // Update mouse position
-
         // Direction force is being applied to shroom
-        forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
-        // forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
+        forceDirection = cursor.transform.position - playerRB.transform.position;
+        //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
+        //forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
 
-        switch(throwState)
+        switch (throwState)
         {
             case ThrowState.NotThrowing:
                 break;
@@ -79,11 +106,17 @@ public class MushroomManager : MonoBehaviour
             case ThrowState.Throwing:
                 if (playerMove.IsFacingRight)
                 {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, 
+                                                                          forceDirection.normalized * throwMultiplier, 
+                                                                          offset, 
+                                                                          playerMove.IsFacingRight);
                 }
                 else
                 {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, forceDirection.normalized * throwMultiplier, offset, playerMove.IsFacingRight);
+                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, 
+                                                                          forceDirection.normalized * throwMultiplier, 
+                                                                          offset, 
+                                                                          playerMove.IsFacingRight);
                 }
                 break;                
         }
@@ -92,6 +125,8 @@ public class MushroomManager : MonoBehaviour
         {
             StickShrooms();
         }
+
+        CheckIfCanThrow();
     }
 
     /// <summary>
@@ -110,7 +145,6 @@ public class MushroomManager : MonoBehaviour
             mushroomList.Add(Instantiate(organicShroom,new Vector2(playerRB.position.x - offset, playerRB.position.y), Quaternion.identity));
             mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
         }
-        
     }
 
     /// <summary>
@@ -125,11 +159,13 @@ public class MushroomManager : MonoBehaviour
         if (mushroomCount < mushroomLimit)
         {
             // If so, ThrowMushroom is called
+            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             ThrowMushroom();
         }
         else if (mushroomCount >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
+            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             ThrowMushroom();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
@@ -146,14 +182,17 @@ public class MushroomManager : MonoBehaviour
         foreach (GameObject m in mushroomList)
         {
             // loops for each platform's boxcollider in the platforms list
-            foreach (BoxCollider2D p in platforms)
+            foreach (GameObject p in environmentManager.collidablePlatforms)
             {
-                // checks if the mushroom is touching the platform and hasn't rotated
-                if (m.GetComponent<CircleCollider2D>().IsTouching(p) &&
-                    !m.GetComponent<MushroomInfo>().hasRotated)
-                {
-                    // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                    RotateAndFreezeShroom(p, m);
+            }
+
+            // checks if the mushroom is touching the platform and hasn't rotated
+            if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
+                !m.GetComponent<MushroomInfo>().hasRotated)
+            {
+                // If so, calls rotate shroom method to rotate and freeze the shroom properly
+                RotateAndFreezeShroom(m);
+            }
 
                     //if (GameObject.FindGameObjectWithTag("weightablePlatform"))
                     //{
@@ -169,57 +208,90 @@ public class MushroomManager : MonoBehaviour
     /// </summary>
     /// <param name="platform"> The platform colliding with the shroom</param>
     /// <param name="mushroom"> The mushroom colliding with the platform</param>
-    private void RotateAndFreezeShroom(BoxCollider2D platform, GameObject mushroom)
+    private void RotateAndFreezeShroom(GameObject mushroom)
     {
-        // Loops 4 times to check the top, left, right, and bottom of the mushroom's circle
-        //  collider 2d for which side is hitting the platform
-        for(int i = 0; i < 4; i++)
-        {
-            // Determines the angle of the point to be checked by multipling the current iteration
-            //  by 90 degrees then subtracting 90 degrees because it worked (idk why)
-            float circumferenceAngle = i * 90 - 90;
+        // Saves the colliders of the platforms the shroom is coming into contact with into an array
+        ContactPoint2D[] contacts = new ContactPoint2D[1];
+        mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
+        Debug.Log(contacts[0].point);
 
-            // Checks if the shroom has rotated (in order to stop the loop sooner if the proper side
-            //  has already been determined) and checks if a point on the circle collider's
-            //  circumference is within the bounds of the platform collider by calling the
-            //  GetPointOnCircumference method (refer below)
-            if (mushroom.GetComponent<MushroomInfo>().hasRotated == false && 
-                platform.bounds.Contains(GetPointOnCircumference(mushroom, circumferenceAngle)))
-            {
-                // If so, rotates the mushroom 90 + angle for circumference point in degrees around the Z axis
-                //  by calling unity's Rotate method
-                mushroom.transform.Rotate(new Vector3(0f, 0f, circumferenceAngle + 90));
+        AdjustShroomAndPlayerPos(mushroom);
 
-                // Also freezes all rotations and movements for the mushroom
-                mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        // The direction vector that the mushroom needs to point towards,
+        //      contacts[0].point is the point the shroom is touching the platform at
+        //      mushroom.transform.position is the mushroom's position,
+        //          casted to a vector 2 so it can be subtracted from the contact point
+        Vector2 direction = contacts[0].point - (Vector2)mushroom.transform.position;
 
-                // Finally, sets the mushroom's 'HasRotated' method to true so the loop can stop sooner
-                //  and the shroom will no longer attempt to be checked for rotations
-                mushroom.GetComponent<MushroomInfo>().hasRotated = true;
-            }
-        }
+        // The angle that the shroom is going to rotate at
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // The quaternion that will rotate the s
+        Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+        mushroom.transform.rotation = rotation;
+
+
+        // Freezes shroom movement and rotation, and sets hasRotated to true
+        mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        mushroom.GetComponent<MushroomInfo>().hasRotated = true;
     }
 
     /// <summary>
-    /// Uses formula for finding point on circumference of a circle to determine a point on the 
-    ///     circumference of the mushroom's circle collider (x = r * cos(angle) + x1) and (y = r * sin(angle) + y1)
+    /// Check if the player can throw
     /// </summary>
-    /// <param name="mushroom"> The mushroom being checked</param>
-    /// <param name="angle"> The angle from the center of the shroom to the point in degrees</param>
-    /// <returns> A point in Vector2 form on the circumference of the mushroom's Circle collider 2d</returns>
-    private Vector2 GetPointOnCircumference(GameObject mushroom, float angle)
+    private void CheckIfCanThrow()
     {
-        // Rounds because vector2's round when they are created and it was causing issues,
-        //  rounding everything beforehand fixed it
-        float x = Mathf.Round(mushroom.GetComponent<CircleCollider2D>().radius) * 
-                  Mathf.Round(Mathf.Cos(angle)) + 
-                  Mathf.Round(mushroom.GetComponent<CircleCollider2D>().bounds.center.x);
+        // Reduce time from the throw cooldown
+        throwCooldown -= Time.deltaTime;
 
-        float y = Mathf.Round(mushroom.GetComponent<CircleCollider2D>().radius) * 
-                  Mathf.Round(Mathf.Sin(angle)) + 
-                  Mathf.Round(mushroom.GetComponent<CircleCollider2D>().bounds.center.y);
-        // Returns the newly calculated vector
-        return new Vector2(x, y);
+        // If enough time has passed, set canThrow to true, otherwise set it to false
+        if(throwCooldown <= 0)
+        {
+            canThrow = true;
+        } else
+        {
+            canThrow = false;
+        }
+    }
+
+    private void AdjustShroomAndPlayerPos(GameObject mushroom)
+    {
+        float shroomShift;
+        if (playerMove.IsFacingRight)
+        {
+            shroomShift = -shiftAmount;
+        }
+        else
+        {
+            shroomShift = shiftAmount;
+        }
+        playerRB.transform.position = new Vector2(playerRB.transform.position.x + shroomShift, playerRB.transform.position.y);
+        mushroom.transform.position = new Vector2(mushroom.transform.position.x + shroomShift, mushroom.transform.position.y);
+
+    }
+
+    private void ShroomInWallCheck()
+    {
+        LayerMask mask = LayerMask.GetMask("Ground");
+        float currentOffset;
+        if (playerMove.IsFacingRight)
+        {
+            currentOffset = 0.1f;
+        }
+        else
+        {
+            currentOffset = -0.1f;
+        }
+        RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
+
+        if (hitInfo)
+        {
+            shiftAmount = offset;
+        }
+        else
+        {
+            shiftAmount = 0;
+        }
     }
 
     #region INPUT HANDLER
@@ -227,24 +299,6 @@ public class MushroomManager : MonoBehaviour
     // If we want a separate fire and aim button
     public void OnTriggerAim(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            switch (throwState)
-            {
-                case ThrowState.NotThrowing:
-                    throwState = ThrowState.Throwing;
-                    break;
-
-                case ThrowState.Throwing:
-                    throwState = ThrowState.NotThrowing;
-                    break;
-            }
-        }
-    }
-    
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        // If we want the same button for fire and aim - aim on press, fire on release
         //if (context.started)
         //{
         //    switch (throwState)
@@ -252,36 +306,66 @@ public class MushroomManager : MonoBehaviour
         //        case ThrowState.NotThrowing:
         //            throwState = ThrowState.Throwing;
         //            break;
-    
+
         //        case ThrowState.Throwing:
         //            throwState = ThrowState.NotThrowing;
         //            break;
         //    }
         //}
-
-        if (context.canceled)
+    }
+    
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        // If we want the same button for fire and aim - aim on press, fire on release
+        if (context.started)
         {
             switch (throwState)
             {
+                case ThrowState.NotThrowing:
+                    throwState = ThrowState.Throwing;
+                    break;
+            }
+        }
+
+        if (context.canceled)
+        {
+            // Check if the shroom can be thrown
+            if (canThrow)
+            {
+                // Throw the shroom
+                switch (throwState)
+                {
+                    case ThrowState.Throwing:
+                        CheckShroomCount();
+                        throwState = ThrowState.NotThrowing;
+                        break;
+                }
+
+                // Reset throw variables
+                canThrow = false;
+                throwCooldown = 0.2f;
+            }
+            switch (throwState)
+            {
                 case ThrowState.Throwing:
+                    ShroomInWallCheck();
                     CheckShroomCount();
                     throwState = ThrowState.NotThrowing;
                     break;
             }
         }
     }
-    
-    public void OnAim(InputAction.CallbackContext context)
+
+    public void OnRecallShrooms(InputAction.CallbackContext context)
     {
-        // Implement looking
-
-        // Check if context is mouse or controller
-
-            // Mouse -> ScreenSpace to WorldSpace to LocalSpace
-
-
-            // Controller read values
-            // forceDirection = cam.ScreenToWorldPoint(new Vector2(context.ReadValue<Vector2>().x, context.ReadValue<Vector2>().y)) - playerRB.transform.position;
+        if (context.started)
+        {
+            foreach (GameObject m in mushroomList)
+            {
+                Destroy(m);
+            }
+            mushroomList.Clear();
+        }
     }
     #endregion
 }

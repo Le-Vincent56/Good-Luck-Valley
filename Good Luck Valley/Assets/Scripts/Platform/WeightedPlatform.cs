@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class WeightedPlatform : MonoBehaviour
 {
-    [SerializeField] int requiredWeight;
+    [Header ("Movement")]
     [SerializeField] Vector2 direction;
     [SerializeField] float speed;
     [SerializeField] float maxDistance;
+    [SerializeField] bool isMoving;
+
     Vector2 initialPosition;
     Vector2 platformPosition;
     Vector2 moveDirection;
     Vector2 velocity;
-    [SerializeField] bool isMoving;
-
 
     void Start()
     {
@@ -52,6 +52,9 @@ public class WeightedPlatform : MonoBehaviour
     public void CheckWeight()
     {
         isMoving = true;
+    }
+            isMoving = true;
+        }
     }
 
 }
