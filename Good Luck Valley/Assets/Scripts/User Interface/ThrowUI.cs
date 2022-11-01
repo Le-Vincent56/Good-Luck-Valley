@@ -51,7 +51,7 @@ public class ThrowUI : MonoBehaviour
     ///                              lineRenderer can simulate a throw when plotting</param>
     /// <param name="offset"> The offset used when spawning mushrooms</param>
     /// <param name="facingRight"> Whether the player is facing left or right</param>
-    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
+    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, float offset, bool facingRight)
     {
 
         // Sets the position count to be the segment count

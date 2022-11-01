@@ -38,7 +38,7 @@ public class MushroomManager : MonoBehaviour
     private List<GameObject> mushroomList;    // List of currently spawned shrooms
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
 
-    [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox                                        
+    [SerializeField] private float offset;      // Offset for spawning shrooms outside of player hitbox                                        
     private int mushroomCount;                // How many shrooms are currently spawned in
     public List<GameObject> MushroomList { get { return mushroomList; } }
 
