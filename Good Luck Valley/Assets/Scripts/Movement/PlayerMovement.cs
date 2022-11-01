@@ -36,10 +36,6 @@ public class PlayerMovement : MonoBehaviour
 
 	// Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
 	public Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
-	[Space(5)]
-	[SerializeField] private Transform _frontWallCheckPoint;
-	[SerializeField] private Transform _backWallCheckPoint;
-	[SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
 
 	[Header("Layers & Tags")]
 	[SerializeField] private LayerMask _groundLayer;
@@ -380,8 +376,6 @@ public class PlayerMovement : MonoBehaviour
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
 		Gizmos.color = Color.blue;
-		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
-		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 	}
 	#endregion
 }

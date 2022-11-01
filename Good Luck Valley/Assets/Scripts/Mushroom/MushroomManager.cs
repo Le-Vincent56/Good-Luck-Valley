@@ -38,7 +38,7 @@ public class MushroomManager : MonoBehaviour
     private List<GameObject> mushroomList;    // List of currently spawned shrooms
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
 
-    [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox                                        
+    [SerializeField] private float offset;      // Offset for spawning shrooms outside of player hitbox                                        
     private int mushroomCount;                // How many shrooms are currently spawned in
     public List<GameObject> MushroomList { get { return mushroomList; } }
 
@@ -50,6 +50,7 @@ public class MushroomManager : MonoBehaviour
 
     [SerializeField] GameObject shroomPoint;
     [SerializeField] GameObject tilemap;
+    private float shiftAmount;
 
     // Start is called before the first frame update
     void Start()
@@ -148,11 +149,13 @@ public class MushroomManager : MonoBehaviour
         if (mushroomCount < mushroomLimit)
         {
             // If so, ThrowMushroom is called
+            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             ThrowMushroom();
         }
         else if (mushroomCount >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
+            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             ThrowMushroom();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
@@ -178,7 +181,6 @@ public class MushroomManager : MonoBehaviour
                 !m.GetComponent<MushroomInfo>().hasRotated)
             {
                 // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
                 RotateAndFreezeShroom(m);
             }
 
@@ -206,6 +208,9 @@ public class MushroomManager : MonoBehaviour
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
         ContactPoint2D[] contacts = new ContactPoint2D[1];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
+        Debug.Log(contacts[0].point);
+
+        AdjustShroomAndPlayerPos(mushroom);
 
         // The direction vector that the mushroom needs to point towards,
         //      contacts[0].point is the point the shroom is touching the platform at
@@ -219,6 +224,7 @@ public class MushroomManager : MonoBehaviour
         // The quaternion that will rotate the s
         Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
         mushroom.transform.rotation = rotation;
+
 
         // Freezes shroom movement and rotation, and sets hasRotated to true
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
@@ -240,6 +246,46 @@ public class MushroomManager : MonoBehaviour
         } else
         {
             canThrow = false;
+        }
+    }
+
+    private void AdjustShroomAndPlayerPos(GameObject mushroom)
+    {
+        float shroomShift;
+        if (playerMove.IsFacingRight)
+        {
+            shroomShift = -shiftAmount;
+        }
+        else
+        {
+            shroomShift = shiftAmount;
+        }
+        playerRB.transform.position = new Vector2(playerRB.transform.position.x + shroomShift, playerRB.transform.position.y);
+        mushroom.transform.position = new Vector2(mushroom.transform.position.x + shroomShift, mushroom.transform.position.y);
+
+    }
+
+    private void ShroomInWallCheck()
+    {
+        LayerMask mask = LayerMask.GetMask("Ground");
+        float currentOffset;
+        if (playerMove.IsFacingRight)
+        {
+            currentOffset = 0.1f;
+        }
+        else
+        {
+            currentOffset = -0.1f;
+        }
+        RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
+
+        if (hitInfo)
+        {
+            shiftAmount = offset;
+        }
+        else
+        {
+            shiftAmount = 0;
         }
     }
 
@@ -293,6 +339,14 @@ public class MushroomManager : MonoBehaviour
                 // Reset throw variables
                 canThrow = false;
                 throwCooldown = 0.2f;
+            }
+            switch (throwState)
+            {
+                case ThrowState.Throwing:
+                    ShroomInWallCheck();
+                    CheckShroomCount();
+                    throwState = ThrowState.NotThrowing;
+                    break;
             }
         }
     }

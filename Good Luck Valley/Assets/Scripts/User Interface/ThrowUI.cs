@@ -17,10 +17,10 @@ public class ThrowUI : MonoBehaviour
     void Start()
     {
         // Width of the line
-        width = 1f;
+        width = 0.5f;
 
         // Number of segments for the trajectory line
-        segments = 30;  
+        segments = 300;  
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -51,13 +51,13 @@ public class ThrowUI : MonoBehaviour
     ///                              lineRenderer can simulate a throw when plotting</param>
     /// <param name="offset"> The offset used when spawning mushrooms</param>
     /// <param name="facingRight"> Whether the player is facing left or right</param>
-    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
+    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, float offset, bool facingRight)
     {
 
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
         
-        lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
+        lineRenderer.material.mainTextureScale = new Vector2(3f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
@@ -85,7 +85,7 @@ public class ThrowUI : MonoBehaviour
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x + offset, playerPos.y);
+                playerPos.x += offset;
                 break;
 
             case false:
@@ -98,7 +98,7 @@ public class ThrowUI : MonoBehaviour
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x - offset, playerPos.y);
+                playerPos.x -= offset;
                 break;
         }
 
@@ -107,7 +107,7 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
-        for (int i = 0; i < segments; i++)
+        for (int i = 1; i < segments; i++)
         {
             // Total time passed
             tT += timeStep;  
@@ -146,14 +146,18 @@ public class ThrowUI : MonoBehaviour
             //   using the current point on the line and the next point as the locations to check between
             hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i], mask);
 
+            //if (hitInfo.pos)
+
             // If hit info isnt null, we create the new points
             if (hitInfo)
             {
+                //Debug.Log(hitInfo.point);
+                Debug.Log(playerPos);
                 // Initializes new points array to be the current iteratin number + 2
                 newPoints = new Vector3[i + 2];
 
                 // Loops through each point in the new points array
-                for (int k = 0; k < newPoints.Length; k++)
+                for (int k = 0; k < newPoints.Length - 1; k++)
                 {
                     // Sets the values in the new points array to match the values in the prev points array
                     newPoints[k] = lineRendererStartingPoints[k];
@@ -175,12 +179,12 @@ public class ThrowUI : MonoBehaviour
         {
             // Sets segments to be equal to the length of the new array so
             //  the line is drawn properly when the top of the method is called
-            segments = newPoints.Length;
+            segments = newPoints.Length - 1;
         }
         else
         {
             // Otherwise, segments is set back to its original value of 30
-            segments = 30;
+            segments = 300;
         }
     }
 
