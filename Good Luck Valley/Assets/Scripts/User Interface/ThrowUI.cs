@@ -17,7 +17,7 @@ public class ThrowUI : MonoBehaviour
     void Start()
     {
         // Width of the line
-        width = 1f;
+        width = 0.5f;
 
         // Number of segments for the trajectory line
         segments = 300;  
@@ -57,7 +57,7 @@ public class ThrowUI : MonoBehaviour
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
         
-        lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
+        lineRenderer.material.mainTextureScale = new Vector2(5f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
@@ -85,7 +85,7 @@ public class ThrowUI : MonoBehaviour
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x + offset, playerPos.y);
+                playerPos.x += offset;
                 break;
 
             case false:
@@ -98,7 +98,7 @@ public class ThrowUI : MonoBehaviour
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x - offset, playerPos.y);
+                playerPos.x -= offset;
                 break;
         }
 
@@ -107,7 +107,7 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
-        for (int i = 0; i < segments; i++)
+        for (int i = 1; i < segments; i++)
         {
             // Total time passed
             tT += timeStep;  
@@ -194,10 +194,5 @@ public class ThrowUI : MonoBehaviour
     public void DeleteLine()
     {
         lineRenderer.positionCount = 0;
-    }
-
-    private void CheckInWall(RaycastHit2D hitInfo)
-    {
-
     }
 }

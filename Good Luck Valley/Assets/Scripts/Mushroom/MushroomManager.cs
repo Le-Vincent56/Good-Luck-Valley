@@ -149,11 +149,13 @@ public class MushroomManager : MonoBehaviour
         if (mushroomCount < mushroomLimit)
         {
             // If so, ThrowMushroom is called
+            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             ThrowMushroom();
         }
         else if (mushroomCount >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
+            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             ThrowMushroom();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
@@ -179,7 +181,6 @@ public class MushroomManager : MonoBehaviour
                 !m.GetComponent<MushroomInfo>().hasRotated)
             {
                 // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
                 RotateAndFreezeShroom(m);
             }
 
@@ -270,11 +271,11 @@ public class MushroomManager : MonoBehaviour
         float currentOffset;
         if (playerMove.IsFacingRight)
         {
-            currentOffset = 3.5f;
+            currentOffset = 0.1f;
         }
         else
         {
-            currentOffset = 3.5f;
+            currentOffset = -0.1f;
         }
         RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
 
