@@ -47,6 +47,7 @@ public class MushroomManager : MonoBehaviour
 
     [SerializeField] GameObject shroomPoint;
     [SerializeField] GameObject tilemap;
+    private float shiftAmount;
 
     // Start is called before the first frame update
     void Start()
@@ -201,7 +202,18 @@ public class MushroomManager : MonoBehaviour
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
         ContactPoint2D[] contacts = new ContactPoint2D[1];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
-
+        Debug.Log(contacts[0].point);
+        float shroomShift;
+        if (playerMove.IsFacingRight)
+        {
+            shroomShift = -shiftAmount;
+        }
+        else
+        {
+            shroomShift = shiftAmount;
+        }
+        playerRB.transform.position = new Vector2(playerRB.transform.position.x + shroomShift, playerRB.transform.position.y);
+        mushroom.transform.position = new Vector2(mushroom.transform.position.x + shroomShift, mushroom.transform.position.y);
         // The direction vector that the mushroom needs to point towards,
         //      contacts[0].point is the point the shroom is touching the platform at
         //      mushroom.transform.position is the mushroom's position,
@@ -215,9 +227,34 @@ public class MushroomManager : MonoBehaviour
         Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
         mushroom.transform.rotation = rotation;
 
+
         // Freezes shroom movement and rotation, and sets hasRotated to true
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         mushroom.GetComponent<MushroomInfo>().hasRotated = true;
+    }
+
+    private void ShroomInWallCheck()
+    {
+        LayerMask mask = LayerMask.GetMask("Ground");
+        float currentOffset;
+        if (playerMove.IsFacingRight)
+        {
+            currentOffset = 3.5f;
+        }
+        else
+        {
+            currentOffset = 3.5f;
+        }
+        RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
+
+        if (hitInfo)
+        {
+            shiftAmount = offset;
+        }
+        else
+        {
+            shiftAmount = 0;
+        }
     }
 
     #region INPUT HANDLER
@@ -258,6 +295,7 @@ public class MushroomManager : MonoBehaviour
             switch (throwState)
             {
                 case ThrowState.Throwing:
+                    ShroomInWallCheck();
                     CheckShroomCount();
                     throwState = ThrowState.NotThrowing;
                     break;

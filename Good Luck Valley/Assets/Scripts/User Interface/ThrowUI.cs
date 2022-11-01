@@ -20,7 +20,7 @@ public class ThrowUI : MonoBehaviour
         width = 1f;
 
         // Number of segments for the trajectory line
-        segments = 30;  
+        segments = 300;  
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -146,14 +146,18 @@ public class ThrowUI : MonoBehaviour
             //   using the current point on the line and the next point as the locations to check between
             hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i], mask);
 
+            //if (hitInfo.pos)
+
             // If hit info isnt null, we create the new points
             if (hitInfo)
             {
+                //Debug.Log(hitInfo.point);
+                Debug.Log(playerPos);
                 // Initializes new points array to be the current iteratin number + 2
                 newPoints = new Vector3[i + 2];
 
                 // Loops through each point in the new points array
-                for (int k = 0; k < newPoints.Length; k++)
+                for (int k = 0; k < newPoints.Length - 1; k++)
                 {
                     // Sets the values in the new points array to match the values in the prev points array
                     newPoints[k] = lineRendererStartingPoints[k];
@@ -180,7 +184,7 @@ public class ThrowUI : MonoBehaviour
         else
         {
             // Otherwise, segments is set back to its original value of 30
-            segments = 30;
+            segments = 300;
         }
     }
 
@@ -190,5 +194,10 @@ public class ThrowUI : MonoBehaviour
     public void DeleteLine()
     {
         lineRenderer.positionCount = 0;
+    }
+
+    private void CheckInWall(RaycastHit2D hitInfo)
+    {
+
     }
 }
