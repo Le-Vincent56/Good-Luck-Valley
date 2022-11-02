@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ThrowUI : MonoBehaviour
 {
+    [SerializeField] MushroomManager mushMan;
+
     [Header("UI Details")]
     public int segments;
     public float width;
@@ -81,7 +83,7 @@ public class ThrowUI : MonoBehaviour
                 if (playerPos.x + launchForce.x < playerPos.x)
                 {
                     // Sets launchForce to zero to 'stop' the renderer
-                    launchForce = Vector2.zero;
+                    mushMan.player.GetComponent<PlayerMovement>().Turn();
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
@@ -89,14 +91,14 @@ public class ThrowUI : MonoBehaviour
                 break;
 
             case false:
-                // If the player is facing left the trajectory line cannot go past
+                // if the player is facing left the trajectory line cannot go past
                 //      the right side of the player
                 if (playerPos.x - launchForce.x < playerPos.x)
                 {
-                    // Sets launchForce to zero to 'stop' the renderer
-                    launchForce = Vector2.zero;
+                    // sets launchforce to zero to 'stop' the renderer
+                    mushMan.player.GetComponent<PlayerMovement>().Turn();
                 }
-                // Sets starting position for line to match the location the shrooms are
+                // sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
                 playerPos.x -= offset;
                 break;

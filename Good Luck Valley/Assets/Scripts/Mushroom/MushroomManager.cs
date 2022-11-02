@@ -13,7 +13,7 @@ public enum ThrowState
 public class MushroomManager : MonoBehaviour
 {
     [Header("Player")]
-    [SerializeField] GameObject player;
+    public GameObject player;
     [SerializeField] Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
 
@@ -74,6 +74,7 @@ public class MushroomManager : MonoBehaviour
         layer.useLayerMask = true;
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
+        tempOffset = offset;
     }
 
     // Update is called once per frame
