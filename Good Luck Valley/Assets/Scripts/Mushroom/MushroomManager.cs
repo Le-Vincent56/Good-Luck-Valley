@@ -30,7 +30,6 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] EnvironmentManager environmentManager;
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
     Vector2 forceDirection;
-    Camera cam;
 
     [Header("Cursor")]
     [SerializeField] GameCursor cursor;
@@ -46,14 +45,6 @@ public class MushroomManager : MonoBehaviour
 
     [Header("Throw")]
     [SerializeField] int throwMultiplier;
-    Vector2 forceDirection;
-    [SerializeField] private int offset;      // Offset for spawning shrooms outside of player hitbox
-                                              
-    public int mushroomCount;                // How many shrooms are currently spawned in
-                                              
-    private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
-                                              
-    private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
 
     public GameObject throwUI_Script;
     private ThrowState throwState;
@@ -124,6 +115,7 @@ public class MushroomManager : MonoBehaviour
         if (MushroomList.Count > 0)
         {
             StickShrooms();
+            TriggerPlatforms();
         }
 
         CheckIfCanThrow();
@@ -181,10 +173,6 @@ public class MushroomManager : MonoBehaviour
         // loops for each object in the mushroomlist
         foreach (GameObject m in mushroomList)
         {
-            // loops for each platform's boxcollider in the platforms list
-            foreach (GameObject p in environmentManager.collidablePlatforms)
-            {
-            }
 
             // checks if the mushroom is touching the platform and hasn't rotated
             if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
@@ -193,15 +181,29 @@ public class MushroomManager : MonoBehaviour
                 // If so, calls rotate shroom method to rotate and freeze the shroom properly
                 RotateAndFreezeShroom(m);
             }
+        }
+    }
 
-                    //if (GameObject.FindGameObjectWithTag("weightablePlatform"))
-                    //{
-                    //    weightedPlatformScript.CheckWeight(mushroomCount);
-                    //}
+    private void TriggerPlatforms()
+    {
+        // loops for each object in the mushroomlist
+        foreach (GameObject m in mushroomList)
+        {
+            foreach(GameObject p in environmentManager.weightedPlatforms)
+            {
+                // checks if the mushroom is touching the platform and hasn't rotated
+                if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
+                    !m.GetComponent<MushroomInfo>().hasRotated)
+                {
+                    // If so, calls rotate shroom method to rotate and freeze the shroom properly
+                    RotateAndFreezeShroom(m);
+
+                    p.GetComponent<MoveablePlatform>().CheckWeight();
                 }
             }
         }
     }
+
 
     /// <summary>
     /// Rotates and freezes a shroom to match the orientation of the platform it is colliding with

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7942403084284970053
+--- !u!1 &1633873835319222396
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7942403084284970073}
-  - component: {fileID: 7942403084284970072}
-  - component: {fileID: 7942403084284970075}
-  - component: {fileID: 7942403084284970074}
+  - component: {fileID: 1633873835319222392}
+  - component: {fileID: 1633873835319222399}
+  - component: {fileID: 1633873835319222398}
+  - component: {fileID: 5979412101033150619}
   m_Layer: 3
-  m_Name: weightedPlatform
-  m_TagString: weightablePlatform
+  m_Name: Translatable Platform
+  m_TagString: Weighted
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7942403084284970073
+--- !u!4 &1633873835319222392
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942403084284970053}
+  m_GameObject: {fileID: 1633873835319222396}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.58, y: 12.54, z: 0}
-  m_LocalScale: {x: 10.100213, y: -1.8911532, z: 1.7086}
+  m_LocalPosition: {x: -15.63, y: -4.12, z: 0}
+  m_LocalScale: {x: 1.89379, y: -0.4491489, z: 1.7086}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7942403084284970072
+--- !u!212 &1633873835319222399
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942403084284970053}
+  m_GameObject: {fileID: 1633873835319222396}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -86,13 +86,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7942403084284970075
+--- !u!61 &1633873835319222398
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942403084284970053}
+  m_GameObject: {fileID: 1633873835319222396}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: e8194df0a1d8c8f4dba14db592b1a0bb, type: 2}
@@ -112,19 +112,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7942403084284970074
+--- !u!114 &5979412101033150619
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942403084284970053}
+  m_GameObject: {fileID: 1633873835319222396}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d08b0558e94093046b17eca2e7bb0ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredWeight: 1
-  direction: {x: 1, y: 1}
-  speed: 7
-  maxDistance: 10
+  direction: {x: 0, y: 0}
+  maxDistance: {x: 0, y: 0}
+  translateSpeed: 0
+  initialPosition: {x: 0, y: 0}
