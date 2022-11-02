@@ -24,6 +24,7 @@ public class MushroomManager : MonoBehaviour
 
     private bool canThrow;
     private float throwCooldown = 0.2f;
+    private float bounceCooldown = 0.2f;
 
     [Header("Platform Interaction")]
     [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
@@ -119,6 +120,7 @@ public class MushroomManager : MonoBehaviour
         }
 
         CheckIfCanThrow();
+        CheckIfCanBounce();
     }
 
     /// <summary>
@@ -247,13 +249,32 @@ public class MushroomManager : MonoBehaviour
         throwCooldown -= Time.deltaTime;
 
         // If enough time has passed, set canThrow to true, otherwise set it to false
-        if(throwCooldown <= 0)
+        if (throwCooldown <= 0)
         {
             canThrow = true;
-        } 
+        }
         else
         {
             canThrow = false;
+        }
+    }
+
+    /// <summary>
+    /// Check if the player can bounce
+    /// </summary>
+    private void CheckIfCanBounce()
+    {
+        // Reduce time from the bounce cooldown
+        bounceCooldown -= Time.deltaTime;
+
+        // If enough time has passed, set canBounce to true, otherwise set it to false
+        if (bounceCooldown <= 0)
+        {
+            playerMove.GetComponent<BouncingEffect>().canBounce = true;
+        }
+        else
+        {
+            playerMove.GetComponent<BouncingEffect>().canBounce = false;
         }
     }
 
@@ -347,6 +368,7 @@ public class MushroomManager : MonoBehaviour
                 // Reset throw variables
                 canThrow = false;
                 throwCooldown = 0.2f;
+                bounceCooldown = 0.2f;
             }
         }
     }
