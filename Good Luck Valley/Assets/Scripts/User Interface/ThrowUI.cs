@@ -152,7 +152,7 @@ public class ThrowUI : MonoBehaviour
             if (hitInfo)
             {
                 //Debug.Log(hitInfo.point);
-                Debug.Log(playerPos);
+                //Debug.Log(playerPos);
                 // Initializes new points array to be the current iteratin number + 2
                 newPoints = new Vector3[i + 2];
 
