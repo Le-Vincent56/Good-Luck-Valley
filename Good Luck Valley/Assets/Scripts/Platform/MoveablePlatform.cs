@@ -34,8 +34,6 @@ public abstract class MoveablePlatform : MonoBehaviour
     /// <param name="shrooms"></param>
     public void CheckWeight(GameObject shroom)
     {
-        Debug.Log(shroom);
-        Debug.Log(stuckShrooms);
         stuckShrooms.Add(shroom);
         isTriggered = true;
     }
