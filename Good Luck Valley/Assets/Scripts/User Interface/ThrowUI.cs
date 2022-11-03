@@ -55,11 +55,10 @@ public class ThrowUI : MonoBehaviour
     /// <param name="facingRight"> Whether the player is facing left or right</param>
     public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, float offset, bool facingRight)
     {
-
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
         
-        lineRenderer.material.mainTextureScale = new Vector2(3f, 1f);
+        lineRenderer.material.mainTextureScale = new Vector2(2f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
@@ -105,7 +104,7 @@ public class ThrowUI : MonoBehaviour
         }
 
         // Sets the position for the first segment using player position
-        Vector3 start = new Vector3(playerPos.x, playerPos.y);
+        Vector3 start = new Vector3(playerPos.x, playerPos.y, 0);
         lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
@@ -123,7 +122,7 @@ public class ThrowUI : MonoBehaviour
             y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
 
             // Sets the position for this segment using the x and y generated above
-            Vector2 pos = new Vector3(x, y);
+            Vector2 pos = new Vector3(x, y, 0);
             lineRenderer.SetPosition(i, pos);
             lineRendererStartingPoints[i] = pos;
         }
@@ -139,16 +138,14 @@ public class ThrowUI : MonoBehaviour
         Vector3[] newPoints = null;
 
         // Loops for each point in the previous frame's array of points
-        for (int i = 0; i < lineRendererStartingPoints.Length; i++)
+        for (int i = 1; i < lineRendererStartingPoints.Length; i++)
         {
             // Create a mask to sort for only 'ground' tiles (collidable)
             LayerMask mask = LayerMask.GetMask("Ground");
 
             // Sets hit info to the return value of the linecast method,
             //   using the current point on the line and the next point as the locations to check between
-            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i], mask);
-
-            //if (hitInfo.pos)
+            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
 
             // If hit info isnt null, we create the new points
             if (hitInfo)
@@ -159,14 +156,14 @@ public class ThrowUI : MonoBehaviour
                 newPoints = new Vector3[i + 2];
 
                 // Loops through each point in the new points array
-                for (int k = 0; k < newPoints.Length - 1; k++)
+                for (int k = 0; k < newPoints.Length; k++)
                 {
                     // Sets the values in the new points array to match the values in the prev points array
                     newPoints[k] = lineRendererStartingPoints[k];
                 }
 
                 // Sets the last position in the new array to be the location the hit occured
-                newPoints[i + 1] = hitInfo.point;
+                newPoints[i] = hitInfo.point;
 
                 // Collided is true
                 collided = true;
@@ -181,7 +178,7 @@ public class ThrowUI : MonoBehaviour
         {
             // Sets segments to be equal to the length of the new array so
             //  the line is drawn properly when the top of the method is called
-            segments = newPoints.Length - 1;
+            segments = newPoints.Length;
         }
         else
         {
