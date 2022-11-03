@@ -9,6 +9,7 @@ public class RotatablePlatform : MoveablePlatform
     [SerializeField] float rotationSpeed;
     [SerializeField] Vector3 pivotPoint;
     Quaternion finalRotation;
+    
     #endregion
 
     // Start is called before the first frame update
@@ -20,7 +21,9 @@ public class RotatablePlatform : MoveablePlatform
     public override void Move() // Replaces "Move" in parent class (MoveablePlatform)
     {
         // Sets pivot point, direction and speed of rotation
-        transform.RotateAround(pivotPoint, Vector3.forward, rotationSpeed * Time.deltaTime); 
+        transform.RotateAround(pivotPoint, Vector3.forward, rotationSpeed * Time.deltaTime);
+
+        
 
         if(transform.rotation == finalRotation)
         {
