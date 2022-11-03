@@ -12,7 +12,7 @@ public class BouncingEffect : MonoBehaviour
 
     [Header("Bounce Variables")]
     [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
-    public bool bouncing = false;
+    public bool bouncing;
     public bool canBounce;
 
     Vector2 lastVelocity;
@@ -30,12 +30,6 @@ public class BouncingEffect : MonoBehaviour
     {
         // Get last velocity
         lastVelocity = RB.velocity;
-
-        // Check if play is still bouncing
-        if (!playerMovement._isJumpFalling)
-        {
-            bouncing = false;
-        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
