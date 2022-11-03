@@ -22,7 +22,7 @@ public class PlatformManager : MonoBehaviour
             {
                 if (m.GetComponent<CircleCollider2D>().IsTouching(wp.GetComponent<BoxCollider2D>()))
                 {
-                    wp.GetComponent<TranslatablePlatform>().CheckWeight();
+                    wp.GetComponent<TranslatablePlatform>().CheckWeight(m);
                 }
             }
         }

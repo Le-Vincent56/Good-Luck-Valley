@@ -198,7 +198,7 @@ public class MushroomManager : MonoBehaviour
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
                     RotateAndFreezeShroom(m);
 
-                    p.GetComponent<MoveablePlatform>().CheckWeight();
+                    p.GetComponent<MoveablePlatform>().CheckWeight(m);
                 }
             }
         }
