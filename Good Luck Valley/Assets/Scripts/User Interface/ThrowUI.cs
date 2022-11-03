@@ -82,7 +82,7 @@ public class ThrowUI : MonoBehaviour
                 //    side of the player 
                 if (playerPos.x + launchForce.x < playerPos.x)
                 {
-                    // Sets launchForce to zero to 'stop' the renderer
+                    // Turns the player by calling playerMovement's Turn method
                     mushMan.player.GetComponent<PlayerMovement>().Turn();
                 }
                 // Sets starting position for line to match the location the shrooms are
