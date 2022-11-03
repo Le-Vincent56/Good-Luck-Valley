@@ -11,7 +11,7 @@ public class BouncingEffect : MonoBehaviour
     public PlayerMovement playerMovement;
 
     [Header("Bounce Variables")]
-    [SerializeField] float minSpeed = 100f;
+    [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
     public bool bouncing = false;
     public bool canBounce;
 
