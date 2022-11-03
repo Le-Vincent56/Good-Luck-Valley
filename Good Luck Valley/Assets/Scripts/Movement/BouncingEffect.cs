@@ -13,6 +13,7 @@ public class BouncingEffect : MonoBehaviour
     [Header("Bounce Variables")]
     [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
     public bool bouncing = false;
+    public bool canBounce;
 
     Vector2 lastVelocity;
     #endregion
@@ -40,7 +41,7 @@ public class BouncingEffect : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if colliding with a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom"))
+        if (collision.gameObject.tag.Equals("Mushroom") && canBounce)
         {
             // Set bouncing to true
             bouncing = true;
