@@ -281,7 +281,7 @@ public class PlayerMovement : MonoBehaviour
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 	}
 
-	private void Turn()
+	public void Turn()
 	{
 		// Stores scale and flips the player along the x axis, 
 		Vector3 scale = transform.localScale;
