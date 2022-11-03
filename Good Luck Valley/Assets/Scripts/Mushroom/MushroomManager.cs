@@ -307,7 +307,6 @@ public class MushroomManager : MonoBehaviour
             currentOffset = -offset;
         }
         RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
-        Debug.Log(hitInfo.collider);
         if (hitInfo)
         {
             tempOffset = 0;
