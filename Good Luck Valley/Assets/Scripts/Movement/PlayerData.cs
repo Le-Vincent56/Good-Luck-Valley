@@ -14,6 +14,7 @@ public class PlayerData : ScriptableObject
 	public float fastFallGravityMult; //Larger multiplier to the player's gravityScale when they are falling and a downwards input is pressed.
 									  //Seen in games such as Celeste, lets the player fall extra fast if they wish.
 	public float maxFastFallSpeed; //Maximum fall speed(terminal velocity) of the player when performing a faster fall.
+	public float fallFromBounceGravityMult; //Multiplier to the player's gravityScale when falling from a bounce
 
 	[Space(20)]
 

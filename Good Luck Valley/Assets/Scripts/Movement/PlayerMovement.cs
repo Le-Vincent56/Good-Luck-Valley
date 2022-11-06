@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
 
 	private Vector2 _moveInput;
 	public float LastPressedJumpTime { get; private set; }
+
+	[SerializeField] float landedTimer = 0f;
+	[SerializeField] bool justLanded = false;
     #endregion
 
     #region VARIABLES
@@ -91,9 +94,28 @@ public class PlayerMovement : MonoBehaviour
 				// Ground Check
 				if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
 				{
-					bounceEffect.bouncing = false;
+					// If bouncing beore, end bouncing
+					if(bounceEffect.bouncing)
+                    {
+						bounceEffect.bouncing = false;
+					}
+
+					// Ground player
 					isGrounded = true;
-					LastOnGroundTime = Data.coyoteTime; // If so sets the lastGrounded to coyoteTime
+
+					// Set coyote time
+					LastOnGroundTime = Data.coyoteTime;
+
+					if (landedTimer > 0)
+					{
+						landedTimer -= Time.deltaTime;
+						justLanded = true;
+						animator.SetBool("JustLanded", true);
+					} else
+                    {
+						justLanded = false;
+						animator.SetBool("JustLanded", false);
+                    }
 				}
 			}
 			#endregion
@@ -191,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
 			else
 			{
 				// Higher gravity if falling
-				SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+				SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
 
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
@@ -313,6 +335,7 @@ public class PlayerMovement : MonoBehaviour
 		// Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
+		landedTimer = 0.3f;
 
 		#region Perform Jump
 		// We increase the force applied if we are falling
