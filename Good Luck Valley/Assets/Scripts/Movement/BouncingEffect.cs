@@ -9,12 +9,20 @@ public class BouncingEffect : MonoBehaviour
     public Rigidbody2D RB;
     public Animator animator;
     public PlayerMovement playerMovement;
+    public PlayerData playerData;
 
     [Header("Bounce Variables")]
     [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
-    public bool bouncing = false;
+    public bool bouncing;
     public bool canBounce;
 
+    [SerializeField] float timeToApex = 0.3f;
+    [SerializeField] float apexTimer = 0.3f;
+
+    float gravityScale;
+    float force;
+    float speed;
+    Vector2 direction;
     Vector2 lastVelocity;
     #endregion
 
@@ -24,6 +32,7 @@ public class BouncingEffect : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
+
     }
 
     void Update()
@@ -31,11 +40,28 @@ public class BouncingEffect : MonoBehaviour
         // Get last velocity
         lastVelocity = RB.velocity;
 
-        // Check if play is still bouncing
-        if (!playerMovement._isJumpFalling)
-        {
-            bouncing = false;
-        }
+        //if(bouncing)
+        //{
+        //    apexTimer -= Time.deltaTime;
+
+        //    if(apexTimer > 0)
+        //    {
+        //        force = gravityScale * timeToApex;
+        //        if (RB.velocity.y < 0)
+        //        {
+        //            force -= RB.velocity.y;
+        //        }
+
+        //        RB.AddForce(direction * force, ForceMode2D.Impulse);
+        //    } else
+        //    {
+        //        bouncing = false;
+        //        apexTimer = 0.3f;
+        //    }
+        //} else
+        //{
+        //    direction = Vector2.zero;
+        //}
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -47,11 +73,12 @@ public class BouncingEffect : MonoBehaviour
             bouncing = true;
 
             // Get the calculated speed based on last Velocity
-            float speed = lastVelocity.magnitude;
+            speed = lastVelocity.magnitude;
 
             // Set the direction
-            Vector2 direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
-            RB.velocity = (direction * Mathf.Max(speed, minSpeed));
+            direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
+            
+            RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
         }
     }
 }

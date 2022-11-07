@@ -339,49 +339,55 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        // If we want the same button for fire and aim - aim on press, fire on release
-        if (context.started)
+        if(!playerMove.isLocked)
         {
-            switch (throwState)
+            // If we want the same button for fire and aim - aim on press, fire on release
+            if (context.started)
             {
-                case ThrowState.NotThrowing:
-                    throwState = ThrowState.Throwing;
-                    break;
-            }
-        }
-
-        if (context.canceled)
-        {
-            // Check if the shroom can be thrown
-            if (canThrow)
-            {
-                // Throw the shroom
                 switch (throwState)
                 {
-                    case ThrowState.Throwing:
-                        ShroomInWallCheck();
-                        CheckShroomCount();
-                        throwState = ThrowState.NotThrowing;
+                    case ThrowState.NotThrowing:
+                        throwState = ThrowState.Throwing;
                         break;
                 }
+            }
 
-                // Reset throw variables
-                canThrow = false;
-                throwCooldown = 0.2f;
-                bounceCooldown = 0.2f;
+            if (context.canceled)
+            {
+                // Check if the shroom can be thrown
+                if (canThrow)
+                {
+                    // Throw the shroom
+                    switch (throwState)
+                    {
+                        case ThrowState.Throwing:
+                            ShroomInWallCheck();
+                            CheckShroomCount();
+                            throwState = ThrowState.NotThrowing;
+                            break;
+                    }
+
+                    // Reset throw variables
+                    canThrow = false;
+                    throwCooldown = 0.2f;
+                    bounceCooldown = 0.2f;
+                }
             }
         }
     }
 
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (!playerMove.isLocked)
         {
-            foreach (GameObject m in mushroomList)
+            if (context.started)
             {
-                Destroy(m);
+                foreach (GameObject m in mushroomList)
+                {
+                    Destroy(m);
+                }
+                mushroomList.Clear();
             }
-            mushroomList.Clear();
         }
     }
     #endregion
