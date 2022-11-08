@@ -28,13 +28,13 @@ public class UIManager : MonoBehaviour
         if (!paused)
         {
             paused = true;
-            playerMovement.isLocked = true;
             pauseUI.enabled = true;
+            Time.timeScale = 0;
         } else
         {
             paused = false;
-            playerMovement.isLocked = false;
             pauseUI.enabled = false;
+            Time.timeScale = 1;
         }
     }
 }
