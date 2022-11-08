@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
 
 	private Vector2 _moveInput;
 	public float LastPressedJumpTime { get; private set; }
+
+	[SerializeField] float landedTimer = 0f;
+	[SerializeField] bool justLanded = false;
     #endregion
 
     #region VARIABLES
@@ -29,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
 	public Animator animator;
 	public BouncingEffect bounceEffect;
+	private UIManager uiManager;
 
 	// Set all of these up in the inspector
 	[Header("Checks")]
@@ -55,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
+		uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 	}
 
 	private void Start()
@@ -66,129 +71,133 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
-        if (!isLocked)
-        {
-			RB.constraints = RigidbodyConstraints2D.None;
-			RB.constraints = RigidbodyConstraints2D.FreezeRotation;
-			playerPosition = transform.position;
-			distanceFromLastPosition = playerPosition - previousPlayerPosition;
+		RB.constraints = RigidbodyConstraints2D.None;
+		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
+		playerPosition = transform.position;
+		distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
-			_isMoving = false;
-			if (RB.velocity != Vector2.zero)
+		_isMoving = false;
+		if (RB.velocity != Vector2.zero)
+		{
+			_isMoving = true;
+		}
+
+		#region TIMERS
+		LastOnGroundTime -= Time.deltaTime;
+
+		LastPressedJumpTime -= Time.deltaTime;
+		#endregion
+
+		#region COLLISION CHECKS
+		if (!IsJumping)
+		{
+			// Ground Check
+			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
 			{
-				_isMoving = true;
-			}
-
-			#region TIMERS
-			LastOnGroundTime -= Time.deltaTime;
-
-			LastPressedJumpTime -= Time.deltaTime;
-			#endregion
-
-			#region COLLISION CHECKS
-			if (!IsJumping)
-			{
-				// Ground Check
-				if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
+				// If bouncing beore, end bouncing
+				if (bounceEffect.bouncing)
 				{
 					bounceEffect.bouncing = false;
-					isGrounded = true;
-					LastOnGroundTime = Data.coyoteTime; // If so sets the lastGrounded to coyoteTime
 				}
-			}
-			#endregion
 
-			#region JUMP CHECKS
-			if (IsJumping && RB.velocity.y < 0)
-			{
-				IsJumping = false;
+				// Ground player
+				isGrounded = true;
 
-				_isJumpFalling = true;
-			}
+				// Set coyote time
+				LastOnGroundTime = Data.coyoteTime;
 
-			if (LastOnGroundTime > 0 && !IsJumping)
-			{
-				_isJumpCut = false;
-
-				if (!IsJumping)
-					_isJumpFalling = false;
-			}
-
-			if (RB.velocity.y < 0)
-			{
-				_isJumpFalling = true;
-			}
-
-			#region JUMP ANIMATION CHECKS
-			if (IsJumping)
-			{
-				isGrounded = false;
-				animator.SetBool("Jump", true);
-			}
-			else if (!IsJumping)
-			{
-				animator.SetBool("Jump", false);
-			}
-
-			if (_isJumpFalling)
-			{
-				isGrounded = false;
-				animator.SetBool("Falling", true);
-			}
-			else if (!_isJumpFalling)
-			{
-				animator.SetBool("Falling", false);
-			}
-			#endregion
-
-			// Jump
-			if (CanJump() && LastPressedJumpTime > 0)
-			{
-				IsJumping = true;
-				_isJumpCut = false;
-				_isJumpFalling = false;
-				Jump();
-			}
-			#endregion
-
-			#region GRAVITY
-
-			if (!bounceEffect.bouncing)
-			{
-				// Higher gravity if we've released the jump input or are falling
-				if (RB.velocity.y < 0 && _moveInput.y < 0)
+				if (landedTimer > 0)
 				{
-					// Much higher gravity if holding down
-					SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-
-					// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-					RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
-				}
-				else if (_isJumpCut)
-				{
-					// Higher gravity if jump button released
-					SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
-					RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
-				}
-				else if ((IsJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
-				{
-					SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
-				}
-				else if (RB.velocity.y < 0)
-				{
-					// Higher gravity if falling
-					SetGravityScale(Data.gravityScale * Data.fallGravityMult);
-
-					// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-					RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+					landedTimer -= Time.deltaTime;
+					justLanded = true;
+					animator.SetBool("JustLanded", true);
 				}
 				else
 				{
-					// Default gravity if standing on a platform or moving upwards
-					SetGravityScale(Data.gravityScale);
+					justLanded = false;
+					animator.SetBool("JustLanded", false);
 				}
 			}
-			else
+		}
+		#endregion
+
+		#region JUMP CHECKS
+		if (IsJumping && RB.velocity.y < 0)
+		{
+			IsJumping = false;
+
+			_isJumpFalling = true;
+		}
+
+		if (LastOnGroundTime > 0 && !IsJumping)
+		{
+			_isJumpCut = false;
+
+			if (!IsJumping)
+				_isJumpFalling = false;
+		}
+
+		if (RB.velocity.y < 0)
+		{
+			_isJumpFalling = true;
+		}
+
+		#region JUMP ANIMATION CHECKS
+		if (IsJumping)
+		{
+			isGrounded = false;
+			animator.SetBool("Jump", true);
+		}
+		else if (!IsJumping)
+		{
+			animator.SetBool("Jump", false);
+		}
+
+		if (_isJumpFalling)
+		{
+			isGrounded = false;
+			animator.SetBool("Falling", true);
+		}
+		else if (!_isJumpFalling)
+		{
+			animator.SetBool("Falling", false);
+		}
+		#endregion
+
+		// Jump
+		if (CanJump() && LastPressedJumpTime > 0)
+		{
+			IsJumping = true;
+			_isJumpCut = false;
+			_isJumpFalling = false;
+			Jump();
+		}
+		#endregion
+
+		#region GRAVITY
+
+		if (!bounceEffect.bouncing)
+		{
+			// Higher gravity if we've released the jump input or are falling
+			if (RB.velocity.y < 0 && _moveInput.y < 0)
+			{
+				// Much higher gravity if holding down
+				SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
+
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
+			}
+			else if (_isJumpCut)
+			{
+				// Higher gravity if jump button released
+				SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+			}
+			else if ((IsJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
+			{
+				SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
+			}
+			else if (RB.velocity.y < 0)
 			{
 				// Higher gravity if falling
 				SetGravityScale(Data.gravityScale * Data.fallGravityMult);
@@ -196,22 +205,40 @@ public class PlayerMovement : MonoBehaviour
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
 			}
-			#endregion
+			else
+			{
+				// Default gravity if standing on a platform or moving upwards
+				SetGravityScale(Data.gravityScale);
+			}
+		}
+		else
+		{
+			if (RB.velocity.y > 0)
+			{
+				// Higher gravity if falling
+				SetGravityScale(Data.gravityScale * Data.bounceGravityMult);
 
-			previousPlayerPosition = playerPosition;
-		} else
-        {
-			RB.constraints = RigidbodyConstraints2D.FreezePosition;
-        }
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+			}
+			else if (RB.velocity.y < 0)
+			{
+				// Higher gravity if falling
+				SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
+
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+			}
+		}
+		#endregion
+
+		previousPlayerPosition = playerPosition;
 	}
 
     private void FixedUpdate()
 	{
-		if(!isLocked)
-        {
-			// Handle Run
-			Run(1);
-		}
+		// Handle Run
+		Run(1);
 	}
 
 	#region INPUT CALLBACKS
@@ -313,6 +340,7 @@ public class PlayerMovement : MonoBehaviour
 		// Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
+		landedTimer = 0.3f;
 
 		#region Perform Jump
 		// We increase the force applied if we are falling
@@ -350,7 +378,7 @@ public class PlayerMovement : MonoBehaviour
 	#region INPUT HANDLER
 	public void OnMove(InputAction.CallbackContext context)
     {
-        if (!isLocked)
+        if (!uiManager.paused)
         {
 			// Set the move input to the value returned by context
 			_moveInput = context.ReadValue<Vector2>();
@@ -375,7 +403,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public void OnJump(InputAction.CallbackContext context)
 	{
-        if (!isLocked)
+        if (!uiManager.paused)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)

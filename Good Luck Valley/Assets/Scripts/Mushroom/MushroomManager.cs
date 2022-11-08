@@ -16,15 +16,22 @@ public class MushroomManager : MonoBehaviour
     public GameObject player;
     [SerializeField] Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
+    private Animator playerAnim;
+    private UIManager uiManager;
 
     [Header("Camera")]
     [SerializeField] Camera cam;
     float camHeight;
     float camWidth;
 
+    // Throw Timers
     private bool canThrow;
     private float throwCooldown = 0.2f;
     private float bounceCooldown = 0.2f;
+
+    // Animation
+    [SerializeField] bool throwing = false;
+    [SerializeField] float throwAnimTimer = 2f;
 
     [Header("Platform Interaction")]
     [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
@@ -67,6 +74,8 @@ public class MushroomManager : MonoBehaviour
         mushroomList = new List<GameObject>();
         environmentManager = FindObjectOfType<EnvironmentManager>();
         cursor = FindObjectOfType<GameCursor>();
+        playerAnim = player.GetComponent<Animator>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -80,6 +89,17 @@ public class MushroomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Animation updates
+        if(throwing)
+        {
+            throwAnimTimer -= Time.deltaTime;
+            if(throwAnimTimer <= 0)
+            {
+                throwing = false;
+                playerAnim.SetBool("Throwing", false);
+            }
+        }
+
         // Updates mushroom count               
         mushroomCount = mushroomList.Count;
 
@@ -339,7 +359,7 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!playerMove.isLocked)
+        if(!uiManager.paused)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
@@ -357,6 +377,10 @@ public class MushroomManager : MonoBehaviour
                 // Check if the shroom can be thrown
                 if (canThrow)
                 {
+                    throwing = true;
+                    throwAnimTimer = 0.01f;
+                    playerAnim.SetBool("Throwing", true);
+
                     // Throw the shroom
                     switch (throwState)
                     {
@@ -378,7 +402,7 @@ public class MushroomManager : MonoBehaviour
 
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
-        if (!playerMove.isLocked)
+        if(!uiManager.paused)
         {
             if (context.started)
             {
