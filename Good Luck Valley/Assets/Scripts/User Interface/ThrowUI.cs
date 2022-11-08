@@ -19,7 +19,7 @@ public class ThrowUI : MonoBehaviour
     void Start()
     {
         // Width of the line
-        width = 0.25f;
+        width = 0.2f;
 
         // Number of segments for the trajectory line
         segments = 300;  
