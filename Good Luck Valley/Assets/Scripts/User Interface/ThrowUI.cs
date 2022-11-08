@@ -58,13 +58,13 @@ public class ThrowUI : MonoBehaviour
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
         
-        lineRenderer.material.mainTextureScale = new Vector2(2f, 1f);
+        lineRenderer.material.mainTextureScale = new Vector2(1f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
 
         // Determines how trajectoy line will be
-        float timeStep = .2f;
+        float timeStep = .05f;
 
         // Total time that has passed since the lineRenderer started rendering
         float tT = 0f; 
