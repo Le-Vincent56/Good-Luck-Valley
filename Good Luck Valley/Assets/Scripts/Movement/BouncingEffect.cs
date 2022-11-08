@@ -16,11 +16,6 @@ public class BouncingEffect : MonoBehaviour
     public bool bouncing;
     public bool canBounce;
 
-    [SerializeField] float timeToApex = 0.3f;
-    [SerializeField] float apexTimer = 0.3f;
-
-    float gravityScale;
-    float force;
     float speed;
     Vector2 direction;
     Vector2 lastVelocity;
@@ -39,29 +34,6 @@ public class BouncingEffect : MonoBehaviour
     {
         // Get last velocity
         lastVelocity = RB.velocity;
-
-        //if(bouncing)
-        //{
-        //    apexTimer -= Time.deltaTime;
-
-        //    if(apexTimer > 0)
-        //    {
-        //        force = gravityScale * timeToApex;
-        //        if (RB.velocity.y < 0)
-        //        {
-        //            force -= RB.velocity.y;
-        //        }
-
-        //        RB.AddForce(direction * force, ForceMode2D.Impulse);
-        //    } else
-        //    {
-        //        bouncing = false;
-        //        apexTimer = 0.3f;
-        //    }
-        //} else
-        //{
-        //    direction = Vector2.zero;
-        //}
     }
 
     void OnCollisionEnter2D(Collision2D collision)

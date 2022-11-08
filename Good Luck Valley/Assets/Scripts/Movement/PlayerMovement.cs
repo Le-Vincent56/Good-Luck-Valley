@@ -212,11 +212,22 @@ public class PlayerMovement : MonoBehaviour
 			}
 			else
 			{
-				// Higher gravity if falling
-				SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
+				if(RB.velocity.y > 0)
+                {
+					// Higher gravity if falling
+					SetGravityScale(Data.gravityScale * Data.bounceGravityMult);
 
-				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+					// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+					RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+				} 
+				else if(RB.velocity.y < 0)
+                {
+					// Higher gravity if falling
+					SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
+
+					// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+					RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+				}
 			}
 			#endregion
 

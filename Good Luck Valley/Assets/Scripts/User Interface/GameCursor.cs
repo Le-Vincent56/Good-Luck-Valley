@@ -124,12 +124,14 @@ public class GameCursor : MonoBehaviour
         // Subtract the absolute value of the dampening height
         // from the absolute value of the main camera height
         widthDampen = Mathf.Abs(cmWidth) - Mathf.Abs(leftWidth);
-        
-        if(Mathf.Abs(widthOffset) > Mathf.Abs(widthDampen))
+
+
+        if (Mathf.Abs(widthOffset) > Mathf.Abs(widthDampen))
         {
             leftBound = player.transform.position.x - camWidth - widthOffset + (2 * widthDampen);
             rightBound = player.transform.position.x + camWidth - widthOffset + (2 * widthDampen);
-        } else
+        }
+        else
         {
             // Otherwise, just add widthDampen
             leftBound = player.transform.position.x - camWidth + widthDampen;
@@ -163,8 +165,8 @@ public class GameCursor : MonoBehaviour
         if(Mathf.Abs(heightOffset) > Mathf.Abs(heightDampen))
         {
             // Add the heightOffset and the heightDampen to the bounds
-            lowerBound = player.transform.position.y - camHeight - heightOffset + heightDampen;
-            upperBound = player.transform.position.y + camHeight - heightOffset + heightDampen;
+            lowerBound = player.transform.position.y - camHeight - heightOffset + (2 * heightDampen);
+            upperBound = player.transform.position.y + camHeight - heightOffset + (2 * heightDampen);
         } else
         {
             // Otherwise, just add heightDampen
