@@ -56,40 +56,34 @@ public class GameCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!player.GetComponent<PlayerMovement>().isLocked)
+        Cursor.visible = false;
+
+        // Check if using mouse or gamepad input
+        if (usingMouse)
         {
-            Cursor.visible = false;
-
-            // Check if using mouse or gamepad input
-            if (usingMouse)
-            {
-                // If using mouse, track mouse
-                cursorDirection = Vector3.zero;
-                cursorVelocity = Vector3.zero;
-                cursorPosition = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y));
-            }
-            else
-            {
-                // Update cursor positiond with player
-                if (player.GetComponent<PlayerMovement>()._isMoving)
-                {
-                    cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
-                }
-
-                // Move cursor with gamepad
-                cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
-                cursorPosition += cursorVelocity;
-            }
-
-            // Check bounds
-            CheckCursorBounds();
-
-            // Draw cursor
-            transform.position = cursorPosition;
-        } else
-        {
-            Cursor.visible = true;
+            // If using mouse, track mouse
+            cursorDirection = Vector3.zero;
+            cursorVelocity = Vector3.zero;
+            cursorPosition = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y));
         }
+        else
+        {
+            // Update cursor positiond with player
+            if (player.GetComponent<PlayerMovement>()._isMoving)
+            {
+                cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
+            }
+
+            // Move cursor with gamepad
+            cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
+            cursorPosition += cursorVelocity;
+        }
+
+        // Check bounds
+        CheckCursorBounds();
+
+        // Draw cursor
+        transform.position = cursorPosition;
     }
 
     /// <summary>
@@ -125,17 +119,16 @@ public class GameCursor : MonoBehaviour
         // from the absolute value of the main camera height
         widthDampen = Mathf.Abs(cmWidth) - Mathf.Abs(leftWidth);
 
-
-        if (Mathf.Abs(widthOffset) > Mathf.Abs(widthDampen))
+        if(Mathf.Abs(widthOffset) - Mathf.Abs(widthDampen) < 0.01)
         {
-            leftBound = player.transform.position.x - camWidth - widthOffset + (2 * widthDampen);
-            rightBound = player.transform.position.x + camWidth - widthOffset + (2 * widthDampen);
-        }
-        else
-        {
-            // Otherwise, just add widthDampen
+            // If there is a minimal difference in offset and dampen, just add dampen
             leftBound = player.transform.position.x - camWidth + widthDampen;
             rightBound = player.transform.position.x + camWidth + widthDampen;
+        } else
+        {
+            // Otherwise, add offset and dampen
+            leftBound = player.transform.position.x - camWidth - widthOffset + (2 * widthDampen);
+            rightBound = player.transform.position.x + camWidth - widthOffset + (2 * widthDampen);
         }
         #endregion
 
@@ -161,17 +154,17 @@ public class GameCursor : MonoBehaviour
         // from the absolute value of the main camera height
         heightDampen = Mathf.Abs(cmHeight) - Mathf.Abs(bottomHeight);
 
-        // If the heightOffset is greater than the heightDampen
-        if(Mathf.Abs(heightOffset) > Mathf.Abs(heightDampen))
+        if (Mathf.Abs(heightOffset) - Mathf.Abs(heightDampen) < 0.01)
         {
-            // Add the heightOffset and the heightDampen to the bounds
-            lowerBound = player.transform.position.y - camHeight - heightOffset + (2 * heightDampen);
-            upperBound = player.transform.position.y + camHeight - heightOffset + (2 * heightDampen);
-        } else
-        {
-            // Otherwise, just add heightDampen
+            // If there is a minimal difference in offset and dampen, just add dampen
             lowerBound = player.transform.position.y - camHeight + heightDampen;
             upperBound = player.transform.position.y + camHeight + heightDampen;
+        }
+        else
+        {
+            // Otherwise, add offset and dampen
+            lowerBound = player.transform.position.y - camHeight - heightOffset + (2 * widthDampen);
+            upperBound = player.transform.position.y + camHeight - heightOffset + (2 * widthDampen);
         }
         #endregion
 
