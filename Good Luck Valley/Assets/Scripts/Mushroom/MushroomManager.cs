@@ -17,7 +17,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;        // PlayerMovement checks which direction player is facing
     private Animator playerAnim;
-    private UIManager uiManager;
+    private PauseMenu pauseMenu;
 
     [Header("Camera")]
     [SerializeField] Camera cam;
@@ -75,7 +75,7 @@ public class MushroomManager : MonoBehaviour
         environmentManager = FindObjectOfType<EnvironmentManager>();
         cursor = FindObjectOfType<GameCursor>();
         playerAnim = player.GetComponent<Animator>();
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -359,7 +359,7 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!uiManager.paused)
+        if(!pauseMenu.paused)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
@@ -402,7 +402,7 @@ public class MushroomManager : MonoBehaviour
 
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
-        if(!uiManager.paused)
+        if(!pauseMenu.paused)
         {
             if (context.started)
             {

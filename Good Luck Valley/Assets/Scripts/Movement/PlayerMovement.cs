@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
 	public Animator animator;
 	public BouncingEffect bounceEffect;
-	private UIManager uiManager;
+	private PauseMenu pauseMenu;
 
 	// Set all of these up in the inspector
 	[Header("Checks")]
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
-		uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 	}
 
 	private void Start()
@@ -377,7 +377,7 @@ public class PlayerMovement : MonoBehaviour
 	#region INPUT HANDLER
 	public void OnMove(InputAction.CallbackContext context)
     {
-        if (!uiManager.paused)
+        if (!pauseMenu.paused)
         {
 			// Set the move input to the value returned by context
 			_moveInput = context.ReadValue<Vector2>();
@@ -402,7 +402,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public void OnJump(InputAction.CallbackContext context)
 	{
-        if (!uiManager.paused)
+        if (!pauseMenu.paused)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)

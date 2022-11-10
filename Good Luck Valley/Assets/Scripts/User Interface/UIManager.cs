@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;  
 
 public class UIManager : MonoBehaviour
 {
@@ -17,13 +17,8 @@ public class UIManager : MonoBehaviour
         pauseUI.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void OnPause(InputAction.CallbackContext context)
+    // do this when paused is pressed
+    public void Pause(InputAction.CallbackContext context)
     {
         if (!paused)
         {
@@ -37,4 +32,5 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 1;
         }
     }
+
 }
