@@ -103,6 +103,7 @@ public class GameCursor : MonoBehaviour
             - (cmCam.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize * cmCam.GetComponent<CinemachineVirtualCamera>().m_Lens.Aspect))
             - cmCam.transform.position.x;
 
+
         // Calculate Cinemachine's Left Bound
         float cmLeftBound = cmCam.transform.position.x + Mathf.Abs(cmWidth);
 
