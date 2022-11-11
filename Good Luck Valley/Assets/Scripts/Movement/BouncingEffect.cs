@@ -9,11 +9,15 @@ public class BouncingEffect : MonoBehaviour
     public Rigidbody2D RB;
     public Animator animator;
     public PlayerMovement playerMovement;
+    public PlayerData playerData;
 
     [Header("Bounce Variables")]
-    [SerializeField] float minSpeed = 100f;
-    public bool bouncing = false;
+    [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
+    public bool bouncing;
+    public bool canBounce;
 
+    float speed;
+    Vector2 direction;
     Vector2 lastVelocity;
     #endregion
 
@@ -23,34 +27,30 @@ public class BouncingEffect : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
+
     }
 
     void Update()
     {
         // Get last velocity
         lastVelocity = RB.velocity;
-
-        // Check if play is still bouncing
-        if (!playerMovement._isJumpFalling)
-        {
-            bouncing = false;
-        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if colliding with a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom"))
+        if (collision.gameObject.tag.Equals("Mushroom") && canBounce)
         {
             // Set bouncing to true
             bouncing = true;
 
             // Get the calculated speed based on last Velocity
-            float speed = lastVelocity.magnitude;
+            speed = lastVelocity.magnitude;
 
             // Set the direction
-            Vector2 direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
-            RB.velocity = (direction * Mathf.Max(speed, minSpeed));
+            direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
+            
+            RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
         }
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ThrowUI : MonoBehaviour
 {
+    [SerializeField] MushroomManager mushMan;
+
     [Header("UI Details")]
     public int segments;
     public float width;
@@ -17,10 +19,10 @@ public class ThrowUI : MonoBehaviour
     void Start()
     {
         // Width of the line
-        width = 1f;
+        width = 0.5f;
 
         // Number of segments for the trajectory line
-        segments = 30;  
+        segments = 300;  
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -51,13 +53,12 @@ public class ThrowUI : MonoBehaviour
     ///                              lineRenderer can simulate a throw when plotting</param>
     /// <param name="offset"> The offset used when spawning mushrooms</param>
     /// <param name="facingRight"> Whether the player is facing left or right</param>
-    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, int offset, bool facingRight)
+    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, float offset, bool facingRight)
     {
-
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
         
-        lineRenderer.material.mainTextureScale = new Vector2(2f, 1.0f);
+        lineRenderer.material.mainTextureScale = new Vector2(2f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
@@ -80,34 +81,34 @@ public class ThrowUI : MonoBehaviour
                 //    side of the player 
                 if (playerPos.x + launchForce.x < playerPos.x)
                 {
-                    // Sets launchForce to zero to 'stop' the renderer
-                    launchForce = Vector2.zero;
+                    // Turns the player by calling playerMovement's Turn method
+                    mushMan.player.GetComponent<PlayerMovement>().Turn();
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x + offset, playerPos.y);
+                playerPos.x += offset;
                 break;
 
             case false:
-                // If the player is facing left the trajectory line cannot go past
+                // if the player is facing left the trajectory line cannot go past
                 //      the right side of the player
                 if (playerPos.x - launchForce.x < playerPos.x)
                 {
-                    // Sets launchForce to zero to 'stop' the renderer
-                    launchForce = Vector2.zero;
+                    // sets launchforce to zero to 'stop' the renderer
+                    mushMan.player.GetComponent<PlayerMovement>().Turn();
                 }
-                // Sets starting position for line to match the location the shrooms are
+                // sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos = new Vector2(playerPos.x - offset, playerPos.y);
+                playerPos.x -= offset;
                 break;
         }
 
         // Sets the position for the first segment using player position
-        Vector3 start = new Vector3(playerPos.x, playerPos.y);
+        Vector3 start = new Vector3(playerPos.x, playerPos.y, 0);
         lineRenderer.SetPosition(0, start);
 
         // Runs a loop for rendering each segment in the trajectory
-        for (int i = 0; i < segments; i++)
+        for (int i = 1; i < segments; i++)
         {
             // Total time passed
             tT += timeStep;  
@@ -121,7 +122,7 @@ public class ThrowUI : MonoBehaviour
             y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
 
             // Sets the position for this segment using the x and y generated above
-            Vector2 pos = new Vector3(x, y);
+            Vector2 pos = new Vector3(x, y, 0);
             lineRenderer.SetPosition(i, pos);
             lineRendererStartingPoints[i] = pos;
         }
@@ -137,18 +138,20 @@ public class ThrowUI : MonoBehaviour
         Vector3[] newPoints = null;
 
         // Loops for each point in the previous frame's array of points
-        for (int i = 0; i < lineRendererStartingPoints.Length; i++)
+        for (int i = 1; i < lineRendererStartingPoints.Length; i++)
         {
             // Create a mask to sort for only 'ground' tiles (collidable)
             LayerMask mask = LayerMask.GetMask("Ground");
 
             // Sets hit info to the return value of the linecast method,
             //   using the current point on the line and the next point as the locations to check between
-            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i], mask);
+            hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
 
             // If hit info isnt null, we create the new points
             if (hitInfo)
             {
+                //Debug.Log(hitInfo.point);
+                //Debug.Log(playerPos);
                 // Initializes new points array to be the current iteratin number + 2
                 newPoints = new Vector3[i + 2];
 
@@ -160,7 +163,7 @@ public class ThrowUI : MonoBehaviour
                 }
 
                 // Sets the last position in the new array to be the location the hit occured
-                newPoints[i + 1] = hitInfo.point;
+                newPoints[i] = hitInfo.point;
 
                 // Collided is true
                 collided = true;
@@ -180,7 +183,7 @@ public class ThrowUI : MonoBehaviour
         else
         {
             // Otherwise, segments is set back to its original value of 30
-            segments = 30;
+            segments = 300;
         }
     }
 

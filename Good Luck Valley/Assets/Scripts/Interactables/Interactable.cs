@@ -28,6 +28,8 @@ public abstract class Interactable : MonoBehaviour
             // Interact and set variables
             Interact();
             interacting = true;
+
+            // If the inteaction has finished, reset the variables
             if (finishedInteracting)
             {
                 controlTriggered = false;
@@ -39,5 +41,8 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Interaction with the object
+    /// </summary>
     public abstract void Interact();
 }

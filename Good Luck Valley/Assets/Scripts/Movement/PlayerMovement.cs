@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
 
 	private Vector2 _moveInput;
 	public float LastPressedJumpTime { get; private set; }
+
+	[SerializeField] float landedTimer = 0f;
+	[SerializeField] bool justLanded = false;
     #endregion
 
     #region VARIABLES
@@ -29,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
 	public Animator animator;
 	public BouncingEffect bounceEffect;
+	private PauseMenu pauseMenu;
 
 	// Set all of these up in the inspector
 	[Header("Checks")]
@@ -36,10 +40,6 @@ public class PlayerMovement : MonoBehaviour
 
 	// Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
 	public Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
-	[Space(5)]
-	[SerializeField] private Transform _frontWallCheckPoint;
-	[SerializeField] private Transform _backWallCheckPoint;
-	[SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
 
 	[Header("Layers & Tags")]
 	[SerializeField] private LayerMask _groundLayer;
@@ -49,11 +49,17 @@ public class PlayerMovement : MonoBehaviour
 	public Vector2 previousPlayerPosition;
 	public Vector2 distanceFromLastPosition;
 
+	public bool isGrounded;
+	public bool inputHorizontal;
+
+	public bool isLocked = false;
+
 	private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
+		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 	}
 
 	private void Start()
@@ -69,18 +75,13 @@ public class PlayerMovement : MonoBehaviour
 		distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
 		_isMoving = false;
-		if(RB.velocity != Vector2.zero)
-        {
+		if (RB.velocity != Vector2.zero)
+		{
 			_isMoving = true;
-        }
-
-		
+		}
 
 		#region TIMERS
 		LastOnGroundTime -= Time.deltaTime;
-		//LastOnWallTime -= Time.deltaTime;
-		//LastOnWallRightTime -= Time.deltaTime;
-		//LastOnWallLeftTime -= Time.deltaTime;
 
 		LastPressedJumpTime -= Time.deltaTime;
 		#endregion
@@ -91,24 +92,30 @@ public class PlayerMovement : MonoBehaviour
 			// Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
 			{
-				LastOnGroundTime = Data.coyoteTime; // If so sets the lastGrounded to coyoteTime
+				// If bouncing beore, end bouncing
+				if (bounceEffect.bouncing)
+				{
+					bounceEffect.bouncing = false;
+				}
+
+				// Ground player
+				isGrounded = true;
+
+				// Set coyote time
+				LastOnGroundTime = Data.coyoteTime;
+
+				if (landedTimer > 0)
+				{
+					landedTimer -= Time.deltaTime;
+					justLanded = true;
+					animator.SetBool("JustLanded", true);
+				}
+				else
+				{
+					justLanded = false;
+					animator.SetBool("JustLanded", false);
+				}
 			}
-			//// Right Wall Check
-			//if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
-			//		|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)))
-   //         {
-			//	LastOnWallRightTime = Data.coyoteTime;
-			//}
-
-			//// Left Wall Check
-			//if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
-			//	|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)))
-   //         {
-			//	LastOnWallLeftTime = Data.coyoteTime;
-			//}
-
-			//// Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
-			//LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
 		}
 		#endregion
 
@@ -128,14 +135,15 @@ public class PlayerMovement : MonoBehaviour
 				_isJumpFalling = false;
 		}
 
-		if(RB.velocity.y <0)
-        {
+		if (RB.velocity.y < 0)
+		{
 			_isJumpFalling = true;
-        }
+		}
 
 		#region JUMP ANIMATION CHECKS
 		if (IsJumping)
 		{
+			isGrounded = false;
 			animator.SetBool("Jump", true);
 		}
 		else if (!IsJumping)
@@ -145,6 +153,7 @@ public class PlayerMovement : MonoBehaviour
 
 		if (_isJumpFalling)
 		{
+			isGrounded = false;
 			animator.SetBool("Falling", true);
 		}
 		else if (!_isJumpFalling)
@@ -161,12 +170,12 @@ public class PlayerMovement : MonoBehaviour
 			_isJumpFalling = false;
 			Jump();
 		}
-        #endregion
+		#endregion
 
-        #region GRAVITY
-        
-        if (!bounceEffect.bouncing)
-        {
+		#region GRAVITY
+
+		if (!bounceEffect.bouncing)
+		{
 			// Higher gravity if we've released the jump input or are falling
 			if (RB.velocity.y < 0 && _moveInput.y < 0)
 			{
@@ -199,13 +208,26 @@ public class PlayerMovement : MonoBehaviour
 				// Default gravity if standing on a platform or moving upwards
 				SetGravityScale(Data.gravityScale);
 			}
-		} else
-        {
-			// Higher gravity if falling
-			SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+		}
+		else
+		{
+			// If bouncing upwards, using bounceGravity
+			if (RB.velocity.y > 0)
+			{
+				// Higher gravity if falling
+				SetGravityScale(Data.gravityScale * Data.bounceGravityMult);
 
-			// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+			}
+			else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
+			{
+				// Higher gravity if falling
+				SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
+
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+			}
 		}
 		#endregion
 
@@ -214,8 +236,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
 	{
-		Debug.Log("X Velo: " + Mathf.Abs(RB.velocity.x) + "Y Velo: " + Mathf.Abs(RB.velocity.y));
-
 		// Handle Run
 		Run(1);
 	}
@@ -287,7 +307,7 @@ public class PlayerMovement : MonoBehaviour
 			} else
             {
 				// If bouncing, add some air deceleration for consistency
-				accelRate = Data.deccelInAir;
+				accelRate = 5;
 			}
 		}
 		#endregion
@@ -302,7 +322,7 @@ public class PlayerMovement : MonoBehaviour
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 	}
 
-	private void Turn()
+	public void Turn()
 	{
 		// Stores scale and flips the player along the x axis, 
 		Vector3 scale = transform.localScale;
@@ -319,6 +339,7 @@ public class PlayerMovement : MonoBehaviour
 		// Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
+		landedTimer = 0.3f;
 
 		#region Perform Jump
 		// We increase the force applied if we are falling
@@ -356,27 +377,42 @@ public class PlayerMovement : MonoBehaviour
 	#region INPUT HANDLER
 	public void OnMove(InputAction.CallbackContext context)
     {
-		_moveInput = context.ReadValue<Vector2>();
+        if (!pauseMenu.paused)
+        {
+			// Set the move input to the value returned by context
+			_moveInput = context.ReadValue<Vector2>();
 
-		animator.SetFloat("Speed", Mathf.Abs(_moveInput.x));
+			// Set animation and inputHorizontal variables
+			animator.SetFloat("Speed", Mathf.Abs(_moveInput.x));
+			inputHorizontal = true;
 
-		if (_moveInput.x != 0)
-		{
-			CheckDirectionToFace(_moveInput.x > 0);
+			// Check direction to face based on vector
+			if (_moveInput.x != 0)
+			{
+				CheckDirectionToFace(_moveInput.x > 0);
+			}
+
+			// If the bind is no longer pressed, set inputHorizontal to false
+			if (context.canceled)
+			{
+				inputHorizontal = false;
+			}
 		}
-
-
 	}
 
 	public void OnJump(InputAction.CallbackContext context)
 	{
-		if (context.started)
-		{
-			OnJumpInput();
-		}
-		else if (context.canceled)
-		{
-			OnJumpUpInput();
+        if (!pauseMenu.paused)
+        {
+			// Check jump based on whether the bind was pressed or released
+			if (context.started)
+			{
+				OnJumpInput();
+			}
+			else if (context.canceled)
+			{
+				OnJumpUpInput();
+			}
 		}
 	}
 	#endregion
@@ -388,8 +424,6 @@ public class PlayerMovement : MonoBehaviour
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
 		Gizmos.color = Color.blue;
-		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
-		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 	}
 	#endregion
 }
