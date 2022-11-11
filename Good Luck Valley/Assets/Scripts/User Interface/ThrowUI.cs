@@ -24,7 +24,7 @@ public class ThrowUI : MonoBehaviour
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
-
+            
         // Sets the number of segmens in the lineRenderer using segments field
         lineRenderer.positionCount = segments;
 
