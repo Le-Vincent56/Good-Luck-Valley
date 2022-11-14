@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
 	public Animator animator;
 	public BouncingEffect bounceEffect;
-	private UIManager uiManager;
+	private PauseMenu pauseMenu;
 
 	// Set all of these up in the inspector
 	[Header("Checks")]
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
-		uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 	}
 
 	private void Start()
@@ -71,8 +71,6 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
-		RB.constraints = RigidbodyConstraints2D.None;
-		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		playerPosition = transform.position;
 		distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
@@ -213,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		else
 		{
+			// If bouncing upwards, using bounceGravity
 			if (RB.velocity.y > 0)
 			{
 				// Higher gravity if falling
@@ -221,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
 			}
-			else if (RB.velocity.y < 0)
+			else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
 			{
 				// Higher gravity if falling
 				SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
@@ -378,7 +377,7 @@ public class PlayerMovement : MonoBehaviour
 	#region INPUT HANDLER
 	public void OnMove(InputAction.CallbackContext context)
     {
-        if (!uiManager.paused)
+        if (!pauseMenu.paused)
         {
 			// Set the move input to the value returned by context
 			_moveInput = context.ReadValue<Vector2>();
@@ -403,7 +402,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public void OnJump(InputAction.CallbackContext context)
 	{
-        if (!uiManager.paused)
+        if (!pauseMenu.paused)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
