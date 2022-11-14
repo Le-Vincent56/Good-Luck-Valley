@@ -11,7 +11,7 @@ public class ThrowUI : MonoBehaviour
     public int segments;
     public float width;
 
-    LineRenderer lineRenderer = null;
+    public LineRenderer lineRenderer = null;
 
     Vector3[] lineRendererStartingPoints = null;
 
@@ -53,7 +53,7 @@ public class ThrowUI : MonoBehaviour
     ///                              lineRenderer can simulate a throw when plotting</param>
     /// <param name="offset"> The offset used when spawning mushrooms</param>
     /// <param name="facingRight"> Whether the player is facing left or right</param>
-    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, float offset, bool facingRight)
+    public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, bool facingRight)
     {
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
@@ -86,7 +86,6 @@ public class ThrowUI : MonoBehaviour
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
-                playerPos.x += offset;
                 break;
 
             case false:
@@ -98,8 +97,7 @@ public class ThrowUI : MonoBehaviour
                     mushMan.player.GetComponent<PlayerMovement>().Turn();
                 }
                 // sets starting position for line to match the location the shrooms are
-                //      spawned from with the offset
-                playerPos.x -= offset;
+                //      spawned from with the offseta
                 break;
         }
 
