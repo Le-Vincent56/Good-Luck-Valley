@@ -46,6 +46,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] GameObject organicShroom;
     private List<GameObject> mushroomList;    // List of currently spawned shrooms
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
+    UIManager uiManager;
     bool disableCollider;
 
     [SerializeField] private float offset;      // Offset for spawning shrooms outside of player hitbox
@@ -192,7 +193,7 @@ public class MushroomManager : MonoBehaviour
                 m.GetComponent<CircleCollider2D>().enabled = true;
             }
 
-            // checks if the mushroom is touching the platform and hasn't rotated
+            // checks if the mushroom is touching the pladdddddddddd atform and hasn't rotated
             if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
                 !m.GetComponent<MushroomInfo>().hasRotated)
             {
@@ -295,7 +296,7 @@ public class MushroomManager : MonoBehaviour
         {
             currentOffset = -offset;
         }
-        RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y - currentOffset), mask);
+        RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
         if (hitInfo)
         {
             Debug.Log("11");
