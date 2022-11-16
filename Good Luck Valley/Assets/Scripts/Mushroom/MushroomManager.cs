@@ -46,6 +46,8 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] GameObject organicShroom;
     private List<GameObject> mushroomList;    // List of currently spawned shrooms
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
+    UIManager uiManager;
+    bool disableCollider;
 
     [SerializeField] private float offset;      // Offset for spawning shrooms outside of player hitbox
     private int mushroomCount;                // How many shrooms are currently spawned in
@@ -59,7 +61,7 @@ public class MushroomManager : MonoBehaviour
 
     [SerializeField] GameObject shroomPoint;
     [SerializeField] GameObject tilemap;
-    private float tempOffset;
+    public float tempOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +77,8 @@ public class MushroomManager : MonoBehaviour
         environmentManager = FindObjectOfType<EnvironmentManager>();
         cursor = FindObjectOfType<GameCursor>();
         playerAnim = player.GetComponent<Animator>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        disableCollider = true;
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 
         // Instantiates layer field
@@ -89,8 +93,9 @@ public class MushroomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // Animation updates
-        if(throwing)
+        if (throwing)
         {
             throwAnimTimer -= Time.deltaTime;
             if(throwAnimTimer <= 0)
@@ -117,27 +122,16 @@ public class MushroomManager : MonoBehaviour
 
 
             case ThrowState.Throwing:
-                if (playerMove.IsFacingRight)
-                {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, 
-                                                                          forceDirection.normalized * throwMultiplier,
-                                                                          tempOffset, 
-                                                                          playerMove.IsFacingRight);
-                }
-                else
-                {
-                    throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position, 
-                                                                          forceDirection.normalized * throwMultiplier,
-                                                                          tempOffset, 
-                                                                          playerMove.IsFacingRight);
-                }
+                throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position,
+                                                                      forceDirection.normalized * throwMultiplier,
+                                                                      playerMove.IsFacingRight);
                 break;                
         }
 
         if (MushroomList.Count > 0)
         {
             StickShrooms();
-            TriggerPlatforms();
+            // TriggerPlatforms(); moved to stick shrooms to save some memory
         }
 
         CheckIfCanThrow();
@@ -149,17 +143,13 @@ public class MushroomManager : MonoBehaviour
     /// </summary>
     /// <param name="type"> Which type of mushroom is being thrown</param>
     void ThrowMushroom()
-    {        
-        if (playerMove.IsFacingRight)
+    {
+        mushroomList.Add(Instantiate(organicShroom, playerRB.position, Quaternion.identity));
+        if (disableCollider)
         {
-            mushroomList.Add(Instantiate(organicShroom, new Vector2(playerRB.position.x + tempOffset, playerRB.position.y), Quaternion.identity));
-            mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
+            mushroomList[mushroomCount].GetComponent<CircleCollider2D>().enabled = false;
         }
-        else
-        {   
-            mushroomList.Add(Instantiate(organicShroom,new Vector2(playerRB.position.x - tempOffset, playerRB.position.y), Quaternion.identity));
-            mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
-        }
+        mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
     }
 
     /// <summary>
@@ -196,23 +186,22 @@ public class MushroomManager : MonoBehaviour
         // loops for each object in the mushroomlist
         foreach (GameObject m in mushroomList)
         {
+            MushroomInfo mInfo = m.GetComponent<MushroomInfo>();
+            mInfo.sT += mInfo.timeStep;
+            if (mInfo.sT >= 0.3f)
+            {
+                m.GetComponent<CircleCollider2D>().enabled = true;
+            }
 
-            // checks if the mushroom is touching the platform and hasn't rotated
+            // checks if the mushroom is touching the pladdddddddddd atform and hasn't rotated
             if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
                 !m.GetComponent<MushroomInfo>().hasRotated)
             {
                 // If so, calls rotate shroom method to rotate and freeze the shroom properly
                 RotateAndFreezeShroom(m);
             }
-        }
-    }
 
-    private void TriggerPlatforms()
-    {
-        // loops for each object in the mushroomlist
-        foreach (GameObject m in mushroomList)
-        {
-            foreach(GameObject p in environmentManager.weightedPlatforms)
+            foreach (GameObject p in environmentManager.weightedPlatforms)
             {
                 // checks if the mushroom is touching the platform and hasn't rotated
                 if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
@@ -227,7 +216,6 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Rotates and freezes a shroom to match the orientation of the platform it is colliding with
     /// </summary>
@@ -238,9 +226,6 @@ public class MushroomManager : MonoBehaviour
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
         ContactPoint2D[] contacts = new ContactPoint2D[1];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
-        //Debug.Log(contacts[0].point);
-
-        AdjustShroomAndPlayerPos(mushroom);
 
         // The direction vector that the mushroom needs to point towards,
         //      contacts[0].point is the point the shroom is touching the platform at
@@ -299,21 +284,6 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
-    private void AdjustShroomAndPlayerPos(GameObject mushroom)
-    {
-        //float shroomShift;
-        //if (playerMove.IsFacingRight)
-        //{
-        //    shroomShift = -shiftAmount;
-        //}
-        //else
-        //{
-        //    shroomShift = shiftAmount;
-        //}
-        //playerRB.transform.position = new Vector2(playerRB.transform.position.x + shroomShift, playerRB.transform.position.y);
-        //mushroom.transform.position = new Vector2(mushroom.transform.position.x + shroomShift, mushroom.transform.position.y);
-    }
-
     private void ShroomInWallCheck()
     {
         LayerMask mask = LayerMask.GetMask("Ground");
@@ -329,10 +299,13 @@ public class MushroomManager : MonoBehaviour
         RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
         if (hitInfo)
         {
+            Debug.Log("11");
+            disableCollider = false;
             tempOffset = 0;
         }
         else
         {
+            disableCollider = true;
             tempOffset = offset;
         }
     }
