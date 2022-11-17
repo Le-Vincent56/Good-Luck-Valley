@@ -40,9 +40,6 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.useWorldSpace = true;
 
         lineRenderer.sortingLayerName = "UI";
-
-        lineRenderer.startColor = Color.red;
-        lineRenderer.endColor = Color.red;
     }
 
     /// <summary>
