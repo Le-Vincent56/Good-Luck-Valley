@@ -44,6 +44,11 @@ public class BouncingEffect : MonoBehaviour
             // Set bouncing to true
             bouncing = true;
 
+            // Set the MushroomInfo to bouncing
+            collision.gameObject.GetComponent<Animator>().SetBool("Bouncing", true);
+            collision.gameObject.GetComponent<MushroomInfo>().bouncing = true;
+            collision.gameObject.GetComponent<MushroomInfo>().bouncingTimer = 1f;
+
             // Get the calculated speed based on last Velocity
             speed = lastVelocity.magnitude;
 
