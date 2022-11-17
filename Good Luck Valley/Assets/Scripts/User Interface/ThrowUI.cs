@@ -19,7 +19,7 @@ public class ThrowUI : MonoBehaviour
     void Start()
     {
         // Width of the line
-        width = 0.5f;
+        width = 0.2f;
 
         // Number of segments for the trajectory line
         segments = 300;  
@@ -40,6 +40,9 @@ public class ThrowUI : MonoBehaviour
         lineRenderer.useWorldSpace = true;
 
         lineRenderer.sortingLayerName = "UI";
+
+        lineRenderer.startColor = Color.red;
+        lineRenderer.endColor = Color.red;
     }
 
     /// <summary>
@@ -64,7 +67,7 @@ public class ThrowUI : MonoBehaviour
         const float g = 9.8f;
 
         // Determines how trajectoy line will be
-        float timeStep = .2f;
+        float timeStep = .05f;
 
         // Total time that has passed since the lineRenderer started rendering
         float tT = 0f; 
@@ -122,9 +125,8 @@ public class ThrowUI : MonoBehaviour
             y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
 
             // Sets the position for this segment using the x and y generated above
-            Vector2 pos = new Vector3(x, y, 0);
-            lineRenderer.SetPosition(i, pos);
-            lineRendererStartingPoints[i] = pos;
+            lineRenderer.SetPosition(i, new Vector3(x, y, 0));
+            lineRendererStartingPoints[i] = new Vector3(x, y, 0);
         }
 
         // Creates collided bool, sets to false,
