@@ -145,10 +145,6 @@ public class MushroomManager : MonoBehaviour
     void ThrowMushroom()
     {
         mushroomList.Add(Instantiate(organicShroom, playerRB.position, Quaternion.identity));
-        if (disableCollider)
-        {
-            mushroomList[mushroomCount].GetComponent<CircleCollider2D>().enabled = false;
-        }
         mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
     }
 
@@ -171,7 +167,6 @@ public class MushroomManager : MonoBehaviour
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
             throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
-            ThrowMushroom();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
         }
@@ -187,11 +182,6 @@ public class MushroomManager : MonoBehaviour
         foreach (GameObject m in mushroomList)
         {
             MushroomInfo mInfo = m.GetComponent<MushroomInfo>();
-            mInfo.sT += mInfo.timeStep;
-            if (mInfo.sT >= 0.3f)
-            {
-                m.GetComponent<CircleCollider2D>().enabled = true;
-            }
 
             // checks if the mushroom is touching the pladdddddddddd atform and hasn't rotated
             if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
