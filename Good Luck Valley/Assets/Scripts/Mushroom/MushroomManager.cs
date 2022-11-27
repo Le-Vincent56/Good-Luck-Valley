@@ -49,12 +49,13 @@ public class MushroomManager : MonoBehaviour
     UIManager uiManager;
     bool disableCollider;
 
-    [SerializeField] private float offset;      // Offset for spawning shrooms outside of player hitbox
+    [SerializeField] private Vector2 offset;      // Offset for spawning shrooms outside of player hitbox
     private int mushroomCount;                // How many shrooms are currently spawned in
     public List<GameObject> MushroomList { get { return mushroomList; } }
 
     [Header("Throw")]
     [SerializeField] int throwMultiplier;
+    [SerializeField] Vector3 fixPlayer;
 
     public GameObject throwUI_Script;
     private ThrowState throwState;
@@ -87,7 +88,7 @@ public class MushroomManager : MonoBehaviour
         layer.useLayerMask = true;
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
-        tempOffset = offset;
+        tempOffset = offset.x;
     }
 
     // Update is called once per frame
@@ -144,7 +145,12 @@ public class MushroomManager : MonoBehaviour
     /// <param name="type"> Which type of mushroom is being thrown</param>
     void ThrowMushroom()
     {
+        mushroomCount = MushroomList.Count;
         mushroomList.Add(Instantiate(organicShroom, playerRB.position, Quaternion.identity));
+        // Makes it so that the player and shroom cannot collide  when it is thrown, set back to true when the shroom touches a wall.
+        mushroomList[mushroomCount].layer = 7 + MushroomList.IndexOf(mushroomList[mushroomCount]);
+        Physics2D.IgnoreLayerCollision(mushroomList[mushroomCount].layer, 6, true);
+
         mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
     }
 
@@ -169,6 +175,11 @@ public class MushroomManager : MonoBehaviour
             throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
+            foreach (GameObject m in MushroomList)
+            {
+                m.layer = m.layer - 1;
+            }
+            ThrowMushroom();
         }
     }
 
@@ -213,6 +224,9 @@ public class MushroomManager : MonoBehaviour
     /// <param name="mushroom"> The mushroom colliding with the platform</param>
     private void RotateAndFreezeShroom(GameObject mushroom)
     {
+        // Allows player and shroom to collide again
+        Physics2D.IgnoreLayerCollision(mushroom.layer, 6, false);
+
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
         ContactPoint2D[] contacts = new ContactPoint2D[1];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
@@ -276,28 +290,30 @@ public class MushroomManager : MonoBehaviour
 
     private void ShroomInWallCheck()
     {
-        LayerMask mask = LayerMask.GetMask("Ground");
-        float currentOffset;
-        if (playerMove.IsFacingRight)
-        {
-            currentOffset = offset;
-        }
-        else
-        {
-            currentOffset = -offset;
-        }
-        RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
-        if (hitInfo)
-        {
-            Debug.Log("11");
-            disableCollider = false;
-            tempOffset = 0;
-        }
-        else
-        {
-            disableCollider = true;
-            tempOffset = offset;
-        }
+        //LayerMask mask = LayerMask.GetMask("Ground");
+        //float currentOffset;
+        //if (playerMove.IsFacingRight)
+        //{
+        //    currentOffset = offset.x;
+        //}
+        //else
+        //{
+        //    currentOffset = -offset.x;
+        //}
+
+        //RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
+
+        //if (hitInfo)
+        //{
+        //    Debug.Log("11");
+        //    disableCollider = false;
+        //    tempOffset = 0;
+        //}
+        //else
+        //{
+        //    disableCollider = true;
+        //    tempOffset = offset.x;
+        //}
     }
 
     #region INPUT HANDLER
