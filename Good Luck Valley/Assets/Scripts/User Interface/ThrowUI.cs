@@ -26,7 +26,7 @@ public class ThrowUI : MonoBehaviour
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
-
+            
         // Sets the number of segmens in the lineRenderer using segments field
         lineRenderer.positionCount = segments;
 
@@ -64,7 +64,7 @@ public class ThrowUI : MonoBehaviour
         const float g = 9.8f;
 
         // Determines how trajectoy line will be
-        float timeStep = .025f;
+        float timeStep = .05f;
 
         // Total time that has passed since the lineRenderer started rendering
         float tT = 0f; 
@@ -120,9 +120,8 @@ public class ThrowUI : MonoBehaviour
             y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
 
             // Sets the position for this segment using the x and y generated above
-            Vector2 pos = new Vector3(x, y, 0);
-            lineRenderer.SetPosition(i, pos);
-            lineRendererStartingPoints[i] = pos;
+            lineRenderer.SetPosition(i, new Vector3(x, y, 0));
+            lineRendererStartingPoints[i] = new Vector3(x, y, 0);
         }
 
         // Creates collided bool, sets to false,

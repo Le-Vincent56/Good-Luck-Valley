@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6011102496620253709}
   - component: {fileID: -9111277946067546964}
   - component: {fileID: -1573030615175182213}
-  m_Layer: 0
+  - component: {fileID: 1081564858}
+  m_Layer: 6
   m_Name: OrganicShroom
   m_TagString: Mushroom
   m_Icon: {fileID: 0}
@@ -121,6 +122,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasRotated: 0
+  sT: 0
+  timeStep: 0.01
+  bouncing: 0
+  bouncingTimer: 0.1
 --- !u!58 &-1573030615175182213
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -137,3 +142,23 @@ CircleCollider2D:
   m_Offset: {x: 0.000809574, y: -0.09473916}
   serializedVersion: 2
   m_Radius: 0.47547472
+--- !u!95 &1081564858
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6833731681916643261}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 87734a4dd034d20488690cf51b8aa9be, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
