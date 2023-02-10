@@ -61,35 +61,32 @@ public class GameCursor : MonoBehaviour
     {
         Cursor.visible = false;
 
-        if(!pauseMenu.paused)
+        // Check if using mouse or gamepad input
+        if (usingMouse)
         {
-            // Check if using mouse or gamepad input
-            if (usingMouse)
-            {
-                // If using mouse, track mouse
-                cursorDirection = Vector3.zero;
-                cursorVelocity = Vector3.zero;
-                cursorPosition = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y));
-            }
-            else
-            {
-                // Update cursor positiond with player
-                if (player.GetComponent<PlayerMovement>()._isMoving)
-                {
-                    cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
-                }
-
-                // Move cursor with gamepad
-                cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
-                cursorPosition += cursorVelocity;
-            }
-
-            // Check bounds
-            CheckCursorBounds();
-
-            // Draw cursor
-            transform.position = cursorPosition;
+            // If using mouse, track mouse
+            cursorDirection = Vector3.zero;
+            cursorVelocity = Vector3.zero;
+            cursorPosition = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y));
         }
+        else
+        {
+            // Update cursor positiond with player
+            if (player.GetComponent<PlayerMovement>()._isMoving)
+            {
+                cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
+            }
+
+            // Move cursor with gamepad
+            cursorVelocity = cursorDirection.normalized * cursorSpeed * Time.deltaTime;
+            cursorPosition += cursorVelocity;
+        }
+
+        // Check bounds
+        CheckCursorBounds();
+
+        // Draw cursor
+        transform.position = cursorPosition;
     }
 
     /// <summary>
