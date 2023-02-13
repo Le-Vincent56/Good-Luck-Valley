@@ -126,6 +126,10 @@ public class MushroomManager : MonoBehaviour
                 throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position,
                                                                       forceDirection.normalized * throwMultiplier,
                                                                       playerMove.IsFacingRight);
+                if (pauseMenu.paused)
+                {
+                    throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
+                }
                 break;                
         }
 
