@@ -11,6 +11,6 @@ public class TitleManager : MonoBehaviour
     public void OnClickPlay()
     {
         // Switch scenes to the Tutorial Tilemap
-        SceneManager.LoadScene("TutorialTilemap");
+        SceneManager.LoadScene("TutorialTilemap1");
     }
 }

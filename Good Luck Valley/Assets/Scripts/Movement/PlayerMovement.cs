@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
 	//public float LastOnWallRightTime { get; private set; }
 	//public float LastOnWallLeftTime { get; private set; }
 
+	// Light
+	public GameObject playerLight;
+
 	// Jump
 	private bool _isJumpCut;
 	public bool _isJumpFalling;
@@ -67,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
 		SetGravityScale(Data.gravityScale);
 		IsFacingRight = true;
 		playerPosition = transform.position;
+		playerLight = GameObject.Find("PlayerLight");
 	}
 
 	private void Update()
@@ -79,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
 		{
 			_isMoving = true;
 		}
+
+		playerLight.transform.position = transform.position;	
 
 		#region TIMERS
 		LastOnGroundTime -= Time.deltaTime;
