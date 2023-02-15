@@ -75,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
+		Debug.Log(RB.velocity.y);
 		playerPosition = transform.position;
 		distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
