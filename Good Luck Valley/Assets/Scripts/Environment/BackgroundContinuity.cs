@@ -10,17 +10,21 @@ public class BackgroundContinuity : MonoBehaviour
     float upperBound;
     [SerializeField]
     float lowerBound;
+    [SerializeField]
     PlayerMovement player;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (player._isMoving)
+        {
+
+        }
     }
 }
