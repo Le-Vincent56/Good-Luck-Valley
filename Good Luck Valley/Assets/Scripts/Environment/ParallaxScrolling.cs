@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParallaxScrolling : MonoBehaviour
 {
-    private float startPosition;
+    public float startPosition;
     private GameObject mainCam;
     [SerializeField] private float parallaxScrolling;
 
