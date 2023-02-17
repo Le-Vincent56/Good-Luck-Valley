@@ -199,7 +199,7 @@ public class MushroomManager : MonoBehaviour
             MushroomInfo mInfo = m.GetComponent<MushroomInfo>();
 
             // checks if the mushroom is touching the pladdddddddddd atform and hasn't rotated
-            if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<TilemapCollider2D>()) &&
+            if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<CompositeCollider2D>()) &&
                 !m.GetComponent<MushroomInfo>().hasRotated)
             {
                 // If so, calls rotate shroom method to rotate and freeze the shroom properly

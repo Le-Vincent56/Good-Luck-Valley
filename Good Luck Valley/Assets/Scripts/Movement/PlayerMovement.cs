@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
 	public Animator animator;
 	public BouncingEffect bounceEffect;
 	private PauseMenu pauseMenu;
+	private CompositeCollider2D mapCollider;
 
 	// Set all of these up in the inspector
 	[Header("Checks")]
@@ -63,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
 		animator = GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
 		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 	}
 
 	private void Start()
@@ -96,8 +98,8 @@ public class PlayerMovement : MonoBehaviour
 		if (!IsJumping)
 		{
 			// Ground Check
-			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
-			{
+			if(GetComponent<Collider2D>().IsTouching(mapCollider))
+            {
 				// If bouncing beore, end bouncing
 				if (bounceEffect.bouncing)
 				{
@@ -122,6 +124,34 @@ public class PlayerMovement : MonoBehaviour
 					animator.SetBool("JustLanded", false);
 				}
 			}
+
+			//// Ground Check
+			//if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
+			//{
+			//	// If bouncing beore, end bouncing
+			//	if (bounceEffect.bouncing)
+			//	{
+			//		bounceEffect.bouncing = false;
+			//	}
+
+			//	// Ground player
+			//	isGrounded = true;
+
+			//	// Set coyote time
+			//	LastOnGroundTime = Data.coyoteTime;
+
+			//	if (landedTimer > 0)
+			//	{
+			//		landedTimer -= Time.deltaTime;
+			//		justLanded = true;
+			//		animator.SetBool("JustLanded", true);
+			//	}
+			//	else
+			//	{
+			//		justLanded = false;
+			//		animator.SetBool("JustLanded", false);
+			//	}
+			//}
 		}
 		#endregion
 
@@ -141,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
 				_isJumpFalling = false;
 		}
 
-		if (RB.velocity.y < 0)
+		if (RB.velocity.y < 0 && !isGrounded)
 		{
 			_isJumpFalling = true;
 		}
