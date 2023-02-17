@@ -28,7 +28,8 @@ public class BackgroundManager : MonoBehaviour
     private float fgTreesWidth;
 
     // Parallax Scrolling Fields
-    [SerializeField] private float parallaxScrollingDistance;
+    [SerializeField] private float bgTreesParallaxSpeed;
+    [SerializeField] private float fgTreesParallaxSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -48,12 +49,14 @@ public class BackgroundManager : MonoBehaviour
         CheckFGTreesMove();
         if (pM._isMoving && pM.RB.velocity.x > 0)
         {
-            parallaxScrollingDistance = Mathf.Abs(parallaxScrollingDistance);
+            bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed);
+            fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed);
             ParallaxScrolling();
         }
         else if (pM._isMoving && pM.RB.velocity.x < 0)
         {
-            parallaxScrollingDistance = Mathf.Abs(parallaxScrollingDistance) * -1;
+            bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed) * -1;
+            fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed) * -1;
             ParallaxScrolling();
         }
     }
@@ -103,16 +106,20 @@ public class BackgroundManager : MonoBehaviour
         bgTrees2LeftBound = bgTrees2.transform.position.x - (bgTreesWidth / 2f);
         bgTrees1RightBound = bgTrees1.transform.position.x + (bgTreesWidth / 2f);
         bgTrees2RightBound = bgTrees2.transform.position.x + (bgTreesWidth / 2f);
+        fgTrees1LeftBound = fgTrees1.transform.position.x - (fgTreesWidth / 2f);
+        fgTrees2LeftBound = fgTrees2.transform.position.x - (fgTreesWidth / 2f);
+        fgTrees1RightBound = fgTrees1.transform.position.x + (fgTreesWidth / 2f);
+        fgTrees2RightBound = fgTrees2.transform.position.x + (fgTreesWidth / 2f);
         camLeftBound = player.transform.position.x - 7.5f;
         camRightBound = player.transform.position.x + 7.5f;
     }
 
     private void ParallaxScrolling()
     {
-        bgTrees1.transform.position = new Vector2(bgTrees1.transform.position.x - parallaxScrollingDistance, 0f);
-        bgTrees2.transform.position = new Vector2(bgTrees2.transform.position.x - parallaxScrollingDistance, 0f);
-        fgTrees1.transform.position = new Vector2(fgTrees1.transform.position.x - parallaxScrollingDistance, 0f);
-        fgTrees2.transform.position = new Vector2(fgTrees2.transform.position.x - parallaxScrollingDistance, 0f);
+        bgTrees1.transform.position = new Vector2(bgTrees1.transform.position.x - bgTreesParallaxSpeed, 0f);
+        bgTrees2.transform.position = new Vector2(bgTrees2.transform.position.x - bgTreesParallaxSpeed, 0f);
+        fgTrees1.transform.position = new Vector2(fgTrees1.transform.position.x - fgTreesParallaxSpeed, 0f);
+        fgTrees2.transform.position = new Vector2(fgTrees2.transform.position.x - fgTreesParallaxSpeed, 0f);
         UpdateFields();
     }
 
@@ -131,7 +138,7 @@ public class BackgroundManager : MonoBehaviour
     {
         fgTreesWidth = 10f;
         fgTrees1.transform.position = new Vector2(player.transform.position.x, 0f);
-        fgTrees2.transform.position = new Vector2(player.transform.position.x, 0f + 5.5f);
+        fgTrees2.transform.position = new Vector2(player.transform.position.x + bgTreesWidth, 0f);
         fgTrees1LeftBound = fgTrees1.transform.position.x - (fgTreesWidth / 2f);
         fgTrees2LeftBound = fgTrees2.transform.position.x - (fgTreesWidth / 2f);
         fgTrees1RightBound =fgTrees1.transform.position.x + (fgTreesWidth / 2f);
