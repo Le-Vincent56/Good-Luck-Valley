@@ -275,6 +275,9 @@ public class PlayerMovement : MonoBehaviour
 	{
         // Handle Run
         Run(1);
+
+		// Set animation
+        animator.SetFloat("Speed", Mathf.Abs(_moveInput.x));
     }
 
 	#region INPUT CALLBACKS
@@ -418,15 +421,15 @@ public class PlayerMovement : MonoBehaviour
         {
 			// Set the move input to the value returned by context
 			_moveInput = context.ReadValue<Vector2>();
-
-			// Set animation and inputHorizontal variables
-			animator.SetFloat("Speed", Mathf.Abs(_moveInput.x));
-			inputHorizontal = true;
-
+			
 			// Check direction to face based on vector
 			if (_moveInput.x != 0)
 			{
-				CheckDirectionToFace(_moveInput.x > 0);
+				// Set inputHorizontal to true
+                inputHorizontal = true;
+
+				// Check directions to face
+                CheckDirectionToFace(_moveInput.x > 0);
 			}
 
 			// If the bind is no longer pressed, set inputHorizontal to false
