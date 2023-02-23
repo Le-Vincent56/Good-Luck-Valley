@@ -23,6 +23,7 @@ public class PauseMenu : MonoBehaviour
     {
         paused = true;
         pauseUI.enabled = true;
+        playerMovement.MoveInput = Vector2.zero;
         Time.timeScale = 0;
     }
 
