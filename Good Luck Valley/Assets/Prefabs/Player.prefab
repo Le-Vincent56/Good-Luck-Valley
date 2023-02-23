@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -145,7 +145,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 431062fca73c0fc4db526482ce4fd710, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -164,7 +164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -10461435
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cf895af2ebceb904f8a2761dd73be219, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -192,13 +192,12 @@ MonoBehaviour:
   Data: {fileID: 11400000, guid: 8862ccb90f907954894196181a313216, type: 2}
   _isMoving: 0
   _isJumpFalling: 0
+  landedTimer: 0
+  justLanded: 0
   animator: {fileID: 7203912908089909880}
   bounceEffect: {fileID: 0}
   _groundCheckPoint: {fileID: 7203912907798322604}
   _groundCheckSize: {x: 0.4, y: 0.2}
-  _frontWallCheckPoint: {fileID: 0}
-  _backWallCheckPoint: {fileID: 0}
-  _wallCheckSize: {x: 1, y: 6.985564}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 72
@@ -207,6 +206,7 @@ MonoBehaviour:
   distanceFromLastPosition: {x: 0, y: 0}
   isGrounded: 0
   inputHorizontal: 0
+  isLocked: 0
 --- !u!95 &7203912908089909880
 Animator:
   serializedVersion: 4
@@ -507,6 +507,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 70b8e9b5-c481-452d-957d-465b94e660d7
     m_ActionName: Player Controls/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a026b7d3-93b1-49c0-98ec-acdb5af197ba
+    m_ActionName: Player Controls/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -527,8 +531,10 @@ MonoBehaviour:
   RB: {fileID: 7203912908089909881}
   animator: {fileID: 0}
   playerMovement: {fileID: 7203912908089909879}
+  playerData: {fileID: 0}
   minSpeed: 140
   bouncing: 0
+  canBounce: 0
 --- !u!114 &1310835849
 MonoBehaviour:
   m_ObjectHideFlags: 0
