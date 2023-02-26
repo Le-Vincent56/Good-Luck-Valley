@@ -53,7 +53,8 @@ public class Footsteps : MonoBehaviour
         animatorClipName = currentClipInfo[0].clip.name;
 
         // Check if the player is grounded, has horizontal input, and can make another noise
-        if (playerMovement.isGrounded && playerMovement.inputHorizontal && (stepTimer <= stepTimerMax / 2f || stepTimer <= 0f))
+        if (playerMovement.isGrounded && playerMovement.inputHorizontal && 
+            (stepTimer <= stepTimerMax / 2f || stepTimer <= 0f) && animatorClipName == "Player_Run")
         {
             // Create a random variation of the noise
             footstepSound.volume = Random.Range(0.3f, 0.5f);

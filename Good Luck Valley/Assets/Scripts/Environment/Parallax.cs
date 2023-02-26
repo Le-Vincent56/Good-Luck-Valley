@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParallaxScrolling : MonoBehaviour
+public class Parallax : MonoBehaviour
 {
-    public float startPosition;
+    private float startPosition;
     private GameObject mainCam;
     [SerializeField] private float parallaxScrolling;
 
