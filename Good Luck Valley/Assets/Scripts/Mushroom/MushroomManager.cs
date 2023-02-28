@@ -397,5 +397,21 @@ public class MushroomManager : MonoBehaviour
             }
         }
     }
+
+    public void OnRemoveLastShroom(InputAction.CallbackContext context)
+    {
+        if (!pauseMenu.paused)
+        {
+            if (context.started)
+            {
+                if (mushroomCount != 0)
+                {
+                    Destroy(mushroomList[mushroomCount - 1]);
+                    mushroomList.RemoveAt(mushroomCount - 1);
+                    mushroomCount--;
+                }
+            }
+        }
+    }    
     #endregion
 }
