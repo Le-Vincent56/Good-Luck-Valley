@@ -33,46 +33,13 @@ public class InteractManager : MonoBehaviour
         }
 
         // Remove Interactables
-        CheckRemovedInteractables();
-        RemoveInteractables();
-    }
-
-    public void CheckRemovedInteractables()
-    {
-        // Iterate through each interactable
         foreach(Interactable interactable in interactables)
         {
-            // If the interactable is supposed to be removed, add it
-            // to the destroyed interactables list
             if(interactable.remove)
             {
-                destroyedInteractables.Add(interactable);
+                interactable.gameObject.SetActive(false);
+                interactable.gameObject.GetComponent<Renderer>().enabled = false;
             }
-        }
-    }
-
-    public void RemoveInteractables()
-    {
-        // Check the list of destroyed interactables
-        if (destroyedInteractables.Count > 0)
-        {
-            // Compare the list of destroyed interactables with the total interactables
-            for (int i = 0; i < destroyedInteractables.Count; i++)
-            {
-                for (int j = 0; j < interactables.Count; j++)
-                {
-                    // If any of the destroyed interactables are equal to any of the interactables
-                    // in the interactables List, remove them from the List
-                    if (destroyedInteractables[i].Equals(interactables[j]))
-                    {
-                        Destroy(interactables[j].gameObject);
-                        interactables.Remove(destroyedInteractables[i]);
-                    }
-                }
-            }
-
-            // Clear the destroyed interactables List
-            destroyedInteractables.Clear();
         }
     }
 

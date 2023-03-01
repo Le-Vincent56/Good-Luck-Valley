@@ -8,29 +8,30 @@ public class Note : Interactable
 {
     public string noteTitle;
     public string textValue;
-    private Text textDisplay;
+    private bool noteAdded = false;
+    public Text textDisplay;
     private Journal journal;
+    private EntryScrollview entryScrollview;
     private NoteNotification effectPanelNotification;
-    private float notificationTimeout;
 
     // Start is called before the first frame update
     void Start()
     {
-        notificationTimeout = 3.0f;
         remove = false;
-        //journal = GameObject.Find("Journal").GetComponent<Journal>();
+        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
+        entryScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
         effectPanelNotification = GameObject.Find("NoteEffectPanel").GetComponent<NoteNotification>();
     }
 
     public override void Interact()
     {
-        // Add the note to the journal
-        //journal.Notes.Add(this);
-
-        // Notify the player of the pickup and set the note title
-        effectPanelNotification.TriggerNotif = true;
-        effectPanelNotification.NoteTitle.text = noteTitle;
-        effectPanelNotification.PrepareNotification();
+        // Add the note to the journal and trigger notification
+        if(!noteAdded)
+        {
+            journal.Notes.Add(this);
+            effectPanelNotification.NotifQueue.Enqueue(this);
+            noteAdded = true;
+        }
 
         // Finish interacting
         finishedInteracting = true;
