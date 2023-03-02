@@ -11,12 +11,13 @@ public abstract class Interactable : MonoBehaviour
     public bool inRange = false;
     public bool controlTriggered = false;
     public bool finishedInteracting = false;
+    public bool remove = false;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        remove = false;
     }
 
     // Update is called once per frame
