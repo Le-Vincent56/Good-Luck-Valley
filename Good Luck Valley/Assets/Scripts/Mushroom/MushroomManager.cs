@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -54,6 +55,7 @@ public class MushroomManager : MonoBehaviour
     public List<GameObject> MushroomList { get { return mushroomList; } }
 
     [Header("Throw")]
+    private bool throwUnlocked = false;
     [SerializeField] int throwMultiplier;
     [SerializeField] Vector3 fixPlayer;
 
@@ -63,6 +65,8 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] GameObject shroomPoint;
     [SerializeField] GameObject tilemap;
     public float tempOffset;
+
+    public bool ThrowUnlocked { get { return throwUnlocked; } set { throwUnlocked = value; } }
 
     // Start is called before the first frame update
     void Start()
@@ -342,7 +346,7 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.paused)
+        if(!pauseMenu.paused && throwUnlocked)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
@@ -385,7 +389,7 @@ public class MushroomManager : MonoBehaviour
 
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.paused)
+        if(!pauseMenu.paused && throwUnlocked)
         {
             if (context.started)
             {
@@ -397,5 +401,21 @@ public class MushroomManager : MonoBehaviour
             }
         }
     }
+
+    public void OnRemoveLastShroom(InputAction.CallbackContext context)
+    {
+        if (!pauseMenu.paused && throwUnlocked)
+        {
+            if (context.started)
+            {
+                if (mushroomCount != 0)
+                {
+                    Destroy(mushroomList[mushroomCount - 1]);
+                    mushroomList.RemoveAt(mushroomCount - 1);
+                    mushroomCount--;
+                }
+            }
+        }
+    }    
     #endregion
 }
