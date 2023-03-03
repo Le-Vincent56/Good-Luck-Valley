@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -28,7 +27,7 @@ public class MushroomManager : MonoBehaviour
     // Throw Timers
     private bool canThrow;
     private float throwCooldown = 0.2f;
-    private float bounceCooldown = 0.2f;
+    private float bounceCooldown = 0.2f;    
 
     // Animation
     [SerializeField] bool throwing = false;
