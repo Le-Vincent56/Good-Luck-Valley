@@ -15,7 +15,9 @@ public class EntryScrollview : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
+        scrollView = GameObject.Find("EntryPanel").GetComponent<ScrollRect>();
+        contentTransform = GameObject.Find("Entries").GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
