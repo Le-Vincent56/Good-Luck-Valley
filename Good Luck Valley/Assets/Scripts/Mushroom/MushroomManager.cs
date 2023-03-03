@@ -155,7 +155,7 @@ public class MushroomManager : MonoBehaviour
     void ThrowMushroom()
     {
         mushroomCount = MushroomList.Count;
-        mushroomList.Add(Instantiate(spore, playerRB.position, Quaternion.identity));
+        mushroomList.Add(Instantiate(organicShroom, playerRB.position, Quaternion.identity));
         // Makes it so that the player and shroom cannot collide  when it is thrown, set back to true when the shroom touches a wall.
         //mushroomList[mushroomCount].layer = 7 + MushroomList.IndexOf(mushroomList[mushroomCount]);
         //Physics2D.IgnoreLayerCollision(mushroomList[mushroomCount].layer, 6, true);
@@ -213,6 +213,7 @@ public class MushroomManager : MonoBehaviour
 
             foreach (GameObject p in environmentManager.weightedPlatforms)
             {
+                Debug.Log("L");
                 // checks if the mushroom is touching the platform and hasn't rotated
                 if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
                     !m.GetComponent<MushroomInfo>().hasRotated)
@@ -223,7 +224,25 @@ public class MushroomManager : MonoBehaviour
                     p.GetComponent<MoveablePlatform>().CheckWeight(m);
                 }
             }
+
+            if (!m.GetComponent<MushroomInfo>().hasRotated)
+            {
+                foreach (GameObject d in environmentManager.decomposableTiles)
+                {
+                    if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
+                    {
+                        d.GetComponent<DecompasableTile>().isDecomposed = true;
+                        Destroy(m);
+                        mushroomList.RemoveAt(mushroomList.IndexOf(m));
+                    }
+                }
+            }
         }
+    }
+
+    public void RemoveShroom(GameObject shroom)
+    {
+
     }
 
     /// <summary>
