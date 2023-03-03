@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerSeed : Interactable
+public class PowerSpore : Interactable
 {
     MushroomManager mushroomManager;
 
