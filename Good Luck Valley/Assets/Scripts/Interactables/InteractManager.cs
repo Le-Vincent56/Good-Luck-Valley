@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class InteractManager : MonoBehaviour
 {
     public List<Interactable> interactables;
+    public List<Interactable> destroyedInteractables;
     public GameObject player;
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,16 @@ public class InteractManager : MonoBehaviour
             } else
             {
                 interactable.inRange = false;
+            }
+        }
+
+        // Remove Interactables
+        foreach(Interactable interactable in interactables)
+        {
+            if(interactable.remove)
+            {
+                interactable.gameObject.SetActive(false);
+                interactable.gameObject.GetComponent<Renderer>().enabled = false;
             }
         }
     }
