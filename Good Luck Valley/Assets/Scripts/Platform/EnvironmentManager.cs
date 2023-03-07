@@ -8,6 +8,7 @@ public class EnvironmentManager : MonoBehaviour
     public List<GameObject> weightedPlatforms;
     public List<GameObject> collidablePlatforms;
     public List<GameObject> nonCollidablePlatforms;
+    public List<GameObject> decomposableTiles;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,7 @@ public class EnvironmentManager : MonoBehaviour
         weightedPlatforms.AddRange(GameObject.FindGameObjectsWithTag("Weighted"));
         collidablePlatforms.AddRange(GameObject.FindGameObjectsWithTag("Collidable"));
         nonCollidablePlatforms.AddRange(GameObject.FindGameObjectsWithTag("Non-Collidable"));
+        decomposableTiles.AddRange(GameObject.FindGameObjectsWithTag("Decomposable"));
     }
 
     // Update is called once per frame

@@ -27,7 +27,7 @@ public class MushroomManager : MonoBehaviour
     // Throw Timers
     private bool canThrow;
     private float throwCooldown = 0.2f;
-    private float bounceCooldown = 0.2f;
+    private float bounceCooldown = 0.2f;    
 
     // Animation
     [SerializeField] bool throwing = false;
@@ -48,12 +48,14 @@ public class MushroomManager : MonoBehaviour
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
     UIManager uiManager;
     bool disableCollider;
+    [SerializeField] GameObject spore;
 
     [SerializeField] private Vector2 offset;      // Offset for spawning shrooms outside of player hitbox
     private int mushroomCount;                // How many shrooms are currently spawned in
     public List<GameObject> MushroomList { get { return mushroomList; } }
 
     [Header("Throw")]
+    private bool throwUnlocked = false;
     [SerializeField] int throwMultiplier;
     [SerializeField] Vector3 fixPlayer;
 
@@ -63,6 +65,8 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] GameObject shroomPoint;
     [SerializeField] GameObject tilemap;
     public float tempOffset;
+
+    public bool ThrowUnlocked { get { return throwUnlocked; } set { throwUnlocked = value; } }
 
     // Start is called before the first frame update
     void Start()
@@ -152,8 +156,8 @@ public class MushroomManager : MonoBehaviour
         mushroomCount = MushroomList.Count;
         mushroomList.Add(Instantiate(organicShroom, playerRB.position, Quaternion.identity));
         // Makes it so that the player and shroom cannot collide  when it is thrown, set back to true when the shroom touches a wall.
-        mushroomList[mushroomCount].layer = 7 + MushroomList.IndexOf(mushroomList[mushroomCount]);
-        Physics2D.IgnoreLayerCollision(mushroomList[mushroomCount].layer, 6, true);
+        //mushroomList[mushroomCount].layer = 7 + MushroomList.IndexOf(mushroomList[mushroomCount]);
+        //Physics2D.IgnoreLayerCollision(mushroomList[mushroomCount].layer, 6, true);
 
         mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
     }
@@ -208,6 +212,7 @@ public class MushroomManager : MonoBehaviour
 
             foreach (GameObject p in environmentManager.weightedPlatforms)
             {
+                Debug.Log("L");
                 // checks if the mushroom is touching the platform and hasn't rotated
                 if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
                     !m.GetComponent<MushroomInfo>().hasRotated)
@@ -218,7 +223,25 @@ public class MushroomManager : MonoBehaviour
                     p.GetComponent<MoveablePlatform>().CheckWeight(m);
                 }
             }
+
+            if (!m.GetComponent<MushroomInfo>().hasRotated)
+            {
+                foreach (GameObject d in environmentManager.decomposableTiles)
+                {
+                    if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
+                    {
+                        d.GetComponent<DecompasableTile>().isDecomposed = true;
+                        Destroy(m);
+                        mushroomList.RemoveAt(mushroomList.IndexOf(m));
+                    }
+                }
+            }
         }
+    }
+
+    public void RemoveShroom(GameObject shroom)
+    {
+
     }
 
     /// <summary>
@@ -229,7 +252,7 @@ public class MushroomManager : MonoBehaviour
     private void RotateAndFreezeShroom(GameObject mushroom)
     {
         // Allows player and shroom to collide again
-        Physics2D.IgnoreLayerCollision(mushroom.layer, 6, false);
+        //Physics2D.IgnoreLayerCollision(mushroom.layer, 6, false);
 
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
         ContactPoint2D[] contacts = new ContactPoint2D[1];
@@ -342,7 +365,7 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.paused)
+        if(!pauseMenu.paused && throwUnlocked)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
@@ -385,7 +408,7 @@ public class MushroomManager : MonoBehaviour
 
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.paused)
+        if(!pauseMenu.paused && throwUnlocked)
         {
             if (context.started)
             {
@@ -400,7 +423,7 @@ public class MushroomManager : MonoBehaviour
 
     public void OnRemoveLastShroom(InputAction.CallbackContext context)
     {
-        if (!pauseMenu.paused)
+        if (!pauseMenu.paused && throwUnlocked)
         {
             if (context.started)
             {
