@@ -36,21 +36,20 @@ public class NoteNotification : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(notifQueue.Count > 0 && !notifInProgress)
+        // Check if there are any notifications in the Queue and none in progress
+        if (notifQueue.Count > 0 && !notifInProgress)
         {
+            // If so, set the currentNote as the first one in the Queue,
+            // prepare the notification variables, and set a notifInProgress to true
             currentNote = notifQueue.Dequeue();
             PrepareNotification();
             notifInProgress = true;
         }
 
-        if(notifInProgress)
+        // If a notification is in progress, resolve it
+        if (notifInProgress)
         {
             ResolveNotif();
-        }
-
-        if(notifQueue.Count <= 0 && !notifInProgress)
-        {
-            notifInProgress = false;
         }
     }
 
@@ -61,14 +60,16 @@ public class NoteNotification : MonoBehaviour
         {
             // Add deltaTime to the fadeInTimer as well as the a value of the text and panel
             fadeInTimer += Time.deltaTime;
-            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, panelImage.color.a + (Time.deltaTime * 2));
-            entryAddedText.color = new Color(entryAddedText.color.r, entryAddedText.color.g, entryAddedText.color.b, entryAddedText.color.a + (Time.deltaTime * 2));
-            noteTitle.color = new Color(noteTitle.color.r, noteTitle.color.g, noteTitle.color.b, noteTitle.color.a + (Time.deltaTime * 2));
+            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 
+                panelImage.color.a + (Time.deltaTime * 2));
+            entryAddedText.color = new Color(entryAddedText.color.r, entryAddedText.color.g, entryAddedText.color.b, 
+                entryAddedText.color.a + (Time.deltaTime * 2));
+            noteTitle.color = new Color(noteTitle.color.r, noteTitle.color.g, noteTitle.color.b, 
+                noteTitle.color.a + (Time.deltaTime * 2));
 
             // Set continueToLingerTimer to false for security
             continueToLingerTimer = false;
-        }
-        else continueToLingerTimer = true;
+        } else continueToLingerTimer = true;
 
         // Leave text on the screen for a little
         if (notifTimer > 0 && continueToLingerTimer)
@@ -89,9 +90,12 @@ public class NoteNotification : MonoBehaviour
         if (fadeOutTimer > 0 && continueToFadeOutTimer)
         {
             // Subtract deltaTime to the fadeInTimer as well as the a value of the text and panel
-            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, panelImage.color.a - Time.deltaTime);
-            entryAddedText.color = new Color(entryAddedText.color.r, entryAddedText.color.g, entryAddedText.color.b, entryAddedText.color.a - Time.deltaTime);
-            noteTitle.color = new Color(noteTitle.color.r, noteTitle.color.g, noteTitle.color.b, noteTitle.color.a - Time.deltaTime);
+            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 
+                panelImage.color.a - Time.deltaTime);
+            entryAddedText.color = new Color(entryAddedText.color.r, entryAddedText.color.g, entryAddedText.color.b, 
+                entryAddedText.color.a - Time.deltaTime);
+            noteTitle.color = new Color(noteTitle.color.r, noteTitle.color.g, noteTitle.color.b, 
+                noteTitle.color.a - Time.deltaTime);
             fadeOutTimer -= Time.deltaTime;
 
             // Set fadeCompleted to false for security
@@ -110,9 +114,6 @@ public class NoteNotification : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Prepares the notification to trigger
-    /// </summary>
     public void PrepareNotification()
     {
         // Set timers and show text
