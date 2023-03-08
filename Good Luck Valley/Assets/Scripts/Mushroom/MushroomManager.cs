@@ -48,6 +48,8 @@ public class MushroomManager : MonoBehaviour
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
     UIManager uiManager;
     [SerializeField] GameObject spore;
+    private Stack<int> removeShroomIndexes;
+    private Dictionary<int, GameObject> changeShroomIndexes;
 
     [SerializeField] private Vector2 offset;      // Offset for spawning shrooms outside of player hitbox
     private int mushroomCount;                // How many shrooms are currently spawned in
@@ -85,6 +87,8 @@ public class MushroomManager : MonoBehaviour
 
         // Mushroom
         mushroomList = new List<GameObject>();
+        removeShroomIndexes = new Stack<int>();
+        changeShroomIndexes = new Dictionary<int, GameObject>();
 
         // Managers
         environmentManager = FindObjectOfType<EnvironmentManager>();
@@ -232,17 +236,44 @@ public class MushroomManager : MonoBehaviour
                     if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
                     {
                         d.GetComponent<DecompasableTile>().isDecomposed = true;
-                        Destroy(m);
-                        mushroomList.RemoveAt(mushroomList.IndexOf(m));
+                        removeShroomIndexes.Push(mushroomList.IndexOf(m));
                     }
                 }
             }
         }
+
+        if (removeShroomIndexes.Count > 0)
+        {
+            RemoveShrooms();
+        }
+        if (changeShroomIndexes.Count > 0)
+        {
+            ChangeShrooms();
+        }
+    }
+    
+    private void RemoveShrooms()
+    {
+        for (int i = 0; i < removeShroomIndexes.Count; i++)
+        {
+            Destroy(MushroomList[removeShroomIndexes.Pop()]);
+            mushroomList.RemoveAt(removeShroomIndexes.Pop());
+        }
     }
 
-    public void RemoveShroom(GameObject shroom)
+    private void ChangeShrooms()
     {
-
+        for (int i = 0; i < mushroomCount; i++)
+        {
+            if (changeShroomIndexes.ContainsKey(i))
+            {
+                GameObject tShroom = mushroomList[i];
+                mushroomList[i] = changeShroomIndexes[i];
+                Destroy(tShroom);
+                Debug.Log(mushroomList[i]);
+            }
+        }
+        changeShroomIndexes.Clear();
     }
 
     /// <summary>
@@ -265,7 +296,7 @@ public class MushroomManager : MonoBehaviour
         // The angle that the shroom is going to rotate at
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // The quaternion that will rotate the s
+        // The quaternion that will rotate the shroom
         Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
         mushroom.transform.rotation = rotation;
 
@@ -274,11 +305,11 @@ public class MushroomManager : MonoBehaviour
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         mushroom.GetComponent<MushroomInfo>().hasRotated = true;
 
-        GameObject shroom = Instantiate(mushroom.GetComponent<MushroomInfo>().mushroom, mushroom.transform.position, rotation);
+        GameObject shroom = Instantiate(mushroom.GetComponent<MushroomInfo>().mushroom, 
+            mushroom.transform.position, rotation);
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<MushroomInfo>().hasRotated = true;
-        mushroomList[mushroomList.IndexOf(mushroom)] = shroom;
-        Destroy(mushroom);
+        changeShroomIndexes[mushroomList.IndexOf(mushroom)] = shroom;
     }
 
     /// <summary>
