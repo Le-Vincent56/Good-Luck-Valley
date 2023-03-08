@@ -69,26 +69,11 @@ public class BackgroundManager : MonoBehaviour
         {
             UpdateFields();
 
+            MoveClouds();
+
             // Commented out for now
             //CheckBGTreesMove();
             //CheckFGTreesMove();
-
-
-            CheckCloudsMove();
-            if (pM._isMoving && pM.RB.velocity.x > 0)
-            {
-                //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed);
-                //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed);
-                cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed);
-                ParallaxScrolling();
-            }
-            else if (pM._isMoving && pM.RB.velocity.x < 0)
-            {
-                //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed) * -1;
-                //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed) * -1;
-                cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed) * -1;
-                ParallaxScrolling();
-            }
         }
     }
 
@@ -183,9 +168,14 @@ public class BackgroundManager : MonoBehaviour
         //bgTrees2.transform.position = new Vector2(bgTrees2.transform.position.x - bgTreesParallaxSpeed, 0f);
         //fgTrees1.transform.position = new Vector2(fgTrees1.transform.position.x - fgTreesParallaxSpeed, 0f);
         //fgTrees2.transform.position = new Vector2(fgTrees2.transform.position.x - fgTreesParallaxSpeed, 0f);
+        UpdateFields();
+    }
+    
+    private void MoveClouds()
+    {
+        CheckCloudsMove();
         cloud1.transform.position = new Vector2(cloud1.transform.position.x - cloudParallaxSpeed, cloud1YPos);
         cloud2.transform.position = new Vector2(cloud2.transform.position.x - cloudParallaxSpeed, cloud2YPos);
-        UpdateFields();
     }
 
     private void InitializeBGTreesFields()
