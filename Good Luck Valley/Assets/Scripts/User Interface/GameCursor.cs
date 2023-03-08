@@ -10,6 +10,7 @@ public class GameCursor : MonoBehaviour
     [Header("Camera")]
     private Camera cam;
     private GameObject cmCam;
+    [SerializeField] private bool basedOnPlayer;
 
     private float cmWidth;
     private float cmHeight;
@@ -45,8 +46,12 @@ public class GameCursor : MonoBehaviour
         // Get components
         cam = Camera.main;
         cmCam = GameObject.Find("CM vcam1");
-        player = GameObject.Find("Player");
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+
+        if(basedOnPlayer)
+        {
+            player = GameObject.Find("Player");
+            pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+        }
 
         // Create bounds
         camHeight = cam.orthographicSize;
@@ -72,9 +77,12 @@ public class GameCursor : MonoBehaviour
         else
         {
             // Update cursor positiond with player
-            if (player.GetComponent<PlayerMovement>()._isMoving)
+            if(basedOnPlayer)
             {
-                cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
+                if (player.GetComponent<PlayerMovement>()._isMoving)
+                {
+                    cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
+                }
             }
 
             // Move cursor with gamepad
@@ -83,7 +91,14 @@ public class GameCursor : MonoBehaviour
         }
 
         // Check bounds
-        CheckCursorBounds();
+        if(basedOnPlayer)
+        {
+            CheckCursorBoundsPlayer();
+        } else
+        {
+            CheckCursorBoundsStatic();
+        }
+        
 
         // Draw cursor
         transform.position = cursorPosition;
@@ -92,7 +107,7 @@ public class GameCursor : MonoBehaviour
     /// <summary>
     /// Check cursor bounds
     /// </summary>
-    public void CheckCursorBounds()
+    public void CheckCursorBoundsPlayer()
     {
         // Set default Main Camera bounds
         float leftBound = player.transform.position.x - camWidth;
@@ -190,6 +205,29 @@ public class GameCursor : MonoBehaviour
         else if (cursorPosition.y > upperBound)
         {
             cursorPosition.y = upperBound;
+        }
+    }
+
+    public void CheckCursorBoundsStatic()
+    {
+        // Check x bounds against camera
+        if (cursorPosition.x < -camWidth)
+        {
+            cursorPosition.x = -camWidth;
+        }
+        else if (cursorPosition.x > camWidth)
+        {
+            cursorPosition.x = camWidth;
+        }
+
+        // Check y bounds against camera
+        if (cursorPosition.y < -camHeight)
+        {
+            cursorPosition.y = -camHeight;
+        }
+        else if (cursorPosition.y > camHeight)
+        {
+            cursorPosition.y = camHeight;
         }
     }
 
