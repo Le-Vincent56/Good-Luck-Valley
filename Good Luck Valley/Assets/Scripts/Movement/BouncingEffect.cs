@@ -11,6 +11,11 @@ public class BouncingEffect : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerData playerData;
 
+    #region TUTORIAL
+    [SerializeField] Tutorial tutorialManager;
+    public bool firstBounce = true;
+    #endregion
+
     [Header("Bounce Variables")]
     [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
     public bool bouncing;
@@ -41,6 +46,12 @@ public class BouncingEffect : MonoBehaviour
         // Check if colliding with a mushroom
         if (collision.gameObject.tag.Equals("Mushroom") && canBounce)
         {
+            if(tutorialManager != null && firstBounce)
+            {
+                tutorialManager.ShowingBounceText = false;
+                firstBounce = false;
+            }
+
             // Set bouncing to true
             bouncing = true;
 

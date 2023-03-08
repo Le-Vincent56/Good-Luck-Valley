@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class BackgroundManager : MonoBehaviour
 {
+    [Header("Managers n Stuff")]
     public GameObject player;
+    public PauseMenu pauseMenu;
+    public GameObject cam;
     private PlayerMovement pM;
     private float camLeftBound;
     private float camRightBound;
 
     // Fields for background trees (shadow trees)
+    [Header("Background Trees Colored")]
     public GameObject bgTrees1;
     public GameObject bgTrees2;
     private float bgTrees1LeftBound;
@@ -19,6 +23,7 @@ public class BackgroundManager : MonoBehaviour
     private float bgTreesWidth;
 
     // Fields for foreground trees (closest trees)
+    [Header("Background Trees Shadow")]
     public GameObject fgTrees1;
     public GameObject fgTrees2;
     private float fgTrees1LeftBound;
@@ -27,37 +32,63 @@ public class BackgroundManager : MonoBehaviour
     private float fgTrees2RightBound;
     private float fgTreesWidth;
 
+    // Fields for clouds
+    [Header("Clouds")]
+    public GameObject cloud1;
+    public GameObject cloud2;
+    private float cloud1LeftBound;
+    private float cloud2LeftBound;
+    private float cloud1RightBound;
+    private float cloud2RightBound;
+    private float cloud1Width;
+    private float cloud2Width;
+    private float cloud1YPos;
+    private float cloud2YPos;
+
     // Parallax Scrolling Fields
+    [Header("Parallax Speeds")]
     [SerializeField] private float bgTreesParallaxSpeed;
     [SerializeField] private float fgTreesParallaxSpeed;
+    [SerializeField] private float cloudParallaxSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
         pM = player.GetComponent<PlayerMovement>();
-        InitializeBGTreesFields();
-        InitializeFGTreesFields();
-        camLeftBound = player.transform.position.x - 7.5f;
-        camRightBound = player.transform.position.x + 7.5f;
+        //InitializeBGTreesFields();
+        //InitializeFGTreesFields();
+        InitializeCloudsFields();
+        camLeftBound = cam.transform.position.x - 9f;
+        camRightBound = cam.transform.position.x + 9f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateFields();
-        CheckBGTreesMove();
-        CheckFGTreesMove();
-        if (pM._isMoving && pM.RB.velocity.x > 0)
+        if (!pauseMenu.paused)
         {
-            bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed);
-            fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed);
-            ParallaxScrolling();
-        }
-        else if (pM._isMoving && pM.RB.velocity.x < 0)
-        {
-            bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed) * -1;
-            fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed) * -1;
-            ParallaxScrolling();
+            UpdateFields();
+
+            // Commented out for now
+            //CheckBGTreesMove();
+            //CheckFGTreesMove();
+
+
+            CheckCloudsMove();
+            if (pM._isMoving && pM.RB.velocity.x > 0)
+            {
+                //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed);
+                //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed);
+                cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed);
+                ParallaxScrolling();
+            }
+            else if (pM._isMoving && pM.RB.velocity.x < 0)
+            {
+                //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed) * -1;
+                //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed) * -1;
+                cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed) * -1;
+                ParallaxScrolling();
+            }
         }
     }
 
@@ -100,26 +131,60 @@ public class BackgroundManager : MonoBehaviour
         }
     }
 
+    private void CheckCloudsMove()
+    {
+        if (cloud1LeftBound > camRightBound)
+        {
+            cloud1.transform.position = new Vector2(camLeftBound - (cloud1Width / 2), cloud1YPos);
+        }
+        if (cloud1RightBound < camLeftBound)
+        {
+            cloud1.transform.position = new Vector2(camRightBound + (cloud1Width / 2), cloud1YPos);
+        }
+        if (cloud2LeftBound > camRightBound)
+        {
+            cloud2.transform.position = new Vector2(camLeftBound - (cloud2Width / 2), cloud2YPos);
+        }
+        if (cloud2RightBound < camLeftBound)
+        {
+            cloud2.transform.position = new Vector2(camRightBound + (cloud2Width / 2), cloud2YPos);
+        }
+
+    }
+
     private void UpdateFields()
     {
-        bgTrees1LeftBound = bgTrees1.transform.position.x - (bgTreesWidth / 2f);
-        bgTrees2LeftBound = bgTrees2.transform.position.x - (bgTreesWidth / 2f);
-        bgTrees1RightBound = bgTrees1.transform.position.x + (bgTreesWidth / 2f);
-        bgTrees2RightBound = bgTrees2.transform.position.x + (bgTreesWidth / 2f);
-        fgTrees1LeftBound = fgTrees1.transform.position.x - (fgTreesWidth / 2f);
-        fgTrees2LeftBound = fgTrees2.transform.position.x - (fgTreesWidth / 2f);
-        fgTrees1RightBound = fgTrees1.transform.position.x + (fgTreesWidth / 2f);
-        fgTrees2RightBound = fgTrees2.transform.position.x + (fgTreesWidth / 2f);
-        camLeftBound = player.transform.position.x - 7.5f;
-        camRightBound = player.transform.position.x + 7.5f;
+        // Colored trees
+        // bgTrees1LeftBound = bgTrees1.transform.position.x - (bgTreesWidth / 2f);
+        // bgTrees2LeftBound = bgTrees2.transform.position.x - (bgTreesWidth / 2f);
+        // bgTrees1RightBound = bgTrees1.transform.position.x + (bgTreesWidth / 2f);
+        // bgTrees2RightBound = bgTrees2.transform.position.x + (bgTreesWidth / 2f);
+
+        // Shadow Trees
+        // fgTrees1LeftBound = fgTrees1.transform.position.x - (fgTreesWidth / 2f);
+        // fgTrees2LeftBound = fgTrees2.transform.position.x - (fgTreesWidth / 2f);
+        // fgTrees1RightBound = fgTrees1.transform.position.x + (fgTreesWidth / 2f);
+        // fgTrees2RightBound = fgTrees2.transform.position.x + (fgTreesWidth / 2f);
+
+        // Clouds
+        cloud1RightBound = cloud1.transform.position.x + (cloud1Width / 2f);
+        cloud2RightBound = cloud2.transform.position.x + (cloud2Width / 2f);
+        cloud1LeftBound = cloud1.transform.position.x - (cloud1Width / 2f);
+        cloud2LeftBound = cloud2.transform.position.x - (cloud2Width / 2f);
+
+        // Camera
+        camLeftBound = cam.transform.position.x - 9f;
+        camRightBound = cam.transform.position.x + 9f;
     }
 
     private void ParallaxScrolling()
     {
-        bgTrees1.transform.position = new Vector2(bgTrees1.transform.position.x - bgTreesParallaxSpeed, 0f);
-        bgTrees2.transform.position = new Vector2(bgTrees2.transform.position.x - bgTreesParallaxSpeed, 0f);
-        fgTrees1.transform.position = new Vector2(fgTrees1.transform.position.x - fgTreesParallaxSpeed, 0f);
-        fgTrees2.transform.position = new Vector2(fgTrees2.transform.position.x - fgTreesParallaxSpeed, 0f);
+        //bgTrees1.transform.position = new Vector2(bgTrees1.transform.position.x - bgTreesParallaxSpeed, 0f);
+        //bgTrees2.transform.position = new Vector2(bgTrees2.transform.position.x - bgTreesParallaxSpeed, 0f);
+        //fgTrees1.transform.position = new Vector2(fgTrees1.transform.position.x - fgTreesParallaxSpeed, 0f);
+        //fgTrees2.transform.position = new Vector2(fgTrees2.transform.position.x - fgTreesParallaxSpeed, 0f);
+        cloud1.transform.position = new Vector2(cloud1.transform.position.x - cloudParallaxSpeed, cloud1YPos);
+        cloud2.transform.position = new Vector2(cloud2.transform.position.x - cloudParallaxSpeed, cloud2YPos);
         UpdateFields();
     }
 
@@ -143,5 +208,19 @@ public class BackgroundManager : MonoBehaviour
         fgTrees2LeftBound = fgTrees2.transform.position.x - (fgTreesWidth / 2f);
         fgTrees1RightBound =fgTrees1.transform.position.x + (fgTreesWidth / 2f);
         fgTrees2RightBound =fgTrees2.transform.position.x + (fgTreesWidth / 2f);
+    }
+
+    private void InitializeCloudsFields()
+    {
+        cloud1Width = 18f;
+        cloud2Width = 18f;
+        cloud1YPos = 7f;
+        cloud2YPos = 7f;
+        cloud1.transform.position = new Vector2(player.transform.position.x, cloud1YPos);
+        cloud2.transform.position = new Vector2(player.transform.position.x + cloud2Width, cloud2YPos);
+        cloud1LeftBound = cloud1.transform.position.x - (cloud1Width / 2f);
+        cloud2LeftBound = cloud2.transform.position.x - (cloud2Width / 2f);
+        cloud1RightBound = cloud1.transform.position.x + (cloud1Width / 2f);
+        cloud2RightBound = cloud2.transform.position.x + (cloud2Width / 2f);
     }
 }
