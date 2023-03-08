@@ -47,7 +47,6 @@ public class MushroomManager : MonoBehaviour
     private List<GameObject> mushroomList;    // List of currently spawned shrooms
     private const int mushroomLimit = 3;      // Constant for max amount of shrooms
     UIManager uiManager;
-    bool disableCollider;
     [SerializeField] GameObject spore;
 
     [SerializeField] private Vector2 offset;      // Offset for spawning shrooms outside of player hitbox
@@ -72,18 +71,27 @@ public class MushroomManager : MonoBehaviour
     void Start()
     {
         // Grab components
+
+        // Camera
         cam = Camera.main;
         camHeight = cam.orthographicSize;
         camWidth = camHeight * cam.aspect;
+
+        // Player
         player = GameObject.Find("Player");
         playerRB = player.GetComponent<Rigidbody2D>();
         playerMove = player.GetComponent<PlayerMovement>();
-        mushroomList = new List<GameObject>();
-        environmentManager = FindObjectOfType<EnvironmentManager>();
-        cursor = FindObjectOfType<GameCursor>();
         playerAnim = player.GetComponent<Animator>();
+
+        // Mushroom
+        mushroomList = new List<GameObject>();
+
+        // Managers
+        environmentManager = FindObjectOfType<EnvironmentManager>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        disableCollider = true;
+
+        // UI
+        cursor = FindObjectOfType<GameCursor>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 
         // Instantiates layer field
@@ -153,11 +161,8 @@ public class MushroomManager : MonoBehaviour
     /// <param name="type"> Which type of mushroom is being thrown</param>
     void ThrowMushroom()
     {
-        mushroomCount = MushroomList.Count;
-        mushroomList.Add(Instantiate(organicShroom, playerRB.position, Quaternion.identity));
-        // Makes it so that the player and shroom cannot collide  when it is thrown, set back to true when the shroom touches a wall.
-        //mushroomList[mushroomCount].layer = 7 + MushroomList.IndexOf(mushroomList[mushroomCount]);
-        //Physics2D.IgnoreLayerCollision(mushroomList[mushroomCount].layer, 6, true);
+        mushroomCount = mushroomList.Count;
+        mushroomList.Add(Instantiate(spore, playerRB.position, Quaternion.identity));
 
         mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
     }
@@ -183,10 +188,6 @@ public class MushroomManager : MonoBehaviour
             throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
-            foreach (GameObject m in MushroomList)
-            {
-                m.layer = m.layer - 1;
-            }
             ThrowMushroom();
         }
     }
@@ -251,9 +252,6 @@ public class MushroomManager : MonoBehaviour
     /// <param name="mushroom"> The mushroom colliding with the platform</param>
     private void RotateAndFreezeShroom(GameObject mushroom)
     {
-        // Allows player and shroom to collide again
-        //Physics2D.IgnoreLayerCollision(mushroom.layer, 6, false);
-
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
         ContactPoint2D[] contacts = new ContactPoint2D[1];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
@@ -275,6 +273,12 @@ public class MushroomManager : MonoBehaviour
         // Freezes shroom movement and rotation, and sets hasRotated to true
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         mushroom.GetComponent<MushroomInfo>().hasRotated = true;
+
+        GameObject shroom = Instantiate(mushroom.GetComponent<MushroomInfo>().mushroom, mushroom.transform.position, rotation);
+        shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        shroom.GetComponent<MushroomInfo>().hasRotated = true;
+        mushroomList[mushroomList.IndexOf(mushroom)] = shroom;
+        Destroy(mushroom);
     }
 
     /// <summary>
@@ -313,34 +317,6 @@ public class MushroomManager : MonoBehaviour
         {
             playerMove.GetComponent<BouncingEffect>().canBounce = false;
         }
-    }
-
-    private void ShroomInWallCheck()
-    {
-        //LayerMask mask = LayerMask.GetMask("Ground");
-        //float currentOffset;
-        //if (playerMove.IsFacingRight)
-        //{
-        //    currentOffset = offset.x;
-        //}
-        //else
-        //{
-        //    currentOffset = -offset.x;
-        //}
-
-        //RaycastHit2D hitInfo = Physics2D.Linecast(playerRB.position, new Vector2(playerRB.position.x + currentOffset, playerRB.position.y), mask);
-
-        //if (hitInfo)
-        //{
-        //    Debug.Log("11");
-        //    disableCollider = false;
-        //    tempOffset = 0;
-        //}
-        //else
-        //{
-        //    disableCollider = true;
-        //    tempOffset = offset.x;
-        //}
     }
 
     #region INPUT HANDLER
@@ -391,7 +367,6 @@ public class MushroomManager : MonoBehaviour
                     switch (throwState)
                     {
                         case ThrowState.Throwing:
-                            ShroomInWallCheck();
                             CheckShroomCount();
                             throwState = ThrowState.NotThrowing;
                             break;
