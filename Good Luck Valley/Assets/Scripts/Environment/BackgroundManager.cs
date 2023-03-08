@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class BackgroundManager : MonoBehaviour
 {
+    [Header("Managers n Stuff")]
     public GameObject player;
+    public PauseMenu pauseMenu;
     public GameObject cam;
     private PlayerMovement pM;
     private float camLeftBound;
@@ -63,26 +65,30 @@ public class BackgroundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateFields();
-
-        // Commented out for now
-        //CheckBGTreesMove();
-        //CheckFGTreesMove();
-
-        CheckCloudsMove();
-        if (pM._isMoving && pM.RB.velocity.x > 0)
+        if (!pauseMenu.paused)
         {
-            //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed);
-            //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed);
-            cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed);
-            ParallaxScrolling();
-        }
-        else if (pM._isMoving && pM.RB.velocity.x < 0)
-        {
-            //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed) * -1;
-            //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed) * -1;
-            cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed) * -1;
-            ParallaxScrolling();
+            UpdateFields();
+
+            // Commented out for now
+            //CheckBGTreesMove();
+            //CheckFGTreesMove();
+
+
+            CheckCloudsMove();
+            if (pM._isMoving && pM.RB.velocity.x > 0)
+            {
+                //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed);
+                //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed);
+                cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed);
+                ParallaxScrolling();
+            }
+            else if (pM._isMoving && pM.RB.velocity.x < 0)
+            {
+                //bgTreesParallaxSpeed = Mathf.Abs(bgTreesParallaxSpeed) * -1;
+                //fgTreesParallaxSpeed = Mathf.Abs(fgTreesParallaxSpeed) * -1;
+                cloudParallaxSpeed = Mathf.Abs(cloudParallaxSpeed) * -1;
+                ParallaxScrolling();
+            }
         }
     }
 
