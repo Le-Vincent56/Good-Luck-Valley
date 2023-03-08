@@ -296,7 +296,7 @@ public class MushroomManager : MonoBehaviour
         // The angle that the shroom is going to rotate at
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // The quaternion that will rotate the s
+        // The quaternion that will rotate the shroom
         Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
         mushroom.transform.rotation = rotation;
 
