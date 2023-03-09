@@ -183,19 +183,23 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "Hold Left-Click to aim towards your cursor and release to fire a Mushroom. Colliding with the Mushroom will push you in the opposite direction.";
+                tutorialText = "Hold Left-Click to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
+                    "\n\nRemove all Shrooms with Q and remove the last thrown Shroom using R";
                 break;
 
             case "Playstation Controller":
-                tutorialText = "Hold R2 to aim towards your cursor and release to fire a Mushroom. Colliding with the Mushroom will push you in the opposite direction.";
+                tutorialText = "Hold R2 to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
+                    "\n\nRemove all Shrooms with Triangle and remove the last thrown Shroom using Square";
                 break;
 
             case "XBox Controller":
-                tutorialText = "Hold RT to aim towards your cursor and release to fire a Mushroom. Colliding with the Mushroom will push you in the opposite direction.";
+                tutorialText = "Hold RT to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
+                    "\n\nRemove all Shrooms with Y and remove the last thrown Shroom using X";
                 break;
 
             case "Switch Pro Controller":
-                tutorialText = "Hold ZR to aim towards your cursor and release to fire a Mushroom. Colliding with the Mushroom will push you in the opposite direction.";
+                tutorialText = "Hold ZR to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
+                    "\n\nRemove all Shrooms with X and remove the last thrown Shroom using Y";
                 break;
 
             default:
