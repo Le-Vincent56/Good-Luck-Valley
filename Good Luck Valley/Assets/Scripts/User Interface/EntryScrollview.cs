@@ -43,7 +43,7 @@ public class EntryScrollview : MonoBehaviour
             if(!noteAlreadyAdded)
             {
                 GameObject instance = Instantiate(entryPrefab, contentTransform);
-                instance.GetComponent<RectTransform>().sizeDelta = new Vector2(220f, 20);
+                instance.GetComponent<RectTransform>().sizeDelta = new Vector2(385f, 40);
                 instance.GetComponentInChildren<Text>().text = note.noteTitle;
                 instance.GetComponentInChildren<EntryButton>().Note = note;
                 entries.Add(instance);
