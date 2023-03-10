@@ -12,6 +12,7 @@ public class Journal : MonoBehaviour
     private EntryScrollview entryScrollview;
     private Canvas journalUI;
     public bool menuOpen = false;
+    public AudioSource journalPageSound;
     #endregion
 
     #region PROPERTIES
@@ -24,6 +25,7 @@ public class Journal : MonoBehaviour
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         panelText = GameObject.Find("EntryText").GetComponent<Text>();
         entryScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
+        journalPageSound = GetComponent<AudioSource>();
 
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;

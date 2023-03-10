@@ -25,11 +25,12 @@ public class Note : Interactable
 
     public override void Interact()
     {
-        // Add the note to the journal and trigger notification
+        // Add the note to the journal and trigger notification and sound effect
         if(!noteAdded)
         {
             journal.Notes.Add(this);
             effectPanelNotification.NotifQueue.Enqueue(this);
+            journal.journalPageSound.Play();
             noteAdded = true;
         }
 
