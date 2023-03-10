@@ -9,14 +9,7 @@ public class MushroomInfo : MonoBehaviour
     public float timeStep = 0.01f;
     public bool bouncing = false;
     public float bouncingTimer = 0.1f;
-
-    // animation updates
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject mushroom;
 
     // Update is called once per frame
     void Update()

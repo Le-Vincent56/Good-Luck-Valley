@@ -98,33 +98,33 @@ public class PlayerMovement : MonoBehaviour
         #region COLLISION CHECKS
         if (!IsJumping)
         {
-            //// Ground Check
-            //if (GetComponent<Collider2D>().IsTouching(mapCollider))
-            //{
-            //    // If bouncing beore, end bouncing
-            //    if (bounceEffect.bouncing)
-            //    {
-            //        bounceEffect.bouncing = false;
-            //    }
+			//// Ground Check
+			//if (GetComponent<Collider2D>().IsTouching(mapCollider))
+			//{
+			//	// If bouncing beore, end bouncing
+			//	if (bounceEffect.bouncing)
+			//	{
+			//		bounceEffect.bouncing = false;
+			//	}
 
-            //    // Ground player
-            //    isGrounded = true;
+			//	// Ground player
+			//	isGrounded = true;
 
-            //    // Set coyote time
-            //    LastOnGroundTime = Data.coyoteTime;
+			//	// Set coyote time
+			//	LastOnGroundTime = Data.coyoteTime;
 
-            //    if (landedTimer > 0)
-            //    {
-            //        landedTimer -= Time.deltaTime;
-            //        justLanded = true;
-            //        animator.SetBool("JustLanded", true);
-            //    }
-            //    else
-            //    {
-            //        justLanded = false;
-            //        animator.SetBool("JustLanded", false);
-            //    }
-            //}
+			//	if (landedTimer > 0)
+			//	{
+			//		landedTimer -= Time.deltaTime;
+			//		justLanded = true;
+			//		animator.SetBool("JustLanded", true);
+			//	}
+			//	else
+			//	{
+			//		justLanded = false;
+			//		animator.SetBool("JustLanded", false);
+			//	}
+			//}
 
 			// Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
@@ -188,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Jump", false);
         }
 
-        if (_isJumpFalling)
+        if (_isJumpFalling || RB.velocity.y < -0.1)
         {
             isGrounded = false;
             animator.SetBool("Falling", true);

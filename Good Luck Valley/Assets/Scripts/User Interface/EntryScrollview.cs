@@ -15,7 +15,9 @@ public class EntryScrollview : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
+        scrollView = GameObject.Find("EntryPanel").GetComponent<ScrollRect>();
+        contentTransform = GameObject.Find("Entries").GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -41,7 +43,7 @@ public class EntryScrollview : MonoBehaviour
             if(!noteAlreadyAdded)
             {
                 GameObject instance = Instantiate(entryPrefab, contentTransform);
-                instance.GetComponent<RectTransform>().sizeDelta = new Vector2(195.37f, 20);
+                instance.GetComponent<RectTransform>().sizeDelta = new Vector2(385f, 40);
                 instance.GetComponentInChildren<Text>().text = note.noteTitle;
                 instance.GetComponentInChildren<EntryButton>().Note = note;
                 entries.Add(instance);

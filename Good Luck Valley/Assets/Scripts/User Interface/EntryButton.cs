@@ -27,5 +27,6 @@ public class EntryButton : MonoBehaviour
     public void RetrieveJournalEntry()
     {
         panelText.text = associatedNote.textValue;
+        journal.journalPageSound.Play();
     }
 }
