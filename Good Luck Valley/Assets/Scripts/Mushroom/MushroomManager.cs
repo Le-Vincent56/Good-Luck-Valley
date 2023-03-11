@@ -284,6 +284,8 @@ public class MushroomManager : MonoBehaviour
     private void RotateAndFreezeShroom(GameObject mushroom)
     {
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
+        mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
         ContactPoint2D[] contacts = new ContactPoint2D[1];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
 
