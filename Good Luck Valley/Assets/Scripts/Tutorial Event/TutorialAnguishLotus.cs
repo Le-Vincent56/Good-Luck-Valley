@@ -10,6 +10,9 @@ public class TutorialAnguishLotus : Interactable
     [SerializeField] Tutorial tutorialManager;
     [SerializeField] float fadeTimer = 3.0f;
 
+    // Demo effect
+    [SerializeField] GameObject fadeEffect;
+
     void Start()
     {
         tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
