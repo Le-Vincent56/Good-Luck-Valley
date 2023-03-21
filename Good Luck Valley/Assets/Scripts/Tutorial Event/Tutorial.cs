@@ -27,6 +27,12 @@ public class Tutorial : MonoBehaviour
 
     private PlayerInput playerInput;
     [SerializeField] private string currentControlScheme;
+
+    // Demo Thanks Message
+    private Text demoEndText;
+    private Text titleButtonText;
+    private Image buttonImage; 
+    private bool showingDemoEndText = false;
     #endregion
 
     #region PROPERTIES
@@ -34,6 +40,8 @@ public class Tutorial : MonoBehaviour
     public bool ShowingInteractableText { get { return showingInteractableText; } set { showingInteractableText = value; } }
     public bool ShowingBounceText { get { return showingBounceText; } set { showingBounceText = value; } }
     public bool ShowingLotusText { get { return showingLotusText; } set { showingLotusText = value; } }
+
+    public bool ShowingDemoEndText { get { return showingDemoEndText; } set { showingDemoEndText = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -48,6 +56,11 @@ public class Tutorial : MonoBehaviour
         lotusTutorialText = GameObject.Find("Anguish Lotus Tutorial Text").GetComponent<Text>();
         lotusPanelImage = GameObject.Find("Anguish Lotus Tutorial Panel").GetComponent<Image>();
         playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
+
+        // Demo Thanks Message
+        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<Text>();
+        titleButtonText = GameObject.Find("Title Text").GetComponent<Text>();
+        buttonImage = GameObject.Find("Title Screen").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -85,6 +98,12 @@ public class Tutorial : MonoBehaviour
         } else
         {
             fadeLotusTutorialText();
+        }
+
+        // Demo Thanks Message
+        if (showingDemoEndText)
+        {
+            showDemoEndText();
         }
     }
 
@@ -241,6 +260,20 @@ public class Tutorial : MonoBehaviour
         {
             lotusPanelImage.color = new Color(lotusPanelImage.color.r, lotusPanelImage.color.g, lotusPanelImage.color.b, lotusPanelImage.color.a - (Time.deltaTime * 2));
             lotusTutorialText.color = new Color(lotusTutorialText.color.r, lotusTutorialText.color.g, lotusTutorialText.color.b, lotusTutorialText.color.a - (Time.deltaTime * 2));
+        }
+    }
+
+    // Demo thanks message
+    public void showDemoEndText()
+    {
+        demoEndText.text = "You have reached the end of the demo. Thank you for playing!";
+        titleButtonText.text = "Return To Title";
+
+        if (demoEndText.color.a < 1)
+        {
+            demoEndText.color = new Color(demoEndText.color.r, demoEndText.color.g, demoEndText.color.b, demoEndText.color.a + (Time.deltaTime * 1f));
+            titleButtonText.color = new Color(titleButtonText.color.r, titleButtonText.color.g, titleButtonText.color.b, titleButtonText.color.a + (Time.deltaTime * 1f));
+            buttonImage.color = new Color(buttonImage.color.r, buttonImage.color.g, buttonImage.color.b, buttonImage.color.a + (Time.deltaTime * 1f));
         }
     }
 }

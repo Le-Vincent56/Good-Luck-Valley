@@ -9,6 +9,8 @@ public class TutorialAnguishLotus : Interactable
     private bool endLevel = false;
     [SerializeField] Tutorial tutorialManager;
     [SerializeField] float fadeTimer = 3.0f;
+    private PlayerMovement playerMovement;
+    private PauseMenu pauseMenu;
 
     // Demo effect
     [SerializeField] GameObject fadeEffect;
@@ -16,8 +18,10 @@ public class TutorialAnguishLotus : Interactable
     void Start()
     {
         tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
+        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         remove = false;
-        fadeTimer = 3.0f;
+        fadeTimer = 2.0f;
         endLevel = false;
     }
 
@@ -44,15 +48,31 @@ public class TutorialAnguishLotus : Interactable
         // If endlevel
         if(endLevel)
         {
-            // Start the fade tiemr
+            // Start the fade timer
+            if(!pauseMenu.paused)
+            {
+                playerMovement.MoveInput = Vector2.zero;
+                pauseMenu.paused = true;
+                tutorialManager.ShowingDemoEndText = true;
+            }
+
+            if (fadeEffect.GetComponent<SpriteRenderer>().color.a < .6f)
+            {
+                fadeEffect.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, (Time.deltaTime * .5f));
+            }
+            else if (tutorialManager.ShowingDemoEndText)
+            {
+                tutorialManager.ShowingDemoEndText = false;
+            }
+
             fadeTimer -= Time.deltaTime;
 
             // Once the fade timer hits 0, finish interacting
             // and go to title screen
-            if(fadeTimer <= 0)
+            if (fadeTimer <= 0)
             {
+                Debug.Log("cum");
                 finishedInteracting = true;
-                SceneManager.LoadScene("Title Screen");
             }
         }
 
@@ -65,5 +85,13 @@ public class TutorialAnguishLotus : Interactable
 
         // End the level
         endLevel = true;
+    }
+
+    public void OnClickTitle()
+    {
+        if (finishedInteracting)
+        {
+            SceneManager.LoadScene("Title Screen");
+        }
     }
 }
