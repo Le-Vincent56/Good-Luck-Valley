@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
     private PlayerMovement playerMovement;
     private Journal journalMenu;
     public bool paused = false;
-
+    
     // Start is called before the first frame update
     void Start()
     {
