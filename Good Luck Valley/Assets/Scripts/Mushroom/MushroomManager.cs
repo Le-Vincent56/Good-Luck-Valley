@@ -35,7 +35,7 @@ public class MushroomManager : MonoBehaviour
 
     [Header("Platform Interaction")]
     [SerializeField] string stuckSurfaceTag;  // Tag of object shroom will stick to
-    [SerializeField] EnvironmentManager environmentManager;
+    [SerializeField] PlatformsManager environmentManager;
     private ContactFilter2D layer;         // A contact filter to filter out ground layers
     Vector2 forceDirection;
 
@@ -52,7 +52,7 @@ public class MushroomManager : MonoBehaviour
     private Dictionary<int, GameObject> changeShroomIndexes;
 
     [SerializeField] private Vector2 offset;      // Offset for spawning shrooms outside of player hitbox
-    private int mushroomCount;                // How many shrooms are currently spawned in
+    public int mushroomCount;                // How many shrooms are currently spawned in
     public List<GameObject> MushroomList { get { return mushroomList; } }
 
     [Header("Throw")]
@@ -91,7 +91,7 @@ public class MushroomManager : MonoBehaviour
         changeShroomIndexes = new Dictionary<int, GameObject>();
 
         // Managers
-        environmentManager = FindObjectOfType<EnvironmentManager>();
+        environmentManager = FindObjectOfType<PlatformsManager>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         // UI
@@ -110,6 +110,7 @@ public class MushroomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(mushroomCount);
 
         // Animation updates
         if (throwing)
