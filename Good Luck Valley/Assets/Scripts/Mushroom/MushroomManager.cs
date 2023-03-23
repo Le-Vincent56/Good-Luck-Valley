@@ -271,7 +271,6 @@ public class MushroomManager : MonoBehaviour
                 GameObject tShroom = mushroomList[i];
                 mushroomList[i] = changeShroomIndexes[i];
                 Destroy(tShroom);
-                Debug.Log(mushroomList[i]);
             }
         }
         changeShroomIndexes.Clear();
