@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class DecompasableTile : MonoBehaviour
 {
-    public bool isDecomposed;
-    [SerializeField] GameObject tile;
+    #region REFERENCES
+    [SerializeField] private GameObject tile;
+    #endregion
+
+    #region FIELDS
+    private bool isDecomposed;
+    #endregion
+
+    #region PROPERTIES
+    public bool IsDecomposed { get { return isDecomposed; } set { isDecomposed = value; } }
+    #endregion
+
 
 
     void Start()

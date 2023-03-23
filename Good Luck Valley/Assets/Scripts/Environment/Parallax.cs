@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
-    private float startPosition;
+    #region REFERENCES
     private GameObject mainCam;
+    #endregion
+
+    #region FIELDS
     [SerializeField] private float parallaxScrolling;
+    private float startPosition;
+    #endregion
 
     // Start is called before the first frame update
     void Start()

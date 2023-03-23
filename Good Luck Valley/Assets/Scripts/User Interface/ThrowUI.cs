@@ -5,19 +5,24 @@ using UnityEngine;
 
 public class ThrowUI : MonoBehaviour
 {
-    [SerializeField] MushroomManager mushMan;
+    #region REFERENCES
+    private MushroomManager mushroomManager;
+    private GameObject player;
+    #endregion
 
-    [Header("UI Details")]
-    public int segments;
-    public float width;
-
-    public LineRenderer lineRenderer = null;
-
-    Vector3[] lineRendererStartingPoints = null;
+    #region FIELDS
+    private int segments;
+    private float width;
+    private LineRenderer lineRenderer = null;
+    private Vector3[] lineRendererStartingPoints = null;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
+        player = GameObject.Find("Player");
+
         // Width of the line
         width = 0.2f;
 
@@ -82,7 +87,7 @@ public class ThrowUI : MonoBehaviour
                 if (playerPos.x + launchForce.x < playerPos.x)
                 {
                     // Turns the player by calling playerMovement's Turn method
-                    mushMan.player.GetComponent<PlayerMovement>().Turn();
+                    player.GetComponent<PlayerMovement>().Turn();
                 }
                 // Sets starting position for line to match the location the shrooms are
                 //      spawned from with the offset
@@ -94,7 +99,7 @@ public class ThrowUI : MonoBehaviour
                 if (playerPos.x - launchForce.x < playerPos.x)
                 {
                     // sets launchforce to zero to 'stop' the renderer
-                    mushMan.player.GetComponent<PlayerMovement>().Turn();
+                    player.GetComponent<PlayerMovement>().Turn();
                 }
                 // sets starting position for line to match the location the shrooms are
                 //      spawned from with the offseta

@@ -6,16 +6,12 @@ public abstract class MoveablePlatform : MonoBehaviour
 {
     #region FIELDS
     protected bool isTriggered;
-    public bool IsTriggered { get { return isTriggered; } set { isTriggered = value; } }
-
     protected List<GameObject> stuckShrooms = new List<GameObject>();
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region PROPERTIES
+    public bool IsTriggered { get { return isTriggered; } set { isTriggered = value; } }
+    #endregion
 
     // Update is called once per frame
     void Update()
@@ -26,6 +22,9 @@ public abstract class MoveablePlatform : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Move the Platform
+    /// </summary>
     public abstract void Move();
 
     /// <summary>

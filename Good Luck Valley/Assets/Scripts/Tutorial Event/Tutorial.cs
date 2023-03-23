@@ -6,32 +6,30 @@ using UnityEngine.InputSystem;
 
 public class Tutorial : MonoBehaviour
 {
-    #region FIELDS
+    #region REFERENCES
     private Text movementTutorialText;
     private Image movePanelImage;
-    [SerializeField] private bool showingMovementText = false;
-
     private Text interactableTutorialText;
     private Image interPanelImage;
-    [SerializeField] private bool showingInteractableText = false;
-
     private Text bounceTutorialText;
     private Image bouncePanelImage;
-    [SerializeField] private bool showingBounceText = false;
-
     private Text lotusTutorialText;
     private Image lotusPanelImage;
-    private bool lotusTextSet = false;
-    private bool showingLotusText = false;
-    [SerializeField] private float lotusFadeInTimer = 0.0f;
-
     private PlayerInput playerInput;
+    private Text demoEndText;
+    private Text titleButtonText;
+    private Image buttonImage;
+    #endregion
+
+    #region FIELDS
+    [SerializeField] private bool showingMovementText = false;
+    [SerializeField] private bool showingInteractableText = false;
+    [SerializeField] private bool showingBounceText = false;
+    private bool showingLotusText = false;
     [SerializeField] private string currentControlScheme;
 
     // Demo Thanks Message
-    private Text demoEndText;
-    private Text titleButtonText;
-    private Image buttonImage; 
+    
     private bool showingDemoEndText = false;
     #endregion
 
@@ -40,7 +38,6 @@ public class Tutorial : MonoBehaviour
     public bool ShowingInteractableText { get { return showingInteractableText; } set { showingInteractableText = value; } }
     public bool ShowingBounceText { get { return showingBounceText; } set { showingBounceText = value; } }
     public bool ShowingLotusText { get { return showingLotusText; } set { showingLotusText = value; } }
-
     public bool ShowingDemoEndText { get { return showingDemoEndText; } set { showingDemoEndText = value; } }
     #endregion
 
@@ -68,6 +65,7 @@ public class Tutorial : MonoBehaviour
     {
         currentControlScheme = playerInput.currentControlScheme;
 
+        // Show/Hide Movement Tutorial Text
         if (showingMovementText)
         {
             showMovementTutorialText();
@@ -76,6 +74,7 @@ public class Tutorial : MonoBehaviour
             fadeMovementTutorialText();
         }
 
+        // Show/Hide Interactable Tutorial Text
         if(showingInteractableText)
         {
             showInteractableTutorialText();
@@ -84,6 +83,7 @@ public class Tutorial : MonoBehaviour
             fadeInteractableTutorialText();
         }
 
+        // Show/Hide Bounce Tutorial Text
         if(showingBounceText)
         {
             showBounceTutorialText();
@@ -92,6 +92,7 @@ public class Tutorial : MonoBehaviour
             fadeBounceTutorialText();
         }
 
+        // Show/Hide Lotus Tutorial Text
         if(showingLotusText)
         {
             showLotusTutorialText();
@@ -107,10 +108,14 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Show Movement tutorial text depending on the control scheme
+    /// </summary>
     public void showMovementTutorialText()
     {
         string tutorialText = "";
 
+        // Show correct controls for the different controllers
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
@@ -133,16 +138,23 @@ public class Tutorial : MonoBehaviour
                 break;
         }
 
+        // Set text
         movementTutorialText.text = tutorialText;
 
+        // Fade in the text using deltaTime and alpha values
         if (movePanelImage.color.a < 1 && movementTutorialText.color.a < 1)
         {
             movePanelImage.color = new Color(movePanelImage.color.r, movePanelImage.color.g, movePanelImage.color.b, movePanelImage.color.a + (Time.deltaTime * 2));
             movementTutorialText.color = new Color(movementTutorialText.color.r, movementTutorialText.color.g, movementTutorialText.color.b, movementTutorialText.color.a + (Time.deltaTime * 2));
         }
     }
+
+    /// <summary>
+    /// Fade out the Movement tutorial text
+    /// </summary>
     public void fadeMovementTutorialText()
     {
+        // Fade out the text using deltaTime and alpha values
         if (movePanelImage.color.a > 0 && movementTutorialText.color.a > 0)
         {
             movePanelImage.color = new Color(movePanelImage.color.r, movePanelImage.color.g, movePanelImage.color.b, movePanelImage.color.a - (Time.deltaTime * 2));
@@ -150,10 +162,14 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Show the Interactable tutorial text depending on the control scheme
+    /// </summary>
     public void showInteractableTutorialText()
     {
         string tutorialText = "";
 
+        // Show correct controls for the different controllers
         switch (currentControlScheme)
         {
 
@@ -177,8 +193,10 @@ public class Tutorial : MonoBehaviour
                 break;
         }
 
+        // Set text
         interactableTutorialText.text = tutorialText;
 
+        // Fade in the text using deltaTime and alpha values
         if (interPanelImage.color.a < 1 && interactableTutorialText.color.a < 1)
         {
             interPanelImage.color = new Color(interPanelImage.color.r, interPanelImage.color.g, interPanelImage.color.b, interPanelImage.color.a + (Time.deltaTime * 2));
@@ -186,8 +204,12 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Fade out the Interactable tutorial text
+    /// </summary>
     public void fadeInteractableTutorialText()
     {
+        // Fade out the text using deltaTime and alpha values
         if (interPanelImage.color.a > 0 && interactableTutorialText.color.a > 0)
         {
             interPanelImage.color = new Color(interPanelImage.color.r, interPanelImage.color.g, interPanelImage.color.b, interPanelImage.color.a - (Time.deltaTime * 2));
@@ -195,10 +217,14 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Show Bounce tutorial text depending on the control scheme
+    /// </summary>
     public void showBounceTutorialText()
     {
         string tutorialText = "";
 
+        // Show correct controls for the different controllers
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
@@ -225,8 +251,10 @@ public class Tutorial : MonoBehaviour
                 break;
         }
 
+        // Set text
         bounceTutorialText.text = tutorialText;
 
+        // Fade in the text using deltaTime and alpha values
         if (bouncePanelImage.color.a < 1 && bounceTutorialText.color.a < 1)
         {
             bouncePanelImage.color = new Color(bouncePanelImage.color.r, bouncePanelImage.color.g, bouncePanelImage.color.b, bouncePanelImage.color.a + (Time.deltaTime * 2));
@@ -234,8 +262,12 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Fade out the Bounce tutorial text
+    /// </summary>
     public void fadeBounceTutorialText()
     {
+        // Fade out the text using deltaTime and alpha values
         if (bouncePanelImage.color.a > 0 && bounceTutorialText.color.a > 0)
         {
             bouncePanelImage.color = new Color(bouncePanelImage.color.r, bouncePanelImage.color.g, bouncePanelImage.color.b, bouncePanelImage.color.a - (Time.deltaTime * 2));
@@ -243,10 +275,15 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Show Lotus tutorial text
+    /// </summary>
     public void showLotusTutorialText()
     {
+        // Set text
         lotusTutorialText.text = "Interact with the Anguish Lotus to Complete the Level!";
 
+        // Fade in the text using deltaTime and alpha values
         if (lotusPanelImage.color.a < 1 && lotusTutorialText.color.a < 1)
         {
             lotusPanelImage.color = new Color(lotusPanelImage.color.r, lotusPanelImage.color.g, lotusPanelImage.color.b, lotusPanelImage.color.a + (Time.deltaTime * 2));
@@ -254,8 +291,12 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Fade out the Lotus tutorial text
+    /// </summary>
     public void fadeLotusTutorialText()
     {
+        // Fade out the text using deltaTime and alpha values
         if (lotusPanelImage.color.a > 0 && lotusTutorialText.color.a > 0)
         {
             lotusPanelImage.color = new Color(lotusPanelImage.color.r, lotusPanelImage.color.g, lotusPanelImage.color.b, lotusPanelImage.color.a - (Time.deltaTime * 2));
@@ -263,12 +304,16 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    // Demo thanks message
+    /// <summary>
+    /// Show Thank You message for completing the Demo
+    /// </summary>
     public void showDemoEndText()
     {
+        // Set text
         demoEndText.text = "You have reached the end of the demo. Thank you for playing!";
         titleButtonText.text = "Return To Title";
 
+        // Fade in the text using deltaTime and alpha values
         if (demoEndText.color.a < 1)
         {
             demoEndText.color = new Color(demoEndText.color.r, demoEndText.color.g, demoEndText.color.b, demoEndText.color.a + (Time.deltaTime * 1f));
