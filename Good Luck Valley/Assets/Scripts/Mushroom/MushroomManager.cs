@@ -210,7 +210,7 @@ public class MushroomManager : MonoBehaviour
 
             // checks if the mushroom is touching the pladdddddddddd atform and hasn't rotated
             if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<CompositeCollider2D>()) &&
-                !m.GetComponent<MushroomInfo>().hasRotated)
+                !m.GetComponent<MushroomInfo>().HasRotated)
             {
                 // If so, calls rotate shroom method to rotate and freeze the shroom properly
                 RotateAndFreezeShroom(m);
@@ -221,7 +221,7 @@ public class MushroomManager : MonoBehaviour
                 Debug.Log("L");
                 // checks if the mushroom is touching the platform and hasn't rotated
                 if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
-                    !m.GetComponent<MushroomInfo>().hasRotated)
+                    !m.GetComponent<MushroomInfo>().HasRotated)
                 {
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
                     RotateAndFreezeShroom(m);
@@ -230,7 +230,7 @@ public class MushroomManager : MonoBehaviour
                 }
             }
 
-            if (!m.GetComponent<MushroomInfo>().hasRotated)
+            if (!m.GetComponent<MushroomInfo>().HasRotated)
             {
                 foreach (GameObject d in environmentManager.decomposableTiles)
                 {
@@ -306,12 +306,12 @@ public class MushroomManager : MonoBehaviour
 
         // Freezes shroom movement and rotation, and sets hasRotated to true
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        mushroom.GetComponent<MushroomInfo>().hasRotated = true;
+        mushroom.GetComponent<MushroomInfo>().HasRotated = true;
 
         GameObject shroom = Instantiate(mushroom.GetComponent<MushroomInfo>().mushroom, 
             mushroom.transform.position, rotation);
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        shroom.GetComponent<MushroomInfo>().hasRotated = true;
+        shroom.GetComponent<MushroomInfo>().HasRotated = true;
         changeShroomIndexes[mushroomList.IndexOf(mushroom)] = shroom;
     }
 
@@ -345,11 +345,11 @@ public class MushroomManager : MonoBehaviour
         // If enough time has passed, set canBounce to true, otherwise set it to false
         if (bounceCooldown <= 0)
         {
-            playerMove.GetComponent<BouncingEffect>().canBounce = true;
+            playerMove.GetComponent<BouncingEffect>().CanBounce = true;
         }
         else
         {
-            playerMove.GetComponent<BouncingEffect>().canBounce = false;
+            playerMove.GetComponent<BouncingEffect>().CanBounce = false;
         }
     }
 

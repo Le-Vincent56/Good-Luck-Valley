@@ -130,9 +130,9 @@ public class PlayerMovement : MonoBehaviour
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
 			{
 				// If bouncing beore, end bouncing
-				if (bounceEffect.bouncing)
+				if (bounceEffect.Bouncing)
 				{
-					bounceEffect.bouncing = false;
+					bounceEffect.Bouncing = false;
 				}
 
 				// Ground player
@@ -211,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
 
         #region GRAVITY
 
-        if (!bounceEffect.bouncing)
+        if (!bounceEffect.Bouncing)
         {
             // Higher gravity if we've released the jump input or are falling
             if (RB.velocity.y < 0 && _moveInput.y < 0)
@@ -341,7 +341,7 @@ public class PlayerMovement : MonoBehaviour
 		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
 			// Prevent any deceleration from happening, or in other words conserve are current momentum
-			if(!bounceEffect.bouncing)
+			if(!bounceEffect.Bouncing)
             {
 				accelRate = 0;
 			} else

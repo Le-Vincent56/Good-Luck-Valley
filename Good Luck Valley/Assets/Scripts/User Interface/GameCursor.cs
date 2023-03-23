@@ -6,10 +6,13 @@ using Cinemachine;
 
 public class GameCursor : MonoBehaviour
 {
-    #region FIELDS
+    #region REFERENCES
     [Header("Camera")]
     private Camera cam;
     private GameObject cmCam;
+    #endregion
+
+    #region FIELDS
     [SerializeField] private bool basedOnPlayer;
 
     private float cmWidth;
@@ -28,12 +31,12 @@ public class GameCursor : MonoBehaviour
     GameObject player;
 
     [Header("Cursor")]
-    public bool activated = false;
-    public Vector2 cursorPosition;
-    public Vector2 cursorVelocity = Vector3.zero;
-    public Vector2 cursorDirection = Vector3.zero;
-    public float cursorSpeed = 30f;
-    public bool usingMouse = false;
+    private bool activated = false;
+    private Vector2 cursorPosition;
+    private Vector2 cursorVelocity = Vector3.zero;
+    private Vector2 cursorDirection = Vector3.zero;
+    private float cursorSpeed = 30f;
+    private bool usingMouse = false;
 
     private PauseMenu pauseMenu;
     #endregion
@@ -105,7 +108,7 @@ public class GameCursor : MonoBehaviour
     }
 
     /// <summary>
-    /// Check cursor bounds
+    /// Check cursor bounds when there is a dynamic camera
     /// </summary>
     public void CheckCursorBoundsPlayer()
     {
@@ -208,6 +211,9 @@ public class GameCursor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check cursor bounds when there is a static camera
+    /// </summary>
     public void CheckCursorBoundsStatic()
     {
         // Check x bounds against camera
@@ -232,6 +238,10 @@ public class GameCursor : MonoBehaviour
     }
 
     #region INPUT HANDLER
+    /// <summary>
+    /// OnAim event to trigger cursor movement
+    /// </summary>
+    /// <param name="context">The current controller context being used</param>
     public void OnAim(InputAction.CallbackContext context)
     {
         // Check if context is mouse or controller
