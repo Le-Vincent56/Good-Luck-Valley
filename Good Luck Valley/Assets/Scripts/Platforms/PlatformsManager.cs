@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class PlatformsManager : MonoBehaviour
 {
+    #region REFERENCES
     [Header("Platform Lists")]
-    public List<GameObject> weightedPlatforms;
-    public List<GameObject> collidablePlatforms;
-    public List<GameObject> nonCollidablePlatforms;
-    public List<GameObject> decomposableTiles;
+    [SerializeField] private List<GameObject> weightedPlatforms;
+    [SerializeField] private List<GameObject> collidablePlatforms;
+    [SerializeField] private List<GameObject> nonCollidablePlatforms;
+    [SerializeField] private List<GameObject> decomposableTiles;
     [SerializeField] MushroomManager mushroomManager;
+    #endregion
+
+    #region PROPERTIES
+    public List<GameObject> WeightedPlatforms { get { return weightedPlatforms; } set { weightedPlatforms = value; } }
+    public List<GameObject> DecomposableTiles { get { return decomposableTiles;} set { decomposableTiles = value; } }
+    #endregion
 
     // Start is called before the first frame update
     void Start()

@@ -5,9 +5,14 @@ using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
+    #region REFERENCES
     private Canvas pauseUI;
     private PlayerMovement playerMovement;
-    public bool paused = false;
+    #endregion
+
+    #region FIELDS
+    private bool paused = false;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +22,10 @@ public class UIManager : MonoBehaviour
         pauseUI.enabled = false;
     }
 
-    // do this when paused is pressed
+    /// <summary>
+    /// Pause the Game
+    /// </summary>
+    /// <param name="context">The context of the Controller</param>
     public void Pause(InputAction.CallbackContext context)
     {
         if (!paused)

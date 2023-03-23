@@ -4,62 +4,50 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    #region FIELDS
+    #region REFERENCES
     public PlayerData Data;
-	public bool IsFacingRight { get; private set; }
-	public bool IsJumping { get; private set; }
-	public bool _isMoving;
-
-	// Timers
-	public float LastOnGroundTime { get; private set; }
-	//public float LastOnWallTime { get; private set; }
-	//public float LastOnWallRightTime { get; private set; }
-	//public float LastOnWallLeftTime { get; private set; }
-
-	// Light
-	public GameObject playerLight;
-
-	// Jump
-	private bool _isJumpCut;
-	public bool _isJumpFalling;
-
-	[SerializeField] private Vector2 _moveInput;
-	public Vector2 MoveInput { get { return _moveInput; } set { _moveInput = value; } }
-	public float LastPressedJumpTime { get; private set; }
-
-	[SerializeField] float landedTimer = 0f;
-	[SerializeField] bool justLanded = false;
+    public GameObject playerLight;
+    public Rigidbody2D RB { get; private set; }
+    public Animator animator;
+    public BouncingEffect bounceEffect;
+    private PauseMenu pauseMenu;
+    private CompositeCollider2D mapCollider;
+    public Transform groundCheckPoint;
+    [SerializeField] private LayerMask groundLayer;
     #endregion
 
-    #region VARIABLES
-    // Components
-    public Rigidbody2D RB { get; private set; }
-	public Animator animator;
-	public BouncingEffect bounceEffect;
-	private PauseMenu pauseMenu;
-	private CompositeCollider2D mapCollider;
-
-	// Set all of these up in the inspector
-	[Header("Checks")]
-	public Transform _groundCheckPoint;
-
-	// Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
-	public Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
-
-	[Header("Layers & Tags")]
-	[SerializeField] private LayerMask _groundLayer;
+    #region FIELDS
+    private bool isMoving;
+	private bool isJumping;
+    private bool isJumpCut;
+	private bool isJumpFalling;
+	private bool isFacingRight;
+    private bool isGrounded;
+    private bool inputHorizontal;
+    private bool isLocked = false;
+    [SerializeField] private bool justLanded = false;
+	private float lastOnGroundTime;
+	private float lastPressedJumpTime;
+    [SerializeField] float landedTimer = 0f;
+    private Vector2 playerPosition;
+    private Vector2 previousPlayerPosition;
+    private Vector2 distanceFromLastPosition;
+    [SerializeField] private Vector2 moveInput;
+    public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
 	#endregion
 
-	public Vector2 playerPosition;
-	public Vector2 previousPlayerPosition;
-	public Vector2 distanceFromLastPosition;
+	#region PROPERTIES
+	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
+    public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
+    public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
+	public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
+    public bool InputHorizontal { get { return inputHorizontal; } set { inputHorizontal = value; } }
+	public bool IsLocked { get { return isLocked; } set { isLocked = value; } }
+	public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } set { distanceFromLastPosition = value; } }
+    public Vector2 MoveInput { get { return moveInput; } set { moveInput = value; } }
+    #endregion
 
-	public bool isGrounded;
-	public bool inputHorizontal;
-
-	public bool isLocked = false;
-
-	private void Awake()
+    private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
@@ -71,63 +59,40 @@ public class PlayerMovement : MonoBehaviour
 	private void Start()
 	{
 		SetGravityScale(Data.gravityScale);
-		IsFacingRight = true;
+		isFacingRight = true;
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
 	}
 
 	private void Update()
 	{
+		// Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
-        _isMoving = false;
+		// Check if the player is moving using RB.velocity
+        isMoving = false;
         if (RB.velocity != Vector2.zero)
         {
-            _isMoving = true;
+            isMoving = true;
         }
 
+		// Set the playerLight's position to the player's position
         playerLight.transform.position = transform.position;
 
+		// Update timers
         #region TIMERS
-        LastOnGroundTime -= Time.deltaTime;
+        lastOnGroundTime -= Time.deltaTime;
 
-        LastPressedJumpTime -= Time.deltaTime;
+        lastPressedJumpTime -= Time.deltaTime;
         #endregion
 
+		// Check for Collisions
         #region COLLISION CHECKS
-        if (!IsJumping)
+        if (!isJumping)
         {
-			//// Ground Check
-			//if (GetComponent<Collider2D>().IsTouching(mapCollider))
-			//{
-			//	// If bouncing beore, end bouncing
-			//	if (bounceEffect.bouncing)
-			//	{
-			//		bounceEffect.bouncing = false;
-			//	}
-
-			//	// Ground player
-			//	isGrounded = true;
-
-			//	// Set coyote time
-			//	LastOnGroundTime = Data.coyoteTime;
-
-			//	if (landedTimer > 0)
-			//	{
-			//		landedTimer -= Time.deltaTime;
-			//		justLanded = true;
-			//		animator.SetBool("JustLanded", true);
-			//	}
-			//	else
-			//	{
-			//		justLanded = false;
-			//		animator.SetBool("JustLanded", false);
-			//	}
-			//}
-
 			// Ground Check
-			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) // Checks if set box overlaps with ground
+			if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer) && !isJumping) // Checks if set box overlaps with ground
 			{
 				// If bouncing beore, end bouncing
 				if (bounceEffect.Bouncing)
@@ -139,16 +104,20 @@ public class PlayerMovement : MonoBehaviour
 				isGrounded = true;
 
 				// Set coyote time
-				LastOnGroundTime = Data.coyoteTime;
+				lastOnGroundTime = Data.coyoteTime;
 
+				// If the player has been on the ground for longer than 0 seconds, they have landed
 				if (landedTimer > 0)
 				{
+					// Update variables and set animations
 					landedTimer -= Time.deltaTime;
 					justLanded = true;
 					animator.SetBool("JustLanded", true);
 				}
 				else
 				{
+					// Otherwise, they have not landed - update
+					// variables and set animations
 					justLanded = false;
 					animator.SetBool("JustLanded", false);
 				}
@@ -156,65 +125,82 @@ public class PlayerMovement : MonoBehaviour
 		}
         #endregion
 
+		// Jump checks
         #region JUMP CHECKS
-        if (IsJumping && RB.velocity.y < 0)
+		// If the Player is jumping and the RB.velocity is downward, they are falling
+        if (isJumping && RB.velocity.y < 0)
         {
-            IsJumping = false;
+            isJumping = false;
 
-            _isJumpFalling = true;
+            isJumpFalling = true;
         }
 
-        if (LastOnGroundTime > 0 && !IsJumping)
+		// If the plaer is not Jumping and the time from when they were last on the ground is greater than 0,
+		// they are not jumpCutting
+        if (lastOnGroundTime > 0 && !isJumping)
         {
-            _isJumpCut = false;
+            isJumpCut = false;
 
-            if (!IsJumping)
-                _isJumpFalling = false;
+			// Double check that if they are not jumping, they are falling
+            if (!isJumping)
+			{
+                isJumpFalling = false;
+            }
         }
 
+		// If the player velocity is downward and the player is not touching the ground,
+		// they are falling
         if (RB.velocity.y < 0 && !isGrounded)
         {
-            _isJumpFalling = true;
+			// Allow for fast fall
+			isJumpCut = false;
+
+            isJumpFalling = true;
         }
 
+        // Set Animations
         #region JUMP ANIMATION CHECKS
-        if (IsJumping)
+        // If the player is Jumping, update variables and set the jump animation
+        if (isJumping)
         {
             isGrounded = false;
             animator.SetBool("Jump", true);
         }
-        else if (!IsJumping)
+        else if (!isJumping) // Else, if the player is not jumping, update animations
         {
             animator.SetBool("Jump", false);
         }
 
-        if (_isJumpFalling || RB.velocity.y < -0.1)
+		// If the player is falling or their velocity downwards is greater than -0.1,
+		// update variables and set the falling animation
+        if (isJumpFalling || RB.velocity.y < -0.1)
         {
             isGrounded = false;
             animator.SetBool("Falling", true);
         }
-        else if (!_isJumpFalling)
+        else if (!isJumpFalling) // Otherwise, if the player is not falling, update animations
         {
             animator.SetBool("Falling", false);
         }
         #endregion
 
-        // Jump
-        if (CanJump() && LastPressedJumpTime > 0)
+        // If the player can jump and the last pressed jump time is less than 0,
+		// update variables and call the JumpFunction()
+        if (CanJump() && lastPressedJumpTime > 0)
         {
-            IsJumping = true;
-            _isJumpCut = false;
-            _isJumpFalling = false;
+            isJumping = true;
+            isJumpCut = false;
+            isJumpFalling = false;
             Jump();
         }
         #endregion
 
+		// Calculate Gravity
         #region GRAVITY
-
         if (!bounceEffect.Bouncing)
         {
             // Higher gravity if we've released the jump input or are falling
-            if (RB.velocity.y < 0 && _moveInput.y < 0)
+            if (RB.velocity.y < 0 && moveInput.y < 0)
             {
                 // Much higher gravity if holding down
                 SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
@@ -222,13 +208,13 @@ public class PlayerMovement : MonoBehaviour
                 // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
             }
-            else if (_isJumpCut)
+            else if (isJumpCut)
             {
                 // Higher gravity if jump button released
                 SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
             }
-            else if ((IsJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
+            else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
             {
                 SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
             }
@@ -268,6 +254,7 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
+		// Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;
     }
 
@@ -277,26 +264,35 @@ public class PlayerMovement : MonoBehaviour
         Run(1);
 
 		// Set animation
-        animator.SetFloat("Speed", Mathf.Abs(_moveInput.x));
+        animator.SetFloat("Speed", Mathf.Abs(moveInput.x));
     }
 
 	#region INPUT CALLBACKS
-	// Methods which whandle input detected in Update()
+	/// <summary>
+	/// Update lastPressedJumpTime according to PlayerData
+	/// </summary>
 	public void OnJumpInput()
 	{
-		LastPressedJumpTime = Data.jumpInputBufferTime;
+		lastPressedJumpTime = Data.jumpInputBufferTime;
 	}
 
+	/// <summary>
+	/// Check if the Player can JumpCut when Jumping
+	/// </summary>
 	public void OnJumpUpInput()
 	{
 		if (CanJumpCut())
         {
-			_isJumpCut = true;
+			isJumpCut = true;
 		}
 	}
 	#endregion
 
 	#region GENERAL METHODS
+	/// <summary>
+	/// Set the Player's RigidBody's Gravity Scale
+	/// </summary>
+	/// <param name="scale">The Gravity Scale to set it to</param>
 	public void SetGravityScale(float scale)
 	{
 		RB.gravityScale = scale;
@@ -305,10 +301,15 @@ public class PlayerMovement : MonoBehaviour
 
 	// MOVEMENT METHODS
 	#region RUN METHODS
+	/// <summary>
+	/// Allow the Player to Run
+	/// </summary>
+	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
 		// Calculate the direction we want to move in and our desired velocity
-		float targetSpeed = _moveInput.x * Data.runMaxSpeed;
+		float targetSpeed = moveInput.x * Data.runMaxSpeed;
+
 		// Reduce are control using Lerp() this smooths changes to are direction and speed
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
@@ -317,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
 
 		// Gets an acceleration value based on if we are accelerating (includes turning) 
 		// or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
-		if (LastOnGroundTime > 0)
+		if (lastOnGroundTime > 0)
         {
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
 		}
@@ -329,7 +330,7 @@ public class PlayerMovement : MonoBehaviour
 
 		#region Add Bonus Jump Apex Acceleration
 		// Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
-		if ((IsJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
+		if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
 		{
 			accelRate *= Data.jumpHangAccelerationMult;
 			targetSpeed *= Data.jumpHangMaxSpeedMult;
@@ -338,7 +339,7 @@ public class PlayerMovement : MonoBehaviour
 
 		#region Conserve Momentum
 		// We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
 		{
 			// Prevent any deceleration from happening, or in other words conserve are current momentum
 			if(!bounceEffect.Bouncing)
@@ -362,6 +363,9 @@ public class PlayerMovement : MonoBehaviour
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 	}
 
+	/// <summary>
+	/// Turn the Player to face the direction they are moving in
+	/// </summary>
 	public void Turn()
 	{
 		// Stores scale and flips the player along the x axis, 
@@ -369,16 +373,19 @@ public class PlayerMovement : MonoBehaviour
 		scale.x *= -1;
 		transform.localScale = scale;
 
-		IsFacingRight = !IsFacingRight;
+		isFacingRight = !isFacingRight;
 	}
 	#endregion
 
 	#region JUMP METHODS
+	/// <summary>
+	/// Allow the Player to Jump
+	/// </summary>
 	private void Jump()
 	{
 		// Ensures we can't call Jump multiple times from one press
-		LastPressedJumpTime = 0;
-		LastOnGroundTime = 0;
+		lastPressedJumpTime = 0;
+		lastOnGroundTime = 0;
 		landedTimer = 0.2f;
 
 		#region Perform Jump
@@ -390,46 +397,64 @@ public class PlayerMovement : MonoBehaviour
 			force -= RB.velocity.y;
 		}
 
+		// Add the force to the Player's RigidBody
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 		#endregion
 	}
 	#endregion
 
 	#region CHECK METHODS
+	/// <summary>
+	/// Check which direction the Player is facing
+	/// </summary>
+	/// <param name="isMovingRight">A boolean representing which direction the Player is moving</param>
 	public void CheckDirectionToFace(bool isMovingRight)
 	{
-		if (isMovingRight != IsFacingRight)
+		if (isMovingRight != isFacingRight)
 			Turn();
 	}
 
+	/// <summary>
+	/// Check if the Player can Jump
+	/// </summary>
+	/// <returns>A boolean that states whether the Player can Jump or not</returns>
 	private bool CanJump()
 	{
-		return LastOnGroundTime > 0 && !IsJumping;
+		return lastOnGroundTime > 0 && !isJumping;
 	}
 
+	/// <summary>
+	/// Check if the Player can Jump Cut, or Fast Fall
+	/// </summary>
+	/// <returns>A boolean that states whether the Player can Jump Cut</returns>
 	private bool CanJumpCut()
 	{
-		return IsJumping && RB.velocity.y > 0;
+		return isJumping && RB.velocity.y > 0;
 	}
 	#endregion
 
 	// INPUT HANDLER
 	#region INPUT HANDLER
+	/// <summary>
+	/// Activate Player movement using controls
+	/// </summary>
+	/// <param name="context">The context of the Controller being used</param>
 	public void OnMove(InputAction.CallbackContext context)
     {
-        if (!pauseMenu.paused)
+		// Check if the game is paused
+        if (!pauseMenu.Paused)
         {
 			// Set the move input to the value returned by context
-			_moveInput = context.ReadValue<Vector2>();
+			moveInput = context.ReadValue<Vector2>();
 			
 			// Check direction to face based on vector
-			if (_moveInput.x != 0)
+			if (moveInput.x != 0)
 			{
 				// Set inputHorizontal to true
                 inputHorizontal = true;
 
 				// Check directions to face
-                CheckDirectionToFace(_moveInput.x > 0);
+                CheckDirectionToFace(moveInput.x > 0);
 			}
 
 			// If the bind is no longer pressed, set inputHorizontal to false
@@ -440,9 +465,14 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Activate Player jump using controls
+	/// </summary>
+	/// <param name="context">The context of the Controller being used</param>
 	public void OnJump(InputAction.CallbackContext context)
 	{
-        if (!pauseMenu.paused)
+		// Check if the game is paused
+        if (!pauseMenu.Paused)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -457,12 +487,14 @@ public class PlayerMovement : MonoBehaviour
 	}
 	#endregion
 
-
+	/// <summary>
+	/// Show Gizmos regarding Player movement
+	/// </summary>
 	#region EDITOR METHODS
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
-		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
+		Gizmos.DrawWireCube(groundCheckPoint.position, groundCheckSize);
 		Gizmos.color = Color.blue;
 	}
 	#endregion

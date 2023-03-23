@@ -5,11 +5,10 @@ using UnityEngine;
 public class RotatablePlatform : MoveablePlatform
 {
     #region FIELDS
-    [SerializeField] float angle;
-    [SerializeField] float rotationSpeed;
-    [SerializeField] Vector3 pivotPoint;
-    Quaternion finalRotation;
-    
+    [SerializeField] private float angle;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private Vector3 pivotPoint;
+    private Quaternion finalRotation;
     #endregion
 
     // Start is called before the first frame update

@@ -25,17 +25,17 @@ public class InteractManager : MonoBehaviour
             // Check if the player is in range to interact
             if (interactable.GetComponent<BoxCollider2D>().IsTouching(player.GetComponent<BoxCollider2D>()))
             {
-                interactable.inRange = true;
+                interactable.InRange = true;
             } else
             {
-                interactable.inRange = false;
+                interactable.InRange = false;
             }
         }
 
         // Remove Interactables
         foreach(Interactable interactable in interactables)
         {
-            if(interactable.remove)
+            if(interactable.Remove)
             {
                 interactable.gameObject.SetActive(false);
                 interactable.gameObject.GetComponent<Renderer>().enabled = false;
@@ -43,18 +43,22 @@ public class InteractManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Interact using the control scheme
+    /// </summary>
+    /// <param name="context">The context of the Controller</param>
     public void OnInteract(InputAction.CallbackContext context)
     {
         // Interate through interactables
         foreach(Interactable interactable in interactables)
         {
             // CHeck if any are in range
-            if (interactable.inRange)
+            if (interactable.InRange)
             {
                 // If so, and the interact button is pressed, trigger the interaction
                 if (context.started)
                 {
-                    interactable.controlTriggered = true;
+                    interactable.ControlTriggered = true;
                 }
             }
         }

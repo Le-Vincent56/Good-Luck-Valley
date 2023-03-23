@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class BackgroundManager : MonoBehaviour
 {
-    [Header("Managers n Stuff")]
-    public GameObject player;
-    public PauseMenu pauseMenu;
-    public GameObject cam;
+    #region REFERENCES
+    private GameObject player;
+    private PauseMenu pauseMenu;
+    private GameObject cam;
     private PlayerMovement pM;
+
+    [Header("Background Trees Colored")]
+    [SerializeField] private GameObject bgTrees1;
+    [SerializeField] private GameObject bgTrees2;
+
+    [Header("Background Trees Shadow")]
+    [SerializeField] private GameObject fgTrees1;
+    [SerializeField] private GameObject fgTrees2;
+
+    [Header("Clouds")]
+    [SerializeField] private GameObject cloud1;
+    [SerializeField] private GameObject cloud2;
+    #endregion
+
+    #region FIELDS
+    // Camera
     private float camLeftBound;
     private float camRightBound;
 
     // Fields for background trees (shadow trees)
-    [Header("Background Trees Colored")]
-    public GameObject bgTrees1;
-    public GameObject bgTrees2;
     private float bgTrees1LeftBound;
     private float bgTrees2LeftBound;
     private float bgTrees1RightBound;
@@ -23,9 +36,6 @@ public class BackgroundManager : MonoBehaviour
     private float bgTreesWidth;
 
     // Fields for foreground trees (closest trees)
-    [Header("Background Trees Shadow")]
-    public GameObject fgTrees1;
-    public GameObject fgTrees2;
     private float fgTrees1LeftBound;
     private float fgTrees2LeftBound;
     private float fgTrees1RightBound;
@@ -33,9 +43,6 @@ public class BackgroundManager : MonoBehaviour
     private float fgTreesWidth;
 
     // Fields for clouds
-    [Header("Clouds")]
-    public GameObject cloud1;
-    public GameObject cloud2;
     private float cloud1LeftBound;
     private float cloud2LeftBound;
     private float cloud1RightBound;
@@ -50,10 +57,15 @@ public class BackgroundManager : MonoBehaviour
     [SerializeField] private float bgTreesParallaxSpeed;
     [SerializeField] private float fgTreesParallaxSpeed;
     [SerializeField] private float cloudParallaxSpeed;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player");
+        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+        cam = GameObject.Find("Main Camera");
+
         pM = player.GetComponent<PlayerMovement>();
         //InitializeBGTreesFields();
         //InitializeFGTreesFields();
@@ -65,7 +77,7 @@ public class BackgroundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!pauseMenu.paused)
+        if (!pauseMenu.Paused)
         {
             UpdateFields();
 

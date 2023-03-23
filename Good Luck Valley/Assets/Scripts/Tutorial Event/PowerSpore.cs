@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class PowerSpore : Interactable
 {
-    MushroomManager mushroomManager;
-    Tutorial tutorialManager;
+    #region REFERENCES
+    private MushroomManager mushroomManager;
+    private Tutorial tutorialManager;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        remove = false;
         mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
+
+        remove = false;
     }
 
+    /// <summary>
+    /// Unlock the Mushroom Throw power and show tutorial text
+    /// </summary>
     public override void Interact()
     {
         tutorialManager.ShowingBounceText = true;

@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class NoteNotification : MonoBehaviour
 {
+    #region REFERENCES
+    private Note currentNote;
+    private Image panelImage;
+    private Text entryAddedText;
+    private Text noteTitle;
+    #endregion
+
     #region FIELDS
     [SerializeField] private float fadeInTimer = 1.0f;
     [SerializeField] private float notifTimer = 3.0f;
@@ -14,10 +21,6 @@ public class NoteNotification : MonoBehaviour
     [SerializeField] private bool fadeCompleted = false;
     [SerializeField] private bool notifInProgress = false;
     [SerializeField] private Queue<Note> notifQueue = new Queue<Note>();
-    private Note currentNote;
-    private Image panelImage;
-    private Text entryAddedText;
-    private Text noteTitle;
     #endregion
 
     #region PROPERTIES
@@ -122,7 +125,7 @@ public class NoteNotification : MonoBehaviour
         fadeOutTimer = 1.0f;
 
         // Set text
-        noteTitle.text = currentNote.noteTitle;
+        noteTitle.text = currentNote.NoteTitle;
 
         // Reset booleans
         continueToLingerTimer = false;

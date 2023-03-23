@@ -5,12 +5,20 @@ using UnityEngine.UI;
 
 public class EntryScrollview : MonoBehaviour
 {
+    #region REFERENCES
     public Journal journal;
     public GameObject entryPrefab;
     public ScrollRect scrollView;
     public RectTransform contentTransform;
-    public List<GameObject> entries;
+    #endregion
 
+    #region FIELDS
+    private List<GameObject> entries;
+    #endregion
+
+    #region PROPERTIES
+    public List<GameObject> Entries { get { return entries; } set { entries = value; } }
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -18,12 +26,6 @@ public class EntryScrollview : MonoBehaviour
         journal = GameObject.Find("JournalUI").GetComponent<Journal>();
         scrollView = GameObject.Find("EntryPanel").GetComponent<ScrollRect>();
         contentTransform = GameObject.Find("Entries").GetComponent<RectTransform>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SetEntries()
@@ -34,7 +36,7 @@ public class EntryScrollview : MonoBehaviour
 
             foreach(GameObject entries in entries)
             {
-                if(entries.GetComponentInChildren<Text>().text == note.noteTitle)
+                if(entries.GetComponentInChildren<Text>().text == note.NoteTitle)
                 {
                     noteAlreadyAdded = true;
                 }
@@ -44,7 +46,7 @@ public class EntryScrollview : MonoBehaviour
             {
                 GameObject instance = Instantiate(entryPrefab, contentTransform);
                 instance.GetComponent<RectTransform>().sizeDelta = new Vector2(20f, 40f);
-                instance.GetComponentInChildren<Text>().text = note.noteTitle;
+                instance.GetComponentInChildren<Text>().text = note.NoteTitle;
                 instance.GetComponentInChildren<EntryButton>().Note = note;
                 entries.Add(instance);
             }

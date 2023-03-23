@@ -6,21 +6,32 @@ using UnityEngine.UIElements;
 
 public class Note : Interactable
 {
-    public string noteTitle;
-    public string textValue;
-    private bool noteAdded = false;
+    #region REFERENCES
     public Text textDisplay;
     private Journal journal;
     private EntryScrollview entryScrollview;
     private NoteNotification effectPanelNotification;
+    #endregion
+
+    #region FIELDS
+    [SerializeField] private string noteTitle;
+    [SerializeField] private string textValue;
+    private bool noteAdded = false;
+    #endregion
+
+    #region PROPERTIES
+    public string NoteTitle { get { return noteTitle; } set { noteTitle = value; } }
+    public string TextValue { get { return textValue; } set { textValue = value; } }
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        remove = false;
         journal = GameObject.Find("JournalUI").GetComponent<Journal>();
         entryScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
         effectPanelNotification = GameObject.Find("NoteEffectPanel").GetComponent<NoteNotification>();
+
+        remove = false;
     }
 
     public override void Interact()
