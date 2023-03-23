@@ -39,7 +39,7 @@ public class MushroomIndicator : MonoBehaviour
         player = GameObject.Find("Player");
 
         // Set to invisible
-        gameObject.GetComponent<Image>().enabled = false;
+        gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 
         // Get camera bounds
         camHeight = cam.orthographicSize;
@@ -67,7 +67,7 @@ public class MushroomIndicator : MonoBehaviour
         // If the indicator is currently linked to a mushroom, track it
         if (linkedToMushroom)
         {
-            if(!mushroomToIndicate.GetComponent<MushroomInfo>().OnScreen)
+            if(mushroomToIndicate.GetComponent<MushroomInfo>().IsShroom && !mushroomToIndicate.GetComponent<MushroomInfo>().OnScreen)
             {
                 // Find the direction from the screen center to the mushroom position
                 Vector2 directionToShroom = (mushroomToIndicate.transform.position - transform.position).normalized;

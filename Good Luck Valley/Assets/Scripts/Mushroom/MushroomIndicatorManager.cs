@@ -44,22 +44,20 @@ public class MushroomIndicatorManager : MonoBehaviour
         {
             foreach(MushroomIndicator indicator in indicatorList)
             {
-                indicator.MushroomToIndicate = null;
                 indicator.LinkedToMushroom = false;
+                indicator.MushroomToIndicate = null;
             }
         }
 
         // Check if there are Mushrooms in mushroomManager's MushroomList
         if(mushroomManager.MushroomList.Count > 0)
         {
-            int indexCount = 0;
-
             // Go through the list of Mushrooms within the mushroomManager's MushroomList
             for (int i = 0; i < mushroomManager.MushroomList.Count; i++)
             {
                 // If the Indicator at indicatorList[i] is not linked to anything, link it to the Mushroom
                 // at mushroomManager.MushroomList[i]
-                if (!indicatorList[i].LinkedToMushroom)
+                if (!indicatorList[i].LinkedToMushroom && mushroomManager.MushroomList[i].GetComponent<MushroomInfo>().IsShroom)
                 {
                     indicatorList[i].MushroomToIndicate = mushroomManager.MushroomList[i];
                     indicatorList[i].LinkedToMushroom = true;
@@ -68,24 +66,22 @@ public class MushroomIndicatorManager : MonoBehaviour
                 {
                     // Otherwise, if the Indicator at indicatorList[i] is linked to a Mushroom, check if it is the same
                     // Mushroom, as it might have changed - if it is not, change it
-                    if (indicatorList[i].MushroomToIndicate != mushroomManager.MushroomList[i])
+                    if (indicatorList[i].MushroomToIndicate != mushroomManager.MushroomList[i] && mushroomManager.MushroomList[i].GetComponent<MushroomInfo>().IsShroom)
                     {
                         indicatorList[i].MushroomToIndicate = mushroomManager.MushroomList[i];
                     }
                 }
-
-                // Increment indexCount
-                indexCount++;
             }
 
             // If indexCount is less than indicatorList.Count - meaning there are less shrooms
             // than indicators on the screen - reset the remaining indicators
-            if(indexCount < indicatorList.Count)
+            if(mushroomManager.MushroomList.Count < indicatorList.Count)
             {
-                for(int i = indexCount + 1; i < indicatorList.Count; i++)
+                int remainingIndexes = indicatorList.Count - mushroomManager.MushroomList.Count;
+                for(int i = mushroomManager.MushroomList.Count; i < indicatorList.Count; i++)
                 {
-                    indicatorList[i].MushroomToIndicate = null;
                     indicatorList[i].LinkedToMushroom = false;
+                    indicatorList[i].MushroomToIndicate = null;
                 }
             }
         }

@@ -15,6 +15,7 @@ public class MushroomInfo : MonoBehaviour
     private bool bouncing = false;
     private float bouncingTimer = 0.1f;
     private bool onScreen;
+    [SerializeField] private bool isShroom;
     #endregion
 
     #region PROPERTIES
@@ -22,6 +23,7 @@ public class MushroomInfo : MonoBehaviour
     public bool Bouncing { get { return bouncing; } set { bouncing = value; } }
     public float BouncingTimer { get { return bouncingTimer; } set { bouncingTimer = value; } }
     public bool OnScreen { get { return onScreen; } set { onScreen = value; } }
+    public bool IsShroom { get { return isShroom; } set { isShroom = value; } }
     #endregion
 
 
