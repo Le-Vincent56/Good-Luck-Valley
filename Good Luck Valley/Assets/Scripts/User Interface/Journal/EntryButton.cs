@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EntryButton : MonoBehaviour
 {
-    #region FIELDS
+    #region REFERENCES
     private Text panelText;
     private EntryScrollview entryScrollview;
     private Journal journal;
@@ -26,7 +26,7 @@ public class EntryButton : MonoBehaviour
 
     public void RetrieveJournalEntry()
     {
-        panelText.text = associatedNote.textValue;
+        panelText.text = associatedNote.TextValue;
         journal.journalPageSound.Play();
     }
 }

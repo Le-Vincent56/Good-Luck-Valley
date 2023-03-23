@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class TranslatablePlatform : MoveablePlatform
 {
+    #region FIELDS
     [Header("Movement")]
-    [SerializeField] Vector3 direction;
-    [SerializeField] Vector3 maxDistance;
-    [SerializeField] float translateSpeed;
+    [SerializeField] private Vector3 direction;
+    [SerializeField] private Vector3 maxDistance;
+    [SerializeField] private float translateSpeed;
 
-    [SerializeField] Vector3 initialPosition;
-    Vector3 platformPosition;
-    Vector3 moveDirection;
-    Vector3 velocity;
+    [SerializeField] private Vector3 initialPosition;
+    private Vector3 platformPosition;
+    private Vector3 moveDirection;
+    private Vector3 velocity;
+    #endregion
 
     void Start()
     {

@@ -6,17 +6,21 @@ using UnityEngine.UI;
 
 public class Journal : MonoBehaviour
 {
-    #region FIELDS
-    [SerializeField] private List<Note> notes;
+    #region REFERENCES
     private Text panelText;
     private EntryScrollview entryScrollview;
     private Canvas journalUI;
-    public bool menuOpen = false;
     public AudioSource journalPageSound;
+    #endregion
+
+    #region FIELDS
+    [SerializeField] private List<Note> notes;
+    private bool menuOpen = false;
     #endregion
 
     #region PROPERTIES
     public List<Note> Notes { get { return notes; } set { notes = value; } }
+    public bool MenuOpen { get { return menuOpen; } set { menuOpen = value; } }
     #endregion
 
     // Start is called before the first frame update
