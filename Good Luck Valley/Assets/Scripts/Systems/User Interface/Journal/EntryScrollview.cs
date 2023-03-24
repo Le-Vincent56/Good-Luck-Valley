@@ -13,7 +13,7 @@ public class EntryScrollview : MonoBehaviour
     #endregion
 
     #region FIELDS
-    private List<GameObject> entries;
+    [SerializeField] private List<GameObject> entries;
     #endregion
 
     #region PROPERTIES
