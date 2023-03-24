@@ -26,7 +26,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private GameObject shroomPoint;
     private UIManager uiManager;
     [SerializeField] private GameObject spore;
-    private GameObject throwUI_Script;
+    private ThrowUI throwUI_Script;
     #endregion
 
     #region FIELDS
@@ -87,6 +87,7 @@ public class MushroomManager : MonoBehaviour
         // UI
         cursor = FindObjectOfType<GameCursor>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+        throwUI_Script = GameObject.Find("Line").GetComponent<ThrowUI>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -130,7 +131,7 @@ public class MushroomManager : MonoBehaviour
 
 
             case ThrowState.Throwing:
-                throwUI_Script.GetComponent<ThrowUI>().PlotTrajectory(playerRB.position,
+                throwUI_Script.PlotTrajectory(playerRB.position,
                                                                       forceDirection.normalized * throwMultiplier,
                                                                       playerMove.IsFacingRight);
                 if (pauseMenu.Paused)
