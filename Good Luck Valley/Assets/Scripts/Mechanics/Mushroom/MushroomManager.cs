@@ -87,7 +87,7 @@ public class MushroomManager : MonoBehaviour
         // UI
         cursor = FindObjectOfType<GameCursor>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
-        throwUI_Script = GameObject.Find("Line").GetComponent<ThrowUI>();
+        throwUI_Script = GameObject.Find("Throw UI").GetComponent<ThrowUI>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -136,7 +136,7 @@ public class MushroomManager : MonoBehaviour
                                                                       playerMove.IsFacingRight);
                 if (pauseMenu.Paused)
                 {
-                    throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
+                    throwUI_Script.DeleteLine();
                 }
                 break;                
         }
@@ -175,13 +175,13 @@ public class MushroomManager : MonoBehaviour
         if (mushroomCount < mushroomLimit)
         {
             // If so, ThrowMushroom is called
-            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
+            throwUI_Script.DeleteLine();
             ThrowMushroom();
         }
         else if (mushroomCount >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
-            throwUI_Script.GetComponent<ThrowUI>().DeleteLine();
+            throwUI_Script.DeleteLine();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
             ThrowMushroom();
