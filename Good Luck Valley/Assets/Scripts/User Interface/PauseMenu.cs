@@ -6,11 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    #region REFERENCES
     private Canvas pauseUI;
     private PlayerMovement playerMovement;
     private Journal journalMenu;
-    public bool paused = false;
-    
+    #endregion
+
+    #region FIELDS
+    private bool paused = false;
+    #endregion
+
+    #region PROPERTIES
+    public bool Paused { get { return paused; } set { paused = value; } }
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +29,10 @@ public class PauseMenu : MonoBehaviour
         pauseUI.enabled = false;
     }
 
-    // ESCAPE is pressed    
+    /// <summary>
+    /// Pause the Game
+    /// </summary>
+    /// <param name="context">The context of the Controller</param>    
     public void Pause(InputAction.CallbackContext context)
     {
         paused = true;
@@ -29,10 +41,12 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    // CONTINUE is pressed (button 1)
+    /// <summary>
+    /// Continue the Game
+    /// </summary>
     public void Continue()
     {
-        if(!journalMenu.menuOpen)
+        if(!journalMenu.MenuOpen)
         {
             paused = false;
             pauseUI.enabled = false;
@@ -40,20 +54,26 @@ public class PauseMenu : MonoBehaviour
         }
     }
    
-    // SETTINGS is pressed (button 2)
+    /// <summary>
+    /// Take the Player to Settings screen
+    /// </summary>
+    /// <param name="scene">The scene number that represents the Settings scene</param>
     public void Settings(int scene)
     {
-        if(!journalMenu.menuOpen)
+        if(!journalMenu.MenuOpen)
         {
             Time.timeScale = 0f;
             SceneManager.LoadScene(scene);
         }
     }
 
-    // QUIT is pressed (button 3)
+    /// <summary>
+    /// Quit to Title
+    /// </summary>
+    /// <param name="scene">Scene number that represents Quitting to Title</param>
     public void Quit(int scene)
     {
-        if(!journalMenu.menuOpen)
+        if(!journalMenu.MenuOpen)
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(scene);

@@ -6,36 +6,28 @@ using Cinemachine;
 
 public class GameCursor : MonoBehaviour
 {
-    #region FIELDS
-    [Header("Camera")]
+    #region REFERENCES
     private Camera cam;
     private GameObject cmCam;
-    [SerializeField] private bool basedOnPlayer;
+    private GameObject player;
+    private PauseMenu pauseMenu;
+    #endregion
 
+    #region FIELDS
+    [SerializeField] private bool basedOnPlayer;
     private float cmWidth;
     private float cmHeight;
-
     private float camHeight;
     private float camWidth;
-
-    [SerializeField] float widthOffset;
+    private float widthOffset;
     private float heightOffset;
-
-    [SerializeField] float widthDampen;
+    private float widthDampen;
     private float heightDampen;
-
-    [Header("Player")]
-    GameObject player;
-
-    [Header("Cursor")]
-    public bool activated = false;
-    public Vector2 cursorPosition;
-    public Vector2 cursorVelocity = Vector3.zero;
-    public Vector2 cursorDirection = Vector3.zero;
-    public float cursorSpeed = 30f;
-    public bool usingMouse = false;
-
-    private PauseMenu pauseMenu;
+    private Vector2 cursorPosition;
+    private Vector2 cursorVelocity = Vector3.zero;
+    private Vector2 cursorDirection = Vector3.zero;
+    private float cursorSpeed = 30f;
+    private bool usingMouse = false;
     #endregion
 
     // Start is called before the first frame update
@@ -79,9 +71,9 @@ public class GameCursor : MonoBehaviour
             // Update cursor positiond with player
             if(basedOnPlayer)
             {
-                if (player.GetComponent<PlayerMovement>()._isMoving)
+                if (player.GetComponent<PlayerMovement>().IsMoving)
                 {
-                    cursorPosition += player.GetComponent<PlayerMovement>().distanceFromLastPosition;
+                    cursorPosition += player.GetComponent<PlayerMovement>().DistanceFromLastPosition;
                 }
             }
 
@@ -105,7 +97,7 @@ public class GameCursor : MonoBehaviour
     }
 
     /// <summary>
-    /// Check cursor bounds
+    /// Check cursor bounds when there is a dynamic camera
     /// </summary>
     public void CheckCursorBoundsPlayer()
     {
@@ -208,6 +200,9 @@ public class GameCursor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check cursor bounds when there is a static camera
+    /// </summary>
     public void CheckCursorBoundsStatic()
     {
         // Check x bounds against camera
@@ -232,6 +227,10 @@ public class GameCursor : MonoBehaviour
     }
 
     #region INPUT HANDLER
+    /// <summary>
+    /// OnAim event to trigger cursor movement
+    /// </summary>
+    /// <param name="context">The current controller context being used</param>
     public void OnAim(InputAction.CallbackContext context)
     {
         // Check if context is mouse or controller

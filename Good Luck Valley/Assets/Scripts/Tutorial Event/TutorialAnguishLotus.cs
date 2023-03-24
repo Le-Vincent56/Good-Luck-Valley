@@ -6,14 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class TutorialAnguishLotus : Interactable
 {
-    private bool endLevel = false;
-    [SerializeField] Tutorial tutorialManager;
-    [SerializeField] float fadeTimer = 3.0f;
+    #region REFERENCES
+    private Tutorial tutorialManager;
     private PlayerMovement playerMovement;
     private PauseMenu pauseMenu;
-
-    // Demo effect
     [SerializeField] GameObject fadeEffect;
+    #endregion
+
+    #region FIELDS
+    private bool endLevel = false;
+    [SerializeField] private float fadeTimer = 3.0f;
+    #endregion
 
     void Start()
     {
@@ -49,10 +52,10 @@ public class TutorialAnguishLotus : Interactable
         if(endLevel)
         {
             // Start the fade timer
-            if(!pauseMenu.paused)
+            if(!pauseMenu.Paused)
             {
                 playerMovement.MoveInput = Vector2.zero;
-                pauseMenu.paused = true;
+                pauseMenu.Paused = true;
                 tutorialManager.ShowingDemoEndText = true;
             }
 
@@ -78,6 +81,9 @@ public class TutorialAnguishLotus : Interactable
 
     }
 
+    /// <summary>
+    /// Disable Lotus tutorial text and end the level
+    /// </summary>
     public override void Interact()
     {
         // Fade the Tutorial Text
@@ -87,8 +93,13 @@ public class TutorialAnguishLotus : Interactable
         endLevel = true;
     }
 
+    /// <summary>
+    /// Redirect Player to Title Screen
+    /// </summary>
+
     public void OnClickTitle()
     {
+        // Load Title Screen after interacting with the Lotus
         if (finishedInteracting)
         {
             SceneManager.LoadScene("Title Screen");

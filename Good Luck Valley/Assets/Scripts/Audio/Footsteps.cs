@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Footsteps : MonoBehaviour
 {
-    #region FIELDS
+    #region REFERENCES
     private PlayerMovement playerMovement;
     private AudioSource footstepSound;
     private Animator playerAnimator;
+    #endregion
+
+    #region FIELDS
     [SerializeField] string animatorClipName;
     private AnimatorClipInfo[] currentClipInfo;
     [SerializeField] float currentClipLength;
@@ -53,7 +56,7 @@ public class Footsteps : MonoBehaviour
         animatorClipName = currentClipInfo[0].clip.name;
 
         // Check if the player is grounded, has horizontal input, and can make another noise
-        if (playerMovement.isGrounded && playerMovement.inputHorizontal && 
+        if (playerMovement.IsGrounded && playerMovement.InputHorizontal && 
             (stepTimer <= stepTimerMax / 2f || stepTimer <= 0f) && animatorClipName == "Player_Run")
         {
             // Create a random variation of the noise
