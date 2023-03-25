@@ -5,14 +5,15 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     #region REFERENCES
-    public PlayerData Data;
-    public GameObject playerLight;
-    public Rigidbody2D RB { get; private set; }
-    public Animator animator;
-    public BouncingEffect bounceEffect;
+    [SerializeField] private PlayerData Data;
+    [SerializeField] private GameObject playerLight;
+	[SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Animator animator;
+    [SerializeField] private BouncingEffect bounceEffect;
     private PauseMenu pauseMenu;
     private CompositeCollider2D mapCollider;
-    public Transform groundCheckPoint;
+	private BoxCollider2D playerCollider;
+    [SerializeField] private Transform groundCheckPoint;
     [SerializeField] private LayerMask groundLayer;
     #endregion
 
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
 	#endregion
 
 	#region PROPERTIES
+	public Rigidbody2D RB { get { return rb; } set { rb = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
     public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
@@ -53,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
 		animator = GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
 		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+		playerCollider = GetComponent<BoxCollider2D>();
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 	}
 
@@ -92,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isJumping)
         {
 			// Ground Check
-			if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer) && !isJumping) // Checks if set box overlaps with ground
+			if (Physics2D.BoxCast(playerCollider.bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer) && !isJumping) // Checks if set box overlaps with ground
 			{
 				// If bouncing beore, end bouncing
 				if (bounceEffect.Bouncing)
