@@ -1,0 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class AnguishLotus : Interactable
+{
+    public override void Interact()
+    {
+        // Interact with the lotus
+        Debug.Log("Lotus Picked");
+        finishedInteracting = true;
+
+        // Load new scene
+        SceneManager.LoadScene("Title Screen");
+    }
+}
