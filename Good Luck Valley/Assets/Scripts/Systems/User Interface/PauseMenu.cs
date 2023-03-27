@@ -13,7 +13,7 @@ public class PauseMenu : MonoBehaviour
     #endregion
 
     #region FIELDS
-    private bool paused = false;
+    [SerializeField] private bool paused = false;
     #endregion
 
     #region PROPERTIES

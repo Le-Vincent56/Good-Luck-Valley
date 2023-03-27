@@ -263,11 +263,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
 	{
-        // Handle Run
-        Run(1);
+		// If the player isn't locked, then handle run
+		if(!isLocked)
+		{
+            // Handle Run
+            Run(1);
+        } else
+		{
+			// Reset velocity to 0
+			if(RB.velocity.x != 0)
+			{
+				// If the player is moving rightward, you must subtract
+				if(RB.velocity.x > 0)
+				{
+					RB.velocity -= Vector2.right * rb.velocity.x;
+                } else if(RB.velocity.x < 0) // If the plaer is moving leftward, you must add
+				{
+					RB.velocity += Vector2.left * rb.velocity.x;
+				}
+			}
+		}
 
-		// Set animation
-        animator.SetFloat("Speed", Mathf.Abs(moveInput.x));
+        // Set animation
+        animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
     }
 
 	#region INPUT CALLBACKS
@@ -430,7 +448,7 @@ public class PlayerMovement : MonoBehaviour
 	/// <returns>A boolean that states whether the Player can Jump or not</returns>
 	private bool CanJump()
 	{
-		return lastOnGroundTime > 0 && !isJumping;
+		return lastOnGroundTime > 0 && !isJumping && !isLocked;
 	}
 
 	/// <summary>
@@ -452,7 +470,7 @@ public class PlayerMovement : MonoBehaviour
 	public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
-        if (!pauseMenu.Paused)
+        if (!pauseMenu.Paused && !isLocked)
         {
 			// Set the move input to the value returned by context
 			moveInput = context.ReadValue<Vector2>();
@@ -482,7 +500,7 @@ public class PlayerMovement : MonoBehaviour
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!pauseMenu.Paused)
+        if (!pauseMenu.Paused && !isLocked)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
