@@ -16,12 +16,14 @@ public class Note : Interactable
     #region FIELDS
     [SerializeField] private string noteTitle;
     [SerializeField] private string textValue;
+    [SerializeField] private string contentsTitle;
     private bool noteAdded = false;
     #endregion
 
     #region PROPERTIES
     public string NoteTitle { get { return noteTitle; } set { noteTitle = value; } }
     public string TextValue { get { return textValue; } set { textValue = value; } }
+    public string ContentsTitle { get { return contentsTitle; } set { contentsTitle = value; } }
     #endregion
 
     // Start is called before the first frame update
