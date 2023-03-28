@@ -26,7 +26,9 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private GameObject shroomPoint;
     private UIManager uiManager;
     [SerializeField] private GameObject spore;
+    [SerializeField] private GameObject mushroom;
     private ThrowUI throwUI_Script;
+    [SerializeField] private GameObject testObject;
     #endregion
 
     #region FIELDS
@@ -130,8 +132,8 @@ public class MushroomManager : MonoBehaviour
 
             case ThrowState.Throwing:
                 throwUI_Script.PlotTrajectory(playerRB.position,
-                                                                      forceDirection.normalized * throwMultiplier,
-                                                                      playerMove.IsFacingRight);
+                                              forceDirection.normalized * throwMultiplier,
+                                              playerMove.IsFacingRight);
                 if (pauseMenu.Paused)
                 {
                     throwUI_Script.DeleteLine();
@@ -159,6 +161,7 @@ public class MushroomManager : MonoBehaviour
         mushroomList.Add(Instantiate(spore, playerRB.position, Quaternion.identity));
 
         mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
+        mushroomList[mushroomCount].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     /// <summary>
@@ -197,30 +200,28 @@ public class MushroomManager : MonoBehaviour
         {
             MushroomInfo mInfo = m.GetComponent<MushroomInfo>();
 
-            // checks if the mushroom is touching the pladdddddddddd atform and hasn't rotated
-            if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<CompositeCollider2D>()) &&
-                !m.GetComponent<MushroomInfo>().HasRotated)
+            if (!mInfo.HasRotated)
             {
-                // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                RotateAndFreezeShroom(m);
-            }
-
-            foreach (GameObject p in environmentManager.WeightedPlatforms)
-            {
-                Debug.Log("L");
                 // checks if the mushroom is touching the platform and hasn't rotated
-                if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()) &&
-                    !m.GetComponent<MushroomInfo>().HasRotated)
+                if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<CompositeCollider2D>()))
                 {
                     // If so, calls rotate shroom method to rotate and freeze the shroom properly
                     RotateAndFreezeShroom(m);
-
-                    p.GetComponent<MoveablePlatform>().CheckWeight(m);
                 }
-            }
 
-            if (!m.GetComponent<MushroomInfo>().HasRotated)
-            {
+                foreach (GameObject p in environmentManager.WeightedPlatforms)
+                {
+                    // checks if the mushroom is touching the platform and hasn't rotated
+                    if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()))
+                    {
+                        // If so, calls rotate shroom method to rotate and freeze the shroom properly
+                        Debug.Log("1111");
+                        RotateAndFreezeShroom(m);
+
+                        p.GetComponent<MoveablePlatform>().CheckWeight(m);
+                    }
+                }
+
                 foreach (GameObject d in environmentManager.DecomposableTiles)
                 {
                     if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
@@ -279,31 +280,29 @@ public class MushroomManager : MonoBehaviour
     private void RotateAndFreezeShroom(GameObject mushroom)
     {
         // Saves the colliders of the platforms the shroom is coming into contact with into an array
-        mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-
-        ContactPoint2D[] contacts = new ContactPoint2D[1];
+        ContactPoint2D[] contacts = new ContactPoint2D[10];
         mushroom.GetComponent<CircleCollider2D>().GetContacts(contacts);
 
         // The direction vector that the mushroom needs to point towards,
         //      contacts[0].point is the point the shroom is touching the platform at
         //      mushroom.transform.position is the mushroom's position,
         //          casted to a vector 2 so it can be subtracted from the contact point
-        Vector2 direction = contacts[0].point - (Vector2)mushroom.transform.position;
+        Vector2 direction = contacts[0].normal;
 
         // The angle that the shroom is going to rotate at
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         // The quaternion that will rotate the shroom
-        Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+        Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
         mushroom.transform.rotation = rotation;
-
 
         // Freezes shroom movement and rotation, and sets hasRotated to true
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         mushroom.GetComponent<MushroomInfo>().HasRotated = true;
 
-        GameObject shroom = Instantiate(mushroom.GetComponent<MushroomInfo>().mushroom, 
-            mushroom.transform.position, rotation);
+        Instantiate(testObject, contacts[0].point, Quaternion.identity);
+
+        GameObject shroom = Instantiate(this.mushroom, mushroom.transform.position, rotation);
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<MushroomInfo>().HasRotated = true;
         changeShroomIndexes[mushroomList.IndexOf(mushroom)] = shroom;
