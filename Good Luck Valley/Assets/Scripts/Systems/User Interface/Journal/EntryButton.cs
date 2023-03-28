@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     #region REFERENCES
+    private Text panelTextTitle;
     private Text panelText;
     private EntryScrollview entryScrollview;
     private Journal journal;
@@ -22,6 +23,7 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void Start()
     {
         journal = GameObject.Find("JournalUI").GetComponent<Journal>();
+        panelTextTitle = GameObject.Find("EntryTextTitle").GetComponent<Text>();
         panelText = GameObject.Find("EntryText").GetComponent<Text>();
         entryScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
         entryName = GetComponentInChildren<Text>();
@@ -32,6 +34,8 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// </summary>
     public void RetrieveJournalEntry()
     {
+        // Set note title, note value, and play journal entry sound
+        panelTextTitle.text = associatedNote.NoteTitle;
         panelText.text = associatedNote.TextValue;
         journal.JournalPageSound.Play();
     }
