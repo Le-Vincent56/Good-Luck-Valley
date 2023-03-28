@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private PauseMenu pauseMenu;
     private CompositeCollider2D mapCollider;
 	private BoxCollider2D playerCollider;
-    [SerializeField] private Transform groundCheckPoint;
     [SerializeField] private LayerMask groundLayer;
     #endregion
 
@@ -23,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumpCut;
 	private bool isJumpFalling;
 	private bool isFacingRight;
-    private bool isGrounded;
+    [SerializeField] private bool isGrounded;
     private bool inputHorizontal;
     private bool isLocked = false;
     [SerializeField] private bool justLanded = false;
@@ -202,6 +201,7 @@ public class PlayerMovement : MonoBehaviour
         #region GRAVITY
         if (!bounceEffect.Bouncing)
         {
+
             // Higher gravity if we've released the jump input or are falling
             if (RB.velocity.y < 0 && moveInput.y < 0)
             {
@@ -255,19 +255,37 @@ public class PlayerMovement : MonoBehaviour
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
             }
         }
-        #endregion
+		#endregion
 
-		// Update previousPlayerPosition for future calculations
+        // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;
     }
 
     private void FixedUpdate()
 	{
-        // Handle Run
-        Run(1);
+		// If the player isn't locked, then handle run
+		if(!isLocked)
+		{
+            // Handle Run
+            Run(1);
+        } else
+		{
+			// Reset velocity to 0
+			if(RB.velocity.x != 0)
+			{
+				// If the player is moving rightward, you must subtract
+				if(RB.velocity.x > 0)
+				{
+					RB.velocity -= Vector2.right * rb.velocity.x;
+                } else if(RB.velocity.x < 0) // If the plaer is moving leftward, you must add
+				{
+					RB.velocity += Vector2.left * rb.velocity.x;
+				}
+			}
+		}
 
-		// Set animation
-        animator.SetFloat("Speed", Mathf.Abs(moveInput.x));
+        // Set animation
+        animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
     }
 
 	#region INPUT CALLBACKS
@@ -392,9 +410,16 @@ public class PlayerMovement : MonoBehaviour
 		landedTimer = 0.2f;
 
 		#region Perform Jump
-		// We increase the force applied if we are falling
-		// This means we'll always feel like we jump the same amount 
-		float force = Data.jumpForce;
+		// If the player is grounded and moving upwards, force velocity to 0
+		// so jumps stay consistent
+		if(isGrounded && RB.velocity.y > 0)
+		{
+			RB.velocity -= Vector2.up * rb.velocity.y;
+		}
+
+        // We increase the force applied if we are falling
+        // This means we'll always feel like we jump the same amount
+        float force = Data.jumpForce;
 		if (RB.velocity.y < 0)
         {
 			force -= RB.velocity.y;
@@ -423,7 +448,7 @@ public class PlayerMovement : MonoBehaviour
 	/// <returns>A boolean that states whether the Player can Jump or not</returns>
 	private bool CanJump()
 	{
-		return lastOnGroundTime > 0 && !isJumping;
+		return lastOnGroundTime > 0 && !isJumping && !isLocked;
 	}
 
 	/// <summary>
@@ -445,7 +470,7 @@ public class PlayerMovement : MonoBehaviour
 	public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
-        if (!pauseMenu.Paused)
+        if (!pauseMenu.Paused && !isLocked)
         {
 			// Set the move input to the value returned by context
 			moveInput = context.ReadValue<Vector2>();
@@ -475,7 +500,7 @@ public class PlayerMovement : MonoBehaviour
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!pauseMenu.Paused)
+        if (!pauseMenu.Paused && !isLocked)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -487,18 +512,6 @@ public class PlayerMovement : MonoBehaviour
 				OnJumpUpInput();
 			}
 		}
-	}
-	#endregion
-
-	/// <summary>
-	/// Show Gizmos regarding Player movement
-	/// </summary>
-	#region EDITOR METHODS
-	private void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireCube(groundCheckPoint.position, groundCheckSize);
-		Gizmos.color = Color.blue;
 	}
 	#endregion
 }

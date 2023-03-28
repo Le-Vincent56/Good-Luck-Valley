@@ -21,6 +21,8 @@ public class BouncingEffect : MonoBehaviour
     [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
     private bool bouncing;
     private bool canBounce;
+    private bool onCooldown = false;
+    private float cooldown = 0.1f;
 
     private float speed;
     private Vector2 direction;
@@ -42,10 +44,23 @@ public class BouncingEffect : MonoBehaviour
         // PlayerData is added through the Inspector
         // tutorialManager is added through the Inspector
 
+        cooldown = 0.1f;
+
     }
 
     void Update()
     {
+        if(onCooldown)
+        {
+            cooldown -= Time.deltaTime;
+        }
+
+        if(cooldown <= 0)
+        {
+            onCooldown = false;
+            cooldown = 0.1f;
+        }
+
         // Get last velocity
         lastVelocity = RB.velocity;
     }
@@ -57,7 +72,7 @@ public class BouncingEffect : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if colliding with a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom") && canBounce)
+        if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown)
         {
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
@@ -82,6 +97,7 @@ public class BouncingEffect : MonoBehaviour
             direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
             
             RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
+            onCooldown = true;
         }
     }
 }
