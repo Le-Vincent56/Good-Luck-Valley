@@ -55,6 +55,6 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData)
     {
-        entryName.color = new Color32(0x54, 0x69, 0x79, 0xFF);
+        entryName.color = new Color32(0x57, 0x57, 0x57, 0xFF); // dark gray
     }
 }
