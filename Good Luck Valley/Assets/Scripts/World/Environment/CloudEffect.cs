@@ -33,6 +33,7 @@ public class CloudEffect : MonoBehaviour
         cloudRightBound = cloud.border.z;
         cloudWidth = cloudRightBound - cloudLeftBound;
         cloudYPos = transform.position.y;
+        cloudParallaxSpeed *= 0.001f;
     }
 
     // Update is called once per frame
