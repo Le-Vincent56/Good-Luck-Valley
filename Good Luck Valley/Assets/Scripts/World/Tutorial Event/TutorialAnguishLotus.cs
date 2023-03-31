@@ -74,7 +74,6 @@ public class TutorialAnguishLotus : Interactable
             // and go to title screen
             if (fadeTimer <= 0)
             {
-                Debug.Log("cum");
                 finishedInteracting = true;
             }
         }
