@@ -256,7 +256,9 @@ public class PlayerMovement : MonoBehaviour
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
             }
         }
-        #endregion
+		#endregion
+
+		Debug.Log("Gravity:" + RB.gravityScale);
 
         // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;

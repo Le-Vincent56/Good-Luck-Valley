@@ -110,7 +110,7 @@ public class BouncingEffect : MonoBehaviour
 
             // Set the direction
             direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
-            
+
             RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
             onCooldown = true;
         }
