@@ -300,8 +300,6 @@ public class MushroomManager : MonoBehaviour
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         mushroom.GetComponent<MushroomInfo>().HasRotated = true;
 
-        Instantiate(testObject, contacts[0].point, Quaternion.identity);
-
         GameObject shroom = Instantiate(this.mushroom, mushroom.transform.position, rotation);
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<MushroomInfo>().HasRotated = true;

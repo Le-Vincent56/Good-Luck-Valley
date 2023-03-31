@@ -10,8 +10,6 @@ public class MushroomInfo : MonoBehaviour
 
     #region FIELDS
     private bool hasRotated;
-    private float sT;
-    private float timeStep = 0.01f;
     private bool bouncing = false;
     private float bouncingTimer = 0.1f;
     private bool onScreen;
