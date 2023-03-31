@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
 	public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
     public bool InputHorizontal { get { return inputHorizontal; } set { inputHorizontal = value; } }
 	public bool IsLocked { get { return isLocked; } set { isLocked = value; } }
+	public float LandedTimer { get { return landedTimer; } set { landedTimer = value; } }
 	public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } set { distanceFromLastPosition = value; } }
     public Vector2 MoveInput { get { return moveInput; } set { moveInput = value; } }
     #endregion
@@ -96,20 +97,20 @@ public class PlayerMovement : MonoBehaviour
 			// Ground Check
 			if (Physics2D.BoxCast(playerCollider.bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer) && !isJumping) // Checks if set box overlaps with ground
 			{
-				// If bouncing beore, end bouncing
-				if (bounceEffect.Bouncing)
-				{
-					bounceEffect.Bouncing = false;
-				}
+                // If bouncing before and the bounce buffer has ended, end bouncing
+                if (bounceEffect.Bouncing && bounceEffect.BounceBuffer <= 0)
+                {
+                    bounceEffect.Bouncing = false;
+                }
 
-				// Ground player
-				isGrounded = true;
+                // Ground player
+                isGrounded = true;
 
 				// Set coyote time
 				lastOnGroundTime = Data.coyoteTime;
 
 				// If the player has been on the ground for longer than 0 seconds, they have landed
-				if (landedTimer > 0)
+				if (landedTimer > 0 && isGrounded && (!(RB.velocity.y > 0f || RB.velocity.y < -0.1f)))
 				{
 					// Update variables and set animations
 					landedTimer -= Time.deltaTime;
@@ -255,7 +256,7 @@ public class PlayerMovement : MonoBehaviour
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
             }
         }
-		#endregion
+        #endregion
 
         // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;
