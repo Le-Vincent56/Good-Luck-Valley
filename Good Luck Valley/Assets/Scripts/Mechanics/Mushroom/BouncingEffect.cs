@@ -19,9 +19,10 @@ public class BouncingEffect : MonoBehaviour
 
     [Header("Bounce Variables")]
     [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
-    private bool bouncing;
-    private bool canBounce;
-    private bool onCooldown = false;
+    [SerializeField] private bool bouncing;
+    [SerializeField] private bool canBounce;
+    [SerializeField] private bool onCooldown = false;
+    private float bounceBuffer = 0.1f;
     private float cooldown = 0.1f;
 
     private float speed;
@@ -32,6 +33,7 @@ public class BouncingEffect : MonoBehaviour
     #region PROPERTIES
     public bool Bouncing { get { return bouncing; } set { bouncing = value; } }
     public bool CanBounce { get { return canBounce; } set { canBounce = value; } }
+    public float BounceBuffer { get { return bounceBuffer; } set { bounceBuffer = value; } }
     #endregion
 
     void Start()
@@ -50,7 +52,16 @@ public class BouncingEffect : MonoBehaviour
 
     void Update()
     {
-        if(onCooldown)
+        // Create a bounce buffer so that if the player immediately hits a slope
+        // or wall, it does not end the bouncing
+        if(bounceBuffer > 0 && bouncing)
+        {
+            bounceBuffer -= Time.deltaTime;
+        }
+
+
+
+        if (onCooldown)
         {
             cooldown -= Time.deltaTime;
         }
@@ -84,6 +95,10 @@ public class BouncingEffect : MonoBehaviour
 
             // Set bouncing to true
             bouncing = true;
+            bounceBuffer = 0.1f;
+
+            // Reset landed timer
+            playerMovement.LandedTimer = 0.2f;
 
             // Set the MushroomInfo to bouncing
             collision.gameObject.GetComponent<Animator>().SetBool("Bouncing", true);
