@@ -287,7 +287,17 @@ public class MushroomManager : MonoBehaviour
         //      contacts[0].point is the point the shroom is touching the platform at
         //      mushroom.transform.position is the mushroom's position,
         //          casted to a vector 2 so it can be subtracted from the contact point
-        Vector2 direction = contacts[0].normal;
+        ContactPoint2D contactPoint = contacts[0];
+
+        foreach (ContactPoint2D cPoint in contacts)
+        {
+            if (cPoint.collider is CompositeCollider2D)
+            {
+                contactPoint = cPoint;
+            }
+        }
+        Vector2 direction = contactPoint.normal;
+        Debug.Log(contactPoint.collider);
 
         // The angle that the shroom is going to rotate at
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -299,8 +309,6 @@ public class MushroomManager : MonoBehaviour
         // Freezes shroom movement and rotation, and sets hasRotated to true
         mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         mushroom.GetComponent<MushroomInfo>().HasRotated = true;
-
-        Instantiate(testObject, contacts[0].point, Quaternion.identity);
 
         GameObject shroom = Instantiate(this.mushroom, mushroom.transform.position, rotation);
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
