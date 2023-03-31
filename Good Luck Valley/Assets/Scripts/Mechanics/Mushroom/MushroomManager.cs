@@ -21,7 +21,6 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private PlatformsManager environmentManager;
     [SerializeField] private GameCursor cursor;
-    [SerializeField] private GameObject organicShroom;
     [SerializeField] private GameObject tilemap;
     [SerializeField] private GameObject shroomPoint;
     private UIManager uiManager;
