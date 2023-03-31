@@ -101,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
                 if (bounceEffect.Bouncing && bounceEffect.BounceBuffer <= 0)
                 {
                     bounceEffect.Bouncing = false;
+					animator.SetBool("Bouncing", false);
                 }
 
                 // Ground player
@@ -181,8 +182,13 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
             animator.SetBool("Falling", true);
         }
-        else if (!isJumpFalling) // Otherwise, if the player is not falling, update animations
+        else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing) // Otherwise, if the player is not falling, update animations
         {
+            animator.SetBool("Falling", false);
+        }
+		
+		if(bounceEffect.Bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
+		{
             animator.SetBool("Falling", false);
         }
         #endregion
@@ -202,7 +208,6 @@ public class PlayerMovement : MonoBehaviour
         #region GRAVITY
         if (!bounceEffect.Bouncing)
         {
-
             // Higher gravity if we've released the jump input or are falling
             if (RB.velocity.y < 0 && moveInput.y < 0)
             {
@@ -257,8 +262,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 		#endregion
-
-		Debug.Log("Gravity:" + RB.gravityScale);
 
         // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;

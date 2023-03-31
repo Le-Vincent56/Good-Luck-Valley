@@ -87,7 +87,7 @@ public class BouncingEffect : MonoBehaviour
         {
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
-            if(tutorialManager != null && firstBounce)
+            if (tutorialManager != null && firstBounce)
             {
                 tutorialManager.ShowingBounceText = false;
                 firstBounce = false;
@@ -101,7 +101,7 @@ public class BouncingEffect : MonoBehaviour
             playerMovement.LandedTimer = 0.2f;
 
             // Set the MushroomInfo to bouncing
-            collision.gameObject.GetComponent<Animator>().SetBool("Bouncing", true);
+            animator.SetTrigger("Bouncing");
             collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
             collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 
