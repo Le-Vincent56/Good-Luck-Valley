@@ -273,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
 		if(!isLocked)
 		{
             // Handle Run
-            Run(1);
+            Run(0.5f);
         } else
 		{
 			// Reset velocity to 0
