@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XInput;
+using UnityEngine.UIElements;
+using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,7 +16,10 @@ public class PlayerMovement : MonoBehaviour
     private PauseMenu pauseMenu;
     private CompositeCollider2D mapCollider;
 	private BoxCollider2D playerCollider;
+	private CapsuleCollider2D capsuleCollider;
     [SerializeField] private LayerMask groundLayer;
+	[SerializeField] private PhysicsMaterial2D noFriction;
+	[SerializeField] private PhysicsMaterial2D fullFriction;
     #endregion
 
     #region FIELDS
@@ -32,6 +38,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
+	private Vector2 capsuleColliderSize;
+	[SerializeField] float slopeCheckDistance;
+	private float slopeAngle;
+	[SerializeField] bool isOnSlope;
+	[SerializeField] float slopeForce = 5f;
+	private Vector2 slopeVector;
+	private Vector2 slopeNormalPerp;
+	private float slopeDownAngle;
+	private float lastSlopeAngle;
+	[SerializeField] float maxSlopeAngle;
+	private float slopeSideAngle;
+	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
 	#endregion
@@ -56,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
 		bounceEffect = GetComponent<BouncingEffect>();
 		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 		playerCollider = GetComponent<BoxCollider2D>();
+		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 	}
 
@@ -65,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
 		isFacingRight = true;
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
+		capsuleColliderSize = capsuleCollider.size;
 	}
 
 	private void Update()
@@ -267,38 +287,135 @@ public class PlayerMovement : MonoBehaviour
         previousPlayerPosition = playerPosition;
     }
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
-		// If the player isn't locked, then handle run
-		if(!isLocked)
+		// If the player isn't locked
+		if (!isLocked)
 		{
-            // Handle Run
-            Run(0.5f);
-        } else
+			SlopeCheck();
+
+			// Handle Run
+			Run(0.5f);
+		}
+		else
 		{
 			// Reset velocity to 0
-			if(RB.velocity.x != 0)
+			if (RB.velocity.x != 0)
 			{
 				// If the player is moving rightward, you must subtract
-				if(RB.velocity.x > 0)
+				if (RB.velocity.x > 0)
 				{
 					RB.velocity -= Vector2.right * rb.velocity.x;
-                } else if(RB.velocity.x < 0) // If the plaer is moving leftward, you must add
+				}
+				else if (RB.velocity.x < 0) // If the plaer is moving leftward, you must add
 				{
 					RB.velocity += Vector2.left * rb.velocity.x;
 				}
 			}
 		}
 
-        // Set animation
-        animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
+		// Set animation
+		animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
+	}
+
+    private void SlopeCheck()
+    {
+        Vector2 checkPos = transform.position - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
+
+        SlopeCheckHorizontal(checkPos);
+        SlopeCheckVertical(checkPos);
     }
 
-	#region INPUT CALLBACKS
-	/// <summary>
-	/// Update lastPressedJumpTime according to PlayerData
-	/// </summary>
-	public void OnJumpInput()
+    private void SlopeCheckHorizontal(Vector2 checkPos)
+    {
+        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
+        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
+
+        if (slopeHitFront)
+        {
+            slopeSideAngle = Vector2.Angle(slopeHitFront.normal, Vector2.up);
+
+			if(slopeSideAngle < 75f)
+			{
+                isOnSlope = true;
+            }
+        }
+        else if (slopeHitBack)
+        {
+            slopeSideAngle = Vector2.Angle(slopeHitBack.normal, Vector2.up);
+
+			if(slopeSideAngle < 75f)
+			{
+                isOnSlope = true;
+            }
+        }
+        else
+        {
+            slopeSideAngle = 0.0f;
+            isOnSlope = false;
+        }
+
+    }
+
+    private void SlopeCheckVertical(Vector2 checkPos)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, groundLayer);
+
+        if (hit)
+        {
+			// Get the perpendicular vector of the normal and normalize it
+            slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
+
+			// Get the angle between the y-axis and the normal
+            slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+			// Check if the player is on a slope
+			if(slopeDownAngle != 0)
+			{
+                if (slopeDownAngle != lastSlopeAngle)
+                {
+                    isOnSlope = true;
+                }
+            } else
+			{
+				isOnSlope = false;
+			}
+            
+			// SEt lastSlopeAngle to current slopeDownAngle
+            lastSlopeAngle = slopeDownAngle;
+
+			// Draw for debugging
+            Debug.DrawRay(hit.point, slopeNormalPerp, Color.blue);
+            Debug.DrawRay(hit.point, hit.normal, Color.green);
+
+        }
+
+		// Determine whether or not the player can walk on the slope
+        if (slopeDownAngle > maxSlopeAngle || slopeSideAngle > maxSlopeAngle)
+        {
+            canWalkOnSlope = false;
+        }
+        else
+        {
+            canWalkOnSlope = true;
+		}
+
+		// Change frictions based on slope
+        if (isOnSlope && canWalkOnSlope && moveInput.x == 0.0f)
+        {
+            rb.sharedMaterial = fullFriction;
+        }
+        else
+        {
+            rb.sharedMaterial = noFriction;
+        }
+    }
+
+    #region INPUT CALLBACKS
+    /// <summary>
+    /// Update lastPressedJumpTime according to PlayerData
+    /// </summary>
+    public void OnJumpInput()
 	{
 		lastPressedJumpTime = Data.jumpInputBufferTime;
 	}
@@ -378,17 +495,28 @@ public class PlayerMovement : MonoBehaviour
 				accelRate = 5;
 			}
 		}
-		#endregion
+        #endregion
 
-		// Calculate difference between current velocity and desired velocity
-		float speedDif = targetSpeed - RB.velocity.x;
+        // Calculate difference between current velocity and desired velocity
+        float speedDif = targetSpeed - RB.velocity.x;
 		// Calculate force along x-axis to apply to thr player
 
 		float movement = speedDif * accelRate;
 
-		// Convert this to a vector and apply to rigidbody
-		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
-	}
+		// Check if walking on a slope
+		if(isGrounded && isOnSlope && canWalkOnSlope && !isJumping)
+		{
+			// Set a new target velocity using slopeNormalPerp
+			Vector2 targetVelocity = new Vector2(targetSpeed * slopeNormalPerp.x, targetSpeed * slopeNormalPerp.y);
+			Vector2 difference = targetVelocity - RB.velocity;
+			Vector2 movementVector = difference * accelRate;
+			RB.AddForce(movementVector, ForceMode2D.Force);
+        } else
+		{
+            // Convert this to a vector and apply to rigidbody
+            RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        }
+    }
 
 	/// <summary>
 	/// Turn the Player to face the direction they are moving in
