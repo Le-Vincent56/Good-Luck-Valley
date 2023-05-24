@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
@@ -39,16 +40,15 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
 	private Vector2 capsuleColliderSize;
+	private Vector2 slopeNormal;
+	[SerializeField] bool checkForSlopes = false;
 	[SerializeField] float slopeCheckDistance;
-	private float slopeAngle;
 	[SerializeField] bool isOnSlope;
-	[SerializeField] float slopeForce = 5f;
-	private Vector2 slopeVector;
-	private Vector2 slopeNormalPerp;
-	private float slopeDownAngle;
-	private float lastSlopeAngle;
+	[SerializeField] float slopeForceMagnitude = 5f;
 	[SerializeField] float maxSlopeAngle;
 	private float slopeSideAngle;
+	private float slopeDownAngle;
+	private float lastDownAngle;
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
@@ -292,7 +292,11 @@ public class PlayerMovement : MonoBehaviour
 		// If the player isn't locked
 		if (!isLocked)
 		{
-			SlopeCheck();
+			if(checkForSlopes)
+			{
+                // Handle slopes
+                HandleSlopes();
+            }
 
 			// Handle Run
 			Run(0.5f);
@@ -317,99 +321,6 @@ public class PlayerMovement : MonoBehaviour
 		// Set animation
 		animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
 	}
-
-    private void SlopeCheck()
-    {
-        Vector2 checkPos = transform.position - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
-
-        SlopeCheckHorizontal(checkPos);
-        SlopeCheckVertical(checkPos);
-    }
-
-    private void SlopeCheckHorizontal(Vector2 checkPos)
-    {
-        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
-        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
-
-        if (slopeHitFront)
-        {
-            slopeSideAngle = Vector2.Angle(slopeHitFront.normal, Vector2.up);
-
-			if(slopeSideAngle < 75f)
-			{
-                isOnSlope = true;
-            }
-        }
-        else if (slopeHitBack)
-        {
-            slopeSideAngle = Vector2.Angle(slopeHitBack.normal, Vector2.up);
-
-			if(slopeSideAngle < 75f)
-			{
-                isOnSlope = true;
-            }
-        }
-        else
-        {
-            slopeSideAngle = 0.0f;
-            isOnSlope = false;
-        }
-
-    }
-
-    private void SlopeCheckVertical(Vector2 checkPos)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, groundLayer);
-
-        if (hit)
-        {
-			// Get the perpendicular vector of the normal and normalize it
-            slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
-
-			// Get the angle between the y-axis and the normal
-            slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
-
-			// Check if the player is on a slope
-			if(slopeDownAngle != 0)
-			{
-                if (slopeDownAngle != lastSlopeAngle)
-                {
-                    isOnSlope = true;
-                }
-            } else
-			{
-				isOnSlope = false;
-			}
-            
-			// SEt lastSlopeAngle to current slopeDownAngle
-            lastSlopeAngle = slopeDownAngle;
-
-			// Draw for debugging
-            Debug.DrawRay(hit.point, slopeNormalPerp, Color.blue);
-            Debug.DrawRay(hit.point, hit.normal, Color.green);
-
-        }
-
-		// Determine whether or not the player can walk on the slope
-        if (slopeDownAngle > maxSlopeAngle || slopeSideAngle > maxSlopeAngle)
-        {
-            canWalkOnSlope = false;
-        }
-        else
-        {
-            canWalkOnSlope = true;
-		}
-
-		// Change frictions based on slope
-        if (isOnSlope && canWalkOnSlope && moveInput.x == 0.0f)
-        {
-            rb.sharedMaterial = fullFriction;
-        }
-        else
-        {
-            rb.sharedMaterial = noFriction;
-        }
-    }
 
     #region INPUT CALLBACKS
     /// <summary>
@@ -442,6 +353,77 @@ public class PlayerMovement : MonoBehaviour
 		RB.gravityScale = scale;
 	}
 	#endregion
+	/// <summary>
+	/// Force Player movement to stick on slopes
+	/// </summary>
+	private void HandleSlopes()
+	{
+		// Perform a slope check using a small ground detector circle
+		Vector2 checkPos = transform.position - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
+
+        #region Check Horizontal Slope
+        RaycastHit2D frontHit = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
+        RaycastHit2D backHit = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
+
+        if (frontHit)
+        {
+            slopeSideAngle = Vector2.Angle(frontHit.normal, Vector2.up);
+            isOnSlope = true;
+        }
+        else if (backHit)
+        {
+            slopeSideAngle = Vector2.Angle(backHit.normal, Vector2.up);
+            isOnSlope = true;
+        }
+        else
+        {
+			slopeSideAngle = 0.0f;
+            isOnSlope = false;
+        }
+		#endregion
+
+		#region Check Vertical Slope
+		RaycastHit2D downHit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, groundLayer);
+
+        if (downHit)
+        {
+            slopeNormal = downHit.normal.normalized;
+            slopeDownAngle = Mathf.Atan2(slopeNormal.y, slopeNormal.x) * Mathf.Rad2Deg;
+			Debug.Log("Slope Normal: " + slopeDownAngle);
+
+            Vector2 slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
+            float slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
+			Debug.Log("Slope Perp: " + slopeNormalPerpAngle);
+
+            if (!(Mathf.Abs(slopeNormalPerpAngle) >= 179f && Mathf.Abs(slopeNormalPerpAngle) <= 181f))
+			{
+				isOnSlope = true;
+			} else
+			{
+				isOnSlope = false;
+			}
+
+			lastDownAngle = slopeDownAngle;
+			Debug.DrawRay(downHit.point, downHit.normal, Color.red);
+        }
+		#endregion
+
+		#region Barrier Checks
+		if(Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
+		{
+			canWalkOnSlope = true;
+		} else
+		{
+			canWalkOnSlope = false;
+		}
+		#endregion
+
+		if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping)
+		{
+            Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
+            rb.AddForce(slopeForce, ForceMode2D.Force);
+        }
+    }
 
 	// MOVEMENT METHODS
 	#region RUN METHODS
@@ -457,8 +439,8 @@ public class PlayerMovement : MonoBehaviour
 		// Reduce are control using Lerp() this smooths changes to are direction and speed
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
-		#region Calculate AccelRate
-		float accelRate;
+        #region Calculate AccelRate
+        float accelRate;
 
 		// Gets an acceleration value based on if we are accelerating (includes turning) 
 		// or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
@@ -503,19 +485,8 @@ public class PlayerMovement : MonoBehaviour
 
 		float movement = speedDif * accelRate;
 
-		// Check if walking on a slope
-		if(isGrounded && isOnSlope && canWalkOnSlope && !isJumping)
-		{
-			// Set a new target velocity using slopeNormalPerp
-			Vector2 targetVelocity = new Vector2(targetSpeed * slopeNormalPerp.x, targetSpeed * slopeNormalPerp.y);
-			Vector2 difference = targetVelocity - RB.velocity;
-			Vector2 movementVector = difference * accelRate;
-			RB.AddForce(movementVector, ForceMode2D.Force);
-        } else
-		{
-            // Convert this to a vector and apply to rigidbody
-            RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
-        }
+        // Convert this to a vector and apply to rigidbody
+        RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
     }
 
 	/// <summary>
