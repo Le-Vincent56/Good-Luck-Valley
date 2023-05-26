@@ -1,6 +1,10 @@
 using System.Collections;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XInput;
+using UnityEngine.UIElements;
+using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,7 +17,10 @@ public class PlayerMovement : MonoBehaviour
     private PauseMenu pauseMenu;
     private CompositeCollider2D mapCollider;
 	private BoxCollider2D playerCollider;
+	private CapsuleCollider2D capsuleCollider;
     [SerializeField] private LayerMask groundLayer;
+	[SerializeField] private PhysicsMaterial2D noFriction;
+	[SerializeField] private PhysicsMaterial2D fullFriction;
     #endregion
 
     #region FIELDS
@@ -32,6 +39,17 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
+	private Vector2 capsuleColliderSize;
+	private Vector2 slopeNormal;
+	[SerializeField] bool checkForSlopes = false;
+	[SerializeField] float slopeCheckDistance;
+	[SerializeField] bool isOnSlope;
+	[SerializeField] float slopeForceMagnitude = 5f;
+	[SerializeField] float maxSlopeAngle;
+	private float slopeSideAngle;
+	private float slopeDownAngle;
+	private float lastDownAngle;
+	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
 	#endregion
@@ -56,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
 		bounceEffect = GetComponent<BouncingEffect>();
 		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 		playerCollider = GetComponent<BoxCollider2D>();
+		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 	}
 
@@ -65,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
 		isFacingRight = true;
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
+		capsuleColliderSize = capsuleCollider.size;
 	}
 
 	private void Update()
@@ -267,38 +287,46 @@ public class PlayerMovement : MonoBehaviour
         previousPlayerPosition = playerPosition;
     }
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
-		// If the player isn't locked, then handle run
-		if(!isLocked)
+		// If the player isn't locked
+		if (!isLocked)
 		{
-            // Handle Run
-            Run(0.5f);
-        } else
+			if(checkForSlopes)
+			{
+                // Handle slopes
+                HandleSlopes();
+            }
+
+			// Handle Run
+			Run(0.5f);
+		}
+		else
 		{
 			// Reset velocity to 0
-			if(RB.velocity.x != 0)
+			if (RB.velocity.x != 0)
 			{
 				// If the player is moving rightward, you must subtract
-				if(RB.velocity.x > 0)
+				if (RB.velocity.x > 0)
 				{
 					RB.velocity -= Vector2.right * rb.velocity.x;
-                } else if(RB.velocity.x < 0) // If the plaer is moving leftward, you must add
+				}
+				else if (RB.velocity.x < 0) // If the plaer is moving leftward, you must add
 				{
 					RB.velocity += Vector2.left * rb.velocity.x;
 				}
 			}
 		}
 
-        // Set animation
-        animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
-    }
+		// Set animation
+		animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
+	}
 
-	#region INPUT CALLBACKS
-	/// <summary>
-	/// Update lastPressedJumpTime according to PlayerData
-	/// </summary>
-	public void OnJumpInput()
+    #region INPUT CALLBACKS
+    /// <summary>
+    /// Update lastPressedJumpTime according to PlayerData
+    /// </summary>
+    public void OnJumpInput()
 	{
 		lastPressedJumpTime = Data.jumpInputBufferTime;
 	}
@@ -325,6 +353,77 @@ public class PlayerMovement : MonoBehaviour
 		RB.gravityScale = scale;
 	}
 	#endregion
+	/// <summary>
+	/// Force Player movement to stick on slopes
+	/// </summary>
+	private void HandleSlopes()
+	{
+		// Perform a slope check using a small ground detector circle
+		Vector2 checkPos = transform.position - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
+
+        #region Check Horizontal Slope
+        RaycastHit2D frontHit = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
+        RaycastHit2D backHit = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
+
+        if (frontHit)
+        {
+            slopeSideAngle = Vector2.Angle(frontHit.normal, Vector2.up);
+            isOnSlope = true;
+        }
+        else if (backHit)
+        {
+            slopeSideAngle = Vector2.Angle(backHit.normal, Vector2.up);
+            isOnSlope = true;
+        }
+        else
+        {
+			slopeSideAngle = 0.0f;
+            isOnSlope = false;
+        }
+		#endregion
+
+		#region Check Vertical Slope
+		RaycastHit2D downHit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, groundLayer);
+
+        if (downHit)
+        {
+            slopeNormal = downHit.normal.normalized;
+            slopeDownAngle = Mathf.Atan2(slopeNormal.y, slopeNormal.x) * Mathf.Rad2Deg;
+			Debug.Log("Slope Normal: " + slopeDownAngle);
+
+            Vector2 slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
+            float slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
+			Debug.Log("Slope Perp: " + slopeNormalPerpAngle);
+
+            if (!(Mathf.Abs(slopeNormalPerpAngle) >= 179f && Mathf.Abs(slopeNormalPerpAngle) <= 181f))
+			{
+				isOnSlope = true;
+			} else
+			{
+				isOnSlope = false;
+			}
+
+			lastDownAngle = slopeDownAngle;
+			Debug.DrawRay(downHit.point, downHit.normal, Color.red);
+        }
+		#endregion
+
+		#region Barrier Checks
+		if(Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
+		{
+			canWalkOnSlope = true;
+		} else
+		{
+			canWalkOnSlope = false;
+		}
+		#endregion
+
+		if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping)
+		{
+            Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
+            rb.AddForce(slopeForce, ForceMode2D.Force);
+        }
+    }
 
 	// MOVEMENT METHODS
 	#region RUN METHODS
@@ -340,8 +439,8 @@ public class PlayerMovement : MonoBehaviour
 		// Reduce are control using Lerp() this smooths changes to are direction and speed
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
-		#region Calculate AccelRate
-		float accelRate;
+        #region Calculate AccelRate
+        float accelRate;
 
 		// Gets an acceleration value based on if we are accelerating (includes turning) 
 		// or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
@@ -378,17 +477,17 @@ public class PlayerMovement : MonoBehaviour
 				accelRate = 5;
 			}
 		}
-		#endregion
+        #endregion
 
-		// Calculate difference between current velocity and desired velocity
-		float speedDif = targetSpeed - RB.velocity.x;
+        // Calculate difference between current velocity and desired velocity
+        float speedDif = targetSpeed - RB.velocity.x;
 		// Calculate force along x-axis to apply to thr player
 
 		float movement = speedDif * accelRate;
 
-		// Convert this to a vector and apply to rigidbody
-		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
-	}
+        // Convert this to a vector and apply to rigidbody
+        RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+    }
 
 	/// <summary>
 	/// Turn the Player to face the direction they are moving in
