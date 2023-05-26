@@ -134,7 +134,7 @@ public class BouncingEffect : MonoBehaviour
             playerMovement.LandedTimer = 0.2f;
 
             // Set the MushroomInfo to bouncing
-            animator.SetTrigger("Bouncing");
+            animator.SetTrigger("Bou`ncing");
             collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
             collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 
