@@ -87,7 +87,6 @@ public class BouncingEffect : MonoBehaviour
         // Check if colliding with a mushroom
         if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f)
         {
-            Debug.Log("CUMCUCMCUNCCMUCMUCMUCMUCUMC");
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
             if (tutorialManager != null && firstBounce)
