@@ -85,8 +85,9 @@ public class BouncingEffect : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if colliding with a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom") && playerCollider.bounds.Contains(collision.gameObject.GetComponent<MushroomInfo>().insidePoint))
+        if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f)
         {
+            Debug.Log("CUMCUCMCUNCCMUCMUCMUCMUCUMC");
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
             if (tutorialManager != null && firstBounce)
@@ -108,7 +109,7 @@ public class BouncingEffect : MonoBehaviour
             collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 
             Vector2 velDirection = Vector2.down;
-            speed = 5f;
+            speed = .1f;
 
             // Set the direction
             direction = Vector2.up;
@@ -134,7 +135,7 @@ public class BouncingEffect : MonoBehaviour
             playerMovement.LandedTimer = 0.2f;
 
             // Set the MushroomInfo to bouncing
-            animator.SetTrigger("Bou`ncing");
+            animator.SetTrigger("Bouncing");
             collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
             collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 

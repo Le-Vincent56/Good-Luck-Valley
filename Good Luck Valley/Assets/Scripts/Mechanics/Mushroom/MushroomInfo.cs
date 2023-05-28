@@ -15,7 +15,7 @@ public class MushroomInfo : MonoBehaviour
     private bool onScreen;
     [SerializeField] private bool isShroom;
     float pointDistance;
-    public Vector2 insidePoint;
+    [SerializeField]public Vector2 insidePoint;
     #endregion
 
     #region PROPERTIES
