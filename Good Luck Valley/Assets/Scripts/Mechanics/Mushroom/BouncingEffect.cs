@@ -107,13 +107,10 @@ public class BouncingEffect : MonoBehaviour
             collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
             collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 
-            Vector2 velDirection = Vector2.down;
-            speed = .1f;
-
             // Set the direction
             direction = Vector2.up;
 
-            RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
+            RB.AddForce(direction * minSpeed, ForceMode2D.Impulse);
             onCooldown = true;
         }
         else if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown)
