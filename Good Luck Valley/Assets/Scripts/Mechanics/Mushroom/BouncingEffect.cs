@@ -110,9 +110,6 @@ public class BouncingEffect : MonoBehaviour
             collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
             collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 
-            Vector2 velDirection = Vector2.down;
-            speed = .1f;
-
             // Set the direction
             Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
             direction = rotation * Vector2.up;
