@@ -10,6 +10,7 @@ public class MushroomInfo : MonoBehaviour
 
     #region FIELDS
     private bool hasRotated;
+    [SerializeField] float rotateAngle;
     private bool bouncing = false;
     private float bouncingTimer = 0.1f;
     private bool onScreen;
@@ -20,6 +21,7 @@ public class MushroomInfo : MonoBehaviour
 
     #region PROPERTIES
     public bool HasRotated { get { return hasRotated; } set { hasRotated = value; } }
+    public float RotateAngle { get { return rotateAngle; } set { rotateAngle = value; } }
     public bool Bouncing { get { return bouncing; } set { bouncing = value; } }
     public float BouncingTimer { get { return bouncingTimer; } set { bouncingTimer = value; } }
     public bool OnScreen { get { return onScreen; } set { onScreen = value; } }

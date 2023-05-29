@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isGrounded;
     private bool inputHorizontal;
     private bool isLocked = false;
+	private float disableInputTimer = 0.5f;
     [SerializeField] private bool justLanded = false;
 	private float lastOnGroundTime;
 	private float lastPressedJumpTime;
@@ -62,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
 	public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
     public bool InputHorizontal { get { return inputHorizontal; } set { inputHorizontal = value; } }
 	public bool IsLocked { get { return isLocked; } set { isLocked = value; } }
+	public float DisableInputTimer { get { return disableInputTimer; } set { disableInputTimer = value; } }
 	public float LandedTimer { get { return landedTimer; } set { landedTimer = value; } }
 	public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } set { distanceFromLastPosition = value; } }
     public Vector2 MoveInput { get { return moveInput; } set { moveInput = value; } }
@@ -298,7 +300,18 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
-			// Handle Run
+			//if (bounceEffect.Bouncing)
+			//{
+			//	if(DisableInputTimer <= 0)
+			//	{
+			//		Run(0.5f);
+			//	}
+			//} else
+			//{
+			//	Run(0.5f);
+			//}
+
+			// Handle input
 			Run(0.5f);
 		}
 		else
@@ -481,8 +494,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Calculate difference between current velocity and desired velocity
         float speedDif = targetSpeed - RB.velocity.x;
-		// Calculate force along x-axis to apply to thr player
 
+		// Calculate force along x-axis to apply to thr player
 		float movement = speedDif * accelRate;
 
         // Convert this to a vector and apply to rigidbody

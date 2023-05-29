@@ -312,6 +312,9 @@ public class MushroomManager : MonoBehaviour
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<MushroomInfo>().HasRotated = true;
         changeShroomIndexes[mushroomList.IndexOf(mushroom)] = shroom;
+
+        // Set the MushroomInfo angle to the calculated angle
+        shroom.GetComponent<MushroomInfo>().RotateAngle = angle;
     }
 
     /// <summary>

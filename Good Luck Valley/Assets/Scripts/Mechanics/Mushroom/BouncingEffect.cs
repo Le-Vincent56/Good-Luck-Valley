@@ -5,6 +5,7 @@ using UnityEngine;
 public class BouncingEffect : MonoBehaviour
 {
     #region REFERENCES
+    private MushroomInfo mushroomInfo;
     private Rigidbody2D RB;
     private Animator animator;
     private PlayerMovement playerMovement;
@@ -40,6 +41,7 @@ public class BouncingEffect : MonoBehaviour
     void Start()
     {
         // Get components
+        mushroomInfo = GetComponent<MushroomInfo>();
         RB = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -60,8 +62,6 @@ public class BouncingEffect : MonoBehaviour
         {
             bounceBuffer -= Time.deltaTime;
         }
-
-
 
         if (onCooldown)
         {
@@ -87,6 +87,9 @@ public class BouncingEffect : MonoBehaviour
         // Check if colliding with a mushroom
         if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f && !onCooldown)
         {
+            // Disable movement for a little bit
+            playerMovement.DisableInputTimer = 0.25f;
+
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
             if (tutorialManager != null && firstBounce)
@@ -111,13 +114,17 @@ public class BouncingEffect : MonoBehaviour
             speed = .1f;
 
             // Set the direction
-            direction = Vector2.up;
+            Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
+            direction = rotation * Vector2.up;
 
-            RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
+            RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
             onCooldown = true;
         }
         else if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown)
         {
+            // Disable movement for a little bit
+            playerMovement.DisableInputTimer = 0.25f;
+
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
             if (tutorialManager != null && firstBounce)
@@ -149,9 +156,10 @@ public class BouncingEffect : MonoBehaviour
             //}
 
             // Set the direction
-            direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
+            Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
+            direction = Quaternion.Inverse(rotation) * Vector2.up;
 
-            RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
+            RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
             onCooldown = true;
         }
     }
