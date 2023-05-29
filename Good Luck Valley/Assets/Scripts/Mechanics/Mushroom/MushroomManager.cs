@@ -296,7 +296,6 @@ public class MushroomManager : MonoBehaviour
             }
         }
         Vector2 direction = contactPoint.normal;
-        Debug.Log(contactPoint.collider);
 
         // The angle that the shroom is going to rotate at
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
