@@ -26,6 +26,7 @@ public class BouncingEffect : MonoBehaviour
     [SerializeField] private bool onCooldown = false;
     private float bounceBuffer = 0.1f;
     private float cooldown = 0.1f;
+    [SerializeField] float movementCooldown = 0.5f;
 
     private float speed;
     private Vector2 direction;
@@ -88,7 +89,7 @@ public class BouncingEffect : MonoBehaviour
         if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f && !onCooldown)
         {
             // Disable movement for a little bit
-            playerMovement.DisableInputTimer = 0.25f;
+            playerMovement.DisableInputTimer = movementCooldown;
 
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
@@ -120,7 +121,7 @@ public class BouncingEffect : MonoBehaviour
         else if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown)
         {
             // Disable movement for a little bit
-            playerMovement.DisableInputTimer = 0.25f;
+            playerMovement.DisableInputTimer = movementCooldown;
 
             // If there is a tutorialManager, and firstBounece is true,
             // don't show bounce tutorial text and set firstBounce to false
