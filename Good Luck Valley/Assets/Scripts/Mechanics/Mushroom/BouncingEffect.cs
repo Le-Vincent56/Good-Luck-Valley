@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class BouncingEffect : MonoBehaviour
@@ -85,80 +86,83 @@ public class BouncingEffect : MonoBehaviour
     /// <param name="collision">The Collision2D triggering the collision</param>
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if colliding with a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f && !onCooldown && collision.collider is CircleCollider2D)
+        if (collision.gameObject.tag.Equals("Mushroom") && collision.collider is CircleCollider2D)
         {
-            // Disable movement for a little bit
-            playerMovement.DisableInputTimer = movementCooldown;
-
-            // If there is a tutorialManager, and firstBounece is true,
-            // don't show bounce tutorial text and set firstBounce to false
-            if (tutorialManager != null && firstBounce)
+            // Check if colliding with a mushroom
+            if (RB.velocity.x < 0.1f && !onCooldown)
             {
-                tutorialManager.ShowingBounceText = false;
-                firstBounce = false;
+                // Disable movement for a little bit
+                playerMovement.DisableInputTimer = movementCooldown;
+
+                // If there is a tutorialManager, and firstBounece is true,
+                // don't show bounce tutorial text and set firstBounce to false
+                if (tutorialManager != null && firstBounce)
+                {
+                    tutorialManager.ShowingBounceText = false;
+                    firstBounce = false;
+                }
+
+                // Set bouncing to true
+                bouncing = true;
+                bounceBuffer = 0.1f;
+
+                // Reset landed timer
+                playerMovement.LandedTimer = 0.2f;
+
+                // Set the MushroomInfo to bouncing
+                animator.SetTrigger("Bouncing");
+                collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
+                collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
+
+                // Set the direction
+                Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
+                direction = rotation * Vector2.up;
+
+                RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
+                onCooldown = true;
             }
-
-            // Set bouncing to true
-            bouncing = true;
-            bounceBuffer = 0.1f;
-
-            // Reset landed timer
-            playerMovement.LandedTimer = 0.2f;
-
-            // Set the MushroomInfo to bouncing
-            animator.SetTrigger("Bouncing");
-            collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
-            collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
-
-            // Set the direction
-            Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
-            direction = rotation * Vector2.up;
-
-            RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
-            onCooldown = true;
-        }
-        else if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown && collision.collider is CircleCollider2D)
-        {
-            // Disable movement for a little bit
-            playerMovement.DisableInputTimer = movementCooldown;
-
-            // If there is a tutorialManager, and firstBounece is true,
-            // don't show bounce tutorial text and set firstBounce to false
-            if (tutorialManager != null && firstBounce)
+            else if (canBounce && !onCooldown)
             {
-                tutorialManager.ShowingBounceText = false;
-                firstBounce = false;
+                // Disable movement for a little bit
+                playerMovement.DisableInputTimer = movementCooldown;
+
+                // If there is a tutorialManager, and firstBounece is true,
+                // don't show bounce tutorial text and set firstBounce to false
+                if (tutorialManager != null && firstBounce)
+                {
+                    tutorialManager.ShowingBounceText = false;
+                    firstBounce = false;
+                }
+
+                // Set bouncing to true
+                bouncing = true;
+                bounceBuffer = 0.1f;
+
+                // Reset landed timer
+                playerMovement.LandedTimer = 0.2f;
+
+                // Set the MushroomInfo to bouncing
+                animator.SetTrigger("Bouncing");
+                collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
+                collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
+
+                // Get the calculated speed based on last Velocity
+                speed = lastVelocity.magnitude;
+
+                //Vector2 velDirection = lastVelocity.normalized;
+                //if (speed <= 0.01f)
+                //{
+                //    velDirection = Vector2.up;
+                //    speed = 5f;
+                //}
+
+                // Set the direction
+                Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
+                direction = Quaternion.Inverse(rotation) * Vector2.up;
+
+                RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
+                onCooldown = true;
             }
-
-            // Set bouncing to true
-            bouncing = true;
-            bounceBuffer = 0.1f;
-
-            // Reset landed timer
-            playerMovement.LandedTimer = 0.2f;
-
-            // Set the MushroomInfo to bouncing
-            animator.SetTrigger("Bouncing");
-            collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
-            collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
-
-            // Get the calculated speed based on last Velocity
-            speed = lastVelocity.magnitude;
-
-            //Vector2 velDirection = lastVelocity.normalized;
-            //if (speed <= 0.01f)
-            //{
-            //    velDirection = Vector2.up;
-            //    speed = 5f;
-            //}
-
-            // Set the direction
-            Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
-            direction = Quaternion.Inverse(rotation) * Vector2.up;
-
-            RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
-            onCooldown = true;
         }
     }
 }
