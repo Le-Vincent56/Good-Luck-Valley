@@ -58,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
 	#region DEV TOOLS
 	[SerializeField] public bool devTools;
     [SerializeField] private bool noClip;
+	[SerializeField] public bool instantThrow;
     #endregion
 
     #region PROPERTIES
@@ -677,30 +678,41 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
+    #endregion
 
-	public void OnActivateNoClip(InputAction.CallbackContext context)
-	{
-		// Check if devTools is enabled
-		if (devTools)
-		{
-			// Switch noClip 
+    #region DevToolsInputs
+    public void OnActivateNoClip(InputAction.CallbackContext context)
+    {
+        // Check if devTools is enabled
+        if (devTools)
+        {
+            // Switch noClip 
             noClip = !noClip;
 
-			// Switch collider's isTrigger bool
+            // Switch collider's isTrigger bool
             playerCollider.isTrigger = !playerCollider.isTrigger;
             capsuleCollider.isTrigger = !capsuleCollider.isTrigger;
 
-			// Check if the rigid body is dynamic type, if it is then set it to static
-			if (RB.bodyType == RigidbodyType2D.Dynamic)
+            // Check if the rigid body is dynamic type, if it is then set it to static
+            if (RB.bodyType == RigidbodyType2D.Dynamic)
             {
                 RB.bodyType = RigidbodyType2D.Static;
             }
-			// Otherwise set it to dynamic
-			else
-			{
+            // Otherwise set it to dynamic
+            else
+            {
                 RB.bodyType = RigidbodyType2D.Dynamic;
             }
-        }	
-	}
-	#endregion
+        }
+    }
+
+    public void OnActivateInstantThrow(InputAction.CallbackContext context)
+    {
+        // Check if devTools is enabled
+        if (devTools)
+        {
+			instantThrow = !instantThrow;
+        }
+    }
+    #endregion
 }

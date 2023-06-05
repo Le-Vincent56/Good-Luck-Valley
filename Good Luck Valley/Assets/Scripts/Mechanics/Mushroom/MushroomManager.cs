@@ -108,6 +108,16 @@ public class MushroomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // DEV TOOLS
+        if (playerMove.instantThrow)
+        {
+            throwMultiplier = 30;
+        }
+        else
+        {
+            throwMultiplier = 8;
+        }
+
         // Animation updates
         if (throwing)
         {
