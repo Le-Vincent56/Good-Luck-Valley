@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 	[SerializeField] private PhysicsMaterial2D noFriction;
 	[SerializeField] private PhysicsMaterial2D fullFriction;
+	private DevTools devTools;
 	#endregion
 
 	#region FIELDS
@@ -57,12 +58,6 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-	#endregion
-
-	#region DEV TOOLS
-	[SerializeField] public bool devTools;
-    [SerializeField] private bool noClip;
-	[SerializeField] public bool instantThrow;
     #endregion
 
     #region PROPERTIES
@@ -77,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
 	public float LandedTimer { get { return landedTimer; } set { landedTimer = value; } }
 	public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } set { distanceFromLastPosition = value; } }
     public Vector2 MoveInput { get { return moveInput; } set { moveInput = value; } }
+
     #endregion
 
     private void Awake()
@@ -89,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
 		playerCollider = GetComponent<BoxCollider2D>();
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
+		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 	}
 
 	private void Start()
@@ -594,7 +591,7 @@ public class PlayerMovement : MonoBehaviour
 
 		// DEV TOOL
 		// Check if noClip is on
-        if (noClip)
+        if (devTools.NoClip)
         {
 			// Check if left/right input is detected
 			if (moveInput.y != 0)
@@ -740,41 +737,5 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
-    #endregion
-
-    #region DevToolsInputs
-    public void OnActivateNoClip(InputAction.CallbackContext context)
-    {
-        // Check if devTools is enabled
-        if (devTools)
-        {
-            // Switch noClip 
-            noClip = !noClip;
-
-            // Switch collider's isTrigger bool
-            playerCollider.isTrigger = !playerCollider.isTrigger;
-            capsuleCollider.isTrigger = !capsuleCollider.isTrigger;
-
-            // Check if the rigid body is dynamic type, if it is then set it to static
-            if (RB.bodyType == RigidbodyType2D.Dynamic)
-            {
-                RB.bodyType = RigidbodyType2D.Static;
-            }
-            // Otherwise set it to dynamic
-            else
-            {
-                RB.bodyType = RigidbodyType2D.Dynamic;
-            }
-        }
-    }
-
-    public void OnActivateInstantThrow(InputAction.CallbackContext context)
-    {
-        // Check if devTools is enabled
-        if (devTools)
-        {
-			instantThrow = !instantThrow;
-        }
-    }
     #endregion
 }

@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;  
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     #region REFERENCES
     private Canvas pauseUI;
-    private PlayerMovement playerMovement;
+    private PlayerMovement playerMovement; 
     #endregion
 
     #region FIELDS
