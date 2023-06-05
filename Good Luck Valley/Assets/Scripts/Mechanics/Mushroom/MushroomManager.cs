@@ -74,7 +74,7 @@ public class MushroomManager : MonoBehaviour
         player = GameObject.Find("Player");
         playerRB = player.GetComponent<Rigidbody2D>();
         playerMove = player.GetComponent<PlayerMovement>();
-        playerAnim = player.GetComponent<Animator>();
+        playerAnim = GameObject.Find("PlayerSprite").GetComponent<Animator>();
 
         // Mushroom
         mushroomList = new List<GameObject>();
