@@ -47,7 +47,7 @@ public class MushroomManager : MonoBehaviour
     private Dictionary<int, GameObject> changeShroomIndexes;
     [SerializeField] private Vector2 offset;                    // Offset for spawning shrooms outside of player hitbox
     private int mushroomCount;                                   // How many shrooms are currently spawned in
-    private bool throwUnlocked = false;
+    [SerializeField] bool throwUnlocked = false;
     [SerializeField] int throwMultiplier;
     [SerializeField] Vector3 fixPlayer;
     private ThrowState throwState;
