@@ -300,19 +300,25 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
-			//if (bounceEffect.Bouncing)
-			//{
-			//	if(DisableInputTimer <= 0)
-			//	{
-			//		Run(0.5f);
-			//	}
-			//} else
-			//{
-			//	Run(0.5f);
-			//}
-
-			// Handle input
-			Run(0.5f);
+			// Check if the player is bouncing
+			if (bounceEffect.Bouncing)
+			{
+				// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
+				if (disableInputTimer <= 0)
+				{
+					// If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
+					Run(0.5f);
+				} else
+				{
+					// If disableInputTimer is greater than zero, subtract by deltaTime
+					disableInputTimer -= Time.deltaTime;
+				}
+			}
+			else
+			{
+				// If not bouncing, allow movement like normal
+				Run(0.5f);
+			}
 		}
 		else
 		{
