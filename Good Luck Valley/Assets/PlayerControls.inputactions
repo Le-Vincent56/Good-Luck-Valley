@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ActivateNoClip",
+                    "type": "Button",
+                    "id": "30d1858c-996c-4e90-8b1d-cc6470bf8e8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -591,6 +600,17 @@
                     "processors": "",
                     "groups": "Switch Pro Controller",
                     "action": "RemoveLastShroom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7758821-735f-4eda-8433-6d25324fc2cd",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "ActivateNoClip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
