@@ -21,7 +21,7 @@ public class BouncingEffect : MonoBehaviour
     #endregion
 
     [Header("Bounce Variables")]
-    [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
+    [SerializeField] float bounceForce = 15f;
     [SerializeField] private bool bouncing;
     [SerializeField] private bool canBounce;
     [SerializeField] private bool onCooldown = false;
@@ -29,6 +29,8 @@ public class BouncingEffect : MonoBehaviour
     private float cooldown = 0.1f;
     [SerializeField] float movementCooldown = 0.5f;
     [SerializeField] bool touchingShroom = false;
+    [SerializeField] float bounceClampMin = 0.4f;
+    [SerializeField] float bounceClampMax = 0.6f;
 
     private float speed;
     private Vector2 direction;
@@ -90,6 +92,8 @@ public class BouncingEffect : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Mushroom") && collision.collider is CircleCollider2D)
         {
+            RB.velocity = new Vector2(Mathf.Clamp(RB.velocity.x, bounceClampMin, bounceClampMax), RB.velocity.y);
+
             // Check if colliding with a mushroom
             if (RB.velocity.x < 0.1f && !onCooldown)
             {
@@ -120,7 +124,8 @@ public class BouncingEffect : MonoBehaviour
                 Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
                 direction = rotation * Vector2.up;
 
-                RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
+                //RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
+                RB.AddForce(direction * bounceForce, ForceMode2D.Impulse);
                 onCooldown = true;
             }
             else if (canBounce && !onCooldown)
@@ -151,18 +156,12 @@ public class BouncingEffect : MonoBehaviour
                 // Get the calculated speed based on last Velocity
                 speed = lastVelocity.magnitude;
 
-                //Vector2 velDirection = lastVelocity.normalized;
-                //if (speed <= 0.01f)
-                //{
-                //    velDirection = Vector2.up;
-                //    speed = 5f;
-                //}
-
                 // Set the direction
                 Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
-                direction = Quaternion.Inverse(rotation) * Vector2.up;
+                direction = rotation * Vector2.up;
 
-                RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
+                //RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
+                RB.AddForce(direction * bounceForce, ForceMode2D.Impulse);
                 onCooldown = true;
             }
         } else if(collision.gameObject.tag.Equals("Mushroom"))

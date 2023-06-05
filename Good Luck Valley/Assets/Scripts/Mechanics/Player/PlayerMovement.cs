@@ -10,7 +10,7 @@ using UnityEngine.Windows;
 public class PlayerMovement : MonoBehaviour
 {
     #region REFERENCES
-    [SerializeField] private PlayerData Data;
+    [SerializeField] private PlayerData data;
 	private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
 	private bool isJumpFalling;
 	private bool isFacingRight;
     [SerializeField] private bool isGrounded;
+	[SerializeField] float fallingBuffer = 0.25f;
     private bool inputHorizontal;
     private bool isLocked = false;
 	private float disableInputTimer = 0.5f;
@@ -61,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region PROPERTIES
+	public PlayerData Data { get { return data; } }
     public Rigidbody2D RB { get { return rb; } set { rb = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
@@ -90,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Start()
 	{
-		SetGravityScale(Data.gravityScale);
+		SetGravityScale(data.gravityScale);
 		isFacingRight = true;
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
@@ -118,9 +120,15 @@ public class PlayerMovement : MonoBehaviour
         lastOnGroundTime -= Time.deltaTime;
 
         lastPressedJumpTime -= Time.deltaTime;
+
+        // If the player is falling, update the fallingBuffer
+        if (RB.velocity.y < 0 && !isGrounded)
+        {
+			fallingBuffer -= Time.deltaTime;
+        }
         #endregion
 
-		// Check for Collisions
+        // Check for Collisions
         #region COLLISION CHECKS
         if (!isJumping)
         {
@@ -139,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = true;
 
                 // Set coyote time
-                lastOnGroundTime = Data.coyoteTime;
+                lastOnGroundTime = data.coyoteTime;
 
                 // If the player has been on the ground for longer than 0 seconds, they have landed
                 if (landedTimer > 0 && isGrounded && (!(RB.velocity.y > 0f || RB.velocity.y < -0.1f)))
@@ -213,16 +221,22 @@ public class PlayerMovement : MonoBehaviour
 			if(!isOnSlope)
 			{
                 isGrounded = false;
-                animator.SetBool("Falling", true);
+
+				if(fallingBuffer <= 0)
+				{
+                    animator.SetBool("Falling", true);
+                }
             }
         }
         else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing) // Otherwise, if the player is not falling, update animations
         {
+            fallingBuffer = 0.15f;
             animator.SetBool("Falling", false);
         }
 		
 		if(bounceEffect.Bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
 		{
+            fallingBuffer = 0.15f;
             animator.SetBool("Falling", false);
         }
         #endregion
@@ -253,7 +267,7 @@ public class PlayerMovement : MonoBehaviour
                 } else if(isGrounded && canWalkOnSlope)
 				{
 					// If moving, apply normal gravity
-					SetGravityScale(Data.gravityScale);
+					SetGravityScale(data.gravityScale);
 				}
 			}
             else if (RB.velocity.y < 0 && moveInput.y < 0)
@@ -261,32 +275,32 @@ public class PlayerMovement : MonoBehaviour
 				// Higher gravity if we've released the jump input or are falling
 
 				// Much higher gravity if holding down
-				SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
+				SetGravityScale(data.gravityScale * data.fastFallGravityMult);
 
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
 			}
 			else if (isJumpCut)
 			{
 				// Higher gravity if jump button released
-				SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
-				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+				SetGravityScale(data.gravityScale * data.jumpCutGravityMult);
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
 			}
-			else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
+			else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
 			{
-				SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
+				SetGravityScale(data.gravityScale * data.jumpHangGravityMult);
 			}
 			else if (RB.velocity.y < 0)
 			{
 				// Higher gravity if falling
-				SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+				SetGravityScale(data.gravityScale * data.fallGravityMult);
 
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
 			} else 
             {
                 // Default gravity if standing on a platform or moving upwards
-                SetGravityScale(Data.gravityScale);
+                SetGravityScale(data.gravityScale);
             }
         }
         else
@@ -295,18 +309,18 @@ public class PlayerMovement : MonoBehaviour
             if (RB.velocity.y > 0)
             {
                 // Higher gravity if falling
-                SetGravityScale(Data.gravityScale * Data.bounceGravityMult);
+                SetGravityScale(data.gravityScale * data.bounceGravityMult);
 
                 // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
             }
             else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
             {
                 // Higher gravity if falling
-                SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
+                SetGravityScale(data.gravityScale * data.fallFromBounceGravityMult);
 
                 // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
             }
         }
 		#endregion
@@ -326,14 +340,14 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
-			// Check if the player is bouncing
-			if (bounceEffect.Bouncing)
+            // Check if the player is bouncing
+            if (bounceEffect.Bouncing)
 			{
 				// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
 				if (disableInputTimer <= 0)
 				{
-					// If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
-					Run(0.5f);
+                    // If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
+                    Run(0.5f);
 				} else
 				{
 					// If disableInputTimer is greater than zero, subtract by deltaTime
@@ -373,7 +387,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void OnJumpInput()
 	{
-		lastPressedJumpTime = Data.jumpInputBufferTime;
+		lastPressedJumpTime = data.jumpInputBufferTime;
 	}
 
 	/// <summary>
@@ -491,16 +505,6 @@ public class PlayerMovement : MonoBehaviour
             Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
             rb.AddForce(slopeForce, ForceMode2D.Force);
 
-            //// Rotate the sprite accordingly so that it looks like the player is climbing the slope
-            //if (slopeDownAngle >= 0)
-            //{
-            //    spriteRenderer.gameObject.transform.rotation = Quaternion.AngleAxis(slopeNormalPerpAngle + 180, Vector3.forward);
-            //}
-            //else if (slopeDownAngle < 0)
-            //{
-            //    spriteRenderer.gameObject.transform.rotation = Quaternion.AngleAxis(slopeNormalPerpAngle - 180, Vector3.forward);
-            //}
-
             // Draw for debugging
             Debug.DrawRay(checkPos, slopeForce, Color.white);
         } else
@@ -534,9 +538,9 @@ public class PlayerMovement : MonoBehaviour
 	private void Run(float lerpAmount)
 	{
         // Calculate the direction we want to move in and our desired velocity
-        float targetSpeed = moveInput.x * Data.runMaxSpeed;
+        float targetSpeed = moveInput.x * data.runMaxSpeed;
 
-        // Reduce are control using Lerp() this smooths changes to are direction and speed
+        // Reduce our control using Lerp() this smooths changes to are direction and speed
         targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
         #region Calculate AccelRate
@@ -546,31 +550,31 @@ public class PlayerMovement : MonoBehaviour
         // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
         if (lastOnGroundTime > 0)
         {
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
-        }
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount : data.runDeccelAmount;
+        }	
         else
         {
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount * Data.accelInAir : Data.runDeccelAmount * Data.deccelInAir;
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount * data.accelInAir : data.runDeccelAmount * data.deccelInAir;
         }
         #endregion
 
         #region Add Bonus Jump Apex Acceleration
         // Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
-        if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
+        if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
         {
-            accelRate *= Data.jumpHangAccelerationMult;
-            targetSpeed *= Data.jumpHangMaxSpeedMult;
+            accelRate *= data.jumpHangAccelerationMult;
+            targetSpeed *= data.jumpHangMaxSpeedMult;
         }
         #endregion
 
         #region Conserve Momentum
         // We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-        if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
+        if (data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
         {
-            // Prevent any deceleration from happening, or in other words conserve are current momentum
+            // Prevent any deceleration from happening, or in other words conserve our current momentum
             if (!bounceEffect.Bouncing)
             {
-                accelRate = 0;
+				accelRate = 0;
             }
             else
             {
@@ -643,7 +647,7 @@ public class PlayerMovement : MonoBehaviour
 
         // We increase the force applied if we are falling
         // This means we'll always feel like we jump the same amount
-        float force = Data.jumpForce;
+        float force = data.jumpForce;
 		if (RB.velocity.y < 0)
         {
 			force -= RB.velocity.y;
