@@ -44,7 +44,7 @@ public class BouncingEffect : MonoBehaviour
         // Get components
         mushroomInfo = GetComponent<MushroomInfo>();
         RB = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = GameObject.Find("PlayerSprite").GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
         playerCollider = GetComponent<BoxCollider2D>();
 
