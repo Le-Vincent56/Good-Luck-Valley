@@ -136,8 +136,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4971546878846604628}
   m_LocalRotation: {x: -0, y: -0, z: -0.010506695, w: 0.9999448}
-  m_LocalPosition: {x: 0.084, y: 0.295, z: -0.0028297422}
-  m_LocalScale: {x: 1.6666665, y: 1.6666665, z: 2.274278}
+  m_LocalPosition: {x: 0.084613, y: 0.32416, z: -0.0028297422}
+  m_LocalScale: {x: 1.6666665, y: 1.7499998, z: 2.274278}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5917074136222074752}
@@ -156,7 +156,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.04311058, y: -0.35004497}
+  m_Offset: {x: -0.02111435, y: -0.11623357}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -167,7 +167,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.45600897, y: 0.1991435}
+  m_Size: {x: 0.37234116, y: 0.66512334}
   m_EdgeRadius: 0
 --- !u!1 &5917074136201342209
 GameObject:
@@ -294,6 +294,7 @@ GameObject:
   - component: {fileID: 5917074136222074757}
   - component: {fileID: 5917074136222074756}
   - component: {fileID: 5917074136222074779}
+  - component: {fileID: 2952476892497813702}
   m_Layer: 6
   m_Name: OrganicShroom
   m_TagString: Mushroom
@@ -420,9 +421,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0006472628, y: 0.13548912}
+  m_Offset: {x: 0.00682383, y: 0.18999863}
   serializedVersion: 2
-  m_Radius: 0.25238055
+  m_Radius: 0.20853658
 --- !u!95 &5917074136222074779
 Animator:
   serializedVersion: 4
@@ -443,3 +444,41 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1839735485 &2952476892497813702
+Tilemap:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5917074136222074778}
+  m_Enabled: 1
+  m_Tiles: {}
+  m_AnimatedTiles: {}
+  m_TileAssetArray: []
+  m_TileSpriteArray: []
+  m_TileMatrixArray: []
+  m_TileColorArray: []
+  m_TileObjectToInstantiateArray: []
+  m_AnimationFrameRate: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Origin: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0, y: 0, z: 1}
+  m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
+  m_TileOrientation: 0
+  m_TileOrientationMatrix:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
