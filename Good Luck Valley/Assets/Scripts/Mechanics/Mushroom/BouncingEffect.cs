@@ -86,7 +86,7 @@ public class BouncingEffect : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if colliding with a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f && !onCooldown)
+        if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f && !onCooldown && collision.collider is CircleCollider2D)
         {
             // Disable movement for a little bit
             playerMovement.DisableInputTimer = movementCooldown;
@@ -118,7 +118,7 @@ public class BouncingEffect : MonoBehaviour
             RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
             onCooldown = true;
         }
-        else if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown)
+        else if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown && collision.collider is CircleCollider2D)
         {
             // Disable movement for a little bit
             playerMovement.DisableInputTimer = movementCooldown;

@@ -21,9 +21,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 	[SerializeField] private PhysicsMaterial2D noFriction;
 	[SerializeField] private PhysicsMaterial2D fullFriction;
-    #endregion
+	#endregion
 
-    #region FIELDS
+	#region FIELDS
     private bool isMoving;
 	private bool isJumping;
     private bool isJumpCut;
@@ -55,8 +55,14 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
 	#endregion
 
-	#region PROPERTIES
-	public Rigidbody2D RB { get { return rb; } set { rb = value; } }
+	#region DEV TOOLS
+	[SerializeField] public bool devTools;
+    [SerializeField] private bool noClip;
+	[SerializeField] public bool instantThrow;
+    #endregion
+
+    #region PROPERTIES
+    public Rigidbody2D RB { get { return rb; } set { rb = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
     public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
@@ -408,7 +414,7 @@ public class PlayerMovement : MonoBehaviour
         {
             slopeNormal = downHit.normal.normalized;
             slopeDownAngle = Mathf.Atan2(slopeNormal.y, slopeNormal.x) * Mathf.Rad2Deg;
-			Debug.Log("Slope Normal: " + slopeDownAngle);
+            Debug.Log("Slope Normal: " + slopeDownAngle);
 
             Vector2 slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
             float slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
@@ -419,6 +425,14 @@ public class PlayerMovement : MonoBehaviour
 				isOnSlope = true;
 			} else
 			{
+				//if(slopeSideAngle != 0.0f)
+				//{
+				//	isOnSlope = true;
+				//} else
+				//{
+    //                isOnSlope = false;
+    //            }
+
 				isOnSlope = false;
 			}
 
@@ -441,7 +455,15 @@ public class PlayerMovement : MonoBehaviour
 		{
             Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
             rb.AddForce(slopeForce, ForceMode2D.Force);
+
+			// Draw for debugging
+			Debug.DrawRay(checkPos, slopeForce, Color.white);
         }
+
+		// Draw for debugging
+		Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.gray); // Downward distance check
+		Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
+        Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
     }
 
 	// MOVEMENT METHODS
@@ -452,60 +474,79 @@ public class PlayerMovement : MonoBehaviour
 	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
-		// Calculate the direction we want to move in and our desired velocity
-		float targetSpeed = moveInput.x * Data.runMaxSpeed;
+        // Calculate the direction we want to move in and our desired velocity
+        float targetSpeed = moveInput.x * Data.runMaxSpeed;
 
-		// Reduce are control using Lerp() this smooths changes to are direction and speed
-		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
+        // Reduce are control using Lerp() this smooths changes to are direction and speed
+        targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
         #region Calculate AccelRate
         float accelRate;
 
-		// Gets an acceleration value based on if we are accelerating (includes turning) 
-		// or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
-		if (lastOnGroundTime > 0)
+        // Gets an acceleration value based on if we are accelerating (includes turning) 
+        // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
+        if (lastOnGroundTime > 0)
         {
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
-		}
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
+        }
         else
         {
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount * Data.accelInAir : Data.runDeccelAmount * Data.deccelInAir;
-		}
-		#endregion
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount * Data.accelInAir : Data.runDeccelAmount * Data.deccelInAir;
+        }
+        #endregion
 
-		#region Add Bonus Jump Apex Acceleration
-		// Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
-		if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
-		{
-			accelRate *= Data.jumpHangAccelerationMult;
-			targetSpeed *= Data.jumpHangMaxSpeedMult;
-		}
-		#endregion
+        #region Add Bonus Jump Apex Acceleration
+        // Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
+        if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
+        {
+            accelRate *= Data.jumpHangAccelerationMult;
+            targetSpeed *= Data.jumpHangMaxSpeedMult;
+        }
+        #endregion
 
-		#region Conserve Momentum
-		// We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
-		{
-			// Prevent any deceleration from happening, or in other words conserve are current momentum
-			if(!bounceEffect.Bouncing)
+        #region Conserve Momentum
+        // We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
+        if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
+        {
+            // Prevent any deceleration from happening, or in other words conserve are current momentum
+            if (!bounceEffect.Bouncing)
             {
-				accelRate = 0;
-			} else
+                accelRate = 0;
+            }
+            else
             {
-				// If bouncing, add some air deceleration for consistency
-				accelRate = 5;
-			}
-		}
+                // If bouncing, add some air deceleration for consistency
+                accelRate = 5;
+            }
+        }
         #endregion
 
         // Calculate difference between current velocity and desired velocity
         float speedDif = targetSpeed - RB.velocity.x;
 
-		// Calculate force along x-axis to apply to thr player
-		float movement = speedDif * accelRate;
+        // Calculate force along x-axis to apply to thr player
+        float movement = speedDif * accelRate;
 
         // Convert this to a vector and apply to rigidbody
         RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+		// DEV TOOL
+		// Check if noClip is on
+        if (noClip)
+        {
+			// Check if left/right input is detected
+			if (moveInput.y != 0)
+			{
+				// Move player up/down
+				GetComponent<Transform>().position += Vector3.up * moveInput.y;
+			}
+            // Check if up/down input is detected
+            if (moveInput.x != 0)
+            {
+				// Move player left/right
+                GetComponent<Transform>().position += Vector3.right * moveInput.x;
+            }
+        }
     }
 
 	/// <summary>
@@ -637,5 +678,41 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
-	#endregion
+    #endregion
+
+    #region DevToolsInputs
+    public void OnActivateNoClip(InputAction.CallbackContext context)
+    {
+        // Check if devTools is enabled
+        if (devTools)
+        {
+            // Switch noClip 
+            noClip = !noClip;
+
+            // Switch collider's isTrigger bool
+            playerCollider.isTrigger = !playerCollider.isTrigger;
+            capsuleCollider.isTrigger = !capsuleCollider.isTrigger;
+
+            // Check if the rigid body is dynamic type, if it is then set it to static
+            if (RB.bodyType == RigidbodyType2D.Dynamic)
+            {
+                RB.bodyType = RigidbodyType2D.Static;
+            }
+            // Otherwise set it to dynamic
+            else
+            {
+                RB.bodyType = RigidbodyType2D.Dynamic;
+            }
+        }
+    }
+
+    public void OnActivateInstantThrow(InputAction.CallbackContext context)
+    {
+        // Check if devTools is enabled
+        if (devTools)
+        {
+			instantThrow = !instantThrow;
+        }
+    }
+    #endregion
 }

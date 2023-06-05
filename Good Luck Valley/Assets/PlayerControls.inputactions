@@ -85,6 +85,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ActivateNoClip",
+                    "type": "Button",
+                    "id": "30d1858c-996c-4e90-8b1d-cc6470bf8e8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActivateInstantThrow",
+                    "type": "Button",
+                    "id": "e7820aae-96db-40f8-aec8-4b022bc67fdf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -591,6 +609,28 @@
                     "processors": "",
                     "groups": "Switch Pro Controller",
                     "action": "RemoveLastShroom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7758821-735f-4eda-8433-6d25324fc2cd",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "ActivateNoClip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bab1fe61-5de0-49b3-944f-89d36288dc75",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "ActivateInstantThrow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
