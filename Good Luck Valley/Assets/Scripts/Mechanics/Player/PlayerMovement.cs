@@ -408,7 +408,7 @@ public class PlayerMovement : MonoBehaviour
         {
             slopeNormal = downHit.normal.normalized;
             slopeDownAngle = Mathf.Atan2(slopeNormal.y, slopeNormal.x) * Mathf.Rad2Deg;
-			Debug.Log("Slope Normal: " + slopeDownAngle);
+            Debug.Log("Slope Normal: " + slopeDownAngle);
 
             Vector2 slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
             float slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
@@ -419,6 +419,14 @@ public class PlayerMovement : MonoBehaviour
 				isOnSlope = true;
 			} else
 			{
+				//if(slopeSideAngle != 0.0f)
+				//{
+				//	isOnSlope = true;
+				//} else
+				//{
+    //                isOnSlope = false;
+    //            }
+
 				isOnSlope = false;
 			}
 
@@ -441,7 +449,15 @@ public class PlayerMovement : MonoBehaviour
 		{
             Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
             rb.AddForce(slopeForce, ForceMode2D.Force);
+
+			// Draw for debugging
+			Debug.DrawRay(checkPos, slopeForce, Color.white);
         }
+
+		// Draw for debugging
+		Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.gray); // Downward distance check
+		Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
+        Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
     }
 
 	// MOVEMENT METHODS
