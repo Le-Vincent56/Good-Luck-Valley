@@ -127,10 +127,9 @@ public class PlayerMovement : MonoBehaviour
         #region COLLISION CHECKS
         if (!isJumping)
         {
-			RaycastHit2D boxCheck = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer);
-			//RaycastHit2D boxCheck = Physics2D.BoxCast(playerCollider.bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer); ;
+			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer);
 
-            if (boxCheck && !isJumping) // Checks if set box overlaps with ground
+            if ((boxCheckGround || bounceEffect.TouchingShroom) && !isJumping) // Checks if set box overlaps with ground
             {
                 // If bouncing before and the bounce buffer has ended, end bouncing
                 if (bounceEffect.Bouncing && bounceEffect.BounceBuffer <= 0)
@@ -489,20 +488,21 @@ public class PlayerMovement : MonoBehaviour
 		}
 		#endregion
 
-		// If the player is grounded, is on a slope, is able to walk on the slope, and is not jumping, then apply the slope force
-		if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping)
+		// If the player is grounded, is on a slope, is able to walk on the slope, and is not jumping, and is not bouncing, then apply the slope force
+		if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping && !bounceEffect.Bouncing && !bounceEffect.TouchingShroom)
 		{
             Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
             rb.AddForce(slopeForce, ForceMode2D.Force);
 
-			// Rotate the sprite accordingly so that it looks like the player is climbing the slope
-			if(slopeDownAngle >= 0)
-			{
-                spriteRenderer.gameObject.transform.rotation = Quaternion.AngleAxis(slopeNormalPerpAngle + 180, Vector3.forward);
-            } else if(slopeDownAngle < 0)
-			{
-                spriteRenderer.gameObject.transform.rotation = Quaternion.AngleAxis(slopeNormalPerpAngle - 180, Vector3.forward);
-            }
+            //// Rotate the sprite accordingly so that it looks like the player is climbing the slope
+            //if (slopeDownAngle >= 0)
+            //{
+            //    spriteRenderer.gameObject.transform.rotation = Quaternion.AngleAxis(slopeNormalPerpAngle + 180, Vector3.forward);
+            //}
+            //else if (slopeDownAngle < 0)
+            //{
+            //    spriteRenderer.gameObject.transform.rotation = Quaternion.AngleAxis(slopeNormalPerpAngle - 180, Vector3.forward);
+            //}
 
             // Draw for debugging
             Debug.DrawRay(checkPos, slopeForce, Color.white);

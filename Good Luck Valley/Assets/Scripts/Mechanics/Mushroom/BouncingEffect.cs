@@ -28,6 +28,7 @@ public class BouncingEffect : MonoBehaviour
     private float bounceBuffer = 0.1f;
     private float cooldown = 0.1f;
     [SerializeField] float movementCooldown = 0.5f;
+    [SerializeField] bool touchingShroom = false;
 
     private float speed;
     private Vector2 direction;
@@ -38,6 +39,7 @@ public class BouncingEffect : MonoBehaviour
     public bool Bouncing { get { return bouncing; } set { bouncing = value; } }
     public bool CanBounce { get { return canBounce; } set { canBounce = value; } }
     public float BounceBuffer { get { return bounceBuffer; } set { bounceBuffer = value; } }
+    public bool TouchingShroom { get { return touchingShroom; } set { touchingShroom = value; } }
     #endregion
 
     void Start()
@@ -163,6 +165,24 @@ public class BouncingEffect : MonoBehaviour
                 RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
                 onCooldown = true;
             }
+        } else if(collision.gameObject.tag.Equals("Mushroom"))
+        {
+            // Set touching shroom to true if colliding with the mushroom
+            touchingShroom = true;
+        }
+    }
+
+    /// <summary>
+    /// Checks for when the object is not touching the Mushroom
+    /// </summary>
+    /// <param name="collision">The Collision2D checking for an exit</param>
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        // Check if the collider is a mushroom
+        if(collision.gameObject.tag.Equals("Mushroom"))
+        {
+            // If exiting, set touchingShroom to false
+            touchingShroom = false;
         }
     }
 }
