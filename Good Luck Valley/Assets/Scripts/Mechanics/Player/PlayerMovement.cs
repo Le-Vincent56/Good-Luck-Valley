@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 	#endregion
 
 	#region DEV TOOLS
-	[SerializeField] private bool devTools;
+	[SerializeField] public bool devTools;
     [SerializeField] private bool noClip;
     #endregion
 

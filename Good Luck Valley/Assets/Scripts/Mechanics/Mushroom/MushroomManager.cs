@@ -97,6 +97,12 @@ public class MushroomManager : MonoBehaviour
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
         tempOffset = offset.x;
+
+        // Dev Tools
+        if (playerMove.devTools)
+        {
+            throwUnlocked = true;
+        }
     }
 
     // Update is called once per frame
