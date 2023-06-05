@@ -111,6 +111,64 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &4971546878846604628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2567581263971878080}
+  - component: {fileID: 8917692078877098676}
+  m_Layer: 3
+  m_Name: BoxCollider
+  m_TagString: Ground
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2567581263971878080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971546878846604628}
+  m_LocalRotation: {x: -0, y: -0, z: -0.010506695, w: 0.9999448}
+  m_LocalPosition: {x: 0.084, y: 0.295, z: -0.0028297422}
+  m_LocalScale: {x: 1.6666665, y: 1.6666665, z: 2.274278}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5917074136222074752}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &8917692078877098676
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971546878846604628}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.04311058, y: -0.35004497}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.02, y: 1.0475}
+    newSize: {x: 7.67, y: 8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.45600897, y: 0.1991435}
+  m_EdgeRadius: 0
 --- !u!1 &5917074136201342209
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +315,7 @@ Transform:
   m_Children:
   - {fileID: 5917074136201342210}
   - {fileID: 1175371874}
+  - {fileID: 2567581263971878080}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.204}
@@ -345,8 +404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736eb640bcc169949b19e5b7ce26b2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotateAngle: 0
   isShroom: 1
-  colliderPoints: []
+  insidePoint: {x: 0, y: 0}
 --- !u!58 &5917074136222074756
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -360,9 +420,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0012195499, y: -0.03589648}
+  m_Offset: {x: 0.0006472628, y: 0.13548912}
   serializedVersion: 2
-  m_Radius: 0.41995275
+  m_Radius: 0.25238055
 --- !u!95 &5917074136222074779
 Animator:
   serializedVersion: 4
