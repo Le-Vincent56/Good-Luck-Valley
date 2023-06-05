@@ -300,6 +300,11 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
+			if(isOnSlope)
+			{
+
+			}
+
 			// Check if the player is bouncing
 			if (bounceEffect.Bouncing)
 			{
