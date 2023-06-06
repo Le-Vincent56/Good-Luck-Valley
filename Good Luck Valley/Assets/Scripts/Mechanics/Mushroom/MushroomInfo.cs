@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class MushroomInfo : MonoBehaviour
 {
@@ -55,8 +56,15 @@ public class MushroomInfo : MonoBehaviour
         // Decreases deltaTime from timer for this shroom
         if (mushMan.EnableShroomTimers && isShroom)
         {
+            // Decreases time from the timer
             durationTimer -= Time.deltaTime;
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a);
+
+            // The percent that should be reducted from the opacity each frame
+            float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
+
+            // Adjust opacity of mushroom and intensity of light based on percentOpacity
+            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
+            GetComponentInChildren<Light2D>().intensity -= percentOpacity;
         }
     }
 }
