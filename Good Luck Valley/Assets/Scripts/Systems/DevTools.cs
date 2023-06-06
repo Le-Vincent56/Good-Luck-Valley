@@ -47,6 +47,12 @@ public class DevTools : MonoBehaviour
             instantThrow = false;
             infiniteShrooms = true;
             mushMan.ThrowUnlocked = true;
+        } else
+        {
+            devText.enabled = false;
+            noClipText.enabled = false;
+            instantThrowText.enabled = false;
+            infiniteShroomText.enabled = false;
         }
     }
 
