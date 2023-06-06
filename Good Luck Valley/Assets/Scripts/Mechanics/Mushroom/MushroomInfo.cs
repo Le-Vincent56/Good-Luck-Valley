@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class MushroomInfo : MonoBehaviour
 {
@@ -56,7 +57,9 @@ public class MushroomInfo : MonoBehaviour
         if (mushMan.EnableShroomTimers && isShroom)
         {
             durationTimer -= Time.deltaTime;
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a);
+            float percentColor = Time.deltaTime / mushMan.ShroomDuration;
+            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentColor);
+            GetComponentInChildren<Light2D>().intensity -= percentColor;
         }
     }
 }
