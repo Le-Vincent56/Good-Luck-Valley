@@ -42,7 +42,7 @@ public class MushroomManager : MonoBehaviour
     private ContactFilter2D layer;                              // A contact filter to filter out ground layers
     private Vector2 forceDirection;    
     private List<GameObject> mushroomList;                      // List of currently spawned shrooms
-    private const int mushroomLimit = 3;                        // Constant for max amount of shrooms
+    private int mushroomLimit = 3;                              // Max amount of shrooms
     private Stack<int> removeShroomIndexes;
     private Dictionary<int, GameObject> changeShroomIndexes;
     [SerializeField] private Vector2 offset;                    // Offset for spawning shrooms outside of player hitbox
@@ -58,6 +58,10 @@ public class MushroomManager : MonoBehaviour
     public int MushroomCount { get { return mushroomCount; } set { mushroomCount = value; } }
     public List<GameObject> MushroomList { get { return mushroomList; } }
     public bool ThrowUnlocked { get { return throwUnlocked; } set { throwUnlocked = value; } }
+
+    public int MushroomLimit { get { return mushroomLimit; } set { mushroomLimit = value; } }
+
+    public int ThrowMultiplier { get { return throwMultiplier; } set { throwMultiplier = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -97,27 +101,11 @@ public class MushroomManager : MonoBehaviour
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
         tempOffset = offset.x;
-
-        // Dev Tools
-        if (playerMove.devTools)
-        {
-            throwUnlocked = true;
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // DEV TOOLS
-        if (playerMove.instantThrow)
-        {
-            throwMultiplier = 30;
-        }
-        else
-        {
-            throwMultiplier = 8;
-        }
-
         // Animation updates
         if (throwing)
         {
