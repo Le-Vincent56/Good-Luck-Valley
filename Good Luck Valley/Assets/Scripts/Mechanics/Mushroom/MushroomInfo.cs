@@ -5,7 +5,7 @@ using UnityEngine;
 public class MushroomInfo : MonoBehaviour
 {
     #region REFERENCES
-
+    private MushroomManager mushMan;
     #endregion
 
     #region FIELDS
@@ -16,6 +16,8 @@ public class MushroomInfo : MonoBehaviour
     [SerializeField] private float durationTimer;
     private bool onScreen;
     [SerializeField] private bool isShroom;
+    private Color defaultColor;
+    private float colorPercent;
     #endregion
 
     #region PROPERTIES
@@ -31,7 +33,10 @@ public class MushroomInfo : MonoBehaviour
 
     private void Awake()
     {
-        durationTimer = 3f; // ~3 seconds
+        mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
+        durationTimer = mushMan.ShroomDuration;
+        defaultColor = GetComponent<SpriteRenderer>().color;
+        colorPercent = durationTimer / 255;
     }
 
     // Update is called once per frame
@@ -48,6 +53,12 @@ public class MushroomInfo : MonoBehaviour
         }
 
         // Decreases deltaTime from timer for this shroom
-        durationTimer -= Time.deltaTime;
+        if (mushMan.EnableShroomTimers && isShroom)
+        {
+            durationTimer -= Time.deltaTime;
+            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - (4/1020));
+            Debug.Log(GetComponent<SpriteRenderer>().color.a);
+        }
+        
     }
 }

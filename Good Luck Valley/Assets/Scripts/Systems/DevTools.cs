@@ -13,6 +13,7 @@ public class DevTools : MonoBehaviour
     private Text noClipText;
     private Text instantThrowText;
     private Text infiniteShroomText;
+    private Text shroomDurationText;
     #endregion
 
     #region FIELDS
@@ -20,6 +21,7 @@ public class DevTools : MonoBehaviour
     [SerializeField] bool noClip;
     [SerializeField] bool instantThrow;
     [SerializeField] bool infiniteShrooms;
+    [SerializeField] bool disableShroomDuration;
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
     #endregion
@@ -40,19 +42,26 @@ public class DevTools : MonoBehaviour
         noClipText = GameObject.Find("NoClipText").GetComponent<Text>();
         instantThrowText = GameObject.Find("InstantShroomText").GetComponent<Text>();
         infiniteShroomText = GameObject.Find("InfiniteShroomText").GetComponent<Text>();
+        shroomDurationText = GameObject.Find("ShroomDurationText").GetComponent<Text>();
 
+        // Checks if dev tools are enabled
         if (devToolsEnabled)
         {
+            // Default dev tools values
             noClip = false;
             instantThrow = false;
             infiniteShrooms = true;
             mushMan.ThrowUnlocked = true;
-        } else
+            disableShroomDuration = true;
+        } 
+        else
         {
+            // No dev tools
             devText.enabled = false;
             noClipText.enabled = false;
             instantThrowText.enabled = false;
             infiniteShroomText.enabled = false;
+            disableShroomDuration = false;
         }
     }
 
@@ -88,6 +97,17 @@ public class DevTools : MonoBehaviour
         {
             infiniteShroomText.text = "Press F3 for infinite shrooms: Disabled";
         }
+
+        // Disable shroom timer text change
+        if (disableShroomDuration)
+        {
+            shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Disabled";
+        }
+        else if (disableShroomDuration == false)
+        {
+            shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
+        }
+
     }
 
     #region INPUT HANDLERS
@@ -151,13 +171,35 @@ public class DevTools : MonoBehaviour
             {
                 // If enabled, set shroom limit to max value, 'infinite'
                 mushMan.MushroomLimit = int.MaxValue;
-            }
+            }   
             else if (infiniteShrooms == false)
             {
                 // If disabled, set shroom limit to 3, original value
                 mushMan.MushroomLimit = 3;
             }
         } 
+    }
+
+    public void OnDisableShroomDuration(InputAction.CallbackContext context)
+    {
+        // Check if dev tools is enabled
+       if (devToolsEnabled)
+       {
+            // Switches shroom duration on/off
+            disableShroomDuration = !disableShroomDuration;
+
+            // Checks if shroom durations are enabled or disabled
+            if (disableShroomDuration)
+            {
+                // If disabled, turns off shroom timers
+                mushMan.EnableShroomTimers = false;
+            }
+            else if (disableShroomDuration == false)
+            {
+                // If enabled, turns on shroom timers
+                mushMan.EnableShroomTimers = true;
+            }
+       }
     }
     #endregion
 }
