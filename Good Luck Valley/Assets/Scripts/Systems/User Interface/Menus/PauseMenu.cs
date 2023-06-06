@@ -39,15 +39,27 @@ public class PauseMenu : MonoBehaviour
     }
 
     /// <summary>
-    /// Pause the Game
+    /// Toggle the pause menu
     /// </summary>
-    /// <param name="context">The context of the Controller</param>    
-    public void Pause(InputAction.CallbackContext context)
+    /// <param name="context">The context of the controller</param>
+    public void TogglePause(InputAction.CallbackContext context)
     {
-        paused = true;
-        pauseUI.enabled = true;
-        playerMovement.MoveInput = Vector2.zero;
-        Time.timeScale = 0;
+        if(!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0)
+        {
+            if (!paused)
+            {
+                paused = true;
+                pauseUI.enabled = true;
+                playerMovement.MoveInput = Vector2.zero;
+                Time.timeScale = 0;
+            }
+            else if (journalMenu.CloseBuffer <= 0 && paused)
+            {
+                paused = false;
+                pauseUI.enabled = false;
+                Time.timeScale = 1f;
+            }
+        }
     }
 
     /// <summary>

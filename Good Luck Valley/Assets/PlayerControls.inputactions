@@ -69,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "TogglePause",
                     "type": "Button",
                     "id": "a026b7d3-93b1-49c0-98ec-acdb5af197ba",
                     "expectedControlType": "Button",
@@ -108,6 +108,24 @@
                     "name": "EnableInfiniteShrooms",
                     "type": "Button",
                     "id": "e45e0d87-c608-4ca6-93ab-349d02b7e00a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OpenJournal",
+                    "type": "Button",
+                    "id": "dd5f3810-3aea-4d06-b23b-86cd76141cbe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseJournal",
+                    "type": "Button",
+                    "id": "4ed6fec1-166f-4e48-8c4c-a77f8ff9fd73",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -540,7 +558,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Pause",
+                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -551,7 +569,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Playstation Controller",
-                    "action": "Pause",
+                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -562,7 +580,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XBox Controller",
-                    "action": "Pause",
+                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -573,7 +591,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Switch Pro Controller",
-                    "action": "Pause",
+                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -651,6 +669,28 @@
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "EnableInfiniteShrooms",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1c28f0e-a827-47fb-a165-6023237fbf46",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenJournal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb23bfaf-f61e-45bb-93c7-a36ec115740d",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "CloseJournal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

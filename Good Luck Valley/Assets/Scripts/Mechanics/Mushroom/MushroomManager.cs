@@ -28,6 +28,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private GameObject mushroom;
     private ThrowUI throwUI_Script;
     [SerializeField] private GameObject testObject;
+    private Journal journal;
     #endregion
 
     #region FIELDS
@@ -93,6 +94,7 @@ public class MushroomManager : MonoBehaviour
         cursor = FindObjectOfType<GameCursor>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         throwUI_Script = GameObject.Find("Throw UI").GetComponent<ThrowUI>();
+        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -416,7 +418,7 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.Paused && throwUnlocked)
+        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
