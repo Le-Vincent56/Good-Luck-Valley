@@ -47,6 +47,12 @@ public class DevTools : MonoBehaviour
             instantThrow = false;
             infiniteShrooms = true;
             mushMan.ThrowUnlocked = true;
+        } else
+        {
+            devText.enabled = false;
+            noClipText.enabled = false;
+            instantThrowText.enabled = false;
+            infiniteShroomText.enabled = false;
         }
     }
 
@@ -90,7 +96,7 @@ public class DevTools : MonoBehaviour
         // Check if devTools is enabled
         if (devToolsEnabled)
         {
-            // Switch noClip 
+            // Switch noClip on/off
             noClip = !noClip;
 
             // Switch collider's isTrigger bool
@@ -112,16 +118,21 @@ public class DevTools : MonoBehaviour
 
     public void OnActivateInstantThrow(InputAction.CallbackContext context)
     {
+        // Check if the dev tools are enabled
         if (devToolsEnabled)
         {
+            // Switch instant throw on/off
             instantThrow = !instantThrow;
 
+            // Check if it was set to enabled or disabled
             if (instantThrow)
             {
+                // If enabled, set throw multiplier to 30 for fast/instant shroom
                 mushMan.ThrowMultiplier = 30;
             }
             else if (instantThrow == false)
             {
+                // If disabled, set throw multiplier to 8, original value
                 mushMan.ThrowMultiplier = 8;
             }
         }
@@ -129,16 +140,21 @@ public class DevTools : MonoBehaviour
 
     public void OnEnableInfiniteShrooms(InputAction.CallbackContext context)
     {
+        // Check if the dev tools are enabled
         if (devToolsEnabled)
         {
+            // Switch infinite shrooms on/off
             infiniteShrooms = !infiniteShrooms;
 
+            // Check if it was set to enabled or disabled
             if (infiniteShrooms)
             {
+                // If enabled, set shroom limit to max value, 'infinite'
                 mushMan.MushroomLimit = int.MaxValue;
             }
             else if (infiniteShrooms == false)
             {
+                // If disabled, set shroom limit to 3, original value
                 mushMan.MushroomLimit = 3;
             }
         } 

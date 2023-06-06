@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
@@ -140,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
                 if (bounceEffect.Bouncing && bounceEffect.BounceBuffer <= 0)
                 {
                     bounceEffect.Bouncing = false;
-                    animator.SetBool("Bouncing", false);
+                    animator.ResetTrigger("Bouncing");
                 }
 
                 // Ground player
@@ -148,22 +147,6 @@ public class PlayerMovement : MonoBehaviour
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
-
-                // If the player has been on the ground for longer than 0 seconds, they have landed
-                if (landedTimer > 0 && isGrounded && (!(RB.velocity.y > 0f || RB.velocity.y < -0.1f)))
-                {
-                    // Update variables and set animations
-                    landedTimer -= Time.deltaTime;
-                    justLanded = true;
-                    animator.SetBool("JustLanded", true);
-                }
-                else
-                {
-                    // Otherwise, they have not landed - update
-                    // variables and set animations
-                    justLanded = false;
-                    animator.SetBool("JustLanded", false);
-                }
             }
         }
         #endregion
@@ -207,11 +190,11 @@ public class PlayerMovement : MonoBehaviour
         if (isJumping)
         {
             isGrounded = false;
-            animator.SetBool("Jump", true);
+            animator.SetBool("Jumping", true);
         }
         else if (!isJumping) // Else, if the player is not jumping, update animations
         {
-            animator.SetBool("Jump", false);
+            animator.SetBool("Jumping", false);
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
@@ -228,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing) // Otherwise, if the player is not falling, update animations
+        else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing || isOnSlope) // Otherwise, if the player is not falling, update animations
         {
             fallingBuffer = 0.15f;
             animator.SetBool("Falling", false);
@@ -252,7 +235,32 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-		// Calculate Gravity
+		// Land Animation Checks
+        #region LAND ANIMATION CHECKS
+        // If the player has been on the ground for longer than 0 seconds, they have landed
+        if (landedTimer > 0 && isGrounded /*&& (!(RB.velocity.y > 0f || RB.velocity.y < -0.1f))*/)
+        {
+            // Update variables and set animations
+            landedTimer -= Time.deltaTime;
+            justLanded = true;
+            animator.SetBool("Landed", true);
+        }
+        else
+        {
+            // Otherwise, they have not landed - update
+            // variables and set animations
+            justLanded = false;
+            animator.SetBool("Landed", false);
+        }
+
+		if(!isGrounded && RB.velocity.y < 0)
+		{
+			// If not grounded and has a negative velocity, reset landed timer
+			landedTimer = 0.2f;
+		}
+        #endregion
+
+        // Calculate Gravity
         #region GRAVITY
         if (!bounceEffect.Bouncing)
         {
@@ -340,25 +348,27 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
-            // Check if the player is bouncing
-            if (bounceEffect.Bouncing)
-			{
-				// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
-				if (disableInputTimer <= 0)
-				{
-                    // If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
-                    Run(0.5f);
-				} else
-				{
-					// If disableInputTimer is greater than zero, subtract by deltaTime
-					disableInputTimer -= Time.deltaTime;
-				}
-			}
-			else
-			{
-				// If not bouncing, allow movement like normal
-				Run(0.5f);
-			}
+			Run(0.5f);
+
+   //         // Check if the player is bouncing
+   //         if (bounceEffect.Bouncing)
+			//{
+			//	// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
+			//	if (disableInputTimer <= 0)
+			//	{
+   //                 // If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
+   //                 Run(0.5f);
+			//	} else
+			//	{
+			//		// If disableInputTimer is greater than zero, subtract by deltaTime
+			//		disableInputTimer -= Time.deltaTime;
+			//	}
+			//}
+			//else
+			//{
+			//	// If not bouncing, allow movement like normal
+			//	Run(0.5f);
+			//}
 		}
 		else
 		{
@@ -518,10 +528,12 @@ public class PlayerMovement : MonoBehaviour
 		if(isOnSlope && canWalkOnSlope && moveInput.x == 0.0f)
 		{
 			rb.sharedMaterial = fullFriction;
+			playerCollider.sharedMaterial = fullFriction;
 		} else
 		{
 			rb.sharedMaterial = noFriction;
-		}
+			playerCollider.sharedMaterial = noFriction;
+        }
 
         // Draw rays for debugging
         Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
@@ -635,7 +647,6 @@ public class PlayerMovement : MonoBehaviour
 		// Ensures we can't call Jump multiple times from one press
 		lastPressedJumpTime = 0;
 		lastOnGroundTime = 0;
-		landedTimer = 0.2f;
 
 		#region Perform Jump
 		// If the player is grounded and moving upwards, force velocity to 0
