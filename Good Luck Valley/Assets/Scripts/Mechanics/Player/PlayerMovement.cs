@@ -238,7 +238,7 @@ public class PlayerMovement : MonoBehaviour
 		// Land Animation Checks
         #region LAND ANIMATION CHECKS
         // If the player has been on the ground for longer than 0 seconds, they have landed
-        if (landedTimer > 0 && isGrounded /*&& (!(RB.velocity.y > 0f || RB.velocity.y < -0.1f))*/)
+        if (landedTimer > 0 && isGrounded && !bounceEffect.Bouncing)
         {
             // Update variables and set animations
             landedTimer -= Time.deltaTime;
