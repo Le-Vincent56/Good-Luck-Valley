@@ -56,9 +56,7 @@ public class MushroomInfo : MonoBehaviour
         if (mushMan.EnableShroomTimers && isShroom)
         {
             durationTimer -= Time.deltaTime;
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - (4/1020));
-            Debug.Log(GetComponent<SpriteRenderer>().color.a);
+            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a);
         }
-        
     }
 }
