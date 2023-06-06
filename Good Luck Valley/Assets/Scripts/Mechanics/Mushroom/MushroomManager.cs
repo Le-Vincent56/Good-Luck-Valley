@@ -306,6 +306,7 @@ public class MushroomManager : MonoBehaviour
                 Destroy(tempShroom);
             }
         }
+        // Clears the changeShroomIndexes stack
         changeShroomIndexes.Clear();
     }
 
@@ -461,14 +462,19 @@ public class MushroomManager : MonoBehaviour
     /// <param name="context"></param>
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
+        // Checks if the game is paused
         if(!pauseMenu.Paused && throwUnlocked)
         {
+            // On initial button press
             if (context.started)
             {
+                // Loops through all mushrooms in the mushroomList
                 foreach (GameObject m in mushroomList)
                 {
+                    // Destroys that mushroom
                     Destroy(m);
                 }
+                // Removes all mushrooms from the list
                 mushroomList.Clear();
             }
         }
