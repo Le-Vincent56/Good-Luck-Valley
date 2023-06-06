@@ -60,6 +60,27 @@ public class Journal : MonoBehaviour
     {
         if(hasJournal)
         {
+            // Sort the journal by indexes
+            Note tempNote = null;
+            for(int i = 0; i <= notes.Count - 1; i++)
+            {
+                for(int j = i + 1; j < notes.Count; j++)
+                {
+                    // Loop through the first index and the index afterwards and compare the journal indexes
+                    // so that the notes List is in ascending order
+                    if (notes[i].JournalIndex > notes[j].JournalIndex)
+                    {
+                        // If a Note at the current index is larger than the note at the next index,
+                        // then set tempNote to the current Note, set the current Note to the next Note,
+                        // and set the next Note to the tempNote - switching around notes[i] and notes[j]
+                        tempNote = notes[i];
+                        notes[i] = notes[j];
+                        notes[j] = tempNote;
+                    }
+                }
+            }
+
+
             // Update so that it is no longer the first time opening
             if(!hasOpened)
             {
