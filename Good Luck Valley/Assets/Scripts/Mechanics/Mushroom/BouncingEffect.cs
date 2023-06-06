@@ -92,46 +92,11 @@ public class BouncingEffect : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Mushroom") && collision.collider is CircleCollider2D)
         {
-            RB.velocity = new Vector2(Mathf.Clamp(RB.velocity.x, bounceClampMin, bounceClampMax), RB.velocity.y);
-
             // Check if colliding with a mushroom
-            if (RB.velocity.x < 0.1f && !onCooldown)
+            if (!onCooldown)
             {
-                // Disable movement for a little bit
-                playerMovement.DisableInputTimer = movementCooldown;
+                RB.velocity = new Vector2(Mathf.Clamp(RB.velocity.x, bounceClampMin, bounceClampMax), RB.velocity.y);
 
-                // If there is a tutorialManager, and firstBounece is true,
-                // don't show bounce tutorial text and set firstBounce to false
-                if (tutorialManager != null && firstBounce)
-                {
-                    tutorialManager.ShowingBounceText = false;
-                    firstBounce = false;
-                }
-
-                // Set bouncing to true
-                bouncing = true;
-                bounceBuffer = 0.1f;
-
-                // Reset landed timer
-                playerMovement.LandedTimer = 0.2f;
-
-                // Set the MushroomInfo to bouncing
-                animator.SetTrigger("Bouncing");
-                collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
-                collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
-
-                // Set the direction
-                Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
-                direction = rotation * Vector2.up;
-
-                //RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
-                RB.AddForce(direction * bounceForce, ForceMode2D.Impulse);
-
-
-                onCooldown = true;
-            }
-            else if (canBounce && !onCooldown)
-            {
                 // Disable movement for a little bit
                 playerMovement.DisableInputTimer = movementCooldown;
 
