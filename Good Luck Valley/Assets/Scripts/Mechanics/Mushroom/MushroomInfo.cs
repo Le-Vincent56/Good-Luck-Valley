@@ -13,10 +13,9 @@ public class MushroomInfo : MonoBehaviour
     [SerializeField] float rotateAngle;
     private bool bouncing = false;
     private float bouncingTimer = 0.1f;
+    [SerializeField] private float durationTimer;
     private bool onScreen;
     [SerializeField] private bool isShroom;
-    float pointDistance;
-    [SerializeField]public Vector2 insidePoint;
     #endregion
 
     #region PROPERTIES
@@ -26,12 +25,13 @@ public class MushroomInfo : MonoBehaviour
     public float BouncingTimer { get { return bouncingTimer; } set { bouncingTimer = value; } }
     public bool OnScreen { get { return onScreen; } set { onScreen = value; } }
     public bool IsShroom { get { return isShroom; } set { isShroom = value; } }
+
+    public float DurationTimer { get { return durationTimer; } }
     #endregion
 
-    private void Start()
+    private void Awake()
     {
-        pointDistance = GetComponent<CircleCollider2D>().radius;
-        insidePoint = GetComponent<CircleCollider2D>().bounds.center;
+        durationTimer = 3f; // ~3 seconds
     }
 
     // Update is called once per frame
@@ -46,5 +46,8 @@ public class MushroomInfo : MonoBehaviour
                 GetComponent<Animator>().SetBool("Bouncing", false);
             }
         }
+
+        // Decreases deltaTime from timer for this shroom
+        durationTimer -= Time.deltaTime;
     }
 }
