@@ -52,7 +52,8 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] int throwMultiplier;
     [SerializeField] Vector3 fixPlayer;
     private ThrowState throwState;
-    private float tempOffset;
+    [SerializeField] private float shroomDuration;
+    private bool enableShroomTimers;
     #endregion
 
     #region PROPERTIES
@@ -63,6 +64,8 @@ public class MushroomManager : MonoBehaviour
     public int MushroomLimit { get { return mushroomLimit; } set { mushroomLimit = value; } }
 
     public int ThrowMultiplier { get { return throwMultiplier; } set { throwMultiplier = value; } }
+    public float ShroomDuration { get { return shroomDuration; } set { shroomDuration = value; } }
+    public bool EnableShroomTimers { get { return enableShroomTimers;} set { enableShroomTimers = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -102,7 +105,6 @@ public class MushroomManager : MonoBehaviour
         layer.useLayerMask = true;
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
-        tempOffset = offset.x;
     }
 
     // Update is called once per frame
