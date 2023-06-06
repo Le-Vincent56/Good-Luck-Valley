@@ -62921,6 +62921,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 22ff4a32c7dac0043997e467e2a27235, type: 2}
+    - target: {fileID: 194225543, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.06307669
+      objectReference: {fileID: 0}
     - target: {fileID: 508820768, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_Color.b
       value: 0.8820755
@@ -63869,9 +63873,17 @@ PrefabInstance:
       propertyPath: tutorialManager
       value: 
       objectReference: {fileID: 1907260815}
+    - target: {fileID: 1310835857, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7203912908089909876, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7203912908089909876, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.06307669
       objectReference: {fileID: 0}
     - target: {fileID: 7203912908089909877, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_RootOrder
@@ -63973,7 +63985,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1310835857, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
 --- !u!1 &1071942606
 GameObject:
@@ -65074,6 +65087,7 @@ MonoBehaviour:
     are now small enough to fit my arms around? Maybe it's everything. Or maybe,
     I'm just lost. "
   contentsTitle: Page 3
+  journalIndex: 0
 --- !u!212 &1158937813
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -67694,7 +67708,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: ee68d7080b1df0f48a666e6baaefce7a, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.02029419, y: -0.34139907}
@@ -77056,6 +77070,7 @@ MonoBehaviour:
   textValue: A journal belonging to Hana, Anari's mother. It seems to have all of
     its pages ripped out.
   contentsTitle: Journal Binding
+  journalIndex: 0
 --- !u!212 &1582067826
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -78761,6 +78776,7 @@ MonoBehaviour:
     How brilliant these moths shine, lighting up the dark forest for me. I'm sure
     they would do it for anyone passing through, but it makes me feel special. "
   contentsTitle: Page 2
+  journalIndex: 0
 --- !u!212 &1711325417
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -79168,6 +79184,7 @@ MonoBehaviour:
     when I pass by them. Like they''re looking out for me. My home town of Jimoto
     has nothing of the sort. '
   contentsTitle: Page 1
+  journalIndex: 0
 --- !u!212 &1754909295
 SpriteRenderer:
   m_ObjectHideFlags: 0

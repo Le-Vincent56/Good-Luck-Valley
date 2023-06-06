@@ -17,6 +17,7 @@ public class Note : Interactable
     [SerializeField] private string noteTitle;
     [SerializeField] private string textValue;
     [SerializeField] private string contentsTitle;
+    [SerializeField] private int journalIndex = 0;
     private bool noteAdded = false;
     #endregion
 
@@ -24,6 +25,7 @@ public class Note : Interactable
     public string NoteTitle { get { return noteTitle; } set { noteTitle = value; } }
     public string TextValue { get { return textValue; } set { textValue = value; } }
     public string ContentsTitle { get { return contentsTitle; } set { contentsTitle = value; } }
+    public int JournalIndex { get { return journalIndex; } }
     #endregion
 
     // Start is called before the first frame update
