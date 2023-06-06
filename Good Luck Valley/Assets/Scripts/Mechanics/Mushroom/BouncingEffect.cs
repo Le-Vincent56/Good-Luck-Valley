@@ -126,6 +126,8 @@ public class BouncingEffect : MonoBehaviour
 
                 //RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
                 RB.AddForce(direction * bounceForce, ForceMode2D.Impulse);
+
+
                 onCooldown = true;
             }
             else if (canBounce && !onCooldown)
