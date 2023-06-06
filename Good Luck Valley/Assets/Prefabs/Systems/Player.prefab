@@ -590,7 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dce2e8bc8877b4409a46199b5c15d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: bfed79855bda1754e88192020ad5838c, type: 2}
+  data: {fileID: 11400000, guid: bfed79855bda1754e88192020ad5838c, type: 2}
   playerLight: {fileID: 0}
   rb: {fileID: 0}
   animator: {fileID: 0}
@@ -602,6 +602,7 @@ MonoBehaviour:
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
   isJumping: 0
   isGrounded: 0
+  fallingBuffer: 0.25
   justLanded: 0
   landedTimer: 0
   checkForSlopes: 1
@@ -924,6 +925,18 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 41ad4ba7-825e-41cc-9fac-e8782aa77d04
     m_ActionName: Player Controls/RemoveLastShroom[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 30d1858c-996c-4e90-8b1d-cc6470bf8e8c
+    m_ActionName: Player Controls/ActivateNoClip[/Keyboard/f1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e7820aae-96db-40f8-aec8-4b022bc67fdf
+    m_ActionName: Player Controls/ActivateInstantThrow[/Keyboard/f2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e45e0d87-c608-4ca6-93ab-349d02b7e00a
+    m_ActionName: Player Controls/EnableInfiniteShrooms[/Keyboard/f3]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -943,11 +956,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: bfed79855bda1754e88192020ad5838c, type: 2}
   tutorialManager: {fileID: 0}
-  minSpeed: 20
+  bounceForce: 15
   bouncing: 0
   canBounce: 0
   onCooldown: 0
   movementCooldown: 0.5
+  touchingShroom: 0
+  bounceClampMin: 0.4
+  bounceClampMax: 0.6
   lastVelocity: {x: 0, y: 0}
 --- !u!114 &1310835849
 MonoBehaviour:
