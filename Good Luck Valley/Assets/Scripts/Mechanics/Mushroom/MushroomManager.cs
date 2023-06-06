@@ -110,17 +110,6 @@ public class MushroomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Animation updates
-        if (throwing)
-        {
-            throwAnimTimer -= Time.deltaTime;
-            if(throwAnimTimer <= 0)
-            {
-                throwing = false;
-                playerAnim.SetBool("Throwing", false);
-            }
-        }
-
         // Updates mushroom count               
         mushroomCount = mushroomList.Count;
 
@@ -439,8 +428,6 @@ public class MushroomManager : MonoBehaviour
                 if (canThrow)
                 {
                     throwing = true;
-                    throwAnimTimer = 0.01f;
-                    playerAnim.SetBool("Throwing", true);
 
                     // Throw the shroom
                     switch (throwState)

@@ -293,7 +293,7 @@ public class Tutorial : MonoBehaviour
         {
 
             case "Keyboard & Mouse":
-                tutorialText = "To read newly obtained notes, press the ESC button!";
+                tutorialText = "To read newly obtained notes, press the ESC button to go to select it from the Pause Menu, or directly using TAB!";
                 break;
 
             case "Playstation Controller":
