@@ -322,14 +322,14 @@ public class PlayerMovement : MonoBehaviour
                 // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
             }
-			else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling from bounce
-			{
-                // Higher gravity if falling
-                SetGravityScale(data.gravityScale * data.fastFallGravityMult);
+			//else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling from bounce
+			//{
+   //             // Higher gravity if falling
+   //             SetGravityScale(data.gravityScale * data.fastFallGravityMult);
 
-                // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
-            }
+   //             // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+   //             RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
+   //         }
             else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
             {
                 // Higher gravity if falling
