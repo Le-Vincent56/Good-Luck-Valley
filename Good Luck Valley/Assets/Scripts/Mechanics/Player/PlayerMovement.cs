@@ -760,5 +760,16 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Collidable")
+		{
+			Debug.Log("Hitting Collidable tag");
+		} else
+		{
+			Debug.Log("Hitting something else");
+		}
+    }
     #endregion
 }
