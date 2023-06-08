@@ -11,7 +11,6 @@ public class PauseMenu : MonoBehaviour
     private Canvas pauseUI;
     private PlayerMovement playerMovement;
     private Journal journalMenu;
-    private Button pauseSettingsButton;
     #endregion
 
     #region FIELDS
@@ -28,14 +27,11 @@ public class PauseMenu : MonoBehaviour
         journalMenu = GameObject.Find("JournalUI").GetComponent<Journal>();
         pauseUI = GameObject.Find("PauseUI").GetComponent<Canvas>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        pauseSettingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
         pauseUI.enabled = false;
     }
 
     public void Update()
     {
-        pauseSettingsButton.targetGraphic.color = pauseSettingsButton.colors.disabledColor;
-        pauseSettingsButton.interactable = false;
     }
 
     /// <summary>
