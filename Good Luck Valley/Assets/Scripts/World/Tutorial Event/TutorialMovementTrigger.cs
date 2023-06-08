@@ -23,6 +23,7 @@ public class TutorialMovementTrigger : MonoBehaviour
         // If the Player is the colliding object, show the tutorial movement text
         if(collision.gameObject.tag.Equals("Player"))
         {
+            Debug.Log("Movement");
             tutorialManager.ShowingMovementText = true;
         }
     }
