@@ -617,13 +617,13 @@ public class PlayerMovement : MonoBehaviour
 		// Check if noClip is on
         if (devTools.NoClip)
         {
-			// Check if left/right input is detected
+			// Check if up/down input is detected
 			if (moveInput.y != 0)
 			{
 				// Move player up/down
 				GetComponent<Transform>().position += Vector3.up * moveInput.y;
 			}
-            // Check if up/down input is detected
+            // Check if right/left input is detected
             if (moveInput.x != 0)
             {
 				// Move player left/right
