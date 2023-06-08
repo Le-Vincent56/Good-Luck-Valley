@@ -8,7 +8,7 @@ public class TitleManager : MonoBehaviour
     /// <summary>
     /// OnClick event for the Play Button
     /// </summary>
-    public void OnClickPlay()
+    public void OnPlay()
     {
         // Switch scenes to the Tutorial Tilemap
         SceneManager.LoadScene("Tutorial");

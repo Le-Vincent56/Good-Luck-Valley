@@ -28,6 +28,8 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private GameObject mushroom;
     private ThrowUI throwUI_Script;
     [SerializeField] private GameObject testObject;
+    private Journal journal;
+    private ShroomCounter shroomCounter;
     #endregion
 
     #region FIELDS
@@ -42,22 +44,27 @@ public class MushroomManager : MonoBehaviour
     private ContactFilter2D layer;                              // A contact filter to filter out ground layers
     private Vector2 forceDirection;    
     private List<GameObject> mushroomList;                      // List of currently spawned shrooms
-    private const int mushroomLimit = 3;                        // Constant for max amount of shrooms
-    private Stack<int> removeShroomIndexes;
-    private Dictionary<int, GameObject> changeShroomIndexes;
+    private int mushroomLimit = 3;                              // Max amount of shrooms
+    private Stack<int> removeShroomIndexes;                     // Stack for tracking the indexes of shrooms that need to be removed
+    private Dictionary<int, GameObject> changeShroomIndexes;    // Dictionary for tracking the indexes and objects of shrooms that need to be changed from spores.
     [SerializeField] private Vector2 offset;                    // Offset for spawning shrooms outside of player hitbox
-    private int mushroomCount;                                   // How many shrooms are currently spawned in
     private bool throwUnlocked = false;
     [SerializeField] int throwMultiplier;
     [SerializeField] Vector3 fixPlayer;
     private ThrowState throwState;
-    private float tempOffset;
+    [SerializeField] private float shroomDuration;
+    private bool enableShroomTimers;
     #endregion
 
     #region PROPERTIES
-    public int MushroomCount { get { return mushroomCount; } set { mushroomCount = value; } }
     public List<GameObject> MushroomList { get { return mushroomList; } }
     public bool ThrowUnlocked { get { return throwUnlocked; } set { throwUnlocked = value; } }
+
+    public int MushroomLimit { get { return mushroomLimit; } set { mushroomLimit = value; } }
+
+    public int ThrowMultiplier { get { return throwMultiplier; } set { throwMultiplier = value; } }
+    public float ShroomDuration { get { return shroomDuration; } set { shroomDuration = value; } }
+    public bool EnableShroomTimers { get { return enableShroomTimers;} set { enableShroomTimers = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -74,12 +81,13 @@ public class MushroomManager : MonoBehaviour
         player = GameObject.Find("Player");
         playerRB = player.GetComponent<Rigidbody2D>();
         playerMove = player.GetComponent<PlayerMovement>();
-        playerAnim = player.GetComponent<Animator>();
+        playerAnim = GameObject.Find("PlayerSprite").GetComponent<Animator>();
 
         // Mushroom
         mushroomList = new List<GameObject>();
         removeShroomIndexes = new Stack<int>();
         changeShroomIndexes = new Dictionary<int, GameObject>();
+        shroomCounter = GameObject.Find("MushroomCountUI").GetComponent<ShroomCounter>();
 
         // Managers
         environmentManager = FindObjectOfType<PlatformsManager>();
@@ -89,6 +97,7 @@ public class MushroomManager : MonoBehaviour
         cursor = FindObjectOfType<GameCursor>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         throwUI_Script = GameObject.Find("Throw UI").GetComponent<ThrowUI>();
+        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -96,26 +105,11 @@ public class MushroomManager : MonoBehaviour
         layer.useLayerMask = true;
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
-        tempOffset = offset.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Animation updates
-        if (throwing)
-        {
-            throwAnimTimer -= Time.deltaTime;
-            if(throwAnimTimer <= 0)
-            {
-                throwing = false;
-                playerAnim.SetBool("Throwing", false);
-            }
-        }
-
-        // Updates mushroom count               
-        mushroomCount = mushroomList.Count;
-
         // Direction force is being applied to shroom
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
@@ -140,14 +134,31 @@ public class MushroomManager : MonoBehaviour
                 break;                
         }
 
-        if (MushroomList.Count > 0)
+        if (mushroomList.Count > 0)
         {
             StickShrooms();
             // TriggerPlatforms(); moved to stick shrooms to save some memory
         }
 
         CheckIfCanThrow();
-        CheckIfCanBounce();
+        //CheckIfCanBounce();
+        CheckShroomDuration();
+    }
+
+    void CheckShroomDuration()
+    {
+        foreach (GameObject m in mushroomList) 
+        { 
+            if (m.GetComponent<MushroomInfo>().DurationTimer <= 0)
+            {
+                removeShroomIndexes.Push(mushroomList.IndexOf(m));
+            }
+        }
+
+        if (removeShroomIndexes.Count > 0)
+        {
+            RemoveShrooms();
+        }
     }
 
     /// <summary>
@@ -156,11 +167,13 @@ public class MushroomManager : MonoBehaviour
     /// <param name="type"> Which type of mushroom is being thrown</param>
     void ThrowMushroom()
     {
-        mushroomCount = mushroomList.Count;
         mushroomList.Add(Instantiate(spore, playerRB.position, Quaternion.identity));
 
-        mushroomList[mushroomCount].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
-        mushroomList[mushroomCount].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        mushroomList[mushroomList.Count - 1].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
+        mushroomList[mushroomList.Count - 1].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = shroomCounter.ShroomIconQueue.Dequeue();
+        Debug.Log("Shroom Thrown Icon: " + mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon);
     }
 
     /// <summary>
@@ -172,16 +185,19 @@ public class MushroomManager : MonoBehaviour
     void CheckShroomCount()
     {
         // Checks if the current number of spawned mushrooms is lower than the max amount
-        if (mushroomCount < mushroomLimit)
+        if (mushroomList.Count < mushroomLimit)
         {
             // If so, ThrowMushroom is called
             throwUI_Script.DeleteLine();
             ThrowMushroom();
         }
-        else if (mushroomCount >= mushroomLimit)
+        else if (mushroomList.Count >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
             throwUI_Script.DeleteLine();
+            Debug.Log("Shroom Destroy Icon: " + mushroomList[0].GetComponent<MushroomInfo>().ShroomIcon);
+            shroomCounter.ShroomIconQueue.Enqueue(mushroomList[0].GetComponent<MushroomInfo>().ShroomIcon);
+            mushroomList[0].GetComponent<MushroomInfo>().ResetCounter();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
             ThrowMushroom();
@@ -214,30 +230,38 @@ public class MushroomManager : MonoBehaviour
                     if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()))
                     {
                         // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                        Debug.Log("1111");
                         RotateAndFreezeShroom(m);
 
                         p.GetComponent<MoveablePlatform>().CheckWeight(m);
                     }
                 }
 
+                // Loops through all decomposable tiles
                 foreach (GameObject d in environmentManager.DecomposableTiles)
                 {
+                    // Checks if the tile is touching the shroom
                     if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
                     {
+                        // Sets the tile to decomposed
                         d.GetComponent<DecompasableTile>().IsDecomposed = true;
+
+                        // Pushes the index of shroom that is touching it to the stack of shroom removal indexes
                         removeShroomIndexes.Push(mushroomList.IndexOf(m));
                     }
                 }
             }
         }
 
+        // Checks if there are any indexes in the removeShroomIndexes stack
         if (removeShroomIndexes.Count > 0)
         {
+            // If so, calls removeShrooms
             RemoveShrooms();
         }
+        // Checks if there are any indexes in the changeShroomIndexes stack
         if (changeShroomIndexes.Count > 0)
         {
+            // If so, calles ChangeShrooms
             ChangeShrooms();
         }
     }
@@ -247,10 +271,14 @@ public class MushroomManager : MonoBehaviour
     /// </summary>
     private void RemoveShrooms()
     {
-        for (int i = 0; i < removeShroomIndexes.Count; i++)
+        int indexCount = removeShroomIndexes.Count;
+        for (int i = 0; i < indexCount; i++)
         {
-            Destroy(MushroomList[removeShroomIndexes.Pop()]);
-            mushroomList.RemoveAt(removeShroomIndexes.Pop());
+            int shroomIndex = removeShroomIndexes.Pop();
+            shroomCounter.ShroomIconQueue.Enqueue(mushroomList[shroomIndex].GetComponent<MushroomInfo>().ShroomIcon);
+            mushroomList[shroomIndex].GetComponent<MushroomInfo>().ResetCounter();
+            Destroy(mushroomList[shroomIndex]);
+            mushroomList.RemoveAt(shroomIndex);
         }
     }
 
@@ -259,15 +287,23 @@ public class MushroomManager : MonoBehaviour
     /// </summary>
     private void ChangeShrooms()
     {
-        for (int i = 0; i < mushroomCount; i++)
+        // Loops through the list of mushrooms
+        for (int i = 0; i < mushroomList.Count; i++)
         {
+            // Checks if the current index is contained in the shroomIndexes dictionary as a key
             if (changeShroomIndexes.ContainsKey(i))
             {
-                GameObject tShroom = mushroomList[i];
+                // Saves a reference to the spore in the mushroom list at the current index
+                GameObject tempShroom = mushroomList[i];
+
+                // Sets the mushroom in the mushroomList at the current index to the shroom paired with the index key i
                 mushroomList[i] = changeShroomIndexes[i];
-                Destroy(tShroom);
+
+                // Destroys the temporary shroom
+                Destroy(tempShroom);
             }
         }
+        // Clears the changeShroomIndexes stack
         changeShroomIndexes.Clear();
     }
 
@@ -311,6 +347,7 @@ public class MushroomManager : MonoBehaviour
         GameObject shroom = Instantiate(this.mushroom, mushroom.transform.position, rotation);
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<MushroomInfo>().HasRotated = true;
+        shroom.GetComponent<MushroomInfo>().ShroomIcon = mushroom.GetComponent<MushroomInfo>().ShroomIcon;
         changeShroomIndexes[mushroomList.IndexOf(mushroom)] = shroom;
 
         // Set the MushroomInfo angle to the calculated angle
@@ -336,24 +373,24 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Check if the player can bounce
-    /// </summary>
-    private void CheckIfCanBounce()
-    {
-        // Reduce time from the bounce cooldown
-        bounceCooldown -= Time.deltaTime;
+    ///// <summary>
+    ///// Check if the player can bounce
+    ///// </summary>
+    //private void CheckIfCanBounce()
+    //{
+    //    // Reduce time from the bounce cooldown
+    //    bounceCooldown -= Time.deltaTime;
 
-        // If enough time has passed, set canBounce to true, otherwise set it to false
-        if (bounceCooldown <= 0)
-        {
-            playerMove.GetComponent<BouncingEffect>().CanBounce = true;
-        }
-        else
-        {
-            playerMove.GetComponent<BouncingEffect>().CanBounce = false;
-        }
-    }
+    //    // If enough time has passed, set canBounce to true, otherwise set it to false
+    //    if (bounceCooldown <= 0)
+    //    {
+    //        playerMove.GetComponent<BouncingEffect>().CanBounce = true;
+    //    }
+    //    else
+    //    {
+    //        playerMove.GetComponent<BouncingEffect>().CanBounce = false;
+    //    }
+    //}
 
     #region INPUT HANDLER
 
@@ -377,16 +414,20 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.Paused && throwUnlocked)
+        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
             {
-                switch (throwState)
+                //switch (throwState)
+                //{
+                //    case ThrowState.NotThrowing:
+                //        throwState = ThrowState.Throwing;
+                //        break;
+                //}
+                if (throwState == ThrowState.NotThrowing) 
                 {
-                    case ThrowState.NotThrowing:
-                        throwState = ThrowState.Throwing;
-                        break;
+                    throwState = ThrowState.Throwing;
                 }
             }
 
@@ -396,16 +437,20 @@ public class MushroomManager : MonoBehaviour
                 if (canThrow)
                 {
                     throwing = true;
-                    throwAnimTimer = 0.01f;
-                    playerAnim.SetBool("Throwing", true);
 
                     // Throw the shroom
-                    switch (throwState)
+                    //switch (throwState)
+                    //{
+                    //    case ThrowState.Throwing:
+                    //        CheckShroomCount();
+                    //        throwState = ThrowState.NotThrowing;
+                    //        break;
+                    //}
+
+                    if (throwState == ThrowState.Throwing)
                     {
-                        case ThrowState.Throwing:
-                            CheckShroomCount();
-                            throwState = ThrowState.NotThrowing;
-                            break;
+                        CheckShroomCount();
+                        throwState = ThrowState.NotThrowing;
                     }
 
                     // Reset throw variables
@@ -417,32 +462,54 @@ public class MushroomManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Recalls all thrown shrooms
+    /// </summary>
+    /// <param name="context"></param>
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
+        // Checks if the game is paused
         if(!pauseMenu.Paused && throwUnlocked)
         {
+            // On initial button press
             if (context.started)
             {
+                // Loops through all mushrooms in the mushroomList
                 foreach (GameObject m in mushroomList)
                 {
+                    // Destroys that mushroom
+
                     Destroy(m);
                 }
+                // Removes all mushrooms from the list
+                shroomCounter.ResetQueue();
                 mushroomList.Clear();
             }
         }
     }
 
+    /// <summary>
+    /// Removes the most recently thrown shroom
+    /// </summary>
+    /// <param name="context"></param>
     public void OnRemoveLastShroom(InputAction.CallbackContext context)
     {
+        // Checks if the game is paused
         if (!pauseMenu.Paused && throwUnlocked)
         {
+            // On initial button press
             if (context.started)
             {
-                if (mushroomCount != 0)
+                // Checks if the mushroomCount isn't 0
+                if (mushroomList.Count != 0)
                 {
-                    Destroy(mushroomList[mushroomCount - 1]);
-                    mushroomList.RemoveAt(mushroomCount - 1);
-                    mushroomCount--;
+                    // Destroys the mushroom at the front of the list
+                    mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();
+                    Destroy(mushroomList[mushroomList.Count - 1]);
+
+                    shroomCounter.ShroomIconQueue.Enqueue(mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon);
+                    //
+                    mushroomList.RemoveAt(mushroomList.Count - 1);
                 }
             }
         }

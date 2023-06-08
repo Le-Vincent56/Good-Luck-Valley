@@ -7,7 +7,7 @@ public class Footsteps : MonoBehaviour
     #region REFERENCES
     private PlayerMovement playerMovement;
     private AudioSource footstepSound;
-    private Animator playerAnimator;
+    private GameObject playerSprite;
     #endregion
 
     #region FIELDS
@@ -26,10 +26,10 @@ public class Footsteps : MonoBehaviour
         footstepSound = GetComponent<AudioSource>();
 
         // Retrieve animator
-        playerAnimator = GetComponent<Animator>();
+        playerSprite = GameObject.Find("PlayerSprite");
 
         // Fetch the current Animation clip information for the base layer
-        currentClipInfo = this.playerAnimator.GetCurrentAnimatorClipInfo(0);
+        currentClipInfo = playerSprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0);
 
         // Access the current length of the clip
         currentClipLength = currentClipInfo[0].clip.length;
@@ -46,7 +46,7 @@ public class Footsteps : MonoBehaviour
     void Update()
     {
         // Fetch the current Animation clip information for the base layer
-        currentClipInfo = this.playerAnimator.GetCurrentAnimatorClipInfo(0);
+        currentClipInfo = playerSprite.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0);
 
         // Access the current length of the clip
         currentClipLength = currentClipInfo[0].clip.length;

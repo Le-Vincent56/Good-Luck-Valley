@@ -1,5 +1,5 @@
 using System.Collections;
-using Unity.VisualScripting.Dependencies.Sqlite;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
@@ -9,7 +9,8 @@ using UnityEngine.Windows;
 public class PlayerMovement : MonoBehaviour
 {
     #region REFERENCES
-    [SerializeField] private PlayerData Data;
+    [SerializeField] private PlayerData data;
+	private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator animator;
@@ -21,15 +22,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 	[SerializeField] private PhysicsMaterial2D noFriction;
 	[SerializeField] private PhysicsMaterial2D fullFriction;
-    #endregion
+	private DevTools devTools;
+	#endregion
 
-    #region FIELDS
+	#region FIELDS
     private bool isMoving;
-	private bool isJumping;
+	[SerializeField] bool isJumping;
     private bool isJumpCut;
 	private bool isJumpFalling;
 	private bool isFacingRight;
     [SerializeField] private bool isGrounded;
+	[SerializeField] float fallingBuffer = 0.25f;
     private bool inputHorizontal;
     private bool isLocked = false;
 	private float disableInputTimer = 0.5f;
@@ -50,13 +53,16 @@ public class PlayerMovement : MonoBehaviour
 	private float slopeSideAngle;
 	private float slopeDownAngle;
 	private float lastDownAngle;
+	private Vector3 slopeNormalPerp;
+	private float slopeNormalPerpAngle;
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-	#endregion
+    #endregion
 
-	#region PROPERTIES
-	public Rigidbody2D RB { get { return rb; } set { rb = value; } }
+    #region PROPERTIES
+	public PlayerData Data { get { return data; } }
+    public Rigidbody2D RB { get { return rb; } set { rb = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
     public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
@@ -67,22 +73,25 @@ public class PlayerMovement : MonoBehaviour
 	public float LandedTimer { get { return landedTimer; } set { landedTimer = value; } }
 	public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } set { distanceFromLastPosition = value; } }
     public Vector2 MoveInput { get { return moveInput; } set { moveInput = value; } }
+
     #endregion
 
     private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
-		animator = GetComponent<Animator>();
+		spriteRenderer = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
+		animator = GameObject.Find("PlayerSprite").GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
 		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 		playerCollider = GetComponent<BoxCollider2D>();
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
+		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 	}
 
 	private void Start()
 	{
-		SetGravityScale(Data.gravityScale);
+		SetGravityScale(data.gravityScale);
 		isFacingRight = true;
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
@@ -110,45 +119,36 @@ public class PlayerMovement : MonoBehaviour
         lastOnGroundTime -= Time.deltaTime;
 
         lastPressedJumpTime -= Time.deltaTime;
+
+        // If the player is falling, update the fallingBuffer
+        if (RB.velocity.y < 0 && !isGrounded)
+        {
+			fallingBuffer -= Time.deltaTime;
+        }
         #endregion
 
-		// Check for Collisions
+        // Check for Collisions
         #region COLLISION CHECKS
         if (!isJumping)
         {
-			// Ground Check
-			if (Physics2D.BoxCast(playerCollider.bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer) && !isJumping) // Checks if set box overlaps with ground
-			{
+			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer);
+
+            if ((boxCheckGround || bounceEffect.TouchingShroom) && !isJumping) // Checks if set box overlaps with ground
+            {
                 // If bouncing before and the bounce buffer has ended, end bouncing
                 if (bounceEffect.Bouncing && bounceEffect.BounceBuffer <= 0)
                 {
                     bounceEffect.Bouncing = false;
-					animator.SetBool("Bouncing", false);
+                    animator.ResetTrigger("Bouncing");
                 }
 
                 // Ground player
                 isGrounded = true;
 
-				// Set coyote time
-				lastOnGroundTime = Data.coyoteTime;
-
-				// If the player has been on the ground for longer than 0 seconds, they have landed
-				if (landedTimer > 0 && isGrounded && (!(RB.velocity.y > 0f || RB.velocity.y < -0.1f)))
-				{
-					// Update variables and set animations
-					landedTimer -= Time.deltaTime;
-					justLanded = true;
-					animator.SetBool("JustLanded", true);
-				}
-				else
-				{
-					// Otherwise, they have not landed - update
-					// variables and set animations
-					justLanded = false;
-					animator.SetBool("JustLanded", false);
-				}
-			}
-		}
+                // Set coyote time
+                lastOnGroundTime = data.coyoteTime;
+            }
+        }
         #endregion
 
 		// Jump checks
@@ -190,27 +190,36 @@ public class PlayerMovement : MonoBehaviour
         if (isJumping)
         {
             isGrounded = false;
-            animator.SetBool("Jump", true);
+            animator.SetBool("Jumping", true);
         }
         else if (!isJumping) // Else, if the player is not jumping, update animations
         {
-            animator.SetBool("Jump", false);
+            animator.SetBool("Jumping", false);
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
 		// update variables and set the falling animation
-        if (isJumpFalling || RB.velocity.y < -0.1)
+        if ((isJumpFalling || RB.velocity.y < -0.1))
         {
-            isGrounded = false;
-            animator.SetBool("Falling", true);
+			if(!isOnSlope)
+			{
+                isGrounded = false;
+
+				if(fallingBuffer <= 0)
+				{
+                    animator.SetBool("Falling", true);
+                }
+            }
         }
-        else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing) // Otherwise, if the player is not falling, update animations
+        else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing || isOnSlope) // Otherwise, if the player is not falling, update animations
         {
+            fallingBuffer = 0.15f;
             animator.SetBool("Falling", false);
         }
 		
 		if(bounceEffect.Bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
 		{
+            fallingBuffer = 0.15f;
             animator.SetBool("Falling", false);
         }
         #endregion
@@ -226,41 +235,80 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-		// Calculate Gravity
+		// Land Animation Checks
+        #region LAND ANIMATION CHECKS
+        // If the player has been on the ground for longer than 0 seconds, they have landed
+        if (landedTimer > 0 && isGrounded && !bounceEffect.Bouncing)
+        {
+            // Update variables and set animations
+            landedTimer -= Time.deltaTime;
+            justLanded = true;
+            animator.SetBool("Landed", true);
+        }
+        else
+        {
+            // Otherwise, they have not landed - update
+            // variables and set animations
+            justLanded = false;
+            animator.SetBool("Landed", false);
+        }
+
+		if(!isGrounded && RB.velocity.y < 0)
+		{
+			// If not grounded and has a negative velocity, reset landed timer
+			landedTimer = 0.2f;
+		}
+        #endregion
+
+        // Calculate Gravity
         #region GRAVITY
         if (!bounceEffect.Bouncing)
         {
-            // Higher gravity if we've released the jump input or are falling
-            if (RB.velocity.y < 0 && moveInput.y < 0)
-            {
-                // Much higher gravity if holding down
-                SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
+            // Check for slope gravity first
+            if (isOnSlope)
+			{
+				// Check for movement input
+				if(moveInput.x == 0.0f)
+				{
+					// If not moving, set to 0 so the player can stop on the hill
+                    SetGravityScale(0);
+                } else if(isGrounded && canWalkOnSlope)
+				{
+					// If moving, apply normal gravity
+					SetGravityScale(data.gravityScale);
+				}
+			}
+            else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling
+			{
+				// Higher gravity if we've released the jump input or are falling
 
-                // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
-            }
-            else if (isJumpCut)
-            {
-                // Higher gravity if jump button released
-                SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
-            }
-            else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
-            {
-                SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
-            }
-            else if (RB.velocity.y < 0)
-            {
-                // Higher gravity if falling
-                SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+				// Much higher gravity if holding down
+				SetGravityScale(data.gravityScale * data.fastFallGravityMult);
 
-                // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
-            }
-            else
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
+			}
+			else if (isJumpCut)
+			{
+				// Higher gravity if jump button released
+				SetGravityScale(data.gravityScale * data.jumpCutGravityMult);
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
+			}
+			else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
+			{
+				SetGravityScale(data.gravityScale * data.jumpHangGravityMult);
+			}
+			else if (RB.velocity.y < 0)
+			{
+				// Higher gravity if falling
+				SetGravityScale(data.gravityScale * data.fallGravityMult);
+
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
+			} else 
             {
                 // Default gravity if standing on a platform or moving upwards
-                SetGravityScale(Data.gravityScale);
+                SetGravityScale(data.gravityScale);
             }
         }
         else
@@ -269,18 +317,26 @@ public class PlayerMovement : MonoBehaviour
             if (RB.velocity.y > 0)
             {
                 // Higher gravity if falling
-                SetGravityScale(Data.gravityScale * Data.bounceGravityMult);
+                SetGravityScale(data.gravityScale * data.bounceGravityMult);
 
                 // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
-            }
-            else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
+			}
+			else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling from bounce
+			{
+				// Higher gravity if falling
+				SetGravityScale(data.gravityScale * data.fastFallGravityMult);
+
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
+			}
+			else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
             {
                 // Higher gravity if falling
-                SetGravityScale(Data.gravityScale * Data.fallFromBounceGravityMult);
+                SetGravityScale(data.gravityScale * data.fallFromBounceGravityMult);
 
                 // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
             }
         }
 		#endregion
@@ -300,25 +356,27 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
-			// Check if the player is bouncing
-			if (bounceEffect.Bouncing)
-			{
-				// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
-				if (disableInputTimer <= 0)
-				{
-					// If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
-					Run(0.5f);
-				} else
-				{
-					// If disableInputTimer is greater than zero, subtract by deltaTime
-					disableInputTimer -= Time.deltaTime;
-				}
-			}
-			else
-			{
-				// If not bouncing, allow movement like normal
-				Run(0.5f);
-			}
+			Run(0.5f);
+
+   //         // Check if the player is bouncing
+   //         if (bounceEffect.Bouncing)
+			//{
+			//	// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
+			//	if (disableInputTimer <= 0)
+			//	{
+   //                 // If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
+   //                 Run(0.5f);
+			//	} else
+			//	{
+			//		// If disableInputTimer is greater than zero, subtract by deltaTime
+			//		disableInputTimer -= Time.deltaTime;
+			//	}
+			//}
+			//else
+			//{
+			//	// If not bouncing, allow movement like normal
+			//	Run(0.5f);
+			//}
 		}
 		else
 		{
@@ -347,7 +405,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void OnJumpInput()
 	{
-		lastPressedJumpTime = Data.jumpInputBufferTime;
+		lastPressedJumpTime = data.jumpInputBufferTime;
 	}
 
 	/// <summary>
@@ -377,86 +435,117 @@ public class PlayerMovement : MonoBehaviour
 	/// </summary>
 	private void HandleSlopes()
 	{
-		// Perform a slope check using a small ground detector circle
-		Vector2 checkPos = transform.position - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
+        // Perform a slope check using a small ground detector circle
+        Vector2 checkPos = playerCollider.bounds.center - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
 
-        #region Check Horizontal Slope
-        RaycastHit2D frontHit = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
-        RaycastHit2D backHit = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
+		#region Check Horizontal Slope
+		// Cast a front and back ray for nearby slopes and valleys
+		RaycastHit2D frontHit = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
+		RaycastHit2D backHit = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
 
-        if (frontHit)
-        {
-            slopeSideAngle = Vector2.Angle(frontHit.normal, Vector2.up);
-            isOnSlope = true;
-        }
-        else if (backHit)
-        {
-            slopeSideAngle = Vector2.Angle(backHit.normal, Vector2.up);
-            isOnSlope = true;
-        }
-        else
-        {
+		// If either the front or back hit, set the angle and set isOnSlope to true
+		if (frontHit)
+		{
+			slopeSideAngle = Vector2.Angle(frontHit.normal, Vector2.up);
+			isOnSlope = true;
+		}
+		else if (backHit)
+		{
+			slopeSideAngle = Vector2.Angle(backHit.normal, Vector2.up);
+			isOnSlope = true;
+		}
+		else
+		{
+			// If neither hit, then set the slopeSideAngle to 0 and isOnSlope to false
 			slopeSideAngle = 0.0f;
-            isOnSlope = false;
-        }
+			isOnSlope = false;
+		}
 		#endregion
 
 		#region Check Vertical Slope
+		// Cast a ray downward and chcck for collisions with the ground
 		RaycastHit2D downHit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, groundLayer);
 
+		// If the ray hits the ground
         if (downHit)
         {
+			// Create a normal vector from the collision point between the ray and the ground
             slopeNormal = downHit.normal.normalized;
+
+			// Get an angle from the slope normal using trig
             slopeDownAngle = Mathf.Atan2(slopeNormal.y, slopeNormal.x) * Mathf.Rad2Deg;
-            Debug.Log("Slope Normal: " + slopeDownAngle);
 
-            Vector2 slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
-            float slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
-			Debug.Log("Slope Perp: " + slopeNormalPerpAngle);
+			// Create a perpendicular vector from the slope normal and normalize it
+            slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
 
+			// Get the angle from the perpendicular vector using trig
+            slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
+
+			// If the angle is not close to flat (180 degrees), then you're on a slope
             if (!(Mathf.Abs(slopeNormalPerpAngle) >= 179f && Mathf.Abs(slopeNormalPerpAngle) <= 181f))
-			{
-				isOnSlope = true;
-			} else
-			{
-				//if(slopeSideAngle != 0.0f)
-				//{
-				//	isOnSlope = true;
-				//} else
-				//{
-    //                isOnSlope = false;
-    //            }
+            {
+                isOnSlope = true;
+            }
+            else
+            {
+				// If it is near-flat (180 degrees), then you're not on a slope
+                isOnSlope = false;
+            }
 
-				isOnSlope = false;
-			}
+			// Update lastDownAngle
+            lastDownAngle = slopeDownAngle;
 
-			lastDownAngle = slopeDownAngle;
-			Debug.DrawRay(downHit.point, downHit.normal, Color.red);
+			// Draw a ray for debugging
+            Debug.DrawRay(downHit.point, downHit.normal, Color.red);
         }
-		#endregion
+        else
+        {
+			// If there is not hit, then set isOnSlope to false by default
+            isOnSlope = false;
+        }
+        #endregion
 
-		#region Barrier Checks
-		if(Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
+        #region Barrier Checks
+		// If the slope angle is less than the max slope that the player can climb, then allow them to walk on it
+        if (Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
 		{
 			canWalkOnSlope = true;
 		} else
 		{
+			// Otherwise, do not allow them to walk on it
 			canWalkOnSlope = false;
 		}
 		#endregion
 
-		if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping)
+		// If the player is grounded, is on a slope, is able to walk on the slope, and is not jumping, and is not bouncing, then apply the slope force
+		if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping && !bounceEffect.Bouncing && !bounceEffect.TouchingShroom)
 		{
             Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
             rb.AddForce(slopeForce, ForceMode2D.Force);
 
-			// Draw for debugging
-			Debug.DrawRay(checkPos, slopeForce, Color.white);
+            // Draw for debugging
+            Debug.DrawRay(checkPos, slopeForce, Color.white);
+        } else
+		{
+			// If not on a slope, apply the identity Quaternion to get the player back to normal rotation
+			spriteRenderer.gameObject.transform.rotation = Quaternion.identity;
         }
 
-		// Draw for debugging
-		Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.gray); // Downward distance check
-		Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
+		// Set frictions based on still input so that the player doesn't move - not sure if this actually does anything as the gravity
+		// takes care of most of it
+		if(isOnSlope && canWalkOnSlope && moveInput.x == 0.0f)
+		{
+			rb.sharedMaterial = fullFriction;
+			playerCollider.sharedMaterial = fullFriction;
+		} else
+		{
+			rb.sharedMaterial = noFriction;
+			playerCollider.sharedMaterial = noFriction;
+        }
+
+        // Draw rays for debugging
+        Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
+        Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
         Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
     }
 
@@ -468,60 +557,79 @@ public class PlayerMovement : MonoBehaviour
 	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
-		// Calculate the direction we want to move in and our desired velocity
-		float targetSpeed = moveInput.x * Data.runMaxSpeed;
+        // Calculate the direction we want to move in and our desired velocity
+        float targetSpeed = moveInput.x * data.runMaxSpeed;
 
-		// Reduce are control using Lerp() this smooths changes to are direction and speed
-		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
+        // Reduce our control using Lerp() this smooths changes to are direction and speed
+        targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
         #region Calculate AccelRate
         float accelRate;
 
-		// Gets an acceleration value based on if we are accelerating (includes turning) 
-		// or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
-		if (lastOnGroundTime > 0)
+        // Gets an acceleration value based on if we are accelerating (includes turning) 
+        // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
+        if (lastOnGroundTime > 0)
         {
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
-		}
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount : data.runDeccelAmount;
+        }	
         else
         {
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount * Data.accelInAir : Data.runDeccelAmount * Data.deccelInAir;
-		}
-		#endregion
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount * data.accelInAir : data.runDeccelAmount * data.deccelInAir;
+        }
+        #endregion
 
-		#region Add Bonus Jump Apex Acceleration
-		// Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
-		if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
-		{
-			accelRate *= Data.jumpHangAccelerationMult;
-			targetSpeed *= Data.jumpHangMaxSpeedMult;
-		}
-		#endregion
+        #region Add Bonus Jump Apex Acceleration
+        // Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
+        if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
+        {
+            accelRate *= data.jumpHangAccelerationMult;
+            targetSpeed *= data.jumpHangMaxSpeedMult;
+        }
+        #endregion
 
-		#region Conserve Momentum
-		// We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
-		{
-			// Prevent any deceleration from happening, or in other words conserve are current momentum
-			if(!bounceEffect.Bouncing)
+        #region Conserve Momentum
+        // We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
+        if (data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
+        {
+            // Prevent any deceleration from happening, or in other words conserve our current momentum
+            if (!bounceEffect.Bouncing)
             {
 				accelRate = 0;
-			} else
+            }
+            else
             {
-				// If bouncing, add some air deceleration for consistency
-				accelRate = 5;
-			}
-		}
+                // If bouncing, add some air deceleration for consistency
+                accelRate = 5;
+            }
+        }
         #endregion
 
         // Calculate difference between current velocity and desired velocity
         float speedDif = targetSpeed - RB.velocity.x;
 
-		// Calculate force along x-axis to apply to thr player
-		float movement = speedDif * accelRate;
+        // Calculate force along x-axis to apply to thr player
+        float movement = speedDif * accelRate;
 
         // Convert this to a vector and apply to rigidbody
         RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+		// DEV TOOL
+		// Check if noClip is on
+        if (devTools.NoClip)
+        {
+			// Check if up/down input is detected
+			if (moveInput.y != 0)
+			{
+				// Move player up/down
+				GetComponent<Transform>().position += Vector3.up * moveInput.y;
+			}
+            // Check if right/left input is detected
+            if (moveInput.x != 0)
+            {
+				// Move player left/right
+                GetComponent<Transform>().position += Vector3.right * moveInput.x;
+            }
+        }
     }
 
 	/// <summary>
@@ -547,7 +655,6 @@ public class PlayerMovement : MonoBehaviour
 		// Ensures we can't call Jump multiple times from one press
 		lastPressedJumpTime = 0;
 		lastOnGroundTime = 0;
-		landedTimer = 0.2f;
 
 		#region Perform Jump
 		// If the player is grounded and moving upwards, force velocity to 0
@@ -559,7 +666,7 @@ public class PlayerMovement : MonoBehaviour
 
         // We increase the force applied if we are falling
         // This means we'll always feel like we jump the same amount
-        float force = Data.jumpForce;
+        float force = data.jumpForce;
 		if (RB.velocity.y < 0)
         {
 			force -= RB.velocity.y;
@@ -653,5 +760,16 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
-	#endregion
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Collidable")
+		{
+			Debug.Log("Hitting Collidable tag");
+		} else
+		{
+			Debug.Log("Hitting something else");
+		}
+    }
+    #endregion
 }

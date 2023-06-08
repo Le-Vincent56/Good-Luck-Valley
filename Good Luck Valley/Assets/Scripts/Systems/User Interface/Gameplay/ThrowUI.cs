@@ -15,6 +15,9 @@ public class ThrowUI : MonoBehaviour
     private float width;
     private LineRenderer lineRenderer = null;
     private Vector3[] lineRendererStartingPoints = null;
+    private bool facingRight;
+    private Vector2 launchForce;
+    private Vector2 playerPos;
     #endregion
 
     // Start is called before the first frame update
@@ -60,6 +63,10 @@ public class ThrowUI : MonoBehaviour
     /// <param name="facingRight"> Whether the player is facing left or right</param>
     public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, bool facingRight)
     {
+        this.launchForce = launchForce;
+        this.facingRight = facingRight;
+        this.playerPos = playerPos;
+
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
         
@@ -194,6 +201,39 @@ public class ThrowUI : MonoBehaviour
     /// </summary>
     public void DeleteLine()
     {
-        lineRenderer.positionCount = 0;
+        if (lineRenderer)
+        {
+            lineRenderer.positionCount = 0;
+            switch (facingRight)
+            {
+                case true:
+                    Debug.Log("True");
+                    Debug.Log("Player Pos: " + playerPos.x + ", Launch Force: " + launchForce.x);
+                    // If they are facing right the trajectory line cannot go past the left 
+                    //    side of the player 
+                    if (player.GetComponent<Rigidbody2D>().velocity.x < 0 && playerPos.x - launchForce.x < playerPos.x)
+                    {
+                        // Turns the player by calling playerMovement's Turn method
+                        player.GetComponent<PlayerMovement>().Turn();
+                    }
+                    // Sets starting position for line to match the location the shrooms are
+                    //      spawned from with the offset
+                break;
+
+                case false:
+                    Debug.Log("False");
+                    Debug.Log("Player Pos: " + playerPos.x + ", Launch Force: " + launchForce.x);
+                    // if the player is facing left the trajectory line cannot go past
+                    //      the right side of the player
+                    if (player.GetComponent<Rigidbody2D>().velocity.x > 0 && playerPos.x + launchForce.x < playerPos.x)
+                    {
+                        // sets launchforce to zero to 'stop' the renderer
+                        player.GetComponent<PlayerMovement>().Turn();
+                    }
+                    // sets starting position for line to match the location the shrooms are
+                    //      spawned from with the offseta
+                break;
+            }
+        }
     }
 }
