@@ -32,72 +32,117 @@ public class MenusManager : MonoBehaviour
 
     public void Start()
     {
-        if (confirmationCheck = GameObject.Find("ConfirmationCheck"))
-        {
-            confirmationCheck.SetActive(false);
-        }
-        if (confirmationCheck2 = GameObject.Find("ConfirmationCheck2"))
-        {
-            confirmationCheck2.SetActive(false);
-        }
-        checkQuit = true;
-        if (saveButton = GameObject.Find("Save"))
-        {
-            saveColor = saveButton.GetComponent<Image>().color;
-            saveButton.GetComponent<Button>().interactable = false;
-            saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
-        }
-        if (deleteButton = GameObject.Find("Delete"))
-        {
-            deleteColor = deleteButton.GetComponent<Image>().color;
-            deleteButton.GetComponent<Button>().interactable = false;
-            deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
-        }
+        // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
+        #region CONFIRMATION CHECKS
+        // Check if the scene is one that contains a confirmation check
+        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
+        {
+            // Find confirmation check in scene
+            confirmationCheck = GameObject.Find("ConfirmationCheck");
+            // If so, set it to be inactive
+            confirmationCheck.SetActive(false);
+
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
+        }
+
+        // Check if the scene is one that contains a second confirmation check
+        if (currentScene == 2 || currentScene == 4)
+        {
+            // Find second confirmation check
+            confirmationCheck2 = GameObject.Find("ConfirmationCheck2");
+            // If so, set it to be inactive
+            confirmationCheck2.SetActive(false);
+
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
+        }
+        #endregion
+        
+        #region SAVE FILES SCENE
+        // Check if the scene is the SaveFiles scene
+        if (currentScene == 2)
+        {
+            // Save Button
+            // Find save button in scene
+            saveButton = GameObject.Find("Save");
+            // Save the color to a variable
+            saveColor = saveButton.GetComponent<Image>().color;
+            // Set to to not be interactable because no save is selected yet
+            saveButton.GetComponent<Button>().interactable = false;
+            // Set it to be half transparency
+            saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
+
+            // Delete Button
+            // Find delete button
+            deleteButton = GameObject.Find("Delete");
+            // Save the color to a variable
+            deleteColor = deleteButton.GetComponent<Image>().color;
+            // Set it to be non-interactable cuz no save is selected
+            deleteButton.GetComponent<Button>().interactable = false;
+            // Set its transparency to be 50%
+            deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
+        }
+        #endregion
+
+        #region FADING BETWEEN SCENES
         fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-        Debug.Log(fadeSquare);
         fadeIn = true;
         fadeOut = false;
-
         if (currentScene == 0)
         {
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
+        #endregion
+
     }
 
     public void Update()
     {
-        Debug.Log("Update Selected Save:" + selectedSave);
+        // Call Fading functions
         FadeIn();
         FadeOut();
 
+        #region SAVE FILES SCENE HANDLING
+        
+        // Check if the current scene is 2, save files scene
         if (currentScene == 2)
         {
+            // Check if a save has been selected
             if (selectedSave != 0)
             {
+                // Check if the previous scene isn't 1, main menu (you cant make a save if you are entering from the main menu)
                 if (previousScene != 1)
                 {
+                    // If not, make save button interactable and have full transparency
                     saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 1f);
                     saveButton.GetComponent<Button>().interactable = true;
                 }
 
+                // Make delete button interactable and have full transparency
                 deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 1f);
-                deleteButton.GetComponent<Button>().interactable = true;
-            }
-            else if (selectedSave == 0 || confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
-            {
-                saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
-                saveButton.GetComponent<Button>().interactable = false;
+                deleteButton.GetComponent<Button>().interactable = true; 
+                
+                // Check if either confirmation check is active
+                if (confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
+                {
+                    // If so, make save button half transparency and non-interactable
+                    saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
+                    saveButton.GetComponent<Button>().interactable = false;
 
-                deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
-                deleteButton.GetComponent<Button>().interactable = false;
+                    // Make delete button half transparency and non-interactable
+                    deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
+                    deleteButton.GetComponent<Button>().interactable = false;
+                }
             }
         }
+        #endregion
     }
 
     /// <summary>
-    /// OnClick event for the Play Button
+    /// Navigates to the main menu scene
     /// </summary>
     public void NavMainMenu()
     {
@@ -106,24 +151,36 @@ public class MenusManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
+    /// <summary>
+    /// Navigates to the save files scene
+    /// </summary>
     public void NavSaveFiles()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("SaveFiles");
     }
 
+    /// <summary>
+    /// Navigates to the settings scene
+    /// </summary>
     public void NavSettings()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Settings");
     }
 
+    /// <summary>
+    /// Navigates to the journal scene
+    /// </summary>
     public void NavJournal()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Journal");
     }
 
+    /// <summary>
+    /// Navigates to the credits scene
+    /// </summary>
     public void NavCredits()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
@@ -217,7 +274,7 @@ public class MenusManager : MonoBehaviour
     {
         if (fadeIn)
         {
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.01f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.005f);
             if (fadeSquare.color.a <= 0)
             {
                 fadeIn = false;
@@ -230,7 +287,7 @@ public class MenusManager : MonoBehaviour
         if (fadeOut)
         {
             Debug.Log("Fadeing out");
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.01f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.005f);
             if (fadeSquare.color.a >= 1)
             {
                 Debug.Log("Fade Done");
