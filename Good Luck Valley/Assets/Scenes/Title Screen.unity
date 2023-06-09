@@ -907,9 +907,9 @@ MonoBehaviour:
     m_ActionName: Player Controls/CloseJournal[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098831184}
-        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
-        m_MethodName: OnPlay
+      - m_Target: {fileID: 2098831186}
+        m_TargetAssemblyTypeName: MenusManager, Assembly-CSharp
+        m_MethodName: OnNavMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1004,26 +1004,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2098831185}
-  - component: {fileID: 2098831184}
+  - component: {fileID: 2098831186}
   m_Layer: 0
-  m_Name: TitleManager
+  m_Name: Menu Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2098831184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098831183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99e55e0d3c5cfd145aa213986c8f703f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2098831185
 Transform:
   m_ObjectHideFlags: 0
@@ -1039,3 +1027,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2098831186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098831183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80bb1e3349ec254db557422317e54a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
