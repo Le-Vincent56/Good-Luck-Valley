@@ -147,6 +147,7 @@ public class MenusManager : MonoBehaviour
     public void NavMainMenu()
     {
         // Switch scenes to the Tutorial Tilemap
+        Debug.Log("WHAT TF");
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Main Menu");
     }
@@ -156,6 +157,7 @@ public class MenusManager : MonoBehaviour
     /// </summary>
     public void NavSaveFiles()
     {
+        Debug.Log("KILL YOURSELF");
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("SaveFiles");
     }

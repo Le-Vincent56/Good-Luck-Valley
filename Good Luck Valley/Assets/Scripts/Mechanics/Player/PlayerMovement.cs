@@ -716,6 +716,7 @@ public class PlayerMovement : MonoBehaviour
 	/// <param name="context">The context of the Controller being used</param>
 	public void OnMove(InputAction.CallbackContext context)
     {
+		Debug.Log(">>>>>SDWJKANDWAJNDWJKAND");
 		// Check if the game is paused
         if (!pauseMenu.Paused && !isLocked)
         {
