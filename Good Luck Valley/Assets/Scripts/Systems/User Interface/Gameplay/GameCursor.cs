@@ -86,21 +86,21 @@ public class GameCursor : MonoBehaviour
             cursorPosition += cursorVelocity;
         }
 
-        // Calculate bounds of both the Cinemachine Camera and the Main Camera
-        // Get the rectangles of both cameras - encompassing their current bounds
-        cmViewport = CalculateViewportRectangleCM();
+        // Calculate the main viewport
         mainViewport = CalculateViewportRectangleMain();
 
         // Check bounds
         if (basedOnPlayer)
         {
+            // If based on player, take cinemachine into account
+            cmViewport = CalculateViewportRectangleCM();
             CheckCursorBoundsPlayer();
         }
         else
         {
+            // If not based on player, the static camera will do
             CheckCursorBoundsStatic();
         }
-
 
         // Draw cursor
         transform.position = cursorPosition;
@@ -108,7 +108,11 @@ public class GameCursor : MonoBehaviour
         // For debugging
         if (showDebugLines)
         {
-            Debug.DrawLine(new Vector2(cmViewport.xMin, cmViewport.yMin), new Vector2(cmViewport.xMax, cmViewport.yMax), Color.red);
+            if(basedOnPlayer)
+            {
+                Debug.DrawLine(new Vector2(cmViewport.xMin, cmViewport.yMin), new Vector2(cmViewport.xMax, cmViewport.yMax), Color.red);
+            }
+
             Debug.DrawLine(new Vector2(mainViewport.xMin, mainViewport.yMin), new Vector2(mainViewport.xMax, mainViewport.yMax), Color.blue);
         }
     }
@@ -118,26 +122,20 @@ public class GameCursor : MonoBehaviour
     /// </summary>
     public void CheckCursorBoundsPlayer()
     {
-        // Set default Main Camera bounds
-        float leftBound = player.transform.position.x - camWidth;
-        float rightBound = player.transform.position.x + camWidth;
-        float lowerBound = player.transform.position.y - camHeight;
-        float upperBound = player.transform.position.y + camHeight;
-
         // Calculate width offset
         // Negative values - Cinemachine is to the left of the main Camera
         // Positive values - Cinemachine is to the right of the main Camera
         widthOffset = cmViewport.x - mainViewport.x;
-        leftBound = cmViewport.xMin - widthOffset;
-        rightBound = cmViewport.xMax - widthOffset;
+        float leftBound = cmViewport.xMin - widthOffset;
+        float rightBound = cmViewport.xMax - widthOffset;
 
 
         // Calculate height offset
         // Negative values - Cinemachine is below the main Camera
         // Positive values - Cinemachine is above the main Camera
         heightOffset = cmViewport.y - mainViewport.y;
-        lowerBound = cmViewport.yMin - heightOffset;
-        upperBound = cmViewport.yMax - heightOffset; 
+        float lowerBound = cmViewport.yMin - heightOffset;
+        float upperBound = cmViewport.yMax - heightOffset; 
 
         // Clamp the cursor position into the bounds of the screen
         cursorPosition.x = Mathf.Clamp(cursorPosition.x, leftBound, rightBound);
@@ -174,8 +172,6 @@ public class GameCursor : MonoBehaviour
 
     private Rect CalculateViewportRectangleMain()
     {
-        Vector2 cameraPosition = cam.transform.position;
-
         float orthographicSize = cam.orthographicSize;
         float aspectRatio = cam.aspect;
 
