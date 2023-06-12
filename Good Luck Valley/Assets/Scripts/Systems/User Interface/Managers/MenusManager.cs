@@ -20,7 +20,7 @@ public class MenusManager : MonoBehaviour
     private GameObject[] textInputs;
     private Slider[] sliders;
     private bool[] accessibilityTools;
-    private DevTools devTools;
+    private Settings settings;
     #endregion
 
     #region FIELDS
@@ -121,13 +121,18 @@ public class MenusManager : MonoBehaviour
                 sliders[i].value = 50;
             }
 
-            devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
+            settings = GameObject.Find("MenusManager").GetComponent<Settings>();
 
-            accessibilityTools[0] = true;
-            accessibilityTools[1] = devTools.InfiniteShrooms;
-            accessibilityTools[2] = devTools.DisableShroomDuration;
-            accessibilityTools[3] = devTools.InstantThrow;
-            accessibilityTools[4] = devTools.NoClip;
+            for (int i = 0;i < 5; i++) 
+            {
+                accessibilityTools[i] = GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn;
+            }
+
+            settings.ThrowIndicatorShown = accessibilityTools[0];
+            settings.InfiniteShroomsOn = accessibilityTools[1];
+            settings.ShroomDurationOn = accessibilityTools[2];
+            settings.InstantThrowOn = accessibilityTools[3];
+            settings.NoClipOn = accessibilityTools[4];
         }
         #endregion
 
@@ -139,6 +144,7 @@ public class MenusManager : MonoBehaviour
             fadeOut = false;
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
+
         #endregion
 
     }
@@ -373,11 +379,11 @@ public class MenusManager : MonoBehaviour
             }
             else if (sceneLoadNum == 5)
             {
-                SceneManager.LoadScene(5);
+                NavCredits();
             }
             else if (sceneLoadNum == 6)
             {
-                NavCredits();
+                SceneManager.LoadScene(6);
             }
         }
     }
@@ -414,9 +420,12 @@ public class MenusManager : MonoBehaviour
     public void ToggleAccessibilityTool(int index)
     {
         accessibilityTools[index] = !accessibilityTools[index];
-        if (accessibilityTools[index])
-        {
-            devTools.AccessibilityToolsOn = true;
-        }
+        settings.UpdateSettings = true;
+
+        settings.ThrowIndicatorShown = accessibilityTools[0];
+        settings.InfiniteShroomsOn = accessibilityTools[1];
+        settings.ShroomDurationOn = accessibilityTools[2];
+        settings.InstantThrowOn = accessibilityTools[3];
+        settings.NoClipOn = accessibilityTools[4];
     }
 }
