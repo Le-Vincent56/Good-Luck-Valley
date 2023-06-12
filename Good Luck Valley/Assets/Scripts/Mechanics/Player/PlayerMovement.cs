@@ -278,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
 					SetGravityScale(data.gravityScale);
 				}
 			}
-            else if (RB.velocity.y < 0 && moveInput.y < 0)
+            else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling
 			{
 				// Higher gravity if we've released the jump input or are falling
 
@@ -321,8 +321,16 @@ public class PlayerMovement : MonoBehaviour
 
                 // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
-            }
-            else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
+			}
+			else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling from bounce
+			{
+				// Higher gravity if falling
+				SetGravityScale(data.gravityScale * data.fastFallGravityMult);
+
+				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
+			}
+			else if (RB.velocity.y < 0) // If falling from a bounce, use fallFromBounceGravity
             {
                 // Higher gravity if falling
                 SetGravityScale(data.gravityScale * data.fallFromBounceGravityMult);
@@ -609,13 +617,13 @@ public class PlayerMovement : MonoBehaviour
 		// Check if noClip is on
         if (devTools.NoClip)
         {
-			// Check if left/right input is detected
+			// Check if up/down input is detected
 			if (moveInput.y != 0)
 			{
 				// Move player up/down
 				GetComponent<Transform>().position += Vector3.up * moveInput.y;
 			}
-            // Check if up/down input is detected
+            // Check if right/left input is detected
             if (moveInput.x != 0)
             {
 				// Move player left/right
@@ -708,6 +716,7 @@ public class PlayerMovement : MonoBehaviour
 	/// <param name="context">The context of the Controller being used</param>
 	public void OnMove(InputAction.CallbackContext context)
     {
+		Debug.Log(">>>>>SDWJKANDWAJNDWJKAND");
 		// Check if the game is paused
         if (!pauseMenu.Paused && !isLocked)
         {
@@ -752,5 +761,16 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Collidable")
+		{
+			Debug.Log("Hitting Collidable tag");
+		} else
+		{
+			Debug.Log("Hitting something else");
+		}
+    }
     #endregion
 }

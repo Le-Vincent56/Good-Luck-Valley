@@ -108,7 +108,7 @@ public class Tutorial : MonoBehaviour
         if (showingFirstJournalUIText)
         {
             showFirstJournalUITutorialText();
-            if (pauseMenu.Paused && !journal.HasOpened)
+            if (journal.HasOpened)
             {
                 showingFirstJournalUIText = false;
                 showingSecondJournalUIText = true;
@@ -124,7 +124,7 @@ public class Tutorial : MonoBehaviour
             GameObject.Find("Continue Button").GetComponent<Button>().interactable = false;
             GameObject.Find("Settings Button").GetComponent<Button>().interactable = false;
             GameObject.Find("Quit Button").GetComponent<Button>().interactable = false;
-            if(pauseMenu.Paused && journal.HasOpened)
+            if(journal.HasOpened)
             {
                 showingSecondJournalUIText = false;
                 showingThirdJournalUIText = true;
@@ -293,7 +293,7 @@ public class Tutorial : MonoBehaviour
         {
 
             case "Keyboard & Mouse":
-                tutorialText = "To read newly obtained notes, press the ESC button!";
+                tutorialText = "To read newly obtained notes, press the ESC button to go to select it from the Pause Menu, or directly using TAB!";
                 break;
 
             case "Playstation Controller":
