@@ -410,8 +410,7 @@ MonoBehaviour:
   rotateAngle: 0
   durationTimer: 0
   isShroom: 1
-  shroomLifeTimer: 0
-  isPlaying: 0
+  particleTime: 0
 --- !u!58 &5917074136222074756
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -622,7 +621,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -738,7 +737,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1114,13 +1113,13 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
-    angle: 36.577713
+    type: 12
+    angle: 21.13519
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: -0.0016524196, y: 0.36, z: 0}
+    m_Position: {x: -0.0016524196, y: -0.12, z: 0}
     m_Rotation: {x: -0, y: 0, z: 0.00005549222}
     m_Scale: {x: 1, y: 0.5, z: 1}
     placementMode: 0
@@ -1201,7 +1200,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.580401
+      value: 0.4
       mode: 0
       spread: 0
       speed:
@@ -1320,7 +1319,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 8
       minScalar: 10
       maxCurve:
         serializedVersion: 2
