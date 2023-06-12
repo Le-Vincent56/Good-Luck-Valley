@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 
 public class MushroomInfo : MonoBehaviour
 {
@@ -21,6 +21,9 @@ public class MushroomInfo : MonoBehaviour
     private bool onScreen;
     [SerializeField] private bool isShroom;
     private Color defaultColor;
+    private ParticleSystem shroomParticles;
+    [SerializeField] float particleTime;
+    private bool particles = false;
     #endregion
 
     #region PROPERTIES
@@ -38,15 +41,17 @@ public class MushroomInfo : MonoBehaviour
     {
         mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         shroomCounter = GameObject.Find("MushroomCountUI").GetComponent<ShroomCounter>();
+        shroomParticles = GetComponent<ParticleSystem>();
         durationTimer = mushMan.ShroomDuration;
         defaultColor = new Color(168, 168, 168);
+        particleTime = durationTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (bouncing)
-        {
+        {     
             bouncingTimer -= Time.deltaTime;
             if (bouncingTimer <= 0)
             {
@@ -69,12 +74,25 @@ public class MushroomInfo : MonoBehaviour
             // Decreases time from the timer
             durationTimer -= Time.deltaTime;
 
-            // The percent that should be reducted from the opacity each frame
-            float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
+            if (durationTimer <= (particleTime * 0.5) && particles == false)
+            {
+                shroomParticles.Play();
+                particles = true;
+            }
 
-            // Adjust opacity of mushroom and intensity of light based on percentOpacity
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
-            GetComponentInChildren<Light2D>().intensity -= percentOpacity;
+
+            // The percent that should be reducted from the opacity each frame
+            //float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
+            if (durationTimer <= .1f)
+            {
+                float percentOpacity = Time.deltaTime / .1f;
+                Debug.Log("Percent: " + percentOpacity);
+
+                // Adjust opacity of mushroom and intensity of light based on percentOpacity
+                GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
+                GetComponentInChildren<Light2D>().intensity -= percentOpacity;
+            }
+
         }
     }
 
@@ -95,4 +113,6 @@ public class MushroomInfo : MonoBehaviour
         shroomIcon.GetComponent<SpriteRenderer>().color = new Color(shroomCounter.oR, shroomCounter.oG, shroomCounter.oB, 1f);
         shroomIcon.GetComponent<Image>().fillAmount = 0;
     }
+
+
 }
