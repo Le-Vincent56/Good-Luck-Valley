@@ -125,7 +125,7 @@ public class MenusManager : MonoBehaviour
 
             for (int i = 0;i < 5; i++) 
             {
-                accessibilityTools[i] = GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn;
+                GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
             }
 
             settings.ThrowIndicatorShown = accessibilityTools[0];
