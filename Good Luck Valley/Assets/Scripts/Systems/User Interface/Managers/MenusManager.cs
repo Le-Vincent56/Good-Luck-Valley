@@ -1,9 +1,12 @@
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MenusManager : MonoBehaviour
 {
@@ -13,6 +16,10 @@ public class MenusManager : MonoBehaviour
     private GameObject saveButton;
     private GameObject deleteButton;
     private SpriteRenderer fadeSquare;
+    private GameObject[] navButtons;
+    private GameObject[] textInputs;
+    private Slider[] sliders;
+    private DevTools devTools;
     #endregion
 
     #region FIELDS
@@ -25,9 +32,11 @@ public class MenusManager : MonoBehaviour
     private bool fadeIn;
     private bool fadeOut;
     private int sceneLoadNum;
+    private bool checkButtons;
     #endregion
 
     #region PROPERTIES
+    public int CurrentScene { get { return currentScene; } }
     #endregion
 
     public void Start()
@@ -60,7 +69,7 @@ public class MenusManager : MonoBehaviour
             checkQuit = true;
         }
         #endregion
-        
+
         #region SAVE FILES SCENE
         // Check if the scene is the SaveFiles scene
         if (currentScene == 2)
@@ -87,12 +96,39 @@ public class MenusManager : MonoBehaviour
         }
         #endregion
 
-        #region FADING BETWEEN SCENES
-        fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-        fadeIn = true;
-        fadeOut = false;
-        if (currentScene == 0)
+        #region SETTINGS SCENE
+        if (currentScene == 4)
         {
+            navButtons = new GameObject[4];
+            sliders = new Slider[6];
+            textInputs = new GameObject[6];
+            for (int i = 0; i < 4; i++)
+            {
+                navButtons[i] = GameObject.Find("Button" + i);
+            }
+
+            navButtons[0].GetComponent<Button>().interactable = false;
+
+            for (int i = 0; i < 6; i++)
+            {
+                textInputs[i] = GameObject.Find("TextInput" + i);
+                sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+
+                // Setting default values, change once we add actual functionality
+                textInputs[i].GetComponent<TMP_InputField>().text = "50";
+                sliders[i].value = 50;
+            }
+
+            devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
+        }
+        #endregion
+
+        #region FADING BETWEEN SCENES
+        if (currentScene != 0)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeIn = true;
+            fadeOut = false;
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
         #endregion
@@ -106,7 +142,7 @@ public class MenusManager : MonoBehaviour
         FadeOut();
 
         #region SAVE FILES SCENE HANDLING
-        
+
         // Check if the current scene is 2, save files scene
         if (currentScene == 2)
         {
@@ -123,8 +159,8 @@ public class MenusManager : MonoBehaviour
 
                 // Make delete button interactable and have full transparency
                 deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 1f);
-                deleteButton.GetComponent<Button>().interactable = true; 
-                
+                deleteButton.GetComponent<Button>().interactable = true;
+
                 // Check if either confirmation check is active
                 if (confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
                 {
@@ -137,6 +173,21 @@ public class MenusManager : MonoBehaviour
                     deleteButton.GetComponent<Button>().interactable = false;
                 }
             }
+        }
+        #endregion
+
+        #region SETTINGS SCENE HANDLING
+        if (checkButtons)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (navButtons[i].GetComponent<Button>().IsInteractable() == false)
+                {
+                    navButtons[i].transform.parent.SetAsLastSibling();
+                }
+            }
+
+            checkButtons = false;
         }
         #endregion
     }
@@ -325,5 +376,28 @@ public class MenusManager : MonoBehaviour
     {
         fadeOut = true;
         sceneLoadNum = sceneToLoad;
+    }
+
+    public void SetButton(int button)
+    {
+        checkButtons = true;
+        for (int i = 0; i < 4; i++)
+        {
+            navButtons[i].GetComponent<Button>().interactable = true;
+        }
+        navButtons[button].GetComponent<Button>().interactable = false;
+    }
+
+    public void AdjustSlider(int index)
+    {
+        if (int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
+        {
+            sliders[index].value = result;
+        }
+    }
+
+    public void AdjustInputField(int index)
+    {
+        textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
     }
 }
