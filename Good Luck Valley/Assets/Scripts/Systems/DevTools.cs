@@ -18,117 +18,97 @@ public class DevTools : MonoBehaviour
     #endregion
 
     #region FIELDS
-    [SerializeField] static bool devToolsEnabled;
-    [SerializeField] static bool noClip;
-    [SerializeField] static bool instantThrow;
-    [SerializeField] static bool infiniteShrooms;
-    [SerializeField] static bool disableShroomDuration;
-    static bool accessibilityToolsOn;
+    [SerializeField] bool devToolsEnabled;
+    [SerializeField] bool noClip;
+    [SerializeField] bool instantThrow;
+    [SerializeField] bool infiniteShrooms;
+    [SerializeField] bool disableShroomDuration;
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
     #endregion
 
     #region PROPERTIES
     public bool NoClip { get { return noClip; } set {  noClip = value; } }
+    public bool InstantThrow { get { return instantThrow; } set { instantThrow = value; } }
+    public bool InfiniteShrooms { get { return infiniteShrooms; } set { infiniteShrooms = value; } }
+    public bool DisableShroomDuration { get { return disableShroomDuration; } set { disableShroomDuration = value; } }
     public bool DevToolsEnabled { get { return devToolsEnabled; } set { devToolsEnabled = value; } }
-    public bool AccessibilityToolsOn { get { return accessibilityToolsOn; } set {  accessibilityToolsOn = value; } }
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        if (menusMan = GameObject.Find("MenusManager").GetComponent<MenusManager>())
+        mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
+        playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
+        capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
+        devText = GameObject.Find("DevText").GetComponent<Text>();
+        noClipText = GameObject.Find("NoClipText").GetComponent<Text>();
+        instantThrowText = GameObject.Find("InstantShroomText").GetComponent<Text>();
+        infiniteShroomText = GameObject.Find("InfiniteShroomText").GetComponent<Text>();
+        shroomDurationText = GameObject.Find("ShroomDurationText").GetComponent<Text>();
+
+        // Checks if dev tools are enabled
+        if (devToolsEnabled)
         {
-            if (menusMan.CurrentScene != 4)
-            {
-                mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
-                playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
-                playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
-                capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
-                devText = GameObject.Find("DevText").GetComponent<Text>();
-                noClipText = GameObject.Find("NoClipText").GetComponent<Text>();
-                instantThrowText = GameObject.Find("InstantShroomText").GetComponent<Text>();
-                infiniteShroomText = GameObject.Find("InfiniteShroomText").GetComponent<Text>();
-                shroomDurationText = GameObject.Find("ShroomDurationText").GetComponent<Text>();
-
-                if (noClip)
-                {
-                    OnActivateNoClip();
-                }
-
-                if (instantThrow)
-                {
-                    OnActivateInstantThrow();
-                }
-
-                if (infiniteShrooms)
-                {
-                    OnEnableInfiniteShrooms();
-                }
-
-                if (disableShroomDuration)
-                {
-                    OnDisableShroomDuration();
-                }
-            }
-
-            // Checks if dev tools are enabled
-            if (devToolsEnabled)
-            {
-                // Default dev tools values
-                noClip = false;
-                instantThrow = false;
-                infiniteShrooms = true;
-                mushMan.ThrowUnlocked = true;
-                disableShroomDuration = true;
-            }
+            // Default dev tools values
+            noClip = false;
+            instantThrow = false;
+            infiniteShrooms = true;
+            mushMan.ThrowUnlocked = true;
+            disableShroomDuration = true;
+        }
+        else
+        {
+            noClip = false;
+            instantThrow = false;
+            infiniteShrooms = false;
+            mushMan.ThrowUnlocked = false;
+            disableShroomDuration = false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (menusMan.CurrentScene != 4)
+        // No Clip text Change
+        if (noClip == true)
         {
-            // No Clip text Change
-            if (noClip == true)
-            {
-                noClipText.text = "Press F1 for no-clip: Enabled";
-            }
-            else if (noClip == false)
-            {
-                noClipText.text = "Press F1 for no-clip: Disabled";
-            }
+            noClipText.text = "Press F1 for no-clip: Enabled";
+        }
+        else if (noClip == false)
+        {
+            noClipText.text = "Press F1 for no-clip: Disabled";
+        }
 
-            // Instant Throw text change
-            if (instantThrow)
-            {
-                instantThrowText.text = "Press F2 for 'instant' shroom throw: Enabled";
-            }
-            else if (instantThrow == false)
-            {
-                instantThrowText.text = "Press F2 for 'instant' shroom throw: Disabled";
-            }
+        // Instant Throw text change
+        if (instantThrow)
+        {
+            instantThrowText.text = "Press F2 for 'instant' shroom throw: Enabled";
+        }
+        else if (instantThrow == false)
+        {
+            instantThrowText.text = "Press F2 for 'instant' shroom throw: Disabled";
+        }
 
-            // Infinite shrooms text change
-            if (infiniteShrooms)
-            {
-                infiniteShroomText.text = "Press F3 for infinite shrooms: Enabled";
-            }
-            else if (infiniteShrooms == false)
-            {
-                infiniteShroomText.text = "Press F3 for infinite shrooms: Disabled";
-            }
+        // Infinite shrooms text change
+        if (infiniteShrooms)
+        {
+            infiniteShroomText.text = "Press F3 for infinite shrooms: Enabled";
+        }
+        else if (infiniteShrooms == false)
+        {
+            infiniteShroomText.text = "Press F3 for infinite shrooms: Disabled";
+        }
 
-            // Disable shroom timer text change
-            if (disableShroomDuration)
-            {
-                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Disabled";
-            }
-            else if (disableShroomDuration == false)
-            {
-                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
-            }
+        // Disable shroom timer text change
+        if (disableShroomDuration)
+        {
+            shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Disabled";
+        }
+        else if (disableShroomDuration == false)
+        {
+            shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
         }
     }
 
@@ -136,7 +116,7 @@ public class DevTools : MonoBehaviour
     public void OnActivateNoClip()
     {
         // Check if devTools is enabled
-        if (devToolsEnabled || accessibilityToolsOn)
+        if (devToolsEnabled)
         {
             // Switch noClip on/off
             noClip = !noClip;
@@ -161,7 +141,7 @@ public class DevTools : MonoBehaviour
     public void OnActivateInstantThrow()
     {
         // Check if the dev tools are enabled
-        if (devToolsEnabled || accessibilityToolsOn)
+        if (devToolsEnabled)
         {
             // Switch instant throw on/off
             instantThrow = !instantThrow;
@@ -183,7 +163,7 @@ public class DevTools : MonoBehaviour
     public void OnEnableInfiniteShrooms()
     {
         // Check if the dev tools are enabled
-        if (devToolsEnabled || accessibilityToolsOn)
+        if (devToolsEnabled)
         {
             // Switch infinite shrooms on/off
             infiniteShrooms = !infiniteShrooms;
@@ -205,7 +185,7 @@ public class DevTools : MonoBehaviour
     public void OnDisableShroomDuration()
     {
         // Check if dev tools is enabled
-       if (devToolsEnabled || accessibilityToolsOn)
+       if (devToolsEnabled)
        {
             // Switches shroom duration on/off
             disableShroomDuration = !disableShroomDuration;

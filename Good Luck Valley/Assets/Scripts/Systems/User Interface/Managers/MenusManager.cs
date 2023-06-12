@@ -19,13 +19,14 @@ public class MenusManager : MonoBehaviour
     private GameObject[] navButtons;
     private GameObject[] textInputs;
     private Slider[] sliders;
+    private bool[] accessibilityTools;
     private DevTools devTools;
     #endregion
 
     #region FIELDS
     private bool checkQuit;
-    static int previousScene;
-    static int currentScene;
+    [SerializeField] static int previousScene;
+    [SerializeField] static int currentScene;
     private int selectedSave;
     private Color saveColor;
     private Color deleteColor;
@@ -42,7 +43,7 @@ public class MenusManager : MonoBehaviour
     public void Start()
     {
         // Get the current scene
-        currentScene = SceneManager.GetActiveScene().buildIndex;
+        currentScene = SceneManager.GetActiveScene().buildIndex; 
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
@@ -102,6 +103,7 @@ public class MenusManager : MonoBehaviour
             navButtons = new GameObject[4];
             sliders = new Slider[6];
             textInputs = new GameObject[6];
+            accessibilityTools = new bool[5];
             for (int i = 0; i < 4; i++)
             {
                 navButtons[i] = GameObject.Find("Button" + i);
@@ -120,11 +122,17 @@ public class MenusManager : MonoBehaviour
             }
 
             devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
+
+            accessibilityTools[0] = true;
+            accessibilityTools[1] = devTools.InfiniteShrooms;
+            accessibilityTools[2] = devTools.DisableShroomDuration;
+            accessibilityTools[3] = devTools.InstantThrow;
+            accessibilityTools[4] = devTools.NoClip;
         }
         #endregion
 
         #region FADING BETWEEN SCENES
-        if (currentScene != 0)
+        if (currentScene != 0 && currentScene != 5)
         {
             fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
             fadeIn = true;
@@ -198,7 +206,6 @@ public class MenusManager : MonoBehaviour
     public void NavMainMenu()
     {
         // Switch scenes to the Tutorial Tilemap
-        Debug.Log("WHAT TF");
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Main Menu");
     }
@@ -208,7 +215,6 @@ public class MenusManager : MonoBehaviour
     /// </summary>
     public void NavSaveFiles()
     {
-        Debug.Log("KILL YOURSELF");
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("SaveFiles");
     }
@@ -365,6 +371,10 @@ public class MenusManager : MonoBehaviour
             {
                 NavSettings();
             }
+            else if (sceneLoadNum == 5)
+            {
+                SceneManager.LoadScene(5);
+            }
             else if (sceneLoadNum == 6)
             {
                 NavCredits();
@@ -399,5 +409,14 @@ public class MenusManager : MonoBehaviour
     public void AdjustInputField(int index)
     {
         textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+    }
+
+    public void ToggleAccessibilityTool(int index)
+    {
+        accessibilityTools[index] = !accessibilityTools[index];
+        if (accessibilityTools[index])
+        {
+            devTools.AccessibilityToolsOn = true;
+        }
     }
 }
