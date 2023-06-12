@@ -1,3 +1,4 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,7 +51,7 @@ public class ShroomCounter : MonoBehaviour
                 // If 1, show two shroom icons
                 case 1:
                     shroomIcon1.color = new Color(originalR, originalG, originalB, 1f);
-                    shroomIcon2.color = new Color(originalR, originalG, originalB, 1f);
+                    shroomIcon2.color = new Color(originalR, originalG, originalB, 1f); 
                     shroomIcon3.color = new Color(newR, newG, newB, .6f);
                     break;
 

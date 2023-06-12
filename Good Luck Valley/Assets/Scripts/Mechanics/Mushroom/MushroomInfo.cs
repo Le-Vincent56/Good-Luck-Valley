@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class MushroomInfo : MonoBehaviour
@@ -18,6 +19,15 @@ public class MushroomInfo : MonoBehaviour
     [SerializeField] private bool isShroom;
     private Color defaultColor;
     private float colorPercent;
+    private Image shroomTimer;
+    [SerializeField] float shroomLifeTimer;
+    
+    // Particles
+    private ParticleSystem shroomParticles;
+    [SerializeField] bool isPlaying = false;
+
+
+    private GameObject particles;
     #endregion
 
     #region PROPERTIES
@@ -37,13 +47,19 @@ public class MushroomInfo : MonoBehaviour
         durationTimer = mushMan.ShroomDuration;
         defaultColor = GetComponent<SpriteRenderer>().color;
         colorPercent = durationTimer / 255;
+        shroomLifeTimer = durationTimer;
+        shroomTimer = GameObject.Find("Shroom Icon 1").GetComponentInChildren<Image>();
+
+        // Particles
+        shroomParticles = GetComponent<ParticleSystem>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         if (bouncing)
-        {
+        {     
             bouncingTimer -= Time.deltaTime;
             if (bouncingTimer <= 0)
             {
@@ -56,9 +72,26 @@ public class MushroomInfo : MonoBehaviour
         if (mushMan.EnableShroomTimers && isShroom)
         {
             durationTimer -= Time.deltaTime;
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - (4/1020));
-            Debug.Log(GetComponent<SpriteRenderer>().color.a);
+
+            if (durationTimer <= (shroomLifeTimer * 0.5) && isPlaying == false)
+            {
+                shroomParticles.Play();
+                isPlaying = true;
+            }
+   
+
+            
+            //GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - (4/1020));
+            //Debug.Log(GetComponent<SpriteRenderer>().color.a);
+
+            //if (shroomLifeTimer > 0)
+            //{
+            //    shroomTimer.fillAmount = shroomLifeTimer / mushMan.ShroomDuration;
+            //}
+
         }
         
     }
+
+
 }
