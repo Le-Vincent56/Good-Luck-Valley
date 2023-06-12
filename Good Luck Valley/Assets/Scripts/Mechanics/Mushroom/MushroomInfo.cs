@@ -78,8 +78,6 @@ public class MushroomInfo : MonoBehaviour
                 shroomParticles.Play();
                 isPlaying = true;
             }
-   
-
             
             //GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - (4/1020));
             //Debug.Log(GetComponent<SpriteRenderer>().color.a);
