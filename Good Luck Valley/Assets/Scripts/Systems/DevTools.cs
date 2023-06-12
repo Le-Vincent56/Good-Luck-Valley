@@ -9,6 +9,7 @@ public class DevTools : MonoBehaviour
     #region REFERENCES
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
+    private MenusManager menusMan;
     private Text devText;
     private Text noClipText;
     private Text instantThrowText;
@@ -28,6 +29,9 @@ public class DevTools : MonoBehaviour
 
     #region PROPERTIES
     public bool NoClip { get { return noClip; } set {  noClip = value; } }
+    public bool InstantThrow { get { return instantThrow; } set { instantThrow = value; } }
+    public bool InfiniteShrooms { get { return infiniteShrooms; } set { infiniteShrooms = value; } }
+    public bool DisableShroomDuration { get { return disableShroomDuration; } set { disableShroomDuration = value; } }
     public bool DevToolsEnabled { get { return devToolsEnabled; } set { devToolsEnabled = value; } }
     #endregion
 
@@ -53,14 +57,13 @@ public class DevTools : MonoBehaviour
             infiniteShrooms = true;
             mushMan.ThrowUnlocked = true;
             disableShroomDuration = true;
-        } 
+        }
         else
         {
-            // No dev tools
-            devText.enabled = false;
-            noClipText.enabled = false;
-            instantThrowText.enabled = false;
-            infiniteShroomText.enabled = false;
+            noClip = false;
+            instantThrow = false;
+            infiniteShrooms = false;
+            mushMan.ThrowUnlocked = false;
             disableShroomDuration = false;
         }
     }
@@ -107,11 +110,10 @@ public class DevTools : MonoBehaviour
         {
             shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
         }
-
     }
 
     #region INPUT HANDLERS
-    public void OnActivateNoClip(InputAction.CallbackContext context)
+    public void OnActivateNoClip()
     {
         // Check if devTools is enabled
         if (devToolsEnabled)
@@ -136,7 +138,7 @@ public class DevTools : MonoBehaviour
         }
     }
 
-    public void OnActivateInstantThrow(InputAction.CallbackContext context)
+    public void OnActivateInstantThrow()
     {
         // Check if the dev tools are enabled
         if (devToolsEnabled)
@@ -158,7 +160,7 @@ public class DevTools : MonoBehaviour
         }
     }
 
-    public void OnEnableInfiniteShrooms(InputAction.CallbackContext context)
+    public void OnEnableInfiniteShrooms()
     {
         // Check if the dev tools are enabled
         if (devToolsEnabled)
@@ -180,7 +182,7 @@ public class DevTools : MonoBehaviour
         } 
     }
 
-    public void OnDisableShroomDuration(InputAction.CallbackContext context)
+    public void OnDisableShroomDuration()
     {
         // Check if dev tools is enabled
        if (devToolsEnabled)

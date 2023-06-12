@@ -1,9 +1,12 @@
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MenusManager : MonoBehaviour
 {
@@ -13,27 +16,34 @@ public class MenusManager : MonoBehaviour
     private GameObject saveButton;
     private GameObject deleteButton;
     private SpriteRenderer fadeSquare;
+    private GameObject[] navButtons;
+    private GameObject[] textInputs;
+    private Slider[] sliders;
+    private bool[] accessibilityTools;
+    private Settings settings;
     #endregion
 
     #region FIELDS
     private bool checkQuit;
-    static int previousScene;
-    static int currentScene;
+    [SerializeField] static int previousScene;
+    [SerializeField] static int currentScene;
     private int selectedSave;
     private Color saveColor;
     private Color deleteColor;
     private bool fadeIn;
     private bool fadeOut;
     private int sceneLoadNum;
+    private bool checkButtons;
     #endregion
 
     #region PROPERTIES
+    public int CurrentScene { get { return currentScene; } }
     #endregion
 
     public void Start()
     {
         // Get the current scene
-        currentScene = SceneManager.GetActiveScene().buildIndex;
+        currentScene = SceneManager.GetActiveScene().buildIndex; 
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
@@ -60,7 +70,7 @@ public class MenusManager : MonoBehaviour
             checkQuit = true;
         }
         #endregion
-        
+
         #region SAVE FILES SCENE
         // Check if the scene is the SaveFiles scene
         if (currentScene == 2)
@@ -87,14 +97,54 @@ public class MenusManager : MonoBehaviour
         }
         #endregion
 
-        #region FADING BETWEEN SCENES
-        fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-        fadeIn = true;
-        fadeOut = false;
-        if (currentScene == 0)
+        #region SETTINGS SCENE
+        if (currentScene == 4)
         {
+            navButtons = new GameObject[4];
+            sliders = new Slider[6];
+            textInputs = new GameObject[6];
+            accessibilityTools = new bool[5];
+            for (int i = 0; i < 4; i++)
+            {
+                navButtons[i] = GameObject.Find("Button" + i);
+            }
+
+            navButtons[0].GetComponent<Button>().interactable = false;
+
+            for (int i = 0; i < 6; i++)
+            {
+                textInputs[i] = GameObject.Find("TextInput" + i);
+                sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+
+                // Setting default values, change once we add actual functionality
+                textInputs[i].GetComponent<TMP_InputField>().text = "50";
+                sliders[i].value = 50;
+            }
+
+            settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+
+            for (int i = 0;i < 5; i++) 
+            {
+                accessibilityTools[i] = GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn;
+            }
+
+            settings.ThrowIndicatorShown = accessibilityTools[0];
+            settings.InfiniteShroomsOn = accessibilityTools[1];
+            settings.ShroomDurationOn = accessibilityTools[2];
+            settings.InstantThrowOn = accessibilityTools[3];
+            settings.NoClipOn = accessibilityTools[4];
+        }
+        #endregion
+
+        #region FADING BETWEEN SCENES
+        if (currentScene != 0 && currentScene != 5)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeIn = true;
+            fadeOut = false;
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
+
         #endregion
 
     }
@@ -106,7 +156,7 @@ public class MenusManager : MonoBehaviour
         FadeOut();
 
         #region SAVE FILES SCENE HANDLING
-        
+
         // Check if the current scene is 2, save files scene
         if (currentScene == 2)
         {
@@ -123,8 +173,8 @@ public class MenusManager : MonoBehaviour
 
                 // Make delete button interactable and have full transparency
                 deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 1f);
-                deleteButton.GetComponent<Button>().interactable = true; 
-                
+                deleteButton.GetComponent<Button>().interactable = true;
+
                 // Check if either confirmation check is active
                 if (confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
                 {
@@ -139,6 +189,21 @@ public class MenusManager : MonoBehaviour
             }
         }
         #endregion
+
+        #region SETTINGS SCENE HANDLING
+        if (checkButtons)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (navButtons[i].GetComponent<Button>().IsInteractable() == false)
+                {
+                    navButtons[i].transform.parent.SetAsLastSibling();
+                }
+            }
+
+            checkButtons = false;
+        }
+        #endregion
     }
 
     /// <summary>
@@ -147,7 +212,6 @@ public class MenusManager : MonoBehaviour
     public void NavMainMenu()
     {
         // Switch scenes to the Tutorial Tilemap
-        Debug.Log("WHAT TF");
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Main Menu");
     }
@@ -157,7 +221,6 @@ public class MenusManager : MonoBehaviour
     /// </summary>
     public void NavSaveFiles()
     {
-        Debug.Log("KILL YOURSELF");
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("SaveFiles");
     }
@@ -314,9 +377,13 @@ public class MenusManager : MonoBehaviour
             {
                 NavSettings();
             }
-            else if (sceneLoadNum == 6)
+            else if (sceneLoadNum == 5)
             {
                 NavCredits();
+            }
+            else if (sceneLoadNum == 6)
+            {
+                SceneManager.LoadScene(6);
             }
         }
     }
@@ -325,5 +392,40 @@ public class MenusManager : MonoBehaviour
     {
         fadeOut = true;
         sceneLoadNum = sceneToLoad;
+    }
+
+    public void SetButton(int button)
+    {
+        checkButtons = true;
+        for (int i = 0; i < 4; i++)
+        {
+            navButtons[i].GetComponent<Button>().interactable = true;
+        }
+        navButtons[button].GetComponent<Button>().interactable = false;
+    }
+
+    public void AdjustSlider(int index)
+    {
+        if (int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
+        {
+            sliders[index].value = result;
+        }
+    }
+
+    public void AdjustInputField(int index)
+    {
+        textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+    }
+
+    public void ToggleAccessibilityTool(int index)
+    {
+        accessibilityTools[index] = !accessibilityTools[index];
+        settings.UpdateSettings = true;
+
+        settings.ThrowIndicatorShown = accessibilityTools[0];
+        settings.InfiniteShroomsOn = accessibilityTools[1];
+        settings.ShroomDurationOn = accessibilityTools[2];
+        settings.InstantThrowOn = accessibilityTools[3];
+        settings.NoClipOn = accessibilityTools[4];
     }
 }
