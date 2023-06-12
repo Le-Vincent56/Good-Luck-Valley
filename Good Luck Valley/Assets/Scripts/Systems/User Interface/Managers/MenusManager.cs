@@ -144,6 +144,11 @@ public class MenusManager : MonoBehaviour
             fadeOut = false;
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
+        else if(currentScene == 0)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        }
 
         #endregion
 
