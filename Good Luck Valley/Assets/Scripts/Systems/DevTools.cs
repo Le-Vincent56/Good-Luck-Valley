@@ -72,7 +72,7 @@ public class DevTools : MonoBehaviour
             instantThrow = settings.InstantThrowOn;
             infiniteShrooms = settings.InfiniteShroomsOn;
             mushMan.ThrowUnlocked = false;
-            disableShroomDuration = settings.ShroomDurationOn;
+            disableShroomDuration = !settings.ShroomDurationOn;
         }
     }
 
