@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumpCut = false;
 
-			// Double check that if they are not jumping, they are falling
+			// Double check that if they are not jumping, they are falling  
             if (!isJumping)
 			{
                 isJumpFalling = false;
