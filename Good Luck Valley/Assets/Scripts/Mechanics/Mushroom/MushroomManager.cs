@@ -55,7 +55,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] Vector3 fixPlayer;
     private ThrowState throwState;
     [SerializeField] private float shroomDuration;
-    private bool enableShroomTimers;
+    [SerializeField] private bool enableShroomTimers;
     #endregion
 
     #region PROPERTIES
