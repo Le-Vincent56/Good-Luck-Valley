@@ -9,7 +9,7 @@ public class MushroomInfo : MonoBehaviour
     #region REFERENCES
     private MushroomManager mushMan;
     private ShroomCounter shroomCounter;
-    private GameObject shroomIcon;
+    [SerializeField] GameObject shroomIcon;
     #endregion
 
     #region FIELDS
@@ -23,7 +23,7 @@ public class MushroomInfo : MonoBehaviour
     private Color defaultColor;
     private ParticleSystem shroomParticles;
     [SerializeField] float particleTime;
-    private bool particles = false;
+    private bool particlesEnabled = false;
     #endregion
 
     #region PROPERTIES
@@ -33,7 +33,11 @@ public class MushroomInfo : MonoBehaviour
     public float BouncingTimer { get { return bouncingTimer; } set { bouncingTimer = value; } }
     public bool OnScreen { get { return onScreen; } set { onScreen = value; } }
     public bool IsShroom { get { return isShroom; } set { isShroom = value; } }
-    public float DurationTimer { get { return durationTimer; } }
+    public float DurationTimer { get { return durationTimer; } set { durationTimer = value; } }
+    public Color ShroomColor { get { return defaultColor; } set { defaultColor = value; } }
+    public ParticleSystem ShroomParticles { get { return shroomParticles; } set { shroomParticles = value; } }
+    public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
+    public bool ParticlesEnabled { get { return particlesEnabled; } set { particlesEnabled = value; } }
     public GameObject ShroomIcon { get { return shroomIcon;  } set { shroomIcon = value; } }
     #endregion
 
@@ -74,10 +78,10 @@ public class MushroomInfo : MonoBehaviour
             // Decreases time from the timer
             durationTimer -= Time.deltaTime;
 
-            if (durationTimer <= (particleTime * 0.5) && particles == false)
+            if (durationTimer <= (particleTime * 0.5) && particlesEnabled == false)
             {
                 shroomParticles.Play();
-                particles = true;
+                particlesEnabled = true;
             }
 
 
@@ -113,6 +117,4 @@ public class MushroomInfo : MonoBehaviour
         shroomIcon.GetComponent<SpriteRenderer>().color = new Color(shroomCounter.oR, shroomCounter.oG, shroomCounter.oB, 1f);
         shroomIcon.GetComponent<Image>().fillAmount = 0;
     }
-
-
 }
