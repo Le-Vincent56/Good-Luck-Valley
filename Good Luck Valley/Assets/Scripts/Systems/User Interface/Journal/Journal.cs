@@ -55,11 +55,10 @@ public class Journal : MonoBehaviour
     {
         if(!hasJournal)
         {
-            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.disabledColor;
             pauseJournalButton.interactable = false;
         } else
         {
-            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.normalColor;
+            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.selectedColor;
             pauseJournalButton.interactable = true;
         }
 

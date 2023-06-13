@@ -133,7 +133,7 @@ public class Tutorial : MonoBehaviour
         {
             fadeSecondJournalUITutorialText();
             GameObject.Find("Continue Button").GetComponent<Button>().interactable = true;
-            GameObject.Find("Settings Button").GetComponent<Button>().interactable = true;
+            //GameObject.Find("Settings Button").GetComponent<Button>().interactable = true;
             GameObject.Find("Quit Button").GetComponent<Button>().interactable = true;
         }
 
