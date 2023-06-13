@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using static UnityEngine.ParticleSystem;
@@ -32,6 +33,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private GameObject testObject;
     private Journal journal;
     private ShroomCounter shroomCounter;
+    [SerializeField] private PlayableDirector director;
     #endregion
 
     #region FIELDS
@@ -56,6 +58,8 @@ public class MushroomManager : MonoBehaviour
     private ThrowState throwState;
     [SerializeField] private float shroomDuration;
     [SerializeField] private bool enableShroomTimers;
+    private bool usingLotusCutscene;
+    private bool throwLocked = false;
     #endregion
 
     #region PROPERTIES
@@ -107,6 +111,14 @@ public class MushroomManager : MonoBehaviour
         layer.useLayerMask = true;
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
+
+        if(director == null)
+        {
+            usingLotusCutscene = false;
+        } else
+        {
+            usingLotusCutscene = true;
+        }
     }
 
     // Update is called once per frame
@@ -118,6 +130,21 @@ public class MushroomManager : MonoBehaviour
         //forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
+
+        // Check if a cutscene will be used at the beginning of the level
+        if(usingLotusCutscene)
+        {
+            // If so, check the PlayableDirector state
+            if(director.state == PlayState.Playing)
+            {
+                // If it's playing, lock the throw
+                throwLocked = true;
+            } else
+            {
+                // Otherwise, unlock the throw
+                throwLocked = false;
+            }
+        }
 
         switch (throwState)
         {
@@ -424,7 +451,7 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen)
+        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen && !throwLocked)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
+using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
 
@@ -24,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
 	private Settings settings;
+	[SerializeField] PlayableDirector director;
 	#endregion
 
 	#region FIELDS
@@ -35,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isGrounded;
 	[SerializeField] float fallingBuffer = 0.25f;
     private bool inputHorizontal;
-    private bool isLocked = false;
+    [SerializeField] private bool isLocked = false;
 	private float disableInputTimer = 0.5f;
     [SerializeField] private bool justLanded = false;
 	private float lastOnGroundTime;
@@ -58,7 +60,8 @@ public class PlayerMovement : MonoBehaviour
 	private float slopeNormalPerpAngle;
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
-    public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+    private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+	private bool usingLotusCutscene = false;
     #endregion
 
     #region PROPERTIES
@@ -89,6 +92,14 @@ public class PlayerMovement : MonoBehaviour
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+
+		if(director == null)
+		{
+			usingLotusCutscene = false;
+		} else
+		{
+			usingLotusCutscene = true;
+		}
 	}
 
 	private void Start()
@@ -102,6 +113,23 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
+		// Check if there's a lotus cutscene
+		if(usingLotusCutscene)
+		{
+			// If so, check the state of the director
+            if (director.state == PlayState.Playing)
+            {
+				// If it's playing, lock player movement
+                isLocked = true;
+            }
+            else
+            {
+				// Otherwise, unlock it
+                isLocked = false;
+            }
+        }
+		
+
 		// Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
@@ -639,12 +667,12 @@ public class PlayerMovement : MonoBehaviour
 	/// </summary>
 	public void Turn()
 	{
-		// Stores scale and flips the player along the x axis, 
-		Vector3 scale = transform.localScale;
-		scale.x *= -1;
-		transform.localScale = scale;
+        // Stores scale and flips the player along the x axis, 
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
 
-		isFacingRight = !isFacingRight;
+        isFacingRight = !isFacingRight;
 	}
 	#endregion
 
@@ -687,8 +715,10 @@ public class PlayerMovement : MonoBehaviour
 	/// <param name="isMovingRight">A boolean representing which direction the Player is moving</param>
 	public void CheckDirectionToFace(bool isMovingRight)
 	{
-		if (isMovingRight != isFacingRight)
+        if (isMovingRight != isFacingRight)
+		{
 			Turn();
+		}
 	}
 
 	/// <summary>
