@@ -310,7 +310,7 @@ public class Tutorial : MonoBehaviour
         {
 
             case "Keyboard & Mouse":
-                tutorialText = "To read newly obtained notes, press the ESC button to go to select it from the Pause Menu, or directly using TAB!";
+                tutorialText = "To read newly obtained notes, press ESC and select 'Journal' from the Pause Menu, or use TAB!";
                 break;
 
             case "Playstation Controller":
