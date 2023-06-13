@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DevTools : MonoBehaviour
@@ -211,6 +212,14 @@ public class DevTools : MonoBehaviour
                 // If enabled, turns on shroom timers
                 mushMan.EnableShroomTimers = true;
             }
+        }
+    }
+
+    public void OnCutToLevel(int level)
+    {
+        if (devToolsEnabled)
+        {
+            SceneManager.LoadScene("Level " + level);
         }
     }
     #endregion
