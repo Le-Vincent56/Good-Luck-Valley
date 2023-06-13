@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
+using static UnityEngine.ParticleSystem;
 
 public enum ThrowState
 {
@@ -43,7 +45,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] string stuckSurfaceTag;                    // Tag of object shroom will stick to
     private ContactFilter2D layer;                              // A contact filter to filter out ground layers
     private Vector2 forceDirection;    
-    private List<GameObject> mushroomList;                      // List of currently spawned shrooms
+    [SerializeField] private List<GameObject> mushroomList;                      // List of currently spawned shrooms
     private int mushroomLimit = 3;                              // Max amount of shrooms
     private Stack<int> removeShroomIndexes;                     // Stack for tracking the indexes of shrooms that need to be removed
     private Dictionary<int, GameObject> changeShroomIndexes;    // Dictionary for tracking the indexes and objects of shrooms that need to be changed from spores.
@@ -143,6 +145,7 @@ public class MushroomManager : MonoBehaviour
         CheckIfCanThrow();
         //CheckIfCanBounce();
         CheckShroomDuration();
+        //UpdateShroomCooldowns();
     }
 
     void CheckShroomDuration()
@@ -391,7 +394,6 @@ public class MushroomManager : MonoBehaviour
     //        playerMove.GetComponent<BouncingEffect>().CanBounce = false;
     //    }
     //}
-
     #region INPUT HANDLER
 
     // If we want a separate fire and aim button

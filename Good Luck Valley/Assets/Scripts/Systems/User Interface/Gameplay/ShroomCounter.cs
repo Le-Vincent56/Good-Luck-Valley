@@ -74,19 +74,19 @@ public class ShroomCounter : MonoBehaviour
         // Clears the queue
         shroomIconQueue.Clear();
 
-        // Enqueues the third shroom icon and resets its color values
-        shroomIcon3.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
-        shroomIcon3.GetComponent<Image>().fillAmount = 0;
-        shroomIconQueue.Enqueue(shroomIcon3);
+        // Enqueues the first shroom icon and resets its color values
+        shroomIcon1.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
+        shroomIcon1.GetComponent<Image>().fillAmount = 0;
+        shroomIconQueue.Enqueue(shroomIcon1);
 
         // Enqueues the second shroom icon and resets its color values
         shroomIcon2.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
         shroomIcon2.GetComponent<Image>().fillAmount = 0;
         shroomIconQueue.Enqueue(shroomIcon2);
 
-        // Enqueues the first shroom icon and resets its color values
-        shroomIcon1.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
-        shroomIcon1.GetComponent<Image>().fillAmount = 0;
-        shroomIconQueue.Enqueue(shroomIcon1);
+        // Enqueues the third shroom icon and resets its color values
+        shroomIcon3.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
+        shroomIcon3.GetComponent<Image>().fillAmount = 0;
+        shroomIconQueue.Enqueue(shroomIcon3);
     }
 }
