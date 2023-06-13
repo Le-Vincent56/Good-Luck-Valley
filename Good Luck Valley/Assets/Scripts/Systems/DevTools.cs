@@ -81,7 +81,10 @@ public class DevTools : MonoBehaviour
     {
         if (devToolsEnabled)
         {
-            // No Clip text Change
+            // Dev Tools text change
+            devText.text = "Dev Tools Enabled";
+
+            // No Clip text change
             if (noClip == true)
             {
                 noClipText.text = "Press F1 for no-clip: Enabled";
@@ -120,6 +123,10 @@ public class DevTools : MonoBehaviour
             {
                 shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
             }
+        } else
+        {
+            // Dev Tools text change
+            devText.text = "";
         }
     }
 
