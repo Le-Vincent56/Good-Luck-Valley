@@ -46,6 +46,7 @@ public class MenusManager : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+        settings.UpdateSettings = true;
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
@@ -400,7 +401,6 @@ public class MenusManager : MonoBehaviour
     {
         fadeOut = true;
         sceneLoadNum = sceneToLoad;
-        settings.UpdateSettings = true;
     }
 
     public void SetButton(int button)
