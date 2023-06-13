@@ -276,10 +276,14 @@ public class MushroomManager : MonoBehaviour
                     if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
                     {
                         // Sets the tile to decomposed
-                        d.GetComponent<DecompasableTile>().IsDecomposed = true;
+                        //if (d.GetComponent<DecompasableTile>().IsDecomposed == false)
+                        //{
+                        //    d.GetComponent<DecompasableTile>().IsDecomposed = true;
+                        //}
 
                         // Pushes the index of shroom that is touching it to the stack of shroom removal indexes
-                        removeShroomIndexes.Push(mushroomList.IndexOf(m));
+                        // removeShroomIndexes.Push(mushroomList.IndexOf(m));
+                        RotateAndFreezeShroom(m);
                     }
                 }
             }
@@ -308,6 +312,7 @@ public class MushroomManager : MonoBehaviour
         for (int i = 0; i < indexCount; i++)
         {
             int shroomIndex = removeShroomIndexes.Pop();
+            Debug.Log("Shroom Index" + shroomIndex);
             shroomCounter.ShroomIconQueue.Add(mushroomList[shroomIndex].GetComponent<MushroomInfo>().ShroomIcon);
             mushroomList[shroomIndex].GetComponent<MushroomInfo>().ResetCounter();
             Destroy(mushroomList[shroomIndex]);

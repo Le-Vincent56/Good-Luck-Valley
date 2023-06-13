@@ -6,6 +6,7 @@ public class DecompasableTile : MonoBehaviour
 {
     #region REFERENCES
     [SerializeField] private GameObject tile;
+    private List<GameObject> decomposablePlatforms;
     #endregion
 
     #region FIELDS
@@ -20,6 +21,7 @@ public class DecompasableTile : MonoBehaviour
 
     void Start()
     {
+        decomposablePlatforms = GameObject.Find("Platforms Manager").GetComponent<PlatformsManager>().DecomposableTiles;
         isDecomposed = false;
     }
 
@@ -29,7 +31,29 @@ public class DecompasableTile : MonoBehaviour
         if (isDecomposed)
         {
             Debug.Log("Destroy Tile");
-            Destroy(tile);
+            tile.SetActive(false);
+            //decomposablePlatforms.Remove(tile);
+        }
+        else
+        {
+            tile.SetActive(true);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Colliding with something" + collision.collider.gameObject.tag);
+        if (collision.collider.gameObject.tag == "Mushroom")
+        {
+            isDecomposed = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.tag == "Ground")
+        {
+            isDecomposed = false;
         }
     }
 }
