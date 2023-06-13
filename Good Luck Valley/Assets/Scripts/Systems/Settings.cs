@@ -11,11 +11,11 @@ public class Settings : MonoBehaviour
     #endregion
 
     #region FIELDS
-    static bool throwIndicatorShown;
-    static bool noClipOn;
-    static bool instantThrowOn;
-    static bool infiniteShroomsOn;
-    static bool shroomDurationOn;
+    static bool throwIndicatorShown = true;
+    static bool noClipOn = false;
+    static bool instantThrowOn = false;
+    static bool infiniteShroomsOn = false;
+    static bool shroomDurationOn = true;
     static bool updateSettings;
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
@@ -34,7 +34,7 @@ public class Settings : MonoBehaviour
     void Start()
     {
         menusMan = GameObject.Find("MenusManager").GetComponent<MenusManager>();
-        if (menusMan.CurrentScene >= 5)
+        if (menusMan.CurrentScene > 5)
         {
             mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
             playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
@@ -46,7 +46,7 @@ public class Settings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (menusMan.CurrentScene >= 5)
+        if (menusMan.CurrentScene > 5)
         {
             if (updateSettings)
             {
