@@ -43,7 +43,9 @@ public class MenusManager : MonoBehaviour
     public void Start()
     {
         // Get the current scene
-        currentScene = SceneManager.GetActiveScene().buildIndex; 
+        currentScene = SceneManager.GetActiveScene().buildIndex;
+
+        settings = GameObject.Find("MenusManager").GetComponent<Settings>();
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
@@ -104,6 +106,7 @@ public class MenusManager : MonoBehaviour
             sliders = new Slider[6];
             textInputs = new GameObject[6];
             accessibilityTools = new bool[5];
+
             for (int i = 0; i < 4; i++)
             {
                 navButtons[i] = GameObject.Find("Button" + i);
@@ -121,28 +124,33 @@ public class MenusManager : MonoBehaviour
                 sliders[i].value = 50;
             }
 
-            settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+            accessibilityTools[0] = settings.ThrowIndicatorShown;
+            accessibilityTools[1] = !settings.InfiniteShroomsOn;
+            accessibilityTools[2] = settings.ShroomDurationOn;
+            accessibilityTools[3] = settings.InstantThrowOn;
+            accessibilityTools[4] = settings.NoClipOn;
 
             for (int i = 0;i < 5; i++) 
             {
-                accessibilityTools[i] = GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn;
+                GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
             }
-
-            settings.ThrowIndicatorShown = accessibilityTools[0];
-            settings.InfiniteShroomsOn = accessibilityTools[1];
-            settings.ShroomDurationOn = accessibilityTools[2];
-            settings.InstantThrowOn = accessibilityTools[3];
-            settings.NoClipOn = accessibilityTools[4];
         }
         #endregion
 
         #region FADING BETWEEN SCENES
-        if (currentScene != 0 && currentScene != 5)
+        if (currentScene != 0 && currentScene != 6)
         {
             fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
             fadeIn = true;
             fadeOut = false;
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        }
+        else if(currentScene == 0)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            fadeIn = false;
+            fadeOut = false;
         }
 
         #endregion
@@ -392,6 +400,7 @@ public class MenusManager : MonoBehaviour
     {
         fadeOut = true;
         sceneLoadNum = sceneToLoad;
+        settings.UpdateSettings = true;
     }
 
     public void SetButton(int button)

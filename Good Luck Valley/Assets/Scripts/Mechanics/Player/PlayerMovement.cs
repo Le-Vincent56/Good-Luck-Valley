@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private PhysicsMaterial2D noFriction;
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
+	private Settings settings;
 	#endregion
 
 	#region FIELDS
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
+		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
 	}
 
 	private void Start()
@@ -615,7 +617,7 @@ public class PlayerMovement : MonoBehaviour
 
 		// DEV TOOL
 		// Check if noClip is on
-        if (devTools.NoClip)
+        if (devTools.NoClip || settings.NoClipOn)
         {
 			// Check if up/down input is detected
 			if (moveInput.y != 0)
