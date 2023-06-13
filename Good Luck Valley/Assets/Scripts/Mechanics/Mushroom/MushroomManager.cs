@@ -226,6 +226,7 @@ public class MushroomManager : MonoBehaviour
                     RotateAndFreezeShroom(m);
                 }
 
+
                 foreach (GameObject p in environmentManager.WeightedPlatforms)
                 {
                     // checks if the mushroom is touching the platform and hasn't rotated
