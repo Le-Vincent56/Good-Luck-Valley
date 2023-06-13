@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 
 public class MushroomInfo : MonoBehaviour
 {
     #region REFERENCES
     private MushroomManager mushMan;
     private ShroomCounter shroomCounter;
-    private GameObject shroomIcon;
+    [SerializeField] GameObject shroomIcon;
     #endregion
 
     #region FIELDS
@@ -21,6 +21,9 @@ public class MushroomInfo : MonoBehaviour
     private bool onScreen;
     [SerializeField] private bool isShroom;
     private Color defaultColor;
+    private ParticleSystem shroomParticles;
+    [SerializeField] float particleTime;
+    private bool particlesEnabled = false;
     #endregion
 
     #region PROPERTIES
@@ -30,7 +33,11 @@ public class MushroomInfo : MonoBehaviour
     public float BouncingTimer { get { return bouncingTimer; } set { bouncingTimer = value; } }
     public bool OnScreen { get { return onScreen; } set { onScreen = value; } }
     public bool IsShroom { get { return isShroom; } set { isShroom = value; } }
-    public float DurationTimer { get { return durationTimer; } }
+    public float DurationTimer { get { return durationTimer; } set { durationTimer = value; } }
+    public Color ShroomColor { get { return defaultColor; } set { defaultColor = value; } }
+    public ParticleSystem ShroomParticles { get { return shroomParticles; } set { shroomParticles = value; } }
+    public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
+    public bool ParticlesEnabled { get { return particlesEnabled; } set { particlesEnabled = value; } }
     public GameObject ShroomIcon { get { return shroomIcon;  } set { shroomIcon = value; } }
     #endregion
 
@@ -38,15 +45,17 @@ public class MushroomInfo : MonoBehaviour
     {
         mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         shroomCounter = GameObject.Find("MushroomCountUI").GetComponent<ShroomCounter>();
+        shroomParticles = GetComponent<ParticleSystem>();
         durationTimer = mushMan.ShroomDuration;
         defaultColor = new Color(168, 168, 168);
+        particleTime = durationTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (bouncing)
-        {
+        {     
             bouncingTimer -= Time.deltaTime;
             if (bouncingTimer <= 0)
             {
@@ -69,12 +78,25 @@ public class MushroomInfo : MonoBehaviour
             // Decreases time from the timer
             durationTimer -= Time.deltaTime;
 
-            // The percent that should be reducted from the opacity each frame
-            float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
+            if (durationTimer <= (particleTime * 0.5) && particlesEnabled == false)
+            {
+                shroomParticles.Play();
+                particlesEnabled = true;
+            }
 
-            // Adjust opacity of mushroom and intensity of light based on percentOpacity
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
-            GetComponentInChildren<Light2D>().intensity -= percentOpacity;
+
+            // The percent that should be reducted from the opacity each frame
+            //float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
+            if (durationTimer <= .1f)
+            {
+                float percentOpacity = Time.deltaTime / .1f;
+                Debug.Log("Percent: " + percentOpacity);
+
+                // Adjust opacity of mushroom and intensity of light based on percentOpacity
+                GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
+                GetComponentInChildren<Light2D>().intensity -= percentOpacity;
+            }
+
         }
     }
 

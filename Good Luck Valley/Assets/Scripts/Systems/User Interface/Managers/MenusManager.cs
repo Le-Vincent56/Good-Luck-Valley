@@ -1,9 +1,12 @@
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MenusManager : MonoBehaviour
 {
@@ -13,91 +16,206 @@ public class MenusManager : MonoBehaviour
     private GameObject saveButton;
     private GameObject deleteButton;
     private SpriteRenderer fadeSquare;
+    private GameObject[] navButtons;
+    private GameObject[] textInputs;
+    private Slider[] sliders;
+    private bool[] accessibilityTools;
+    private Settings settings;
     #endregion
 
     #region FIELDS
     private bool checkQuit;
-    static int previousScene;
-    static int currentScene;
+    [SerializeField] static int previousScene;
+    [SerializeField] static int currentScene;
     private int selectedSave;
     private Color saveColor;
     private Color deleteColor;
     private bool fadeIn;
     private bool fadeOut;
     private int sceneLoadNum;
+    private bool checkButtons;
     #endregion
 
     #region PROPERTIES
+    public int CurrentScene { get { return currentScene; } }
     #endregion
 
     public void Start()
     {
-        if (confirmationCheck = GameObject.Find("ConfirmationCheck"))
-        {
-            confirmationCheck.SetActive(false);
-        }
-        if (confirmationCheck2 = GameObject.Find("ConfirmationCheck2"))
-        {
-            confirmationCheck2.SetActive(false);
-        }
-        checkQuit = true;
-        if (saveButton = GameObject.Find("Save"))
-        {
-            saveColor = saveButton.GetComponent<Image>().color;
-            saveButton.GetComponent<Button>().interactable = false;
-            saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
-        }
-        if (deleteButton = GameObject.Find("Delete"))
-        {
-            deleteColor = deleteButton.GetComponent<Image>().color;
-            deleteButton.GetComponent<Button>().interactable = false;
-            deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
-        }
+        // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
-        fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-        Debug.Log(fadeSquare);
-        fadeIn = true;
-        fadeOut = false;
+        settings = GameObject.Find("MenusManager").GetComponent<Settings>();
 
-        if (currentScene == 0)
+        #region CONFIRMATION CHECKS
+        // Check if the scene is one that contains a confirmation check
+        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
         {
+            // Find confirmation check in scene
+            confirmationCheck = GameObject.Find("ConfirmationCheck");
+            // If so, set it to be inactive
+            confirmationCheck.SetActive(false);
+
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
+        }
+
+        // Check if the scene is one that contains a second confirmation check
+        if (currentScene == 2 || currentScene == 4)
+        {
+            // Find second confirmation check
+            confirmationCheck2 = GameObject.Find("ConfirmationCheck2");
+            // If so, set it to be inactive
+            confirmationCheck2.SetActive(false);
+
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
+        }
+        #endregion
+
+        #region SAVE FILES SCENE
+        // Check if the scene is the SaveFiles scene
+        if (currentScene == 2)
+        {
+            // Save Button
+            // Find save button in scene
+            saveButton = GameObject.Find("Save");
+            // Save the color to a variable
+            saveColor = saveButton.GetComponent<Image>().color;
+            // Set to to not be interactable because no save is selected yet
+            saveButton.GetComponent<Button>().interactable = false;
+            // Set it to be half transparency
+            saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
+
+            // Delete Button
+            // Find delete button
+            deleteButton = GameObject.Find("Delete");
+            // Save the color to a variable
+            deleteColor = deleteButton.GetComponent<Image>().color;
+            // Set it to be non-interactable cuz no save is selected
+            deleteButton.GetComponent<Button>().interactable = false;
+            // Set its transparency to be 50%
+            deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
+        }
+        #endregion
+
+        #region SETTINGS SCENE
+        if (currentScene == 4)
+        {
+            navButtons = new GameObject[4];
+            sliders = new Slider[6];
+            textInputs = new GameObject[6];
+            accessibilityTools = new bool[5];
+
+            for (int i = 0; i < 4; i++)
+            {
+                navButtons[i] = GameObject.Find("Button" + i);
+            }
+
+            navButtons[0].GetComponent<Button>().interactable = false;
+
+            for (int i = 0; i < 6; i++)
+            {
+                textInputs[i] = GameObject.Find("TextInput" + i);
+                sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+
+                // Setting default values, change once we add actual functionality
+                textInputs[i].GetComponent<TMP_InputField>().text = "50";
+                sliders[i].value = 50;
+            }
+
+            accessibilityTools[0] = settings.ThrowIndicatorShown;
+            accessibilityTools[1] = !settings.InfiniteShroomsOn;
+            accessibilityTools[2] = settings.ShroomDurationOn;
+            accessibilityTools[3] = settings.InstantThrowOn;
+            accessibilityTools[4] = settings.NoClipOn;
+
+            for (int i = 0;i < 5; i++) 
+            {
+                GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
+            }
+        }
+        #endregion
+
+        #region FADING BETWEEN SCENES
+        if (currentScene != 0 && currentScene != 6)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeIn = true;
+            fadeOut = false;
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
+        else if(currentScene == 0)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            fadeIn = false;
+            fadeOut = false;
+        }
+
+        #endregion
+
     }
 
     public void Update()
     {
-        Debug.Log("Update Selected Save:" + selectedSave);
+        // Call Fading functions
         FadeIn();
         FadeOut();
 
+        #region SAVE FILES SCENE HANDLING
+
+        // Check if the current scene is 2, save files scene
         if (currentScene == 2)
         {
+            // Check if a save has been selected
             if (selectedSave != 0)
             {
+                // Check if the previous scene isn't 1, main menu (you cant make a save if you are entering from the main menu)
                 if (previousScene != 1)
                 {
+                    // If not, make save button interactable and have full transparency
                     saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 1f);
                     saveButton.GetComponent<Button>().interactable = true;
                 }
 
+                // Make delete button interactable and have full transparency
                 deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 1f);
                 deleteButton.GetComponent<Button>().interactable = true;
-            }
-            else if (selectedSave == 0 || confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
-            {
-                saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
-                saveButton.GetComponent<Button>().interactable = false;
 
-                deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
-                deleteButton.GetComponent<Button>().interactable = false;
+                // Check if either confirmation check is active
+                if (confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
+                {
+                    // If so, make save button half transparency and non-interactable
+                    saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
+                    saveButton.GetComponent<Button>().interactable = false;
+
+                    // Make delete button half transparency and non-interactable
+                    deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
+                    deleteButton.GetComponent<Button>().interactable = false;
+                }
             }
         }
+        #endregion
+
+        #region SETTINGS SCENE HANDLING
+        if (checkButtons)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (navButtons[i].GetComponent<Button>().IsInteractable() == false)
+                {
+                    navButtons[i].transform.parent.SetAsLastSibling();
+                }
+            }
+
+            checkButtons = false;
+        }
+        #endregion
     }
 
     /// <summary>
-    /// OnClick event for the Play Button
+    /// Navigates to the main menu scene
     /// </summary>
     public void NavMainMenu()
     {
@@ -106,24 +224,36 @@ public class MenusManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
+    /// <summary>
+    /// Navigates to the save files scene
+    /// </summary>
     public void NavSaveFiles()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("SaveFiles");
     }
 
+    /// <summary>
+    /// Navigates to the settings scene
+    /// </summary>
     public void NavSettings()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Settings");
     }
 
+    /// <summary>
+    /// Navigates to the journal scene
+    /// </summary>
     public void NavJournal()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Journal");
     }
 
+    /// <summary>
+    /// Navigates to the credits scene
+    /// </summary>
     public void NavCredits()
     {
         previousScene = SceneManager.GetActiveScene().buildIndex;
@@ -217,7 +347,7 @@ public class MenusManager : MonoBehaviour
     {
         if (fadeIn)
         {
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.01f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.005f);
             if (fadeSquare.color.a <= 0)
             {
                 fadeIn = false;
@@ -230,7 +360,7 @@ public class MenusManager : MonoBehaviour
         if (fadeOut)
         {
             Debug.Log("Fadeing out");
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.01f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.005f);
             if (fadeSquare.color.a >= 1)
             {
                 Debug.Log("Fade Done");
@@ -255,9 +385,13 @@ public class MenusManager : MonoBehaviour
             {
                 NavSettings();
             }
-            else if (sceneLoadNum == 6)
+            else if (sceneLoadNum == 5)
             {
                 NavCredits();
+            }
+            else if (sceneLoadNum == 6)
+            {
+                SceneManager.LoadScene(6);
             }
         }
     }
@@ -266,5 +400,41 @@ public class MenusManager : MonoBehaviour
     {
         fadeOut = true;
         sceneLoadNum = sceneToLoad;
+        settings.UpdateSettings = true;
+    }
+
+    public void SetButton(int button)
+    {
+        checkButtons = true;
+        for (int i = 0; i < 4; i++)
+        {
+            navButtons[i].GetComponent<Button>().interactable = true;
+        }
+        navButtons[button].GetComponent<Button>().interactable = false;
+    }
+
+    public void AdjustSlider(int index)
+    {
+        if (int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
+        {
+            sliders[index].value = result;
+        }
+    }
+
+    public void AdjustInputField(int index)
+    {
+        textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+    }
+
+    public void ToggleAccessibilityTool(int index)
+    {
+        accessibilityTools[index] = !accessibilityTools[index];
+        settings.UpdateSettings = true;
+
+        settings.ThrowIndicatorShown = accessibilityTools[0];
+        settings.InfiniteShroomsOn = accessibilityTools[1];
+        settings.ShroomDurationOn = accessibilityTools[2];
+        settings.InstantThrowOn = accessibilityTools[3];
+        settings.NoClipOn = accessibilityTools[4];
     }
 }
