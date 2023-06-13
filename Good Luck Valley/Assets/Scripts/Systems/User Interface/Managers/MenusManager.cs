@@ -113,7 +113,13 @@ public class MenusManager : MonoBehaviour
                 navButtons[i] = GameObject.Find("Button" + i);
             }
 
-            navButtons[0].GetComponent<Button>().interactable = false;
+            // Button Values for future reference:
+            // Normal: FFFFFF
+            // Highlighted: 808080
+            // Pressed: 9A9A9A
+            // Selected: 808080
+            // Disabled: A6A6A6
+            navButtons[3].GetComponent<Button>().interactable = false;
 
             for (int i = 0; i < 6; i++)
             {
@@ -359,12 +365,10 @@ public class MenusManager : MonoBehaviour
     private void FadeOut()
     {
         if (fadeOut)
-        {
-            Debug.Log("Fadeing out");
+        { 
             fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.005f);
             if (fadeSquare.color.a >= 1)
-            {
-                Debug.Log("Fade Done");
+            { 
                 fadeOut = false;
             }
         }
@@ -428,6 +432,7 @@ public class MenusManager : MonoBehaviour
 
     public void ToggleAccessibilityTool(int index)
     {
+        Debug.Log("acess array value: " + accessibilityTools[index]);
         accessibilityTools[index] = !accessibilityTools[index];
         settings.UpdateSettings = true;
 
@@ -436,5 +441,6 @@ public class MenusManager : MonoBehaviour
         settings.ShroomDurationOn = accessibilityTools[2];
         settings.InstantThrowOn = accessibilityTools[3];
         settings.NoClipOn = accessibilityTools[4];
+        Debug.Log("Settings Value: " + settings.NoClipOn);
     }
 }

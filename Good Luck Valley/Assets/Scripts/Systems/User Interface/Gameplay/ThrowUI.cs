@@ -207,8 +207,6 @@ public class ThrowUI : MonoBehaviour
             switch (facingRight)
             {
                 case true:
-                    Debug.Log("True");
-                    Debug.Log("Player Pos: " + playerPos.x + ", Launch Force: " + launchForce.x);
                     // If they are facing right the trajectory line cannot go past the left 
                     //    side of the player 
                     if (player.GetComponent<Rigidbody2D>().velocity.x < 0 && playerPos.x - launchForce.x < playerPos.x)
@@ -221,8 +219,6 @@ public class ThrowUI : MonoBehaviour
                 break;
 
                 case false:
-                    Debug.Log("False");
-                    Debug.Log("Player Pos: " + playerPos.x + ", Launch Force: " + launchForce.x);
                     // if the player is facing left the trajectory line cannot go past
                     //      the right side of the player
                     if (player.GetComponent<Rigidbody2D>().velocity.x > 0 && playerPos.x + launchForce.x < playerPos.x)
