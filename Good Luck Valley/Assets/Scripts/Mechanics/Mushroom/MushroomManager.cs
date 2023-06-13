@@ -58,7 +58,6 @@ public class MushroomManager : MonoBehaviour
     private ThrowState throwState;
     [SerializeField] private float shroomDuration;
     [SerializeField] private bool enableShroomTimers;
-    private bool enableShroomTimers;
     private bool usingLotusCutscene;
     private bool throwLocked = false;
     #endregion
