@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 194225539}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 79d90a9509445d0458c5e802a04b0e7b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 22ff4a32c7dac0043997e467e2a27235, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -119,7 +119,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018153667, y: -0.0727303}
+  m_Offset: {x: -0.018153667, y: -0.06307669}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0
   m_Color: {r: 1, g: 0.9737946, b: 0.8820755, a: 1}
-  m_Intensity: 0
+  m_Intensity: 0.8
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 055f60ff
@@ -231,8 +231,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 0
+  m_PointLightInnerRadius: 1.397125
+  m_PointLightOuterRadius: 4.5318947
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -602,7 +602,7 @@ MonoBehaviour:
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
   isJumping: 0
   isGrounded: 0
-  fallingBuffer: 0.25
+  fallingBuffer: 0.15
   justLanded: 0
   landedTimer: 0
   checkForSlopes: 1
@@ -647,7 +647,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018153667, y: -0.0727303}
+  m_Offset: {x: -0.018153667, y: -0.06307669}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -848,7 +848,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Cursor, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameCursor, Assembly-CSharp
         m_MethodName: OnAim
         m_Mode: 0
         m_Arguments:
@@ -860,23 +860,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 4758cb6b-578a-4bf3-9535-d72de8998218
-    m_ActionName: Player Controls/Aim[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MushroomManager, Assembly-CSharp
-        m_MethodName: OnRecallShrooms
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: d2f5272b-26ca-4f4b-9447-abadfa5cca35
-    m_ActionName: Player Controls/RecalShrooms[/Keyboard/q]
+    m_ActionName: Player Controls/Aim[/Mouse/position]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -896,8 +880,24 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MushroomManager, Assembly-CSharp
+        m_MethodName: OnRecallShrooms
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d2f5272b-26ca-4f4b-9447-abadfa5cca35
+    m_ActionName: Player Controls/RecallShrooms[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Pause
+        m_MethodName: TogglePause
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -908,7 +908,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: a026b7d3-93b1-49c0-98ec-acdb5af197ba
-    m_ActionName: Player Controls/Pause[/Keyboard/escape]
+    m_ActionName: Player Controls/TogglePause[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -926,17 +926,101 @@ MonoBehaviour:
     m_ActionId: 41ad4ba7-825e-41cc-9fac-e8782aa77d04
     m_ActionName: Player Controls/RemoveLastShroom[/Keyboard/r]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DevTools, Assembly-CSharp
+        m_MethodName: OnActivateNoClip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 30d1858c-996c-4e90-8b1d-cc6470bf8e8c
     m_ActionName: Player Controls/ActivateNoClip[/Keyboard/f1]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DevTools, Assembly-CSharp
+        m_MethodName: OnActivateInstantThrow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e7820aae-96db-40f8-aec8-4b022bc67fdf
-    m_ActionName: Player Controls/ActivateInstantThrow[/Keyboard/f2]
+    m_ActionName: Player Controls/ActivateInstantThrow[/Keyboard/f3]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DevTools, Assembly-CSharp
+        m_MethodName: OnEnableInfiniteShrooms
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e45e0d87-c608-4ca6-93ab-349d02b7e00a
     m_ActionName: Player Controls/EnableInfiniteShrooms[/Keyboard/f3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DevTools, Assembly-CSharp
+        m_MethodName: OnDisableShroomDuration
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a588e001-e5b4-44d0-bf9f-c61094fe57ce
+    m_ActionName: Player Controls/DisableShroomTimers[/Keyboard/f4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Journal, Assembly-CSharp
+        m_MethodName: OpenJournalKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dd5f3810-3aea-4d06-b23b-86cd76141cbe
+    m_ActionName: Player Controls/OpenJournal[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Journal, Assembly-CSharp
+        m_MethodName: CloseJournalKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4ed6fec1-166f-4e48-8c4c-a77f8ff9fd73
+    m_ActionName: Player Controls/CloseJournal[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -956,14 +1040,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: bfed79855bda1754e88192020ad5838c, type: 2}
   tutorialManager: {fileID: 0}
-  bounceForce: 15
+  bounceForce: 18
   bouncing: 0
   canBounce: 0
   onCooldown: 0
   movementCooldown: 0.5
   touchingShroom: 0
-  bounceClampMin: 0.4
-  bounceClampMax: 0.6
+  bounceClampMin: 0.5
+  bounceClampMax: 0.7
   lastVelocity: {x: 0, y: 0}
 --- !u!114 &1310835849
 MonoBehaviour:
@@ -992,6 +1076,6 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02029419, y: -0.3}
-  m_Size: {x: 0.5, y: 0.5}
+  m_Offset: {x: -0.02029419, y: -0.34139907}
+  m_Size: {x: 0.5, y: 0.50000006}
   m_Direction: 0
