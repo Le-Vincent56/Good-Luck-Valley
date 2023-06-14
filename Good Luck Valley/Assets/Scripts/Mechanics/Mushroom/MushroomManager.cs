@@ -427,6 +427,9 @@ public class MushroomManager : MonoBehaviour
         if (throwCooldown <= 0)
         {
             canThrow = true;
+
+            // Reset animations
+            playerAnim.ResetTrigger("Throwing");
         }
         else
         {
@@ -493,6 +496,9 @@ public class MushroomManager : MonoBehaviour
 
             if (context.canceled)
             {
+                // Update player animations
+                playerAnim.SetTrigger("Throwing");
+
                 // Check if the shroom can be thrown
                 if (canThrow)
                 {

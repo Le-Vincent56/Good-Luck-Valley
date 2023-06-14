@@ -41,7 +41,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private bool showingBounceText = false;
     [SerializeField] bool movedRemoveTutorial = false;
     [SerializeField] bool showingRemoveText = false;
-    [SerializeField] private float removeTutorialTimer = 6.0f;
+    [SerializeField] private float removeTutorialTimer = 4.0f;
     private bool showingLotusText = false;
     [SerializeField] private bool showingFirstJournalUIText = false;
     [SerializeField] private bool showingSecondJournalUIText = false;
@@ -184,10 +184,17 @@ public class Tutorial : MonoBehaviour
             fadeBounceTutorialText();
         }
 
-        if(showingRemoveText && removeTutorialTimer > 0)
+        if(showingRemoveText)
         {
+            if(removeTutorialTimer > 0)
+            {
+                removeTutorialTimer -= Time.deltaTime;
+            } else
+            {
+                showingRemoveText = false;
+            }
             showRemoveTutorialText();
-            removeTutorialTimer -= Time.deltaTime;
+            
         } else
         {
             fadeRemoveTutorialText();
@@ -442,19 +449,19 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "E";
+                tutorialText = "Press E";
                 break;
 
             case "Playstation Controller":
-                tutorialText = "Circle";
+                tutorialText = "Press Circle";
                 break;
 
             case "XBox Controller":
-                tutorialText = "B";
+                tutorialText = "Press B";
                 break;
 
             case "Switch Pro Controller":
-                tutorialText = "A";
+                tutorialText = "Press A";
                 break;
 
             default:
