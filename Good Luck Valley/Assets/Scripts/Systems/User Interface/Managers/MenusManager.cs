@@ -2,7 +2,6 @@ using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -358,7 +357,7 @@ public class MenusManager : MonoBehaviour
     {
         if (fadeIn)
         {
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.005f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.05f);
             if (fadeSquare.color.a <= 0)
             {
                 fadeIn = false;
@@ -370,7 +369,7 @@ public class MenusManager : MonoBehaviour
     {
         if (fadeOut)
         { 
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.005f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.05f);
             if (fadeSquare.color.a >= 1)
             { 
                 fadeOut = false;
