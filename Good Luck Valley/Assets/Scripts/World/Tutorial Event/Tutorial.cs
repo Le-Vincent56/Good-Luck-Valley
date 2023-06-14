@@ -37,9 +37,11 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private bool showingMovementText = false;
     [SerializeField] private bool showingInteractableText = false;
     private bool showingMushroomInteractText = false;
+    private bool mushroomInteracted = false;
     [SerializeField] private bool showingBounceText = false;
     [SerializeField] bool movedRemoveTutorial = false;
     [SerializeField] bool showingRemoveText = false;
+    [SerializeField] private float removeTutorialTimer = 6.0f;
     private bool showingLotusText = false;
     [SerializeField] private bool showingFirstJournalUIText = false;
     [SerializeField] private bool showingSecondJournalUIText = false;
@@ -55,6 +57,7 @@ public class Tutorial : MonoBehaviour
     public bool ShowingMovementText { get { return showingMovementText; } set { showingMovementText = value; } }
     public bool ShowingInteractableText { get { return showingInteractableText; } set { showingInteractableText = value; } }
     public bool ShowingMushroomInteractText { get { return showingMushroomInteractText; } set { showingMushroomInteractText = value; } }
+    public bool MushroomInteracted { get { return mushroomInteracted; } set { mushroomInteracted = value; } }
     public bool ShowingBounceText { get { return showingBounceText; } set { showingBounceText = value; } }
     public bool ShowingRemoveText { get { return showingRemoveText; } set { showingRemoveText = value; } }
     public bool ShowingLotusText { get { return showingLotusText; } set { showingLotusText = value; } }
@@ -162,7 +165,7 @@ public class Tutorial : MonoBehaviour
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = true;
         }
 
-        if (showingMushroomInteractText)
+        if (showingMushroomInteractText && !mushroomInteracted)
         {
             showMushroomInteractText();
         }
@@ -181,9 +184,10 @@ public class Tutorial : MonoBehaviour
             fadeBounceTutorialText();
         }
 
-        if(showingRemoveText)
+        if(showingRemoveText && removeTutorialTimer > 0)
         {
             showRemoveTutorialText();
+            removeTutorialTimer -= Time.deltaTime;
         } else
         {
             fadeRemoveTutorialText();
