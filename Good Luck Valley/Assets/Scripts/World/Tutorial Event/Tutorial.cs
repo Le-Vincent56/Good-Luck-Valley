@@ -449,19 +449,19 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "E";
+                tutorialText = "Press E";
                 break;
 
             case "Playstation Controller":
-                tutorialText = "Circle";
+                tutorialText = "Press Circle";
                 break;
 
             case "XBox Controller":
-                tutorialText = "B";
+                tutorialText = "Press B";
                 break;
 
             case "Switch Pro Controller":
-                tutorialText = "A";
+                tutorialText = "Press A";
                 break;
 
             default:
