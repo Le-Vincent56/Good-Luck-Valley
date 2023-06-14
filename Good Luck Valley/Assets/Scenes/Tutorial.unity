@@ -238,13 +238,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1076743305}
-  m_Father: {fileID: 2083826742}
-  m_RootOrder: 1
+  m_Father: {fileID: 1907260819}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1774.4321, y: -623.71716}
-  m_SizeDelta: {x: -223.8125, y: -74.75488}
+  m_AnchoredPosition: {x: -2900, y: -1335}
+  m_SizeDelta: {x: -12924.64, y: -6026.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7442595
 MonoBehaviour:
@@ -64855,10 +64855,10 @@ RectTransform:
   m_Father: {fileID: 7442594}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0.02, y: 0.02}
+  m_AnchorMax: {x: 0.98, y: 0.98}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1076743306
 MonoBehaviour:
@@ -83546,6 +83546,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad9864d264c639419a6f1838c4fa07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1907260819 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2015657472208496158, guid: b4dec19c08a6e544e987b487ccc5ba13, type: 3}
+  m_PrefabInstance: {fileID: 2015657472990583696}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1913057550
 GameObject:
   m_ObjectHideFlags: 0
@@ -85923,11 +85928,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!224 &2083826742 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2015657473548577385, guid: b4dec19c08a6e544e987b487ccc5ba13, type: 3}
-  m_PrefabInstance: {fileID: 2015657472990583696}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2085165378
 GameObject:
   m_ObjectHideFlags: 0
@@ -91361,6 +91361,10 @@ PrefabInstance:
     - target: {fileID: 2015657472208496158, guid: b4dec19c08a6e544e987b487ccc5ba13, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015657472208496159, guid: b4dec19c08a6e544e987b487ccc5ba13, type: 3}
+      propertyPath: removeTutorialTimer
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2015657472263113613, guid: b4dec19c08a6e544e987b487ccc5ba13, type: 3}
       propertyPath: m_FontData.m_MinSize
