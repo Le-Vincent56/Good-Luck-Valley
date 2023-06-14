@@ -34,6 +34,7 @@ public class MenusManager : MonoBehaviour
     private bool fadeOut;
     private int sceneLoadNum;
     private bool checkButtons;
+    private bool disableCalls;
     #endregion
 
     #region PROPERTIES
@@ -136,11 +137,14 @@ public class MenusManager : MonoBehaviour
             accessibilityTools[2] = settings.ShroomDurationOn;
             accessibilityTools[3] = settings.InstantThrowOn;
             accessibilityTools[4] = settings.NoClipOn;
+            Debug.Log("Start Value: " + settings.NoClipOn);
 
+            disableCalls = true;
             for (int i = 0;i < 5; i++) 
             {
                 GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
             }
+            disableCalls = false;
         }
         #endregion
 
@@ -206,7 +210,7 @@ public class MenusManager : MonoBehaviour
         #endregion
 
         #region SETTINGS SCENE HANDLING
-        if (checkButtons)
+        if (checkButtons && currentScene == 4)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -432,15 +436,17 @@ public class MenusManager : MonoBehaviour
 
     public void ToggleAccessibilityTool(int index)
     {
-        Debug.Log("acess array value: " + accessibilityTools[index]);
-        accessibilityTools[index] = !accessibilityTools[index];
-        settings.UpdateSettings = true;
+        if (!disableCalls)
+        {
+            Debug.Log("TOGGLE ACESSIBILITY TOOL IS BEING CALLED HERE");
+            accessibilityTools[index] = !accessibilityTools[index];
+            settings.UpdateSettings = true;
 
-        settings.ThrowIndicatorShown = accessibilityTools[0];
-        settings.InfiniteShroomsOn = accessibilityTools[1];
-        settings.ShroomDurationOn = accessibilityTools[2];
-        settings.InstantThrowOn = accessibilityTools[3];
-        settings.NoClipOn = accessibilityTools[4];
-        Debug.Log("Settings Value: " + settings.NoClipOn);
+            settings.ThrowIndicatorShown = accessibilityTools[0];
+            settings.InfiniteShroomsOn = accessibilityTools[1];
+            settings.ShroomDurationOn = accessibilityTools[2];
+            settings.InstantThrowOn = accessibilityTools[3];
+            settings.NoClipOn = accessibilityTools[4];
+        }
     }
 }
