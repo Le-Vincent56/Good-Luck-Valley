@@ -600,9 +600,11 @@ MonoBehaviour:
     m_Bits: 8
   noFriction: {fileID: 6200000, guid: ee68d7080b1df0f48a666e6baaefce7a, type: 2}
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
+  director: {fileID: 0}
   isJumping: 0
   isGrounded: 0
   fallingBuffer: 0.15
+  isLocked: 0
   justLanded: 0
   landedTimer: 0
   checkForSlopes: 1
@@ -612,7 +614,6 @@ MonoBehaviour:
   maxSlopeAngle: 75
   canWalkOnSlope: 0
   moveInput: {x: 0, y: 0}
-  groundCheckSize: {x: 0.49, y: 0.03}
 --- !u!50 &7203912908089909881
 Rigidbody2D:
   serializedVersion: 4
