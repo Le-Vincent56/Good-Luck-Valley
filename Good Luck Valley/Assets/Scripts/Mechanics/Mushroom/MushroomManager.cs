@@ -58,6 +58,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] int throwMultiplier;
     [SerializeField] Vector3 fixPlayer;
     private ThrowState throwState;
+    private bool throwPrepared = false;
     [SerializeField] private float shroomDuration;
     [SerializeField] private bool enableShroomTimers;
     private bool usingLotusCutscene;
@@ -166,6 +167,38 @@ public class MushroomManager : MonoBehaviour
             tutorialEvent.ShowingRemoveText = true;
             firstTimeHittingMax = false;
         }
+
+        // FOR WHEN THROW ANIMATIONS ARE FULLY IMPLEMENTED
+        //if (throwPrepared)
+        //{
+        //    AnimatorClipInfo[] throwAnimationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
+        //    int currentFrame = (int)(throwAnimationClip[0].weight * (throwAnimationClip[0].clip.length * throwAnimationClip[0].clip.frameRate));
+        //    if (currentFrame == 5)
+        //    {
+        //        throwing = true;
+
+        //        // Throw the shroom
+        //        //switch (throwState)
+        //        //{
+        //        //    case ThrowState.Throwing:
+        //        //        CheckShroomCount();
+        //        //        throwState = ThrowState.NotThrowing;
+        //        //        break;
+        //        //}
+
+        //        if (throwState == ThrowState.Throwing)
+        //        {
+        //            CheckShroomCount();
+        //            throwState = ThrowState.NotThrowing;
+        //        }
+
+        //        // Reset throw variables
+        //        canThrow = false;
+        //        throwCooldown = 0.2f;
+        //        bounceCooldown = 0.2f;
+        //        throwPrepared = false;
+        //    }
+        //}
 
         switch (throwState)
         {
@@ -427,9 +460,6 @@ public class MushroomManager : MonoBehaviour
         if (throwCooldown <= 0)
         {
             canThrow = true;
-
-            // Reset animations
-            playerAnim.ResetTrigger("Throwing");
         }
         else
         {
@@ -523,6 +553,9 @@ public class MushroomManager : MonoBehaviour
                     canThrow = false;
                     throwCooldown = 0.2f;
                     bounceCooldown = 0.2f;
+
+                    // Prepare the throw for Animation
+                    // throwPrepared = true;
                 }
             }
         }
