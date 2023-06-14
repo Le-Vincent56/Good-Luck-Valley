@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -34,6 +35,7 @@ public class MushroomManager : MonoBehaviour
     private Journal journal;
     private ShroomCounter shroomCounter;
     [SerializeField] private PlayableDirector director;
+    private Tutorial tutorialEvent;
     #endregion
 
     #region FIELDS
@@ -60,6 +62,9 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private bool enableShroomTimers;
     private bool usingLotusCutscene;
     private bool throwLocked = false;
+    [SerializeField] private bool usingTutorial = false;
+    [SerializeField] private bool firstTimeHittingMax = true;
+    [SerializeField] private bool firstTimeRecalling = true;
     #endregion
 
     #region PROPERTIES
@@ -112,12 +117,22 @@ public class MushroomManager : MonoBehaviour
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
 
+        // Set Cutscene Director
         if(director == null)
         {
             usingLotusCutscene = false;
         } else
         {
             usingLotusCutscene = true;
+        }
+
+        // Set Tutorial Event
+        if(usingTutorial)
+        {
+            tutorialEvent = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
+        } else
+        {
+            tutorialEvent = null;
         }
     }
 
@@ -144,6 +159,12 @@ public class MushroomManager : MonoBehaviour
                 // Otherwise, unlock the throw
                 throwLocked = false;
             }
+        }
+
+        if(usingTutorial && firstTimeHittingMax && mushroomList.Count == 3)
+        {
+            tutorialEvent.ShowingRemoveText = true;
+            firstTimeHittingMax = false;
         }
 
         switch (throwState)
@@ -523,6 +544,13 @@ public class MushroomManager : MonoBehaviour
                 // Removes all mushrooms from the list
                 shroomCounter.ResetQueue();
                 mushroomList.Clear();
+
+                // If it's the player's first time recalling, remove tutorial text
+                if(usingTutorial && firstTimeRecalling)
+                {
+                    firstTimeRecalling = false;
+                    tutorialEvent.ShowingRemoveText = false;
+                }
             }
         }
     }
@@ -549,6 +577,13 @@ public class MushroomManager : MonoBehaviour
                     shroomCounter.ShroomIconQueue.Add(mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon);
                     //
                     mushroomList.RemoveAt(mushroomList.Count - 1);
+                }
+
+                // If it's the player's first time recalling, remove tutorial text
+                if (usingTutorial && firstTimeRecalling)
+                {
+                    firstTimeRecalling = false;
+                    tutorialEvent.ShowingRemoveText = false;
                 }
             }
         }

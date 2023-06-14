@@ -13,6 +13,8 @@ public class Tutorial : MonoBehaviour
     private Image interPanelImage;
     private Text bounceTutorialText;
     private Image bouncePanelImage;
+    private Text removeTutorialText;
+    private Image removePanelImage;
     private Text lotusTutorialText;
     private Image lotusPanelImage;
     private Text journalUITutorialText;
@@ -33,6 +35,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private bool showingMovementText = false;
     [SerializeField] private bool showingInteractableText = false;
     [SerializeField] private bool showingBounceText = false;
+    [SerializeField] bool movedRemoveTutorial = false;
+    [SerializeField] bool showingRemoveText = false;
     private bool showingLotusText = false;
     [SerializeField] private bool showingFirstJournalUIText = false;
     [SerializeField] private bool showingSecondJournalUIText = false;
@@ -48,6 +52,7 @@ public class Tutorial : MonoBehaviour
     public bool ShowingMovementText { get { return showingMovementText; } set { showingMovementText = value; } }
     public bool ShowingInteractableText { get { return showingInteractableText; } set { showingInteractableText = value; } }
     public bool ShowingBounceText { get { return showingBounceText; } set { showingBounceText = value; } }
+    public bool ShowingRemoveText { get { return showingRemoveText; } set { showingRemoveText = value; } }
     public bool ShowingLotusText { get { return showingLotusText; } set { showingLotusText = value; } }
     public bool ShowingFirstJournalUIText { get { return showingFirstJournalUIText; } set { showingFirstJournalUIText = value; } }
     public bool ShowingSecondJournalUIText { get { return showingSecondJournalUIText; } set { showingSecondJournalUIText = value; } }
@@ -64,6 +69,8 @@ public class Tutorial : MonoBehaviour
         interPanelImage = GameObject.Find("Interactable Tutorial Panel").GetComponent<Image>();
         bounceTutorialText = GameObject.Find("Mushroom Bounce Tutorial Text").GetComponent<Text>();
         bouncePanelImage = GameObject.Find("Mushroom Bounce Tutorial Panel").GetComponent<Image>();
+        removeTutorialText = GameObject.Find("Mushroom Remove Tutorial Text").GetComponent<Text>();
+        removePanelImage = GameObject.Find("Mushroom Remove Tutorial Panel").GetComponent<Image>();
         lotusTutorialText = GameObject.Find("Anguish Lotus Tutorial Text").GetComponent<Text>();
         lotusPanelImage = GameObject.Find("Anguish Lotus Tutorial Panel").GetComponent<Image>();
         journalUITutorialText = GameObject.Find("Journal UI Tutorial Text").GetComponent<Text>();
@@ -107,6 +114,7 @@ public class Tutorial : MonoBehaviour
 
         if (showingFirstJournalUIText)
         {
+            journal.CanClose = false;
             showFirstJournalUITutorialText();
             if (journal.HasOpened)
             {
@@ -143,6 +151,7 @@ public class Tutorial : MonoBehaviour
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = false;
         } else
         {
+            journal.CanClose = true;
             fadeThirdJournalUITutorialText();
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = true;
         }
@@ -154,6 +163,14 @@ public class Tutorial : MonoBehaviour
         } else
         {
             fadeBounceTutorialText();
+        }
+
+        if(showingRemoveText)
+        {
+            showRemoveTutorialText();
+        } else
+        {
+            fadeRemoveTutorialText();
         }
 
         // Show/Hide Lotus Tutorial Text
@@ -293,7 +310,7 @@ public class Tutorial : MonoBehaviour
         {
 
             case "Keyboard & Mouse":
-                tutorialText = "To read newly obtained notes, press the ESC button to go to select it from the Pause Menu, or directly using TAB!";
+                tutorialText = "To read newly obtained notes, press ESC and select 'Journal' from the Pause Menu, or use TAB!";
                 break;
 
             case "Playstation Controller":
@@ -405,8 +422,7 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "Hold Left-Click to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with Q and remove the last thrown Shroom using R";
+                tutorialText = "Hold Left-Click to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction.";
                 break;
 
             case "Playstation Controller":
@@ -449,6 +465,67 @@ public class Tutorial : MonoBehaviour
         {
             bouncePanelImage.color = new Color(bouncePanelImage.color.r, bouncePanelImage.color.g, bouncePanelImage.color.b, bouncePanelImage.color.a - (Time.unscaledDeltaTime * 2));
             bounceTutorialText.color = new Color(bounceTutorialText.color.r, bounceTutorialText.color.g, bounceTutorialText.color.b, bounceTutorialText.color.a - (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
+    /// Show Remove tutorial text depending on control scheme
+    /// </summary>
+    public void showRemoveTutorialText()
+    {
+        string tutorialText = "";
+
+        // Show correct controls for the different controllers
+        switch (currentControlScheme)
+        {
+            case "Keyboard & Mouse":
+                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                    "\nPress Q to remove all shrooms" +
+                    "\nPress R to remove the last thrown shroom";
+                break;
+
+            case "Playstation Controller":
+                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                    "\nPress Triangle to remove all shrooms" +
+                    "\nPress Square to remove the last thrown shroom";
+                break;
+
+            case "XBox Controller":
+                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                    "\nPress Y to remove all shrooms" +
+                    "\nPress X to remove the last thrown shroom";
+                break;
+
+            case "Switch Pro Controller":
+                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                    "\nPress X to remove all shrooms" +
+                    "\nPress Y to remove the last thrown shroom";
+                break;
+
+            default:
+                break;
+        }
+
+        // Set text
+        removeTutorialText.text = tutorialText;
+
+        // Fade in the text using deltaTime and alpha values
+        if (removePanelImage.color.a < 1 && removeTutorialText.color.a < 1)
+        {
+            removePanelImage.color = new Color(removePanelImage.color.r, removePanelImage.color.g, removePanelImage.color.b, removePanelImage.color.a + (Time.unscaledDeltaTime * 2));
+            removeTutorialText.color = new Color(removeTutorialText.color.r, removeTutorialText.color.g, removeTutorialText.color.b, removeTutorialText.color.a + (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
+    /// Fade out the Remove tutorial text
+    /// </summary>
+    public void fadeRemoveTutorialText()
+    {
+        if(removePanelImage.color.a > 0 && removeTutorialText.color.a > 0)
+        {
+            removePanelImage.color = new Color(removePanelImage.color.r, removePanelImage.color.g, removePanelImage.color.b, removePanelImage.color.a - (Time.unscaledDeltaTime * 2));
+            removeTutorialText.color = new Color(removeTutorialText.color.r, removeTutorialText.color.g, removeTutorialText.color.b, removeTutorialText.color.a - (Time.unscaledDeltaTime * 2));
         }
     }
 
