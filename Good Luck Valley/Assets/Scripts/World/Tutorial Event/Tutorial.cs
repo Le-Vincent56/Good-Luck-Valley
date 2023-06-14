@@ -11,6 +11,8 @@ public class Tutorial : MonoBehaviour
     private Image movePanelImage;
     private Text interactableTutorialText;
     private Image interPanelImage;
+    private Text mushroomInteractText;
+    private Image mushroomInteractImage;
     private Text bounceTutorialText;
     private Image bouncePanelImage;
     private Text removeTutorialText;
@@ -34,9 +36,12 @@ public class Tutorial : MonoBehaviour
     #region FIELDS
     [SerializeField] private bool showingMovementText = false;
     [SerializeField] private bool showingInteractableText = false;
+    private bool showingMushroomInteractText = false;
+    private bool mushroomInteracted = false;
     [SerializeField] private bool showingBounceText = false;
     [SerializeField] bool movedRemoveTutorial = false;
     [SerializeField] bool showingRemoveText = false;
+    [SerializeField] private float removeTutorialTimer = 6.0f;
     private bool showingLotusText = false;
     [SerializeField] private bool showingFirstJournalUIText = false;
     [SerializeField] private bool showingSecondJournalUIText = false;
@@ -51,6 +56,8 @@ public class Tutorial : MonoBehaviour
     #region PROPERTIES
     public bool ShowingMovementText { get { return showingMovementText; } set { showingMovementText = value; } }
     public bool ShowingInteractableText { get { return showingInteractableText; } set { showingInteractableText = value; } }
+    public bool ShowingMushroomInteractText { get { return showingMushroomInteractText; } set { showingMushroomInteractText = value; } }
+    public bool MushroomInteracted { get { return mushroomInteracted; } set { mushroomInteracted = value; } }
     public bool ShowingBounceText { get { return showingBounceText; } set { showingBounceText = value; } }
     public bool ShowingRemoveText { get { return showingRemoveText; } set { showingRemoveText = value; } }
     public bool ShowingLotusText { get { return showingLotusText; } set { showingLotusText = value; } }
@@ -67,6 +74,8 @@ public class Tutorial : MonoBehaviour
         movePanelImage = GameObject.Find("Movement Tutorial Panel").GetComponent<Image>();
         interactableTutorialText = GameObject.Find("Interactable Tutorial Text").GetComponent<Text>();
         interPanelImage = GameObject.Find("Interactable Tutorial Panel").GetComponent<Image>();
+        mushroomInteractText = GameObject.Find("Mushroom Interact Tutorial Text").GetComponent<Text>();
+        mushroomInteractImage = GameObject.Find("Mushroom Interact Tutorial Panel").GetComponent<Image>();
         bounceTutorialText = GameObject.Find("Mushroom Bounce Tutorial Text").GetComponent<Text>();
         bouncePanelImage = GameObject.Find("Mushroom Bounce Tutorial Panel").GetComponent<Image>();
         removeTutorialText = GameObject.Find("Mushroom Remove Tutorial Text").GetComponent<Text>();
@@ -156,6 +165,16 @@ public class Tutorial : MonoBehaviour
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = true;
         }
 
+        if (showingMushroomInteractText && !mushroomInteracted)
+        {
+            showMushroomInteractText();
+        }
+        else
+        {
+            fadeMushroomInteractText();
+        }
+
+
         // Show/Hide Bounce Tutorial Text
         if(showingBounceText)
         {
@@ -165,9 +184,10 @@ public class Tutorial : MonoBehaviour
             fadeBounceTutorialText();
         }
 
-        if(showingRemoveText)
+        if(showingRemoveText && removeTutorialTimer > 0)
         {
             showRemoveTutorialText();
+            removeTutorialTimer -= Time.deltaTime;
         } else
         {
             fadeRemoveTutorialText();
@@ -388,7 +408,7 @@ public class Tutorial : MonoBehaviour
     public void showThirdJournalUITutorialText()
     {
         // Set text
-        thirdJournalUITutorialText.text = "Click on a Entry Title on the left to see the full Entry on the right";
+        thirdJournalUITutorialText.text = "Click an Entry Title on the left to see its contents on the right";
 
         // Fade in the text using deltaTime and alpha values
         if (thirdJournalUIPanelImage.color.a < 1 && thirdJournalUITutorialText.color.a < 1)
@@ -412,6 +432,60 @@ public class Tutorial : MonoBehaviour
     }
 
     /// <summary>
+    /// Show Mushroom interact tutorial text depending on the control scheme
+    /// </summary>
+    public void showMushroomInteractText()
+    {
+        string tutorialText = "";
+
+        // Show correct controls for the different controllers
+        switch (currentControlScheme)
+        {
+            case "Keyboard & Mouse":
+                tutorialText = "E";
+                break;
+
+            case "Playstation Controller":
+                tutorialText = "Circle";
+                break;
+
+            case "XBox Controller":
+                tutorialText = "B";
+                break;
+
+            case "Switch Pro Controller":
+                tutorialText = "A";
+                break;
+
+            default:
+                break;
+        }
+
+        // Set text
+        mushroomInteractText.text = tutorialText;
+
+        // Fade in the text using deltaTime and alpha values
+        if (mushroomInteractImage.color.a < 1 && mushroomInteractText.color.a < 1)
+        {
+            mushroomInteractImage.color = new Color(mushroomInteractImage.color.r, mushroomInteractImage.color.g, mushroomInteractImage.color.b, mushroomInteractImage.color.a + (Time.unscaledDeltaTime * 2));
+            mushroomInteractText.color = new Color(mushroomInteractText.color.r, mushroomInteractText.color.g, mushroomInteractText.color.b, mushroomInteractText.color.a + (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
+    /// Fade Mushroom interact tutorial text.
+    /// </summary>
+    public void fadeMushroomInteractText()
+    {
+        // Fade out the text using deltaTime and alpha values
+        if (mushroomInteractImage.color.a > 0 && mushroomInteractText.color.a > 0)
+        {
+            mushroomInteractImage.color = new Color(mushroomInteractImage.color.r, mushroomInteractImage.color.g, mushroomInteractImage.color.b, mushroomInteractImage.color.a - (Time.unscaledDeltaTime * 2));
+            mushroomInteractText.color = new Color(mushroomInteractText.color.r, mushroomInteractText.color.g, mushroomInteractText.color.b, mushroomInteractText.color.a - (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
     /// Show Bounce tutorial text depending on the control scheme
     /// </summary>
     public void showBounceTutorialText()
@@ -422,22 +496,19 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "Hold Left-Click to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction.";
+                tutorialText = "Hold Left-Click to aim towards your cursor. Release to throw a Mushroom. \n\nJump on the Mushroom to bounce!";
                 break;
 
             case "Playstation Controller":
-                tutorialText = "Hold R2 to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with Triangle and remove the last thrown Shroom using Square";
+                tutorialText = "Hold R2 to aim towards your cursor. Release to fire a Mushroom. \n\nJump on the Mushroom to bounce!";
                 break;
 
             case "XBox Controller":
-                tutorialText = "Hold RT to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with Y and remove the last thrown Shroom using X";
+                tutorialText = "Hold RT to aim towards your cursor. Release to fire a Mushroom. \n\nJump on the Mushroom to bounce!";
                 break;
 
             case "Switch Pro Controller":
-                tutorialText = "Hold ZR to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with X and remove the last thrown Shroom using Y";
+                tutorialText = "Hold ZR to aim towards your cursor. Release to fire a Mushroom. \n\nJump on the Mushroom to bounce!";
                 break;
 
             default:
@@ -479,25 +550,25 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
                     "\nPress Q to remove all shrooms" +
                     "\nPress R to remove the last thrown shroom";
                 break;
 
             case "Playstation Controller":
-                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
                     "\nPress Triangle to remove all shrooms" +
                     "\nPress Square to remove the last thrown shroom";
                 break;
 
             case "XBox Controller":
-                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
                     "\nPress Y to remove all shrooms" +
                     "\nPress X to remove the last thrown shroom";
                 break;
 
             case "Switch Pro Controller":
-                tutorialText = "You can only have a maximum of 3 shrooms out at a time." +
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
                     "\nPress X to remove all shrooms" +
                     "\nPress Y to remove the last thrown shroom";
                 break;

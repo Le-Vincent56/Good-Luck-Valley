@@ -46,6 +46,7 @@ public class Settings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("NO Clip: " + NoClipOn);
         if (menusMan.CurrentScene > 5)
         {
             if (updateSettings)
