@@ -24,6 +24,7 @@ public class Journal : MonoBehaviour
     [SerializeField] private bool hasOpened = false;
     [SerializeField] bool openedFromKey = false;
     [SerializeField] float journalCloseBuffer = 0.25f;
+    [SerializeField] bool canClose = false;
     #endregion
 
     #region PROPERTIES
@@ -33,6 +34,7 @@ public class Journal : MonoBehaviour
     public bool HasJournal { get { return hasJournal; } set { hasJournal = value;} }
     public bool HasOpened { get { return hasOpened; } set { hasOpened = value; } }
     public float CloseBuffer { get { return journalCloseBuffer; } set { journalCloseBuffer = value; } }
+    public bool CanClose { get { return canClose; } set { canClose = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -55,11 +57,10 @@ public class Journal : MonoBehaviour
     {
         if(!hasJournal)
         {
-            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.disabledColor;
             pauseJournalButton.interactable = false;
         } else
         {
-            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.normalColor;
+            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.selectedColor;
             pauseJournalButton.interactable = true;
         }
 
@@ -185,7 +186,7 @@ public class Journal : MonoBehaviour
     public void CloseJournal()
     {
         // Check if the menu is open
-        if (menuOpen)
+        if (menuOpen && canClose)
         {
             // Unfreeze the game - only if the journal was opened from key
             if(openedFromKey)

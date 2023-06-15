@@ -24,6 +24,8 @@ public class PowerSpore : Interactable
     public override void Interact()
     {
         tutorialManager.ShowingBounceText = true;
+        tutorialManager.ShowingMushroomInteractText = false;
+        tutorialManager.MushroomInteracted = true;
         mushroomManager.ThrowUnlocked = true;
         finishedInteracting = true;
         remove = true;
