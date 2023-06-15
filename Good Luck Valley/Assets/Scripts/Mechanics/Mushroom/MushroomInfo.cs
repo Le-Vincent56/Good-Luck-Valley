@@ -90,7 +90,6 @@ public class MushroomInfo : MonoBehaviour
             if (durationTimer <= .1f)
             {
                 float percentOpacity = Time.deltaTime / .1f;
-                Debug.Log("Percent: " + percentOpacity);
 
                 // Adjust opacity of mushroom and intensity of light based on percentOpacity
                 GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
