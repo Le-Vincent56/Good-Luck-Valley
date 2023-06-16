@@ -132,11 +132,10 @@ public class MenusManager : MonoBehaviour
             }
 
             accessibilityTools[0] = settings.ThrowIndicatorShown;
-            accessibilityTools[1] = !settings.InfiniteShroomsOn;
+            accessibilityTools[1] = settings.InfiniteShroomsOn;
             accessibilityTools[2] = settings.ShroomDurationOn;
             accessibilityTools[3] = settings.InstantThrowOn;
             accessibilityTools[4] = settings.NoClipOn;
-            Debug.Log("Start Value: " + settings.NoClipOn);
 
             disableCalls = true;
             for (int i = 0;i < 5; i++) 
@@ -437,7 +436,6 @@ public class MenusManager : MonoBehaviour
     {
         if (!disableCalls)
         {
-            Debug.Log("TOGGLE ACESSIBILITY TOOL IS BEING CALLED HERE");
             accessibilityTools[index] = !accessibilityTools[index];
             settings.UpdateSettings = true;
 
