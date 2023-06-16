@@ -274,8 +274,21 @@ public class MushroomManager : MonoBehaviour
 
         if (mushroomList.Count - 1 < mushroomLimit)
         {
-            mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = shroomCounter.ShroomIconQueue[0];
-            shroomCounter.ShroomIconQueue.RemoveAt(0);
+            // mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = shroomCounter.ShroomIconQueue[0];
+            // shroomCounter.ShroomIconQueue.RemoveAt(0);
+            float rightMostXPos = int.MinValue;
+            GameObject assignedShroomIcon = null;
+            foreach(GameObject shroomIcon in shroomCounter.ShroomIconQueue)
+            {
+                if (shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
+                {
+                    rightMostXPos = shroomIcon.GetComponent<RectTransform>().position.x;
+                    assignedShroomIcon = shroomIcon;
+                }
+            }
+
+            mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = assignedShroomIcon;
+            shroomCounter.ShroomIconQueue.Remove(assignedShroomIcon);
         }
         Debug.Log("Shroom Thrown Icon: " + mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon);
     }
@@ -632,9 +645,11 @@ public class MushroomManager : MonoBehaviour
                     Destroy(mushroomList[mushroomList.Count - 1]);
 
                     shroomCounter.ShroomIconQueue.Add(mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon);
-                    //
+
                     mushroomList.RemoveAt(mushroomList.Count - 1);
                 }
+
+
 
                 // If it's the player's first time recalling, remove tutorial text
                 if (usingTutorial && firstTimeRecalling)
