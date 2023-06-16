@@ -77,6 +77,7 @@ public class MushroomManager : MonoBehaviour
     public int ThrowMultiplier { get { return throwMultiplier; } set { throwMultiplier = value; } }
     public float ShroomDuration { get { return shroomDuration; } set { shroomDuration = value; } }
     public bool EnableShroomTimers { get { return enableShroomTimers;} set { enableShroomTimers = value; } }
+    public ShroomCounter ShroomCounter { get { return shroomCounter; } }
     #endregion
 
     // Start is called before the first frame update

@@ -29,5 +29,6 @@ public class PowerSpore : Interactable
         mushroomManager.ThrowUnlocked = true;
         finishedInteracting = true;
         remove = true;
+        mushroomManager.ShroomCounter.ResetQueue();
     }
 }

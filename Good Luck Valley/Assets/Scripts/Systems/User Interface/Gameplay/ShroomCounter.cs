@@ -9,6 +9,9 @@ public class ShroomCounter : MonoBehaviour
     private GameObject shroomIcon1;
     private GameObject shroomIcon2;
     private GameObject shroomIcon3;
+    private Image shroomOutline1;
+    private Image shroomOutline2;
+    private Image shroomOutline3;
     private MushroomManager mushMan;
     #endregion
 
@@ -35,9 +38,9 @@ public class ShroomCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shroomIcon1 = GameObject.Find("Shroom Outline 1");
-        shroomIcon2 = GameObject.Find("Shroom Outline 2");
-        shroomIcon3 = GameObject.Find("Shroom Outline 3");
+        shroomIcon1 = GameObject.Find("Shroom Icon 1");
+        shroomIcon2 = GameObject.Find("Shroom Icon 2");
+        shroomIcon3 = GameObject.Find("Shroom Icon 3");
         mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         originalR = shroomIcon1.GetComponent<SpriteRenderer>().color.r;
         originalG = shroomIcon1.GetComponent<SpriteRenderer>().color.g;
@@ -48,6 +51,10 @@ public class ShroomCounter : MonoBehaviour
         shroomIcon1.GetComponent<Image>().fillAmount = 0f;
         shroomIcon2.GetComponent<Image>().fillAmount = 0f;
         shroomIcon3.GetComponent<Image>().fillAmount = 0f;
+
+        shroomOutline1 = GameObject.Find("Shroom Outline 1").GetComponent<Image>();
+        shroomOutline2 = GameObject.Find("Shroom Outline 2").GetComponent<Image>();
+        shroomOutline3 = GameObject.Find("Shroom Outline 3").GetComponent<Image>();
 
         shroomIconList = new List<GameObject>()
         {
@@ -62,9 +69,18 @@ public class ShroomCounter : MonoBehaviour
     {
         if (!mushMan.ThrowUnlocked)
         {
-            shroomIcon1.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1);
-            shroomIcon2.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1);
-            shroomIcon3.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon1.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon2.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon3.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
+            shroomOutline1.GetComponentInChildren<Image>().color = new Color(originalR, originalG, originalB, 0);
+            shroomOutline2.GetComponentInChildren<Image>().color = new Color(originalR, originalG, originalB, 0);
+            shroomOutline3.GetComponentInChildren<Image>().color = new Color(originalR, originalG, originalB, 0);
+        }
+        else
+        {
+            shroomOutline1.GetComponentInChildren<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomOutline2.GetComponentInChildren<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomOutline3.GetComponentInChildren<Image>().color = new Color(originalR, originalG, originalB, 1);
         }
     }
 
@@ -73,6 +89,7 @@ public class ShroomCounter : MonoBehaviour
     /// </summary>
     public void ResetQueue()
     {
+        Debug.Log("Reset Qyeye");
         // Clears the queue
         shroomIconList.Clear();
 

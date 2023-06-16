@@ -23,6 +23,7 @@ public class MushroomInfo : MonoBehaviour
     [SerializeField] private bool isShroom;
     private Color defaultColor;
     private ParticleSystem shroomParticles;
+    private bool playShroomParticle = true;
     [SerializeField] float particleTime;
     private ParticleSystem counterParticles;
     #endregion
@@ -49,7 +50,6 @@ public class MushroomInfo : MonoBehaviour
         durationTimer = mushMan.ShroomDuration;
         defaultColor = new Color(168, 168, 168);
         particleTime = durationTimer;
-        counterParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -76,9 +76,10 @@ public class MushroomInfo : MonoBehaviour
         // Decreases time from the timer
         durationTimer -= Time.deltaTime;
 
-        if (durationTimer <= (particleTime * 0.5) && !shroomParticles.isPlaying)
+        if (durationTimer <= (particleTime * 0.5) && playShroomParticle)
         {
             shroomParticles.Play();
+            playShroomParticle = false;
         }
 
 
@@ -98,7 +99,7 @@ public class MushroomInfo : MonoBehaviour
     {
         if (mushMan.ThrowUnlocked)
         {
-            shroomIcon.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.1f);
+            shroomIcon.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
             shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
         }
 
