@@ -113,8 +113,10 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
-		// Check if there's a lotus cutscene
-		if(usingLotusCutscene)
+        Debug.Log("Gravity Scale: " + rb.gravityScale);
+
+        // Check if there's a lotus cutscene
+        if (usingLotusCutscene)
 		{
 			// If so, check the state of the director
             if (director.state == PlayState.Playing)
@@ -298,7 +300,6 @@ public class PlayerMovement : MonoBehaviour
             AnimatorClipInfo[] animationClip = animator.GetCurrentAnimatorClipInfo(0);
 			AnimatorStateInfo animationInfo = animator.GetCurrentAnimatorStateInfo(0);
             int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
-			Debug.Log(currentFrame);
             if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
             {
                 // Update for left foot
@@ -317,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
         if (!bounceEffect.Bouncing)
         {
             // Check for slope gravity first
-            if (isOnSlope && !isLocked)
+            if (isOnSlope && !isLocked && !isJumping)
 			{
 				// Check for movement input
 				if(moveInput.x == 0.0f)
@@ -620,18 +621,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Gets an acceleration value based on if we are accelerating (includes turning) 
         // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
-        if (lastOnGroundTime > 0)
+        if (lastOnGroundTime > 0 && !bounceEffect.Bouncing)
         {
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount : data.runDeccelAmount;
         }	
-        else
+        else 
         {
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount * data.accelInAir : data.runDeccelAmount * data.deccelInAir;
         }
         #endregion
 
         #region Add Bonus Jump Apex Acceleration
-        // Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
+        // Increase our acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
         if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
         {
             accelRate *= data.jumpHangAccelerationMult;
@@ -654,10 +655,10 @@ public class PlayerMovement : MonoBehaviour
                 accelRate = 5;
             }
         }
-        #endregion
+		#endregion
 
-        // Calculate difference between current velocity and desired velocity
-        float speedDif = targetSpeed - RB.velocity.x;
+		// Calculate difference between current velocity and desired velocity
+		float speedDif = targetSpeed - RB.velocity.x;
 
         // Calculate force along x-axis to apply to thr player
         float movement = speedDif * accelRate;
