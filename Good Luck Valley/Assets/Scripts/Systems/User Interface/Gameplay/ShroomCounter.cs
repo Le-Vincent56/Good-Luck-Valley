@@ -91,21 +91,34 @@ public class ShroomCounter : MonoBehaviour
     {
         Debug.Log("Reset Qyeye");
         // Clears the queue
-        shroomIconList.Clear();
+        
+        if (!shroomIconList.Contains(shroomIcon1))
+        {
+            shroomIcon1.GetComponent<ParticleSystem>().Play();
+        }
 
-        // Enqueues the third shroom icon and resets its color values
+        if (!shroomIconList.Contains(shroomIcon2))
+        {
+            shroomIcon2.GetComponent<ParticleSystem>().Play();
+        }
+
+        if (!shroomIconList.Contains(shroomIcon3))
+        {
+            shroomIcon3.GetComponent<ParticleSystem>().Play();
+        }
+
+        shroomIconList.Clear();
+        shroomIconList.Add(shroomIcon3);
+        // Enqueues the first shroom icon and resets its color values
         shroomIcon3.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
         shroomIcon3.GetComponent<Image>().fillAmount = 0;
-        shroomIconList.Add(shroomIcon3);
-
-        // Enqueues the second shroom icon and resets its color values
+        shroomIconList.Add(shroomIcon2);
+        // Enqueues the first shroom icon and resets its color values
         shroomIcon2.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
         shroomIcon2.GetComponent<Image>().fillAmount = 0;
-        shroomIconList.Add(shroomIcon2);
-
+        shroomIconList.Add(shroomIcon1);
         // Enqueues the first shroom icon and resets its color values
         shroomIcon1.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 1f);
         shroomIcon1.GetComponent<Image>().fillAmount = 0;
-        shroomIconList.Add(shroomIcon1);
     }
 }

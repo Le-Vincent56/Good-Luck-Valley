@@ -71,6 +71,10 @@ public class MushroomInfo : MonoBehaviour
             UpdateShroomTimer();
             UpdateMushroomCounter();
         }
+        else if (mushMan.EnableShroomTimers)
+        {
+            shroomIcon.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
+        }
     }
 
     void UpdateShroomTimer()
@@ -107,8 +111,6 @@ public class MushroomInfo : MonoBehaviour
 
         if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
         {
-            Debug.Log("RAWAWWWWWWW");
-            Debug.Log(shroomIcon.GetComponent<ParticleSystem>());
             shroomIcon.GetComponent<ParticleSystem>().Play();
         }
     }
@@ -117,5 +119,6 @@ public class MushroomInfo : MonoBehaviour
     {
         shroomIcon.GetComponent<SpriteRenderer>().color = new Color(shroomCounter.oR, shroomCounter.oG, shroomCounter.oB, 1f);
         shroomIcon.GetComponent<Image>().fillAmount = 0;
+        shroomIcon.GetComponent<ParticleSystem>().Play();
     }
 }

@@ -608,7 +608,7 @@ public class MushroomManager : MonoBehaviour
                 foreach (GameObject m in mushroomList)
                 {
                     // Destroys that mushroom
-
+                    m.GetComponent<MushroomInfo>().ResetCounter();
                     Destroy(m);
                 }
                 // Removes all mushrooms from the list
