@@ -35,9 +35,9 @@ public class ShroomCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shroomIcon1 = GameObject.Find("Shroom Icon 1");
-        shroomIcon2 = GameObject.Find("Shroom Icon 2");
-        shroomIcon3 = GameObject.Find("Shroom Icon 3");
+        shroomIcon1 = GameObject.Find("Shroom Outline 1");
+        shroomIcon2 = GameObject.Find("Shroom Outline 2");
+        shroomIcon3 = GameObject.Find("Shroom Outline 3");
         mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         originalR = shroomIcon1.GetComponent<SpriteRenderer>().color.r;
         originalG = shroomIcon1.GetComponent<SpriteRenderer>().color.g;
@@ -49,10 +49,12 @@ public class ShroomCounter : MonoBehaviour
         shroomIcon2.GetComponent<Image>().fillAmount = 0f;
         shroomIcon3.GetComponent<Image>().fillAmount = 0f;
 
-        shroomIconList = new List<GameObject>();
-        shroomIconList.Add(shroomIcon3);
-        shroomIconList.Add(shroomIcon2);
-        shroomIconList.Add(shroomIcon1);
+        shroomIconList = new List<GameObject>()
+        {
+            shroomIcon1,
+            shroomIcon2,
+            shroomIcon3
+        };
     }
 
     // Update is called once per frame

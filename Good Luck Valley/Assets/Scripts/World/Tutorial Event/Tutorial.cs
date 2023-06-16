@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Tutorial : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class Tutorial : MonoBehaviour
     private Text thirdJournalUITutorialText;
     private Image thirdJournalUIPanelImage;
     private PlayerInput playerInput;
-    private Text demoEndText;
-    private Text titleButtonText;
+    private TMP_Text demoEndText;
+    private TMP_Text titleButtonText;
     private Image buttonImage;
     private PauseMenu pauseMenu;
     private Journal journal;
@@ -93,8 +94,8 @@ public class Tutorial : MonoBehaviour
         journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Demo Thanks Message
-        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<Text>();
-        titleButtonText = GameObject.Find("Title Text").GetComponent<Text>();
+        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<TMP_Text>();
+        titleButtonText = GameObject.Find("Title Text").GetComponent<TMP_Text>();
         buttonImage = GameObject.Find("Title Screen").GetComponent<Image>();
     }
 

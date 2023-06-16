@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Unity.VisualScripting;
 
 public class MushroomInfo : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class MushroomInfo : MonoBehaviour
     private Color defaultColor;
     private ParticleSystem shroomParticles;
     [SerializeField] float particleTime;
-    private bool particlesEnabled = false;
+    private ParticleSystem counterParticles;
     #endregion
 
     #region PROPERTIES
@@ -37,7 +38,6 @@ public class MushroomInfo : MonoBehaviour
     public Color ShroomColor { get { return defaultColor; } set { defaultColor = value; } }
     public ParticleSystem ShroomParticles { get { return shroomParticles; } set { shroomParticles = value; } }
     public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
-    public bool ParticlesEnabled { get { return particlesEnabled; } set { particlesEnabled = value; } }
     public GameObject ShroomIcon { get { return shroomIcon;  } set { shroomIcon = value; } }
     #endregion
 
@@ -49,6 +49,7 @@ public class MushroomInfo : MonoBehaviour
         durationTimer = mushMan.ShroomDuration;
         defaultColor = new Color(168, 168, 168);
         particleTime = durationTimer;
+        counterParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -63,39 +64,33 @@ public class MushroomInfo : MonoBehaviour
                 GetComponent<Animator>().SetBool("Bouncing", false);
             }
         }
-        UpdateShroomTimer();
-        if (IsShroom)
+        if (isShroom && mushMan.EnableShroomTimers)
         {
+            UpdateShroomTimer();
             UpdateMushroomCounter();
         }
     }
 
     void UpdateShroomTimer()
     {
-        // Decreases deltaTime from timer for this shroom
-        if (mushMan.EnableShroomTimers && isShroom)
+        // Decreases time from the timer
+        durationTimer -= Time.deltaTime;
+
+        if (durationTimer <= (particleTime * 0.5) && !shroomParticles.isPlaying)
         {
-            // Decreases time from the timer
-            durationTimer -= Time.deltaTime;
-
-            if (durationTimer <= (particleTime * 0.5) && particlesEnabled == false)
-            {
-                shroomParticles.Play();
-                particlesEnabled = true;
-            }
+            shroomParticles.Play();
+        }
 
 
-            // The percent that should be reducted from the opacity each frame
-            //float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
-            if (durationTimer <= .1f)
-            {
-                float percentOpacity = Time.deltaTime / .1f;
+        // The percent that should be reducted from the opacity each frame
+        //float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
+        if (durationTimer <= .1f)
+        {
+            float percentOpacity = Time.deltaTime / .1f;
 
-                // Adjust opacity of mushroom and intensity of light based on percentOpacity
-                GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
-                GetComponentInChildren<Light2D>().intensity -= percentOpacity;
-            }
-
+            // Adjust opacity of mushroom and intensity of light based on percentOpacity
+            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
+            GetComponentInChildren<Light2D>().intensity -= percentOpacity;
         }
     }
 
@@ -103,11 +98,15 @@ public class MushroomInfo : MonoBehaviour
     {
         if (mushMan.ThrowUnlocked)
         {
-            if (mushMan.EnableShroomTimers)
-            {
-                shroomIcon.GetComponent<SpriteRenderer>().color = new Color(0,0,0, 0.1f);
-                shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
-            }
+            shroomIcon.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.1f);
+            shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
+        }
+
+        if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+        {
+            Debug.Log("RAWAWWWWWWW");
+            Debug.Log(shroomIcon.GetComponent<ParticleSystem>());
+            shroomIcon.GetComponent<ParticleSystem>().Play();
         }
     }
 
