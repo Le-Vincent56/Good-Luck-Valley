@@ -168,6 +168,18 @@ public class MushroomManager : MonoBehaviour
             firstTimeHittingMax = false;
         }
 
+        
+        if(playerAnim.GetBool("Throwing") == true)
+        {
+            AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
+            AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
+            Debug.Log(animationInfo.normalizedTime);
+            if(animationInfo.normalizedTime % 1 > 0.9)
+            {
+                playerAnim.SetBool("Throwing", false);
+            }
+        }
+
         // FOR WHEN THROW ANIMATIONS ARE FULLY IMPLEMENTED
         //if (throwPrepared)
         //{
@@ -526,8 +538,8 @@ public class MushroomManager : MonoBehaviour
 
             if (context.canceled)
             {
-                // Update player animations
-                playerAnim.SetTrigger("Throwing");
+                // Set animation
+                playerAnim.SetBool("Throwing", true);
 
                 // Check if the shroom can be thrown
                 if (canThrow)
@@ -555,7 +567,7 @@ public class MushroomManager : MonoBehaviour
                     bounceCooldown = 0.2f;
 
                     // Prepare the throw for Animation
-                    // throwPrepared = true;
+                    throwPrepared = true;
                 }
             }
         }

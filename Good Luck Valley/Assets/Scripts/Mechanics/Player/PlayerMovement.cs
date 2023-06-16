@@ -290,6 +290,28 @@ public class PlayerMovement : MonoBehaviour
 		}
         #endregion
 
+        // Movement Animation Checks
+        #region MOVEMENT ANIMATION CHECKS
+        if (animator.GetFloat("Speed") > 0.01)
+        {
+            // If running, then check which leg the player is running on and update accordingly
+            AnimatorClipInfo[] animationClip = animator.GetCurrentAnimatorClipInfo(0);
+			AnimatorStateInfo animationInfo = animator.GetCurrentAnimatorStateInfo(0);
+            int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
+			Debug.Log(currentFrame);
+            if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
+            {
+                // Update for left foot
+                animator.SetBool("RunThrow_R", false);
+            }
+            else if (currentFrame >= 25 && currentFrame < 50)
+            {
+                // Update for right foot
+                animator.SetBool("RunThrow_R", true);
+            }
+        }
+        #endregion
+
         // Calculate Gravity
         #region GRAVITY
         if (!bounceEffect.Bouncing)
