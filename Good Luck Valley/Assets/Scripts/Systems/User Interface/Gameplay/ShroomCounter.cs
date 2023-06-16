@@ -58,9 +58,9 @@ public class ShroomCounter : MonoBehaviour
 
         shroomIconList = new List<GameObject>()
         {
-            shroomIcon1,
+            shroomIcon3,
             shroomIcon2,
-            shroomIcon3
+            shroomIcon1
         };
     }
 

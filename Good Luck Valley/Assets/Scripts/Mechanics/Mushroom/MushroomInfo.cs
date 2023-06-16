@@ -26,6 +26,7 @@ public class MushroomInfo : MonoBehaviour
     private bool playShroomParticle = true;
     [SerializeField] float particleTime;
     private ParticleSystem counterParticles;
+    float spawnedLifeTime;
     #endregion
 
     #region PROPERTIES
@@ -40,6 +41,7 @@ public class MushroomInfo : MonoBehaviour
     public ParticleSystem ShroomParticles { get { return shroomParticles; } set { shroomParticles = value; } }
     public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
     public GameObject ShroomIcon { get { return shroomIcon;  } set { shroomIcon = value; } }
+    public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
     #endregion
 
     private void Awake()
