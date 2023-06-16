@@ -295,7 +295,7 @@ public class PlayerMovement : MonoBehaviour
         if (!bounceEffect.Bouncing)
         {
             // Check for slope gravity first
-            if (isOnSlope)
+            if (isOnSlope && !isLocked)
 			{
 				// Check for movement input
 				if(moveInput.x == 0.0f)
