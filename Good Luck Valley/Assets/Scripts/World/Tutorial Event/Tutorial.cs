@@ -643,7 +643,7 @@ public class Tutorial : MonoBehaviour
     public void showDemoEndText()
     {
         // Set text
-        demoEndText.text = "You have reached the end of the demo. Thank you for playing!";
+        demoEndText.text = "You have reached the end of the demo. \nThank you for playing!";
         titleButtonText.text = "Return To Title";
 
         // Fade in the text using deltaTime and alpha values
