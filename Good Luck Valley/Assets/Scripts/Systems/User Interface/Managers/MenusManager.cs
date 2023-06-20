@@ -163,7 +163,7 @@ public class MenusManager : MonoBehaviour
             accessibilityTools[1] = settings.InfiniteShroomsOn;
             accessibilityTools[2] = settings.ShroomDurationOn;
             accessibilityTools[3] = settings.InstantThrowOn;
-            accessibilityTools[4] = settings.NoClipOn;
+            accessibilityTools[4] = settings.NoClipOn; 
 
             disableCalls = true;
             for (int i = 0;i < 5; i++) 
@@ -414,7 +414,7 @@ public class MenusManager : MonoBehaviour
             }
             else if (sceneLoadNum == 6)
             {
-                SceneManager.LoadScene(6);
+                SceneManager.LoadScene("Level 1");
             }
         }
     }

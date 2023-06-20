@@ -11,7 +11,7 @@ public class Settings : MonoBehaviour
     #endregion
 
     #region FIELDS
-    static bool throwIndicatorShown = true;
+    static bool throwIndicatorShown = false;
     static bool noClipOn = false;
     static bool instantThrowOn = false;
     static bool infiniteShroomsOn = false;
@@ -86,6 +86,15 @@ public class Settings : MonoBehaviour
                     DeactivateShroomTimers();
                 }
 
+                if (throwIndicatorShown)
+                {
+                    EnableThrowLine();
+                }
+                else
+                {
+                    DisableThrowLine();
+                }
+
                 updateSettings = false;
             }
         }
@@ -143,6 +152,16 @@ public class Settings : MonoBehaviour
     private void DeactivateShroomTimers()
     {
         mushMan.EnableShroomTimers = false;
+    }
+
+    private void EnableThrowLine()
+    {
+        mushMan.ThrowLineOn = true;
+    }
+
+    private void DisableThrowLine()
+    {
+        mushMan.ThrowLineOn = false;
     }
     #endregion
 }
