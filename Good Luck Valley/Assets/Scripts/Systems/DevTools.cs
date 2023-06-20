@@ -54,6 +54,7 @@ public class DevTools : MonoBehaviour
         // Checks if dev tools are enabled
         if (devToolsEnabled)
         {
+            Debug.Log("Dev Tools Enabled");
             // Default dev tools values
             noClip = false;
             instantThrow = false;
@@ -83,6 +84,7 @@ public class DevTools : MonoBehaviour
         {
             // Dev Tools text change
             devText.text = "Dev Tools Enabled";
+            mushMan.ThrowUnlocked = true;
 
             // No Clip text change
             if (noClip == true)
@@ -123,10 +125,15 @@ public class DevTools : MonoBehaviour
             {
                 shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
             }
-        } else
+        } 
+        else
         {
             // Dev Tools text change
             devText.text = "";
+            shroomDurationText.text = "";
+            infiniteShroomText.text = "";
+            instantThrowText.text = "";
+            noClipText.text = "";
         }
     }
 

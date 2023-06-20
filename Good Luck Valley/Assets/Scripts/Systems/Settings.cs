@@ -101,7 +101,6 @@ public class Settings : MonoBehaviour
     }
     private void DeactivateNoClip()
     {
-        Debug.Log("DEACTIVATING NOCLIP");
         // Switch collider's isTrigger bool
         playerCollider.isTrigger = false;
         capsuleCollider.isTrigger = false;

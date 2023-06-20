@@ -2,7 +2,6 @@ using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -34,6 +33,7 @@ public class MenusManager : MonoBehaviour
     private bool fadeOut;
     private int sceneLoadNum;
     private bool checkButtons;
+    private bool disableCalls;
     #endregion
 
     #region PROPERTIES
@@ -132,15 +132,17 @@ public class MenusManager : MonoBehaviour
             }
 
             accessibilityTools[0] = settings.ThrowIndicatorShown;
-            accessibilityTools[1] = !settings.InfiniteShroomsOn;
+            accessibilityTools[1] = settings.InfiniteShroomsOn;
             accessibilityTools[2] = settings.ShroomDurationOn;
             accessibilityTools[3] = settings.InstantThrowOn;
             accessibilityTools[4] = settings.NoClipOn;
 
+            disableCalls = true;
             for (int i = 0;i < 5; i++) 
             {
                 GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
             }
+            disableCalls = false;
         }
         #endregion
 
@@ -206,7 +208,7 @@ public class MenusManager : MonoBehaviour
         #endregion
 
         #region SETTINGS SCENE HANDLING
-        if (checkButtons)
+        if (checkButtons && currentScene == 4)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -354,7 +356,7 @@ public class MenusManager : MonoBehaviour
     {
         if (fadeIn)
         {
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.005f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.05f);
             if (fadeSquare.color.a <= 0)
             {
                 fadeIn = false;
@@ -366,7 +368,7 @@ public class MenusManager : MonoBehaviour
     {
         if (fadeOut)
         { 
-            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.005f);
+            fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.05f);
             if (fadeSquare.color.a >= 1)
             { 
                 fadeOut = false;
@@ -432,15 +434,16 @@ public class MenusManager : MonoBehaviour
 
     public void ToggleAccessibilityTool(int index)
     {
-        Debug.Log("acess array value: " + accessibilityTools[index]);
-        accessibilityTools[index] = !accessibilityTools[index];
-        settings.UpdateSettings = true;
+        if (!disableCalls)
+        {
+            accessibilityTools[index] = !accessibilityTools[index];
+            settings.UpdateSettings = true;
 
-        settings.ThrowIndicatorShown = accessibilityTools[0];
-        settings.InfiniteShroomsOn = accessibilityTools[1];
-        settings.ShroomDurationOn = accessibilityTools[2];
-        settings.InstantThrowOn = accessibilityTools[3];
-        settings.NoClipOn = accessibilityTools[4];
-        Debug.Log("Settings Value: " + settings.NoClipOn);
+            settings.ThrowIndicatorShown = accessibilityTools[0];
+            settings.InfiniteShroomsOn = accessibilityTools[1];
+            settings.ShroomDurationOn = accessibilityTools[2];
+            settings.InstantThrowOn = accessibilityTools[3];
+            settings.NoClipOn = accessibilityTools[4];
+        }
     }
 }

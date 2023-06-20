@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Tutorial : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class Tutorial : MonoBehaviour
     private Text thirdJournalUITutorialText;
     private Image thirdJournalUIPanelImage;
     private PlayerInput playerInput;
-    private Text demoEndText;
-    private Text titleButtonText;
+    private TMP_Text demoEndText;
+    private TMP_Text titleButtonText;
     private Image buttonImage;
     private PauseMenu pauseMenu;
     private Journal journal;
@@ -41,7 +42,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private bool showingBounceText = false;
     [SerializeField] bool movedRemoveTutorial = false;
     [SerializeField] bool showingRemoveText = false;
-    [SerializeField] private float removeTutorialTimer = 6.0f;
+    [SerializeField] private float removeTutorialTimer = 4.0f;
     private bool showingLotusText = false;
     [SerializeField] private bool showingFirstJournalUIText = false;
     [SerializeField] private bool showingSecondJournalUIText = false;
@@ -93,8 +94,8 @@ public class Tutorial : MonoBehaviour
         journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Demo Thanks Message
-        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<Text>();
-        titleButtonText = GameObject.Find("Title Text").GetComponent<Text>();
+        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<TMP_Text>();
+        titleButtonText = GameObject.Find("Title Text").GetComponent<TMP_Text>();
         buttonImage = GameObject.Find("Title Screen").GetComponent<Image>();
     }
 
@@ -184,10 +185,17 @@ public class Tutorial : MonoBehaviour
             fadeBounceTutorialText();
         }
 
-        if(showingRemoveText && removeTutorialTimer > 0)
+        if(showingRemoveText)
         {
+            if(removeTutorialTimer > 0)
+            {
+                removeTutorialTimer -= Time.deltaTime;
+            } else
+            {
+                showingRemoveText = false;
+            }
             showRemoveTutorialText();
-            removeTutorialTimer -= Time.deltaTime;
+            
         } else
         {
             fadeRemoveTutorialText();
@@ -442,19 +450,19 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "E";
+                tutorialText = "Press E";
                 break;
 
             case "Playstation Controller":
-                tutorialText = "Circle";
+                tutorialText = "Press Circle";
                 break;
 
             case "XBox Controller":
-                tutorialText = "B";
+                tutorialText = "Press B";
                 break;
 
             case "Switch Pro Controller":
-                tutorialText = "A";
+                tutorialText = "Press A";
                 break;
 
             default:
@@ -635,7 +643,7 @@ public class Tutorial : MonoBehaviour
     public void showDemoEndText()
     {
         // Set text
-        demoEndText.text = "You have reached the end of the demo. Thank you for playing!";
+        demoEndText.text = "You have reached the end of the demo. \nThank you for playing!";
         titleButtonText.text = "Return To Title";
 
         // Fade in the text using deltaTime and alpha values
@@ -644,6 +652,7 @@ public class Tutorial : MonoBehaviour
             demoEndText.color = new Color(demoEndText.color.r, demoEndText.color.g, demoEndText.color.b, demoEndText.color.a + (Time.unscaledDeltaTime * 1f));
             titleButtonText.color = new Color(titleButtonText.color.r, titleButtonText.color.g, titleButtonText.color.b, titleButtonText.color.a + (Time.unscaledDeltaTime * 1f));
             buttonImage.color = new Color(buttonImage.color.r, buttonImage.color.g, buttonImage.color.b, buttonImage.color.a + (Time.unscaledDeltaTime * 1f));
+            buttonImage.gameObject.GetComponent<Button>().interactable = true;
         }
     }
 }

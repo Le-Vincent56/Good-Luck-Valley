@@ -113,8 +113,10 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
-		// Check if there's a lotus cutscene
-		if(usingLotusCutscene)
+        Debug.Log("Gravity Scale: " + rb.gravityScale);
+
+        // Check if there's a lotus cutscene
+        if (usingLotusCutscene)
 		{
 			// If so, check the state of the director
             if (director.state == PlayState.Playing)
@@ -290,12 +292,33 @@ public class PlayerMovement : MonoBehaviour
 		}
         #endregion
 
+        // Movement Animation Checks
+        #region MOVEMENT ANIMATION CHECKS
+        if (animator.GetFloat("Speed") > 0.01)
+        {
+            // If running, then check which leg the player is running on and update accordingly
+            AnimatorClipInfo[] animationClip = animator.GetCurrentAnimatorClipInfo(0);
+			AnimatorStateInfo animationInfo = animator.GetCurrentAnimatorStateInfo(0);
+            int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
+            if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
+            {
+                // Update for left foot
+                animator.SetBool("RunThrow_R", false);
+            }
+            else if (currentFrame >= 25 && currentFrame < 50)
+            {
+                // Update for right foot
+                animator.SetBool("RunThrow_R", true);
+            }
+        }
+        #endregion
+
         // Calculate Gravity
         #region GRAVITY
         if (!bounceEffect.Bouncing)
         {
             // Check for slope gravity first
-            if (isOnSlope)
+            if (isOnSlope && !isLocked && !isJumping && !bounceEffect.TouchingShroom && canWalkOnSlope)
 			{
 				// Check for movement input
 				if(moveInput.x == 0.0f)
@@ -598,18 +621,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Gets an acceleration value based on if we are accelerating (includes turning) 
         // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
-        if (lastOnGroundTime > 0)
+        if (lastOnGroundTime > 0 && !bounceEffect.Bouncing)
         {
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount : data.runDeccelAmount;
         }	
-        else
+        else 
         {
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount * data.accelInAir : data.runDeccelAmount * data.deccelInAir;
         }
         #endregion
 
         #region Add Bonus Jump Apex Acceleration
-        // Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
+        // Increase our acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
         if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
         {
             accelRate *= data.jumpHangAccelerationMult;
@@ -632,10 +655,10 @@ public class PlayerMovement : MonoBehaviour
                 accelRate = 5;
             }
         }
-        #endregion
+		#endregion
 
-        // Calculate difference between current velocity and desired velocity
-        float speedDif = targetSpeed - RB.velocity.x;
+		// Calculate difference between current velocity and desired velocity
+		float speedDif = targetSpeed - RB.velocity.x;
 
         // Calculate force along x-axis to apply to thr player
         float movement = speedDif * accelRate;
@@ -793,15 +816,15 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Collidable")
-		{
-			Debug.Log("Hitting Collidable tag");
-		} else
-		{
-			Debug.Log("Hitting something else");
-		}
-    }
+  //  public void OnCollisionEnter2D(Collision2D collision)
+  //  {
+  //      if(collision.gameObject.tag == "Collidable")
+		//{
+		//	Debug.Log("Hitting Collidable tag");
+		//} else
+		//{
+		//	Debug.Log("Hitting something else");
+		//}
+  //  }
     #endregion
 }

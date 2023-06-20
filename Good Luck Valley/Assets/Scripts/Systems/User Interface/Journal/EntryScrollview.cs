@@ -14,6 +14,7 @@ public class EntryScrollview : MonoBehaviour
 
     #region FIELDS
     [SerializeField] private List<GameObject> entries;
+    [SerializeField] private List<GameObject> destroyedEntries;
     #endregion
 
     #region PROPERTIES
@@ -52,4 +53,36 @@ public class EntryScrollview : MonoBehaviour
             }
         }
     }
+
+    public void RemoveEntries()
+    {
+        // Add all entries to the destroyedEntries list
+        foreach (GameObject entry in entries)
+        {
+            destroyedEntries.Add(entry);
+        }
+
+        // Check if there are any destroyed entries
+        if(destroyedEntries.Count > 0)
+        {
+            // If so, compare the destroyedEntries list to the entries list
+            for(int i = 0; i < destroyedEntries.Count; i++)
+            {
+                for(int j = 0; j < entries.Count; j++)
+                {
+                    // If an entry equals a destroyed entry, destroy it from the scene
+                    if (destroyedEntries[i].Equals(entries[j]))
+                    {
+                        Destroy(entries[j]);
+                        entries.Remove(entries[j]);
+                    }
+                }
+            }
+        }
+
+        // Clear the destroyedEntries list and the entries list
+        entries.Clear();
+        destroyedEntries.Clear();
+    }
+
 }
