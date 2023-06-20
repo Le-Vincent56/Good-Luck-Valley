@@ -10,7 +10,7 @@ public class FileDataHandler
     private string dataDirPath = "";
     private string dataFileName = "";
     private bool useEncryption = false;
-    private readonly string encryptionCodeWord = "cornbread";
+    private readonly string encryptionCodeWord = "and swing by the 410, beef patty, cornbread";
     #endregion
 
     public FileDataHandler(string dataDirPath, string dataFileName, bool useEncryption)
