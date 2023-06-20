@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class MenusManager : MonoBehaviour
 {
     #region REFERENCES
@@ -18,8 +19,9 @@ public class MenusManager : MonoBehaviour
     private GameObject[] navButtons;
     private GameObject[] textInputs;
     private Slider[] sliders;
-    private bool[] accessibilityTools;
+    private Dropdown resDropdown;
     private Settings settings;
+    private Toggle fullscreenToggle;
     #endregion
 
     #region FIELDS
@@ -34,6 +36,8 @@ public class MenusManager : MonoBehaviour
     private int sceneLoadNum;
     private bool checkButtons;
     private bool disableCalls;
+    private bool[] accessibilityTools;
+    private bool isFullscreen = true;
     #endregion
 
     #region PROPERTIES
@@ -88,6 +92,11 @@ public class MenusManager : MonoBehaviour
             // Set it to be half transparency
             saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
 
+            if (previousScene == 1) 
+            {
+                saveButton.GetComponentInChildren<Text>().text = "Start";
+            }
+
             // Delete Button
             // Find delete button
             deleteButton = GameObject.Find("Delete");
@@ -107,6 +116,8 @@ public class MenusManager : MonoBehaviour
             sliders = new Slider[6];
             textInputs = new GameObject[6];
             accessibilityTools = new bool[5];
+            resDropdown = GameObject.Find("Dropdown").GetComponent<Dropdown>();
+            fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
 
             for (int i = 0; i < 4; i++)
             {
@@ -161,7 +172,6 @@ public class MenusManager : MonoBehaviour
             fadeIn = false;
             fadeOut = false;
         }
-
         #endregion
 
     }
@@ -180,17 +190,13 @@ public class MenusManager : MonoBehaviour
             // Check if a save has been selected
             if (selectedSave != 0)
             {
-                // Check if the previous scene isn't 1, main menu (you cant make a save if you are entering from the main menu)
-                if (previousScene != 1)
-                {
-                    // If not, make save button interactable and have full transparency
-                    saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 1f);
-                    saveButton.GetComponent<Button>().interactable = true;
-                }
-
                 // Make delete button interactable and have full transparency
                 deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 1f);
                 deleteButton.GetComponent<Button>().interactable = true;
+
+                // Make save button interactable and have full transparency
+                saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 1f);
+                saveButton.GetComponent<Button>().interactable = true;
 
                 // Check if either confirmation check is active
                 if (confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
@@ -208,17 +214,20 @@ public class MenusManager : MonoBehaviour
         #endregion
 
         #region SETTINGS SCENE HANDLING
-        if (checkButtons && currentScene == 4)
+        if (currentScene == 4)
         {
-            for (int i = 0; i < 4; i++)
+            if (checkButtons)
             {
-                if (navButtons[i].GetComponent<Button>().IsInteractable() == false)
+                for (int i = 0; i < 4; i++)
                 {
-                    navButtons[i].transform.parent.SetAsLastSibling();
+                    if (navButtons[i].GetComponent<Button>().IsInteractable() == false)
+                    {
+                        navButtons[i].transform.parent.SetAsLastSibling();
+                    }
                 }
-            }
 
-            checkButtons = false;
+                checkButtons = false;
+            }
         }
         #endregion
     }
@@ -269,6 +278,7 @@ public class MenusManager : MonoBehaviour
         SceneManager.LoadScene("Credits");
     }
 
+    #region CONFIRMATION CHECKS
     /// <summary>
     /// Confirms what the user wants to do, changes functionality depending on the scene it is being called in
     /// </summary>
@@ -277,7 +287,11 @@ public class MenusManager : MonoBehaviour
     {
         if (checkQuit)
         {
-            if (confirmCheckNum == 1 && (confirmationCheck2 == null || confirmationCheck2.activeSelf == false))
+            if (previousScene == 1)
+            {
+                Debug.Log("Loading Save");
+            }
+            else if (confirmCheckNum == 1 && (confirmationCheck2 == null || confirmationCheck2.activeSelf == false))
             {
                 confirmationCheck.SetActive(true);
             }
@@ -339,6 +353,7 @@ public class MenusManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
     public void Back()
     {
@@ -352,6 +367,7 @@ public class MenusManager : MonoBehaviour
         selectedSave = saveNum;
     }
 
+    #region FADING
     private void FadeIn()
     {
         if (fadeIn)
@@ -408,6 +424,27 @@ public class MenusManager : MonoBehaviour
         fadeOut = true;
         sceneLoadNum = sceneToLoad;
     }
+#endregion
+
+    #region SETTINGS INPUTS
+    public void ChangeResolution()
+    {
+        string[] resolution = new string[2];
+        resolution = resDropdown.options[resDropdown.value].text.Split('x');
+        int[] resolutionValues = new int[resolution.Length];
+        int.TryParse(resolution[0], out resolutionValues[0]);
+        int.TryParse(resolution[1], out resolutionValues[1]);
+
+        Vector2 resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
+
+        Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen);
+    }    
+
+    public void SetFullscreen() 
+    {
+        isFullscreen = fullscreenToggle.isOn;
+        Screen.fullScreen = isFullscreen;
+    }
 
     public void SetButton(int button)
     {
@@ -446,4 +483,5 @@ public class MenusManager : MonoBehaviour
             settings.NoClipOn = accessibilityTools[4];
         }
     }
+#endregion
 }
