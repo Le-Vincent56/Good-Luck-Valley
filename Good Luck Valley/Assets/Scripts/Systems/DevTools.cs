@@ -54,6 +54,7 @@ public class DevTools : MonoBehaviour
         // Checks if dev tools are enabled
         if (devToolsEnabled)
         {
+            Debug.Log("Dev Tools Enabled");
             // Default dev tools values
             noClip = false;
             instantThrow = false;
@@ -128,7 +129,7 @@ public class DevTools : MonoBehaviour
         else
         {
             // Dev Tools text change
-            devText.text = "Dev Tools Disabled";
+            devText.text = "";
             shroomDurationText.text = "";
             infiniteShroomText.text = "";
             instantThrowText.text = "";

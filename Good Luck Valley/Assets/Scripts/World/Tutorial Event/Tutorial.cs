@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Tutorial : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class Tutorial : MonoBehaviour
     private Text thirdJournalUITutorialText;
     private Image thirdJournalUIPanelImage;
     private PlayerInput playerInput;
-    private Text demoEndText;
-    private Text titleButtonText;
+    private TMP_Text demoEndText;
+    private TMP_Text titleButtonText;
     private Image buttonImage;
     private PauseMenu pauseMenu;
     private Journal journal;
@@ -93,8 +94,8 @@ public class Tutorial : MonoBehaviour
         journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Demo Thanks Message
-        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<Text>();
-        titleButtonText = GameObject.Find("Title Text").GetComponent<Text>();
+        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<TMP_Text>();
+        titleButtonText = GameObject.Find("Title Text").GetComponent<TMP_Text>();
         buttonImage = GameObject.Find("Title Screen").GetComponent<Image>();
     }
 
@@ -642,7 +643,7 @@ public class Tutorial : MonoBehaviour
     public void showDemoEndText()
     {
         // Set text
-        demoEndText.text = "You have reached the end of the demo. Thank you for playing!";
+        demoEndText.text = "You have reached the end of the demo. \nThank you for playing!";
         titleButtonText.text = "Return To Title";
 
         // Fade in the text using deltaTime and alpha values
@@ -651,6 +652,7 @@ public class Tutorial : MonoBehaviour
             demoEndText.color = new Color(demoEndText.color.r, demoEndText.color.g, demoEndText.color.b, demoEndText.color.a + (Time.unscaledDeltaTime * 1f));
             titleButtonText.color = new Color(titleButtonText.color.r, titleButtonText.color.g, titleButtonText.color.b, titleButtonText.color.a + (Time.unscaledDeltaTime * 1f));
             buttonImage.color = new Color(buttonImage.color.r, buttonImage.color.g, buttonImage.color.b, buttonImage.color.a + (Time.unscaledDeltaTime * 1f));
+            buttonImage.gameObject.GetComponent<Button>().interactable = true;
         }
     }
 }
