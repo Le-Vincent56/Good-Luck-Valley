@@ -52,6 +52,23 @@ public class MenusManager : MonoBehaviour
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
         settings.UpdateSettings = true;
 
+        #region FADING BETWEEN SCENES
+        if (currentScene != 0 && currentScene != 6)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeIn = true;
+            fadeOut = false;
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        }
+        else if (currentScene == 0)
+        {
+            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            fadeIn = false;
+            fadeOut = false;
+        }
+        #endregion
+
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
         if (currentScene == 1 || currentScene == 2 || currentScene == 4)
@@ -154,23 +171,6 @@ public class MenusManager : MonoBehaviour
                 GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
             }
             disableCalls = false;
-        }
-        #endregion
-
-        #region FADING BETWEEN SCENES
-        if (currentScene != 0 && currentScene != 6)
-        {
-            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-            fadeIn = true;
-            fadeOut = false;
-            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-        }
-        else if(currentScene == 0)
-        {
-            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-            fadeIn = false;
-            fadeOut = false;
         }
         #endregion
 
@@ -446,6 +446,29 @@ public class MenusManager : MonoBehaviour
         Screen.fullScreen = isFullscreen;
     }
 
+    public void ChangeBrightness(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                float brightnessVal = 1 - int.Parse(textInputs[5].GetComponent<TMP_InputField>().text) / 100f;
+                if (brightnessVal < .95f)
+                {
+                    fadeSquare.color = new Color(0, 0, 0, brightnessVal); 
+                } 
+                break;
+
+            case 1: 
+                float brightnessVal2 = 1 - sliders[5].value / 100f;
+                if (brightnessVal2 < .95f)
+                {
+                    fadeSquare.color = new Color(0, 0, 0, brightnessVal2);
+                }
+                break;
+        }
+
+    }
+
     public void SetButton(int button)
     {
         checkButtons = true;
@@ -483,5 +506,5 @@ public class MenusManager : MonoBehaviour
             settings.NoClipOn = accessibilityTools[4];
         }
     }
-#endregion
+    #endregion
 }
