@@ -66,6 +66,7 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private bool usingTutorial = false;
     [SerializeField] private bool firstTimeHittingMax = true;
     [SerializeField] private bool firstTimeRecalling = true;
+    private bool throwLineOn;
     #endregion
 
     #region PROPERTIES
@@ -78,6 +79,7 @@ public class MushroomManager : MonoBehaviour
     public float ShroomDuration { get { return shroomDuration; } set { shroomDuration = value; } }
     public bool EnableShroomTimers { get { return enableShroomTimers;} set { enableShroomTimers = value; } }
     public ShroomCounter ShroomCounter { get { return shroomCounter; } }
+    public bool ThrowLineOn { get { return throwLineOn; } set {  throwLineOn = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -222,9 +224,12 @@ public class MushroomManager : MonoBehaviour
             case ThrowState.Throwing:
                 if (mushroomList.Count < mushroomLimit)
                 {
-                    throwUI_Script.PlotTrajectory(playerRB.position,
-                                                  forceDirection.normalized * throwMultiplier,
-                                                  playerMove.IsFacingRight);
+                    if (throwLineOn)
+                    {
+                        throwUI_Script.PlotTrajectory(playerRB.position,
+                                                          forceDirection.normalized * throwMultiplier,
+                                                          playerMove.IsFacingRight); 
+                    }
                 }
                 if (pauseMenu.Paused)
                 {
