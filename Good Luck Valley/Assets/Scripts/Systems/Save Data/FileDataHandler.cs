@@ -20,10 +20,16 @@ public class FileDataHandler
         this.useEncryption = useEncryption;
     }
 
-    public GameData Load()
+    public GameData Load(string profileID)
     {
+        // If the profileID is null, return right away
+        if(profileID == null)
+        {
+            return null;
+        }
+
         // Use Path.Combine() to account for different OS's having different path separators
-        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        string fullPath = Path.Combine(dataDirPath, profileID, dataFileName);
 
         GameData loadedData = null;
         if (File.Exists(fullPath))
@@ -59,10 +65,16 @@ public class FileDataHandler
         return loadedData;
     }
 
-    public void Save(GameData data)
+    public void Save(GameData data, string profileID)
     {
+        // If the profileID is null, return right away
+        if(profileID == null)
+        {
+            return;
+        }
+
         // Use Path.Combine() to account for different OS's having different path separators
-        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        string fullPath = Path.Combine(dataDirPath, profileID, dataFileName);
 
         // Use a try/catch to look for saving file errors
         try
@@ -92,6 +104,81 @@ public class FileDataHandler
         {
             Debug.LogError("Error occured when trying to save data to file: " + fullPath + "\n" + e.Message);
         }
+    }
+
+    public Dictionary<string, GameData> LoadAllProfiles()
+    {
+        // Create a new directory for profiles
+        Dictionary<string, GameData> profileDictionary = new Dictionary<string, GameData>();
+
+        // Loop over all directory names in the data directory path
+        IEnumerable<DirectoryInfo> dirInfos = new DirectoryInfo(dataDirPath).EnumerateDirectories();
+        foreach(DirectoryInfo dirInfo in dirInfos)
+        {
+            string profileID = dirInfo.Name;
+
+            // Check if the data file exists if it doesn't, then this folder
+            // isn't a profile and should be skipped
+            string fullPath = Path.Combine(dataDirPath, profileID, dataFileName);
+            if(!File.Exists(fullPath))
+            {
+                Debug.LogWarning("Skipping directory when loading all profiles because it does not contain data: " + profileID);
+                continue;
+            }
+
+            // Load the game data for this profile and put it in the dictionary
+            GameData profileData = Load(profileID);
+
+            // Ensure the profile data isn't null, because if it is, then something
+            // went wrong and we should let ourselves know
+            if(profileData != null)
+            {
+                // If the profile is valid, add it to the dictionary
+                profileDictionary.Add(profileID, profileData);
+            } else
+            {
+                Debug.LogError("Tried to load profile but something went wrong. Profile ID: " + profileID);
+            }
+        }
+
+        return profileDictionary;
+    }
+
+    public string GetMostRecentlyUpdatedProfileID()
+    {
+        string mostRecentProfileID = null;
+
+        Dictionary<string, GameData> profilesGameData = LoadAllProfiles();
+        foreach(KeyValuePair<string, GameData> pair in profilesGameData)
+        {
+            string profileID = pair.Key;
+            GameData gameData = pair.Value;
+
+            // Skip this entry if the gameData is null
+            if(gameData == null)
+            {
+                continue;
+            }
+
+            // If this is the first data we've come across that exists, it's the most recent so far
+            if(mostRecentProfileID == null)
+            {
+                mostRecentProfileID = profileID;
+            } else
+            {
+                // Otherwise, compare to see which date is the most recent
+                DateTime mostRecentDateTime = DateTime.FromBinary(profilesGameData[mostRecentProfileID].lastUpdated);
+                DateTime newDateTime = DateTime.FromBinary(gameData.lastUpdated);
+
+                // The greatest DateTime value is the most recent
+                if(newDateTime > mostRecentDateTime)
+                {
+                    mostRecentProfileID = profileID;
+                }
+            }
+        }
+
+        return mostRecentProfileID;
     }
 
     private string EncryptDecrypt(string data)
