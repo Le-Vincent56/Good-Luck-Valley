@@ -414,7 +414,7 @@ public class MenusManager : MonoBehaviour
             }
             else if (sceneLoadNum == 6)
             {
-                SceneManager.LoadScene("Level 1");
+                SceneManager.LoadScene("Tutorial");
             }
         }
     }

@@ -226,11 +226,10 @@ public class MushroomManager : MonoBehaviour
                 {
                     if (throwLineOn)
                     {
-                        
+                        throwUI_Script.PlotTrajectory(playerRB.position,
+                                                          forceDirection.normalized * throwMultiplier,
+                                                          playerMove.IsFacingRight); 
                     }
-                    throwUI_Script.PlotTrajectory(playerRB.position,
-                                                      forceDirection.normalized * throwMultiplier,
-                                                      playerMove.IsFacingRight);
                 }
                 if (pauseMenu.Paused)
                 {
