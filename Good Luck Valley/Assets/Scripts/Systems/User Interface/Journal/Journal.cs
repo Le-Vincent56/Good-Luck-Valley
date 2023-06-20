@@ -9,8 +9,6 @@ using System.Linq;
 public class Journal : MonoBehaviour
 {
     #region REFERENCES
-    private Text panelText;
-    private EntryScrollview entryScrollview;
     private Canvas journalUI;
     private AudioSource journalPageSound;
     private Button pauseJournalButton;
@@ -42,8 +40,6 @@ public class Journal : MonoBehaviour
     void Start()
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
-        panelText = GameObject.Find("EntryText").GetComponent<Text>();
-        entryScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
         journalPageSound = GetComponent<AudioSource>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();

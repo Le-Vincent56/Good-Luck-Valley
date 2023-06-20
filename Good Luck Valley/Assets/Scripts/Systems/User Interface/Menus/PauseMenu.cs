@@ -85,6 +85,14 @@ public class PauseMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Save the Game
+    /// </summary>
+    public void Save()
+    {
+        DataManager.Instance.SaveGame();
+    }
+
+    /// <summary>
     /// Quit to Title
     /// </summary>
     /// <param name="scene">Scene number that represents Quitting to Title</param>
