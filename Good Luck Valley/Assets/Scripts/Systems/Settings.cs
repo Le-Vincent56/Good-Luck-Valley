@@ -11,12 +11,16 @@ public class Settings : MonoBehaviour
     #endregion
 
     #region FIELDS
-    static bool throwIndicatorShown = false;
-    static bool noClipOn = false;
-    static bool instantThrowOn = false;
-    static bool infiniteShroomsOn = false;
-    static bool shroomDurationOn = true;
-    static bool updateSettings;
+    private static bool throwIndicatorShown = false;
+    private static bool noClipOn = false;
+    private static bool instantThrowOn = false;
+    private static bool infiniteShroomsOn = false;
+    private static bool shroomDurationOn = true;
+    private static bool updateSettings;
+    private static float brightness;
+    private static bool subtitlesEnabled;
+    private static int resOption;
+    private static bool isFullscreen;
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
     #endregion
@@ -28,6 +32,10 @@ public class Settings : MonoBehaviour
     public bool InfiniteShroomsOn { get { return infiniteShroomsOn; } set { infiniteShroomsOn = value; } }
     public bool ShroomDurationOn { get { return shroomDurationOn; } set { shroomDurationOn = value; } }
     public bool UpdateSettings { get {  return updateSettings; } set {  updateSettings = value; } }
+    public float Brightness { get { return brightness; } set {  brightness = value; } }
+    public bool SubtitlesEnabled { get {  return subtitlesEnabled; } set {  subtitlesEnabled = value; } }
+    public int ResOption { get { return resOption; } set { resOption = value; } }
+    public bool IsFullscreen { get { return isFullscreen; } set { isFullscreen = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -163,5 +171,5 @@ public class Settings : MonoBehaviour
     {
         mushMan.ThrowLineOn = false;
     }
-    #endregion
+    #endregion 
 }
