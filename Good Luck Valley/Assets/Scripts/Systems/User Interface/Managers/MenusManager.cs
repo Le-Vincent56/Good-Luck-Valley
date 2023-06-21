@@ -22,6 +22,7 @@ public class MenusManager : MonoBehaviour
     private Dropdown resDropdown;
     private Settings settings;
     private Toggle fullscreenToggle;
+    private Toggle subtitlesToggle;
     #endregion
 
     #region FIELDS
@@ -38,6 +39,10 @@ public class MenusManager : MonoBehaviour
     private bool disableCalls;
     private bool[] accessibilityTools;
     private bool isFullscreen = true;
+    private float brightness;
+    private Vector2 resValues;
+    private bool subtitlesEnabled;
+    private bool settingsSaved;
     #endregion
 
     #region PROPERTIES
@@ -50,10 +55,10 @@ public class MenusManager : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
-        settings.UpdateSettings = true;
+        settingsSaved = true;
 
         #region FADING BETWEEN SCENES
-        if (currentScene != 0 && currentScene != 6)
+        if (currentScene != 0)
         {
             fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
             fadeIn = true;
@@ -68,6 +73,11 @@ public class MenusManager : MonoBehaviour
             fadeOut = false;
         }
         #endregion
+
+        if (fadeIn == false && fadeOut == false)
+        {
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, settings.Brightness);
+        }
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
@@ -128,13 +138,18 @@ public class MenusManager : MonoBehaviour
 
         #region SETTINGS SCENE
         if (currentScene == 4)
-        {
+        { 
+            disableCalls = true;
+
             navButtons = new GameObject[4];
             sliders = new Slider[6];
             textInputs = new GameObject[6];
             accessibilityTools = new bool[5];
             resDropdown = GameObject.Find("Dropdown").GetComponent<Dropdown>();
             fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
+            subtitlesToggle = GameObject.Find("SubtitlesToggle").GetComponent<Toggle>(); 
+            resDropdown.value = settings.ResOption;
+            fullscreenToggle.isOn = settings.IsFullscreen;
 
             for (int i = 0; i < 4; i++)
             {
@@ -155,8 +170,8 @@ public class MenusManager : MonoBehaviour
                 sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
 
                 // Setting default values, change once we add actual functionality
-                textInputs[i].GetComponent<TMP_InputField>().text = "50";
-                sliders[i].value = 50;
+                textInputs[i].GetComponent<TMP_InputField>().text = settings.Brightness.ToString();
+                sliders[i].value = settings.Brightness;
             }
 
             accessibilityTools[0] = settings.ThrowIndicatorShown;
@@ -165,7 +180,6 @@ public class MenusManager : MonoBehaviour
             accessibilityTools[3] = settings.InstantThrowOn;
             accessibilityTools[4] = settings.NoClipOn; 
 
-            disableCalls = true;
             for (int i = 0;i < 5; i++) 
             {
                 GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
@@ -173,7 +187,6 @@ public class MenusManager : MonoBehaviour
             disableCalls = false;
         }
         #endregion
-
     }
 
     public void Update()
@@ -232,6 +245,7 @@ public class MenusManager : MonoBehaviour
         #endregion
     }
 
+    #region NAVIGATING SCENES
     /// <summary>
     /// Navigates to the main menu scene
     /// </summary>
@@ -277,6 +291,7 @@ public class MenusManager : MonoBehaviour
         previousScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene("Credits");
     }
+    #endregion
 
     #region CONFIRMATION CHECKS
     /// <summary>
@@ -287,11 +302,11 @@ public class MenusManager : MonoBehaviour
     {
         if (checkQuit)
         {
-            if (previousScene == 1)
-            {
-                Debug.Log("Loading Save");
-            }
-            else if (confirmCheckNum == 1 && (confirmationCheck2 == null || confirmationCheck2.activeSelf == false))
+            //if (previousScene == 1)
+            //{
+            //    Debug.Log("Loading Save");
+            //}
+            if (confirmCheckNum == 1 && (confirmationCheck2 == null || confirmationCheck2.activeSelf == false))
             {
                 confirmationCheck.SetActive(true);
             }
@@ -326,6 +341,12 @@ public class MenusManager : MonoBehaviour
                     break;
 
                 case 4:
+                    if (confirmCheckNum == 1)
+                    {
+                        Debug.Log("Returning to " + previousScene);
+                        settingsSaved = true;
+                        Back();
+                    }
                     break;
 
                 case 5:
@@ -357,8 +378,15 @@ public class MenusManager : MonoBehaviour
 
     public void Back()
     {
-        fadeOut = true;
-        sceneLoadNum = previousScene;
+        if (settingsSaved)
+        {
+            fadeOut = true;
+            sceneLoadNum = previousScene;
+        }
+        else if (currentScene == 4)
+        {
+            ConfirmationCheck(1);
+        }
     }
 
     public void SelectSave(int saveNum)
@@ -373,7 +401,7 @@ public class MenusManager : MonoBehaviour
         if (fadeIn)
         {
             fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a - 0.05f);
-            if (fadeSquare.color.a <= 0)
+            if (fadeSquare.color.a <= settings.Brightness)
             {
                 fadeIn = false;
             }
@@ -421,10 +449,13 @@ public class MenusManager : MonoBehaviour
 
     public void CheckFade(int sceneToLoad)
     {
-        fadeOut = true;
-        sceneLoadNum = sceneToLoad;
+        if (settingsSaved)
+        {
+            fadeOut = true;
+            sceneLoadNum = sceneToLoad;
+        }
     }
-#endregion
+    #endregion
 
     #region SETTINGS INPUTS
     public void ChangeResolution()
@@ -435,15 +466,19 @@ public class MenusManager : MonoBehaviour
         int.TryParse(resolution[0], out resolutionValues[0]);
         int.TryParse(resolution[1], out resolutionValues[1]);
 
-        Vector2 resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
-
-        Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen);
+        resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
+        Debug.Log("Settings Not Saved");
+        settingsSaved = false;
     }    
 
     public void SetFullscreen() 
     {
-        isFullscreen = fullscreenToggle.isOn;
-        Screen.fullScreen = isFullscreen;
+        if (!disableCalls)
+        {
+            isFullscreen = fullscreenToggle.isOn;
+            Debug.Log("Settings Not Saved");
+            settingsSaved = false;
+        }
     }
 
     public void ChangeBrightness(int type)
@@ -451,22 +486,25 @@ public class MenusManager : MonoBehaviour
         switch (type)
         {
             case 0:
-                float brightnessVal = 1 - int.Parse(textInputs[5].GetComponent<TMP_InputField>().text) / 100f;
-                if (brightnessVal < .95f)
+                brightness = 1 - int.Parse(textInputs[5].GetComponent<TMP_InputField>().text) / 100f;
+                if (brightness < .95f)
                 {
-                    fadeSquare.color = new Color(0, 0, 0, brightnessVal); 
+                    fadeSquare.color = new Color(0, 0, 0, brightness); 
+                    settings.Brightness = brightness;
                 } 
                 break;
 
-            case 1: 
-                float brightnessVal2 = 1 - sliders[5].value / 100f;
-                if (brightnessVal2 < .95f)
+            case 1:
+                brightness = 1 - sliders[5].value / 100f;
+                if (brightness < .95f)
                 {
-                    fadeSquare.color = new Color(0, 0, 0, brightnessVal2);
+                    fadeSquare.color = new Color(0, 0, 0, brightness);
+                    settings.Brightness = brightness;
                 }
                 break;
         }
-
+        Debug.Log("Settings Not Saved");
+        settingsSaved = false;
     }
 
     public void SetButton(int button)
@@ -497,14 +535,45 @@ public class MenusManager : MonoBehaviour
         if (!disableCalls)
         {
             accessibilityTools[index] = !accessibilityTools[index];
-            settings.UpdateSettings = true;
-
-            settings.ThrowIndicatorShown = accessibilityTools[0];
-            settings.InfiniteShroomsOn = accessibilityTools[1];
-            settings.ShroomDurationOn = accessibilityTools[2];
-            settings.InstantThrowOn = accessibilityTools[3];
-            settings.NoClipOn = accessibilityTools[4];
+            Debug.Log("Settings Not Saved");
+            settingsSaved = false;
         }
+    }
+
+    public void ToggleSubtitles()
+    {
+        subtitlesEnabled = subtitlesToggle.isOn;
+        Debug.Log("Settings Not Saved");
+        settingsSaved = false;
+    }
+
+    public void ApplySettings()
+    {
+        settings.UpdateSettings = true;
+        settingsSaved = true;
+
+        #region ACCESSIBILITY
+        settings.ThrowIndicatorShown = accessibilityTools[0];
+        settings.InfiniteShroomsOn = accessibilityTools[1];
+        settings.ShroomDurationOn = accessibilityTools[2];
+        settings.InstantThrowOn = accessibilityTools[3];
+        settings.NoClipOn = accessibilityTools[4];
+        #endregion
+
+        #region DISPLAY
+        settings.Brightness = brightness; 
+        Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen); 
+        Screen.fullScreen = isFullscreen;
+        settings.SubtitlesEnabled = subtitlesEnabled;
+        settings.ResOption = resDropdown.value;
+        settings.IsFullscreen = fullscreenToggle.isOn;
+        #endregion
+
+        #region CONTROLS
+        #endregion
+
+        #region AUDIO
+        #endregion
     }
     #endregion
 }
