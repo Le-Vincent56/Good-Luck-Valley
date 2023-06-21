@@ -13,6 +13,7 @@ public class MenusManager : MonoBehaviour
     #region REFERENCES
     private GameObject confirmationCheck;
     private GameObject deleteConfirmation;
+    private GameObject confirmationCheck2;
     private GameObject startButton;
     private GameObject deleteButton;
     private SpriteRenderer fadeSquare;
