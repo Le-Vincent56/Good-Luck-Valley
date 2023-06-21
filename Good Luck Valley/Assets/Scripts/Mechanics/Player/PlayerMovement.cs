@@ -7,7 +7,7 @@ using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IData
 {
     #region REFERENCES
     [SerializeField] private PlayerData data;
@@ -409,27 +409,8 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
+			// Handle movement
 			Run(0.5f);
-
-   //         // Check if the player is bouncing
-   //         if (bounceEffect.Bouncing)
-			//{
-			//	// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
-			//	if (disableInputTimer <= 0)
-			//	{
-   //                 // If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
-   //                 Run(0.5f);
-			//	} else
-			//	{
-			//		// If disableInputTimer is greater than zero, subtract by deltaTime
-			//		disableInputTimer -= Time.deltaTime;
-			//	}
-			//}
-			//else
-			//{
-			//	// If not bouncing, allow movement like normal
-			//	Run(0.5f);
-			//}
 		}
 		else
 		{
@@ -816,15 +797,30 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-  //  public void OnCollisionEnter2D(Collision2D collision)
-  //  {
-  //      if(collision.gameObject.tag == "Collidable")
-		//{
-		//	Debug.Log("Hitting Collidable tag");
-		//} else
-		//{
-		//	Debug.Log("Hitting something else");
-		//}
-  //  }
-    #endregion
+	//  public void OnCollisionEnter2D(Collision2D collision)
+	//  {
+	//      if(collision.gameObject.tag == "Collidable")
+	//{
+	//	Debug.Log("Hitting Collidable tag");
+	//} else
+	//{
+	//	Debug.Log("Hitting something else");
+	//}
+	//  }
+	#endregion
+
+	// DATA HANDLING
+	#region DATA HANDLING
+	public void LoadData(GameData data)
+	{
+		// Load player position
+		gameObject.transform.position = data.playerPosition;
+	}
+
+	public void SaveData(ref GameData data)
+	{
+		// Save player position
+		data.playerPosition = gameObject.transform.position;
+	}
+	#endregion
 }

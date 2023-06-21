@@ -23,6 +23,12 @@ public class MenusManager : MonoBehaviour
     private Settings settings;
     private Toggle fullscreenToggle;
     private Toggle subtitlesToggle;
+    private Button continueButton;
+    private Button loadGameButton;
+    private Button settingsButton;
+    private Button journalButton;
+    private Button creditsButton;
+    private Button exitGameButton;
     #endregion
 
     #region FIELDS
@@ -51,6 +57,31 @@ public class MenusManager : MonoBehaviour
 
     public void Start()
     {
+        // Check which scene is loaded
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            #region RETRIEVE BUTTONS
+            continueButton = GameObject.Find("Continue").GetComponent<Button>();
+            loadGameButton = GameObject.Find("Load Game").GetComponent<Button>();
+            settingsButton = GameObject.Find("Settings").GetComponent<Button>();
+            journalButton = GameObject.Find("Journal").GetComponent<Button>();
+            creditsButton = GameObject.Find("Credits").GetComponent<Button>();
+            exitGameButton = GameObject.Find("Exit Game").GetComponent<Button>();
+            #endregion
+
+            // Check if DataManager has data
+            if (!DataManager.Instance.HasGameData())
+            {
+                GameObject.Find("Start Text").GetComponent<Text>().text = "New Game";
+                loadGameButton.interactable = false;
+            } else
+            {
+                GameObject.Find("Start Text").GetComponent<Text>().text = "Continue";
+            }
+        }
+
+        
+
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
@@ -408,6 +439,21 @@ public class MenusManager : MonoBehaviour
         }
     }
 
+    public void OnContinueClicked()
+    {
+        // Disable all other buttons to prevent accidental clicking
+        DisableAllButtons();
+
+        // If there is not already data, create a new game, which will initialize our game data
+        if(!DataManager.Instance.HasGameData())
+        {
+            DataManager.Instance.NewGame();
+        }
+
+        // Load the gameplay scene - this will also save the game because of DataManager.OnSceneUnloaded()
+        CheckFade(6);
+    }
+
     private void FadeOut()
     {
         if (fadeOut)
@@ -442,7 +488,7 @@ public class MenusManager : MonoBehaviour
             }
             else if (sceneLoadNum == 6)
             {
-                SceneManager.LoadScene("Tutorial");
+                SceneManager.LoadScene("Prologue");
             }
         }
     }
@@ -575,5 +621,18 @@ public class MenusManager : MonoBehaviour
         #region AUDIO
         #endregion
     }
-    #endregion
+#endregion
+
+    /// <summary>
+    /// Disable all buttons
+    /// </summary>
+    public void DisableAllButtons()
+    {
+        continueButton.interactable = false;
+        loadGameButton.interactable = false;
+        settingsButton.interactable = false;
+        journalButton.interactable = false;
+        creditsButton.interactable = false;
+        exitGameButton.interactable = false;
+    }
 }

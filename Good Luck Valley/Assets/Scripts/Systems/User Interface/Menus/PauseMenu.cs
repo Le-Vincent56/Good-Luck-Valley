@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
     private Canvas pauseUI;
@@ -15,6 +16,12 @@ public class PauseMenu : MonoBehaviour
 
     #region FIELDS
     [SerializeField] private bool paused = false;
+    private string levelName;
+    private float playtimeTotal;
+    private float playtimeHours;
+    private float playtimeMinutes;
+    private float playtimeSeconds;
+    private string playtimeString;
     #endregion
 
     #region PROPERTIES
@@ -28,6 +35,8 @@ public class PauseMenu : MonoBehaviour
         pauseUI = GameObject.Find("PauseUI").GetComponent<Canvas>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         pauseUI.enabled = false;
+
+        levelName = SceneManager.GetActiveScene().name;
     }
 
     public void Update()
@@ -85,6 +94,14 @@ public class PauseMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Save the Game
+    /// </summary>
+    public void Save()
+    {
+        DataManager.Instance.SaveGame();
+    }
+
+    /// <summary>
     /// Quit to Title
     /// </summary>
     /// <param name="scene">Scene number that represents Quitting to Title</param>
@@ -96,4 +113,37 @@ public class PauseMenu : MonoBehaviour
             SceneManager.LoadScene(scene);
         }
     }
+
+    /// <summary>
+    /// Coroutine to record playtime
+    /// </summary>
+    /// <returns>The total time played stored in variables</returns>
+    public IEnumerator RecordTimeRoutine()
+    {
+        TimeSpan ts;
+        while(!paused)
+        {
+            yield return new WaitForSeconds(1);
+            playtimeTotal += 1;
+
+            ts = TimeSpan.FromSeconds(playtimeTotal);
+            playtimeHours = (int)ts.TotalHours;
+            playtimeMinutes = ts.Minutes;
+            playtimeSeconds = ts.Seconds;
+        }
+    }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        levelName = data.levelName;
+        playtimeString = data.playtime;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.levelName = levelName;
+        data.playtime = playtimeString;
+    }
+    #endregion
 }
