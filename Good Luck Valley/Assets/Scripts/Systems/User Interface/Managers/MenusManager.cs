@@ -12,8 +12,8 @@ public class MenusManager : MonoBehaviour
 {
     #region REFERENCES
     private GameObject confirmationCheck;
-    private GameObject confirmationCheck2;
-    private GameObject saveButton;
+    private GameObject deleteConfirmation;
+    private GameObject startButton;
     private GameObject deleteButton;
     private SpriteRenderer fadeSquare;
     private GameObject[] navButtons;
@@ -22,6 +22,7 @@ public class MenusManager : MonoBehaviour
     private Dropdown resDropdown;
     private Settings settings;
     private Toggle fullscreenToggle;
+    private Button newGameButton;
     private Toggle subtitlesToggle;
     private Button continueButton;
     private Button loadGameButton;
@@ -36,7 +37,7 @@ public class MenusManager : MonoBehaviour
     [SerializeField] static int previousScene;
     [SerializeField] static int currentScene;
     private int selectedSave;
-    private Color saveColor;
+    private Color startColor;
     private Color deleteColor;
     private bool fadeIn;
     private bool fadeOut;
@@ -61,6 +62,7 @@ public class MenusManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
             #region RETRIEVE BUTTONS
+            newGameButton = GameObject.Find("New Game").GetComponent<Button>();
             continueButton = GameObject.Find("Continue").GetComponent<Button>();
             loadGameButton = GameObject.Find("Load Game").GetComponent<Button>();
             settingsButton = GameObject.Find("Settings").GetComponent<Button>();
@@ -69,18 +71,8 @@ public class MenusManager : MonoBehaviour
             exitGameButton = GameObject.Find("Exit Game").GetComponent<Button>();
             #endregion
 
-            // Check if DataManager has data
-            if (!DataManager.Instance.HasGameData())
-            {
-                GameObject.Find("Start Text").GetComponent<Text>().text = "New Game";
-                loadGameButton.interactable = false;
-            } else
-            {
-                GameObject.Find("Start Text").GetComponent<Text>().text = "Continue";
-            }
+            DisableButtonsDependingOnData();
         }
-
-        
 
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
@@ -127,9 +119,9 @@ public class MenusManager : MonoBehaviour
         if (currentScene == 2 || currentScene == 4)
         {
             // Find second confirmation check
-            confirmationCheck2 = GameObject.Find("ConfirmationCheck2");
+            deleteConfirmation = GameObject.Find("Delete Confirmation");
             // If so, set it to be inactive
-            confirmationCheck2.SetActive(false);
+            deleteConfirmation.SetActive(false);
 
             // Needs to be set to true for the confirmation checks to pop up
             checkQuit = true;
@@ -140,19 +132,19 @@ public class MenusManager : MonoBehaviour
         // Check if the scene is the SaveFiles scene
         if (currentScene == 2)
         {
-            // Save Button
-            // Find save button in scene
-            saveButton = GameObject.Find("Save");
+            // Start Button
+            // Find start button in scene
+            startButton = GameObject.Find("Start");
             // Save the color to a variable
-            saveColor = saveButton.GetComponent<Image>().color;
+            startColor = startButton.GetComponent<Image>().color;
             // Set to to not be interactable because no save is selected yet
-            saveButton.GetComponent<Button>().interactable = false;
+            startButton.GetComponent<Button>().interactable = false;
             // Set it to be half transparency
-            saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
+            startButton.GetComponent<Image>().color = new Color(startColor.r, startColor.g, startColor.b, 0.5f);
 
             if (previousScene == 1) 
             {
-                saveButton.GetComponentInChildren<Text>().text = "Start";
+                startButton.GetComponentInChildren<Text>().text = "Start";
             }
 
             // Delete Button
@@ -239,15 +231,15 @@ public class MenusManager : MonoBehaviour
                 deleteButton.GetComponent<Button>().interactable = true;
 
                 // Make save button interactable and have full transparency
-                saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 1f);
-                saveButton.GetComponent<Button>().interactable = true;
+                startButton.GetComponent<Image>().color = new Color(startColor.r, startColor.g, startColor.b, 1f);
+                startButton.GetComponent<Button>().interactable = true;
 
                 // Check if either confirmation check is active
-                if (confirmationCheck.activeSelf == true || confirmationCheck2.activeSelf == true)
+                if (confirmationCheck.activeSelf == true || deleteConfirmation.activeSelf == true)
                 {
                     // If so, make save button half transparency and non-interactable
-                    saveButton.GetComponent<Image>().color = new Color(saveColor.r, saveColor.g, saveColor.b, 0.5f);
-                    saveButton.GetComponent<Button>().interactable = false;
+                    startButton.GetComponent<Image>().color = new Color(startColor.r, startColor.g, startColor.b, 0.5f);
+                    startButton.GetComponent<Button>().interactable = false;
 
                     // Make delete button half transparency and non-interactable
                     deleteButton.GetComponent<Image>().color = new Color(deleteColor.r, deleteColor.g, deleteColor.b, 0.5f);
@@ -343,7 +335,7 @@ public class MenusManager : MonoBehaviour
             }
             else if (confirmCheckNum == 2 && (confirmationCheck == null || confirmationCheck.activeSelf == false))
             {
-                confirmationCheck2.SetActive(true);
+                deleteConfirmation.SetActive(true);
             }
             checkQuit = false;
         }
@@ -367,7 +359,7 @@ public class MenusManager : MonoBehaviour
                     {
                         Debug.Log("Save Deleted.");
                         checkQuit = true;
-                        confirmationCheck2.SetActive(false);
+                        deleteConfirmation.SetActive(false);
                     }
                     break;
 
@@ -401,7 +393,7 @@ public class MenusManager : MonoBehaviour
             }
             else if (confirmCheckNum == 2)
             {
-                confirmationCheck2.SetActive(false);
+                deleteConfirmation.SetActive(false);
             }
         }
     }
@@ -439,19 +431,31 @@ public class MenusManager : MonoBehaviour
         }
     }
 
+    public void OnNewGameClicked()
+    {
+        // Disable all other buttons to prevent accidental clicking
+        DisableAllButtons();
+
+        // Create a new GameData class for the new game
+        DataManager.Instance.NewGame();
+
+        // Save the game before loading a new scene
+        DataManager.Instance.SaveGame();
+
+        // Load the gameplay scene - this will also save the game because of DataManager.OnSceneUnloaded()
+        CheckFade(6);
+    }
+
     public void OnContinueClicked()
     {
         // Disable all other buttons to prevent accidental clicking
         DisableAllButtons();
 
-        // If there is not already data, create a new game, which will initialize our game data
-        if(!DataManager.Instance.HasGameData())
-        {
-            DataManager.Instance.NewGame();
-        }
+        // Save the game before loading a new scene
+        DataManager.Instance.SaveGame();
 
-        // Load the gameplay scene - this will also save the game because of DataManager.OnSceneUnloaded()
-        CheckFade(6);
+        // Load the most recent game
+        SceneManager.LoadSceneAsync(DataManager.Instance.Level);
     }
 
     private void FadeOut()
@@ -634,5 +638,24 @@ public class MenusManager : MonoBehaviour
         journalButton.interactable = false;
         creditsButton.interactable = false;
         exitGameButton.interactable = false;
+    }
+
+    public void DisableButtonsDependingOnData()
+    {
+        // Check if DataManager has data
+        if (!DataManager.Instance.HasGameData())
+        {
+            // If there is no data, set the menu to reflect a new game
+            newGameButton.gameObject.SetActive(true);
+            continueButton.gameObject.SetActive(false);
+            loadGameButton.interactable = false;
+        }
+        else
+        {
+            // If there is data, set the menu to reflect a continued game
+            newGameButton.gameObject.SetActive(false);
+            continueButton.gameObject.SetActive(true);
+            loadGameButton.interactable = true;
+        }
     }
 }

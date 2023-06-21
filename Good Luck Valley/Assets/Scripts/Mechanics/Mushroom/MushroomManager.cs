@@ -176,7 +176,7 @@ public class MushroomManager : MonoBehaviour
         {
             AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
             AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-            Debug.Log(animationInfo.normalizedTime);
+            // Debug.Log(animationInfo.normalizedTime);
             if(animationInfo.normalizedTime % 1 > 0.9)
             {
                 playerAnim.SetBool("Throwing", false);
