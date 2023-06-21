@@ -9,6 +9,7 @@ public class GameData
     public long lastUpdated;
     public string levelName;
     public string playtime;
+    public bool playCutscene;
     public Vector3 playerPosition;
     public SerializableDictionary<string, bool> notesCollected;
     #endregion
@@ -18,9 +19,10 @@ public class GameData
     {
         levelName = "Prologue";
         playtime = "0:00:00";
+        playCutscene = true;
 
         // Default position - Tutorial start
-        playerPosition = new Vector3(-31.85f, 3.52f, 0f);
+        playerPosition = new Vector3(-27.47f, 7.798f, 0f);
         notesCollected = new SerializableDictionary<string, bool>();
     }
 }
