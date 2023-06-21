@@ -11,10 +11,14 @@ public class SaveSlot : MonoBehaviour
     [SerializeField] private Text playtime;
     [SerializeField] private Text levelName;
     private Button saveSlotButton;
+    private bool hasData = true;
+    [SerializeField] private bool selected = false;
     #endregion
 
     #region FIELDS
     [SerializeField] private string profileID = "";
+    public bool HasData { get { return hasData; } }
+    public bool Selected { get { return selected; } set { selected = value; } }
     #endregion
 
     private void Start()
@@ -29,11 +33,13 @@ public class SaveSlot : MonoBehaviour
         if(data == null)
         {
             // If there is no data, then set noDataContent UI
+            hasData = false;
             noDataContent.SetActive(true);
             hasDataContent.SetActive(false);
         } else
         {
             // If there is, then set hasDataContent UI
+            hasData = true;
             noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
 

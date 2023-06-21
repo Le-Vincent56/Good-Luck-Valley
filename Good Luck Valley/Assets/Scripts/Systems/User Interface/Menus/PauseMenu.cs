@@ -140,7 +140,7 @@ public class PauseMenu : MonoBehaviour, IData
         playtimeString = data.playtime;
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameData data)
     {
         data.levelName = levelName;
         data.playtime = playtimeString;

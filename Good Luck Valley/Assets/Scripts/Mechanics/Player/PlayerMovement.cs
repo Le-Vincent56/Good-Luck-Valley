@@ -817,7 +817,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		gameObject.transform.position = data.playerPosition;
 	}
 
-	public void SaveData(ref GameData data)
+	public void SaveData(GameData data)
 	{
 		// Save player position
 		data.playerPosition = gameObject.transform.position;

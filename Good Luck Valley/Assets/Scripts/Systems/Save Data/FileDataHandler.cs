@@ -70,6 +70,7 @@ public class FileDataHandler
         // If the profileID is null, return right away
         if(profileID == null)
         {
+            Debug.Log("No ProfileID");
             return;
         }
 
@@ -103,6 +104,33 @@ public class FileDataHandler
         } catch (Exception e)
         {
             Debug.LogError("Error occured when trying to save data to file: " + fullPath + "\n" + e.Message);
+        }
+    }
+
+    public void Delete(string profileID)
+    {
+        // If the profileID is null, return right away
+        if (profileID == null)
+        {
+            return;
+        }
+
+        string fullPath = Path.Combine(dataDirPath, profileID, dataFileName);
+        try
+        {
+            // Ensure the data file exists at this path before deleting the directory
+            if(File.Exists(fullPath))
+            {
+                // Delete the profile folder and everything within it
+                Directory.Delete(Path.GetDirectoryName(fullPath), true);
+            } else
+            {
+                Debug.LogWarning("Tried to delete profile data, but data does not exist at this path");
+            }
+
+        } catch (Exception e)
+        {
+            Debug.LogError("Failed to delete profile data for profileID: " + profileID + " at path: " + fullPath + "\n" + e); 
         }
     }
 

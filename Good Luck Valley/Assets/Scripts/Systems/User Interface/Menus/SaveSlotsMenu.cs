@@ -2,47 +2,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SaveSlotsMenu : MonoBehaviour
 {
-    #region FIELDS
+    #region REFERENCES
+    private Button startButton;
+    private Button deleteButton;
+    [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
     private SaveSlot[] saveSlots;
-    private bool isLoadingGame = false;
+    private SaveSlot selectedSaveSlot;
+    #endregion
+
+    #region FIELDS
     #endregion
 
     private void Awake()
     {
         saveSlots = GetComponentsInChildren<SaveSlot>();
+        selectedSaveSlot = null;
     }
 
     private void Start()
     {
-        ActivateMenu(true);
+        startButton = GameObject.Find("Start").GetComponent<Button>();
+        deleteButton = GameObject.Find("Delete").GetComponent<Button>();
+
+        startButton.interactable = false;
+        deleteButton.interactable = false;
+
+        ActivateMenu();
+    }
+
+    public void SetFirstSelected(Button firstSelectedButton)
+    {
+        firstSelectedButton.Select();
     }
 
     public void OnSaveSlotClicked(SaveSlot saveSlot)
     {
-        // Disable all buttons
-        DisableSaveSlots();
+        // Check if there was a previously selected save slot
+        if(selectedSaveSlot != null)
+        {
+            // Deselect the last save slot
+            selectedSaveSlot.Selected = false;
+
+            // Deselect the button
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+        }
+
+        // Select the new save slot
+        saveSlot.Selected = true;
+        saveSlot.gameObject.GetComponent<Button>().Select();
+        selectedSaveSlot = saveSlot;
 
         // Update the selected profile id to be used for data persistence
         DataManager.Instance.ChangeSelectedProfileID(saveSlot.GetProfileID());
-        
-        if(!isLoadingGame)
-        {
-            // Create a new game, which will initialize our data to a clean slate
-            DataManager.Instance.NewGame();
-        }
 
-        // Load the scene, which will in turn save the game because of OnSceneUnloaded() in the DataManager
-        SceneManager.LoadSceneAsync("Prologue");
+        // Enable buttons
+        if(saveSlot.HasData)
+        {
+            // Only enable delete button if there is data to delete
+            deleteButton.interactable = true;
+        }
+        startButton.interactable = true;
+        
     }
 
-    public void ActivateMenu(bool isLoadingGame)
+    public void ActivateMenu()
     {
-        // Set mode
-        this.isLoadingGame = isLoadingGame;
-
         // Load all of the profiles that exist
         Dictionary<string, GameData> profilesGameData = DataManager.Instance.GetAllProfilesGameData();
 
@@ -52,15 +80,6 @@ public class SaveSlotsMenu : MonoBehaviour
             GameData profileData = null;
             profilesGameData.TryGetValue(saveSlot.GetProfileID(), out profileData);
             saveSlot.SetData(profileData);
-
-            // If loading a game, set it to not be interactable
-            if(profileData == null && isLoadingGame)
-            {
-                saveSlot.SetInteractable(false);
-            } else
-            {
-                saveSlot.SetInteractable(true);
-            }
         }
     }
 
@@ -73,5 +92,63 @@ public class SaveSlotsMenu : MonoBehaviour
         }
 
         // TODO - Disable back button
+    }
+
+    public void StartSave()
+    {
+        if (!selectedSaveSlot.HasData)
+        {
+            // Create a new game, which will initialize our data to a clean slate
+            DataManager.Instance.NewGame();
+
+            SaveGameAndLoadScene("Prologue");
+        }
+        else
+        {
+            DataManager.Instance.ChangeSelectedProfileID(selectedSaveSlot.GetProfileID());
+            SaveGameAndLoadScene(DataManager.Instance.Level);
+        }
+    }
+
+    public void DeleteSave()
+    {
+        // Activate the confirmation menu
+        deleteConfirmationMenu.ActivateMenu(
+                "Are you sure you want to delete this save?",
+                // Function to execute if we confirm
+                () =>
+                {
+                    // Delete the data associated with the selected save slot's profile ID
+                    DataManager.Instance.DeleteProfileData(selectedSaveSlot.GetProfileID());
+
+                    if(!DataManager.Instance.HasGameData())
+                    {
+                        // Reload the menu
+                        ActivateMenu();
+
+                        // Go back to main menu
+                        SceneManager.LoadSceneAsync("Main Menu");
+
+                    } else
+                    {
+                        // Reload the menu
+                        ActivateMenu();
+                    }
+                },
+                // Function to execute if we cancel
+                () =>
+                {
+                    // Reload the menu without further action
+                    ActivateMenu();
+                }
+            );
+    }
+
+    private void SaveGameAndLoadScene(string sceneToLoad)
+    {
+        // Save the game before loading a new scene
+        DataManager.Instance.SaveGame();
+
+        SceneManager.LoadSceneAsync(sceneToLoad);
     }
 }

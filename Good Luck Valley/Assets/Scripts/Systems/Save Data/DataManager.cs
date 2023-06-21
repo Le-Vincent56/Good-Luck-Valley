@@ -10,7 +10,7 @@ public class DataManager : MonoBehaviour
     #region REFERENCES
     private GameData gameData;
     [SerializeField] private List<IData> dataObjects;
-    private FileDataHandler dataHandler;
+    public FileDataHandler dataHandler;
     #endregion
 
     #region FIELDS
@@ -22,6 +22,7 @@ public class DataManager : MonoBehaviour
 
     #region PROPERTIES
     public static DataManager Instance { get; private set; }
+    public string Level { get { return gameData.levelName; } }
     #endregion
 
     private void Awake()
@@ -42,21 +43,19 @@ public class DataManager : MonoBehaviour
         // Create a FileDataHandler
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
 
-        selectedProfileID = dataHandler.GetMostRecentlyUpdatedProfileID();
+        InitializeSelectedProfileID();
     }
 
     private void OnEnable()
     {
         // Subscribe to scene events
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnDisable()
     {
         // Unsubscribe to scene events
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
     /// <summary>
@@ -70,16 +69,6 @@ public class DataManager : MonoBehaviour
 
         // Load the game
         LoadGame();
-    }
-
-    /// <summary>
-    /// Save the game whenever a Scene is unloaded
-    /// </summary>
-    /// <param name="scene">The scene being unloaded</param>
-    public void OnSceneUnloaded(Scene scene)
-    {
-        // Save the game whenever a scene is unloaded
-        SaveGame();
     }
 
     public void ChangeSelectedProfileID(string newProfileID)
@@ -97,6 +86,12 @@ public class DataManager : MonoBehaviour
     public void NewGame()
     {
         gameData = new GameData();
+
+        // If there is no profileID, make one
+        if(selectedProfileID == null)
+        {
+            selectedProfileID = "0";
+        }
     }
 
     /// <summary>
@@ -116,7 +111,7 @@ public class DataManager : MonoBehaviour
         // Pass the data to other scripts so they can update it
         foreach(IData dataObj in dataObjects)
         {
-            dataObj.SaveData(ref gameData);
+            dataObj.SaveData(gameData);
         }
 
         gameData.lastUpdated = System.DateTime.Now.ToBinary();
@@ -153,14 +148,31 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    public void DeleteProfileData(string profileID)
+    {
+        // Delete the data for this proile ID
+        dataHandler.Delete(profileID);
+
+        // Initialize the selected profile ID
+        InitializeSelectedProfileID();
+
+        // Reload the game so that our data matches the newly selected profile ID
+        LoadGame();
+    }
+
+    public void InitializeSelectedProfileID()
+    {
+        selectedProfileID = dataHandler.GetMostRecentlyUpdatedProfileID();
+    }
+
     /// <summary>
     /// Find all objects that have Data that can be saved or loaded
     /// </summary>
     /// <returns></returns>
     private List<IData> FindAllDataObjects()
     {
-        // Check for IData Interfaces in all objects
-        IEnumerable<IData> dataObjects = FindObjectsOfType<MonoBehaviour>().OfType<IData>();
+        // Check for IData Interfaces in all objects, including inactive objects
+        IEnumerable<IData> dataObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IData>();
 
         // Create a new list from IData objects
         return new List<IData>(dataObjects);

@@ -7,5 +7,5 @@ public interface IData
     void LoadData(GameData data);
 
     // Pass by reference so that the implementing script can modify the data
-    void SaveData(ref GameData data);
+    void SaveData(GameData data);
 }
