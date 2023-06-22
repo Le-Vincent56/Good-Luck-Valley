@@ -14,7 +14,7 @@ public enum ThrowState
     Throwing
 }
 
-public class MushroomManager : MonoBehaviour
+public class MushroomManager : MonoBehaviour, IData
 {
     #region REFERENCES
     private GameObject player;
@@ -639,6 +639,20 @@ public class MushroomManager : MonoBehaviour
                 }
             }
         }
-    }    
+    }
+    #endregion
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        throwUnlocked = data.throwUnlocked;
+        throwLocked = data.throwLocked;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.throwUnlocked = throwUnlocked;
+        data.throwLocked = throwLocked;
+    }
     #endregion
 }

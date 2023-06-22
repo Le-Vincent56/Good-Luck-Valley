@@ -61,8 +61,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-	private bool usingLotusCutscene = false;
-	private bool deactivatedCam = false;
     #endregion
 
     #region PROPERTIES
@@ -93,15 +91,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
-
-		if(director == null)
-		{
-			usingLotusCutscene = false;
-		} else
-		{
-			usingLotusCutscene = true;
-            GameObject.Find("LotusCam").SetActive(true);
-        }
 	}
 
 	private void Start()
@@ -115,9 +104,6 @@ public class PlayerMovement : MonoBehaviour, IData
 
 	private void Update()
 	{
-        Debug.Log("Gravity Scale: " + rb.gravityScale);
-		
-
 		// Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
@@ -801,12 +787,14 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
 		// Load player position
 		gameObject.transform.position = data.playerPosition;
+		isLocked = data.isLocked;
 	}
 
 	public void SaveData(GameData data)
 	{
 		// Save player position
 		data.playerPosition = gameObject.transform.position;
+		data.isLocked = isLocked;
 	}
 	#endregion
 }

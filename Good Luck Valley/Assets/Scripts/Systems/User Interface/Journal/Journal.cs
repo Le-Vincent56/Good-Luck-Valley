@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Linq;
 
-public class Journal : MonoBehaviour
+public class Journal : MonoBehaviour, IData
 {
     #region REFERENCES
     private Canvas journalUI;
@@ -169,4 +169,19 @@ public class Journal : MonoBehaviour
             journalScrollview.RemoveEntries();
         }
     }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        notes = data.notes;
+        hasJournal = data.hasJournal;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.numNotesCollected = notes.Count;
+        data.notes = notes;
+        data.hasJournal = hasJournal;
+    }
+    #endregion
 }

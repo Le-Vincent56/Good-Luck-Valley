@@ -21,6 +21,12 @@ public class FileDataHandler
         this.useEncryption = useEncryption;
     }
 
+    /// <summary>
+    /// Load game dat depending on the profile ID
+    /// </summary>
+    /// <param name="profileID">The profile ID to load data for</param>
+    /// <param name="allowRestoreFromBackup">Allow attempts to rollback corrupted data</param>
+    /// <returns>GameData that matches the given profile ID</returns>
     public GameData Load(string profileID, bool allowRestoreFromBackup = true)
     {
         // If the profileID is null, return right away
@@ -84,6 +90,11 @@ public class FileDataHandler
         return loadedData;
     }
 
+    /// <summary>
+    /// Save game data to a profile ID
+    /// </summary>
+    /// <param name="data">The GameData to save</param>
+    /// <param name="profileID">The profile ID to save to</param>
     public void Save(GameData data, string profileID)
     {
         // If the profileID is null, return right away
@@ -140,6 +151,10 @@ public class FileDataHandler
         }
     }
 
+    /// <summary>
+    /// Delete the game data of a profile ID
+    /// </summary>
+    /// <param name="profileID">The profile ID to delete the game data of</param>
     public void Delete(string profileID)
     {
         // If the profileID is null, return right away
@@ -167,6 +182,10 @@ public class FileDataHandler
         }
     }
 
+    /// <summary>
+    /// Load all profiles
+    /// </summary>
+    /// <returns>A dictionary that uses profile IDs as the keys and their associated GameData's as their values</returns>
     public Dictionary<string, GameData> LoadAllProfiles()
     {
         // Create a new directory for profiles
@@ -202,9 +221,14 @@ public class FileDataHandler
             }
         }
 
+        // Return the profile dictionary
         return profileDictionary;
     }
 
+    /// <summary>
+    /// Get the most recently updated profile ID (the most recently played)
+    /// </summary>
+    /// <returns>The most recently updated profile ID</returns>
     public string GetMostRecentlyUpdatedProfileID()
     {
         string mostRecentProfileID = null;
@@ -239,9 +263,15 @@ public class FileDataHandler
             }
         }
 
+        // Return the most recent profile ID
         return mostRecentProfileID;
     }
 
+    /// <summary>
+    /// Encrypt and decrypt game data
+    /// </summary>
+    /// <param name="data">The data to encrypt/decrypt</param>
+    /// <returns>Encrypted/decrypted data</returns>
     private string EncryptDecrypt(string data)
     {
         string modifiedData = "";
@@ -255,6 +285,11 @@ public class FileDataHandler
         return modifiedData;
     }
 
+    /// <summary>
+    /// Attempt to rollback corrupted data to a backup file
+    /// </summary>
+    /// <param name="fullPath">The path that includes both the corrupted file and the backup file</param>
+    /// <returns>True, if the rollback completed successfully, false if the rollback failed</returns>
     private bool AttemptRollback(string fullPath)
     {
         bool success = false;

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public interface IData
 {
+    /// <summary>
+    /// Load data
+    /// </summary>
+    /// <param name="data">The GameData object to load data from</param>
     void LoadData(GameData data);
 
-    // Pass by reference so that the implementing script can modify the data
+    /// <summary>
+    /// Save data
+    /// </summary>
+    /// <param name="data">The GameData object to save data to</param>
     void SaveData(GameData data);
 }

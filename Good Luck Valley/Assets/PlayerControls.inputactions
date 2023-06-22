@@ -166,6 +166,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CloseSaveMenu",
+                    "type": "Button",
+                    "id": "fb2941ff-7b9f-4333-af53-6ab0175e024d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -771,6 +780,17 @@
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "GoToLevelThree",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "691fe1e3-e1ab-4f04-ab1b-b8d9c47a12a7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "CloseSaveMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
