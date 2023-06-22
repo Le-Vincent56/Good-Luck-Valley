@@ -17,6 +17,7 @@ public class PauseMenu : MonoBehaviour, IData
 
     #region FIELDS
     [SerializeField] private bool paused = false;
+    private bool canPause = true;
     private string levelName;
     private float playtimeTotal;
     private float playtimeHours;
@@ -27,6 +28,7 @@ public class PauseMenu : MonoBehaviour, IData
 
     #region PROPERTIES
     public bool Paused { get { return paused; } set { paused = value; } }
+    public bool CanPause { get { return canPause; } set {  canPause = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -50,7 +52,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="context">The context of the controller</param>
     public void TogglePause(InputAction.CallbackContext context)
     {
-        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0))
+        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0) && canPause)
         {
             if (!paused)
             {

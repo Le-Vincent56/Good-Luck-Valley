@@ -97,11 +97,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         DataManager.Instance.ChangeSelectedProfileIDSoft(saveSlot.GetProfileID());
 
         // Enable buttons
-        if (saveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
-        {
-            // Only enable delete button if there is data to delete and the profile selected is not the current profile
-            deleteButton.interactable = true;
-        }
+        SetDeleteButtonInteractable();
         saveButton.interactable = true;
 
     }
@@ -229,11 +225,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
                 ActivateMenu();
 
                 // Enable buttons
-                if (selectedSaveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
-                {
-                    // Only enable delete button if there is data to delete and the profile selected is not the current profile
-                    deleteButton.interactable = true;
-                }
+                SetDeleteButtonInteractable();
                 saveButton.interactable = true;
             });
     }
@@ -256,11 +248,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
                     ActivateMenu();
 
                     // Enable buttons
-                    if (selectedSaveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
-                    {
-                        // Only enable delete button if there is data to delete and the profile selected is not the current profile
-                        deleteButton.interactable = true;
-                    }
+                    SetDeleteButtonInteractable();
                     saveButton.interactable = true;
                 },
                 // Function to execute if we cancel
@@ -270,11 +258,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
                     ActivateMenu();
 
                     // Enable buttons
-                    if (selectedSaveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
-                    {
-                        // Only enable delete button if there is data to delete and the profile selected is not the current profile
-                        deleteButton.interactable = true;
-                    }
+                    SetDeleteButtonInteractable();
                     saveButton.interactable = true;
                 }
             );
@@ -312,6 +296,22 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Set the interactablity of the delete button
+    /// </summary>
+    public void SetDeleteButtonInteractable()
+    {
+        if (selectedSaveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
+        {
+            // Only enable delete button if there is data to delete and the profile selected is not the current profile
+            deleteButton.interactable = true;
+        }
+        else
+        {
+            deleteButton.interactable = false;
+        }
+    }
+
+    /// <summary>
     /// Create a in-progress saving UI before reloading the menu to create time for file creation
     /// </summary>
     /// <returns></returns>
@@ -334,11 +334,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         ActivateMenu();
 
         // Enable buttons
-        if (selectedSaveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
-        {
-            // Only enable delete button if there is data to delete and the profile selected is not the current profile
-            deleteButton.interactable = true;
-        }
+        SetDeleteButtonInteractable();
         saveButton.interactable = true;
 
         saving = false;
