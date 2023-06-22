@@ -128,6 +128,8 @@ public class MushroomManager : MonoBehaviour, IData
         {
             tutorialEvent = null;
         }
+
+        tilemap = GameObject.Find("foreground");
     }
 
     // Update is called once per frame
