@@ -11,19 +11,31 @@ public class Settings : MonoBehaviour, ISettingsData
     #endregion
 
     #region FIELDS
+    // Accessibility Settings
     private static bool throwIndicatorShown;
     private static bool noClipOn;
     private static bool instantThrowOn;
     private static bool infiniteShroomsOn;
     private static bool shroomDurationOn;
-    private static bool updateSettings;
+
+    // Display settings
     private static float brightness;
     private static bool subtitlesEnabled;
     private static int resOption;
     private static Vector2 resolution;
     private static bool isFullscreen;
+
+    // Audio settings
+    private float masterVolume;
+    private float musicVolume;
+    private float sfxVolume;
+    private float ambientVolume;
+    private float voicesVolume;
+
+
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
+    private static bool updateSettings;
     #endregion
 
     #region PROPERTIES
@@ -38,6 +50,11 @@ public class Settings : MonoBehaviour, ISettingsData
     public int ResOption { get { return resOption; } set { resOption = value; } }
     public bool IsFullscreen { get { return isFullscreen; } set { isFullscreen = value; } }
     public Vector2 Resolution {  get { return resolution; } set {  resolution = value; } }
+    public float MasterVolume { get { return masterVolume; } set {  masterVolume = value; } }
+    public float MusicVolume { get { return musicVolume; } set {  musicVolume = value; } }
+    public float SFXVolume { get { return sfxVolume; } set { sfxVolume = value; } }
+    public float AmbientVolume { get { return ambientVolume; } set {  ambientVolume = value; } }
+    public float VoicesVolume { get { return voicesVolume; } set { voicesVolume = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -58,6 +75,7 @@ public class Settings : MonoBehaviour, ISettingsData
     {
         if (menusMan.CurrentScene > 5)
         {
+            #region ACCESSIBILITY SETTINGS
             if (updateSettings)
             {
                 if (noClipOn)
@@ -107,6 +125,7 @@ public class Settings : MonoBehaviour, ISettingsData
 
                 updateSettings = false;
             }
+            #endregion
         }
     }
 
@@ -211,6 +230,11 @@ public class Settings : MonoBehaviour, ISettingsData
 
         // Load audio settings
         #region AUDIO
+        musicVolume = data.musicVolume;
+        masterVolume = data.masterVolume;
+        ambientVolume = data.ambientVolume;
+        SFXVolume = data.SFXVolume;
+        voicesVolume = data.voicesVolume;
         #endregion
     }
 
@@ -239,7 +263,13 @@ public class Settings : MonoBehaviour, ISettingsData
         #region CONTROLS
         #endregion
 
+        // Save audio settings values
         #region AUDIO
+        data.masterVolume = masterVolume;
+        data.ambientVolume = ambientVolume;
+        data.voicesVolume = voicesVolume;
+        data.SFXVolume = SFXVolume;
+        data.musicVolume = musicVolume;
         #endregion
     }
     #endregion

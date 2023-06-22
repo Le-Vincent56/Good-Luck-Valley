@@ -54,7 +54,6 @@ public class SettingsDataHandler
 
     public void Save(SettingsData data)
     {
-        Debug.Log("Saving Settings");
         // Use Path.Combine() to account for different OS's having different path separators
         string fullPath = Path.Combine(dataDirPath, dataFileName);
 

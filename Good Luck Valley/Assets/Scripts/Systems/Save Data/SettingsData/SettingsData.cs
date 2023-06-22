@@ -21,6 +21,11 @@ public class SettingsData
     public int resOption;
 
     // Audio
+    public float masterVolume;
+    public float musicVolume;
+    public float SFXVolume;
+    public float ambientVolume;
+    public float voicesVolume;
 
     // Controls
     #endregion
@@ -40,5 +45,12 @@ public class SettingsData
         resolution = new Vector2(1920, 1080);
         isFullscreen = true;
         resOption = 1;
+
+        // Audio
+        masterVolume = 40;
+        musicVolume = 30;
+        SFXVolume = 30;
+        ambientVolume = 30;
+        voicesVolume = 40;
     }
 }

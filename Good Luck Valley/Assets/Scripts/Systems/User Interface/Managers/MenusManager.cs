@@ -187,10 +187,6 @@ public class MenusManager : MonoBehaviour
             fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
             subtitlesToggle = GameObject.Find("SubtitlesToggle").GetComponent<Toggle>(); 
 
-            // Set initial values of resolution dropdown and fullscreen toggle
-            resDropdown.value = settings.ResOption;
-            fullscreenToggle.isOn = settings.IsFullscreen;
-
             // Get references to navigation buttons and fill array
             for (int i = 0; i < 4; i++)
             {
@@ -207,33 +203,14 @@ public class MenusManager : MonoBehaviour
             // Default screen nav button, currently set to be accessibility panel
             navButtons[3].GetComponent<Button>().interactable = false;
 
-            brightness = settings.Brightness;
-            resValues = settings.Resolution;
+            // Call load functions to assign local variables and ensure UI match values
+            LoadAudio();
 
-            // Get references to all sliders and text inputs
-            for (int i = 0; i < 6; i++)
-            {
-                textInputs[i] = GameObject.Find("TextInput" + i);
-                sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+            LoadDisplay();
 
-                // Setting default values, change once we add actual functionality
-                Debug.Log("Settings Brightness: " + settings.Brightness);
-                textInputs[i].GetComponent<TMP_InputField>().text = settings.Brightness.ToString();
-                sliders[i].value = settings.Brightness;
-            }
+            LoadAccessibility();
 
-            // Assign values for accessibility settings using the values from settings
-            accessibilityTools[0] = settings.ThrowIndicatorShown;
-            accessibilityTools[1] = settings.InfiniteShroomsOn;
-            accessibilityTools[2] = settings.ShroomDurationOn;
-            accessibilityTools[3] = settings.InstantThrowOn;
-            accessibilityTools[4] = settings.NoClipOn; 
-
-            // Iterate through accessibility toggles and assign values based on accessibilityTools
-            for (int i = 0; i < 5; i++) 
-            {
-                GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
-            }
+            LoadControls();
 
             // Allow on value changed events to trigger again
             disableCalls = false;
@@ -243,7 +220,6 @@ public class MenusManager : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log("Brightness: " + brightness);
         // Call Fading functions
         FadeIn();
         FadeOut();
@@ -304,6 +280,66 @@ public class MenusManager : MonoBehaviour
         }
         #endregion
     }
+
+    #region VALUE ASSIGNING/LOADING HELPER METHODS
+    private void LoadAudio()
+    {
+        // Get references to all sliders and text inputs
+        for (int i = 0; i < 6; i++)
+        {
+            textInputs[i] = GameObject.Find("TextInput" + i);
+            sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+        }
+
+        // Assign values for AUDIO settings input fields using values from settings
+        textInputs[0].GetComponent<TMP_InputField>().text = settings.MasterVolume.ToString();
+        textInputs[1].GetComponent<TMP_InputField>().text = settings.MusicVolume.ToString();
+        textInputs[2].GetComponent<TMP_InputField>().text = settings.SFXVolume.ToString();
+        textInputs[3].GetComponent<TMP_InputField>().text = settings.AmbientVolume.ToString();
+        textInputs[4].GetComponent<TMP_InputField>().text = settings.VoicesVolume.ToString();
+
+        // Assign values for AUDIO settings sliders using values from settings
+        sliders[0].value = settings.MasterVolume;
+        sliders[1].value = settings.MusicVolume;
+        sliders[2].value = settings.SFXVolume;
+        sliders[3].value = settings.AmbientVolume;
+        sliders[4].value = settings.VoicesVolume;
+    }
+
+    private void LoadDisplay()
+    {
+        // Assigning values for DISPLAY settings based on values from settings
+        brightness = settings.Brightness;
+        resValues = settings.Resolution;
+        resDropdown.value = settings.ResOption;
+        fullscreenToggle.isOn = settings.IsFullscreen;
+        subtitlesToggle.isOn = settings.SubtitlesEnabled;
+        sliders[5].value = settings.Brightness;
+        textInputs[5].GetComponent<TMP_InputField>().text = settings.Brightness.ToString();
+    }
+
+    private void LoadAccessibility()
+    {
+        // Assign values for ACCESSIBILITY settings using the values from settings
+        accessibilityTools[0] = settings.ThrowIndicatorShown;
+        accessibilityTools[1] = settings.InfiniteShroomsOn;
+        accessibilityTools[2] = settings.ShroomDurationOn;
+        accessibilityTools[3] = settings.InstantThrowOn;
+        accessibilityTools[4] = settings.NoClipOn;
+
+        // Iterate through accessibility toggles and assign values based on accessibilityTools
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
+        }
+    }
+
+    private void LoadControls()
+    {
+        Debug.Log("Controls load here");
+    }
+    #endregion
+
 
     #region NAVIGATING SCENES
     /// <summary>
@@ -672,6 +708,44 @@ public class MenusManager : MonoBehaviour
             settingsSaved = false;
         }
     }
+    #endregion
+
+    #region APPLYING SETTINGS HELPER METHODS
+    private void ApplyAccessibility()
+    {
+        settings.ThrowIndicatorShown = accessibilityTools[0];
+        settings.InfiniteShroomsOn = accessibilityTools[1];
+        settings.ShroomDurationOn = accessibilityTools[2];
+        settings.InstantThrowOn = accessibilityTools[3];
+        settings.NoClipOn = accessibilityTools[4];
+    }
+
+    private void ApplyDisplay()
+    {
+        settings.Brightness = brightness;
+        Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen);
+        Screen.fullScreen = isFullscreen;
+        settings.SubtitlesEnabled = subtitlesEnabled;
+        settings.ResOption = resDropdown.value;
+        settings.IsFullscreen = fullscreenToggle.isOn;
+        settings.Resolution = resValues;
+
+    }
+
+    private void ApplyControls()
+    {
+
+    }
+
+    private void ApplyAudio()
+    {
+        settings.MasterVolume = sliders[0].value;
+        settings.MusicVolume = sliders[1].value;
+        settings.SFXVolume = sliders[2].value;
+        settings.AmbientVolume = sliders[3].value;
+        settings.VoicesVolume = sliders[4].value;
+    }
+    #endregion
 
     /// <summary>
     /// Updates the values in the settings script and disables the 
@@ -684,39 +758,23 @@ public class MenusManager : MonoBehaviour
         settings.UpdateSettings = true;
 
         // Accessibility settings
-        #region ACCESSIBILITY
-        settings.ThrowIndicatorShown = accessibilityTools[0];
-        settings.InfiniteShroomsOn = accessibilityTools[1];
-        settings.ShroomDurationOn = accessibilityTools[2];
-        settings.InstantThrowOn = accessibilityTools[3];
-        settings.NoClipOn = accessibilityTools[4];
-        #endregion
+        ApplyAccessibility();
 
         // Display settings
-        #region DISPLAY
-        settings.Brightness = brightness; 
-        Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen); 
-        Screen.fullScreen = isFullscreen;
-        settings.SubtitlesEnabled = subtitlesEnabled;
-        settings.ResOption = resDropdown.value;
-        settings.IsFullscreen = fullscreenToggle.isOn;
-        settings.Resolution = resValues;
-        #endregion
+        ApplyDisplay();
 
         // Controls settings
-        #region CONTROLS
-        #endregion
+        ApplyControls();
 
         // Audio settings
-        #region AUDIO
-        #endregion
+        ApplyAudio();
 
+        // Save the game
         DataManager.Instance.SaveGame();
 
         // Disables confirmation check
         settingsSaved = true;
     }
-    #endregion
 
     /// <summary>
     /// Resets settings to their default values
@@ -727,12 +785,14 @@ public class MenusManager : MonoBehaviour
         // when changing toggle values
         disableCalls = true;
 
-
         accessibilityTools[0] = false;  // Throw line is off
         accessibilityTools[1] = false;  // Mushrooms are limited to 3
         accessibilityTools[2] = true;   // Mushroom timer is enabled
         accessibilityTools[3] = false;  // Instant throw is disabled
         accessibilityTools[4] = false;  // No-Clip is disabled
+
+        // Changing menu display
+        fullscreenToggle.isOn = true;   // Sets fullscreen toggle to be on
         brightness = 95;                // Brightness is set to 95%
         resValues.x = 1920;             // Resolution is set to 1920x1080
         resValues.y = 1080;
@@ -741,28 +801,27 @@ public class MenusManager : MonoBehaviour
         resDropdown.value = 1;          // Resolution dropdown setting is set to show
                                         // the proper current resolution
 
-        // Changing menu display
-        fullscreenToggle.isOn = true;   // Sets fullscreen toggle to be on
-
         // Sets accessibility page toggles to be accurate
         for (int i = 0; i < 5; i++)
         {
             GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
         }
 
-        // Makes sliders and text inputs be accurate
-        for (int i = 0; i < 5; i++)
-        {
-            textInputs[i] = GameObject.Find("TextInput" + i);
-            sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
-
-            // Setting default values, change once we add actual functionality
-            textInputs[i].GetComponent<TMP_InputField>().text = "50";
-            sliders[i].value = 50;
-        }
+        //// Makes sliders and text inputs be accurate
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    textInputs[i] = GameObject.Find("TextInput" + i);
+        //    sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+        //}
 
         textInputs[5].GetComponent<TMP_InputField>().text = brightness.ToString();
         sliders[5].value = brightness;
+
+        sliders[0].value = 40f; // Master volume
+        sliders[1].value = 30f; // Music volume
+        sliders[2].value = 30f; // SFX volume
+        sliders[3].value = 30f; // Ambient volume
+        sliders[4].value = 40f; // Voices volume
 
         // Calls apply settings
         ApplySettings();
