@@ -371,6 +371,13 @@ public class MenusManager : MonoBehaviour
                         settingsSaved = true;
                         Back();
                     }
+                    else if (confirmCheckNum == 2)
+                    {
+                        Debug.Log("Reset to Default");
+                        deleteConfirmation.SetActive(false);
+                        checkQuit = true;
+                        ResetSettings();
+                    }
                     break;
 
                 case 5:
@@ -598,11 +605,20 @@ public class MenusManager : MonoBehaviour
         settingsSaved = false;
     }
 
+    /// <summary>
+    /// Updates the values in the settings script and disables the 
+    ///     'leave without saving' confirmation check
+    /// </summary>
     public void ApplySettings()
     {
+        // Bool in Settings.cs that lets it know if it should update the
+        //  game state based on enabled settings
         settings.UpdateSettings = true;
+
+        // Disables confirmation check
         settingsSaved = true;
 
+        // Accessibility settings
         #region ACCESSIBILITY
         settings.ThrowIndicatorShown = accessibilityTools[0];
         settings.InfiniteShroomsOn = accessibilityTools[1];
@@ -611,6 +627,7 @@ public class MenusManager : MonoBehaviour
         settings.NoClipOn = accessibilityTools[4];
         #endregion
 
+        // Display settings
         #region DISPLAY
         settings.Brightness = brightness; 
         Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen); 
@@ -620,13 +637,67 @@ public class MenusManager : MonoBehaviour
         settings.IsFullscreen = fullscreenToggle.isOn;
         #endregion
 
+        // Controls settings
         #region CONTROLS
         #endregion
 
+        // Audio settings
         #region AUDIO
         #endregion
     }
-#endregion
+    #endregion
+
+    /// <summary>
+    /// Resets settings to their default values
+    /// </summary>
+    private void ResetSettings()
+    {
+        // Makes it so that on-change functions dont happen
+        // when changing toggle values
+        disableCalls = true;
+
+
+        accessibilityTools[0] = false;  // Throw line is off
+        accessibilityTools[1] = false;  // Mushrooms are limited to 3
+        accessibilityTools[2] = true;   // Mushroom timer is enabled
+        accessibilityTools[3] = false;  // Instant throw is disabled
+        accessibilityTools[4] = false;  // No-Clip is disabled
+        brightness = 95;                // Brightness is set to 95%
+        resValues.x = 1920;             // Resolution is set to 1920x1080
+        resValues.y = 1080;
+        isFullscreen = true;            // Fullscreen is enabled
+        subtitlesEnabled = false;       // Subtitles are disabled
+        resDropdown.value = 1;          // Resolution dropdown setting is set to show
+                                        // the proper current resolution
+
+        // Changing menu display
+        fullscreenToggle.isOn = true;   // Sets fullscreen toggle to be on
+
+        // Sets accessibility page toggles to be accurate
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
+        }
+
+        // Makes sliders and text inputs be accurate
+        for (int i = 0; i < 5; i++)
+        {
+            textInputs[i] = GameObject.Find("TextInput" + i);
+            sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+
+            // Setting default values, change once we add actual functionality
+            textInputs[i].GetComponent<TMP_InputField>().text = "50";
+            sliders[i].value = 50;
+        }
+
+        textInputs[5].GetComponent<TMP_InputField>().text = brightness.ToString();
+        sliders[5].value = brightness;
+
+        // Calls apply settings
+        ApplySettings();
+
+        disableCalls = false;
+    }
 
     /// <summary>
     /// Disable all buttons
