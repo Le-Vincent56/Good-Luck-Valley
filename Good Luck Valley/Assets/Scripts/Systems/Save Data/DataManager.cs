@@ -163,7 +163,8 @@ public class DataManager : MonoBehaviour
 
         if (settingsData == null)
         {
-            Debug.LogWarning("Settings Data was null in data manager");
+            Debug.LogWarning("Settings not found, creating new default profile");
+            settingsData = new SettingsData();
         }
 
         // If no data can be loaded, log a warning and return
