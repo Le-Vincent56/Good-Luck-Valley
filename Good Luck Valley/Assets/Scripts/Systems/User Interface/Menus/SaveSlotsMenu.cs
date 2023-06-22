@@ -59,6 +59,9 @@ public class SaveSlotsMenu : MonoBehaviour
         // Update the selected profile id to be used for data persistence
         DataManager.Instance.ChangeSelectedProfileID(saveSlot.GetProfileID());
 
+        // Load the game to update the profile
+        DataManager.Instance.LoadGame();
+
         // Enable buttons
         if(saveSlot.HasData)
         {
@@ -105,7 +108,13 @@ public class SaveSlotsMenu : MonoBehaviour
         }
         else
         {
+            // Change to the selected profile ID
             DataManager.Instance.ChangeSelectedProfileID(selectedSaveSlot.GetProfileID());
+
+            // Load the game to update data
+            DataManager.Instance.LoadGame();
+
+            // Save the game before loading a new scene
             SaveGameAndLoadScene(DataManager.Instance.Level);
         }
     }
