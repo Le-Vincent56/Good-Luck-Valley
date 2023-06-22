@@ -62,36 +62,30 @@ public class Note : Interactable
     }
 
     #region DATA HANDLING
-    //public void LoadData(GameData data)
-    //{
-    //    // Get the data for all the notes that have been collected
-    //    data.notesCollected.TryGetValue(id, out noteAdded);
+    public void LoadData(GameData data)
+    {
+        // Get the data for all the notes that have been collected
+        data.notesCollected.TryGetValue(id, out noteAdded);
 
-    //    // Check if the note has been added
-    //    if(noteAdded)
-    //    {
-    //        // If so, and the journal does not contain the note, add it
-    //        if(!data.playerJournal.Notes.Contains(this))
-    //        {
-    //            data.playerJournal.Notes.Add(this);
-    //        }
-            
-    //        // Remove the note
-    //        remove = true;
-    //    }
-    //}
+        // Check if the note has been added
+        if (noteAdded)
+        {
+            // Remove the note
+            remove = true;
+        }
+    }
 
-    //public void SaveData(ref GameData data)
-    //{
-    //    // Check to see if data has the id of the note
-    //    if(data.notesCollected.ContainsKey(id))
-    //    {
-    //        // If so, remove it
-    //        data.notesCollected.Remove(id);
-    //    }
+    public void SaveData(ref GameData data)
+    {
+        // Check to see if data has the id of the note
+        if (data.notesCollected.ContainsKey(id))
+        {
+            // If so, remove it
+            data.notesCollected.Remove(id);
+        }
 
-    //    // Add the id and the current bool to make sure everything is up to date
-    //    data.notesCollected.Add(id, noteAdded);
-    //}
+        // Add the id and the current bool to make sure everything is up to date
+        data.notesCollected.Add(id, noteAdded);
+    }
     #endregion
 }
