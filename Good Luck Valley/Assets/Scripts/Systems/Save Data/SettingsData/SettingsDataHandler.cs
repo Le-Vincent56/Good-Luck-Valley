@@ -78,7 +78,6 @@ public class SettingsDataHandler
     /// <param name="data">The settings data to save</param>
     public void Save(SettingsData data)
     {
-        Debug.Log("Saving Settings");
         // Use Path.Combine() to account for different OS's having different path separators
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         string backupFilePath = fullPath + backupExtension;
