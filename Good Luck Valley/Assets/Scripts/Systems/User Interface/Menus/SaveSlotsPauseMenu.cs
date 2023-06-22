@@ -168,7 +168,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
             // Show saving in progress UI elements and set saving text update timer
             savingProgressPanel.enabled = true;
-            savingProgressText.enabled = false;
+            savingProgressText.enabled = true;
             savingProgressText.text = "Saving";
             savingTextUpdateTimer = 2.4f;
 
