@@ -55,6 +55,7 @@ public class MenusManager : MonoBehaviour
 
     #region PROPERTIES
     public int CurrentScene { get { return currentScene; } }
+    public bool SettingsSaved { get { return settingsSaved; } set { settingsSaved = value; } } 
     #endregion
 
     public void Start()
@@ -206,6 +207,9 @@ public class MenusManager : MonoBehaviour
             // Default screen nav button, currently set to be accessibility panel
             navButtons[3].GetComponent<Button>().interactable = false;
 
+            brightness = settings.Brightness;
+            resValues = settings.Resolution;
+
             // Get references to all sliders and text inputs
             for (int i = 0; i < 6; i++)
             {
@@ -213,6 +217,7 @@ public class MenusManager : MonoBehaviour
                 sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
 
                 // Setting default values, change once we add actual functionality
+                Debug.Log("Settings Brightness: " + settings.Brightness);
                 textInputs[i].GetComponent<TMP_InputField>().text = settings.Brightness.ToString();
                 sliders[i].value = settings.Brightness;
             }
@@ -238,6 +243,7 @@ public class MenusManager : MonoBehaviour
 
     public void Update()
     {
+        Debug.Log("Brightness: " + brightness);
         // Call Fading functions
         FadeIn();
         FadeOut();
@@ -385,7 +391,6 @@ public class MenusManager : MonoBehaviour
             {
                 // If the scene is the title screen then the confirmation box should close the game
                 case 1:
-                    Debug.Log("Close Game");
                     Application.Quit(); // Closes application
                     break;
 
@@ -394,7 +399,6 @@ public class MenusManager : MonoBehaviour
                     if (confirmCheckNum == 1)
                     {
                         // Overwrites the save
-                        Debug.Log("Save Overwritten.");
 
                         // Enables checkQuit so that the confirmation box appears
                         //  the next time it needs to
@@ -406,7 +410,6 @@ public class MenusManager : MonoBehaviour
                     else if (confirmCheckNum == 2)
                     {
                         // Deletes save 
-                        Debug.Log("Save Deleted.");
 
                         // Enables checkQuit so that the confirmation box appears
                         //  the next time it needs to
@@ -421,7 +424,6 @@ public class MenusManager : MonoBehaviour
                 case 4:
                     if (confirmCheckNum == 1)
                     {
-                        Debug.Log("Returning to " + previousScene);
                         // Sets settingsSaved to true so that we can exit
                         //  without the confirmation box appearing
                         settingsSaved = true;
@@ -431,7 +433,6 @@ public class MenusManager : MonoBehaviour
                     }
                     else if (confirmCheckNum == 2)
                     {
-                        Debug.Log("Reset to Default");
                         // Sets the confirmation box to inactive
                         deleteConfirmation.SetActive(false);
 
@@ -486,7 +487,6 @@ public class MenusManager : MonoBehaviour
 
     public void SelectSave(int saveNum)
     {
-        Debug.Log("Save Selected:" + saveNum);
         selectedSave = saveNum;
     }
 
@@ -582,14 +582,17 @@ public class MenusManager : MonoBehaviour
     #region SETTINGS INPUTS
     public void ChangeResolution()
     {
-        string[] resolution = new string[2];
-        resolution = resDropdown.options[resDropdown.value].text.Split('x');
-        int[] resolutionValues = new int[resolution.Length];
-        int.TryParse(resolution[0], out resolutionValues[0]);
-        int.TryParse(resolution[1], out resolutionValues[1]);
+        if (!disableCalls)
+        {
+            string[] resolution = new string[2];
+            resolution = resDropdown.options[resDropdown.value].text.Split('x');
+            int[] resolutionValues = new int[resolution.Length];
+            int.TryParse(resolution[0], out resolutionValues[0]);
+            int.TryParse(resolution[1], out resolutionValues[1]);
 
-        resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
-        settingsSaved = false;
+            resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
+            settingsSaved = false;
+        }
     }    
 
     public void SetFullscreen() 
@@ -603,27 +606,30 @@ public class MenusManager : MonoBehaviour
 
     public void ChangeBrightness(int type)
     {
-        switch (type)
+        if (!disableCalls)
         {
-            case 0:
-                brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
-                if (brightness < .95f)
-                {
-                    fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f)); 
-                    settings.Brightness = brightness;
-                } 
-                break;
+            switch (type)
+            {
+                case 0:
+                    brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
+                    if (brightness < .95f)
+                    {
+                        fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
+                        settings.Brightness = brightness;
+                    }
+                    break;
 
-            case 1:
-                brightness = sliders[5].value;
-                if (brightness < .95f)
-                {
-                    fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
-                    settings.Brightness = brightness;
-                }
-                break;
+                case 1:
+                    brightness = sliders[5].value;
+                    if (brightness < .95f)
+                    {
+                        fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
+                        settings.Brightness = brightness;
+                    }
+                    break;
+            }
+            settingsSaved = false;
         }
-        settingsSaved = false;
     }
 
     public void SetButton(int button)
@@ -660,8 +666,11 @@ public class MenusManager : MonoBehaviour
 
     public void ToggleSubtitles()
     {
-        subtitlesEnabled = subtitlesToggle.isOn;
-        settingsSaved = false;
+        if (!disableCalls)
+        {
+            subtitlesEnabled = subtitlesToggle.isOn;
+            settingsSaved = false;
+        }
     }
 
     /// <summary>
@@ -673,9 +682,6 @@ public class MenusManager : MonoBehaviour
         // Bool in Settings.cs that lets it know if it should update the
         //  game state based on enabled settings
         settings.UpdateSettings = true;
-
-        // Disables confirmation check
-        settingsSaved = true;
 
         // Accessibility settings
         #region ACCESSIBILITY
@@ -706,6 +712,9 @@ public class MenusManager : MonoBehaviour
         #endregion
 
         DataManager.Instance.SaveGame();
+
+        // Disables confirmation check
+        settingsSaved = true;
     }
     #endregion
 

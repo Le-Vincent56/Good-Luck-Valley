@@ -11,17 +11,17 @@ public class Settings : MonoBehaviour, ISettingsData
     #endregion
 
     #region FIELDS
-    private bool throwIndicatorShown;
-    private bool noClipOn;
-    private bool instantThrowOn;
-    private bool infiniteShroomsOn;
-    private bool shroomDurationOn;
-    private bool updateSettings;
-    private float brightness;
-    private bool subtitlesEnabled;
-    private int resOption;
-    private Vector2 resolution;
-    private bool isFullscreen;
+    private static bool throwIndicatorShown;
+    private static bool noClipOn;
+    private static bool instantThrowOn;
+    private static bool infiniteShroomsOn;
+    private static bool shroomDurationOn;
+    private static bool updateSettings;
+    private static float brightness;
+    private static bool subtitlesEnabled;
+    private static int resOption;
+    private static Vector2 resolution;
+    private static bool isFullscreen;
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
     #endregion

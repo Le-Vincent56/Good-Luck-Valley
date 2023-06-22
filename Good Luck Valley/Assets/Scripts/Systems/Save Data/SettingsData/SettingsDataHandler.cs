@@ -73,7 +73,6 @@ public class SettingsDataHandler
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
                     writer.Write(dataToStore);
-                    Debug.Log("Wrote data!");
                 }
             }
         }

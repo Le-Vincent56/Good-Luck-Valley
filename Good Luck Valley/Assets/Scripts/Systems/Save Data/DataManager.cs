@@ -141,10 +141,6 @@ public class DataManager : MonoBehaviour
             Debug.LogWarning("No Settings data was found.");
         }
 
-        Debug.Log("Saved " + dataObjects.Count + " objects!");
-
-        Debug.Log("Saved " + settingsDataObjects.Count + " objects");
-
         // Pass the data to other scripts so they can update it
         foreach(IData dataObj in dataObjects)
         {
