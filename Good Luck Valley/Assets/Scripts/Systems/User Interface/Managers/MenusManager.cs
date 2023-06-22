@@ -78,26 +78,32 @@ public class MenusManager : MonoBehaviour
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
+        // Get the settings reference
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+
+        // Initial value used to disable exit check
         settingsSaved = true;
 
+        // Fades between scenes
         #region FADING BETWEEN SCENES
-        if (currentScene != 0)
+        // Get reference to the square used for fading
+        fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
+
+        // Set fading in to true so that the square will turn transparent
+        fadeIn = true;
+        // Set fading out to false so that the square won't turn transparent
+        fadeOut = false;
+        // Set the initial values of the square's color, black with full transparency
+        fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        if (currentScene == 0)
         {
-            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-            fadeIn = true;
-            fadeOut = false;
-            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-        }
-        else if (currentScene == 0)
-        {
-            fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
-            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            // If the scene is 0, title screen, then set fade in to false
+            // cuz we shouldn't fade in when loading the title screen
             fadeIn = false;
-            fadeOut = false;
         }
         #endregion
 
+        // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false && fadeOut == false)
         {
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, settings.Brightness);
@@ -160,34 +166,47 @@ public class MenusManager : MonoBehaviour
         }
         #endregion
 
+        // Loading things for settings scene
         #region SETTINGS SCENE
         if (currentScene == 4)
         { 
+            // Make on value change events not happen
             disableCalls = true;
 
+            // Initialize arrays for holding input components
             navButtons = new GameObject[4];
             sliders = new Slider[6];
             textInputs = new GameObject[6];
+
+            // Intiialize array for holding values of accessibility tool toggles
             accessibilityTools = new bool[5];
+
+            // Get references to singular input fields
             resDropdown = GameObject.Find("Dropdown").GetComponent<Dropdown>();
             fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
             subtitlesToggle = GameObject.Find("SubtitlesToggle").GetComponent<Toggle>(); 
+
+            // Set initial values of resolution dropdown and fullscreen toggle
             resDropdown.value = settings.ResOption;
             fullscreenToggle.isOn = settings.IsFullscreen;
 
+            // Get references to navigation buttons and fill array
             for (int i = 0; i < 4; i++)
             {
                 navButtons[i] = GameObject.Find("Button" + i);
             }
 
-            // Button Values for future reference:
+            // Button color values for future reference:
             // Normal: FFFFFF
             // Highlighted: 808080
             // Pressed: 9A9A9A
             // Selected: 808080
             // Disabled: A6A6A6
+
+            // Default screen nav button, currently set to be accessibility panel
             navButtons[3].GetComponent<Button>().interactable = false;
 
+            // Get references to all sliders and text inputs
             for (int i = 0; i < 6; i++)
             {
                 textInputs[i] = GameObject.Find("TextInput" + i);
@@ -198,16 +217,20 @@ public class MenusManager : MonoBehaviour
                 sliders[i].value = settings.Brightness;
             }
 
+            // Assign values for accessibility settings using the values from settings
             accessibilityTools[0] = settings.ThrowIndicatorShown;
             accessibilityTools[1] = settings.InfiniteShroomsOn;
             accessibilityTools[2] = settings.ShroomDurationOn;
             accessibilityTools[3] = settings.InstantThrowOn;
             accessibilityTools[4] = settings.NoClipOn; 
 
-            for (int i = 0;i < 5; i++) 
+            // Iterate through accessibility toggles and assign values based on accessibilityTools
+            for (int i = 0; i < 5; i++) 
             {
                 GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
             }
+
+            // Allow on value changed events to trigger again
             disableCalls = false;
         }
         #endregion
@@ -251,18 +274,25 @@ public class MenusManager : MonoBehaviour
         #endregion
 
         #region SETTINGS SCENE HANDLING
+        // Check if scene is settings, 4
         if (currentScene == 4)
         {
+            // Check if we should update the navigation buttons visuals
             if (checkButtons)
             {
+                // Loop through navButtons 
                 for (int i = 0; i < 4; i++)
                 {
+                    // Check if the button isn't interactable
                     if (navButtons[i].GetComponent<Button>().IsInteractable() == false)
                     {
+                        // If so, then set it's panel to be at the bottom of the
+                        //  hierarchy so that it will appear above everything else
                         navButtons[i].transform.parent.SetAsLastSibling();
                     }
                 }
-
+                
+                // Disable navButton checks
                 checkButtons = false;
             }
         }
@@ -330,30 +360,47 @@ public class MenusManager : MonoBehaviour
             //{
             //    Debug.Log("Loading Save");
             //}
+            // Check if we are opening the first confirmation check and that the other one is either
+            //  null or not active (only one should be on screen at a time)
             if (confirmCheckNum == 1 && (confirmationCheck2 == null || confirmationCheck2.activeSelf == false))
             {
+                // Set the confirmation check box to be active
                 confirmationCheck.SetActive(true);
             }
+            // Check if we are opening the second confirmation check, and that the other one is either 
+            //  null or not active (only one should be on screen at a time)
             else if (confirmCheckNum == 2 && (confirmationCheck == null || confirmationCheck.activeSelf == false))
             {
+                // Set the confirmation check to be active
                 deleteConfirmation.SetActive(true);
             }
+            // Disable check quit so that the next time the function is called it uses the else statement
             checkQuit = false;
         }
+        // Only happens if the user presses 'yes' on the confirmation box
         else
         {
+            // Switch statement based on current scene
             switch (currentScene)
             {
+                // If the scene is the title screen then the confirmation box should close the game
                 case 1:
                     Debug.Log("Close Game");
-                    Application.Quit();
+                    Application.Quit(); // Closes application
                     break;
 
+                // If the scene is the save files scene
                 case 2:
                     if (confirmCheckNum == 1)
                     {
+                        // Overwrites the save
                         Debug.Log("Save Overwritten.");
+
+                        // Enables checkQuit so that the confirmation box appears
+                        //  the next time it needs to
                         checkQuit = true;
+
+                        // Hides the confirmatio box
                         confirmationCheck.SetActive(false);
                     }
                     else if (confirmCheckNum == 2)
@@ -370,6 +417,13 @@ public class MenusManager : MonoBehaviour
                         Debug.Log("Returning to " + previousScene);
                         settingsSaved = true;
                         Back();
+                    }
+                    else if (confirmCheckNum == 2)
+                    {
+                        Debug.Log("Reset to Default");
+                        deleteConfirmation.SetActive(false);
+                        checkQuit = true;
+                        ResetSettings();
                     }
                     break;
 
@@ -598,11 +652,20 @@ public class MenusManager : MonoBehaviour
         settingsSaved = false;
     }
 
+    /// <summary>
+    /// Updates the values in the settings script and disables the 
+    ///     'leave without saving' confirmation check
+    /// </summary>
     public void ApplySettings()
     {
+        // Bool in Settings.cs that lets it know if it should update the
+        //  game state based on enabled settings
         settings.UpdateSettings = true;
+
+        // Disables confirmation check
         settingsSaved = true;
 
+        // Accessibility settings
         #region ACCESSIBILITY
         settings.ThrowIndicatorShown = accessibilityTools[0];
         settings.InfiniteShroomsOn = accessibilityTools[1];
@@ -611,6 +674,7 @@ public class MenusManager : MonoBehaviour
         settings.NoClipOn = accessibilityTools[4];
         #endregion
 
+        // Display settings
         #region DISPLAY
         settings.Brightness = brightness; 
         Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen); 
@@ -620,13 +684,67 @@ public class MenusManager : MonoBehaviour
         settings.IsFullscreen = fullscreenToggle.isOn;
         #endregion
 
+        // Controls settings
         #region CONTROLS
         #endregion
 
+        // Audio settings
         #region AUDIO
         #endregion
     }
-#endregion
+    #endregion
+
+    /// <summary>
+    /// Resets settings to their default values
+    /// </summary>
+    private void ResetSettings()
+    {
+        // Makes it so that on-change functions dont happen
+        // when changing toggle values
+        disableCalls = true;
+
+
+        accessibilityTools[0] = false;  // Throw line is off
+        accessibilityTools[1] = false;  // Mushrooms are limited to 3
+        accessibilityTools[2] = true;   // Mushroom timer is enabled
+        accessibilityTools[3] = false;  // Instant throw is disabled
+        accessibilityTools[4] = false;  // No-Clip is disabled
+        brightness = 95;                // Brightness is set to 95%
+        resValues.x = 1920;             // Resolution is set to 1920x1080
+        resValues.y = 1080;
+        isFullscreen = true;            // Fullscreen is enabled
+        subtitlesEnabled = false;       // Subtitles are disabled
+        resDropdown.value = 1;          // Resolution dropdown setting is set to show
+                                        // the proper current resolution
+
+        // Changing menu display
+        fullscreenToggle.isOn = true;   // Sets fullscreen toggle to be on
+
+        // Sets accessibility page toggles to be accurate
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
+        }
+
+        // Makes sliders and text inputs be accurate
+        for (int i = 0; i < 5; i++)
+        {
+            textInputs[i] = GameObject.Find("TextInput" + i);
+            sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+
+            // Setting default values, change once we add actual functionality
+            textInputs[i].GetComponent<TMP_InputField>().text = "50";
+            sliders[i].value = 50;
+        }
+
+        textInputs[5].GetComponent<TMP_InputField>().text = brightness.ToString();
+        sliders[5].value = brightness;
+
+        // Calls apply settings
+        ApplySettings();
+
+        disableCalls = false;
+    }
 
     /// <summary>
     /// Disable all buttons
