@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Settings : MonoBehaviour
+public class Settings : MonoBehaviour, ISettingsData
 {
     #region REFERENCES
     private MenusManager menusMan;
@@ -11,16 +11,17 @@ public class Settings : MonoBehaviour
     #endregion
 
     #region FIELDS
-    private static bool throwIndicatorShown = false;
-    private static bool noClipOn = false;
-    private static bool instantThrowOn = false;
-    private static bool infiniteShroomsOn = false;
-    private static bool shroomDurationOn = true;
-    private static bool updateSettings;
-    private static float brightness;
-    private static bool subtitlesEnabled;
-    private static int resOption;
-    private static bool isFullscreen;
+    private bool throwIndicatorShown;
+    private bool noClipOn;
+    private bool instantThrowOn;
+    private bool infiniteShroomsOn;
+    private bool shroomDurationOn;
+    private bool updateSettings;
+    private float brightness;
+    private bool subtitlesEnabled;
+    private int resOption;
+    private Vector2 resolution;
+    private bool isFullscreen;
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
     #endregion
@@ -36,6 +37,7 @@ public class Settings : MonoBehaviour
     public bool SubtitlesEnabled { get {  return subtitlesEnabled; } set {  subtitlesEnabled = value; } }
     public int ResOption { get { return resOption; } set { resOption = value; } }
     public bool IsFullscreen { get { return isFullscreen; } set { isFullscreen = value; } }
+    public Vector2 Resolution {  get { return resolution; } set {  resolution = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -161,7 +163,9 @@ public class Settings : MonoBehaviour
     {
         mushMan.EnableShroomTimers = false;
     }
+    #endregion
 
+    #region THROW LINE
     private void EnableThrowLine()
     {
         mushMan.ThrowLineOn = true;
@@ -171,5 +175,72 @@ public class Settings : MonoBehaviour
     {
         mushMan.ThrowLineOn = false;
     }
-    #endregion 
+    #endregion
+
+    // DATA HANDLING
+    #region DATA HANDLING
+    public void LoadData(SettingsData data)
+    {
+        // Bool in Settings.cs that lets it know if it should update the
+        //  game state based on enabled settings
+        updateSettings = true;
+
+        // Load accessibility settings
+        #region ACCESSIBILITY
+        throwIndicatorShown = data.throwIndicatorShown;
+        infiniteShroomsOn = data.infiniteShroomsOn;
+        shroomDurationOn = data.shroomDurationOn;
+        instantThrowOn = data.instantThrowOn;
+        noClipOn = data.noClipOn;
+        #endregion
+
+        // Load display settings
+        #region DISPLAY
+        brightness = data.brightness;
+        Screen.SetResolution((int)data.resolution.x, (int)data.resolution.y, data.isFullscreen);
+        Screen.fullScreen = data.isFullscreen;
+        subtitlesEnabled = data.subtitlesEnabled;
+        isFullscreen = data.isFullscreen;
+        resolution = data.resolution;
+        resOption = data.resOption;
+        #endregion
+
+        // Load controls settings
+        #region CONTROLS
+        #endregion
+
+        // Load audio settings
+        #region AUDIO
+        #endregion
+    }
+
+    public void SaveData(SettingsData data)
+    {
+        updateSettings = true;
+
+        // Save accessibility settings values
+        #region ACCESSIBILITY
+        data.throwIndicatorShown = throwIndicatorShown;
+        data.infiniteShroomsOn = infiniteShroomsOn;
+        data.shroomDurationOn = shroomDurationOn;
+        data.instantThrowOn = instantThrowOn;
+        data.noClipOn = noClipOn;
+        #endregion
+
+        // Save display settings values
+        #region DISPLAY
+        data.brightness = brightness;
+        data.subtitlesEnabled = subtitlesEnabled;
+        data.isFullscreen = isFullscreen;
+        data.resolution = resolution;
+        data.resOption = resOption;
+        #endregion
+
+        #region CONTROLS
+        #endregion
+
+        #region AUDIO
+        #endregion
+    }
+    #endregion
 }

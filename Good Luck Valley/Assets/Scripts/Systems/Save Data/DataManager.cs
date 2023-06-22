@@ -9,12 +9,16 @@ public class DataManager : MonoBehaviour
 {
     #region REFERENCES
     private GameData gameData;
+    private SettingsData settingsData;
     [SerializeField] private List<IData> dataObjects;
+    [SerializeField] private List<ISettingsData> settingsDataObjects;
     public FileDataHandler dataHandler;
+    public SettingsDataHandler settingsHandler;
     #endregion
 
     #region FIELDS
     [SerializeField] private string fileName = "PlayerSave.json";
+    [SerializeField] private string settingsFileName = "SettingsSave.json";
     [SerializeField] private bool useEncryption = true;
     [SerializeField] private bool initializeDataIfNull = false; // Use if you don't want to go through the main menu to test data persistence
     private string selectedProfileID = "";
@@ -43,6 +47,9 @@ public class DataManager : MonoBehaviour
         // Create a FileDataHandler
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
 
+        // Create a SettingsDataHandler
+        settingsHandler = new SettingsDataHandler(Application.persistentDataPath, settingsFileName);
+
         InitializeSelectedProfileID();
     }
 
@@ -59,13 +66,15 @@ public class DataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Load the save ddata whenever a scene is loaded
+    /// Load the save data whenever a scene is loaded
     /// </summary>
     /// <param name="scene">The scene being loaded</param>
     /// <param name="mode">The LoadSceneMode</param>
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         dataObjects = FindAllDataObjects();
+
+        settingsDataObjects = FindAllSettingsDataObjects();
 
         // Load the game
         LoadGame();
@@ -87,6 +96,8 @@ public class DataManager : MonoBehaviour
     {
         gameData = new GameData();
 
+        settingsData = new SettingsData();
+
         // If there is no profileID, make one
         if(selectedProfileID == null)
         {
@@ -106,7 +117,14 @@ public class DataManager : MonoBehaviour
             return;
         }
 
+        if (settingsData == null)
+        {
+            Debug.LogWarning("No Settings data was found.");
+        }
+
         Debug.Log("Saved " + dataObjects.Count + " objects!");
+
+        Debug.Log("Saved " + settingsDataObjects.Count + " objects");
 
         // Pass the data to other scripts so they can update it
         foreach(IData dataObj in dataObjects)
@@ -114,10 +132,17 @@ public class DataManager : MonoBehaviour
             dataObj.SaveData(gameData);
         }
 
+        foreach (ISettingsData settingsObj in settingsDataObjects)
+        {
+            settingsObj.SaveData(settingsData);
+        }
+
         gameData.lastUpdated = System.DateTime.Now.ToBinary();
 
         // Save that data to a file using the data handler
         dataHandler.Save(gameData, selectedProfileID);
+
+        settingsHandler.Save(settingsData);
     }
 
     /// <summary>
@@ -128,10 +153,17 @@ public class DataManager : MonoBehaviour
         // Load any saved data from a file using the data handler
         gameData = dataHandler.Load(selectedProfileID);
 
+        settingsData = settingsHandler.Load();
+
         // Start a new game if the data is null and we're configured to initialize data for debugging purposes
         if(gameData == null && initializeDataIfNull)
         {
             NewGame();
+        }
+
+        if (settingsData == null)
+        {
+            Debug.LogWarning("Settings Data was null in data manager");
         }
 
         // If no data can be loaded, log a warning and return
@@ -145,6 +177,11 @@ public class DataManager : MonoBehaviour
         foreach (IData dataObj in dataObjects)
         {
             dataObj.LoadData(gameData);
+        }
+
+        foreach (ISettingsData settingsObj in settingsDataObjects)
+        {
+            settingsObj.LoadData(settingsData);
         }
     }
 
@@ -179,6 +216,19 @@ public class DataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Find all objects that have Settings Data that can be saved or loaded
+    /// </summary>
+    /// <returns></returns>
+    private List<ISettingsData> FindAllSettingsDataObjects()
+    {
+        // Check for ISettingsData Interfaces in all objects, including inactive objects
+        IEnumerable<ISettingsData> dataObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISettingsData>();
+
+        // Create a new list from ISettingsData objects
+        return new List<ISettingsData>(dataObjects);
+    }
+
+    /// <summary>
     /// Check if there is GameData to save/load
     /// </summary>
     /// <returns>True is there is no gameData yet, false if there is</returns>
@@ -186,6 +236,16 @@ public class DataManager : MonoBehaviour
     {
         // Return if gameData is null or not
         return gameData != null;
+    }
+
+    /// <summary>
+    /// Check if there is SettingsData to save/load
+    /// </summary>
+    /// <returns>True is there is no SettingsData yet, false if there is</returns>
+    public bool HasSettingsData()
+    {
+        // Return if settingsData is null or not
+        return settingsData != null;
     }
 
     /// <summary>

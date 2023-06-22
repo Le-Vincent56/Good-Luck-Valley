@@ -400,29 +400,46 @@ public class MenusManager : MonoBehaviour
                         //  the next time it needs to
                         checkQuit = true;
 
-                        // Hides the confirmatio box
+                        // Hides the confirmation box
                         confirmationCheck.SetActive(false);
                     }
                     else if (confirmCheckNum == 2)
                     {
+                        // Deletes save 
                         Debug.Log("Save Deleted.");
+
+                        // Enables checkQuit so that the confirmation box appears
+                        //  the next time it needs to
                         checkQuit = true;
+
+                        // Hides the confirmation box
                         deleteConfirmation.SetActive(false);
                     }
                     break;
 
+                // If the scene is settings scene
                 case 4:
                     if (confirmCheckNum == 1)
                     {
                         Debug.Log("Returning to " + previousScene);
+                        // Sets settingsSaved to true so that we can exit
+                        //  without the confirmation box appearing
                         settingsSaved = true;
+
+                        // Calls back function to return to previous scene
                         Back();
                     }
                     else if (confirmCheckNum == 2)
                     {
                         Debug.Log("Reset to Default");
+                        // Sets the confirmation box to inactive
                         deleteConfirmation.SetActive(false);
+
+                        // Enables checkQuit so that the confirmation box appears
+                        //  the next time it needs to
                         checkQuit = true;
+
+                        // Calls reset settings to reset to defaults
                         ResetSettings();
                     }
                     break;
@@ -572,7 +589,6 @@ public class MenusManager : MonoBehaviour
         int.TryParse(resolution[1], out resolutionValues[1]);
 
         resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
-        Debug.Log("Settings Not Saved");
         settingsSaved = false;
     }    
 
@@ -581,7 +597,6 @@ public class MenusManager : MonoBehaviour
         if (!disableCalls)
         {
             isFullscreen = fullscreenToggle.isOn;
-            Debug.Log("Settings Not Saved");
             settingsSaved = false;
         }
     }
@@ -591,24 +606,23 @@ public class MenusManager : MonoBehaviour
         switch (type)
         {
             case 0:
-                brightness = 1 - int.Parse(textInputs[5].GetComponent<TMP_InputField>().text) / 100f;
+                brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
                 if (brightness < .95f)
                 {
-                    fadeSquare.color = new Color(0, 0, 0, brightness); 
+                    fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f)); 
                     settings.Brightness = brightness;
                 } 
                 break;
 
             case 1:
-                brightness = 1 - sliders[5].value / 100f;
+                brightness = sliders[5].value;
                 if (brightness < .95f)
                 {
-                    fadeSquare.color = new Color(0, 0, 0, brightness);
+                    fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
                     settings.Brightness = brightness;
                 }
                 break;
         }
-        Debug.Log("Settings Not Saved");
         settingsSaved = false;
     }
 
@@ -640,7 +654,6 @@ public class MenusManager : MonoBehaviour
         if (!disableCalls)
         {
             accessibilityTools[index] = !accessibilityTools[index];
-            Debug.Log("Settings Not Saved");
             settingsSaved = false;
         }
     }
@@ -648,7 +661,6 @@ public class MenusManager : MonoBehaviour
     public void ToggleSubtitles()
     {
         subtitlesEnabled = subtitlesToggle.isOn;
-        Debug.Log("Settings Not Saved");
         settingsSaved = false;
     }
 
@@ -682,6 +694,7 @@ public class MenusManager : MonoBehaviour
         settings.SubtitlesEnabled = subtitlesEnabled;
         settings.ResOption = resDropdown.value;
         settings.IsFullscreen = fullscreenToggle.isOn;
+        settings.Resolution = resValues;
         #endregion
 
         // Controls settings
@@ -691,6 +704,8 @@ public class MenusManager : MonoBehaviour
         // Audio settings
         #region AUDIO
         #endregion
+
+        DataManager.Instance.SaveGame();
     }
     #endregion
 
