@@ -17,12 +17,18 @@ public class DataManager : MonoBehaviour
     [SerializeField] private string fileName = "PlayerSave.json";
     [SerializeField] private bool useEncryption = true;
     [SerializeField] private bool initializeDataIfNull = false; // Use if you don't want to go through the main menu to test data persistence
+    [SerializeField] private bool useAutoSave = false;
     private string selectedProfileID = "";
+    private string softProfileID = "";
+    [SerializeField] private float autoSaveTimeSeconds = 60f;
+    private Coroutine autoSaveCoroutine;
     #endregion
 
     #region PROPERTIES
     public static DataManager Instance { get; private set; }
     public string Level { get { return gameData.levelName; } }
+    public string SelectedProfileID { get { return selectedProfileID; } }
+    public string SoftProfileID { get { return softProfileID; } }
     #endregion
 
     private void Awake()
@@ -69,15 +75,28 @@ public class DataManager : MonoBehaviour
 
         // Load the game
         LoadGame();
+
+        // If using autosave, start up the auto saving coroutine
+        if (useAutoSave)
+        {
+            if (autoSaveCoroutine != null)
+            {
+                StopCoroutine(autoSaveCoroutine);
+            }
+            autoSaveCoroutine = StartCoroutine(AutoSave());
+        }
     }
 
     public void ChangeSelectedProfileID(string newProfileID)
     {
         // Update the profile to use for saving and loading
         selectedProfileID = newProfileID;
+    }
 
-        // Load the game, which will use that profile, updating our game data accordingly
-        LoadGame();
+    public void ChangeSelectedProfileIDSoft(string newProfileID)
+    {
+        // Update the profile to use for saving during game
+        softProfileID = newProfileID;
     }
 
     /// <summary>
@@ -195,5 +214,24 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, GameData> GetAllProfilesGameData()
     {
         return dataHandler.LoadAllProfiles();
+    }
+
+    /// <summary>
+    /// Autosave in increments of time
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator AutoSave()
+    {
+        while(true)
+        {
+            // Wait for the amount of seconds
+            yield return new WaitForSeconds(autoSaveTimeSeconds);
+
+            // Save the game
+            SaveGame();
+
+            // Notify the console for debugging
+            Debug.Log("Auto Saved Game");
+        }
     }
 }
