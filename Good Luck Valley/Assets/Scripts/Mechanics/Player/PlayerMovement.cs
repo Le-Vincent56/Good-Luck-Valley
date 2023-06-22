@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private Vector2 moveInput;
     private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
 	private bool usingLotusCutscene = false;
+	private bool deactivatedCam = false;
     #endregion
 
     #region PROPERTIES
@@ -99,7 +100,8 @@ public class PlayerMovement : MonoBehaviour, IData
 		} else
 		{
 			usingLotusCutscene = true;
-		}
+            GameObject.Find("LotusCam").SetActive(true);
+        }
 	}
 
 	private void Start()
@@ -114,22 +116,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	private void Update()
 	{
         Debug.Log("Gravity Scale: " + rb.gravityScale);
-
-        // Check if there's a lotus cutscene
-        if (usingLotusCutscene)
-		{
-			// If so, check the state of the director
-            if (director.state == PlayState.Playing)
-            {
-				// If it's playing, lock player movement
-                isLocked = true;
-            }
-            else
-            {
-				// Otherwise, unlock it
-                isLocked = false;
-            }
-        }
 		
 
 		// Set playerPosition to the current position and calculate the distance from the previous position
