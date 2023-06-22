@@ -285,7 +285,7 @@ public class FileDataHandler
     }
 
     /// <summary>
-    /// Attempt to rollback corrupted data to a backup file
+    /// Attempt to roll back corrupted data to a backup file
     /// </summary>
     /// <param name="fullPath">The path that includes both the corrupted file and the backup file</param>
     /// <returns>True, if the rollback completed successfully, false if the rollback failed</returns>
