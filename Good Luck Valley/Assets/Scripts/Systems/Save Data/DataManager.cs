@@ -96,12 +96,20 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Change the selected profile ID
+    /// </summary>
+    /// <param name="newProfileID">The profile ID to change to</param>
     public void ChangeSelectedProfileID(string newProfileID)
     {
         // Update the profile to use for saving and loading
         selectedProfileID = newProfileID;
     }
 
+    /// <summary>
+    /// Change the soft profile ID - allows the selection of save slots without committing fully
+    /// </summary>
+    /// <param name="newProfileID">The profile ID to change to</param>
     public void ChangeSelectedProfileIDSoft(string newProfileID)
     {
         // Update the profile to use for saving during game
@@ -118,7 +126,7 @@ public class DataManager : MonoBehaviour
         settingsData = new SettingsData();
 
         // If there is no profileID, make one
-        if(selectedProfileID == null)
+        if (selectedProfileID == null)
         {
             selectedProfileID = "0";
         }
@@ -201,6 +209,10 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Delete profile data using the current profile ID
+    /// </summary>
+    /// <param name="profileID"></param>
     public void DeleteProfileData(string profileID)
     {
         // Delete the data for this proile ID
@@ -213,6 +225,9 @@ public class DataManager : MonoBehaviour
         LoadGame();
     }
 
+    /// <summary>
+    /// Set the selected profile ID to the most recently updated profile ID
+    /// </summary>
     public void InitializeSelectedProfileID()
     {
         selectedProfileID = dataHandler.GetMostRecentlyUpdatedProfileID();

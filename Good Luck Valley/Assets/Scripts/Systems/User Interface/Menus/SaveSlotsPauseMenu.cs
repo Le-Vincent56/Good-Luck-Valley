@@ -9,15 +9,23 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     private Canvas pauseMenu;
     private Button saveButton;
     private Button deleteButton;
+    private Button backButton;
     [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
     [SerializeField] private ConfirmationPopupMenu overwriteConfirmationMenu;
     private SaveSlot[] saveSlots;
     private SaveSlot selectedSaveSlot;
+    private Image savingProgressPanel;
+    private Text savingProgressText;
     #endregion
 
     #region FIELDS
     private bool menuOpen = false;
-    private float saveCloseBuffer = 0.25f;
+    private bool saving = false;
+    [SerializeField] private float saveCloseBuffer = 0.25f;
+    [SerializeField] private float savingTimerAsSeconds = 3f;
+    [SerializeField] private float savingTextUpdateTimer = 2.4f;
+    [SerializeField] private float fadeAmountPerTick = 0.15f;
+    private bool playAnimation = false;
     #endregion
 
     #region PROPERTIES
@@ -33,6 +41,10 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
         saveButton = GameObject.Find("Profile Save Button").GetComponent<Button>();
         deleteButton = GameObject.Find("Delete Save Button").GetComponent<Button>();
+        backButton = GameObject.Find("Save Back Button").GetComponent<Button>();
+
+        savingProgressPanel = GameObject.Find("Saving Progress Panel").GetComponent<Image>();
+        savingProgressText = GameObject.Find("Saving Progress Text").GetComponent<Text>();
 
         saveButton.interactable = false;
         deleteButton.interactable = false;
@@ -45,13 +57,16 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         if (saveCloseBuffer > 0 && !menuOpen)
         {
             saveCloseBuffer -= Time.deltaTime;
+        } else if(menuOpen)
+        {
+            saveCloseBuffer = 0.25f;
         }
     }
 
     /// <summary>
-    /// Select the first buttno
+    /// Select the first button
     /// </summary>
-    /// <param name="firstSelectedButton"></param>
+    /// <param name="firstSelectedButton">The first button to be selected</param>
     public void SetFirstSelected(Button firstSelectedButton)
     {
         firstSelectedButton.Select();
@@ -60,7 +75,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// <summary>
     /// Select a Save Slot and change profile IDs
     /// </summary>
-    /// <param name="saveSlot"></param>
+    /// <param name="saveSlot">The save slot being clicked</param>
     public void OnSaveSlotClicked(SaveSlot saveSlot)
     {
         // Check if there was a previously selected save slot
@@ -82,11 +97,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         DataManager.Instance.ChangeSelectedProfileIDSoft(saveSlot.GetProfileID());
 
         // Enable buttons
-        if (saveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
-        {
-            // Only enable delete button if there is data to delete and the profile selected is not the current profile
-            deleteButton.interactable = true;
-        }
+        SetDeleteButtonInteractable();
         saveButton.interactable = true;
 
     }
@@ -98,6 +109,13 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     {
         // Enable the gameobject
         gameObject.GetComponent<Canvas>().enabled = true;
+
+        // Activate buttons
+        backButton.interactable = true;
+        for (int i = 0; i < saveSlots.Length; i++)
+        {
+            saveSlots[i].SetInteractable(true);
+        }
 
         // Load all of the profiles that exist
         Dictionary<string, GameData> profilesGameData = DataManager.Instance.GetAllProfilesGameData();
@@ -126,6 +144,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         }
 
         // TODO - Disable back button
+        backButton.interactable = false;
     }
 
     /// <summary>
@@ -146,6 +165,16 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
             // Save the game
             DataManager.Instance.SaveGame();
+
+            // Show saving in progress UI elements and set saving text update timer
+            savingProgressPanel.enabled = true;
+            savingProgressText.enabled = true;
+            savingProgressText.text = "Saving";
+            savingTextUpdateTimer = 2.4f;
+
+            // Set a delay for saving before re-activating the menu to allow time for the new save to appear
+            saving = true;
+            StartCoroutine(SaveDelay());
         }
         else
         {
@@ -159,6 +188,11 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// </summary>
     public void OverwriteSave()
     {
+        // De-activate other buttons
+        saveButton.interactable = false;
+        deleteButton.interactable = false;
+        DisableSaveSlots();
+
         // Activate the confirmation menu
         overwriteConfirmationMenu.ActivateMenu(
             "Are you sure you want to overwrite this save?",
@@ -174,16 +208,25 @@ public class SaveSlotsPauseMenu : MonoBehaviour
                 // Save the game
                 DataManager.Instance.SaveGame();
 
-                // TODO - wait a certain amount of time before updating
+                // Show saving in progress UI elements and set saving text update timer
+                savingProgressPanel.enabled = true;
+                savingProgressText.enabled = true;
+                savingProgressText.text = "Saving";
+                savingTextUpdateTimer = 2.4f;
 
-                // Reload the menu
-                ActivateMenu();
+                // Set a delay for saving before re-activating the menu to allow time for the new save to appear
+                saving = true;
+                StartCoroutine(SaveDelay());
             },
             // Function to execute if we cancel
             () =>
             {
                 // Reload the menu
                 ActivateMenu();
+
+                // Enable buttons
+                SetDeleteButtonInteractable();
+                saveButton.interactable = true;
             });
     }
 
@@ -201,22 +244,22 @@ public class SaveSlotsPauseMenu : MonoBehaviour
                     // Delete the data associated with the selected save slot's profile ID
                     DataManager.Instance.DeleteProfileData(selectedSaveSlot.GetProfileID());
 
-                    if (!DataManager.Instance.HasGameData())
-                    {
-                        // Reload the menu
-                        ActivateMenu();
-                    }
-                    else
-                    {
-                        // Reload the menu
-                        ActivateMenu();
-                    }
+                    // Reload the menu without further action
+                    ActivateMenu();
+
+                    // Enable buttons
+                    SetDeleteButtonInteractable();
+                    saveButton.interactable = true;
                 },
                 // Function to execute if we cancel
                 () =>
                 {
                     // Reload the menu without further action
                     ActivateMenu();
+
+                    // Enable buttons
+                    SetDeleteButtonInteractable();
+                    saveButton.interactable = true;
                 }
             );
     }
@@ -242,7 +285,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     public void CloseMenuKey()
     {
         // Check if the menu is open
-        if (menuOpen)
+        if (menuOpen && !saving)
         {
             // Close the journal UI and set menuOpen to false
             gameObject.GetComponent<Canvas>().enabled = false;
@@ -250,5 +293,142 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
             pauseMenu.enabled = true;
         }
+    }
+
+    /// <summary>
+    /// Set the interactablity of the delete button
+    /// </summary>
+    public void SetDeleteButtonInteractable()
+    {
+        if (selectedSaveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
+        {
+            // Only enable delete button if there is data to delete and the profile selected is not the current profile
+            deleteButton.interactable = true;
+        }
+        else
+        {
+            deleteButton.interactable = false;
+        }
+    }
+
+    /// <summary>
+    /// Create a in-progress saving UI before reloading the menu to create time for file creation
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SaveDelay()
+    {
+        // Fade in UI elements
+        yield return StartCoroutine(FadeInProgressUI());
+
+        // Start the timer for saving
+        yield return StartCoroutine(SaveTimer());
+
+        // Stop animation
+        playAnimation = false;
+        StopCoroutine(SavingAnimation());
+
+        // Fade out UI elements
+        yield return StartCoroutine(FadeOutProgressUI());
+
+        // Reload the menu
+        ActivateMenu();
+
+        // Enable buttons
+        SetDeleteButtonInteractable();
+        saveButton.interactable = true;
+
+        saving = false;
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Hold the saving panel and text for a given time
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SaveTimer()
+    {
+        // Play animation while waiting
+        playAnimation = true;
+        StartCoroutine(SavingAnimation());
+        yield return new WaitForSecondsRealtime(3f);
+    }
+
+    /// <summary>
+    /// Play the saving animation
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SavingAnimation()
+    {
+        // Check if it should be playing the animation, if so, enter a loop
+        while(playAnimation)
+        {
+            // Yield so that other code can run
+            yield return null;
+
+            // Update savingProgressText based on timer
+            if (savingTextUpdateTimer > 0)
+            {
+                if (savingTextUpdateTimer <= 2.4f && savingTextUpdateTimer > 1.8f)
+                {
+                    savingProgressText.text = "Saving";
+                }
+                else if (savingTextUpdateTimer <= 1.8f && savingTextUpdateTimer > 1.2f)
+                {
+                    savingProgressText.text = "Saving.";
+                }
+                else if (savingTextUpdateTimer <= 1.2f && savingTextUpdateTimer > 0.6f)
+                {
+                    savingProgressText.text = "Saving..";
+                }
+                else if (savingTextUpdateTimer <= 0.6f)
+                {
+                    savingProgressText.text = "Saving...";
+                }
+            }
+            else if (savingTextUpdateTimer <= 0)
+            {
+                // Reset timer once it hits 0
+                savingTextUpdateTimer = 2.4f;
+            }
+
+            // Subtract by unscaledDeltaTime (game is paused, so deltaTime won't work because it is scaled)
+            savingTextUpdateTimer -= Time.unscaledDeltaTime;
+        }
+    }
+
+    /// <summary>
+    /// Fade in the Saving in Progress UI
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FadeInProgressUI()
+    {
+        // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
+        while(savingProgressPanel.color.a < 0.67 && savingProgressText.color.a < 1)
+        {
+            savingProgressPanel.color = new Color(savingProgressPanel.color.r, savingProgressPanel.color.g, savingProgressPanel.color.b, savingProgressPanel.color.a + (Time.unscaledDeltaTime * 2));
+            savingProgressText.color = new Color(savingProgressText.color.r, savingProgressText.color.g, savingProgressText.color.b, savingProgressText.color.a + (Time.unscaledDeltaTime * 3f));
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Fade out the Saving in Progress UI
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FadeOutProgressUI()
+    {
+        // While alpha values are over the desired numbers, decrease them by an unscaled delta time (because we are paused)
+        while (savingProgressPanel.color.a > 0 && savingProgressText.color.a > 0)
+        {
+            savingProgressPanel.color = new Color(savingProgressPanel.color.r, savingProgressPanel.color.g, savingProgressPanel.color.b, savingProgressPanel.color.a - (Time.unscaledDeltaTime * 2));
+            savingProgressText.color = new Color(savingProgressText.color.r, savingProgressText.color.g, savingProgressText.color.b, savingProgressText.color.a - (Time.unscaledDeltaTime * 3f));
+        }
+
+        // Disable the UI elements once they are gone
+        savingProgressPanel.enabled = false;
+        savingProgressText.enabled = false;
+
+        yield return null;
     }
 }

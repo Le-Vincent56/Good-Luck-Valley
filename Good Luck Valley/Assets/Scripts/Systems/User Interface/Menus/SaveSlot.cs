@@ -27,6 +27,10 @@ public class SaveSlot : MonoBehaviour
         saveSlotButton = GetComponent<Button>();
     }
 
+    /// <summary>
+    /// Set the data of the save slot according to a GameData object
+    /// </summary>
+    /// <param name="data">The GameDatObject to set the data from</param>
     public void SetData(GameData data)
     {
         // Check if data exists for this save slot
@@ -48,11 +52,19 @@ public class SaveSlot : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get the profile ID of the save slot
+    /// </summary>
+    /// <returns>The profile ID of the save slot</returns>
     public string GetProfileID()
     {
         return profileID;
     }
 
+    /// <summary>
+    /// Set the interactability of the save slot's button
+    /// </summary>
+    /// <param name="interactable">True to turn on interactability, false to turn off interactability</param>
     public void SetInteractable(bool interactable)
     {
         saveSlotButton.interactable = interactable;

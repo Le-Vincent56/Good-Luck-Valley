@@ -34,11 +34,19 @@ public class SaveSlotsMenu : MonoBehaviour
         ActivateMenu();
     }
 
+    /// <summary>
+    /// Select the first button
+    /// </summary>
+    /// <param name="firstSelectedButton">The first button to be selected</param>
     public void SetFirstSelected(Button firstSelectedButton)
     {
         firstSelectedButton.Select();
     }
 
+    /// <summary>
+    /// Select a Save Slot and change profile IDs
+    /// </summary>
+    /// <param name="saveSlot">The save slot being clicked</param>
     public void OnSaveSlotClicked(SaveSlot saveSlot)
     {
         // Check if there was a previously selected save slot
@@ -72,6 +80,9 @@ public class SaveSlotsMenu : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Activate the menu
+    /// </summary>
     public void ActivateMenu()
     {
         // Load all of the profiles that exist
@@ -86,6 +97,9 @@ public class SaveSlotsMenu : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Disable the other save slots
+    /// </summary>
     public void DisableSaveSlots()
     {
         // Disable other save slots
@@ -93,10 +107,11 @@ public class SaveSlotsMenu : MonoBehaviour
         {
             saveSlot.SetInteractable(false);
         }
-
-        // TODO - Disable back button
     }
 
+    /// <summary>
+    /// Load the selected save slot
+    /// </summary>
     public void StartSave()
     {
         if (!selectedSaveSlot.HasData)
@@ -119,6 +134,9 @@ public class SaveSlotsMenu : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Delete the selected save slot
+    /// </summary>
     public void DeleteSave()
     {
         // Activate the confirmation menu
@@ -153,6 +171,10 @@ public class SaveSlotsMenu : MonoBehaviour
             );
     }
 
+    /// <summary>
+    /// Save the game and load a scene
+    /// </summary>
+    /// <param name="sceneToLoad">The scene to load</param>
     private void SaveGameAndLoadScene(string sceneToLoad)
     {
         // Save the game before loading a new scene

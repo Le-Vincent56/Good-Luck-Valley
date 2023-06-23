@@ -10,6 +10,9 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
     [SerializeField] private List<TValue> values = new List<TValue>();
     #endregion
 
+    /// <summary>
+    /// Prepare the dictionary for serializing
+    /// </summary>
     public void OnBeforeSerialize()
     {
         // Clear the keys and values
@@ -24,6 +27,9 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
         }
     }
 
+    /// <summary>
+    /// Clean up the dictionary after serializing
+    /// </summary>
     public void OnAfterDeserialize()
     {
         // Clear the SerializableDictionary
