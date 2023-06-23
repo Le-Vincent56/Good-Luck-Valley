@@ -59308,10 +59308,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b760406516752440ba8592a9b9f1471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions: {fileID: 0}
   fileName: PlayerSave.json
   settingsFileName: SettingsSave.json
   useEncryption: 1
   initializeDataIfNull: 0
+  useAutoSave: 0
+  autoSaveTimeSeconds: 60
 --- !u!4 &507205925
 Transform:
   m_ObjectHideFlags: 0
@@ -92773,7 +92776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -99.59985
+      value: -99.6001
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_AnchoredPosition.y
