@@ -7,7 +7,7 @@ using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IData
 {
     #region REFERENCES
     [SerializeField] private PlayerData data;
@@ -61,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-	private bool usingLotusCutscene = false;
     #endregion
 
     #region PROPERTIES
@@ -92,14 +91,6 @@ public class PlayerMovement : MonoBehaviour
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
-
-		if(director == null)
-		{
-			usingLotusCutscene = false;
-		} else
-		{
-			usingLotusCutscene = true;
-		}
 	}
 
 	private void Start()
@@ -113,23 +104,6 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Update()
 	{
-		// Check if there's a lotus cutscene
-		if(usingLotusCutscene)
-		{
-			// If so, check the state of the director
-            if (director.state == PlayState.Playing)
-            {
-				// If it's playing, lock player movement
-                isLocked = true;
-            }
-            else
-            {
-				// Otherwise, unlock it
-                isLocked = false;
-            }
-        }
-		
-
 		// Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
@@ -290,12 +264,33 @@ public class PlayerMovement : MonoBehaviour
 		}
         #endregion
 
+        // Movement Animation Checks
+        #region MOVEMENT ANIMATION CHECKS
+        if (animator.GetFloat("Speed") > 0.01)
+        {
+            // If running, then check which leg the player is running on and update accordingly
+            AnimatorClipInfo[] animationClip = animator.GetCurrentAnimatorClipInfo(0);
+			AnimatorStateInfo animationInfo = animator.GetCurrentAnimatorStateInfo(0);
+            int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
+            if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
+            {
+                // Update for left foot
+                animator.SetBool("RunThrow_R", false);
+            }
+            else if (currentFrame >= 25 && currentFrame < 50)
+            {
+                // Update for right foot
+                animator.SetBool("RunThrow_R", true);
+            }
+        }
+        #endregion
+
         // Calculate Gravity
         #region GRAVITY
         if (!bounceEffect.Bouncing)
         {
             // Check for slope gravity first
-            if (isOnSlope)
+            if (isOnSlope && !isLocked && !isJumping && !bounceEffect.TouchingShroom && canWalkOnSlope)
 			{
 				// Check for movement input
 				if(moveInput.x == 0.0f)
@@ -386,27 +381,8 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
+			// Handle movement
 			Run(0.5f);
-
-   //         // Check if the player is bouncing
-   //         if (bounceEffect.Bouncing)
-			//{
-			//	// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
-			//	if (disableInputTimer <= 0)
-			//	{
-   //                 // If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
-   //                 Run(0.5f);
-			//	} else
-			//	{
-			//		// If disableInputTimer is greater than zero, subtract by deltaTime
-			//		disableInputTimer -= Time.deltaTime;
-			//	}
-			//}
-			//else
-			//{
-			//	// If not bouncing, allow movement like normal
-			//	Run(0.5f);
-			//}
 		}
 		else
 		{
@@ -598,18 +574,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Gets an acceleration value based on if we are accelerating (includes turning) 
         // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
-        if (lastOnGroundTime > 0)
+        if (lastOnGroundTime > 0 && !bounceEffect.Bouncing)
         {
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount : data.runDeccelAmount;
         }	
-        else
+        else 
         {
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount * data.accelInAir : data.runDeccelAmount * data.deccelInAir;
         }
         #endregion
 
         #region Add Bonus Jump Apex Acceleration
-        // Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
+        // Increase our acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
         if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
         {
             accelRate *= data.jumpHangAccelerationMult;
@@ -632,10 +608,10 @@ public class PlayerMovement : MonoBehaviour
                 accelRate = 5;
             }
         }
-        #endregion
+		#endregion
 
-        // Calculate difference between current velocity and desired velocity
-        float speedDif = targetSpeed - RB.velocity.x;
+		// Calculate difference between current velocity and desired velocity
+		float speedDif = targetSpeed - RB.velocity.x;
 
         // Calculate force along x-axis to apply to thr player
         float movement = speedDif * accelRate;
@@ -793,15 +769,32 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Collidable")
-		{
-			Debug.Log("Hitting Collidable tag");
-		} else
-		{
-			Debug.Log("Hitting something else");
-		}
-    }
-    #endregion
+	//  public void OnCollisionEnter2D(Collision2D collision)
+	//  {
+	//      if(collision.gameObject.tag == "Collidable")
+	//{
+	//	Debug.Log("Hitting Collidable tag");
+	//} else
+	//{
+	//	Debug.Log("Hitting something else");
+	//}
+	//  }
+	#endregion
+
+	// DATA HANDLING
+	#region DATA HANDLING
+	public void LoadData(GameData data)
+	{
+		// Load player position
+		gameObject.transform.position = data.playerPosition;
+		isLocked = data.isLocked;
+	}
+
+	public void SaveData(GameData data)
+	{
+		// Save player position
+		data.playerPosition = gameObject.transform.position;
+		data.isLocked = isLocked;
+	}
+	#endregion
 }

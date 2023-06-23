@@ -4,12 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Linq;
 
-public class Journal : MonoBehaviour
+public class Journal : MonoBehaviour, IData
 {
     #region REFERENCES
-    private Text panelText;
-    private EntryScrollview entryScrollview;
     private Canvas journalUI;
     private AudioSource journalPageSound;
     private Button pauseJournalButton;
@@ -41,8 +40,6 @@ public class Journal : MonoBehaviour
     void Start()
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
-        panelText = GameObject.Find("EntryText").GetComponent<Text>();
-        entryScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
         journalPageSound = GetComponent<AudioSource>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
@@ -80,34 +77,16 @@ public class Journal : MonoBehaviour
     {
         if (hasJournal && !menuOpen)
         {
-            // Set the journal entries
-            journalScrollview.SetEntries();
-
             // Freeze player movement and set time to 0 - similar to a pause
             playerMovement.MoveInput = Vector2.zero;
             Time.timeScale = 0;
             openedFromKey = true;
 
-            // Sort the journal by indexes
-            Note tempNote = null;
-            for (int i = 0; i <= notes.Count - 1; i++)
-            {
-                for (int j = i + 1; j < notes.Count; j++)
-                {
-                    // Loop through the first index and the index afterwards and compare the journal indexes
-                    // so that the notes List is in ascending order
-                    if (notes[i].JournalIndex > notes[j].JournalIndex)
-                    {
-                        // If a Note at the current index is larger than the note at the next index,
-                        // then set tempNote to the current Note, set the current Note to the next Note,
-                        // and set the next Note to the tempNote - switching around notes[i] and notes[j]
-                        tempNote = notes[i];
-                        notes[i] = notes[j];
-                        notes[j] = tempNote;
-                    }
-                }
-            }
+            // Sort journal entries by indexes
+            notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
 
+            // Set the journal entries
+            journalScrollview.SetEntries();
 
             // Update so that it is no longer the first time opening
             if (!hasOpened)
@@ -129,7 +108,7 @@ public class Journal : MonoBehaviour
     public void CloseJournalKey(InputAction.CallbackContext context)
     {
         // Check if the menu is open
-        if(menuOpen)
+        if(menuOpen && canClose)
         {
             // Unfreeze the game
             Time.timeScale = 1f;
@@ -137,6 +116,9 @@ public class Journal : MonoBehaviour
             // Close the journal UI and set menuOpen to false
             journalUI.enabled = false;
             menuOpen = false;
+
+            // Remove entries to prepare for sorting
+            journalScrollview.RemoveEntries();
         }
     }
 
@@ -147,29 +129,14 @@ public class Journal : MonoBehaviour
     {
         if(hasJournal && !menuOpen)
         {
-            // Sort the journal by indexes
-            Note tempNote = null;
-            for(int i = 0; i <= notes.Count - 1; i++)
-            {
-                for(int j = i + 1; j < notes.Count; j++)
-                {
-                    // Loop through the first index and the index afterwards and compare the journal indexes
-                    // so that the notes List is in ascending order
-                    if (notes[i].JournalIndex > notes[j].JournalIndex)
-                    {
-                        // If a Note at the current index is larger than the note at the next index,
-                        // then set tempNote to the current Note, set the current Note to the next Note,
-                        // and set the next Note to the tempNote - switching around notes[i] and notes[j]
-                        tempNote = notes[i];
-                        notes[i] = notes[j];
-                        notes[j] = tempNote;
-                    }
-                }
-            }
+            // Sort journal entries by indexes
+            notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
 
+            // Set the journal entries
+            journalScrollview.SetEntries();
 
             // Update so that it is no longer the first time opening
-            if(!hasOpened)
+            if (!hasOpened)
             {
                 hasOpened = true;
             }
@@ -197,6 +164,24 @@ public class Journal : MonoBehaviour
             // Close the journal UI and set menuOpen to false
             journalUI.enabled = false;
             menuOpen = false;
+
+            // Remove entries to prepare for sorting
+            journalScrollview.RemoveEntries();
         }
     }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        notes = data.notes;
+        hasJournal = data.hasJournal;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.numNotesCollected = notes.Count;
+        data.notes = notes;
+        data.hasJournal = hasJournal;
+    }
+    #endregion
 }
