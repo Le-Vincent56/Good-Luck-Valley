@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class DataManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DataManager : MonoBehaviour
     [SerializeField] private List<ISettingsData> settingsDataObjects;
     public FileDataHandler dataHandler;
     public SettingsDataHandler settingsHandler;
+    public InputActionAsset actions;
     #endregion
 
     #region FIELDS
@@ -121,6 +123,13 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
+        // Gets rebinds so that starting a new game doesn't mess up keybinds
+        string rebinds = PlayerPrefs.GetString("rebinds");
+        if (!string.IsNullOrEmpty(rebinds))
+        {
+            actions.LoadBindingOverridesFromJson(rebinds);
+        }
+
         gameData = new GameData();
 
         settingsData = new SettingsData();
