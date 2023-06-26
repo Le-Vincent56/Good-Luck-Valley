@@ -106,10 +106,8 @@ public class BouncingEffect : MonoBehaviour
                 Debug.Log("Mod: " + rotationDegrees % 90);
 
                 float roundedPercentage = (rotationDegrees % 90) / 90;
-                Debug.Log("Rounded Percentage: " + roundedPercentage);
 
                 float precisePercentage = Mathf.Abs(0f - roundedPercentage);
-                Debug.Log("Precise Percentage: " + precisePercentage);
 
                 if(precisePercentage > 0.5f && precisePercentage < 1.0f)
                 {
@@ -117,7 +115,6 @@ public class BouncingEffect : MonoBehaviour
                 }
 
                 float additionalForce = bounceForce * (precisePercentage / 3);
-                Debug.Log("Additional Force: " + additionalForce);
 
                 RB.AddForce(direction * (bounceForce + additionalForce), ForceMode2D.Impulse);
 
