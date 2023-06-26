@@ -20,7 +20,6 @@ public class MushroomManager : MonoBehaviour, IData
     private GameObject player;
     [SerializeField] private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;                         // PlayerMovement checks which direction player is facing
-    private PauseMenu pauseMenu;
     [SerializeField] private Camera cam;
     [SerializeField] private PlatformsManager environmentManager;
     [SerializeField] private GameCursor cursor;
@@ -31,7 +30,6 @@ public class MushroomManager : MonoBehaviour, IData
     [SerializeField] private GameObject mushroom;
     private ThrowUI throwUI_Script;
     [SerializeField] private GameObject testObject;
-    private Journal journal;
     private ShroomCounter shroomCounter;
     private Tutorial tutorialEvent;
     #endregion
@@ -59,7 +57,8 @@ public class MushroomManager : MonoBehaviour, IData
     private bool throwPrepared = false;
     [SerializeField] private float shroomDuration;
     [SerializeField] private bool enableShroomTimers;
-    private bool throwLocked = false;
+    [SerializeField] private bool throwLocked = false;
+    [SerializeField] private bool recallLocked = false;
     [SerializeField] private bool usingTutorial = false;
     [SerializeField] private bool firstTimeHittingMax = true;
     [SerializeField] private bool firstTimeRecalling = true;
@@ -107,9 +106,7 @@ public class MushroomManager : MonoBehaviour, IData
 
         // UI
         cursor = FindObjectOfType<GameCursor>();
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         throwUI_Script = GameObject.Find("Throw UI").GetComponent<ThrowUI>();
-        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Instantiates layer field
         layer = new ContactFilter2D();
@@ -128,6 +125,18 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         tilemap = GameObject.Find("foreground");
+    }
+
+    private void OnEnable()
+    {
+        EventManager.StartListening("Pause", LockThrow);
+        EventManager.StartListening("Lock", LockThrow);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening("Pause", LockThrow);
+        EventManager.StopListening("Lock", LockThrow);
     }
 
     // Update is called once per frame
@@ -208,7 +217,7 @@ public class MushroomManager : MonoBehaviour, IData
                                                           playerMove.IsFacingRight); 
                     }
                 }
-                if (pauseMenu.Paused)
+                if (!throwLineOn)
                 {
                     throwUI_Script.DeleteLine();
                 }
@@ -520,7 +529,7 @@ public class MushroomManager : MonoBehaviour, IData
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen && !throwLocked)
+        if(throwUnlocked && !throwLocked)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
@@ -581,7 +590,7 @@ public class MushroomManager : MonoBehaviour, IData
     public void OnRecallShrooms(InputAction.CallbackContext context)
     {
         // Checks if the game is paused
-        if(!pauseMenu.Paused && throwUnlocked)
+        if(!recallLocked && throwUnlocked)
         {
             // On initial button press
             if (context.started)
@@ -614,7 +623,7 @@ public class MushroomManager : MonoBehaviour, IData
     public void OnRemoveLastShroom(InputAction.CallbackContext context)
     {
         // Checks if the game is paused
-        if (!pauseMenu.Paused && throwUnlocked)
+        if (!recallLocked && throwUnlocked)
         {
             // On initial button press
             if (context.started)
@@ -639,6 +648,19 @@ public class MushroomManager : MonoBehaviour, IData
                 }
             }
         }
+    }
+    #endregion
+
+    #region EVENT FUNCTIONS
+    /// <summary>
+    /// Lock mushroom throw
+    /// </summary>
+    /// <param name="pauseData">Pause data</param>
+    public void LockThrow(object pauseData)
+    {
+        throwLineOn = false;
+        recallLocked = (bool)pauseData;
+        throwLocked = (bool)pauseData;
     }
     #endregion
 

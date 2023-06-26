@@ -15,8 +15,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
-    [SerializeField] private BouncingEffect bounceEffect;
-    private PauseMenu pauseMenu;
     private CompositeCollider2D mapCollider;
 	private BoxCollider2D playerCollider;
 	private CapsuleCollider2D capsuleCollider;
@@ -25,66 +23,63 @@ public class PlayerMovement : MonoBehaviour, IData
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
 	private Settings settings;
-	[SerializeField] PlayableDirector director;
-	#endregion
+    #endregion
 
-	#region FIELDS
+    #region FIELDS
+    [SerializeField] bool isJumping;
+    [SerializeField] private bool isGrounded;
+    [SerializeField] private bool isLocked = false;
+    [SerializeField] private bool justLanded = false;
+    [SerializeField] float fallingBuffer = 0.25f;
+    [SerializeField] float landedTimer = 0f;
     private bool isMoving;
-	[SerializeField] bool isJumping;
     private bool isJumpCut;
 	private bool isJumpFalling;
 	private bool isFacingRight;
-    [SerializeField] private bool isGrounded;
-	[SerializeField] float fallingBuffer = 0.25f;
     private bool inputHorizontal;
-    [SerializeField] private bool isLocked = false;
-	private float disableInputTimer = 0.5f;
-    [SerializeField] private bool justLanded = false;
-	private float lastOnGroundTime;
-	private float lastPressedJumpTime;
-    [SerializeField] float landedTimer = 0f;
+    private float lastOnGroundTime;
+    private float lastPressedJumpTime;
+    private float disableInputTimer = 0.5f;
+    private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
-	private Vector2 capsuleColliderSize;
+
+    #region SLOPES
+    [SerializeField] bool checkForSlopes = false;
+    [SerializeField] bool isOnSlope;
+    [SerializeField] bool canWalkOnSlope;
+    [SerializeField] float slopeCheckDistance;
+    [SerializeField] float slopeForceMagnitude = 5f;
+    [SerializeField] float maxSlopeAngle;
+    [SerializeField] private Vector2 moveInput;
+    private Vector2 capsuleColliderSize;
 	private Vector2 slopeNormal;
-	[SerializeField] bool checkForSlopes = false;
-	[SerializeField] float slopeCheckDistance;
-	[SerializeField] bool isOnSlope;
-	[SerializeField] float slopeForceMagnitude = 5f;
-	[SerializeField] float maxSlopeAngle;
-	private float slopeSideAngle;
+    private Vector3 slopeNormalPerp;
+    private float slopeSideAngle;
 	private float slopeDownAngle;
 	private float lastDownAngle;
-	private Vector3 slopeNormalPerp;
 	private float slopeNormalPerpAngle;
-	[SerializeField] bool canWalkOnSlope;
-    [SerializeField] private Vector2 moveInput;
-    private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-    #endregion
+	#endregion
 
-    #region PROPERTIES
-	public PlayerData Data { get { return data; } }
+	#region BOUNCING
+	[SerializeField] private bool bouncing = false;
+    [SerializeField] private bool touchingShroom = false;
+    private float bounceBuffer = 0.1f;
+	#endregion
+	#endregion
+
+	#region PROPERTIES
     public Rigidbody2D RB { get { return rb; } set { rb = value; } }
-	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
-    public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
-    public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
-	public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
-    public bool InputHorizontal { get { return inputHorizontal; } set { inputHorizontal = value; } }
-	public bool IsLocked { get { return isLocked; } set { isLocked = value; } }
-	public float DisableInputTimer { get { return disableInputTimer; } set { disableInputTimer = value; } }
-	public float LandedTimer { get { return landedTimer; } set { landedTimer = value; } }
-	public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } set { distanceFromLastPosition = value; } }
-    public Vector2 MoveInput { get { return moveInput; } set { moveInput = value; } }
-
+	public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
+    public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
+    public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } }
     #endregion
 
     private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
 		spriteRenderer = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
-		bounceEffect = GetComponent<BouncingEffect>();
-		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 		playerCollider = GetComponent<BoxCollider2D>();
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
@@ -92,7 +87,23 @@ public class PlayerMovement : MonoBehaviour, IData
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
 	}
 
-	private void Start()
+    private void OnEnable()
+    {
+		EventManager.StartListening("Bounce", ApplyBounce);
+		EventManager.StartListening("TouchingShroom", TouchingShroom);
+		EventManager.StartListening("Pause", LockMovement);
+        EventManager.StartListening("Lock", LockMovement);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening("Bounce", ApplyBounce);
+        EventManager.StopListening("TouchingShroom", TouchingShroom);
+		EventManager.StopListening("Pause", LockMovement);
+        EventManager.StopListening("Lock", LockMovement);
+    }
+
+    private void Start()
 	{
 		SetGravityScale(data.gravityScale);
 		isFacingRight = true;
@@ -128,6 +139,11 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			fallingBuffer -= Time.deltaTime;
         }
+
+        if (bounceBuffer > 0 && bouncing)
+        {
+            bounceBuffer -= Time.deltaTime;
+        }
         #endregion
 
         // Check for Collisions
@@ -136,14 +152,14 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer);
 
-            if ((boxCheckGround || bounceEffect.TouchingShroom) && !isJumping) // Checks if set box overlaps with ground
+            if ((boxCheckGround || touchingShroom) && !isJumping) // Checks if set box overlaps with ground
             {
                 // If bouncing before and the bounce buffer has ended, end bouncing
-                if (bounceEffect.Bouncing && bounceEffect.BounceBuffer <= 0)
+                if (bouncing && bounceBuffer <= 0)
                 {
-                    bounceEffect.Bouncing = false;
+                    bouncing = false;
 
-					EventManager.TriggerEvent("Bouncing", false);
+					EventManager.TriggerEvent("Bounce", false);
                 }
 
                 // Ground player
@@ -194,11 +210,11 @@ public class PlayerMovement : MonoBehaviour, IData
         if (isJumping)
         {
             isGrounded = false;
-            EventManager.TriggerEvent("Jumping", true);
+            EventManager.TriggerEvent("Jump", true);
         }
         else if (!isJumping) // Else, if the player is not jumping, update animations
         {
-            EventManager.TriggerEvent("Jumping", false);
+            EventManager.TriggerEvent("Jump", false);
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
@@ -211,20 +227,20 @@ public class PlayerMovement : MonoBehaviour, IData
 
 				if(fallingBuffer <= 0)
 				{
-                    EventManager.TriggerEvent("Falling", true);
+                    EventManager.TriggerEvent("Fall", true);
                 }
             }
         }
-        else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing || isOnSlope) // Otherwise, if the player is not falling, update animations
+        else if (!isJumpFalling || isGrounded || bouncing || isOnSlope) // Otherwise, if the player is not falling, update animations
         {
             fallingBuffer = 0.15f;
-            EventManager.TriggerEvent("Falling", false);
+            EventManager.TriggerEvent("Fall", false);
         }
 		
-		if(bounceEffect.Bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
+		if(bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
 		{
             fallingBuffer = 0.15f;
-            EventManager.TriggerEvent("Falling", false);
+            EventManager.TriggerEvent("Fall", false);
         }
         #endregion
 
@@ -242,14 +258,14 @@ public class PlayerMovement : MonoBehaviour, IData
 		// Land Animation Checks
         #region LAND ANIMATION CHECKS
         // If the player has been on the ground for longer than 0 seconds, they have landed
-        if (landedTimer > 0 && isGrounded && !bounceEffect.Bouncing)
+        if (landedTimer > 0 && isGrounded && !bouncing)
         {
             // Update variables and set animations
             landedTimer -= Time.deltaTime;
             justLanded = true;
 
 			// Trigger Landing event
-			EventManager.TriggerEvent("Landing", true);
+			EventManager.TriggerEvent("Land", true);
         }
         else
         {
@@ -258,7 +274,7 @@ public class PlayerMovement : MonoBehaviour, IData
             justLanded = false;
 
 			// Trigger Landing event
-            EventManager.TriggerEvent("Landing", false);
+            EventManager.TriggerEvent("Land", false);
         }
 
 		if(!isGrounded && RB.velocity.y < 0)
@@ -270,10 +286,10 @@ public class PlayerMovement : MonoBehaviour, IData
 
         // Calculate Gravity
         #region GRAVITY
-        if (!bounceEffect.Bouncing)
+        if (!bouncing)
         {
             // Check for slope gravity first
-            if (isOnSlope && !isLocked && !isJumping && !bounceEffect.TouchingShroom && canWalkOnSlope)
+            if (isOnSlope && !isLocked && !isJumping && !touchingShroom && canWalkOnSlope)
 			{
 				// Check for movement input
 				if(moveInput.x == 0.0f)
@@ -385,7 +401,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		}
 
         // Trigger events
-        EventManager.TriggerEvent("Movement", RB.velocity.x);
+        EventManager.TriggerEvent("Move", RB.velocity.x);
     }
 
     #region INPUT CALLBACKS
@@ -419,124 +435,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		RB.gravityScale = scale;
 	}
 	#endregion
-	/// <summary>
-	/// Force Player movement to stick on slopes
-	/// </summary>
-	private void HandleSlopes()
-	{
-        // Perform a slope check using a small ground detector circle
-        Vector2 checkPos = playerCollider.bounds.center - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
-
-		#region Check Horizontal Slope
-		// Cast a front and back ray for nearby slopes and valleys
-		RaycastHit2D frontHit = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
-		RaycastHit2D backHit = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
-
-		// If either the front or back hit, set the angle and set isOnSlope to true
-		if (frontHit)
-		{
-			slopeSideAngle = Vector2.Angle(frontHit.normal, Vector2.up);
-			isOnSlope = true;
-		}
-		else if (backHit)
-		{
-			slopeSideAngle = Vector2.Angle(backHit.normal, Vector2.up);
-			isOnSlope = true;
-		}
-		else
-		{
-			// If neither hit, then set the slopeSideAngle to 0 and isOnSlope to false
-			slopeSideAngle = 0.0f;
-			isOnSlope = false;
-		}
-		#endregion
-
-		#region Check Vertical Slope
-		// Cast a ray downward and chcck for collisions with the ground
-		RaycastHit2D downHit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, groundLayer);
-
-		// If the ray hits the ground
-        if (downHit)
-        {
-			// Create a normal vector from the collision point between the ray and the ground
-            slopeNormal = downHit.normal.normalized;
-
-			// Get an angle from the slope normal using trig
-            slopeDownAngle = Mathf.Atan2(slopeNormal.y, slopeNormal.x) * Mathf.Rad2Deg;
-
-			// Create a perpendicular vector from the slope normal and normalize it
-            slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
-
-			// Get the angle from the perpendicular vector using trig
-            slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
-
-			// If the angle is not close to flat (180 degrees), then you're on a slope
-            if (!(Mathf.Abs(slopeNormalPerpAngle) >= 179f && Mathf.Abs(slopeNormalPerpAngle) <= 181f))
-            {
-                isOnSlope = true;
-            }
-            else
-            {
-				// If it is near-flat (180 degrees), then you're not on a slope
-                isOnSlope = false;
-            }
-
-			// Update lastDownAngle
-            lastDownAngle = slopeDownAngle;
-
-			// Draw a ray for debugging
-            Debug.DrawRay(downHit.point, downHit.normal, Color.red);
-        }
-        else
-        {
-			// If there is not hit, then set isOnSlope to false by default
-            isOnSlope = false;
-        }
-        #endregion
-
-        #region Barrier Checks
-		// If the slope angle is less than the max slope that the player can climb, then allow them to walk on it
-        if (Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
-		{
-			canWalkOnSlope = true;
-		} else
-		{
-			// Otherwise, do not allow them to walk on it
-			canWalkOnSlope = false;
-		}
-		#endregion
-
-		// If the player is grounded, is on a slope, is able to walk on the slope, and is not jumping, and is not bouncing, then apply the slope force
-		if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping && !bounceEffect.Bouncing && !bounceEffect.TouchingShroom)
-		{
-            Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
-            rb.AddForce(slopeForce, ForceMode2D.Force);
-
-            // Draw for debugging
-            Debug.DrawRay(checkPos, slopeForce, Color.white);
-        } else
-		{
-			// If not on a slope, apply the identity Quaternion to get the player back to normal rotation
-			spriteRenderer.gameObject.transform.rotation = Quaternion.identity;
-        }
-
-		// Set frictions based on still input so that the player doesn't move - not sure if this actually does anything as the gravity
-		// takes care of most of it
-		if(isOnSlope && canWalkOnSlope && moveInput.x == 0.0f)
-		{
-			rb.sharedMaterial = fullFriction;
-			playerCollider.sharedMaterial = fullFriction;
-		} else
-		{
-			rb.sharedMaterial = noFriction;
-			playerCollider.sharedMaterial = noFriction;
-        }
-
-        // Draw rays for debugging
-        Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
-        Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
-        Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
-    }
 
 	// MOVEMENT METHODS
 	#region RUN METHODS
@@ -557,7 +455,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
         // Gets an acceleration value based on if we are accelerating (includes turning) 
         // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
-        if (lastOnGroundTime > 0 && !bounceEffect.Bouncing)
+        if (lastOnGroundTime > 0 && !bouncing)
         {
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccelAmount : data.runDeccelAmount;
         }	
@@ -581,7 +479,7 @@ public class PlayerMovement : MonoBehaviour, IData
         if (data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && lastOnGroundTime < 0)
         {
             // Prevent any deceleration from happening, or in other words conserve our current momentum
-            if (!bounceEffect.Bouncing)
+            if (!bouncing)
             {
 				accelRate = 0;
             }
@@ -623,10 +521,132 @@ public class PlayerMovement : MonoBehaviour, IData
         EventManager.TriggerEvent("Footsteps", moveInput.x, rb.velocity.x, isGrounded);
     }
 
-	/// <summary>
-	/// Turn the Player to face the direction they are moving in
-	/// </summary>
-	public void Turn()
+    /// <summary>
+    /// Force Player movement to stick on slopes
+    /// </summary>
+    private void HandleSlopes()
+    {
+        // Perform a slope check using a small ground detector circle
+        Vector2 checkPos = playerCollider.bounds.center - (Vector3)(new Vector2(0.0f, capsuleColliderSize.y / 2));
+
+        #region Check Horizontal Slope
+        // Cast a front and back ray for nearby slopes and valleys
+        RaycastHit2D frontHit = Physics2D.Raycast(checkPos, transform.right, slopeCheckDistance, groundLayer);
+        RaycastHit2D backHit = Physics2D.Raycast(checkPos, -transform.right, slopeCheckDistance, groundLayer);
+
+        // If either the front or back hit, set the angle and set isOnSlope to true
+        if (frontHit)
+        {
+            slopeSideAngle = Vector2.Angle(frontHit.normal, Vector2.up);
+            isOnSlope = true;
+        }
+        else if (backHit)
+        {
+            slopeSideAngle = Vector2.Angle(backHit.normal, Vector2.up);
+            isOnSlope = true;
+        }
+        else
+        {
+            // If neither hit, then set the slopeSideAngle to 0 and isOnSlope to false
+            slopeSideAngle = 0.0f;
+            isOnSlope = false;
+        }
+        #endregion
+
+        #region Check Vertical Slope
+        // Cast a ray downward and chcck for collisions with the ground
+        RaycastHit2D downHit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, groundLayer);
+
+        // If the ray hits the ground
+        if (downHit)
+        {
+            // Create a normal vector from the collision point between the ray and the ground
+            slopeNormal = downHit.normal.normalized;
+
+            // Get an angle from the slope normal using trig
+            slopeDownAngle = Mathf.Atan2(slopeNormal.y, slopeNormal.x) * Mathf.Rad2Deg;
+
+            // Create a perpendicular vector from the slope normal and normalize it
+            slopeNormalPerp = Vector2.Perpendicular(slopeNormal).normalized;
+
+            // Get the angle from the perpendicular vector using trig
+            slopeNormalPerpAngle = Mathf.Atan2(slopeNormalPerp.y, slopeNormalPerp.x) * Mathf.Rad2Deg;
+
+            // If the angle is not close to flat (180 degrees), then you're on a slope
+            if (!(Mathf.Abs(slopeNormalPerpAngle) >= 179f && Mathf.Abs(slopeNormalPerpAngle) <= 181f))
+            {
+                isOnSlope = true;
+            }
+            else
+            {
+                // If it is near-flat (180 degrees), then you're not on a slope
+                isOnSlope = false;
+            }
+
+            // Update lastDownAngle
+            lastDownAngle = slopeDownAngle;
+
+            // Draw a ray for debugging
+            Debug.DrawRay(downHit.point, downHit.normal, Color.red);
+        }
+        else
+        {
+            // If there is not hit, then set isOnSlope to false by default
+            isOnSlope = false;
+        }
+        #endregion
+
+        #region Barrier Checks
+        // If the slope angle is less than the max slope that the player can climb, then allow them to walk on it
+        if (Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
+        {
+            canWalkOnSlope = true;
+        }
+        else
+        {
+            // Otherwise, do not allow them to walk on it
+            canWalkOnSlope = false;
+        }
+        #endregion
+
+        // If the player is grounded, is on a slope, is able to walk on the slope, and is not jumping, and is not bouncing, then apply the slope force
+        if (isGrounded && isOnSlope && canWalkOnSlope && !isJumping && !bouncing && !touchingShroom)
+        {
+            Vector2 slopeForce = -slopeNormal * slopeForceMagnitude;
+            rb.AddForce(slopeForce, ForceMode2D.Force);
+
+            // Draw for debugging
+            Debug.DrawRay(checkPos, slopeForce, Color.white);
+        }
+        else
+        {
+            // If not on a slope, apply the identity Quaternion to get the player back to normal rotation
+            spriteRenderer.gameObject.transform.rotation = Quaternion.identity;
+        }
+
+        // Set frictions based on still input so that the player doesn't move - not sure if this actually does anything as the gravity
+        // takes care of most of it
+        if (isOnSlope && canWalkOnSlope && moveInput.x == 0.0f)
+        {
+            rb.sharedMaterial = fullFriction;
+            playerCollider.sharedMaterial = fullFriction;
+        }
+        else
+        {
+            rb.sharedMaterial = noFriction;
+            playerCollider.sharedMaterial = noFriction;
+        }
+
+        // Draw rays for debugging
+        Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
+        Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
+        Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+    }
+
+    /// <summary>
+    /// Turn the Player to face the direction they are moving in
+    /// </summary>
+    public void Turn()
 	{
         // Stores scale and flips the player along the x axis, 
         Vector3 scale = transform.localScale;
@@ -710,7 +730,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
-        if (!pauseMenu.Paused && !isLocked)
+        if (!isLocked)
         {
 			// Set the move input to the value returned by context
 			moveInput = context.ReadValue<Vector2>();
@@ -740,7 +760,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!pauseMenu.Paused && !isLocked)
+        if (!isLocked)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -752,6 +772,38 @@ public class PlayerMovement : MonoBehaviour, IData
 				OnJumpUpInput();
 			}
 		}
+	}
+	#endregion
+
+	#region EVENT FUNCTIONS
+	/// <summary>
+	/// Set variables for bouncing
+	/// </summary>
+	private void ApplyBounce()
+	{
+		bouncing = true;
+		bounceBuffer = 0.1f;
+		landedTimer = 0.2f;
+		disableInputTimer = 0.5f;
+	}
+	/// <summary>
+	/// Set whether the player is touching a shroom
+	/// </summary>
+	/// <param name="touchingData"></param>
+
+	private void TouchingShroom(object touchingData)
+	{
+		touchingShroom = (bool)touchingData;
+	}
+
+	/// <summary>
+	/// Lock player movement
+	/// </summary>
+	/// <param name="lockedData"></param>
+	private void LockMovement(object lockedData)
+	{
+        moveInput = Vector2.zero;
+        isLocked = (bool)lockedData;
 	}
 	#endregion
 

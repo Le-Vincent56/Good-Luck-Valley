@@ -15,25 +15,25 @@ public class AnimationListener : MonoBehaviour
     private void OnEnable()
     {
         // Start listening to events
-        EventManager.StartListening("Movement", RunningAnim);
-        EventManager.StartListening("Landing", LandingAnim);
-        EventManager.StartListening("Jumping", JumpingAnim);
-        EventManager.StartListening("Falling", FallingAnim);
-        EventManager.StartListening("Bouncing", BouncingAnim);
-        EventManager.StartListening("CheckThrowing", CheckThrowingAnim);
-        EventManager.StartListening("SetThrowing", SetThrowingAnim);
+        EventManager.StartListening("Move", RunningAnim);
+        EventManager.StartListening("Land", LandingAnim);
+        EventManager.StartListening("Jump", JumpingAnim);
+        EventManager.StartListening("Fall", FallingAnim);
+        EventManager.StartListening("Bounce", BouncingAnim);
+        EventManager.StartListening("CheckThrowingAnim", CheckThrowingAnim);
+        EventManager.StartListening("SetThrowingAnim", SetThrowingAnim);
     }
 
     private void OnDisable()
     {
         // Stop listening to events
-        EventManager.StopListening("Movement", RunningAnim);
-        EventManager.StopListening("Landing", LandingAnim);
-        EventManager.StopListening("Jumping", JumpingAnim);
-        EventManager.StopListening("Falling", FallingAnim);
-        EventManager.StopListening("Bouncing", BouncingAnim);
-        EventManager.StopListening("CheckThrowing", CheckThrowingAnim);
-        EventManager.StopListening("SetThrowing", SetThrowingAnim);
+        EventManager.StopListening("Move", RunningAnim);
+        EventManager.StopListening("Land", LandingAnim);
+        EventManager.StopListening("Jump", JumpingAnim);
+        EventManager.StopListening("Fall", FallingAnim);
+        EventManager.StopListening("Bounce", BouncingAnim);
+        EventManager.StopListening("CheckThrowingAnim", CheckThrowingAnim);
+        EventManager.StopListening("SetThrowingAnim", SetThrowingAnim);
     }
 
     /// <summary>
