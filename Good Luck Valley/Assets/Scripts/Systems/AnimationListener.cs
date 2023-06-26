@@ -7,11 +7,10 @@ public class AnimationListener : MonoBehaviour
 {
     Animator playerAnim;
 
-    private void Awake()
+    private void Start()
     {
         playerAnim = GetComponent<Animator>();
     }
-
 
     private void OnEnable()
     {
@@ -41,10 +40,13 @@ public class AnimationListener : MonoBehaviour
     /// Set running animations based on data
     /// </summary>
     /// <param name="data">Movement data</param>
-    private void RunningAnim(object data)
+    private void RunningAnim(object movementData)
     {
+        AnimatorClipInfo[] animInfo = playerAnim.GetCurrentAnimatorClipInfo(0);
+        Debug.Log("Animator Clip Length: " + animInfo[0].clip.length);
+
         // Set float based on movement data
-        playerAnim.SetFloat("Speed", Mathf.Abs((float)data));
+        playerAnim.SetFloat("Speed", Mathf.Abs((float)movementData));
 
         // Check movement data for which leg Anari is on for throwing animations
         if (playerAnim.GetFloat("Speed") > 0.01)
@@ -115,6 +117,9 @@ public class AnimationListener : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check the throwing animation to see when to end
+    /// </summary>
     private void CheckThrowingAnim()
     {
         if (playerAnim.GetBool("Throwing"))
@@ -128,6 +133,10 @@ public class AnimationListener : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set the throwing animation based on data
+    /// </summary>
+    /// <param name="data">Throwing data</param>
     private void SetThrowingAnim(object data)
     {
         playerAnim.SetBool("Throwing", (bool)data);
