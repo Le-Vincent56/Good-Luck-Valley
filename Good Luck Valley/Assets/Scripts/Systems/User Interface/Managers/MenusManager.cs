@@ -28,7 +28,6 @@ public class MenusManager : MonoBehaviour
     private Button continueButton;
     private Button loadGameButton;
     private Button settingsButton;
-    private Button journalButton;
     private Button creditsButton;
     private Button exitGameButton;
     #endregion
@@ -68,7 +67,6 @@ public class MenusManager : MonoBehaviour
             continueButton = GameObject.Find("Continue").GetComponent<Button>();
             loadGameButton = GameObject.Find("Load Game").GetComponent<Button>();
             settingsButton = GameObject.Find("Settings").GetComponent<Button>();
-            journalButton = GameObject.Find("Journal").GetComponent<Button>();
             creditsButton = GameObject.Find("Credits").GetComponent<Button>();
             exitGameButton = GameObject.Find("Exit Game").GetComponent<Button>();
             #endregion
@@ -837,7 +835,6 @@ public class MenusManager : MonoBehaviour
         continueButton.interactable = false;
         loadGameButton.interactable = false;
         settingsButton.interactable = false;
-        journalButton.interactable = false;
         creditsButton.interactable = false;
         exitGameButton.interactable = false;
     }

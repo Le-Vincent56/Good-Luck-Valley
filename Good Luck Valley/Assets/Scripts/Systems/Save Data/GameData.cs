@@ -65,6 +65,5 @@ public class GameData
         notes = new List<Note>();
         hasJournal = false;
         #endregion
-
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.XInput;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
+using FMOD.Studio;
 
 public class PlayerMovement : MonoBehaviour, IData
 {
@@ -60,6 +61,11 @@ public class PlayerMovement : MonoBehaviour, IData
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+	private EventInstance playerFootsteps;
+	private string animatorClipName;
+	private AnimatorClipInfo[] currentClipInfo;
+	private float stepTimerMax;
+	private float stepTimer;
     #endregion
 
     #region PROPERTIES
@@ -98,9 +104,17 @@ public class PlayerMovement : MonoBehaviour, IData
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
 		capsuleColliderSize = capsuleCollider.size;
+		playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
+
+        #region FOOTSTEP SOUND VARIABLES
+        currentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
+        animatorClipName = currentClipInfo[0].clip.name;
+		stepTimerMax = currentClipInfo[0].clip.length;
+		stepTimer = 0;
+		#endregion
 	}
 
-	private void Update()
+    private void Update()
 	{
 		// Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
@@ -750,17 +764,45 @@ public class PlayerMovement : MonoBehaviour, IData
 			}
 		}
 	}
+	#endregion
 
-	//  public void OnCollisionEnter2D(Collision2D collision)
-	//  {
-	//      if(collision.gameObject.tag == "Collidable")
-	//{
-	//	Debug.Log("Hitting Collidable tag");
-	//} else
-	//{
-	//	Debug.Log("Hitting something else");
-	//}
-	//  }
+	#region SOUND
+	private void UpdateSound()
+	{
+		// Start footsteps event if the player has an x velocity and is on the ground
+		if(rb.velocity.x != 0 && isGrounded)
+		{
+			// Fetch the current Animation clip information for the base layer
+			currentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
+
+			// Access the current length of the clip
+			stepTimerMax = currentClipInfo[0].clip.length;
+
+			// Access the Animation clip name
+			animatorClipName = currentClipInfo[0].clip.name;
+
+			if((stepTimer <= (stepTimerMax / 2f) || stepTimerMax <= 0f) && animatorClipName == "Player_Run")
+			{
+				Debug.Log("Playing footstep");
+
+				PLAYBACK_STATE playbackState;
+				playerFootsteps.getPlaybackState(out playbackState);
+				if(playbackState.Equals(PLAYBACK_STATE.STOPPED))
+				{
+                    // Play a footstep noise
+                    playerFootsteps.start();
+                }
+
+				// Reset the stepTimer
+				stepTimer = stepTimerMax;
+			} else if(stepTimer > 0f)
+			{
+				playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+				// If step timer is greater than 0, subtract by Time.deltaTime
+				stepTimer -= Time.deltaTime;
+			}
+		}
+	}
 	#endregion
 
 	// DATA HANDLING
