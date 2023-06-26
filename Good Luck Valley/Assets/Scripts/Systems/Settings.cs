@@ -26,11 +26,11 @@ public class Settings : MonoBehaviour, ISettingsData
     private static bool isFullscreen;
 
     // Audio settings
-    private float masterVolume;
-    private float musicVolume;
-    private float sfxVolume;
-    private float ambientVolume;
-    private float voicesVolume;
+    private static float masterVolume;
+    private static float musicVolume;
+    private static float sfxVolume;
+    private static float ambientVolume;
+    private static float voicesVolume;
 
 
     private BoxCollider2D playerCollider;
@@ -224,10 +224,6 @@ public class Settings : MonoBehaviour, ISettingsData
         resOption = data.resOption;
         #endregion
 
-        // Load controls settings
-        #region CONTROLS
-        #endregion
-
         // Load audio settings
         #region AUDIO
         musicVolume = data.musicVolume;
@@ -258,9 +254,6 @@ public class Settings : MonoBehaviour, ISettingsData
         data.isFullscreen = isFullscreen;
         data.resolution = resolution;
         data.resOption = resOption;
-        #endregion
-
-        #region CONTROLS
         #endregion
 
         // Save audio settings values
