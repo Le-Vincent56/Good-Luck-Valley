@@ -89,7 +89,6 @@ public class ShroomCounter : MonoBehaviour
     /// </summary>
     public void ResetQueue()
     {
-        Debug.Log("Reset Qyeye");
         // Clears the queue
         
         if (!shroomIconList.Contains(shroomIcon1))

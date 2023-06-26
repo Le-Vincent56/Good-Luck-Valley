@@ -6,8 +6,9 @@ using UnityEngine.InputSystem.XInput;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
+using FMOD.Studio;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IData
 {
     #region REFERENCES
     [SerializeField] private PlayerData data;
@@ -61,7 +62,11 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] bool canWalkOnSlope;
     [SerializeField] private Vector2 moveInput;
     private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-	private bool usingLotusCutscene = false;
+	private EventInstance playerFootsteps;
+	private string animatorClipName;
+	private AnimatorClipInfo[] currentClipInfo;
+	private float stepTimerMax;
+	private float stepTimer;
     #endregion
 
     #region PROPERTIES
@@ -92,14 +97,6 @@ public class PlayerMovement : MonoBehaviour
 		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
-
-		if(director == null)
-		{
-			usingLotusCutscene = false;
-		} else
-		{
-			usingLotusCutscene = true;
-		}
 	}
 
 	private void Start()
@@ -109,29 +106,18 @@ public class PlayerMovement : MonoBehaviour
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
 		capsuleColliderSize = capsuleCollider.size;
+		playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
+
+        #region FOOTSTEP SOUND VARIABLES
+        currentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
+        animatorClipName = currentClipInfo[0].clip.name;
+		stepTimerMax = currentClipInfo[0].clip.length;
+		stepTimer = 0;
+		#endregion
 	}
 
-	private void Update()
+    private void Update()
 	{
-        Debug.Log("Gravity Scale: " + rb.gravityScale);
-
-        // Check if there's a lotus cutscene
-        if (usingLotusCutscene)
-		{
-			// If so, check the state of the director
-            if (director.state == PlayState.Playing)
-            {
-				// If it's playing, lock player movement
-                isLocked = true;
-            }
-            else
-            {
-				// Otherwise, unlock it
-                isLocked = false;
-            }
-        }
-		
-
 		// Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
@@ -409,27 +395,8 @@ public class PlayerMovement : MonoBehaviour
                 HandleSlopes();
             }
 
+			// Handle movement
 			Run(0.5f);
-
-   //         // Check if the player is bouncing
-   //         if (bounceEffect.Bouncing)
-			//{
-			//	// Check if disableInputTimer is greater than 0 - this acts as a cooldown for movement input
-			//	if (disableInputTimer <= 0)
-			//	{
-   //                 // If disableInputTimer is less than or equal to 0 (meaning that the cooldown is over), allow for movement
-   //                 Run(0.5f);
-			//	} else
-			//	{
-			//		// If disableInputTimer is greater than zero, subtract by deltaTime
-			//		disableInputTimer -= Time.deltaTime;
-			//	}
-			//}
-			//else
-			//{
-			//	// If not bouncing, allow movement like normal
-			//	Run(0.5f);
-			//}
 		}
 		else
 		{
@@ -447,6 +414,9 @@ public class PlayerMovement : MonoBehaviour
 				}
 			}
 		}
+
+		// Update sound
+		UpdateSound();
 
 		// Set animation
 		animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
@@ -815,16 +785,61 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
+	#endregion
 
-  //  public void OnCollisionEnter2D(Collision2D collision)
-  //  {
-  //      if(collision.gameObject.tag == "Collidable")
-		//{
-		//	Debug.Log("Hitting Collidable tag");
-		//} else
-		//{
-		//	Debug.Log("Hitting something else");
-		//}
-  //  }
-    #endregion
+	#region SOUND
+	private void UpdateSound()
+	{
+		// Start footsteps event if the player has an x velocity and is on the ground
+		if(rb.velocity.x != 0 && isGrounded)
+		{
+			// Fetch the current Animation clip information for the base layer
+			currentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
+
+			// Access the current length of the clip
+			stepTimerMax = currentClipInfo[0].clip.length;
+
+			// Access the Animation clip name
+			animatorClipName = currentClipInfo[0].clip.name;
+
+			if((stepTimer <= (stepTimerMax / 2f) || stepTimerMax <= 0f) && animatorClipName == "Player_Run")
+			{
+				Debug.Log("Playing footstep");
+
+				PLAYBACK_STATE playbackState;
+				playerFootsteps.getPlaybackState(out playbackState);
+				if(playbackState.Equals(PLAYBACK_STATE.STOPPED))
+				{
+                    // Play a footstep noise
+                    playerFootsteps.start();
+                }
+
+				// Reset the stepTimer
+				stepTimer = stepTimerMax;
+			} else if(stepTimer > 0f)
+			{
+				playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+				// If step timer is greater than 0, subtract by Time.deltaTime
+				stepTimer -= Time.deltaTime;
+			}
+		}
+	}
+	#endregion
+
+	// DATA HANDLING
+	#region DATA HANDLING
+	public void LoadData(GameData data)
+	{
+		// Load player position
+		gameObject.transform.position = data.playerPosition;
+		isLocked = data.isLocked;
+	}
+
+	public void SaveData(GameData data)
+	{
+		// Save player position
+		data.playerPosition = gameObject.transform.position;
+		data.isLocked = isLocked;
+	}
+	#endregion
 }

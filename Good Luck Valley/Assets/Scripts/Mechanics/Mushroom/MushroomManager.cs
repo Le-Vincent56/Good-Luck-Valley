@@ -14,7 +14,7 @@ public enum ThrowState
     Throwing
 }
 
-public class MushroomManager : MonoBehaviour
+public class MushroomManager : MonoBehaviour, IData
 {
     #region REFERENCES
     private GameObject player;
@@ -34,7 +34,6 @@ public class MushroomManager : MonoBehaviour
     [SerializeField] private GameObject testObject;
     private Journal journal;
     private ShroomCounter shroomCounter;
-    [SerializeField] private PlayableDirector director;
     private Tutorial tutorialEvent;
     #endregion
 
@@ -54,18 +53,18 @@ public class MushroomManager : MonoBehaviour
     private Stack<int> removeShroomIndexes;                     // Stack for tracking the indexes of shrooms that need to be removed
     private Dictionary<int, GameObject> changeShroomIndexes;    // Dictionary for tracking the indexes and objects of shrooms that need to be changed from spores.
     [SerializeField] private Vector2 offset;                    // Offset for spawning shrooms outside of player hitbox
-    private bool throwUnlocked = false;
+    [SerializeField] private bool throwUnlocked = false;
     [SerializeField] int throwMultiplier;
     [SerializeField] Vector3 fixPlayer;
     private ThrowState throwState;
     private bool throwPrepared = false;
     [SerializeField] private float shroomDuration;
     [SerializeField] private bool enableShroomTimers;
-    private bool usingLotusCutscene;
     private bool throwLocked = false;
     [SerializeField] private bool usingTutorial = false;
     [SerializeField] private bool firstTimeHittingMax = true;
     [SerializeField] private bool firstTimeRecalling = true;
+    private bool throwLineOn;
     #endregion
 
     #region PROPERTIES
@@ -78,6 +77,8 @@ public class MushroomManager : MonoBehaviour
     public float ShroomDuration { get { return shroomDuration; } set { shroomDuration = value; } }
     public bool EnableShroomTimers { get { return enableShroomTimers;} set { enableShroomTimers = value; } }
     public ShroomCounter ShroomCounter { get { return shroomCounter; } }
+    public bool ThrowLocked { get { return throwLocked; } set { throwLocked = value; } }
+    public bool ThrowLineOn { get { return throwLineOn; } set {  throwLineOn = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -119,15 +120,6 @@ public class MushroomManager : MonoBehaviour
         // Sets the layerMask property of layer to the ground layer 
         layer.layerMask = LayerMask.GetMask("Ground");
 
-        // Set Cutscene Director
-        if(director == null)
-        {
-            usingLotusCutscene = false;
-        } else
-        {
-            usingLotusCutscene = true;
-        }
-
         // Set Tutorial Event
         if(usingTutorial)
         {
@@ -136,6 +128,8 @@ public class MushroomManager : MonoBehaviour
         {
             tutorialEvent = null;
         }
+
+        tilemap = GameObject.Find("foreground");
     }
 
     // Update is called once per frame
@@ -148,21 +142,6 @@ public class MushroomManager : MonoBehaviour
         //Debug.Log(forceDirection);
         //Debug.Log(playerRB.position);
 
-        // Check if a cutscene will be used at the beginning of the level
-        if(usingLotusCutscene)
-        {
-            // If so, check the PlayableDirector state
-            if(director.state == PlayState.Playing)
-            {
-                // If it's playing, lock the throw
-                throwLocked = true;
-            } else
-            {
-                // Otherwise, unlock the throw
-                throwLocked = false;
-            }
-        }
-
         if(usingTutorial && firstTimeHittingMax && mushroomList.Count == 3)
         {
             tutorialEvent.ShowingRemoveText = true;
@@ -174,7 +153,7 @@ public class MushroomManager : MonoBehaviour
         {
             AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
             AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-            Debug.Log(animationInfo.normalizedTime);
+            // Debug.Log(animationInfo.normalizedTime);
             if(animationInfo.normalizedTime % 1 > 0.9)
             {
                 playerAnim.SetBool("Throwing", false);
@@ -222,9 +201,12 @@ public class MushroomManager : MonoBehaviour
             case ThrowState.Throwing:
                 if (mushroomList.Count < mushroomLimit)
                 {
-                    throwUI_Script.PlotTrajectory(playerRB.position,
-                                                  forceDirection.normalized * throwMultiplier,
-                                                  playerMove.IsFacingRight);
+                    if (throwLineOn)
+                    {
+                        throwUI_Script.PlotTrajectory(playerRB.position,
+                                                          forceDirection.normalized * throwMultiplier,
+                                                          playerMove.IsFacingRight); 
+                    }
                 }
                 if (pauseMenu.Paused)
                 {
@@ -302,25 +284,25 @@ public class MushroomManager : MonoBehaviour
     void CheckShroomCount()
     {
         // If so, ThrowMushroom is called
-        throwUI_Script.DeleteLine();
-        ThrowMushroom();
 
 
-        //// Checks if the current number of spawned mushrooms is lower than the max amount
-        //if (mushroomList.Count < mushroomLimit)
-        //{
-        //}
-        //else if (mushroomList.Count >= mushroomLimit)
-        //{
-        //    // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
-        //    throwUI_Script.DeleteLine();
-        //    //Debug.Log("Shroom Destroy Icon: " + mushroomList[0].GetComponent<MushroomInfo>().ShroomIcon);
-        //    //shroomCounter.ShroomIconQueue.Add(mushroomList[0].GetComponent<MushroomInfo>().ShroomIcon);
-        //    //mushroomList[0].GetComponent<MushroomInfo>().ResetCounter();
-        //    //Destroy(mushroomList[0]);
-        //    //mushroomList.RemoveAt(0);
-        //    //ThrowMushroom();
-        //}
+        // Checks if the current number of spawned mushrooms is lower than the max amount
+        if (mushroomList.Count < mushroomLimit)
+        {
+            throwUI_Script.DeleteLine();
+            ThrowMushroom();
+        }
+        else if (mushroomList.Count >= mushroomLimit)
+        {
+            // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
+            MushroomInfo mInfo = mushroomList[0].GetComponent<MushroomInfo>();
+            throwUI_Script.DeleteLine();
+            shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
+            mInfo.ResetCounter();
+            Destroy(mushroomList[0]);
+            mushroomList.RemoveAt(0);
+            ThrowMushroom();
+        }
     }
 
     /// <summary>
@@ -538,7 +520,7 @@ public class MushroomManager : MonoBehaviour
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen && !throwLocked && mushroomList.Count < mushroomLimit)
+        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen && !throwLocked)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
@@ -659,6 +641,20 @@ public class MushroomManager : MonoBehaviour
                 }
             }
         }
-    }    
+    }
+    #endregion
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        throwUnlocked = data.throwUnlocked;
+        throwLocked = data.throwLocked;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.throwUnlocked = throwUnlocked;
+        data.throwLocked = throwLocked;
+    }
     #endregion
 }

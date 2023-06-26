@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Settings : MonoBehaviour
+public class Settings : MonoBehaviour, ISettingsData
 {
     #region REFERENCES
     private MenusManager menusMan;
@@ -11,14 +11,31 @@ public class Settings : MonoBehaviour
     #endregion
 
     #region FIELDS
-    static bool throwIndicatorShown = true;
-    static bool noClipOn = false;
-    static bool instantThrowOn = false;
-    static bool infiniteShroomsOn = false;
-    static bool shroomDurationOn = true;
-    static bool updateSettings;
+    // Accessibility Settings
+    private static bool throwIndicatorShown;
+    private static bool noClipOn;
+    private static bool instantThrowOn;
+    private static bool infiniteShroomsOn;
+    private static bool shroomDurationOn;
+
+    // Display settings
+    private static float brightness;
+    private static bool subtitlesEnabled;
+    private static int resOption;
+    private static Vector2 resolution;
+    private static bool isFullscreen;
+
+    // Audio settings
+    private static float masterVolume;
+    private static float musicVolume;
+    private static float sfxVolume;
+    private static float ambientVolume;
+    private static float voicesVolume;
+
+
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
+    private static bool updateSettings;
     #endregion
 
     #region PROPERTIES
@@ -28,6 +45,16 @@ public class Settings : MonoBehaviour
     public bool InfiniteShroomsOn { get { return infiniteShroomsOn; } set { infiniteShroomsOn = value; } }
     public bool ShroomDurationOn { get { return shroomDurationOn; } set { shroomDurationOn = value; } }
     public bool UpdateSettings { get {  return updateSettings; } set {  updateSettings = value; } }
+    public float Brightness { get { return brightness; } set {  brightness = value; } }
+    public bool SubtitlesEnabled { get {  return subtitlesEnabled; } set {  subtitlesEnabled = value; } }
+    public int ResOption { get { return resOption; } set { resOption = value; } }
+    public bool IsFullscreen { get { return isFullscreen; } set { isFullscreen = value; } }
+    public Vector2 Resolution {  get { return resolution; } set {  resolution = value; } }
+    public float MasterVolume { get { return masterVolume; } set {  masterVolume = value; } }
+    public float MusicVolume { get { return musicVolume; } set {  musicVolume = value; } }
+    public float SFXVolume { get { return sfxVolume; } set { sfxVolume = value; } }
+    public float AmbientVolume { get { return ambientVolume; } set {  ambientVolume = value; } }
+    public float VoicesVolume { get { return voicesVolume; } set { voicesVolume = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -48,6 +75,7 @@ public class Settings : MonoBehaviour
     {
         if (menusMan.CurrentScene > 5)
         {
+            #region ACCESSIBILITY SETTINGS
             if (updateSettings)
             {
                 if (noClipOn)
@@ -86,8 +114,18 @@ public class Settings : MonoBehaviour
                     DeactivateShroomTimers();
                 }
 
+                if (throwIndicatorShown)
+                {
+                    EnableThrowLine();
+                }
+                else
+                {
+                    DisableThrowLine();
+                }
+
                 updateSettings = false;
             }
+            #endregion
         }
     }
 
@@ -143,6 +181,89 @@ public class Settings : MonoBehaviour
     private void DeactivateShroomTimers()
     {
         mushMan.EnableShroomTimers = false;
+    }
+    #endregion
+
+    #region THROW LINE
+    private void EnableThrowLine()
+    {
+        mushMan.ThrowLineOn = true;
+    }
+
+    private void DisableThrowLine()
+    {
+        mushMan.ThrowLineOn = false;
+    }
+    #endregion
+
+    // DATA HANDLING
+    #region DATA HANDLING
+    public void LoadData(SettingsData data)
+    {
+        // Bool in Settings.cs that lets it know if it should update the
+        //  game state based on enabled settings
+        updateSettings = true;
+
+        // Load accessibility settings
+        #region ACCESSIBILITY
+        throwIndicatorShown = data.throwIndicatorShown;
+        infiniteShroomsOn = data.infiniteShroomsOn;
+        shroomDurationOn = data.shroomDurationOn;
+        instantThrowOn = data.instantThrowOn;
+        noClipOn = data.noClipOn;
+        #endregion
+
+        // Load display settings
+        #region DISPLAY
+        brightness = data.brightness;
+        Screen.SetResolution((int)data.resolution.x, (int)data.resolution.y, data.isFullscreen);
+        Screen.fullScreen = data.isFullscreen;
+        subtitlesEnabled = data.subtitlesEnabled;
+        isFullscreen = data.isFullscreen;
+        resolution = data.resolution;
+        resOption = data.resOption;
+        #endregion
+
+        // Load audio settings
+        #region AUDIO
+        musicVolume = data.musicVolume;
+        masterVolume = data.masterVolume;
+        ambientVolume = data.ambientVolume;
+        SFXVolume = data.SFXVolume;
+        voicesVolume = data.voicesVolume;
+        #endregion
+    }
+
+    public void SaveData(SettingsData data)
+    {
+        updateSettings = true;
+
+        // Save accessibility settings values
+        #region ACCESSIBILITY
+        data.throwIndicatorShown = throwIndicatorShown;
+        data.infiniteShroomsOn = infiniteShroomsOn;
+        data.shroomDurationOn = shroomDurationOn;
+        data.instantThrowOn = instantThrowOn;
+        data.noClipOn = noClipOn;
+        #endregion
+
+        // Save display settings values
+        #region DISPLAY
+        data.brightness = brightness;
+        data.subtitlesEnabled = subtitlesEnabled;
+        data.isFullscreen = isFullscreen;
+        data.resolution = resolution;
+        data.resOption = resOption;
+        #endregion
+
+        // Save audio settings values
+        #region AUDIO
+        data.masterVolume = masterVolume;
+        data.ambientVolume = ambientVolume;
+        data.voicesVolume = voicesVolume;
+        data.SFXVolume = SFXVolume;
+        data.musicVolume = musicVolume;
+        #endregion
     }
     #endregion
 }

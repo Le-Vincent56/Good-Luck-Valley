@@ -718,6 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184c1101157946d498f25d96b9cc78e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveMenu: {fileID: 0}
   paused: 0
 --- !u!1 &1007715350625801632
 GameObject:
@@ -1264,11 +1265,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1213547463242618001}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6973328376289539175, guid: dac623206899574449ab4e7aaf853bbb, type: 3}
+        m_TargetAssemblyTypeName: MenusManager, Assembly-CSharp
+        m_MethodName: NavSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5213069093590146121
 GameObject:
   m_ObjectHideFlags: 0
