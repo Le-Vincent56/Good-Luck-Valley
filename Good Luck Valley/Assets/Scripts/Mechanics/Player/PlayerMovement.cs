@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Animator animator;
     [SerializeField] private BouncingEffect bounceEffect;
     private PauseMenu pauseMenu;
     private CompositeCollider2D mapCollider;
@@ -83,7 +82,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
 		RB = GetComponent<Rigidbody2D>();
 		spriteRenderer = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
-		animator = GameObject.Find("PlayerSprite").GetComponent<Animator>();
 		bounceEffect = GetComponent<BouncingEffect>();
 		pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 		playerCollider = GetComponent<BoxCollider2D>();
@@ -143,7 +141,8 @@ public class PlayerMovement : MonoBehaviour, IData
                 if (bounceEffect.Bouncing && bounceEffect.BounceBuffer <= 0)
                 {
                     bounceEffect.Bouncing = false;
-                    animator.ResetTrigger("Bouncing");
+
+					EventManager.TriggerEvent("Bouncing", false);
                 }
 
                 // Ground player
@@ -194,11 +193,11 @@ public class PlayerMovement : MonoBehaviour, IData
         if (isJumping)
         {
             isGrounded = false;
-            animator.SetBool("Jumping", true);
+            EventManager.TriggerEvent("Jumping", true);
         }
         else if (!isJumping) // Else, if the player is not jumping, update animations
         {
-            animator.SetBool("Jumping", false);
+            EventManager.TriggerEvent("Jumping", false);
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
@@ -211,20 +210,20 @@ public class PlayerMovement : MonoBehaviour, IData
 
 				if(fallingBuffer <= 0)
 				{
-                    animator.SetBool("Falling", true);
+                    EventManager.TriggerEvent("Falling", true);
                 }
             }
         }
         else if (!isJumpFalling || isGrounded || bounceEffect.Bouncing || isOnSlope) // Otherwise, if the player is not falling, update animations
         {
             fallingBuffer = 0.15f;
-            animator.SetBool("Falling", false);
+            EventManager.TriggerEvent("Falling", false);
         }
 		
 		if(bounceEffect.Bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
 		{
             fallingBuffer = 0.15f;
-            animator.SetBool("Falling", false);
+            EventManager.TriggerEvent("Falling", false);
         }
         #endregion
 
@@ -247,14 +246,18 @@ public class PlayerMovement : MonoBehaviour, IData
             // Update variables and set animations
             landedTimer -= Time.deltaTime;
             justLanded = true;
-            animator.SetBool("Landed", true);
+
+			// Trigger Landing event
+			EventManager.TriggerEvent("Landing", true);
         }
         else
         {
             // Otherwise, they have not landed - update
             // variables and set animations
             justLanded = false;
-            animator.SetBool("Landed", false);
+
+			// Trigger Landing event
+            EventManager.TriggerEvent("Landing", false);
         }
 
 		if(!isGrounded && RB.velocity.y < 0)
@@ -262,27 +265,6 @@ public class PlayerMovement : MonoBehaviour, IData
 			// If not grounded and has a negative velocity, reset landed timer
 			landedTimer = 0.2f;
 		}
-        #endregion
-
-        // Movement Animation Checks
-        #region MOVEMENT ANIMATION CHECKS
-        if (animator.GetFloat("Speed") > 0.01)
-        {
-            // If running, then check which leg the player is running on and update accordingly
-            AnimatorClipInfo[] animationClip = animator.GetCurrentAnimatorClipInfo(0);
-			AnimatorStateInfo animationInfo = animator.GetCurrentAnimatorStateInfo(0);
-            int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
-            if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
-            {
-                // Update for left foot
-                animator.SetBool("RunThrow_R", false);
-            }
-            else if (currentFrame >= 25 && currentFrame < 50)
-            {
-                // Update for right foot
-                animator.SetBool("RunThrow_R", true);
-            }
-        }
         #endregion
 
         // Calculate Gravity
@@ -401,9 +383,9 @@ public class PlayerMovement : MonoBehaviour, IData
 			}
 		}
 
-		// Set animation
-		animator.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
-	}
+        // Trigger Movement event
+        EventManager.TriggerEvent("Movement", RB.velocity.x);
+    }
 
     #region INPUT CALLBACKS
     /// <summary>

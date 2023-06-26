@@ -8,7 +8,6 @@ public class BouncingEffect : MonoBehaviour
     #region REFERENCES
     private MushroomInfo mushroomInfo;
     private Rigidbody2D RB;
-    private Animator animator;
     private PlayerMovement playerMovement;
     private BoxCollider2D playerCollider;
     [SerializeField] PlayerData playerData;
@@ -49,7 +48,6 @@ public class BouncingEffect : MonoBehaviour
         // Get components
         mushroomInfo = GetComponent<MushroomInfo>();
         RB = GetComponent<Rigidbody2D>();
-        animator = GameObject.Find("PlayerSprite").GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
         playerCollider = GetComponent<BoxCollider2D>();
 
@@ -116,7 +114,6 @@ public class BouncingEffect : MonoBehaviour
                 playerMovement.LandedTimer = 0.2f;
 
                 // Set the MushroomInfo to bouncing
-                animator.SetTrigger("Bouncing");
                 collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
                 collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 
@@ -130,6 +127,9 @@ public class BouncingEffect : MonoBehaviour
                 //RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
                 RB.AddForce(direction * bounceForce, ForceMode2D.Impulse);
                 onCooldown = true;
+
+                // Trigger events
+                EventManager.TriggerEvent("Bouncing", true);
             }
         } else if(collision.gameObject.tag.Equals("Mushroom"))
         {

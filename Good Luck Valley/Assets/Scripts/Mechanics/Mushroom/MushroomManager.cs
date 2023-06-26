@@ -20,7 +20,6 @@ public class MushroomManager : MonoBehaviour, IData
     private GameObject player;
     [SerializeField] private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;                         // PlayerMovement checks which direction player is facing
-    private Animator playerAnim;
     private PauseMenu pauseMenu;
     [SerializeField] private Camera cam;
     [SerializeField] private PlatformsManager environmentManager;
@@ -95,7 +94,6 @@ public class MushroomManager : MonoBehaviour, IData
         player = GameObject.Find("Player");
         playerRB = player.GetComponent<Rigidbody2D>();
         playerMove = player.GetComponent<PlayerMovement>();
-        playerAnim = GameObject.Find("PlayerSprite").GetComponent<Animator>();
 
         // Mushroom
         mushroomList = new List<GameObject>();
@@ -148,17 +146,19 @@ public class MushroomManager : MonoBehaviour, IData
             firstTimeHittingMax = false;
         }
 
-        
-        if(playerAnim.GetBool("Throwing") == true)
-        {
-            AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
-            AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-            // Debug.Log(animationInfo.normalizedTime);
-            if(animationInfo.normalizedTime % 1 > 0.9)
-            {
-                playerAnim.SetBool("Throwing", false);
-            }
-        }
+        // Trigger CheckThrowing Event
+        EventManager.TriggerEvent("CheckThrowing");
+
+        //if(playerAnim.GetBool("Throwing") == true)
+        //{
+        //    AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
+        //    AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
+        //    // Debug.Log(animationInfo.normalizedTime);
+        //    if(animationInfo.normalizedTime % 1 > 0.9)
+        //    {
+        //        playerAnim.SetBool("Throwing", false);
+        //    }
+        //}
 
         // FOR WHEN THROW ANIMATIONS ARE FULLY IMPLEMENTED
         //if (throwPrepared)
@@ -540,7 +540,7 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.canceled)
             {
                 // Set animation
-                playerAnim.SetBool("Throwing", true);
+                EventManager.TriggerEvent("SetThrowing", true);
 
                 // Check if the shroom can be thrown
                 if (canThrow)
@@ -630,8 +630,6 @@ public class MushroomManager : MonoBehaviour, IData
 
                     mushroomList.RemoveAt(mushroomList.Count - 1);
                 }
-
-
 
                 // If it's the player's first time recalling, remove tutorial text
                 if (usingTutorial && firstTimeRecalling)
