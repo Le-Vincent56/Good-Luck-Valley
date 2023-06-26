@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+using Unity.VisualScripting.Antlr3.Runtime;
+using System.Linq;
 
 public class MenusManager : MonoBehaviour
 {
@@ -17,12 +18,12 @@ public class MenusManager : MonoBehaviour
     private GameObject startButton;
     private GameObject deleteButton;
     private SpriteRenderer fadeSquare;
-    private GameObject[] navButtons;
-    private GameObject[] textInputs;
-    private Slider[] sliders;
-    private Dropdown resDropdown;
-    private Settings settings;
-    private Toggle fullscreenToggle;
+    private static GameObject[] navButtons;
+    private static GameObject[] textInputs;
+    private static Slider[] sliders;
+    private static Dropdown resDropdown;
+    private static Settings settings;
+    private static Toggle fullscreenToggle;
     private Button newGameButton;
     private Toggle subtitlesToggle;
     private Button continueButton;
@@ -30,6 +31,7 @@ public class MenusManager : MonoBehaviour
     private Button settingsButton;
     private Button creditsButton;
     private Button exitGameButton;
+    private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS
@@ -42,14 +44,14 @@ public class MenusManager : MonoBehaviour
     private bool fadeIn;
     private bool fadeOut;
     private int sceneLoadNum;
-    private bool checkButtons;
-    private bool disableCalls;
-    private bool[] accessibilityTools;
-    private bool isFullscreen = true;
-    private float brightness;
-    private Vector2 resValues;
-    private bool subtitlesEnabled;
-    private bool settingsSaved;
+    private static bool checkButtons;
+    private static bool disableCalls;
+    private static bool[] accessibilityTools;
+    private static bool isFullscreen = true;
+    private static float brightness;
+    private static Vector2 resValues;
+    private static bool subtitlesEnabled;
+    private static bool settingsSaved;
     #endregion
 
     #region PROPERTIES
@@ -57,7 +59,7 @@ public class MenusManager : MonoBehaviour
     public bool SettingsSaved { get { return settingsSaved; } set { settingsSaved = value; } } 
     #endregion
 
-    public void Start()
+    public void Awake()
     {
         // Check which scene is loaded
         if (SceneManager.GetActiveScene().name == "Main Menu")
@@ -110,7 +112,7 @@ public class MenusManager : MonoBehaviour
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
-        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
+        if (currentScene == 1 || currentScene == 2 || currentScene == 4 || currentScene > 5)
         {
             // Find confirmation check in scene
             confirmationCheck = GameObject.Find("ConfirmationCheck");
@@ -122,7 +124,7 @@ public class MenusManager : MonoBehaviour
         }
 
         // Check if the scene is one that contains a second confirmation check
-        if (currentScene == 2 || currentScene == 4)
+        if (currentScene == 2 || currentScene == 4 || currentScene > 5)
         {
             // Find second confirmation check
             deleteConfirmation = GameObject.Find("Delete Confirmation");
@@ -167,7 +169,7 @@ public class MenusManager : MonoBehaviour
 
         // Loading things for settings scene
         #region SETTINGS SCENE
-        if (currentScene == 4)
+        if (currentScene == 4 | currentScene > 5)
         { 
             // Make on value change events not happen
             disableCalls = true;
@@ -183,7 +185,14 @@ public class MenusManager : MonoBehaviour
             // Get references to singular input fields
             resDropdown = GameObject.Find("Dropdown").GetComponent<Dropdown>();
             fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
-            subtitlesToggle = GameObject.Find("SubtitlesToggle").GetComponent<Toggle>(); 
+            subtitlesToggle = GameObject.Find("SubtitlesToggle").GetComponent<Toggle>();
+
+            // Call load functions to assign local variables and ensure UI match values
+            LoadAudio();
+
+            LoadDisplay();
+
+            LoadAccessibility();
 
             // Get references to navigation buttons and fill array
             for (int i = 0; i < 4; i++)
@@ -200,15 +209,6 @@ public class MenusManager : MonoBehaviour
 
             // Default screen nav button, currently set to be accessibility panel
             navButtons[3].GetComponent<Button>().interactable = false;
-
-            // Call load functions to assign local variables and ensure UI match values
-            LoadAudio();
-
-            LoadDisplay();
-
-            LoadAccessibility();
-
-            LoadControls();
 
             // Allow on value changed events to trigger again
             disableCalls = false;
@@ -255,13 +255,13 @@ public class MenusManager : MonoBehaviour
 
         #region SETTINGS SCENE HANDLING
         // Check if scene is settings, 4
-        if (currentScene == 4)
+        if (currentScene == 4 || currentScene > 5)
         {
             // Check if we should update the navigation buttons visuals
             if (checkButtons)
             {
                 // Loop through navButtons 
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < navButtons.Length; i++)
                 {
                     // Check if the button isn't interactable
                     if (navButtons[i].GetComponent<Button>().IsInteractable() == false)
@@ -331,11 +331,6 @@ public class MenusManager : MonoBehaviour
             GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
         }
     }
-
-    private void LoadControls()
-    {
-        Debug.Log("Controls load here");
-    }
     #endregion
 
 
@@ -346,7 +341,7 @@ public class MenusManager : MonoBehaviour
     public void NavMainMenu()
     {
         // Switch scenes to the Tutorial Tilemap
-        previousScene = SceneManager.GetActiveScene().buildIndex;
+        previousScene = currentScene;
         SceneManager.LoadScene("Main Menu");
     }
 
@@ -355,7 +350,7 @@ public class MenusManager : MonoBehaviour
     /// </summary>
     public void NavSaveFiles()
     {
-        previousScene = SceneManager.GetActiveScene().buildIndex;
+        previousScene = currentScene;
         SceneManager.LoadScene("SaveFiles");
     }
 
@@ -364,7 +359,7 @@ public class MenusManager : MonoBehaviour
     /// </summary>
     public void NavSettings()
     {
-        previousScene = SceneManager.GetActiveScene().buildIndex;
+        previousScene = currentScene;
         SceneManager.LoadScene("Settings");
     }
 
@@ -373,7 +368,7 @@ public class MenusManager : MonoBehaviour
     /// </summary>
     public void NavJournal()
     {
-        previousScene = SceneManager.GetActiveScene().buildIndex;
+        previousScene = currentScene;
         SceneManager.LoadScene("Journal");
     }
 
@@ -382,7 +377,7 @@ public class MenusManager : MonoBehaviour
     /// </summary>
     public void NavCredits()
     {
-        previousScene = SceneManager.GetActiveScene().buildIndex;
+        previousScene = currentScene;
         SceneManager.LoadScene("Credits");
     }
     #endregion
@@ -576,13 +571,13 @@ public class MenusManager : MonoBehaviour
         }
         else
         {
-            if (sceneLoadNum == 2)
-            {
-                NavSaveFiles();
-            }
-            else if (sceneLoadNum == 1)
+            if (sceneLoadNum == 1)
             {
                 NavMainMenu();
+            } 
+            else if (sceneLoadNum == 2)
+            {
+                NavSaveFiles();
             }
             else if (sceneLoadNum == 3)
             {
@@ -596,9 +591,12 @@ public class MenusManager : MonoBehaviour
             {
                 NavCredits();
             }
-            else if (sceneLoadNum == 6)
+            else if (sceneLoadNum > 5)
             {
-                SceneManager.LoadScene("Prologue");
+                previousScene = currentScene;
+                Time.timeScale = 1f;
+                // Load the most recent game
+                SceneManager.LoadSceneAsync(DataManager.Instance.Level);
             }
         }
     }
@@ -618,7 +616,7 @@ public class MenusManager : MonoBehaviour
     {
         if (!disableCalls)
         {
-            string[] resolution = new string[2];
+            string[] resolution;
             resolution = resDropdown.options[resDropdown.value].text.Split('x');
             int[] resolutionValues = new int[resolution.Length];
             int.TryParse(resolution[0], out resolutionValues[0]);
@@ -669,7 +667,7 @@ public class MenusManager : MonoBehaviour
     public void SetButton(int button)
     {
         checkButtons = true;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < navButtons.Length; i++)
         {
             navButtons[i].GetComponent<Button>().interactable = true;
         }
@@ -678,7 +676,8 @@ public class MenusManager : MonoBehaviour
 
     public void AdjustSlider(int index)
     {
-        if (int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
+
+        if (textInputs.Length > 0 && sliders.Length > 0 && int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
         {
             sliders[index].value = result;
         }
@@ -686,7 +685,10 @@ public class MenusManager : MonoBehaviour
 
     public void AdjustInputField(int index)
     {
-        textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+        if (textInputs.Length > 0 && sliders.Length > 0)
+        {
+            textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+        }
     }
 
     public void ToggleAccessibilityTool(int index)
