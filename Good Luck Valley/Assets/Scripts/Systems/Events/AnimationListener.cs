@@ -43,7 +43,6 @@ public class AnimationListener : MonoBehaviour
     private void RunningAnim(object movementData)
     {
         AnimatorClipInfo[] animInfo = playerAnim.GetCurrentAnimatorClipInfo(0);
-        Debug.Log("Animator Clip Length: " + animInfo[0].clip.length);
 
         // Set float based on movement data
         playerAnim.SetFloat("Speed", Mathf.Abs((float)movementData));
