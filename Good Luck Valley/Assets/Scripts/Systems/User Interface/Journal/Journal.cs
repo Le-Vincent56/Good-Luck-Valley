@@ -6,11 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Linq;
 
-public class Journal : MonoBehaviour
+public class Journal : MonoBehaviour, IData
 {
     #region REFERENCES
-    private Text panelText;
-    private EntryScrollview entryScrollview;
     private Canvas journalUI;
     private AudioSource journalPageSound;
     private Button pauseJournalButton;
@@ -42,8 +40,6 @@ public class Journal : MonoBehaviour
     void Start()
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
-        panelText = GameObject.Find("EntryText").GetComponent<Text>();
-        entryScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
         journalPageSound = GetComponent<AudioSource>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
@@ -173,4 +169,19 @@ public class Journal : MonoBehaviour
             journalScrollview.RemoveEntries();
         }
     }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        notes = data.notes;
+        hasJournal = data.hasJournal;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.numNotesCollected = notes.Count;
+        data.notes = notes;
+        data.hasJournal = hasJournal;
+    }
+    #endregion
 }

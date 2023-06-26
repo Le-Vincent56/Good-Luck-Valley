@@ -413,7 +413,7 @@ Transform:
   - {fileID: 473237370}
   - {fileID: 910590432}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &17453478
 GameObject:
@@ -59279,6 +59279,57 @@ MonoBehaviour:
   - {x: 1.8605554, y: -6.997011, z: 0}
   - {x: -1.8740702, y: 0.8004854, z: 0}
   - {x: -1.8820977, y: 0.641392, z: 0}
+--- !u!1 &507205923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 507205925}
+  - component: {fileID: 507205924}
+  m_Layer: 0
+  m_Name: Data Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &507205924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507205923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b760406516752440ba8592a9b9f1471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: {fileID: 0}
+  fileName: PlayerSave.json
+  settingsFileName: SettingsSave.json
+  useEncryption: 1
+  initializeDataIfNull: 0
+  useAutoSave: 0
+  autoSaveTimeSeconds: 60
+--- !u!4 &507205925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507205923}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -28.880049, y: 1.8016951, z: -0.051850446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &508665931
 GameObject:
   m_ObjectHideFlags: 0
@@ -59770,7 +59821,7 @@ Transform:
   - {fileID: 280445385}
   - {fileID: 157114017}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &597094714
 GameObject:
@@ -63723,7 +63774,7 @@ Transform:
   - {fileID: 721499288}
   - {fileID: 1702280722}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &958096722
 GameObject:
@@ -64698,7 +64749,7 @@ PrefabInstance:
       objectReference: {fileID: 1907260815}
     - target: {fileID: 7203912908089909877, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 7203912908089909877, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65211,7 +65262,7 @@ Transform:
   - {fileID: 235568036}
   - {fileID: 1355902278}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1107830771
 GameObject:
@@ -65807,7 +65858,7 @@ RectTransform:
   m_Children:
   - {fileID: 2141996630}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -66101,6 +66152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDisplay: {fileID: 0}
+  id: 5843306a-db32-4def-b02e-cb86c5938934
   noteTitle: 'Entry Three: This Forest'
   textValue: "Something about this forest feels so different, yet so familiar. I
     know I\u2019ve never been here, but I feel as if I grew up here. Is it the smell
@@ -68090,7 +68142,7 @@ Transform:
   - {fileID: 1711325418}
   - {fileID: 1158937814}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1287891362
 GameObject:
@@ -70344,7 +70396,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6973328376289539172, guid: dac623206899574449ab4e7aaf853bbb, type: 3}
       propertyPath: m_RootOrder
-      value: 26
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 6973328376289539172, guid: dac623206899574449ab4e7aaf853bbb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -76618,7 +76670,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1604352237818616932, guid: c4839886d7cd0f24ea766364e7a3d700, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1604352237818616932, guid: c4839886d7cd0f24ea766364e7a3d700, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78702,6 +78754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDisplay: {fileID: 0}
+  id: 4eab9250-4a8e-4def-83be-281b3a21dc14
   noteTitle: Hana's Journal
   textValue: A journal belonging to Hana, Anari's mother. It seems to have all of
     its pages ripped out.
@@ -79216,6 +79269,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1849788707}
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Save
+      objectReference: {fileID: 0}
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1060778215, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -79234,7 +79319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1007715350596061418, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1007715350596061418, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -80587,6 +80672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDisplay: {fileID: 0}
+  id: 4a7eb193-e2df-4102-aa38-03d7fffaf2e3
   noteTitle: 'Entry Two: Glowing Moths'
   textValue: "In Jimoto I\u2019ve seen plenty of fireflies, but never glowing moths.
     How brilliant these moths shine, lighting up the dark forest for me. I'm sure
@@ -80994,6 +81080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDisplay: {fileID: 0}
+  id: 9f5f4bc3-88a5-4988-8b30-1bd0e046eb8a
   noteTitle: 'Entry One: Spirit Idols'
   textValue: 'There seems to be some sort of statue scattered all throughout this
     forest. I''m not sure how many there are, but they give me a strange feeling
@@ -81189,7 +81276,7 @@ Transform:
   - {fileID: 1974308245}
   - {fileID: 2128934196}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1779659492
 GameObject:
@@ -91615,7 +91702,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1692595003546685843, guid: 8c7836da8e415e542a6ac7c2a79f4ca0, type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 1692595003546685843, guid: 8c7836da8e415e542a6ac7c2a79f4ca0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -91704,7 +91791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2015657472208496158, guid: b4dec19c08a6e544e987b487ccc5ba13, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2015657472208496158, guid: b4dec19c08a6e544e987b487ccc5ba13, type: 3}
       propertyPath: m_AnchorMax.x
@@ -91865,7 +91952,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3267277944745492168, guid: b86d88f57ed652a4f8ac7bf8c14e19bd, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3267277944745492168, guid: b86d88f57ed652a4f8ac7bf8c14e19bd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92007,7 +92094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3475129836469192682, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3475129836469192682, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: m_AnchorMax.x
@@ -92161,7 +92248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3498146380334448275, guid: df96aff57b25e4148900efff46a55eb7, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 3498146380334448275, guid: df96aff57b25e4148900efff46a55eb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92214,7 +92301,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3796676197278356742, guid: 14ab4ffe7d6e6d647b32bbb4def0afcb, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 3796676197278356742, guid: 14ab4ffe7d6e6d647b32bbb4def0afcb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92271,7 +92358,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5132544217896348247, guid: b2939b196ceaa4e43b36007de3c43cb0, type: 3}
       propertyPath: m_RootOrder
-      value: 25
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 5132544217896348247, guid: b2939b196ceaa4e43b36007de3c43cb0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92425,11 +92512,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4690782783730924585, guid: 87b5007139566ce4883de0b08af206dd, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4690782783730924585, guid: 87b5007139566ce4883de0b08af206dd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.3
+      value: -14.018
       objectReference: {fileID: 0}
     - target: {fileID: 4690782783730924585, guid: 87b5007139566ce4883de0b08af206dd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -92676,8 +92763,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.76135
+      objectReference: {fileID: 0}
+    - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.76135
+      objectReference: {fileID: 0}
+    - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.76135
+      objectReference: {fileID: 0}
+    - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -99.6001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 6.6500244
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252887863130, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_Camera
@@ -92693,7 +92796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252887863131, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252887863131, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -92795,7 +92898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7479375662854046047, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 7479375662854046047, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92854,9 +92957,13 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1310835847}
+    - target: {fileID: 7691238258099171552, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
+      propertyPath: m_Name
+      value: Fade
+      objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92921,7 +93028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8355469818583438768, guid: f3a59f2390f02404b920e652754d340f, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8355469818583438768, guid: f3a59f2390f02404b920e652754d340f, type: 3}
       propertyPath: m_AnchorMax.x
