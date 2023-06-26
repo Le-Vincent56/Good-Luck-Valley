@@ -212,6 +212,7 @@ public class MushroomManager : MonoBehaviour, IData
             case ThrowState.Throwing:
                 if (mushroomList.Count < mushroomLimit)
                 {
+                    throwLineOn = true;
                     if (throwLineOn)
                     {
                         throwUI_Script.PlotTrajectory(playerRB.position,
@@ -234,6 +235,7 @@ public class MushroomManager : MonoBehaviour, IData
 
         CheckIfCanThrow();
         //CheckIfCanBounce();
+        Debug.Log(throwLineOn);
         CheckShroomDuration();
         //UpdateShroomCooldowns();
     }
