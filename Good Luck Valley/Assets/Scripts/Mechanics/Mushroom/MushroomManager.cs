@@ -158,7 +158,7 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         // Trigger CheckThrowing Event
-        EventManager.TriggerEvent("CheckThrowing");
+        EventManager.TriggerEvent("CheckThrowAnim");
 
         //if(playerAnim.GetBool("Throwing") == true)
         //{
@@ -545,7 +545,7 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.canceled)
             {
                 // Set animation
-                EventManager.TriggerEvent("SetThrowing", true);
+                EventManager.TriggerEvent("SetThrowAnim", true);
 
                 // Check if the shroom can be thrown
                 if (canThrow)

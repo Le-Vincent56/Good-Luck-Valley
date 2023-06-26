@@ -450,6 +450,17 @@ public class PlayerMovement : MonoBehaviour, IData
         #region Calculate AccelRate
         float accelRate;
 
+        // Set specific air accelerations and deccelerations for bouncing
+        if(bouncing)
+        {
+            data.accelInAir = 0.15f;
+            data.deccelInAir = 0f;
+        } else
+        {
+            data.accelInAir = 0.75f;
+            data.deccelInAir = 0.75f;
+        }
+
         // Gets an acceleration value based on if we are accelerating (includes turning) 
         // or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
         if (lastOnGroundTime > 0 && !bouncing)
@@ -654,6 +665,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	}
 	#endregion
 
+    // JUMP METHODS
 	#region JUMP METHODS
 	/// <summary>
 	/// Allow the Player to Jump
@@ -686,6 +698,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	}
 	#endregion
 
+    // CHECK METHODS
 	#region CHECK METHODS
 	/// <summary>
 	/// Check which direction the Player is facing
@@ -772,6 +785,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	}
 	#endregion
 
+    // EVENT FUNCTIONS
 	#region EVENT FUNCTIONS
 	/// <summary>
 	/// Set variables for bouncing
