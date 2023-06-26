@@ -9,7 +9,6 @@ public class CameraManager : MonoBehaviour, IData
     #region REFERENCES
     private CinemachineVirtualCamera lotusCam;
     [SerializeField] private PlayableDirector camDirector; // Initialized in Inspector
-    private PlayerMovement playerMovement;
     private MushroomManager mushroomManager;
     private PauseMenu pauseMenu;
     #endregion
@@ -29,7 +28,6 @@ public class CameraManager : MonoBehaviour, IData
     void Start()
     {
         lotusCam = GameObject.Find("LotusCam").GetComponent<CinemachineVirtualCamera>();
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 
@@ -79,7 +77,7 @@ public class CameraManager : MonoBehaviour, IData
                 pauseMenu.CanPause = false;
 
                 // If playing, lock player movement
-                playerMovement.IsLocked = true;
+                EventManager.TriggerEvent("Lock", true);
 
                 // Lock mushroom throw
                 if (mushroomManager.ThrowUnlocked)
@@ -93,7 +91,7 @@ public class CameraManager : MonoBehaviour, IData
                 pauseMenu.CanPause = true;
 
                 // If not playing, unlock player movement
-                playerMovement.IsLocked = false;
+                EventManager.TriggerEvent("Lock", false);
 
                 // Unlock mushroom throw
                 if (mushroomManager.ThrowUnlocked)
