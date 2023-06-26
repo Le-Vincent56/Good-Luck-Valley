@@ -21,10 +21,8 @@ public class TransitionTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       Debug.Log("Bad bitch sweeping");
        if (collision.gameObject.tag == "Player")
        {
-            Debug.Log("weeeee");
             levelLoader.GetComponent<LoadLevel>().LoadNextLevel();
        }
         
