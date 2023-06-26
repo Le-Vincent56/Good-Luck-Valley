@@ -284,25 +284,25 @@ public class MushroomManager : MonoBehaviour, IData
     void CheckShroomCount()
     {
         // If so, ThrowMushroom is called
-        throwUI_Script.DeleteLine();
-        ThrowMushroom();
 
 
-        //// Checks if the current number of spawned mushrooms is lower than the max amount
-        //if (mushroomList.Count < mushroomLimit)
-        //{
-        //}
-        //else if (mushroomList.Count >= mushroomLimit)
-        //{
-        //    // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
-        //    throwUI_Script.DeleteLine();
-        //    //Debug.Log("Shroom Destroy Icon: " + mushroomList[0].GetComponent<MushroomInfo>().ShroomIcon);
-        //    //shroomCounter.ShroomIconQueue.Add(mushroomList[0].GetComponent<MushroomInfo>().ShroomIcon);
-        //    //mushroomList[0].GetComponent<MushroomInfo>().ResetCounter();
-        //    //Destroy(mushroomList[0]);
-        //    //mushroomList.RemoveAt(0);
-        //    //ThrowMushroom();
-        //}
+        // Checks if the current number of spawned mushrooms is lower than the max amount
+        if (mushroomList.Count < mushroomLimit)
+        {
+            throwUI_Script.DeleteLine();
+            ThrowMushroom();
+        }
+        else if (mushroomList.Count >= mushroomLimit)
+        {
+            // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
+            MushroomInfo mInfo = mushroomList[0].GetComponent<MushroomInfo>();
+            throwUI_Script.DeleteLine();
+            shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
+            mInfo.ResetCounter();
+            Destroy(mushroomList[0]);
+            mushroomList.RemoveAt(0);
+            ThrowMushroom();
+        }
     }
 
     /// <summary>
@@ -520,7 +520,7 @@ public class MushroomManager : MonoBehaviour, IData
     
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen && !throwLocked && mushroomList.Count < mushroomLimit)
+        if(!pauseMenu.Paused && throwUnlocked && !journal.MenuOpen && !throwLocked)
         {
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)

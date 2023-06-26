@@ -46,7 +46,6 @@ public class SettingsDataHandler
 
                 // Deserialize the data from Json back into the C# object
                 loadedData = JsonUtility.FromJson<SettingsData>(dataToLoad);
-                Debug.Log("Settings Path: " + fullPath);
             }
             catch (Exception e)
             {

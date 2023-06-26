@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
     private Canvas pauseUI;
+    private Canvas settingsUI;
     private PlayerMovement playerMovement;
     private Journal journalMenu;
     [SerializeField] private SaveSlotsPauseMenu saveMenu;
@@ -39,6 +40,8 @@ public class PauseMenu : MonoBehaviour, IData
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         saveMenu = GameObject.Find("SaveUI").GetComponent<SaveSlotsPauseMenu>();
         pauseUI.enabled = false;
+        settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();
+        settingsUI.enabled = false;
 
         levelName = SceneManager.GetActiveScene().name;
 
@@ -52,7 +55,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="context">The context of the controller</param>
     public void TogglePause(InputAction.CallbackContext context)
     {
-        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0) && canPause)
+        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0) && canPause && !settingsUI.enabled)
         {
             if (!paused)
             {
@@ -75,7 +78,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// </summary>
     public void Continue()
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen)
+        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen && !settingsUI.enabled)
         {
             paused = false;
             pauseUI.enabled = false;
@@ -87,13 +90,22 @@ public class PauseMenu : MonoBehaviour, IData
     /// Take the Player to Settings screen
     /// </summary>
     /// <param name="scene">The scene number that represents the Settings scene</param>
-    public void Settings(int scene)
+    public void Settings()
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen)
+        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen && !settingsUI.enabled)
         {
+            paused = true;
+            pauseUI.enabled = false;
             Time.timeScale = 0f;
-            SceneManager.LoadScene(scene);
+            settingsUI.enabled = true;
         }
+    }
+
+    public void CloseSettings()
+    {
+        pauseUI.enabled = true;
+        settingsUI.enabled = false;
+        paused = true;
     }
 
     /// <summary>
