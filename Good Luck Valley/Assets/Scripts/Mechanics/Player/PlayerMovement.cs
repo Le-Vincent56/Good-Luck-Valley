@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
-    private CompositeCollider2D mapCollider;
 	private BoxCollider2D playerCollider;
 	private CapsuleCollider2D capsuleCollider;
     [SerializeField] private LayerMask groundLayer;
@@ -39,7 +38,6 @@ public class PlayerMovement : MonoBehaviour, IData
     private bool inputHorizontal;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
-    private float disableInputTimer = 0.5f;
     private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
@@ -82,7 +80,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		spriteRenderer = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
 		playerCollider = GetComponent<BoxCollider2D>();
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
-		mapCollider = GameObject.Find("foreground").GetComponent<CompositeCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
 	}
@@ -784,7 +781,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		bouncing = true;
 		bounceBuffer = 0.1f;
 		landedTimer = 0.2f;
-		disableInputTimer = 0.5f;
 	}
 	/// <summary>
 	/// Set whether the player is touching a shroom
