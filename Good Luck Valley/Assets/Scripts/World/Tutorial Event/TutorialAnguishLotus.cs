@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class TutorialAnguishLotus : Interactable
@@ -54,7 +55,7 @@ public class TutorialAnguishLotus : Interactable
             // Start the fade timer
             if(!pauseMenu.Paused)
             {
-                playerMovement.MoveInput = Vector2.zero;
+                EventManager.TriggerEvent("Lock", true);
                 pauseMenu.Paused = true;
                 tutorialManager.ShowingDemoEndText = true;
             }

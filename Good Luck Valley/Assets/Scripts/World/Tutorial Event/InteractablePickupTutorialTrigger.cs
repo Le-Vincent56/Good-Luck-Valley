@@ -30,7 +30,7 @@ public class InteractablePickupTutorialTrigger : Interactable
         journal.HasOpened = false;
 
         // Lock the player
-        playerMovement.IsLocked = true;
+        EventManager.TriggerEvent("Lock", true);
 
         // Disable the interactable text
         tutorialManager.ShowingInteractableText = false;

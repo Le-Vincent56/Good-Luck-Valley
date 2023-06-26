@@ -37,7 +37,6 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // Set note title, note value, and play journal entry sound
         panelTextTitle.text = associatedNote.NoteTitle;
         panelText.text = associatedNote.TextValue;
-        journal.JournalPageSound.Play();
     }
 
     /// <summary>
