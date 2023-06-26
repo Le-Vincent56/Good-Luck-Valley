@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -77,6 +78,7 @@ public class MushroomManager : MonoBehaviour, IData
     public ShroomCounter ShroomCounter { get { return shroomCounter; } }
     public bool ThrowLocked { get { return throwLocked; } set { throwLocked = value; } }
     public bool ThrowLineOn { get { return throwLineOn; } set {  throwLineOn = value; } }
+    public Dictionary<int, GameObject> ChangeShroomIndexes { get { return changeShroomIndexes; } }
     #endregion
 
     // Start is called before the first frame update
@@ -156,7 +158,7 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         // Trigger CheckThrowing Event
-        EventManager.TriggerEvent("CheckThrowing");
+        EventManager.TriggerEvent("CheckThrowAnim");
 
         //if(playerAnim.GetBool("Throwing") == true)
         //{
@@ -321,51 +323,43 @@ public class MushroomManager : MonoBehaviour, IData
     private void StickShrooms()
     {
         // loops for each object in the mushroomlist
-        foreach (GameObject m in mushroomList)
-        {
-            MushroomInfo mInfo = m.GetComponent<MushroomInfo>();
+        //foreach (GameObject m in mushroomList)
+        //{
+        //    MushroomInfo mInfo = m.GetComponent<MushroomInfo>();
 
-            if (!mInfo.HasRotated)
-            {
-                // checks if the mushroom is touching the platform and hasn't rotated
-                if (m.GetComponent<CircleCollider2D>().IsTouching(tilemap.GetComponent<CompositeCollider2D>()))
-                {
-                    // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                    RotateAndFreezeShroom(m);
-                }
+        //    if (!mInfo.HasRotated)
+        //    {
+        //        foreach (GameObject p in environmentManager.WeightedPlatforms)
+        //        {
+        //            // checks if the mushroom is touching the platform and hasn't rotated
+        //            if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()))
+        //            {
+        //                // If so, calls rotate shroom method to rotate and freeze the shroom properly
+        //                RotateAndFreezeShroom(m);
 
+        //                p.GetComponent<MoveablePlatform>().CheckWeight(m);
+        //            }
+        //        }
 
-                foreach (GameObject p in environmentManager.WeightedPlatforms)
-                {
-                    // checks if the mushroom is touching the platform and hasn't rotated
-                    if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()))
-                    {
-                        // If so, calls rotate shroom method to rotate and freeze the shroom properly
-                        RotateAndFreezeShroom(m);
+        //        // Loops through all decomposable tiles
+        //        foreach (GameObject d in environmentManager.DecomposableTiles)
+        //        {
+        //            // Checks if the tile is touching the shroom
+        //            if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
+        //            {
+        //                // Sets the tile to decomposed
+        //                //if (d.GetComponent<DecompasableTile>().IsDecomposed == false)
+        //                //{
+        //                //    d.GetComponent<DecompasableTile>().IsDecomposed = true;
+        //                //}
 
-                        p.GetComponent<MoveablePlatform>().CheckWeight(m);
-                    }
-                }
-
-                // Loops through all decomposable tiles
-                foreach (GameObject d in environmentManager.DecomposableTiles)
-                {
-                    // Checks if the tile is touching the shroom
-                    if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
-                    {
-                        // Sets the tile to decomposed
-                        //if (d.GetComponent<DecompasableTile>().IsDecomposed == false)
-                        //{
-                        //    d.GetComponent<DecompasableTile>().IsDecomposed = true;
-                        //}
-
-                        // Pushes the index of shroom that is touching it to the stack of shroom removal indexes
-                        // removeShroomIndexes.Push(mushroomList.IndexOf(m));
-                        RotateAndFreezeShroom(m);
-                    }
-                }
-            }
-        }
+        //                // Pushes the index of shroom that is touching it to the stack of shroom removal indexes
+        //                // removeShroomIndexes.Push(mushroomList.IndexOf(m));
+        //                RotateAndFreezeShroom(m);
+        //            }
+        //        }
+        //    }
+        //}
 
         // Checks if there are any indexes in the removeShroomIndexes stack
         if (removeShroomIndexes.Count > 0)
@@ -403,12 +397,14 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     private void ChangeShrooms()
     {
+        Debug.Log("Change");
         // Loops through the list of mushrooms
         for (int i = 0; i < mushroomList.Count; i++)
         {
             // Checks if the current index is contained in the shroomIndexes dictionary as a key
             if (changeShroomIndexes.ContainsKey(i))
             {
+                Debug.Log("Remove");
                 // Saves a reference to the spore in the mushroom list at the current index
                 GameObject tempShroom = mushroomList[i];
 
@@ -549,7 +545,7 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.canceled)
             {
                 // Set animation
-                EventManager.TriggerEvent("SetThrowing", true);
+                EventManager.TriggerEvent("SetThrowAnim", true);
 
                 // Check if the shroom can be thrown
                 if (canThrow)

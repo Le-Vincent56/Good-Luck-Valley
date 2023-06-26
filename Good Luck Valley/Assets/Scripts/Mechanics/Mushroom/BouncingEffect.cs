@@ -98,7 +98,27 @@ public class BouncingEffect : MonoBehaviour
                 Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
                 direction = rotation * Vector2.up;
 
-                RB.AddForce(direction * bounceForce, ForceMode2D.Impulse);
+                // TODO ROTATION-PERCENTAGE
+                // Maximum additional force percentage on
+                float rotationDegrees = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                Debug.Log("Rotation Degrees: " + rotationDegrees);
+
+                Debug.Log("Mod: " + rotationDegrees % 90);
+
+                float roundedPercentage = (rotationDegrees % 90) / 90;
+
+                float precisePercentage = Mathf.Abs(0f - roundedPercentage);
+
+                if(precisePercentage > 0.5f && precisePercentage < 1.0f)
+                {
+                    precisePercentage = Mathf.Abs(precisePercentage - 1);
+                }
+
+                float additionalForce = bounceForce * (precisePercentage / 3);
+
+                RB.AddForce(direction * (bounceForce + additionalForce), ForceMode2D.Impulse);
+
+
                 onCooldown = true;
 
                 // Trigger events

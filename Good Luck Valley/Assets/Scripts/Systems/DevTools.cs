@@ -10,13 +10,13 @@ public class DevTools : MonoBehaviour
     #region REFERENCES
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
-    private MenusManager menusMan;
     private Text devText;
     private Text noClipText;
     private Text instantThrowText;
     private Text infiniteShroomText;
     private Text shroomDurationText;
     private Settings settings;
+    private GameObject textHolder;
     #endregion
 
     #region FIELDS
@@ -44,17 +44,24 @@ public class DevTools : MonoBehaviour
         playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
         playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
         capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
-        devText = GameObject.Find("DevText").GetComponent<Text>();
-        noClipText = GameObject.Find("NoClipText").GetComponent<Text>();
-        instantThrowText = GameObject.Find("InstantShroomText").GetComponent<Text>();
-        infiniteShroomText = GameObject.Find("InfiniteShroomText").GetComponent<Text>();
-        shroomDurationText = GameObject.Find("ShroomDurationText").GetComponent<Text>();
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+
+        // Get the canvas contianing the text boxes
+        GameObject canvas = transform.GetComponentInChildren<Canvas>().gameObject;
+
+        // Get the empty object holding the text boxes
+        textHolder = canvas.transform.GetChild(0).gameObject;
+
+        // Get all the textboxes
+        devText = textHolder.transform.GetChild(0).GetComponent<Text>();
+        noClipText = textHolder.transform.GetChild(1).GetComponentInChildren<Text>();
+        instantThrowText = textHolder.transform.GetChild(2).GetComponentInChildren<Text>();
+        infiniteShroomText = textHolder.transform.GetChild(3).GetComponentInChildren<Text>();
+        shroomDurationText = textHolder.transform.GetChild(4).GetComponentInChildren<Text>();
 
         // Checks if dev tools are enabled
         if (devToolsEnabled)
         {
-            Debug.Log("Dev Tools Enabled");
             // Default dev tools values
             noClip = false;
             instantThrow = false;
