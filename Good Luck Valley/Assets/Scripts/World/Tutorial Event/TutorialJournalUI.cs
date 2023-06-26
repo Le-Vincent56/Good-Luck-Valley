@@ -27,7 +27,7 @@ public class TutorialJournalUI : MonoBehaviour
         {
             if(journal.HasOpened && journal.MenuOpen)
             {
-                playerMovement.IsLocked = false;
+                EventManager.TriggerEvent("Lock", false);
                 tutorialManager.FadeThirdJournalUITutorialText();
                 tutorialManager.ShowingThirdJournalUIText = false;
             }
