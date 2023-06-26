@@ -20,8 +20,8 @@ public class AnimationListener : MonoBehaviour
         EventManager.StartListening("Jump", JumpingAnim);
         EventManager.StartListening("Fall", FallingAnim);
         EventManager.StartListening("Bounce", BouncingAnim);
-        EventManager.StartListening("CheckThrowingAnim", CheckThrowingAnim);
-        EventManager.StartListening("SetThrowingAnim", SetThrowingAnim);
+        EventManager.StartListening("CheckThrowAnim", CheckThrowingAnim);
+        EventManager.StartListening("SetThrowAnim", SetThrowingAnim);
     }
 
     private void OnDisable()
@@ -32,8 +32,8 @@ public class AnimationListener : MonoBehaviour
         EventManager.StopListening("Jump", JumpingAnim);
         EventManager.StopListening("Fall", FallingAnim);
         EventManager.StopListening("Bounce", BouncingAnim);
-        EventManager.StopListening("CheckThrowingAnim", CheckThrowingAnim);
-        EventManager.StopListening("SetThrowingAnim", SetThrowingAnim);
+        EventManager.StopListening("CheckThrowAnim", CheckThrowingAnim);
+        EventManager.StopListening("SetThrowAnim", SetThrowingAnim);
     }
 
     /// <summary>
@@ -128,7 +128,7 @@ public class AnimationListener : MonoBehaviour
             AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
             if (animationInfo.normalizedTime % 1 > 0.9)
             {
-                EventManager.TriggerEvent("SetThrowing", false);
+                EventManager.TriggerEvent("SetThrowAnim", false);
             }
         }
     }

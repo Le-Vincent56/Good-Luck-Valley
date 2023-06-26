@@ -654,6 +654,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	}
 	#endregion
 
+    // JUMP METHODS
 	#region JUMP METHODS
 	/// <summary>
 	/// Allow the Player to Jump
@@ -686,6 +687,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	}
 	#endregion
 
+    // CHECK METHODS
 	#region CHECK METHODS
 	/// <summary>
 	/// Check which direction the Player is facing
@@ -772,6 +774,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	}
 	#endregion
 
+    // EVENT FUNCTIONS
 	#region EVENT FUNCTIONS
 	/// <summary>
 	/// Set variables for bouncing
