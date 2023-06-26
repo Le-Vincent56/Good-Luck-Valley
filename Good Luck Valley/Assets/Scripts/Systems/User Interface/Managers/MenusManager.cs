@@ -785,7 +785,7 @@ public class MenusManager : MonoBehaviour
         // when changing toggle values
         disableCalls = true;
 
-        accessibilityTools[0] = false;  // Throw line is off
+        accessibilityTools[0] = true;  // Throw line is off
         accessibilityTools[1] = false;  // Mushrooms are limited to 3
         accessibilityTools[2] = true;   // Mushroom timer is enabled
         accessibilityTools[3] = false;  // Instant throw is disabled
