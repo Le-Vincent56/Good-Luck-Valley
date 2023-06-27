@@ -197,6 +197,12 @@ public class DataManager : MonoBehaviour
         {
             Debug.LogWarning("Settings not found, creating new default profile");
             settingsData = new SettingsData();
+            settingsHandler.Save(settingsData);
+        }
+
+        foreach (ISettingsData settingsObj in settingsDataObjects)
+        {
+            settingsObj.LoadData(settingsData);
         }
 
         // If no data can be loaded, log a warning and return
@@ -210,11 +216,6 @@ public class DataManager : MonoBehaviour
         foreach (IData dataObj in dataObjects)
         {
             dataObj.LoadData(gameData);
-        }
-
-        foreach (ISettingsData settingsObj in settingsDataObjects)
-        {
-            settingsObj.LoadData(settingsData);
         }
     }
 

@@ -216,7 +216,15 @@ public class Settings : MonoBehaviour, ISettingsData
         // Load display settings
         #region DISPLAY
         brightness = data.brightness;
-        Screen.SetResolution((int)data.resolution.x, (int)data.resolution.y, data.isFullscreen);
+        Debug.Log("Data: " + data);
+        if (data.resolution.x != 12 && data.resolution.y != 34)
+        {
+            Screen.SetResolution((int)data.resolution.x, (int)data.resolution.y, data.isFullscreen);
+        }
+        else
+        {
+            Screen.SetResolution(1920, 1080, true);
+        }
         Screen.fullScreen = data.isFullscreen;
         subtitlesEnabled = data.subtitlesEnabled;
         isFullscreen = data.isFullscreen;
