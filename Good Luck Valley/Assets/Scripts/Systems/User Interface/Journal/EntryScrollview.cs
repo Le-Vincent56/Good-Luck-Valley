@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EntryScrollview : MonoBehaviour
 {
     #region REFERENCES
-    public Journal journal;
+    [SerializeField] private JournalScriptableObj journalEvent;
     public GameObject entryPrefab;
     public ScrollRect scrollView;
     public RectTransform contentTransform;
@@ -21,17 +21,34 @@ public class EntryScrollview : MonoBehaviour
     public List<GameObject> Entries { get { return entries; } set { entries = value; } }
     #endregion
 
+    private void OnEnable()
+    {
+        // Subscribe to journal events
+        journalEvent.refreshJournalEvent.AddListener(SetEntries);
+        journalEvent.clearJournalEvent.AddListener(RemoveEntries);
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to journal events
+        journalEvent.refreshJournalEvent.RemoveListener(SetEntries);
+        journalEvent.clearJournalEvent.RemoveListener(RemoveEntries);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
         scrollView = GameObject.Find("EntryPanel").GetComponent<ScrollRect>();
         contentTransform = GameObject.Find("Entries").GetComponent<RectTransform>();
     }
 
-    public void SetEntries()
+    /// <summary>
+    /// Add collected journal entries into the journal
+    /// </summary>
+    /// <param name="journalToRefresh"></param>
+    public void SetEntries(Journal journalToRefresh)
     {
-        foreach(Note note in journal.Notes)
+        foreach(Note note in journalToRefresh.Notes)
         {
             bool noteAlreadyAdded = false;
 
@@ -54,6 +71,9 @@ public class EntryScrollview : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Remove journal entries from the journal
+    /// </summary>
     public void RemoveEntries()
     {
         // Add all entries to the destroyedEntries list
@@ -84,5 +104,4 @@ public class EntryScrollview : MonoBehaviour
         entries.Clear();
         destroyedEntries.Clear();
     }
-
 }
