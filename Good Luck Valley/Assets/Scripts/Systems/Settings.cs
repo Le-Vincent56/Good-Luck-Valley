@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD;
+using FMODUnity;
 
 public class Settings : MonoBehaviour, ISettingsData
 {
@@ -8,6 +10,7 @@ public class Settings : MonoBehaviour, ISettingsData
     private MenusManager menusMan;
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
+    private AudioListener audioListener;
     #endregion
 
     #region FIELDS
@@ -31,7 +34,6 @@ public class Settings : MonoBehaviour, ISettingsData
     private static float sfxVolume;
     private static float ambientVolume;
     private static float voicesVolume;
-
 
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
@@ -67,17 +69,19 @@ public class Settings : MonoBehaviour, ISettingsData
             playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
             playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
             capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
+
+            audioListener = GameObject.Find("Audio Manager").GetComponent<AudioListener>();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (menusMan.CurrentScene > 5)
+        if (updateSettings)
         {
-            #region ACCESSIBILITY SETTINGS
-            if (updateSettings)
+            if (menusMan.CurrentScene > 5)
             {
+                #region ACCESSIBILITY SETTINGS
                 if (noClipOn)
                 {
                     ActivateNoClip();
@@ -122,10 +126,23 @@ public class Settings : MonoBehaviour, ISettingsData
                 {
                     DisableThrowLine();
                 }
-
-                updateSettings = false;
+                #endregion
             }
+
+
+            #region SOUND SETTINGS
+
+            float soundPercentAdjust = masterVolume / 100;
+
+            AudioManager.Instance.MusicEventInstance.setVolume(musicVolume * soundPercentAdjust);
+
+            AudioManager.Instance.AmbienceEventInstance.setVolume(ambientVolume * soundPercentAdjust);
+
+            audioListener.PlayerFootsteps.setVolume(SFXVolume * soundPercentAdjust);
+
             #endregion
+
+            updateSettings = false;
         }
     }
 
