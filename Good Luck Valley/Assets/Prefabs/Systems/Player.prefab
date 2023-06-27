@@ -120,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018153667, y: -0.06307669}
+  m_Offset: {x: -0.018153667, y: -0.09887858}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.51, y: 1.05}
+  m_Size: {x: 0.51, y: 1.121604}
   m_EdgeRadius: 0
 --- !u!114 &400684425
 MonoBehaviour:
@@ -145,6 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae670ef26a764d04c9bcc2f749467477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  mushroomEvent: {fileID: 11400000, guid: 7d92506008c604d4b940160fec1a21e2, type: 2}
 --- !u!1 &508820767
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +363,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: bfed79855bda1754e88192020ad5838c, type: 2}
+  movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  mushroomEvent: {fileID: 11400000, guid: 7d92506008c604d4b940160fec1a21e2, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   playerLight: {fileID: 0}
   rb: {fileID: 0}
   groundLayer:
@@ -368,12 +373,14 @@ MonoBehaviour:
     m_Bits: 8
   noFriction: {fileID: 6200000, guid: ee68d7080b1df0f48a666e6baaefce7a, type: 2}
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
+  debug: 0
   isJumping: 0
   isGrounded: 0
   isLocked: 0
-  justLanded: 0
+  canInput: 1
   fallingBuffer: 0.15
   landedTimer: 0
+  inputCooldown: 0.05
   checkForSlopes: 1
   isOnSlope: 0
   canWalkOnSlope: 0
@@ -740,10 +747,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42e02e611f955e4095515deafc935e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  mushroomEvent: {fileID: 11400000, guid: 7d92506008c604d4b940160fec1a21e2, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   tutorialManager: {fileID: 0}
-  bounceForce: 18
   canBounce: 0
   onCooldown: 0
+  bounceForce: 18
   bounceClampMin: 0.5
   bounceClampMax: 0.7
   lastVelocity: {x: 0, y: 0}

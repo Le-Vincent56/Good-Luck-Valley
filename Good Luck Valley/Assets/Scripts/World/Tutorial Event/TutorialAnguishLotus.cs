@@ -64,12 +64,7 @@ public class TutorialAnguishLotus : Interactable
             {
                 disableEvent.Lock();
                 pauseMenu.Paused = true;
-                tutorialManager.ShowingDemoEndText = true;
-            }
-
-            if (fadeEffect.GetComponent<SpriteRenderer>().color.a < .6f)
-            {
-                fadeEffect.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, (Time.deltaTime * .5f));
+                //tutorialManager.ShowingDemoEndText = true;
             }
             else if (pauseMenu.Paused)
             {
@@ -78,8 +73,9 @@ public class TutorialAnguishLotus : Interactable
                 {
                     g.SetActive(false);
                 }
+
+                disableEvent.Unlock();
                 pauseMenu.Paused = false;
-                EventManager.TriggerEvent("Lock", false);
             }
         }
     }

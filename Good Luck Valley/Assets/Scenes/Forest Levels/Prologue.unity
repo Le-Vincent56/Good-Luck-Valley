@@ -253,71 +253,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &204763344
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 204763345}
-  - component: {fileID: 204763346}
-  m_Layer: 0
-  m_Name: FMODEvents
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &204763345
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204763344}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1804940723}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &204763346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204763344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f7a65d1b14cc1b428843f9f69d9f89c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Ambience>k__BackingField:
-    Guid:
-      Data1: -1710201668
-      Data2: 1077559233
-      Data3: 898542720
-      Data4: -121512515
-    Path: event:/Ambience/Ambience
-  <PlayerFootsteps>k__BackingField:
-    Guid:
-      Data1: -1122529396
-      Data2: 1119492125
-      Data3: -1697525313
-      Data4: 1110492703
-    Path: event:/SFX/PlayerFootsteps
-  <ForestMusic>k__BackingField:
-    Guid:
-      Data1: 1182507360
-      Data2: 1307164186
-      Data3: 1337014157
-      Data4: 1720798860
-    Path: event:/Music/ForestTheme
 --- !u!114 &276564766 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7691238257605692380, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
@@ -344,11 +279,6 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7203912908089909882, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
   m_PrefabInstance: {fileID: 1061819081}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &446418608 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1804940722, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
-  m_PrefabInstance: {fileID: 1750386889}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &473237369
 GameObject:
@@ -29718,6 +29648,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 547356016}
     m_Modifications:
+    - target: {fileID: 7479375662854046019, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
+      propertyPath: disableEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
     - target: {fileID: 7479375662854046041, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: m_Name
       value: ShroomEventLotus
@@ -31062,25 +30996,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5135726466085431739, guid: a6ac971ce1c57674ca78b296301d7561, type: 3}
   m_PrefabInstance: {fileID: 5135726466895687945}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1804940723 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1804940723, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
-  m_PrefabInstance: {fileID: 1750386889}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1804940725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446418608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d98ec6df8f830c8438184bf6e18e044a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stepTimerMax: 0.85
-  stepTimer: 0
 --- !u!1 &1823448012
 GameObject:
   m_ObjectHideFlags: 3
@@ -33737,7 +33652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7691238257605692382, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.0308514
+      value: -1.0322323
       objectReference: {fileID: 0}
     - target: {fileID: 7691238257605692382, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -33753,7 +33668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.4691486
+      value: -4.4677677
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.z
