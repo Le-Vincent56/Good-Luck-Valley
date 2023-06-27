@@ -144,6 +144,8 @@ public class MushroomManager : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(throwLineOn);
+
         // Direction force is being applied to shroom
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
@@ -210,15 +212,11 @@ public class MushroomManager : MonoBehaviour, IData
 
 
             case ThrowState.Throwing:
-                if (mushroomList.Count < mushroomLimit)
+                if (throwLineOn)
                 {
-                    throwLineOn = true;
-                    if (throwLineOn)
-                    {
-                        throwUI_Script.PlotTrajectory(playerRB.position,
-                                                          forceDirection.normalized * throwMultiplier,
-                                                          playerMove.IsFacingRight); 
-                    }
+                    throwUI_Script.PlotTrajectory(playerRB.position,
+                                                      forceDirection.normalized * throwMultiplier,
+                                                      playerMove.IsFacingRight);
                 }
                 if (!throwLineOn)
                 {
@@ -262,7 +260,6 @@ public class MushroomManager : MonoBehaviour, IData
     void ThrowMushroom()
     {
         mushroomList.Add(Instantiate(spore, playerRB.position, Quaternion.identity));
-        Debug.Log(mushroomList.Count);
 
         mushroomList[mushroomList.Count - 1].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
         mushroomList[mushroomList.Count - 1].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -313,9 +310,9 @@ public class MushroomManager : MonoBehaviour, IData
             if (mushroomLimit == 3)
             {
                 shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
+                mInfo.ResetCounter();
             }
 
-            mInfo.ResetCounter();
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
             ThrowMushroom();
@@ -617,7 +614,7 @@ public class MushroomManager : MonoBehaviour, IData
     /// <param name="pauseData">Pause data</param>
     public void LockThrow(object pauseData)
     {
-        throwLineOn = false;
+        throwLineOn = (bool)pauseData;
         recallLocked = (bool)pauseData;
         throwLocked = (bool)pauseData;
     }
