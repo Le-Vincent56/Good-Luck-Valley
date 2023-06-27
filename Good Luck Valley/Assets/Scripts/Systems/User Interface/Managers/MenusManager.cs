@@ -561,6 +561,7 @@ public class MenusManager : MonoBehaviour
     {
         if (settingsSaved)
         {
+            if (currentScene <= 5)
             StartCoroutine(FadeOut());
             sceneLoadNum = previousScene;
         }
