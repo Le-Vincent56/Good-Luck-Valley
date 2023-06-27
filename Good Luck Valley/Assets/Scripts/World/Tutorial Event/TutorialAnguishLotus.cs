@@ -8,25 +8,32 @@ using UnityEngine.SceneManagement;
 public class TutorialAnguishLotus : Interactable
 {
     #region REFERENCES
+    [SerializeField] private DisableScriptableObj disableEvent;
     private Tutorial tutorialManager;
     private PlayerMovement playerMovement;
     private PauseMenu pauseMenu;
-    [SerializeField] GameObject fadeEffect;
     #endregion
 
     #region FIELDS
     private bool endLevel = false;
+    private GameObject[] shroomWalls;
     [SerializeField] private float fadeTimer = 3.0f;
     #endregion
 
     void Start()
     {
-        tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         remove = false;
         fadeTimer = 2.0f;
         endLevel = false;
+
+        shroomWalls = new GameObject[3];
+
+        for (int i = 0; i < 3; i++)
+        {
+            shroomWalls[i] = GameObject.Find("Wall" + i);
+        }
     }
 
     void Update()
@@ -53,32 +60,24 @@ public class TutorialAnguishLotus : Interactable
         if(endLevel)
         {
             // Start the fade timer
-            if(!pauseMenu.Paused)
+            if (!finishedInteracting)
             {
-                EventManager.TriggerEvent("Lock", true);
+                disableEvent.Lock();
                 pauseMenu.Paused = true;
-                tutorialManager.ShowingDemoEndText = true;
+                //tutorialManager.ShowingDemoEndText = true;
             }
-
-            if (fadeEffect.GetComponent<SpriteRenderer>().color.a < .6f)
+            else if (pauseMenu.Paused)
             {
-                fadeEffect.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, (Time.deltaTime * .5f));
-            }
-            else if (tutorialManager.ShowingDemoEndText)
-            {
-                tutorialManager.ShowingDemoEndText = false;
-            }
+                Debug.Log("UH");
+                foreach (GameObject g in shroomWalls)
+                {
+                    g.SetActive(false);
+                }
 
-            fadeTimer -= Time.deltaTime;
-
-            // Once the fade timer hits 0, finish interacting
-            // and go to title screen
-            if (fadeTimer <= 0)
-            {
-                finishedInteracting = true;
+                disableEvent.Unlock();
+                pauseMenu.Paused = false;
             }
         }
-
     }
 
     /// <summary>
@@ -86,23 +85,21 @@ public class TutorialAnguishLotus : Interactable
     /// </summary>
     public override void Interact()
     {
-        // Fade the Tutorial Text
-        tutorialManager.ShowingLotusText = false;
-
         // End the level
         endLevel = true;
     }
 
-    /// <summary>
-    /// Redirect Player to Title Screen
-    /// </summary>
-
-    public void OnClickTitle()
+    private IEnumerator FadeVines()
     {
-        // Load Title Screen after interacting with the Lotus
-        if (finishedInteracting)
+        foreach (GameObject g in shroomWalls)
         {
-            SceneManager.LoadScene("Title Screen");
+            Color color = g.GetComponent<SpriteRenderer>().color;
+            g.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, color.a - 0.001f);
         }
+        if (shroomWalls[0].GetComponent<SpriteRenderer>().color.a <= 0)
+        {
+            finishedInteracting = true;
+        }
+        yield return null;
     }
 }

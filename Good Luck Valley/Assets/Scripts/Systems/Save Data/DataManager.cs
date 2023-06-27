@@ -307,6 +307,7 @@ public class DataManager : MonoBehaviour
         while(true)
         {
             // Wait for the amount of seconds
+            Debug.Log("?");
             yield return new WaitForSeconds(autoSaveTimeSeconds);
 
             // Save the game

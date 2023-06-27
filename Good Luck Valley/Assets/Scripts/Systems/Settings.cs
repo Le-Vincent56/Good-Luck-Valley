@@ -200,6 +200,7 @@ public class Settings : MonoBehaviour, ISettingsData
     #region DATA HANDLING
     public void LoadData(SettingsData data)
     {
+
         // Bool in Settings.cs that lets it know if it should update the
         //  game state based on enabled settings
         updateSettings = true;
@@ -216,7 +217,6 @@ public class Settings : MonoBehaviour, ISettingsData
         // Load display settings
         #region DISPLAY
         brightness = data.brightness;
-        Debug.Log("Data: " + data);
         if (data.resolution.x != 12 && data.resolution.y != 34)
         {
             Screen.SetResolution((int)data.resolution.x, (int)data.resolution.y, data.isFullscreen);

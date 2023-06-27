@@ -8,6 +8,9 @@ public class BouncingEffect : MonoBehaviour
 {
     #region REFERENCES
     private Rigidbody2D RB;
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     #endregion
 
     #region FIELDS
@@ -111,17 +114,19 @@ public class BouncingEffect : MonoBehaviour
                 // If additional force is greater than 0.1, that means you're likely not at an angle, so apply a movement cooldown so the bounce feels most impactful
                 if (additionalForce > 0.1f)
                 {
-                    EventManager.TriggerEvent("StopInput", 0.05f);
+                    disableEvent.SetInputCooldown(0.05f);
+                    disableEvent.StopInput();
                 }
 
                 // Trigger events
-                EventManager.TriggerEvent("Bounce", true);
-                EventManager.TriggerEvent("Bounce");
+                mushroomEvent.SetBounce(true);
+                mushroomEvent.Bounce();
             }
         } else if(collision.gameObject.tag.Equals("Mushroom"))
         {
             // Set touching shroom to true if colliding with the mushroom
-            EventManager.TriggerEvent("TouchingShroom", true);
+            mushroomEvent.SetTouchingShroom(true);
+            mushroomEvent.TouchingShroom();
         }
     }
 
@@ -135,7 +140,8 @@ public class BouncingEffect : MonoBehaviour
         if(collision.gameObject.tag.Equals("Mushroom"))
         {
             // If exiting, set touchingShroom to false
-            EventManager.TriggerEvent("TouchingShroom", false);
+            mushroomEvent.SetTouchingShroom(false);
+            mushroomEvent.TouchingShroom();
         }
     }
 }

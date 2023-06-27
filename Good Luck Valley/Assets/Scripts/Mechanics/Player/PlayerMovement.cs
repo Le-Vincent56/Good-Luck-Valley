@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour, IData
 {
     #region REFERENCES
     [SerializeField] private PlayerData data;
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
 	private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
@@ -36,7 +39,9 @@ public class PlayerMovement : MonoBehaviour, IData
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
+    private bool isJumpAnimFalling;
 	private bool isFacingRight;
+    private bool landed;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
     private Vector2 playerPosition;
@@ -85,20 +90,24 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void OnEnable()
     {
-		EventManager.StartListening("Bounce", ApplyBounce);
-		EventManager.StartListening("TouchingShroom", TouchingShroom);
-		EventManager.StartListening("Pause", LockMovement);
-        EventManager.StartListening("Lock", LockMovement);
-        EventManager.StartListening("StopInput", StopInput);
+        mushroomEvent.bounceEvent.AddListener(ApplyBounce);
+        mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
+        disableEvent.pauseEvent.AddListener(LockMovement);
+        disableEvent.unpauseEvent.AddListener(UnlockMovement);
+        disableEvent.lockPlayerEvent.AddListener(LockMovement);
+        disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
+        disableEvent.stopInputEvent.AddListener(StopInput);
     }
 
     private void OnDisable()
     {
-        EventManager.StopListening("Bounce", ApplyBounce);
-        EventManager.StopListening("TouchingShroom", TouchingShroom);
-		EventManager.StopListening("Pause", LockMovement);
-        EventManager.StopListening("Lock", LockMovement);
-        EventManager.StopListening("StopInput", StopInput);
+        mushroomEvent.bounceEvent.RemoveListener(ApplyBounce);
+        mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
+        disableEvent.pauseEvent.RemoveListener(LockMovement);
+        disableEvent.unpauseEvent.RemoveListener(UnlockMovement);
+        disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
+        disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
+        disableEvent.stopInputEvent.RemoveListener(StopInput);
     }
 
     private void Start()
@@ -156,8 +165,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 if (bouncing && bounceBuffer <= 0)
                 {
                     bouncing = false;
-
-					EventManager.TriggerEvent("Bounce", false);
+                    mushroomEvent.SetBounce(false);
                 }
 
                 // Ground player
@@ -204,15 +212,13 @@ public class PlayerMovement : MonoBehaviour, IData
 
         // Set Animations
         #region JUMP ANIMATION CHECKS
-        // If the player is Jumping, update variables and set the jump animation
+        // Set jumpAnimFalling to false so there can be a little animation buffer without affecting the actual movement
+        isJumpAnimFalling = false;
+
+        // If the player is Jumping, update variables
         if (isJumping)
         {
             isGrounded = false;
-            EventManager.TriggerEvent("Jump", true);
-        }
-        else if (!isJumping) // Else, if the player is not jumping, update animations
-        {
-            EventManager.TriggerEvent("Jump", false);
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
@@ -223,22 +229,21 @@ public class PlayerMovement : MonoBehaviour, IData
 			{
                 isGrounded = false;
 
+                // if the falling buffer is true,
 				if(fallingBuffer <= 0)
 				{
-                    EventManager.TriggerEvent("Fall", true);
+                    isJumpAnimFalling = true;
                 }
             }
         }
         else if (!isJumpFalling || isGrounded || bouncing || isOnSlope) // Otherwise, if the player is not falling, update animations
         {
             fallingBuffer = 0.15f;
-            EventManager.TriggerEvent("Fall", false);
         }
 		
 		if(bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
 		{
             fallingBuffer = 0.15f;
-            EventManager.TriggerEvent("Fall", false);
         }
         #endregion
 
@@ -258,16 +263,16 @@ public class PlayerMovement : MonoBehaviour, IData
         // If the player has been on the ground for longer than 0 seconds, they have landed
         if (landedTimer > 0 && isGrounded && !bouncing)
         {
-            // Update variables and set animations
+            // Update timer
             landedTimer -= Time.deltaTime;
 
-			// Trigger Landing event
-			EventManager.TriggerEvent("Land", true);
+            // Set landed to true
+            landed = true;
         }
         else
         {
-			// Trigger Landing event
-            EventManager.TriggerEvent("Land", false);
+            // Set landed to false
+            landed = false;
         }
 
 		if(!isGrounded && RB.velocity.y < 0)
@@ -401,7 +406,12 @@ public class PlayerMovement : MonoBehaviour, IData
 		}
 
         // Trigger events
-        EventManager.TriggerEvent("Move", RB.velocity.x);
+        movementEvent.SetBools(isGrounded, isJumping, isJumpAnimFalling, landed);
+        movementEvent.SetVectors(rb.velocity, moveInput);
+        movementEvent.Move();
+        movementEvent.Jump();
+        movementEvent.Fall();
+        movementEvent.Land();
     }
 
     #region INPUT CALLBACKS
@@ -528,9 +538,6 @@ public class PlayerMovement : MonoBehaviour, IData
                 GetComponent<Transform>().position += Vector3.right * moveInput.x;
             }
         }
-
-        // Trigger footstep event for sound
-        EventManager.TriggerEvent("Footsteps", moveInput.x, rb.velocity.x, isGrounded);
     }
 
     /// <summary>
@@ -813,34 +820,43 @@ public class PlayerMovement : MonoBehaviour, IData
 		bounceBuffer = 0.1f;
 		landedTimer = 0.2f;
 	}
+
 	/// <summary>
 	/// Set whether the player is touching a shroom
 	/// </summary>
 	/// <param name="touchingData"></param>
 
-	private void TouchingShroom(object touchingData)
+	private void TouchingShroom(bool touchingData)
 	{
-		touchingShroom = (bool)touchingData;
+		touchingShroom = touchingData;
 	}
 
 	/// <summary>
 	/// Lock player movement
 	/// </summary>
 	/// <param name="lockedData"></param>
-	private void LockMovement(object lockedData)
+	private void LockMovement()
 	{
         moveInput = Vector2.zero;
-        isLocked = (bool)lockedData;
+        isLocked = true;
 	}
+
+    /// <summary>
+    /// Unlock player movement
+    /// </summary>
+    private void UnlockMovement()
+    {
+        isLocked = false;
+    }
 
     /// <summary>
     /// Stop input
     /// </summary>
     /// <param name="cooldownData">The amount of time to stop the input for</param>
-    private void StopInput(object cooldownData)
+    private void StopInput(float cooldownData)
     {
         canInput = false;
-        inputCooldown = (float)cooldownData;
+        inputCooldown = cooldownData;
     }
 	#endregion
 

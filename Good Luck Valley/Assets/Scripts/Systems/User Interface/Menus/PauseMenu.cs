@@ -9,6 +9,7 @@ using System;
 public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] DisableScriptableObj disableEvent;
     private Canvas pauseUI;
     private Canvas settingsUI;
     private PlayerMovement playerMovement;
@@ -40,7 +41,7 @@ public class PauseMenu : MonoBehaviour, IData
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         saveMenu = GameObject.Find("SaveUI").GetComponent<SaveSlotsPauseMenu>();
         pauseUI.enabled = false;
-        settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();
+        settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();  
         settingsUI.enabled = false;
 
         levelName = SceneManager.GetActiveScene().name;
@@ -62,14 +63,14 @@ public class PauseMenu : MonoBehaviour, IData
                 paused = true;
                 pauseUI.enabled = true;
                 Time.timeScale = 0;
-                EventManager.TriggerEvent("Pause", true);
+                disableEvent.Pause();
             }
             else
             {
                 paused = false;
                 pauseUI.enabled = false;
                 Time.timeScale = 1f;
-                EventManager.TriggerEvent("Pause", false);
+                disableEvent.Unpause();
             }
         }
     }
@@ -84,7 +85,7 @@ public class PauseMenu : MonoBehaviour, IData
             paused = false;
             pauseUI.enabled = false;
             Time.timeScale = 1f;
-            EventManager.TriggerEvent("Pause", false);
+            disableEvent.Unpause();
         }
     }
    
@@ -105,6 +106,7 @@ public class PauseMenu : MonoBehaviour, IData
 
     public void CloseSettings()
     {
+        Debug.Log("Close Settings");
         pauseUI.enabled = true;
         settingsUI.enabled = false;
         paused = true;
