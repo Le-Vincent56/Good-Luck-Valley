@@ -245,8 +245,11 @@ public class MushroomManager : MonoBehaviour, IData
                     }   
                 }
 
-                mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = assignedShroomIcon;
+                MushroomInfo mInfo = mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>();
+
+                mInfo.ShroomIcon = assignedShroomIcon;
                 shroomCounter.ShroomIconQueue.Remove(assignedShroomIcon);
+                mInfo.StartCounter();
             }
         }
     }

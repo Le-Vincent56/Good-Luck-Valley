@@ -26,7 +26,7 @@ public class MushroomInfo : MonoBehaviour
     private ParticleSystem shroomParticles;
     private bool playShroomParticle = true;
     [SerializeField] float particleTime;
-    private ParticleSystem counterParticles;
+    private bool updateCounter;
     float spawnedLifeTime;
     #endregion
 
@@ -70,14 +70,14 @@ public class MushroomInfo : MonoBehaviour
         }
         if (isShroom && mushMan.EnableShroomTimers)
         {
-            UpdateShroomTimer();
+            UpdateShroomTimer();    
 
             if(mushMan.MushroomLimit == 3)
             UpdateMushroomCounter();
         }
-        else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit ==3)
+        else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
         {
-            shroomIcon.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
+
         }
     }
 
@@ -107,24 +107,35 @@ public class MushroomInfo : MonoBehaviour
 
     void UpdateMushroomCounter()
     {
-        if (mushMan.ThrowUnlocked)
+        updateCounter = true;
+        if (updateCounter)
         {
-            shroomIcon.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
-            shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
-        }
+            Debug.Log("Updating Counter");
+            if (mushMan.ThrowUnlocked)
+            {
+                Debug.Log("Updating Counter");
+                shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
+            }
 
-        if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
-        {
-            shroomIcon.GetComponent<ParticleSystem>().Play();
+            if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+            {
+                shroomIcon.GetComponent<ParticleSystem>().Play();
+            }
         }
     }
 
     public void ResetCounter()
     {
-        shroomIcon.GetComponent<SpriteRenderer>().color = new Color(shroomCounter.oR, shroomCounter.oG, shroomCounter.oB, 1f);
-        shroomIcon.GetComponent<Image>().fillAmount = 0;
+        shroomIcon.GetComponent<Image>().fillAmount = 1;
         shroomIcon.GetComponent<ParticleSystem>().Play();
+        updateCounter = false;
     }
+
+    public void StartCounter()
+    {
+        shroomIcon.GetComponent<Image>().fillAmount = 0;
+    }
+
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
@@ -153,6 +164,10 @@ public class MushroomInfo : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Rotates the shrooms to the normal of the plane they collide with
+    /// </summary>
     private void RotateAndFreeze()
     {
         // Saves the colliders of the platforms the shroom is coming into contact with intos an array
