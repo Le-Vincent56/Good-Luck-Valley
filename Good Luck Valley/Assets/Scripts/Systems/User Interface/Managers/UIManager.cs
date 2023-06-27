@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 {
     #region REFERENCES
     private Canvas pauseUI;
-    private PlayerMovement playerMovement; 
+    private PlayerMovement playerMovement;
     #endregion
 
     #region FIELDS

@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BouncingEffect : MonoBehaviour
 {
     #region REFERENCES
-    private MushroomInfo mushroomInfo;
     private Rigidbody2D RB;
-    private Animator animator;
-    private PlayerMovement playerMovement;
-    private BoxCollider2D playerCollider;
-    [SerializeField] PlayerData playerData;
     #endregion
 
     #region FIELDS
@@ -21,53 +17,34 @@ public class BouncingEffect : MonoBehaviour
     #endregion
 
     [Header("Bounce Variables")]
-    [SerializeField] float bounceForce = 15f;
-    [SerializeField] private bool bouncing;
     [SerializeField] private bool canBounce;
     [SerializeField] private bool onCooldown = false;
-    private float bounceBuffer = 0.1f;
-    private float cooldown = 0.1f;
-    [SerializeField] float movementCooldown = 0.5f;
-    [SerializeField] bool touchingShroom = false;
+    [SerializeField] float bounceForce = 15f;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
-
-    private float speed;
-    private Vector2 direction;
     [SerializeField] private Vector2 lastVelocity;
+    private float cooldown = 0.1f;
+    private Vector2 direction;
     #endregion
 
     #region PROPERTIES
-    public bool Bouncing { get { return bouncing; } set { bouncing = value; } }
     public bool CanBounce { get { return canBounce; } set { canBounce = value; } }
-    public float BounceBuffer { get { return bounceBuffer; } set { bounceBuffer = value; } }
-    public bool TouchingShroom { get { return touchingShroom; } set { touchingShroom = value; } }
     #endregion
 
     void Start()
     {
         // Get components
-        mushroomInfo = GetComponent<MushroomInfo>();
         RB = GetComponent<Rigidbody2D>();
-        animator = GameObject.Find("PlayerSprite").GetComponent<Animator>();
-        playerMovement = GetComponent<PlayerMovement>();
-        playerCollider = GetComponent<BoxCollider2D>();
 
-        // PlayerData is added through the Inspector
         // tutorialManager is added through the Inspector
 
         cooldown = 0.1f;
-
     }
 
     void Update()
     {
         // Create a bounce buffer so that if the player immediately hits a slope
         // or wall, it does not end the bouncing
-        if(bounceBuffer > 0 && bouncing)
-        {
-            bounceBuffer -= Time.deltaTime;
-        }
 
         if (onCooldown)
         {
@@ -97,10 +74,7 @@ public class BouncingEffect : MonoBehaviour
             {
                 RB.velocity = new Vector2(Mathf.Clamp(RB.velocity.x, bounceClampMin, bounceClampMax), RB.velocity.y);
 
-                // Disable movement for a little bit
-                playerMovement.DisableInputTimer = movementCooldown;
-
-                // If there is a tutorialManager, and firstBounece is true,
+                // If there is a tutorialManager, and firstBounce is true,
                 // don't show bounce tutorial text and set firstBounce to false
                 if (tutorialManager != null && firstBounce)
                 {
@@ -108,33 +82,46 @@ public class BouncingEffect : MonoBehaviour
                     firstBounce = false;
                 }
 
-                // Set bouncing to true
-                bouncing = true;
-                bounceBuffer = 0.1f;
-
-                // Reset landed timer
-                playerMovement.LandedTimer = 0.2f;
-
                 // Set the MushroomInfo to bouncing
-                animator.SetTrigger("Bouncing");
                 collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
                 collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
-
-                // Get the calculated speed based on last Velocity
-                speed = lastVelocity.magnitude;
 
                 // Set the direction
                 Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
                 direction = rotation * Vector2.up;
 
-                //RB.AddForce(Mathf.Max(speed, minSpeed) * direction, ForceMode2D.Impulse);
-                RB.AddForce(direction * bounceForce, ForceMode2D.Impulse);
+                // Get a number between 0 and 0.5 depending on the angle (besides some edge cases)
+                float rotationDegrees = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                float roundedPercentage = (rotationDegrees % 90) / 90;
+                float precisePercentage = Mathf.Abs(0f - roundedPercentage);
+
+                // Check for edge cases - when it might be around 0.98
+                if(precisePercentage > 0.5f && precisePercentage < 1.0f)
+                {
+                    precisePercentage = Mathf.Abs(precisePercentage - 1);
+                }
+
+                // Find the additional force
+                float additionalForce = bounceForce * (precisePercentage / 3);
+
+                // Apply bounce
+                RB.AddForce(direction * (bounceForce + additionalForce), ForceMode2D.Impulse);
                 onCooldown = true;
+
+                // If additional force is greater than 0.1, that means you're likely not at an angle, so apply a movement cooldown so the bounce feels most impactful
+                if (additionalForce > 0.1f)
+                {
+                    EventManager.TriggerEvent("StopInput", 0.05f);
+                }
+
+                // Trigger events
+                EventManager.TriggerEvent("Bounce", true);
+                EventManager.TriggerEvent("Bounce");
             }
         } else if(collision.gameObject.tag.Equals("Mushroom"))
         {
             // Set touching shroom to true if colliding with the mushroom
-            touchingShroom = true;
+            EventManager.TriggerEvent("TouchingShroom", true);
         }
     }
 
@@ -148,7 +135,7 @@ public class BouncingEffect : MonoBehaviour
         if(collision.gameObject.tag.Equals("Mushroom"))
         {
             // If exiting, set touchingShroom to false
-            touchingShroom = false;
+            EventManager.TriggerEvent("TouchingShroom", false);
         }
     }
 }

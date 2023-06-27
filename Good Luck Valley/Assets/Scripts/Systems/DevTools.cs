@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DevTools : MonoBehaviour
@@ -14,6 +15,8 @@ public class DevTools : MonoBehaviour
     private Text instantThrowText;
     private Text infiniteShroomText;
     private Text shroomDurationText;
+    private Settings settings;
+    private GameObject textHolder;
     #endregion
 
     #region FIELDS
@@ -28,6 +31,9 @@ public class DevTools : MonoBehaviour
 
     #region PROPERTIES
     public bool NoClip { get { return noClip; } set {  noClip = value; } }
+    public bool InstantThrow { get { return instantThrow; } set { instantThrow = value; } }
+    public bool InfiniteShrooms { get { return infiniteShrooms; } set { infiniteShrooms = value; } }
+    public bool DisableShroomDuration { get { return disableShroomDuration; } set { disableShroomDuration = value; } }
     public bool DevToolsEnabled { get { return devToolsEnabled; } set { devToolsEnabled = value; } }
     #endregion
 
@@ -38,11 +44,20 @@ public class DevTools : MonoBehaviour
         playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
         playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
         capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
-        devText = GameObject.Find("DevText").GetComponent<Text>();
-        noClipText = GameObject.Find("NoClipText").GetComponent<Text>();
-        instantThrowText = GameObject.Find("InstantShroomText").GetComponent<Text>();
-        infiniteShroomText = GameObject.Find("InfiniteShroomText").GetComponent<Text>();
-        shroomDurationText = GameObject.Find("ShroomDurationText").GetComponent<Text>();
+        settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+
+        // Get the canvas contianing the text boxes
+        GameObject canvas = transform.GetComponentInChildren<Canvas>().gameObject;
+
+        // Get the empty object holding the text boxes
+        textHolder = canvas.transform.GetChild(0).gameObject;
+
+        // Get all the textboxes
+        devText = textHolder.transform.GetChild(0).GetComponent<Text>();
+        noClipText = textHolder.transform.GetChild(1).GetComponentInChildren<Text>();
+        instantThrowText = textHolder.transform.GetChild(2).GetComponentInChildren<Text>();
+        infiniteShroomText = textHolder.transform.GetChild(3).GetComponentInChildren<Text>();
+        shroomDurationText = textHolder.transform.GetChild(4).GetComponentInChildren<Text>();
 
         // Checks if dev tools are enabled
         if (devToolsEnabled)
@@ -53,65 +68,85 @@ public class DevTools : MonoBehaviour
             infiniteShrooms = true;
             mushMan.ThrowUnlocked = true;
             disableShroomDuration = true;
-        } 
+
+            settings.NoClipOn = false;
+            settings.InfiniteShroomsOn = true;
+            settings.InstantThrowOn = false;
+            settings.ShroomDurationOn = false;
+            settings.ThrowIndicatorShown = true;
+        }
         else
         {
-            // No dev tools
-            devText.enabled = false;
-            noClipText.enabled = false;
-            instantThrowText.enabled = false;
-            infiniteShroomText.enabled = false;
-            disableShroomDuration = false;
+            noClip = settings.NoClipOn;
+            instantThrow = settings.InstantThrowOn;
+            infiniteShrooms = settings.InfiniteShroomsOn;
+            mushMan.ThrowUnlocked = false;
+            disableShroomDuration = !settings.ShroomDurationOn;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // No Clip text Change
-        if (noClip == true)
+        if (devToolsEnabled)
         {
-            noClipText.text = "Press F1 for no-clip: Enabled";
-        }
-        else if (noClip == false)
-        {
-            noClipText.text = "Press F1 for no-clip: Disabled";
-        }
+            // Dev Tools text change
+            devText.text = "Dev Tools Enabled";
+            mushMan.ThrowUnlocked = true;
 
-        // Instant Throw text change
-        if (instantThrow)
-        {
-            instantThrowText.text = "Press F2 for 'instant' shroom throw: Enabled";
-        }
-        else if (instantThrow == false)
-        {
-            instantThrowText.text = "Press F2 for 'instant' shroom throw: Disabled";
-        }
+            // No Clip text change
+            if (noClip == true)
+            {
+                noClipText.text = "Press F1 for no-clip: Enabled";
+            }
+            else if (noClip == false)
+            {
+                noClipText.text = "Press F1 for no-clip: Disabled";
+            }
 
-        // Infinite shrooms text change
-        if (infiniteShrooms)
-        {
-            infiniteShroomText.text = "Press F3 for infinite shrooms: Enabled";
-        }
-        else if (infiniteShrooms == false)
-        {
-            infiniteShroomText.text = "Press F3 for infinite shrooms: Disabled";
-        }
+            // Instant Throw text change
+            if (instantThrow)
+            {
+                instantThrowText.text = "Press F2 for 'instant' shroom throw: Enabled";
+            }
+            else if (instantThrow == false)
+            {
+                instantThrowText.text = "Press F2 for 'instant' shroom throw: Disabled";
+            }
 
-        // Disable shroom timer text change
-        if (disableShroomDuration)
-        {
-            shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Disabled";
-        }
-        else if (disableShroomDuration == false)
-        {
-            shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
-        }
+            // Infinite shrooms text change
+            if (infiniteShrooms)
+            {
+                infiniteShroomText.text = "Press F3 for infinite shrooms: Enabled";
+            }
+            else if (infiniteShrooms == false)
+            {
+                infiniteShroomText.text = "Press F3 for infinite shrooms: Disabled";
+            }
 
+            // Disable shroom timer text change
+            if (disableShroomDuration)
+            {
+                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Disabled";
+            }
+            else if (disableShroomDuration == false)
+            {
+                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
+            }
+        } 
+        else
+        {
+            // Dev Tools text change
+            devText.text = "";
+            shroomDurationText.text = "";
+            infiniteShroomText.text = "";
+            instantThrowText.text = "";
+            noClipText.text = "";
+        }
     }
 
     #region INPUT HANDLERS
-    public void OnActivateNoClip(InputAction.CallbackContext context)
+    public void OnActivateNoClip()
     {
         // Check if devTools is enabled
         if (devToolsEnabled)
@@ -136,7 +171,7 @@ public class DevTools : MonoBehaviour
         }
     }
 
-    public void OnActivateInstantThrow(InputAction.CallbackContext context)
+    public void OnActivateInstantThrow()
     {
         // Check if the dev tools are enabled
         if (devToolsEnabled)
@@ -158,7 +193,7 @@ public class DevTools : MonoBehaviour
         }
     }
 
-    public void OnEnableInfiniteShrooms(InputAction.CallbackContext context)
+    public void OnEnableInfiniteShrooms()
     {
         // Check if the dev tools are enabled
         if (devToolsEnabled)
@@ -180,11 +215,11 @@ public class DevTools : MonoBehaviour
         } 
     }
 
-    public void OnDisableShroomDuration(InputAction.CallbackContext context)
+    public void OnDisableShroomDuration()
     {
         // Check if dev tools is enabled
-       if (devToolsEnabled)
-       {
+        if (devToolsEnabled)
+        {
             // Switches shroom duration on/off
             disableShroomDuration = !disableShroomDuration;
 
@@ -199,7 +234,15 @@ public class DevTools : MonoBehaviour
                 // If enabled, turns on shroom timers
                 mushMan.EnableShroomTimers = true;
             }
-       }
+        }
+    }
+
+    public void OnCutToLevel(int level)
+    {
+        if (devToolsEnabled)
+        {
+            SceneManager.LoadScene("Level " + level);
+        }
     }
     #endregion
 }
