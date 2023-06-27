@@ -151,7 +151,7 @@ public class PlayerMovement : MonoBehaviour, IData
         #region COLLISION CHECKS
         if (!isJumping)
         {
-			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer);
+			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.1f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.down, 0.1f, groundLayer);
 
             if ((boxCheckGround || touchingShroom) && !isJumping) // Checks if set box overlaps with ground
             {
