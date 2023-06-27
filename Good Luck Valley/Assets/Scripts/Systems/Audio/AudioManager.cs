@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        // Initialize ambience and music
         InitializeAmbience(FMODEvents.Instance.Ambience);
         InitializeMusic(FMODEvents.Instance.ForestMusic);
     }
@@ -40,12 +41,21 @@ public class AudioManager : MonoBehaviour
         ambienceEventInstance.start();
     }
 
+    /// <summary>
+    /// Initialize a Music EventInstance and start it
+    /// </summary>
+    /// <param name="musicEventReference"></param>
     private void InitializeMusic(EventReference musicEventReference)
     {
         musicEventInstance = CreateEventInstance(musicEventReference);
         musicEventInstance.start();
     }
 
+    /// <summary>
+    /// Play a one shot sound
+    /// </summary>
+    /// <param name="sound"></param>
+    /// <param name="worldPos"></param>
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
     {
         // From FMOD Unity
