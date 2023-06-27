@@ -10,6 +10,8 @@ public class AudioListener : MonoBehaviour
     [SerializeField] private float stepTimerMax;
     [SerializeField] private float stepTimer;
 
+    public EventInstance PlayerFootsteps { get { return playerFootsteps; } }
+
     private void Start()
     {
         playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);

@@ -110,10 +110,8 @@ public class MushroomInfo : MonoBehaviour
         updateCounter = true;
         if (updateCounter)
         {
-            Debug.Log("Updating Counter");
             if (mushMan.ThrowUnlocked)
             {
-                Debug.Log("Updating Counter");
                 shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
             }
 

@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
     public static AudioManager Instance { get; private set; }
+    public EventInstance MusicEventInstance { get { return musicEventInstance; } }
+    public EventInstance AmbienceEventInstance { get { return ambienceEventInstance; } }
 
     private void Awake()
     {
