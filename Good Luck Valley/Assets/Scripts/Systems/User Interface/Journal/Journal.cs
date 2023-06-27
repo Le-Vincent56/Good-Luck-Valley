@@ -12,7 +12,6 @@ public class Journal : MonoBehaviour, IData
     private Canvas journalUI;
     private AudioSource journalPageSound;
     private Button pauseJournalButton;
-    private PlayerMovement playerMovement;
     private EntryScrollview journalScrollview;
     #endregion
 
@@ -27,7 +26,6 @@ public class Journal : MonoBehaviour, IData
     #endregion
 
     #region PROPERTIES
-    public AudioSource JournalPageSound { get { return journalPageSound; } set { journalPageSound = value; } }
     public List<Note> Notes { get { return notes; } set { notes = value; } }
     public bool MenuOpen { get { return menuOpen; } set { menuOpen = value; } }
     public bool HasJournal { get { return hasJournal; } set { hasJournal = value;} }
@@ -42,7 +40,6 @@ public class Journal : MonoBehaviour, IData
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         journalPageSound = GetComponent<AudioSource>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         journalScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
 
         // Set the journal menu to be invisible at first
@@ -77,8 +74,8 @@ public class Journal : MonoBehaviour, IData
     {
         if (hasJournal && !menuOpen)
         {
-            // Freeze player movement and set time to 0 - similar to a pause
-            playerMovement.MoveInput = Vector2.zero;
+            // Pause the game
+            EventManager.TriggerEvent("Pause", true);
             Time.timeScale = 0;
             openedFromKey = true;
 
@@ -110,7 +107,8 @@ public class Journal : MonoBehaviour, IData
         // Check if the menu is open
         if(menuOpen && canClose)
         {
-            // Unfreeze the game
+            // Unpause the game
+            EventManager.TriggerEvent("Pause", false);
             Time.timeScale = 1f;
 
             // Close the journal UI and set menuOpen to false

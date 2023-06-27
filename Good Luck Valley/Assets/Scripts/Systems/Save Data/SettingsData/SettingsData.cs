@@ -33,7 +33,7 @@ public class SettingsData
     // Constructor will have default values for when the game starts when there's no data to load
     public SettingsData()
     {
-        throwIndicatorShown = false;
+        throwIndicatorShown = true;
         noClipOn = false;
         instantThrowOn = false;
         infiniteShroomsOn = false;

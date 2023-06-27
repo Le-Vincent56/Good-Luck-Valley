@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 194225541}
   - component: {fileID: 194225542}
   - component: {fileID: 194225543}
+  - component: {fileID: 400684425}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -132,6 +133,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.51, y: 1.05}
   m_EdgeRadius: 0
+--- !u!114 &400684425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194225539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae670ef26a764d04c9bcc2f749467477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &508820767
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +271,6 @@ GameObject:
   - component: {fileID: 7203912908089909876}
   - component: {fileID: 1310835840}
   - component: {fileID: 1310835841}
-  - component: {fileID: 1310835849}
   - component: {fileID: 1310835857}
   m_Layer: 0
   m_Name: Player
@@ -276,7 +288,7 @@ Transform:
   m_GameObject: {fileID: 7203912908089909882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.02, y: -0.02, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.4999999, z: 1.5}
+  m_LocalScale: {x: 1.8583279, y: 1.8583279, z: 1.8583279}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 508820769}
@@ -325,15 +337,15 @@ SpriteRenderer:
   m_SortingLayerID: -10461435
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cf895af2ebceb904f8a2761dd73be219, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72ddeb6632634cd4ca527892e05bb54f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 11.18, y: 13.98}
+  m_Size: {x: 1.3714286, y: 1.3714286}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7203912908089909879
@@ -351,27 +363,26 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: bfed79855bda1754e88192020ad5838c, type: 2}
   playerLight: {fileID: 0}
   rb: {fileID: 0}
-  animator: {fileID: 0}
-  bounceEffect: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   noFriction: {fileID: 6200000, guid: ee68d7080b1df0f48a666e6baaefce7a, type: 2}
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
-  director: {fileID: 0}
   isJumping: 0
   isGrounded: 0
-  fallingBuffer: 0.15
   isLocked: 0
   justLanded: 0
+  fallingBuffer: 0.15
   landedTimer: 0
   checkForSlopes: 1
-  slopeCheckDistance: 1.5
   isOnSlope: 0
+  canWalkOnSlope: 0
+  slopeCheckDistance: 1.5
   slopeForceMagnitude: 28
   maxSlopeAngle: 75
-  canWalkOnSlope: 0
   moveInput: {x: 0, y: 0}
+  bouncing: 0
+  touchingShroom: 0
 --- !u!50 &7203912908089909881
 Rigidbody2D:
   serializedVersion: 4
@@ -406,18 +417,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018153667, y: -0.06307669}
+  m_Offset: {x: -0.018153667, y: -0.09887858}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.118, y: 1.398}
-    newSize: {x: 11.18, y: 13.98}
+    oldSize: {x: 1.3714286, y: 1.3714286}
+    newSize: {x: 1.3714286, y: 1.3714286}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.51, y: 1.05}
+  m_Size: {x: 0.51, y: 1.1216038}
   m_EdgeRadius: 0
 --- !u!114 &1310835840
 MonoBehaviour:
@@ -729,31 +740,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42e02e611f955e4095515deafc935e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: bfed79855bda1754e88192020ad5838c, type: 2}
   tutorialManager: {fileID: 0}
   bounceForce: 18
-  bouncing: 0
   canBounce: 0
   onCooldown: 0
-  movementCooldown: 0.5
-  touchingShroom: 0
   bounceClampMin: 0.5
   bounceClampMax: 0.7
   lastVelocity: {x: 0, y: 0}
---- !u!114 &1310835849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7203912908089909882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 437fabc539bd8db428d24fde76be000f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animatorClipName: 
-  currentClipLength: 0
 --- !u!70 &1310835857
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

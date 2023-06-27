@@ -52,7 +52,6 @@ public class Note : Interactable
         {
             journal.Notes.Add(this);
             effectPanelNotification.NotifQueue.Enqueue(this);
-            journal.JournalPageSound.Play();
             noteAdded = true;
         }
 

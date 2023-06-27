@@ -11,6 +11,7 @@ public class MushroomInfo : MonoBehaviour
     private MushroomManager mushMan;
     private ShroomCounter shroomCounter;
     [SerializeField] GameObject shroomIcon;
+    [SerializeField] private GameObject mushroom;
     #endregion
 
     #region FIELDS
@@ -42,6 +43,7 @@ public class MushroomInfo : MonoBehaviour
     public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
     public GameObject ShroomIcon { get { return shroomIcon;  } set { shroomIcon = value; } }
     public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
+    public GameObject Mushroom { get { return mushroom; } set { mushroom = value; } }
     #endregion
 
     private void Awake()
@@ -120,5 +122,67 @@ public class MushroomInfo : MonoBehaviour
         shroomIcon.GetComponent<SpriteRenderer>().color = new Color(shroomCounter.oR, shroomCounter.oG, shroomCounter.oB, 1f);
         shroomIcon.GetComponent<Image>().fillAmount = 0;
         shroomIcon.GetComponent<ParticleSystem>().Play();
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!hasRotated)
+        {
+            if (collision.collider is CompositeCollider2D)
+            {
+                RotateAndFreeze();
+            }
+            else if (collision.collider is BoxCollider2D)
+            {
+                if (collision.collider.tag == "Decomposable")
+                {
+                    if (collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed == false)
+                    {
+                        collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed = true;
+                    }
+                    RotateAndFreeze();
+                }
+                else if (collision.collider.tag == "Weighted")
+                {
+                    RotateAndFreeze();
+                    collision.gameObject.GetComponent<MoveablePlatform>().CheckWeight(gameObject);
+                }
+            }
+        }
+    }
+
+    private void RotateAndFreeze()
+    {
+        // Saves the colliders of the platforms the shroom is coming into contact with intos an array
+        ContactPoint2D[] contacts = new ContactPoint2D[10];
+        GetComponent<CircleCollider2D>().GetContacts(contacts);
+
+        // The direction vector that the mushroom needs to point towards,
+        //      contacts[0].point is the point the shroom is touching the platform at
+        //      mushroom.transform.position is the mushroom's position,
+        //          casted to a vector 2 so it can be subtracted from the contact point
+        ContactPoint2D contactPoint = contacts[0];
+        Vector2 direction = contactPoint.normal;
+
+        // The angle that the shroom is going to rotate at
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // The quaternion that will rotate the shroom
+        Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+        transform.rotation = rotation;
+
+        // Freezes shroom movement and rotation, and sets hasRotated to true
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        GetComponent<MushroomInfo>().HasRotated = true;
+
+        GameObject shroom = Instantiate(mushroom, transform.position, rotation);
+        shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        shroom.GetComponent<MushroomInfo>().HasRotated = true;
+        shroom.GetComponent<MushroomInfo>().ShroomIcon = gameObject.GetComponent<MushroomInfo>().ShroomIcon;
+        mushMan.ChangeShroomIndexes[mushMan.MushroomList.IndexOf(gameObject)] = shroom;
+
+        // Set the MushroomInfo angle to the calculated angle
+        shroom.GetComponent<MushroomInfo>().RotateAngle = angle;
+        hasRotated = true;
     }
 }
