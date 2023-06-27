@@ -235,7 +235,6 @@ public class MushroomManager : MonoBehaviour, IData
 
         CheckIfCanThrow();
         //CheckIfCanBounce();
-        Debug.Log(throwLineOn);
         CheckShroomDuration();
         //UpdateShroomCooldowns();
     }
@@ -285,7 +284,6 @@ public class MushroomManager : MonoBehaviour, IData
             mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = assignedShroomIcon;
             shroomCounter.ShroomIconQueue.Remove(assignedShroomIcon);
         }
-        Debug.Log("Shroom Thrown Icon: " + mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon);
     }
 
     /// <summary>
@@ -399,14 +397,12 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     private void ChangeShrooms()
     {
-        Debug.Log("Change");
         // Loops through the list of mushrooms
         for (int i = 0; i < mushroomList.Count; i++)
         {
             // Checks if the current index is contained in the shroomIndexes dictionary as a key
             if (changeShroomIndexes.ContainsKey(i))
             {
-                Debug.Log("Remove");
                 // Saves a reference to the spore in the mushroom list at the current index
                 GameObject tempShroom = mushroomList[i];
 
