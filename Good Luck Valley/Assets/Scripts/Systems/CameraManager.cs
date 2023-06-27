@@ -28,7 +28,7 @@ public class CameraManager : MonoBehaviour, IData
     // Start is called before the first frame update
     void Start()
     {
-        lotusCam = GameObject.Find("LotusCam").GetComponent<CinemachineVirtualCamera>();
+        lotusCam = GameObject.Find("Lotus Cam").GetComponent<CinemachineVirtualCamera>();
         mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 

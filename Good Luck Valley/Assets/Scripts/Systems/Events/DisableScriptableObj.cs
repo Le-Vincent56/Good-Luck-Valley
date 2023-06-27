@@ -58,11 +58,17 @@ public class DisableScriptableObj : ScriptableObject
         this.inputCooldown = inputCooldown;
     }
 
+    /// <summary>
+    /// Trigger events related to pausing the game
+    /// </summary>
     public void Pause()
     {
         pauseEvent.Invoke();
     }
 
+    /// <summary>
+    /// Trigger events relaed to unpausing the game
+    /// </summary>
     public void Unpause()
     {
         unpauseEvent.Invoke();
