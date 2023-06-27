@@ -9,6 +9,7 @@ using System.Linq;
 public class Journal : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] private DisableScriptableObj disableEvent;
     private Canvas journalUI;
     private AudioSource journalPageSound;
     private Button pauseJournalButton;
@@ -75,7 +76,7 @@ public class Journal : MonoBehaviour, IData
         if (hasJournal && !menuOpen)
         {
             // Pause the game
-            EventManager.TriggerEvent("Pause", true);
+            disableEvent.Pause();
             Time.timeScale = 0;
             openedFromKey = true;
 
@@ -108,7 +109,7 @@ public class Journal : MonoBehaviour, IData
         if(menuOpen && canClose)
         {
             // Unpause the game
-            EventManager.TriggerEvent("Pause", false);
+            disableEvent.Unpause();
             Time.timeScale = 1f;
 
             // Close the journal UI and set menuOpen to false

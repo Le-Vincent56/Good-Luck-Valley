@@ -18,6 +18,8 @@ public enum ThrowState
 public class MushroomManager : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     private GameObject player;
     [SerializeField] private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;                         // PlayerMovement checks which direction player is facing
@@ -33,6 +35,7 @@ public class MushroomManager : MonoBehaviour, IData
     [SerializeField] private GameObject testObject;
     private ShroomCounter shroomCounter;
     private Tutorial tutorialEvent;
+    
     #endregion
 
     #region FIELDS
@@ -131,14 +134,18 @@ public class MushroomManager : MonoBehaviour, IData
 
     private void OnEnable()
     {
-        EventManager.StartListening("Pause", LockThrow);
-        EventManager.StartListening("Lock", LockThrow);
+        disableEvent.pauseEvent.AddListener(LockThrow);
+        disableEvent.unpauseEvent.AddListener(UnlockThrow);
+        disableEvent.lockPlayerEvent.AddListener(LockThrow);
+        disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
     }
 
     private void OnDisable()
     {
-        EventManager.StopListening("Pause", LockThrow);
-        EventManager.StopListening("Lock", LockThrow);
+        disableEvent.pauseEvent.RemoveListener(LockThrow);
+        disableEvent.unpauseEvent.RemoveListener(UnlockThrow);
+        disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
+        disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
     }
 
     // Update is called once per frame
@@ -157,51 +164,8 @@ public class MushroomManager : MonoBehaviour, IData
             firstTimeHittingMax = false;
         }
 
-        // Trigger CheckThrowing Event
-        EventManager.TriggerEvent("CheckThrowAnim");
-
-        //if(playerAnim.GetBool("Throwing") == true)
-        //{
-        //    AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
-        //    AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-        //    // Debug.Log(animationInfo.normalizedTime);
-        //    if(animationInfo.normalizedTime % 1 > 0.9)
-        //    {
-        //        playerAnim.SetBool("Throwing", false);
-        //    }
-        //}
-
-        // FOR WHEN THROW ANIMATIONS ARE FULLY IMPLEMENTED
-        //if (throwPrepared)
-        //{
-        //    AnimatorClipInfo[] throwAnimationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
-        //    int currentFrame = (int)(throwAnimationClip[0].weight * (throwAnimationClip[0].clip.length * throwAnimationClip[0].clip.frameRate));
-        //    if (currentFrame == 5)
-        //    {
-        //        throwing = true;
-
-        //        // Throw the shroom
-        //        //switch (throwState)
-        //        //{
-        //        //    case ThrowState.Throwing:
-        //        //        CheckShroomCount();
-        //        //        throwState = ThrowState.NotThrowing;
-        //        //        break;
-        //        //}
-
-        //        if (throwState == ThrowState.Throwing)
-        //        {
-        //            CheckShroomCount();
-        //            throwState = ThrowState.NotThrowing;
-        //        }
-
-        //        // Reset throw variables
-        //        canThrow = false;
-        //        throwCooldown = 0.2f;
-        //        bounceCooldown = 0.2f;
-        //        throwPrepared = false;
-        //    }
-        //}
+        // Trigger CheckThrow Event
+        mushroomEvent.CheckThrow();
 
         switch (throwState)
         {
@@ -547,7 +511,8 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.canceled)
             {
                 // Set animation
-                EventManager.TriggerEvent("SetThrowAnim", true);
+                mushroomEvent.SetThrowing(true);
+                mushroomEvent.SetThrowAnim();
 
                 // Check if the shroom can be thrown
                 if (canThrow)
@@ -653,12 +618,20 @@ public class MushroomManager : MonoBehaviour, IData
     /// <summary>
     /// Lock mushroom throw
     /// </summary>
-    /// <param name="pauseData">Pause data</param>
-    public void LockThrow(object pauseData)
+    public void LockThrow()
     {
         throwLineOn = false;
-        recallLocked = (bool)pauseData;
-        throwLocked = (bool)pauseData;
+        recallLocked = true;
+        throwLocked = true;
+    }
+
+    /// <summary>
+    /// Unlock mushroom throw
+    /// </summary>
+    public void UnlockThrow()
+    {
+        recallLocked = false;
+        throwLocked = false;
     }
     #endregion
 
