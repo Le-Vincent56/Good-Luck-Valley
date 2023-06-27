@@ -22,9 +22,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     private bool menuOpen = false;
     private bool saving = false;
     [SerializeField] private float saveCloseBuffer = 0.25f;
-    [SerializeField] private float savingTimerAsSeconds = 3f;
     [SerializeField] private float savingTextUpdateTimer = 2.4f;
-    [SerializeField] private float fadeAmountPerTick = 0.15f;
     private bool playAnimation = false;
     #endregion
 

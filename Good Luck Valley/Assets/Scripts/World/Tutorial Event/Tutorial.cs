@@ -39,7 +39,6 @@ public class Tutorial : MonoBehaviour
     private bool showingMushroomInteractText = false;
     private bool mushroomInteracted = false;
     [SerializeField] private bool showingBounceText = false;
-    [SerializeField] bool movedRemoveTutorial = false;
     [SerializeField] bool showingRemoveText = false;
     [SerializeField] private float removeTutorialTimer = 4.0f;
     private bool showingLotusText = false;

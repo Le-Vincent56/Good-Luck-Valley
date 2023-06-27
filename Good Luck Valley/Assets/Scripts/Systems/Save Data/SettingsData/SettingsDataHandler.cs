@@ -27,7 +27,6 @@ public class SettingsDataHandler
     {
         // Use Path.Combine() to account for different OS's having different path separators
         string fullPath = Path.Combine(dataDirPath, dataFileName);
-
         SettingsData loadedData = null;
         if (File.Exists(fullPath))
         {

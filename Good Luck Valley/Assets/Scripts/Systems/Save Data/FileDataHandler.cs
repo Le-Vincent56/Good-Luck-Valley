@@ -97,8 +97,9 @@ public class FileDataHandler
     /// <param name="profileID">The profile ID to save to</param>
     public void Save(GameData data, string profileID)
     {
+
         // If the profileID is null, return right away
-        if(profileID == null)
+        if (profileID == null)
         {
             Debug.Log("No ProfileID");
             return;

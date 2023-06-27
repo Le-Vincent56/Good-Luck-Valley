@@ -25,20 +25,20 @@ public class PlayerMovement : MonoBehaviour, IData
     #endregion
 
     #region FIELDS
+    [SerializeField] bool debug = false;
     [SerializeField] bool isJumping;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isLocked = false;
-    [SerializeField] private bool justLanded = false;
+    [SerializeField] private bool canInput = true;
     [SerializeField] float fallingBuffer = 0.25f;
     [SerializeField] float landedTimer = 0f;
+    [SerializeField] private float inputCooldown = 0.05f;
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
 	private bool isFacingRight;
-    private bool inputHorizontal;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
-    private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
@@ -56,7 +56,6 @@ public class PlayerMovement : MonoBehaviour, IData
     private Vector3 slopeNormalPerp;
     private float slopeSideAngle;
 	private float slopeDownAngle;
-	private float lastDownAngle;
 	private float slopeNormalPerpAngle;
 	#endregion
 
@@ -90,6 +89,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		EventManager.StartListening("TouchingShroom", TouchingShroom);
 		EventManager.StartListening("Pause", LockMovement);
         EventManager.StartListening("Lock", LockMovement);
+        EventManager.StartListening("StopInput", StopInput);
     }
 
     private void OnDisable()
@@ -98,6 +98,7 @@ public class PlayerMovement : MonoBehaviour, IData
         EventManager.StopListening("TouchingShroom", TouchingShroom);
 		EventManager.StopListening("Pause", LockMovement);
         EventManager.StopListening("Lock", LockMovement);
+        EventManager.StopListening("StopInput", StopInput);
     }
 
     private void Start()
@@ -147,7 +148,7 @@ public class PlayerMovement : MonoBehaviour, IData
         #region COLLISION CHECKS
         if (!isJumping)
         {
-			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer);
+			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.1f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.down, 0.1f, groundLayer);
 
             if ((boxCheckGround || touchingShroom) && !isJumping) // Checks if set box overlaps with ground
             {
@@ -259,17 +260,12 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             // Update variables and set animations
             landedTimer -= Time.deltaTime;
-            justLanded = true;
 
 			// Trigger Landing event
 			EventManager.TriggerEvent("Land", true);
         }
         else
         {
-            // Otherwise, they have not landed - update
-            // variables and set animations
-            justLanded = false;
-
 			// Trigger Landing event
             EventManager.TriggerEvent("Land", false);
         }
@@ -378,7 +374,14 @@ public class PlayerMovement : MonoBehaviour, IData
             }
 
 			// Handle movement
-			Run(0.5f);
+            if(canInput)
+            {
+                Run(0.5f);
+                StopCoroutine(MovementCooldown());
+            } else
+            {
+                StartCoroutine(MovementCooldown());
+            }
 		}
 		else
 		{
@@ -453,7 +456,7 @@ public class PlayerMovement : MonoBehaviour, IData
         // Set specific air accelerations and deccelerations for bouncing
         if(bouncing)
         {
-            data.accelInAir = 0.15f;
+            data.accelInAir = 0.75f;
             data.deccelInAir = 0f;
         } else
         {
@@ -526,6 +529,7 @@ public class PlayerMovement : MonoBehaviour, IData
             }
         }
 
+        // Trigger footstep event for sound
         EventManager.TriggerEvent("Footsteps", moveInput.x, rb.velocity.x, isGrounded);
     }
 
@@ -591,9 +595,6 @@ public class PlayerMovement : MonoBehaviour, IData
                 isOnSlope = false;
             }
 
-            // Update lastDownAngle
-            lastDownAngle = slopeDownAngle;
-
             // Draw a ray for debugging
             Debug.DrawRay(downHit.point, downHit.normal, Color.red);
         }
@@ -646,9 +647,12 @@ public class PlayerMovement : MonoBehaviour, IData
         }
 
         // Draw rays for debugging
-        Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
-        Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
-        Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+        if(debug)
+        {
+            Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
+            Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
+            Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+        }
     }
 
     /// <summary>
@@ -729,15 +733,37 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
 		return isJumping && RB.velocity.y > 0;
 	}
-	#endregion
+    #endregion
 
-	// INPUT HANDLER
-	#region INPUT HANDLER
-	/// <summary>
-	/// Activate Player movement using controls
-	/// </summary>
-	/// <param name="context">The context of the Controller being used</param>
-	public void OnMove(InputAction.CallbackContext context)
+    // COROUTINES
+    #region COROUTINES
+    /// <summary>
+    /// Apply a movement cooldown
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator MovementCooldown()
+    {
+        if(inputCooldown > 0f)
+        {
+            yield return null;
+
+            inputCooldown -= Time.deltaTime;
+        } else
+        {
+            inputCooldown = 0.05f;
+            canInput = true;
+            yield return null;
+        }
+    }
+    #endregion
+
+    // INPUT HANDLER
+    #region INPUT HANDLER
+    /// <summary>
+    /// Activate Player movement using controls
+    /// </summary>
+    /// <param name="context">The context of the Controller being used</param>
+    public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
         if (!isLocked)
@@ -748,17 +774,8 @@ public class PlayerMovement : MonoBehaviour, IData
 			// Check direction to face based on vector
 			if (moveInput.x != 0)
 			{
-				// Set inputHorizontal to true
-                inputHorizontal = true;
-
 				// Check directions to face
                 CheckDirectionToFace(moveInput.x > 0);
-			}
-
-			// If the bind is no longer pressed, set inputHorizontal to false
-			if (context.canceled)
-			{
-				inputHorizontal = false;
 			}
 		}
 	}
@@ -812,9 +829,22 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lockedData"></param>
 	private void LockMovement(object lockedData)
 	{
-        moveInput = Vector2.zero;
         isLocked = (bool)lockedData;
-	}
+        if (isLocked)
+        {
+            moveInput = Vector2.zero;
+        }
+    }
+
+    /// <summary>
+    /// Stop input
+    /// </summary>
+    /// <param name="cooldownData">The amount of time to stop the input for</param>
+    private void StopInput(object cooldownData)
+    {
+        canInput = false;
+        inputCooldown = (float)cooldownData;
+    }
 	#endregion
 
 	// DATA HANDLING
