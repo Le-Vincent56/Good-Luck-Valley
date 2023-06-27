@@ -25,12 +25,15 @@ public class SettingsDataHandler
     /// <returns>Settings data</returns>
     public SettingsData Load(bool allowRestoreFromBackup = true)
     {
+        Debug.Log("Settings Load");
         // Use Path.Combine() to account for different OS's having different path separators
         string fullPath = Path.Combine(dataDirPath, dataFileName);
 
+        Debug.Log(fullPath);
         SettingsData loadedData = null;
-        if (File.Exists(fullPath))
+        if (fullPath == "C:/Users/bpb4402/AppData/LocalLow/DefaultCompany/Good Luck Valley\\SettingsSave.json")
         {
+            Debug.Log("File Exists");
             try
             {
                 // Load the serialized data from the file
@@ -77,6 +80,7 @@ public class SettingsDataHandler
     /// <param name="data">The settings data to save</param>
     public void Save(SettingsData data)
     {
+        Debug.Log("Settings save");
         // Use Path.Combine() to account for different OS's having different path separators
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         string backupFilePath = fullPath + backupExtension;

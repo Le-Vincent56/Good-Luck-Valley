@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BouncingEffect : MonoBehaviour
 {
     #region REFERENCES
-    private MushroomInfo mushroomInfo;
     private Rigidbody2D RB;
-    private BoxCollider2D playerCollider;
     #endregion
 
     #region FIELDS
@@ -18,15 +17,14 @@ public class BouncingEffect : MonoBehaviour
     #endregion
 
     [Header("Bounce Variables")]
-    [SerializeField] float bounceForce = 15f;
     [SerializeField] private bool canBounce;
     [SerializeField] private bool onCooldown = false;
-    private float cooldown = 0.1f;
+    [SerializeField] float bounceForce = 15f;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
-    private float speed;
-    private Vector2 direction;
     [SerializeField] private Vector2 lastVelocity;
+    private float cooldown = 0.1f;
+    private Vector2 direction;
     #endregion
 
     #region PROPERTIES
@@ -36,11 +34,8 @@ public class BouncingEffect : MonoBehaviour
     void Start()
     {
         // Get components
-        mushroomInfo = GetComponent<MushroomInfo>();
         RB = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<BoxCollider2D>();
 
-        // PlayerData is added through the Inspector
         // tutorialManager is added through the Inspector
 
         cooldown = 0.1f;
@@ -91,9 +86,6 @@ public class BouncingEffect : MonoBehaviour
                 collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
                 collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
 
-                // Get the calculated speed based on last Velocity
-                speed = lastVelocity.magnitude;
-
                 // Set the direction
                 Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
                 direction = rotation * Vector2.up;
@@ -115,6 +107,12 @@ public class BouncingEffect : MonoBehaviour
                 // Apply bounce
                 RB.AddForce(direction * (bounceForce + additionalForce), ForceMode2D.Impulse);
                 onCooldown = true;
+
+                // If additional force is greater than 0.1, that means you're likely not at an angle, so apply a movement cooldown so the bounce feels most impactful
+                if (additionalForce > 0.1f)
+                {
+                    EventManager.TriggerEvent("StopInput", 0.05f);
+                }
 
                 // Trigger events
                 EventManager.TriggerEvent("Bounce", true);
