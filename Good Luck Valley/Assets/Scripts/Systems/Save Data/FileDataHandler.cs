@@ -29,7 +29,6 @@ public class FileDataHandler
     /// <returns>GameData that matches the given profile ID</returns>
     public GameData Load(string profileID, bool allowRestoreFromBackup = true)
     {
-        Debug.Log("Loading");
         // If the profileID is null, return right away
         if(profileID == null)
         {
@@ -42,7 +41,6 @@ public class FileDataHandler
         GameData loadedData = null;
         if (File.Exists(fullPath))
         {
-            Debug.Log("File Exists");
             try
             {
                 // Load the serialized data from the file
@@ -99,7 +97,6 @@ public class FileDataHandler
     /// <param name="profileID">The profile ID to save to</param>
     public void Save(GameData data, string profileID)
     {
-        Debug.Log("Savig");
 
         // If the profileID is null, return right away
         if (profileID == null)

@@ -41,7 +41,7 @@ public class PauseMenu : MonoBehaviour, IData
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         saveMenu = GameObject.Find("SaveUI").GetComponent<SaveSlotsPauseMenu>();
         pauseUI.enabled = false;
-        settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();
+        settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();  
         settingsUI.enabled = false;
 
         levelName = SceneManager.GetActiveScene().name;
@@ -106,6 +106,7 @@ public class PauseMenu : MonoBehaviour, IData
 
     public void CloseSettings()
     {
+        Debug.Log("Close Settings");
         pauseUI.enabled = true;
         settingsUI.enabled = false;
         paused = true;

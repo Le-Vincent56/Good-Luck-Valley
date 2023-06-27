@@ -71,9 +71,11 @@ public class MushroomInfo : MonoBehaviour
         if (isShroom && mushMan.EnableShroomTimers)
         {
             UpdateShroomTimer();
+
+            if(mushMan.MushroomLimit == 3)
             UpdateMushroomCounter();
         }
-        else if (mushMan.EnableShroomTimers)
+        else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit ==3)
         {
             shroomIcon.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
         }
