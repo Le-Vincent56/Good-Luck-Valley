@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BouncingEffect : MonoBehaviour
 {
@@ -115,6 +116,12 @@ public class BouncingEffect : MonoBehaviour
                 // Apply bounce
                 RB.AddForce(direction * (bounceForce + additionalForce), ForceMode2D.Impulse);
                 onCooldown = true;
+
+                // If additional force is greater than 0.1, that means you're likely not at an angle, so apply a movement cooldown so the bounce feels most impactful
+                if (additionalForce > 0.1f)
+                {
+                    EventManager.TriggerEvent("StopInput", 0.05f);
+                }
 
                 // Trigger events
                 EventManager.TriggerEvent("Bounce", true);

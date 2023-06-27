@@ -29,8 +29,10 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isLocked = false;
     [SerializeField] private bool justLanded = false;
+    [SerializeField] private bool canInput = true;
     [SerializeField] float fallingBuffer = 0.25f;
     [SerializeField] float landedTimer = 0f;
+    [SerializeField] private float inputCooldown = 0.05f;
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
@@ -90,6 +92,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		EventManager.StartListening("TouchingShroom", TouchingShroom);
 		EventManager.StartListening("Pause", LockMovement);
         EventManager.StartListening("Lock", LockMovement);
+        EventManager.StartListening("StopInput", StopInput);
     }
 
     private void OnDisable()
@@ -98,6 +101,7 @@ public class PlayerMovement : MonoBehaviour, IData
         EventManager.StopListening("TouchingShroom", TouchingShroom);
 		EventManager.StopListening("Pause", LockMovement);
         EventManager.StopListening("Lock", LockMovement);
+        EventManager.StopListening("StopInput", StopInput);
     }
 
     private void Start()
@@ -378,7 +382,14 @@ public class PlayerMovement : MonoBehaviour, IData
             }
 
 			// Handle movement
-			Run(0.5f);
+            if(canInput)
+            {
+                Run(0.5f);
+                StopCoroutine(MovementCooldown());
+            } else
+            {
+                StartCoroutine(MovementCooldown());
+            }
 		}
 		else
 		{
@@ -453,7 +464,7 @@ public class PlayerMovement : MonoBehaviour, IData
         // Set specific air accelerations and deccelerations for bouncing
         if(bouncing)
         {
-            data.accelInAir = 0.15f;
+            data.accelInAir = 0.75f;
             data.deccelInAir = 0f;
         } else
         {
@@ -729,15 +740,33 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
 		return isJumping && RB.velocity.y > 0;
 	}
-	#endregion
+    #endregion
 
-	// INPUT HANDLER
-	#region INPUT HANDLER
-	/// <summary>
-	/// Activate Player movement using controls
-	/// </summary>
-	/// <param name="context">The context of the Controller being used</param>
-	public void OnMove(InputAction.CallbackContext context)
+    // COROUTINES
+    #region COROUTINES
+    private IEnumerator MovementCooldown()
+    {
+        if(inputCooldown > 0f)
+        {
+            yield return null;
+
+            inputCooldown -= Time.deltaTime;
+        } else
+        {
+            inputCooldown = 0.05f;
+            canInput = true;
+            yield return null;
+        }
+    }
+    #endregion
+
+    // INPUT HANDLER
+    #region INPUT HANDLER
+    /// <summary>
+    /// Activate Player movement using controls
+    /// </summary>
+    /// <param name="context">The context of the Controller being used</param>
+    public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
         if (!isLocked)
@@ -815,6 +844,12 @@ public class PlayerMovement : MonoBehaviour, IData
         moveInput = Vector2.zero;
         isLocked = (bool)lockedData;
 	}
+
+    private void StopInput(object cooldownData)
+    {
+        canInput = false;
+        inputCooldown = (float)cooldownData;
+    }
 	#endregion
 
 	// DATA HANDLING
