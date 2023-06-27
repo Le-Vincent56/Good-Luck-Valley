@@ -9,6 +9,7 @@ using System;
 public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] DisableScriptableObj disableEvent;
     private Canvas pauseUI;
     private Canvas settingsUI;
     private PlayerMovement playerMovement;
@@ -62,14 +63,14 @@ public class PauseMenu : MonoBehaviour, IData
                 paused = true;
                 pauseUI.enabled = true;
                 Time.timeScale = 0;
-                EventManager.TriggerEvent("Pause", true);
+                disableEvent.Pause();
             }
             else
             {
                 paused = false;
                 pauseUI.enabled = false;
                 Time.timeScale = 1f;
-                EventManager.TriggerEvent("Pause", false);
+                disableEvent.Unpause();
             }
         }
     }
@@ -84,7 +85,7 @@ public class PauseMenu : MonoBehaviour, IData
             paused = false;
             pauseUI.enabled = false;
             Time.timeScale = 1f;
-            EventManager.TriggerEvent("Pause", false);
+            disableEvent.Unpause();
         }
     }
    

@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractablePickupTutorialTrigger : Interactable
 {
     #region REFERENCES
+    [SerializeField] private DisableScriptableObj disableEvent;
     private PlayerMovement playerMovement;
     private Tutorial tutorialManager;
     private TutorialInteractableTrigger interactableTutorialHitBox;
@@ -30,7 +31,7 @@ public class InteractablePickupTutorialTrigger : Interactable
         journal.HasOpened = false;
 
         // Lock the player
-        EventManager.TriggerEvent("Lock", true);
+        disableEvent.Lock();
 
         // Disable the interactable text
         tutorialManager.ShowingInteractableText = false;

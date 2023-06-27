@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class TutorialAnguishLotus : Interactable
 {
     #region REFERENCES
+    [SerializeField] private DisableScriptableObj disableEvent;
+    private Tutorial tutorialManager;
     private PlayerMovement playerMovement;
     private PauseMenu pauseMenu;
     #endregion
@@ -60,13 +62,9 @@ public class TutorialAnguishLotus : Interactable
             // Start the fade timer
             if (!finishedInteracting)
             {
-                StartCoroutine(FadeVines());
-
-                if (!pauseMenu.Paused)
-                {
-                    EventManager.TriggerEvent("Lock", true);
-                    pauseMenu.Paused = true;
-                }
+                disableEvent.Lock();
+                pauseMenu.Paused = true;
+                //tutorialManager.ShowingDemoEndText = true;
             }
             else if (pauseMenu.Paused)
             {
@@ -75,8 +73,9 @@ public class TutorialAnguishLotus : Interactable
                 {
                     g.SetActive(false);
                 }
+
+                disableEvent.Unlock();
                 pauseMenu.Paused = false;
-                EventManager.TriggerEvent("Lock", false);
             }
         }
     }
