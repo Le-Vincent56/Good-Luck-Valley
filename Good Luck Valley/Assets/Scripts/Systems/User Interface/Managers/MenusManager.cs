@@ -561,6 +561,7 @@ public class MenusManager : MonoBehaviour
 
     private void FadeOut()
     {
+        fadeOut = false;
         if (fadeOut)
         { 
             fadeSquare.color = new Color(0, 0, 0, fadeSquare.color.a + 0.05f);
@@ -723,17 +724,19 @@ public class MenusManager : MonoBehaviour
     private void ApplyDisplay()
     {
         settings.Brightness = brightness;
-        Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen);
+        if (resValues.x != 12 && resValues.y != 34)
+        {
+            Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen);
+        }
+        else
+        {
+            Screen.SetResolution(1920, 1080, true);
+        }
         Screen.fullScreen = isFullscreen;
         settings.SubtitlesEnabled = subtitlesEnabled;
         settings.ResOption = resDropdown.value;
         settings.IsFullscreen = fullscreenToggle.isOn;
         settings.Resolution = resValues;
-
-    }
-
-    private void ApplyControls()
-    {
 
     }
 
@@ -763,9 +766,6 @@ public class MenusManager : MonoBehaviour
         // Display settings
         ApplyDisplay();
 
-        // Controls settings
-        ApplyControls();
-
         // Audio settings
         ApplyAudio();
 
@@ -785,7 +785,7 @@ public class MenusManager : MonoBehaviour
         // when changing toggle values
         disableCalls = true;
 
-        accessibilityTools[0] = false;  // Throw line is off
+        accessibilityTools[0] = true;  // Throw line is off
         accessibilityTools[1] = false;  // Mushrooms are limited to 3
         accessibilityTools[2] = true;   // Mushroom timer is enabled
         accessibilityTools[3] = false;  // Instant throw is disabled

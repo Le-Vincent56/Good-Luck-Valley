@@ -73,6 +73,7 @@ public class DevTools : MonoBehaviour
             settings.InfiniteShroomsOn = true;
             settings.InstantThrowOn = false;
             settings.ShroomDurationOn = false;
+            settings.ThrowIndicatorShown = true;
         }
         else
         {
