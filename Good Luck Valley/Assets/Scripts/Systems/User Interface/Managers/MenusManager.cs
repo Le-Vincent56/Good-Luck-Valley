@@ -83,7 +83,10 @@ public class MenusManager : MonoBehaviour
             // Find confirmation check in scene
             confirmationCheck = GameObject.Find("ConfirmationCheck");
             // If so, set it to be inactive
-            confirmationCheck.SetActive(false);
+            if (confirmationCheck != null)
+            {
+                confirmationCheck.SetActive(false);
+            }
 
             // Needs to be set to true for the confirmation checks to pop up
             checkQuit = true;

@@ -829,9 +829,12 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lockedData"></param>
 	private void LockMovement(object lockedData)
 	{
-        moveInput = Vector2.zero;
         isLocked = (bool)lockedData;
-	}
+        if (isLocked)
+        {
+            moveInput = Vector2.zero;
+        }
+    }
 
     /// <summary>
     /// Stop input
