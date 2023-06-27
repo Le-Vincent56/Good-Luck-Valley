@@ -143,6 +143,11 @@ public class DevTools : MonoBehaviour
             instantThrowText.text = "";
             noClipText.text = "";
         }
+
+        if (devToolsEnabled)
+        {
+            mushMan.ThrowLineOn = true;
+        }
     }
 
     #region INPUT HANDLERS
