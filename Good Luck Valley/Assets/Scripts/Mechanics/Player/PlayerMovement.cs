@@ -25,10 +25,10 @@ public class PlayerMovement : MonoBehaviour, IData
     #endregion
 
     #region FIELDS
+    [SerializeField] bool debug = false;
     [SerializeField] bool isJumping;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isLocked = false;
-    [SerializeField] private bool justLanded = false;
     [SerializeField] private bool canInput = true;
     [SerializeField] float fallingBuffer = 0.25f;
     [SerializeField] float landedTimer = 0f;
@@ -37,10 +37,8 @@ public class PlayerMovement : MonoBehaviour, IData
     private bool isJumpCut;
 	private bool isJumpFalling;
 	private bool isFacingRight;
-    private bool inputHorizontal;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
-    private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
@@ -58,7 +56,6 @@ public class PlayerMovement : MonoBehaviour, IData
     private Vector3 slopeNormalPerp;
     private float slopeSideAngle;
 	private float slopeDownAngle;
-	private float lastDownAngle;
 	private float slopeNormalPerpAngle;
 	#endregion
 
@@ -263,17 +260,12 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             // Update variables and set animations
             landedTimer -= Time.deltaTime;
-            justLanded = true;
 
 			// Trigger Landing event
 			EventManager.TriggerEvent("Land", true);
         }
         else
         {
-            // Otherwise, they have not landed - update
-            // variables and set animations
-            justLanded = false;
-
 			// Trigger Landing event
             EventManager.TriggerEvent("Land", false);
         }
@@ -537,6 +529,7 @@ public class PlayerMovement : MonoBehaviour, IData
             }
         }
 
+        // Trigger footstep event for sound
         EventManager.TriggerEvent("Footsteps", moveInput.x, rb.velocity.x, isGrounded);
     }
 
@@ -602,9 +595,6 @@ public class PlayerMovement : MonoBehaviour, IData
                 isOnSlope = false;
             }
 
-            // Update lastDownAngle
-            lastDownAngle = slopeDownAngle;
-
             // Draw a ray for debugging
             Debug.DrawRay(downHit.point, downHit.normal, Color.red);
         }
@@ -657,9 +647,12 @@ public class PlayerMovement : MonoBehaviour, IData
         }
 
         // Draw rays for debugging
-        Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
-        Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
-        Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+        if(debug)
+        {
+            Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
+            Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
+            Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+        }
     }
 
     /// <summary>
@@ -744,6 +737,10 @@ public class PlayerMovement : MonoBehaviour, IData
 
     // COROUTINES
     #region COROUTINES
+    /// <summary>
+    /// Apply a movement cooldown
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator MovementCooldown()
     {
         if(inputCooldown > 0f)
@@ -777,17 +774,8 @@ public class PlayerMovement : MonoBehaviour, IData
 			// Check direction to face based on vector
 			if (moveInput.x != 0)
 			{
-				// Set inputHorizontal to true
-                inputHorizontal = true;
-
 				// Check directions to face
                 CheckDirectionToFace(moveInput.x > 0);
-			}
-
-			// If the bind is no longer pressed, set inputHorizontal to false
-			if (context.canceled)
-			{
-				inputHorizontal = false;
 			}
 		}
 	}
@@ -845,6 +833,10 @@ public class PlayerMovement : MonoBehaviour, IData
         isLocked = (bool)lockedData;
 	}
 
+    /// <summary>
+    /// Stop input
+    /// </summary>
+    /// <param name="cooldownData">The amount of time to stop the input for</param>
     private void StopInput(object cooldownData)
     {
         canInput = false;

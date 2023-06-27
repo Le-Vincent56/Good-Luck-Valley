@@ -7,9 +7,7 @@ using UnityEngine.EventSystems;
 public class BouncingEffect : MonoBehaviour
 {
     #region REFERENCES
-    private MushroomInfo mushroomInfo;
     private Rigidbody2D RB;
-    private BoxCollider2D playerCollider;
     #endregion
 
     #region FIELDS
@@ -19,15 +17,14 @@ public class BouncingEffect : MonoBehaviour
     #endregion
 
     [Header("Bounce Variables")]
-    [SerializeField] float bounceForce = 15f;
     [SerializeField] private bool canBounce;
     [SerializeField] private bool onCooldown = false;
-    private float cooldown = 0.1f;
+    [SerializeField] float bounceForce = 15f;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
-    private float speed;
-    private Vector2 direction;
     [SerializeField] private Vector2 lastVelocity;
+    private float cooldown = 0.1f;
+    private Vector2 direction;
     #endregion
 
     #region PROPERTIES
@@ -37,11 +34,8 @@ public class BouncingEffect : MonoBehaviour
     void Start()
     {
         // Get components
-        mushroomInfo = GetComponent<MushroomInfo>();
         RB = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<BoxCollider2D>();
 
-        // PlayerData is added through the Inspector
         // tutorialManager is added through the Inspector
 
         cooldown = 0.1f;
@@ -91,9 +85,6 @@ public class BouncingEffect : MonoBehaviour
                 // Set the MushroomInfo to bouncing
                 collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
                 collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
-
-                // Get the calculated speed based on last Velocity
-                speed = lastVelocity.magnitude;
 
                 // Set the direction
                 Quaternion rotation = Quaternion.AngleAxis(collision.gameObject.GetComponent<MushroomInfo>().RotateAngle - 90, Vector3.forward);
