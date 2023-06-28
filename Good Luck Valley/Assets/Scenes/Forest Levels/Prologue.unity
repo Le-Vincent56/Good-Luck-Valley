@@ -179,6 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 171092145}
   - component: {fileID: 171092146}
+  - component: {fileID: 171092147}
   m_Layer: 0
   m_Name: Anguish Lotus (1)
   m_TagString: Untagged
@@ -253,6 +254,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &171092147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171092144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ab0b7c1d1c0f264297f449e6e56a61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
+  vineWall: {fileID: 1475724016}
+  fadeTimer: 3
 --- !u!114 &276564766 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7691238257605692380, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
@@ -53958,7 +53974,7 @@ GameObject:
   - component: {fileID: 978430889}
   - component: {fileID: 978430890}
   - component: {fileID: 978430891}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Wall1
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -54018,8 +54034,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1877699497
-  m_SortingLayer: 10
+  m_SortingLayerID: -1474671187
+  m_SortingLayer: 13
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.03137255, g: 0.21960786, b: 0.11764707, a: 1}
@@ -55206,7 +55222,7 @@ GameObject:
   - component: {fileID: 1455133011}
   - component: {fileID: 1455133012}
   - component: {fileID: 1455133013}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Wall0
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -55266,8 +55282,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1877699497
-  m_SortingLayer: 10
+  m_SortingLayerID: -1474671187
+  m_SortingLayer: 13
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.03137255, g: 0.21960786, b: 0.11764707, a: 1}
@@ -55602,7 +55618,7 @@ GameObject:
   - component: {fileID: 1572276968}
   - component: {fileID: 1572276969}
   - component: {fileID: 1572276970}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Wall2
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -55662,8 +55678,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1877699497
-  m_SortingLayer: 10
+  m_SortingLayerID: -1474671187
+  m_SortingLayer: 13
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.03137255, g: 0.21960786, b: 0.11764707, a: 1}
