@@ -1,36 +1,93 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using FMODUnity;
 using FMOD.Studio;
 
+public enum MusicArea
+{
+    MAIN_MENU = 0,
+    FOREST = 1
+}
+
 public class AudioManager : MonoBehaviour
 {
+    #region FIELDS
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
+    private MusicArea currentArea;
+
+    #region VOLUME CONTROL
+    public Bus masterBus;
+    public Bus musicBus;
+    public Bus ambienceBus;
+    public Bus sfxBus;
+    #endregion
+    #endregion
+
+    #region PROPERTIES
     public static AudioManager Instance { get; private set; }
     public EventInstance MusicEventInstance { get { return musicEventInstance; } }
     public EventInstance AmbienceEventInstance { get { return ambienceEventInstance; } }
+    public MusicArea CurrentArea { get { return currentArea; } }
+    #endregion
 
     private void Awake()
     {
-        if(Instance != null)
+        // Check if there's already an AudioManager
+        if (Instance != null)
         {
-            Debug.LogError("Found more than one AudioManager in the scene");
+            // If there is, destroy this one to retain singleton design
+            Debug.LogError("Found more than one Audio Manager in the scene. Destroying the newest one");
+            Destroy(gameObject);
+            return;
         }
-        Instance = this;
+
+        // Don't destroy audio management on load
+        DontDestroyOnLoad(gameObject);
 
         eventInstances = new List<EventInstance>();
         eventEmitters = new List<StudioEventEmitter>();
+
+        masterBus = RuntimeManager.GetBus("bus:/");
+        musicBus = RuntimeManager.GetBus("bus:/Music");
+        ambienceBus = RuntimeManager.GetBus("bus:/Ambience");
+        sfxBus = RuntimeManager.GetBus("bus:/SFX");
+    }
+
+    /// <summary>
+    /// Get Music Area based on scene
+    /// </summary>
+    private void OnSceneLoaded()
+    {
+        switch(SceneManager.GetActiveScene().name)
+        {
+            case "Title Screen":
+                SetMusicArea(MusicArea.MAIN_MENU);
+                break;
+
+            case "Prologue":
+                SetMusicArea(MusicArea.FOREST);
+                break;
+
+            case "Level 1":
+                SetMusicArea(MusicArea.FOREST);
+                break;
+        }
     }
 
     private void Start()
     {
         // Initialize ambience and music
-        InitializeAmbience(FMODEvents.Instance.Ambience);
-        InitializeMusic(FMODEvents.Instance.ForestMusic);
+        InitializeMusic(FMODEvents.Instance.GameMusic);
+
+        if((float)currentArea == 1)
+        {
+            InitializeAmbience(FMODEvents.Instance.Ambience);
+        }
     }
 
     /// <summary>
@@ -51,6 +108,12 @@ public class AudioManager : MonoBehaviour
     {
         musicEventInstance = CreateEventInstance(musicEventReference);
         musicEventInstance.start();
+    }
+
+    public void SetMusicArea(MusicArea area)
+    {
+        currentArea = area;
+        musicEventInstance.setParameterByName("Area", (float)area);
     }
 
     /// <summary>
@@ -74,5 +137,25 @@ public class AudioManager : MonoBehaviour
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
         eventInstances.Add(eventInstance);
         return eventInstance;
+    }
+
+    public void SetMasterVolume(float volumePercentage)
+    {
+        masterBus.setVolume(volumePercentage);
+    }
+
+    public void SetMusicVolume(float volumePercentage)
+    {
+        musicBus.setVolume(volumePercentage);
+    }
+
+    public void SetAmbienceVolume(float volumePercentage)
+    {
+        ambienceBus.setVolume(volumePercentage);
+    }
+
+    public void SetSFXVolume(float volumePercentage)
+    {
+        sfxBus.setVolume(volumePercentage);
     }
 }
