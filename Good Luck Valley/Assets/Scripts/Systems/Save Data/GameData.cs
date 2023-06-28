@@ -10,7 +10,8 @@ public class GameData
     public long lastUpdated;
 
     #region GENERAL
-    public string playtime;
+    public float playtimeTotal;
+    public string playtimeString;
     #endregion
 
     #region LEVEL
@@ -41,7 +42,8 @@ public class GameData
     public GameData()
     {
         #region GENERAL
-        playtime = "0:00:00";
+        playtimeTotal = 0;
+        playtimeString = "0:00:00";
         #endregion
 
         #region LEVEL
