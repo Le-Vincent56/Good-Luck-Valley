@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class JournalScriptableObj : ScriptableObject
 {
     #region FIELDS
+
     #region EVENTS
     [System.NonSerialized]
     public UnityEvent<Note> noteAddedEvent;

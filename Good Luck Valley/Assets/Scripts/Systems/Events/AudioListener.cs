@@ -5,18 +5,15 @@ using UnityEngine;
 
 public class AudioListener : MonoBehaviour
 {
+    #region FIELDS
     [SerializeField] private MovementScriptableObj movementEvent;
     private EventInstance playerFootsteps;
+    [SerializeField] private bool usePlayerSFX = true;
     [SerializeField] private float stepTimerMax;
     [SerializeField] private float stepTimer;
+    #endregion
 
     public EventInstance PlayerFootsteps { get { return playerFootsteps; } }
-
-    private void Start()
-    {
-        playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
-        stepTimer = stepTimerMax;
-    }
 
     private void OnEnable()
     {
@@ -28,6 +25,27 @@ public class AudioListener : MonoBehaviour
     {
         //EventManager.StopListening("Footsteps", PlayFootsteps);
         movementEvent.footstepEvent.RemoveListener(PlayFootsteps);
+    }
+
+    private void OnSceneLoaded()
+    {
+        if ((float)AudioManager.Instance.CurrentArea == 0)
+        {
+            usePlayerSFX = false;
+        }
+        else
+        {
+            usePlayerSFX = true;
+        }
+    }
+
+    private void Start()
+    {
+        if(usePlayerSFX)
+        {
+            playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
+        }
+        stepTimer = stepTimerMax;
     }
 
     /// <summary>

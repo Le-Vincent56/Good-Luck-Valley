@@ -217,6 +217,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             if (!ResolveActionAndBinding(out var action, out var bindingIndex))
                 return;
 
+            Debug.Log("Action: " + action + ", Index: " + bindingIndex);
             if (SwapResetBindings(action, bindingIndex))
             {
                 UpdateBindingDisplay();
@@ -237,11 +238,14 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         }
 
         private bool SwapResetBindings(InputAction action, int bindingIndex)
-        {
+        {   
+            Debug.Log("Action.Bindings count: " + action.bindings.Count);
+            Debug.Log("Action.Bindings at index: " + action.bindings[bindingIndex]);
             InputBinding newBinding = action.bindings[bindingIndex];
             for (int i = 0; i < action.actionMap.bindings.Count; i++)
             {
                 InputBinding binding = action.actionMap.bindings[i];
+                Debug.Log("Binding within for loop: " + binding);
                 if (binding.action == newBinding.action)
                 {
                     continue;
@@ -249,7 +253,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 if (binding.effectivePath == newBinding.path)
                 {
                     Debug.Log("Duplicate binding found for reset to defaul: " + newBinding.effectivePath);
-                    action.actionMap.FindAction(binding.action).ApplyBindingOverride(i, newBinding.effectivePath);
+                    action.actionMap.FindAction(binding.action).ApplyBindingOverride(bindingIndex, newBinding.path);
                     action.RemoveBindingOverride(bindingIndex);
                     return true;
                 }
