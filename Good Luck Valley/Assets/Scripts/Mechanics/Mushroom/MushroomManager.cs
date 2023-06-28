@@ -553,7 +553,10 @@ public class MushroomManager : MonoBehaviour, IData
                 {
                     Debug.Log("RemoveLAstshroom");
                     // Destroys the mushroom at the front of the list
-                    mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();
+                    if (mushroomLimit == 3)
+                    {
+                        mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();
+                    }
                     Destroy(mushroomList[mushroomList.Count - 1]);
 
                     if (mushroomLimit == 3)
