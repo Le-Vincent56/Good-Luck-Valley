@@ -601,13 +601,11 @@ public class MushroomManager : MonoBehaviour, IData
     public void LoadData(GameData data)
     {
         throwUnlocked = data.throwUnlocked;
-        throwLocked = data.throwLocked;
     }
 
     public void SaveData(GameData data)
     {
         data.throwUnlocked = throwUnlocked;
-        data.throwLocked = throwLocked;
     }
     #endregion
 }
