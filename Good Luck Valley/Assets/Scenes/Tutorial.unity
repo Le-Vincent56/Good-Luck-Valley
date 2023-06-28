@@ -64845,23 +64845,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
---- !u!1 &1061819082 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 194225539, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
-  m_PrefabInstance: {fileID: 1061819081}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1061819083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1061819082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae670ef26a764d04c9bcc2f749467477, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1071942606
 GameObject:
   m_ObjectHideFlags: 0
@@ -66212,6 +66195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
   textDisplay: {fileID: 0}
   id: 5843306a-db32-4def-b02e-cb86c5938934
   noteTitle: 'Entry Three: This Forest'
@@ -78814,6 +78798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
   textDisplay: {fileID: 0}
   id: 4eab9250-4a8e-4def-83be-281b3a21dc14
   noteTitle: Hana's Journal
@@ -78901,6 +78886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d9fed9e9ca4084e80770f8016bc445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableEvent: {fileID: 0}
 --- !u!61 &1582067830
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -79330,6 +79316,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 89129477, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: disableEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
     - target: {fileID: 803089511, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
       propertyPath: m_Interactable
       value: 1
@@ -80732,6 +80722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
   textDisplay: {fileID: 0}
   id: 4a7eb193-e2df-4102-aa38-03d7fffaf2e3
   noteTitle: 'Entry Two: Glowing Moths'
@@ -81140,6 +81131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
   textDisplay: {fileID: 0}
   id: 9f5f4bc3-88a5-4988-8b30-1bd0e046eb8a
   noteTitle: 'Entry One: Spirit Idols'
@@ -92237,6 +92229,14 @@ PrefabInstance:
       propertyPath: canClose
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3475129836469192683, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
+      propertyPath: disableEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
+    - target: {fileID: 3475129836469192683, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
+      propertyPath: journalEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
     - target: {fileID: 3475129836469192686, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: m_Name
       value: JournalUI
@@ -93091,6 +93091,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8355469817058198274, guid: f3a59f2390f02404b920e652754d340f, type: 3}
+      propertyPath: journalEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
     - target: {fileID: 8355469818583438768, guid: f3a59f2390f02404b920e652754d340f, type: 3}
       propertyPath: m_Pivot.x
       value: 0

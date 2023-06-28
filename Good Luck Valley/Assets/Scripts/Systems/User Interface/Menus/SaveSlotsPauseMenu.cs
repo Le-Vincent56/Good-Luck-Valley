@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class SaveSlotsPauseMenu : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
+    [SerializeField] private ConfirmationPopupMenu overwriteConfirmationMenu;
     private Canvas pauseMenu;
     private Button saveButton;
     private Button deleteButton;
     private Button backButton;
-    [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
-    [SerializeField] private ConfirmationPopupMenu overwriteConfirmationMenu;
     private SaveSlot[] saveSlots;
     private SaveSlot selectedSaveSlot;
     private Image savingProgressPanel;
@@ -19,10 +19,10 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     #endregion
 
     #region FIELDS
-    private bool menuOpen = false;
-    private bool saving = false;
     [SerializeField] private float saveCloseBuffer = 0.25f;
     [SerializeField] private float savingTextUpdateTimer = 2.4f;
+    private bool menuOpen = false;
+    private bool saving = false;
     private bool playAnimation = false;
     #endregion
 

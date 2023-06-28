@@ -9,10 +9,10 @@ using System.Linq;
 public class Journal : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] private JournalScriptableObj journalEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     private Canvas journalUI;
-    private AudioSource journalPageSound;
     private Button pauseJournalButton;
-    private EntryScrollview journalScrollview;
     #endregion
 
     #region FIELDS
@@ -34,13 +34,21 @@ public class Journal : MonoBehaviour, IData
     public bool CanClose { get { return canClose; } set { canClose = value; } }
     #endregion
 
+    private void OnEnable()
+    {
+        journalEvent.noteAddedEvent.AddListener(AddNote);
+    }
+
+    private void OnDisable()
+    {
+        journalEvent.noteAddedEvent.RemoveListener(AddNote);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
-        journalPageSound = GetComponent<AudioSource>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
-        journalScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
 
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;
@@ -75,7 +83,7 @@ public class Journal : MonoBehaviour, IData
         if (hasJournal && !menuOpen)
         {
             // Pause the game
-            EventManager.TriggerEvent("Pause", true);
+            disableEvent.Pause();
             Time.timeScale = 0;
             openedFromKey = true;
 
@@ -83,7 +91,7 @@ public class Journal : MonoBehaviour, IData
             notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
 
             // Set the journal entries
-            journalScrollview.SetEntries();
+            journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
             if (!hasOpened)
@@ -108,7 +116,7 @@ public class Journal : MonoBehaviour, IData
         if(menuOpen && canClose)
         {
             // Unpause the game
-            EventManager.TriggerEvent("Pause", false);
+            disableEvent.Unpause();
             Time.timeScale = 1f;
 
             // Close the journal UI and set menuOpen to false
@@ -116,7 +124,7 @@ public class Journal : MonoBehaviour, IData
             menuOpen = false;
 
             // Remove entries to prepare for sorting
-            journalScrollview.RemoveEntries();
+            journalEvent.ClearJournal();
         }
     }
 
@@ -131,7 +139,7 @@ public class Journal : MonoBehaviour, IData
             notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
 
             // Set the journal entries
-            journalScrollview.SetEntries();
+            journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
             if (!hasOpened)
@@ -164,9 +172,20 @@ public class Journal : MonoBehaviour, IData
             menuOpen = false;
 
             // Remove entries to prepare for sorting
-            journalScrollview.RemoveEntries();
+            journalEvent.ClearJournal();
         }
     }
+
+    #region EVENT FUNCTIONS
+    /// <summary>
+    /// Add a Note to the Journal
+    /// </summary>
+    /// <param name="noteToAdd">The note to add</param>
+    public void AddNote(Note noteToAdd)
+    {
+        notes.Add(noteToAdd);
+    }
+    #endregion
 
     #region DATA HANDLING
     public void LoadData(GameData data)

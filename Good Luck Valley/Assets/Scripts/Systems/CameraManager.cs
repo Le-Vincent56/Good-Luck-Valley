@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 public class CameraManager : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] private DisableScriptableObj disableEvent;
     private CinemachineVirtualCamera lotusCam;
     [SerializeField] private PlayableDirector camDirector; // Initialized in Inspector
     private MushroomManager mushroomManager;
@@ -27,7 +28,7 @@ public class CameraManager : MonoBehaviour, IData
     // Start is called before the first frame update
     void Start()
     {
-        lotusCam = GameObject.Find("LotusCam").GetComponent<CinemachineVirtualCamera>();
+        lotusCam = GameObject.Find("Lotus Cam").GetComponent<CinemachineVirtualCamera>();
         mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
 
@@ -76,8 +77,8 @@ public class CameraManager : MonoBehaviour, IData
                 // Disable the player to pause
                 pauseMenu.CanPause = false;
 
-                // If playing, lock player movement
-                EventManager.TriggerEvent("Lock", true);
+                // If playing, lock player
+                disableEvent.Lock();
 
                 // Lock mushroom throw
                 if (mushroomManager.ThrowUnlocked)
@@ -90,8 +91,8 @@ public class CameraManager : MonoBehaviour, IData
                 // Enable the player to pause
                 pauseMenu.CanPause = true;
 
-                // If not playing, unlock player movement
-                EventManager.TriggerEvent("Lock", false);
+                // If not playing, unlock player
+                disableEvent.Unlock();
 
                 // Unlock mushroom throw
                 if (mushroomManager.ThrowUnlocked)
