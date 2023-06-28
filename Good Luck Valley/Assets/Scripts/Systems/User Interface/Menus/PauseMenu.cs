@@ -143,21 +143,11 @@ public class PauseMenu : MonoBehaviour, IData
     /// <returns>The total time played stored in variables</returns>
     public IEnumerator RecordTimeRoutine()
     {
-        TimeSpan ts;
         while(!paused)
         {
             // Record playtime every second
             yield return new WaitForSeconds(1);
             playtimeTotal += 1;
-
-            // Turn playtime into hours, minutes, and seconds
-            ts = TimeSpan.FromSeconds(playtimeTotal);
-            playtimeHours = (int)ts.TotalHours;
-            playtimeMinutes = ts.Minutes;
-            playtimeSeconds = ts.Seconds;
-
-            // Create a playtime string
-            playtimeString = playtimeHours + ":" + playtimeMinutes + ":" + playtimeSeconds;
         }
     }
 
@@ -165,13 +155,25 @@ public class PauseMenu : MonoBehaviour, IData
     public void LoadData(GameData data)
     {
         levelName = data.levelName;
-        playtimeString = data.playtime;
+        playtimeTotal = data.playtimeTotal;
+        playtimeString = data.playtimeString;
     }
 
     public void SaveData(GameData data)
     {
+        #region CALCULATE PLAYTIME
+        // Turn playtime into hours, minutes, and seconds
+        playtimeHours = (playtimeTotal / 3600) % 24;
+        playtimeMinutes = (playtimeTotal / 60) % 60;
+        playtimeSeconds = playtimeTotal % 60;
+
+        // Create a playtime string
+        playtimeString = playtimeHours + ":" + playtimeMinutes + ":" + playtimeSeconds;
+        #endregion
+
         data.levelName = levelName;
-        data.playtime = playtimeString;
+        data.playtimeTotal = playtimeTotal;
+        data.playtimeString = playtimeString;
     }
     #endregion
 }

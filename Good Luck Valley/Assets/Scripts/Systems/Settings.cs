@@ -10,7 +10,6 @@ public class Settings : MonoBehaviour, ISettingsData
     private MenusManager menusMan;
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
-    private AudioListener audioListener;
     #endregion
 
     #region FIELDS
@@ -29,10 +28,10 @@ public class Settings : MonoBehaviour, ISettingsData
     private static bool isFullscreen;
 
     // Audio settings
-    private static float masterVolume;
-    private static float musicVolume;
-    private static float sfxVolume;
-    private static float ambientVolume;
+    private static float masterVolume = 1.0f;
+    private static float musicVolume = 1.0f;
+    private static float sfxVolume = 1.0f;
+    private static float ambientVolume = 1.0f;
     private static float voicesVolume;
 
     private BoxCollider2D playerCollider;
@@ -69,8 +68,6 @@ public class Settings : MonoBehaviour, ISettingsData
             playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
             playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
             capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
-
-            audioListener = GameObject.Find("Audio Manager").GetComponent<AudioListener>();
         }
     }
 
@@ -129,17 +126,14 @@ public class Settings : MonoBehaviour, ISettingsData
                 #endregion
             }
 
-
             #region SOUND SETTINGS
-
-            float soundPercentAdjust = masterVolume / 100;
-
-            AudioManager.Instance.MusicEventInstance.setVolume(musicVolume * soundPercentAdjust);
-
-            AudioManager.Instance.AmbienceEventInstance.setVolume(ambientVolume * soundPercentAdjust);
-
-            audioListener.PlayerFootsteps.setVolume(SFXVolume * soundPercentAdjust);
-
+            if(AudioManager.Instance)
+            {
+                AudioManager.Instance.SetMasterVolume(masterVolume / 100);
+                AudioManager.Instance.SetMusicVolume(musicVolume / 100);
+                AudioManager.Instance.SetAmbienceVolume(ambientVolume / 100);
+                AudioManager.Instance.SetSFXVolume(SFXVolume / 100);
+            }
             #endregion
 
             updateSettings = false;
