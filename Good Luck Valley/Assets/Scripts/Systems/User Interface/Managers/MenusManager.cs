@@ -143,6 +143,7 @@ public class MenusManager : MonoBehaviour
             // Make on value change events not happen
             disableCalls = true;
 
+
             // Initialize arrays for holding input components
             navButtons = new GameObject[4];
             sliders = new Slider[6];
@@ -189,7 +190,7 @@ public class MenusManager : MonoBehaviour
         {
             if (settings.Brightness == 0)
             {
-                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
+                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0,0,0, 0.99f);
             }
             else
             {
