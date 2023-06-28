@@ -134,12 +134,14 @@ public class Settings : MonoBehaviour, ISettingsData
 
             float soundPercentAdjust = masterVolume / 100;
 
-            AudioManager.Instance.MusicEventInstance.setVolume(musicVolume * soundPercentAdjust);
-
-            AudioManager.Instance.AmbienceEventInstance.setVolume(ambientVolume * soundPercentAdjust);
-
-            audioListener.PlayerFootsteps.setVolume(SFXVolume * soundPercentAdjust);
-
+            if (AudioManager.Instance)
+            {
+                //AudioManager.Instance.MusicEventInstance.setVolume(musicVolume * soundPercentAdjust);
+                //
+                //AudioManager.Instance.AmbienceEventInstance.setVolume(ambientVolume * soundPercentAdjust);
+                //
+                //audioListener.PlayerFootsteps.setVolume(SFXVolume * soundPercentAdjust);
+            }
             #endregion
 
             updateSettings = false;
