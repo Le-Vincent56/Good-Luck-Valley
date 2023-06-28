@@ -866,14 +866,12 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
 		// Load player position
 		gameObject.transform.position = data.playerPosition;
-		isLocked = data.isLocked;
 	}
 
 	public void SaveData(GameData data)
 	{
 		// Save player position
 		data.playerPosition = gameObject.transform.position;
-		data.isLocked = isLocked;
 	}
 	#endregion
 }

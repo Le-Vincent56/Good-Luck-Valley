@@ -22,12 +22,10 @@ public class GameData
 
     #region PLAYER
     public Vector3 playerPosition;
-    public bool isLocked;
     #endregion
 
     #region SHROOM
     public bool throwUnlocked;
-    public bool throwLocked;
     #endregion
 
     #region JOURNAL
@@ -54,12 +52,10 @@ public class GameData
 
         #region PLAYER
         playerPosition = new Vector3(-27.47f, 7.798f, 0f);
-        isLocked = false;
         #endregion
 
         #region SHROOM
         throwUnlocked = false;
-        throwLocked = false;
         #endregion
 
         #region JOURNAL

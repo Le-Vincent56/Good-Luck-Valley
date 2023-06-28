@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     private List<StudioEventEmitter> eventEmitters;
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
-    private MusicArea currentArea;
+    [SerializeField] private MusicArea currentArea;
 
     #region VOLUME CONTROL
     public Bus masterBus;
@@ -41,10 +41,11 @@ public class AudioManager : MonoBehaviour
         if (Instance != null)
         {
             // If there is, destroy this one to retain singleton design
-            Debug.LogError("Found more than one Audio Manager in the scene. Destroying the newest one");
+            Debug.LogWarning("Found more than one Audio Manager in the scene. Destroying the newest one");
             Destroy(gameObject);
             return;
         }
+        Instance = this;
 
         // Don't destroy audio management on load
         DontDestroyOnLoad(gameObject);
@@ -58,14 +59,31 @@ public class AudioManager : MonoBehaviour
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Initialize ambience and music
+        InitializeMusic(FMODEvents.Instance.GameMusic);
+        InitializeAmbience(FMODEvents.Instance.Ambience);
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     /// <summary>
     /// Get Music Area based on scene
     /// </summary>
-    private void OnSceneLoaded()
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         switch(SceneManager.GetActiveScene().name)
         {
             case "Title Screen":
+                SetMusicArea(MusicArea.MAIN_MENU);
+                break;
+
+            case "Main Menu":
                 SetMusicArea(MusicArea.MAIN_MENU);
                 break;
 
@@ -76,17 +94,6 @@ public class AudioManager : MonoBehaviour
             case "Level 1":
                 SetMusicArea(MusicArea.FOREST);
                 break;
-        }
-    }
-
-    private void Start()
-    {
-        // Initialize ambience and music
-        InitializeMusic(FMODEvents.Instance.GameMusic);
-
-        if((float)currentArea == 1)
-        {
-            InitializeAmbience(FMODEvents.Instance.Ambience);
         }
     }
 
@@ -110,10 +117,15 @@ public class AudioManager : MonoBehaviour
         musicEventInstance.start();
     }
 
+    /// <summary>
+    /// Set the music associated with an area
+    /// </summary>
+    /// <param name="area">The area to set the music for</param>
     public void SetMusicArea(MusicArea area)
     {
         currentArea = area;
         musicEventInstance.setParameterByName("Area", (float)area);
+        ambienceEventInstance.setParameterByName("Area", (float)area);
     }
 
     /// <summary>
@@ -157,5 +169,12 @@ public class AudioManager : MonoBehaviour
     public void SetSFXVolume(float volumePercentage)
     {
         sfxBus.setVolume(volumePercentage);
+    }
+
+    private bool CheckInstancePlaying(EventInstance instance)
+    {
+        PLAYBACK_STATE state;
+        instance.getPlaybackState(out state);
+        return state != PLAYBACK_STATE.STOPPED;
     }
 }
