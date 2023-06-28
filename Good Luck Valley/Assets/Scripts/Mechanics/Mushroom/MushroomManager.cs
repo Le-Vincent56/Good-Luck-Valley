@@ -174,7 +174,7 @@ public class MushroomManager : MonoBehaviour, IData
 
 
             case ThrowState.Throwing:
-                if (throwLineOn)
+                if (throwLineOn && !throwLocked)
                 {
                     throwUI_Script.PlotTrajectory(playerRB.position,
                                                       forceDirection.normalized * throwMultiplier,

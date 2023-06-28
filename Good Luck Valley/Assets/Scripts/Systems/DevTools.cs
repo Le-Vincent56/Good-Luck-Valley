@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMOD.Studio;
 
 public class DevTools : MonoBehaviour
 {
@@ -246,7 +247,9 @@ public class DevTools : MonoBehaviour
     {
         if (devToolsEnabled)
         {
-            SceneManager.LoadScene("Level " + level);
+            AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            SceneManager.LoadScene(level);
         }
     }
     #endregion

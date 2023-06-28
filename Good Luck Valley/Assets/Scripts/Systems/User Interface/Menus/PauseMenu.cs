@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using FMOD.Studio;
 
 public class PauseMenu : MonoBehaviour, IData
 {
@@ -132,6 +133,8 @@ public class PauseMenu : MonoBehaviour, IData
     {
         if(!journalMenu.MenuOpen && !saveMenu.MenuOpen)
         {
+            AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
             Time.timeScale = 1f;
             SceneManager.LoadScene(scene);
         }
