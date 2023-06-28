@@ -594,7 +594,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MushroomManager, Assembly-CSharp
-        m_MethodName: OnTriggerAim
+        m_MethodName: OnRemoveLastShroom
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -703,11 +703,35 @@ MonoBehaviour:
     m_ActionId: 4ed6fec1-166f-4e48-8c4c-a77f8ff9fd73
     m_ActionName: Player Controls/CloseJournal[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6757172088074778661, guid: b2939b196ceaa4e43b36007de3c43cb0, type: 3}
+        m_TargetAssemblyTypeName: DevTools, Assembly-CSharp
+        m_MethodName: OnCutToLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: c13b2d02-e9f9-47ff-800d-855447f96402
     m_ActionName: Player Controls/GoToLevelOne[/Keyboard/1]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6757172088074778661, guid: b2939b196ceaa4e43b36007de3c43cb0, type: 3}
+        m_TargetAssemblyTypeName: DevTools, Assembly-CSharp
+        m_MethodName: OnCutToLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 56cd2090-7fd4-454d-9d5f-74876bf56c39
     m_ActionName: Player Controls/GoToLevelTwo[/Keyboard/2]
   - m_PersistentCalls:
