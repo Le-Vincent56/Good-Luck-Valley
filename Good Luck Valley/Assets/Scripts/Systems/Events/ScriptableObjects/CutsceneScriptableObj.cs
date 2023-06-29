@@ -35,6 +35,7 @@ public class CutsceneScriptableObj : ScriptableObject
     /// </summary>
     public void StartLotusCutscene()
     {
+        Debug.Log("Invoked!");
         startLotusCutscene.Invoke();
     }
 

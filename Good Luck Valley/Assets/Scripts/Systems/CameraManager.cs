@@ -57,19 +57,33 @@ public class CameraManager : MonoBehaviour, IData
             camDirector.enabled = false;
         }
 
+        CheckAndBeginLotusCutscene();
+    }
+
+    public void CheckAndBeginLotusCutscene()
+    {
         // If playing the cutscene and using the cutscene, enable he lotus cam
-        if(playCutscene && usingLotusCutscene)
+        if (playCutscene && usingLotusCutscene)
         {
             lotusCam.enabled = true;
 
-            // Start the cutscene coroutine
-            cutsceneEvent.StartLotusCutscene();
+            StartCoroutine(WaitAndPlayLotusCutscene());
         }
     }
 
     public void StartLotusCutscene()
     {
         StartCoroutine(PlayLotusCutscene());
+    }
+
+    public IEnumerator WaitAndPlayLotusCutscene()
+    {
+        // Wait for one second for the fade
+        yield return new WaitForSeconds(1f);
+
+        // Start the cutscene event
+        camDirector.Play();
+        cutsceneEvent.StartLotusCutscene();
     }
 
     /// <summary>

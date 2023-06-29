@@ -69,9 +69,9 @@ public class ShroomCounter : MonoBehaviour
     {
         if (!mushMan.ThrowUnlocked)
         {
-            shroomIcon1.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
-            shroomIcon2.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
-            shroomIcon3.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
             shroomOutline1.color = new Color(originalR, originalG, originalB, 0);
             shroomOutline2.color = new Color(originalR, originalG, originalB, 0);
             shroomOutline3.color = new Color(originalR, originalG, originalB, 0);
