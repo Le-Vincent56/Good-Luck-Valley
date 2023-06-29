@@ -261,10 +261,14 @@ public class DevTools : MonoBehaviour
     {
         if (devToolsEnabled)
         {
+            int scene = SceneManager.GetActiveScene().buildIndex;
+            if (scene + direction < SceneManager.sceneCount && scene + direction > 6)
+            {
+            }
             AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
             AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
             Debug.Log("Going to level: " + SceneManager.GetActiveScene().buildIndex + direction);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + direction);
+            SceneManager.LoadScene(scene + direction);
         }
     }
     #endregion
