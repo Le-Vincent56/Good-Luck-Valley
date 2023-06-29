@@ -10,7 +10,8 @@ public class GameData
     public long lastUpdated;
 
     #region GENERAL
-    public string playtime;
+    public float playtimeTotal;
+    public string playtimeString;
     #endregion
 
     #region LEVEL
@@ -21,12 +22,10 @@ public class GameData
 
     #region PLAYER
     public Vector3 playerPosition;
-    public bool isLocked;
     #endregion
 
     #region SHROOM
     public bool throwUnlocked;
-    public bool throwLocked;
     #endregion
 
     #region JOURNAL
@@ -41,7 +40,8 @@ public class GameData
     public GameData()
     {
         #region GENERAL
-        playtime = "0:00:00";
+        playtimeTotal = 0;
+        playtimeString = "0:00:00";
         #endregion
 
         #region LEVEL
@@ -52,12 +52,10 @@ public class GameData
 
         #region PLAYER
         playerPosition = new Vector3(-27.47f, 7.798f, 0f);
-        isLocked = false;
         #endregion
 
         #region SHROOM
         throwUnlocked = false;
-        throwLocked = false;
         #endregion
 
         #region JOURNAL

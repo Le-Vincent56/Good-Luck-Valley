@@ -105,7 +105,7 @@ public class BouncingEffect : MonoBehaviour
                 }
 
                 // Find the additional force
-                float additionalForce = bounceForce * (precisePercentage / 3);
+                float additionalForce = bounceForce * (precisePercentage / 4);
 
                 // Apply bounce
                 RB.AddForce(direction * (bounceForce + additionalForce), ForceMode2D.Impulse);

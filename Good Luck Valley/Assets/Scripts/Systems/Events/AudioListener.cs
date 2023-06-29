@@ -2,19 +2,19 @@ using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioListener : MonoBehaviour
 {
+    #region FIELDS
     [SerializeField] private MovementScriptableObj movementEvent;
     private EventInstance playerFootsteps;
+    [SerializeField] private bool usePlayerSFX = true;
     [SerializeField] private float stepTimerMax;
     [SerializeField] private float stepTimer;
+    #endregion
 
-    private void Start()
-    {
-        playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
-        stepTimer = stepTimerMax;
-    }
+    public EventInstance PlayerFootsteps { get { return playerFootsteps; } }
 
     private void OnEnable()
     {
@@ -26,6 +26,12 @@ public class AudioListener : MonoBehaviour
     {
         //EventManager.StopListening("Footsteps", PlayFootsteps);
         movementEvent.footstepEvent.RemoveListener(PlayFootsteps);
+    }
+
+    private void Start()
+    {
+        playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
+        stepTimer = stepTimerMax;
     }
 
     /// <summary>

@@ -9,11 +9,10 @@ using System.Linq;
 public class Journal : MonoBehaviour, IData
 {
     #region REFERENCES
-    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     private Canvas journalUI;
-    private AudioSource journalPageSound;
     private Button pauseJournalButton;
-    private EntryScrollview journalScrollview;
     #endregion
 
     #region FIELDS
@@ -28,20 +27,23 @@ public class Journal : MonoBehaviour, IData
 
     #region PROPERTIES
     public List<Note> Notes { get { return notes; } set { notes = value; } }
-    public bool MenuOpen { get { return menuOpen; } set { menuOpen = value; } }
-    public bool HasJournal { get { return hasJournal; } set { hasJournal = value;} }
-    public bool HasOpened { get { return hasOpened; } set { hasOpened = value; } }
-    public float CloseBuffer { get { return journalCloseBuffer; } set { journalCloseBuffer = value; } }
-    public bool CanClose { get { return canClose; } set { canClose = value; } }
     #endregion
+
+    private void OnEnable()
+    {
+        journalEvent.noteAddedEvent.AddListener(AddNote);
+    }
+
+    private void OnDisable()
+    {
+        journalEvent.noteAddedEvent.RemoveListener(AddNote);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
-        journalPageSound = GetComponent<AudioSource>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
-        journalScrollview = GameObject.Find("EntryPanel").GetComponent<EntryScrollview>();
 
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;
@@ -64,6 +66,7 @@ public class Journal : MonoBehaviour, IData
         if(journalCloseBuffer > 0 && !menuOpen)
         {
             journalCloseBuffer -= Time.deltaTime;
+            journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
 
@@ -76,7 +79,7 @@ public class Journal : MonoBehaviour, IData
         if (hasJournal && !menuOpen)
         {
             // Pause the game
-            disableEvent.Pause();
+            pauseEvent.Pause();
             Time.timeScale = 0;
             openedFromKey = true;
 
@@ -84,18 +87,21 @@ public class Journal : MonoBehaviour, IData
             notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
 
             // Set the journal entries
-            journalScrollview.SetEntries();
+            journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
             if (!hasOpened)
             {
                 hasOpened = true;
+                journalEvent.SetOpenedOnce(true);
             }
 
             // Enable the journal UI and set menuOpen to true
             journalUI.enabled = true;
             menuOpen = true;
             journalCloseBuffer = 0.25f;
+            journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
 
@@ -109,15 +115,16 @@ public class Journal : MonoBehaviour, IData
         if(menuOpen && canClose)
         {
             // Unpause the game
-            disableEvent.Unpause();
+            pauseEvent.Unpause();
             Time.timeScale = 1f;
 
             // Close the journal UI and set menuOpen to false
             journalUI.enabled = false;
             menuOpen = false;
+            journalEvent.SetJournalOpen(menuOpen);
 
             // Remove entries to prepare for sorting
-            journalScrollview.RemoveEntries();
+            journalEvent.ClearJournal();
         }
     }
 
@@ -132,17 +139,20 @@ public class Journal : MonoBehaviour, IData
             notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
 
             // Set the journal entries
-            journalScrollview.SetEntries();
+            journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
             if (!hasOpened)
             {
                 hasOpened = true;
+                journalEvent.SetOpenedOnce(true);
             }
 
             journalUI.enabled = true;
             menuOpen = true;
             journalCloseBuffer = 0.25f;
+            journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
 
@@ -163,11 +173,23 @@ public class Journal : MonoBehaviour, IData
             // Close the journal UI and set menuOpen to false
             journalUI.enabled = false;
             menuOpen = false;
+            journalEvent.SetJournalOpen(menuOpen);
 
             // Remove entries to prepare for sorting
-            journalScrollview.RemoveEntries();
+            journalEvent.ClearJournal();
         }
     }
+
+    #region EVENT FUNCTIONS
+    /// <summary>
+    /// Add a Note to the Journal
+    /// </summary>
+    /// <param name="noteToAdd">The note to add</param>
+    public void AddNote(Note noteToAdd)
+    {
+        notes.Add(noteToAdd);
+    }
+    #endregion
 
     #region DATA HANDLING
     public void LoadData(GameData data)

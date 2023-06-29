@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD;
+using FMODUnity;
 
 public class Settings : MonoBehaviour, ISettingsData
 {
@@ -26,12 +28,11 @@ public class Settings : MonoBehaviour, ISettingsData
     private static bool isFullscreen;
 
     // Audio settings
-    private static float masterVolume;
-    private static float musicVolume;
-    private static float sfxVolume;
-    private static float ambientVolume;
+    private static float masterVolume = 1.0f;
+    private static float musicVolume = 1.0f;
+    private static float sfxVolume = 1.0f;
+    private static float ambientVolume = 1.0f;
     private static float voicesVolume;
-
 
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
@@ -73,11 +74,11 @@ public class Settings : MonoBehaviour, ISettingsData
     // Update is called once per frame
     void Update()
     {
-        if (menusMan.CurrentScene > 5)
+        if (updateSettings)
         {
-            #region ACCESSIBILITY SETTINGS
-            if (updateSettings)
+            if (menusMan.CurrentScene > 5)
             {
+                #region ACCESSIBILITY SETTINGS
                 if (noClipOn)
                 {
                     ActivateNoClip();
@@ -122,10 +123,20 @@ public class Settings : MonoBehaviour, ISettingsData
                 {
                     DisableThrowLine();
                 }
+                #endregion
+            }
 
-                updateSettings = false;
+            #region SOUND SETTINGS
+            if(AudioManager.Instance)
+            {
+                AudioManager.Instance.SetMasterVolume(masterVolume / 100);
+                AudioManager.Instance.SetMusicVolume(musicVolume / 100);
+                AudioManager.Instance.SetAmbienceVolume(ambientVolume / 100);
+                AudioManager.Instance.SetSFXVolume(SFXVolume / 100);
             }
             #endregion
+
+            updateSettings = false;
         }
     }
 

@@ -44,6 +44,7 @@ public class TutorialAnguishLotus : Interactable
             // Interact and set variables
             Interact();
             interacting = true;
+            StartCoroutine(FadeVines());
 
             // If the inteaction has finished, reset the variables
             if (finishedInteracting)
@@ -68,7 +69,6 @@ public class TutorialAnguishLotus : Interactable
             }
             else if (pauseMenu.Paused)
             {
-                Debug.Log("UH");
                 foreach (GameObject g in shroomWalls)
                 {
                     g.SetActive(false);

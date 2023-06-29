@@ -5,21 +5,21 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using FMOD.Studio;
 
 public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] PauseScriptableObj pauseEvent;
+    [SerializeField] JournalScriptableObj journalEvent;
     [SerializeField] DisableScriptableObj disableEvent;
+    [SerializeField] SaveMenuScriptableObj saveMenuEvent;
     private Canvas pauseUI;
     private Canvas settingsUI;
-    private PlayerMovement playerMovement;
-    private Journal journalMenu;
-    [SerializeField] private SaveSlotsPauseMenu saveMenu;
     #endregion
 
     #region FIELDS
     [SerializeField] private bool paused = false;
-    private bool canPause = true;
     private string levelName;
     private float playtimeTotal;
     private float playtimeHours;
@@ -30,16 +30,12 @@ public class PauseMenu : MonoBehaviour, IData
 
     #region PROPERTIES
     public bool Paused { get { return paused; } set { paused = value; } }
-    public bool CanPause { get { return canPause; } set {  canPause = value; } }
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        journalMenu = GameObject.Find("JournalUI").GetComponent<Journal>();
         pauseUI = GameObject.Find("PauseUI").GetComponent<Canvas>();
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        saveMenu = GameObject.Find("SaveUI").GetComponent<SaveSlotsPauseMenu>();
         pauseUI.enabled = false;
         settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();  
         settingsUI.enabled = false;
@@ -56,21 +52,21 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="context">The context of the controller</param>
     public void TogglePause(InputAction.CallbackContext context)
     {
-        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0) && canPause && !settingsUI.enabled)
+        if((!journalEvent.GetJournalOpen() && journalEvent.GetCloseBuffer() <= 0) && (!saveMenuEvent.GetSaveMenuOpen() && saveMenuEvent.GetSaveCloseBuffer() <= 0) && pauseEvent.GetCanPause() && !settingsUI.enabled)
         {
             if (!paused)
             {
                 paused = true;
                 pauseUI.enabled = true;
                 Time.timeScale = 0;
-                disableEvent.Pause();
+                pauseEvent.Pause();
             }
             else
             {
                 paused = false;
                 pauseUI.enabled = false;
                 Time.timeScale = 1f;
-                disableEvent.Unpause();
+                pauseEvent.Unpause();
             }
         }
     }
@@ -80,12 +76,12 @@ public class PauseMenu : MonoBehaviour, IData
     /// </summary>
     public void Continue()
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen && !settingsUI.enabled)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen() && !settingsUI.enabled)
         {
             paused = false;
             pauseUI.enabled = false;
             Time.timeScale = 1f;
-            disableEvent.Unpause();
+            pauseEvent.Unpause();
         }
     }
    
@@ -95,7 +91,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="scene">The scene number that represents the Settings scene</param>
     public void Settings()
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen && !settingsUI.enabled)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen() && !settingsUI.enabled)
         {
             paused = true;
             pauseUI.enabled = false;
@@ -121,7 +117,7 @@ public class PauseMenu : MonoBehaviour, IData
         pauseUI.enabled = false;
 
         // Activate the save menu
-        saveMenu.ActivateMenu();
+        saveMenuEvent.ActivateSaveMenu();
     }
 
     /// <summary>
@@ -130,8 +126,13 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="scene">Scene number that represents Quitting to Title</param>
     public void Quit(int scene)
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen())
         {
+            if (AudioManager.Instance)
+            {
+                AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+                AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            }
             Time.timeScale = 1f;
             SceneManager.LoadScene(scene);
         }
@@ -143,35 +144,40 @@ public class PauseMenu : MonoBehaviour, IData
     /// <returns>The total time played stored in variables</returns>
     public IEnumerator RecordTimeRoutine()
     {
-        TimeSpan ts;
         while(!paused)
         {
             // Record playtime every second
             yield return new WaitForSeconds(1);
             playtimeTotal += 1;
-
-            // Turn playtime into hours, minutes, and seconds
-            ts = TimeSpan.FromSeconds(playtimeTotal);
-            playtimeHours = (int)ts.TotalHours;
-            playtimeMinutes = ts.Minutes;
-            playtimeSeconds = ts.Seconds;
-
-            // Create a playtime string
-            playtimeString = playtimeHours + ":" + playtimeMinutes + ":" + playtimeSeconds;
         }
     }
+
+    #region EVENT FUNCTIONS
+    #endregion
 
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
         levelName = data.levelName;
-        playtimeString = data.playtime;
+        playtimeTotal = data.playtimeTotal;
+        playtimeString = data.playtimeString;
     }
 
     public void SaveData(GameData data)
     {
+        #region CALCULATE PLAYTIME
+        // Turn playtime into hours, minutes, and seconds
+        playtimeHours = (playtimeTotal / 3600) % 24;
+        playtimeMinutes = (playtimeTotal / 60) % 60;
+        playtimeSeconds = playtimeTotal % 60;
+
+        // Create a playtime string
+        playtimeString = playtimeHours + ":" + playtimeMinutes + ":" + playtimeSeconds;
+        #endregion
+
         data.levelName = levelName;
-        data.playtime = playtimeString;
+        data.playtimeTotal = playtimeTotal;
+        data.playtimeString = playtimeString;
     }
     #endregion
 }

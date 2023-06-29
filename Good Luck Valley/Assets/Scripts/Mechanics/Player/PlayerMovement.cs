@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private MushroomScriptableObj mushroomEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
 	private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
@@ -92,22 +94,26 @@ public class PlayerMovement : MonoBehaviour, IData
     {
         mushroomEvent.bounceEvent.AddListener(ApplyBounce);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
-        disableEvent.pauseEvent.AddListener(LockMovement);
-        disableEvent.unpauseEvent.AddListener(UnlockMovement);
+        pauseEvent.pauseEvent.AddListener(LockMovement);
+        pauseEvent.unpauseEvent.AddListener(UnlockMovement);
         disableEvent.lockPlayerEvent.AddListener(LockMovement);
         disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
         disableEvent.stopInputEvent.AddListener(StopInput);
+        cutsceneEvent.startLotusCutscene.AddListener(LockMovement);
+        cutsceneEvent.endLotusCutscene.AddListener(UnlockMovement);
     }
 
     private void OnDisable()
     {
         mushroomEvent.bounceEvent.RemoveListener(ApplyBounce);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
-        disableEvent.pauseEvent.RemoveListener(LockMovement);
-        disableEvent.unpauseEvent.RemoveListener(UnlockMovement);
+        pauseEvent.pauseEvent.RemoveListener(LockMovement);
+        pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
         disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
         disableEvent.stopInputEvent.RemoveListener(StopInput);
+        cutsceneEvent.startLotusCutscene.RemoveListener(LockMovement);
+        cutsceneEvent.endLotusCutscene.RemoveListener(UnlockMovement);
     }
 
     private void Start()
@@ -866,14 +872,12 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
 		// Load player position
 		gameObject.transform.position = data.playerPosition;
-		isLocked = data.isLocked;
 	}
 
 	public void SaveData(GameData data)
 	{
 		// Save player position
 		data.playerPosition = gameObject.transform.position;
-		data.isLocked = isLocked;
 	}
 	#endregion
 }

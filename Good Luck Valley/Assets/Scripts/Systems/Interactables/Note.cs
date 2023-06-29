@@ -7,9 +7,8 @@ using UnityEngine.UIElements;
 public class Note : Interactable
 {
     #region REFERENCES
+    [SerializeField] private JournalScriptableObj journalEvent;
     public Text textDisplay;
-    private Journal journal;
-    private NoteNotification effectPanelNotification;
     #endregion
 
     #region FIELDS
@@ -39,19 +38,18 @@ public class Note : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
-        effectPanelNotification = GameObject.Find("NoteEffectPanel").GetComponent<NoteNotification>();
-
         remove = false;
     }
 
+    /// <summary>
+    /// Collect the Note
+    /// </summary>
     public override void Interact()
     {
         // Add the note to the journal and trigger notification and sound effect
         if(!noteAdded)
         {
-            journal.Notes.Add(this);
-            effectPanelNotification.NotifQueue.Enqueue(this);
+            journalEvent.AddNote(this);
             noteAdded = true;
         }
 

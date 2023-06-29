@@ -11,16 +11,20 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference PlayerFootsteps { get; private set; }
 
     [field: Header("Music")]
-    [field: SerializeField] public EventReference ForestMusic { get; private set; }
+    [field: SerializeField] public EventReference GameMusic { get; private set; }
 
     public static FMODEvents Instance { get; private set; }
 
 
     private void Awake()
     {
+        // Check if there's already an FMODEvents
         if (Instance != null)
         {
-            Debug.LogError("Found more than one FMODEvents instance in the scene");
+            // If there is, destroy this one to retain singleton design
+            Debug.LogWarning("Found more than one FMOD Events in the scene. Destroying the newest one");
+            Destroy(gameObject);
+            return;
         }
         Instance = this;
     }

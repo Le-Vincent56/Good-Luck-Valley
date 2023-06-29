@@ -6,10 +6,10 @@ public class InteractablePickupTutorialTrigger : Interactable
 {
     #region REFERENCES
     [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
     private PlayerMovement playerMovement;
     private Tutorial tutorialManager;
     private TutorialInteractableTrigger interactableTutorialHitBox;
-    private Journal journal;
     #endregion
 
     // Start is called before the first frame update
@@ -18,7 +18,6 @@ public class InteractablePickupTutorialTrigger : Interactable
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
         interactableTutorialHitBox = GameObject.Find("Interactable Tutorial Trigger").GetComponent<TutorialInteractableTrigger>();
-        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
     }
 
     /// <summary>
@@ -27,8 +26,8 @@ public class InteractablePickupTutorialTrigger : Interactable
     public override void Interact()
     {
         // Enable journal
-        journal.HasJournal = true;
-        journal.HasOpened = false;
+        journalEvent.SetHasJournal(true);
+        journalEvent.SetOpenedOnce(false);
 
         // Lock the player
         disableEvent.Lock();

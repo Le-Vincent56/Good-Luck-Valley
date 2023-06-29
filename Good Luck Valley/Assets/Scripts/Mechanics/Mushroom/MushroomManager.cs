@@ -20,6 +20,8 @@ public class MushroomManager : MonoBehaviour, IData
     #region REFERENCES
     [SerializeField] private MushroomScriptableObj mushroomEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     private GameObject player;
     [SerializeField] private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;                         // PlayerMovement checks which direction player is facing
@@ -134,25 +136,28 @@ public class MushroomManager : MonoBehaviour, IData
 
     private void OnEnable()
     {
-        disableEvent.pauseEvent.AddListener(LockThrow);
-        disableEvent.unpauseEvent.AddListener(UnlockThrow);
+
+        pauseEvent.pauseEvent.AddListener(LockThrow);
+        pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);
         disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
+        cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
+        cutsceneEvent.endLotusCutscene.AddListener(UnlockThrow);
     }
 
     private void OnDisable()
     {
-        disableEvent.pauseEvent.RemoveListener(LockThrow);
-        disableEvent.unpauseEvent.RemoveListener(UnlockThrow);
+        pauseEvent.pauseEvent.RemoveListener(LockThrow);
+        pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
         disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
+        cutsceneEvent.startLotusCutscene.RemoveListener(LockThrow);
+        cutsceneEvent.endLotusCutscene.RemoveListener(UnlockThrow);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(throwLineOn);
-
         // Direction force is being applied to shroom
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
@@ -176,7 +181,7 @@ public class MushroomManager : MonoBehaviour, IData
 
 
             case ThrowState.Throwing:
-                if (throwLineOn)
+                if (throwLineOn && !throwLocked)
                 {
                     throwUI_Script.PlotTrajectory(playerRB.position,
                                                       forceDirection.normalized * throwMultiplier,
@@ -555,7 +560,10 @@ public class MushroomManager : MonoBehaviour, IData
                 {
                     Debug.Log("RemoveLAstshroom");
                     // Destroys the mushroom at the front of the list
-                    mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();
+                    if (mushroomLimit == 3)
+                    {
+                        mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();
+                    }
                     Destroy(mushroomList[mushroomList.Count - 1]);
 
                     if (mushroomLimit == 3)
@@ -600,13 +608,11 @@ public class MushroomManager : MonoBehaviour, IData
     public void LoadData(GameData data)
     {
         throwUnlocked = data.throwUnlocked;
-        throwLocked = data.throwLocked;
     }
 
     public void SaveData(GameData data)
     {
         data.throwUnlocked = throwUnlocked;
-        data.throwLocked = throwLocked;
     }
     #endregion
 }
