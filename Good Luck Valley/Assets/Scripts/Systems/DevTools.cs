@@ -81,7 +81,7 @@ public class DevTools : MonoBehaviour
             noClip = settings.NoClipOn;
             instantThrow = settings.InstantThrowOn;
             infiniteShrooms = settings.InfiniteShroomsOn;
-            mushMan.ThrowUnlocked = false;
+            // mushMan.ThrowUnlocked = false;
             disableShroomDuration = !settings.ShroomDurationOn;
         }
     }
@@ -151,7 +151,21 @@ public class DevTools : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Turn on Dev Tools using a keybind
+    /// </summary>
     #region INPUT HANDLERS
+    public void OnDevTools()
+    {
+        if(!devToolsEnabled)
+        {
+            devToolsEnabled = true;
+        } else
+        {
+            devToolsEnabled = false;
+        }
+    }
+
     public void OnActivateNoClip()
     {
         // Check if devTools is enabled

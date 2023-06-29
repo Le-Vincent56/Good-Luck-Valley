@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
 
     #region PROPERTIES
     public static DataManager Instance { get; private set; }
-    public string Level { get { return gameData.levelName; } }
+    public string Level { get { return gameData.currentLevelName; } }
     public string SelectedProfileID { get { return selectedProfileID; } }
     public string SoftProfileID { get { return softProfileID; } }
     #endregion
@@ -84,7 +84,7 @@ public class DataManager : MonoBehaviour
 
         settingsDataObjects = FindAllSettingsDataObjects();
 
-        // Load the game
+        // Load the Game
         LoadGame();
 
         // If using autosave, start up the auto saving coroutine
