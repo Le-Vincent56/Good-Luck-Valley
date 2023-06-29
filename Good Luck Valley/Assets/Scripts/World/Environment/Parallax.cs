@@ -18,12 +18,21 @@ public class Parallax : MonoBehaviour
     {
         mainCam = GameObject.Find("Main Camera");
         startPosition = transform.position.x;
+        parallaxScrolling /= 10f;
     }
 
     // Update is called once per frame
     void Update()
     {
         float distance = (mainCam.transform.position.x * parallaxScrolling);
-        transform.position = new Vector3(startPosition - distance, transform.position.y, transform.position.z);
+
+        if (distance == 0)
+        {
+            transform.position = new Vector3(mainCam.transform.position.x, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            transform.position = new Vector3(startPosition - distance, transform.position.y, transform.position.z);
+        }
     }
 }
