@@ -188,13 +188,20 @@ public class MenusManager : MonoBehaviour
         // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false)
         {
-            if (settings.Brightness == 0)
+            if (currentScene == 0)
             {
-                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0,0,0, 0.99f);
+                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
             }
             else
             {
-                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, (1 - (settings.Brightness / 100)));
+                if (settings.Brightness == 0)
+                {
+                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.99f);
+                }
+                else
+                {
+                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, (1 - (settings.Brightness / 100)));
+                }
             }
         }
         else if (currentScene != 0 && currentScene <= 5)
