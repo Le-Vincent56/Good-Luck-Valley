@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : MonoBehaviour, IData
 {
@@ -126,12 +127,29 @@ public class CameraManager : MonoBehaviour, IData
 
     public void LoadData(GameData data)
     {
-        playCutscene = data.playCutscene;
+        // Get the currently active scene
+        Scene scene = SceneManager.GetActiveScene();
+
+        // Check if that scene name exists in the dictionary for good measure
+        if (data.levelData.ContainsKey(scene.name))
+        {
+            // If it does exist, load the cutscene's play data using the data for this scene
+            bool playCutsceneForThisScene = data.levelData[scene.name].playCutscene;
+            playCutscene = playCutsceneForThisScene;
+        }
+        else
+        {
+            // If it doesn't exist, let ourselves know that we need to add it to our game data
+            Debug.LogError("Failed to get data for scene with name: " + scene.name + ". It may need to be added to the GameData constructor");
+        }
+
         loadedData = true;
     }
 
     public void SaveData(GameData data)
     {
-        data.playCutscene = playCutscene;
+        // Save the cutscene's play data
+        Scene scene = SceneManager.GetActiveScene();
+        data.levelData[scene.name].playCutscene = playCutscene;
     }
 }

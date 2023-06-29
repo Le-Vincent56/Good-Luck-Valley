@@ -35,6 +35,7 @@ public class LotusPick : Interactable
         {
             // Interact and set variables
             Interact();
+            
             interacting = true;
             StartCoroutine(FadeVines());
 
@@ -56,12 +57,10 @@ public class LotusPick : Interactable
             // Start the fade timer
             if (!finishedInteracting)
             {
-                disableEvent.Lock();
                 pauseMenu.Paused = true;
             }
             else if (pauseMenu.Paused)
             {
-                disableEvent.Unlock();
                 pauseMenu.Paused = false;
             }
         }
@@ -72,6 +71,9 @@ public class LotusPick : Interactable
     /// </summary>
     public override void Interact()
     {
+        // Lock the player
+        disableEvent.Lock();
+
         // End the level
         endLevel = true;
     }
@@ -83,6 +85,7 @@ public class LotusPick : Interactable
      
         if (vineWall.GetComponent<SpriteRenderer>().color.a <= 0)
         {
+            disableEvent.Unlock();
             finishedInteracting = true;
         }
         yield return null;

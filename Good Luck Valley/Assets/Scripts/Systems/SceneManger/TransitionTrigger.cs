@@ -23,8 +23,9 @@ public class TransitionTrigger : MonoBehaviour
     {
        if (collision.gameObject.tag == "Player")
        {
+            // Save the game before loading the next level
+            DataManager.Instance.SaveGame();
             levelLoader.GetComponent<LoadLevel>().LoadNextLevel();
        }
-        
     }
 }

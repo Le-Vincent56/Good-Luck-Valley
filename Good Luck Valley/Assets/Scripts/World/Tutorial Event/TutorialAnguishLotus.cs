@@ -62,8 +62,7 @@ public class TutorialAnguishLotus : Interactable
         {
             // Start the fade timer
             if (!finishedInteracting)
-            {
-                disableEvent.Lock();
+            {   
                 pauseMenu.Paused = true;
                 //tutorialManager.ShowingDemoEndText = true;
             }
@@ -74,7 +73,6 @@ public class TutorialAnguishLotus : Interactable
                     g.SetActive(false);
                 }
 
-                disableEvent.Unlock();
                 pauseMenu.Paused = false;
             }
         }
@@ -85,6 +83,9 @@ public class TutorialAnguishLotus : Interactable
     /// </summary>
     public override void Interact()
     {
+        // Lock the player
+        disableEvent.Lock();
+
         // End the level
         endLevel = true;
     }
@@ -99,6 +100,7 @@ public class TutorialAnguishLotus : Interactable
         if (shroomWalls[0].GetComponent<SpriteRenderer>().color.a <= 0)
         {
             finishedInteracting = true;
+            disableEvent.Unlock();
         }
         yield return null;
     }

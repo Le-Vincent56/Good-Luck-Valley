@@ -136,7 +136,6 @@ public class MushroomManager : MonoBehaviour, IData
 
     private void OnEnable()
     {
-
         pauseEvent.pauseEvent.AddListener(LockThrow);
         pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);

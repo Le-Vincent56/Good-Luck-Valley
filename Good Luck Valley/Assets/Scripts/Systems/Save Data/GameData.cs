@@ -15,13 +15,9 @@ public class GameData
     #endregion
 
     #region LEVEL
-    public string levelName;
-    public bool playCutscene;
+    public SerializableDictionary<string, LevelData> levelData;
     public SerializableDictionary<string, bool> notesCollected;
-    #endregion
-
-    #region PLAYER
-    public Vector3 playerPosition;
+    public string currentLevelName;
     #endregion
 
     #region SHROOM
@@ -45,13 +41,11 @@ public class GameData
         #endregion
 
         #region LEVEL
-        levelName = "Prologue";
-        playCutscene = true;
+        levelData = new SerializableDictionary<string, LevelData>();
+        levelData["Prologue"] = new LevelData(new Vector3(-27.46f, 7.85f, 0f));
+        levelData["Level 1"] = new LevelData(new Vector3(-39.82f, 6.31f, 0f));
         notesCollected = new SerializableDictionary<string, bool>();
-        #endregion
-
-        #region PLAYER
-        playerPosition = new Vector3(-27.47f, 7.798f, 0f);
+        currentLevelName = "Prologue";
         #endregion
 
         #region SHROOM
