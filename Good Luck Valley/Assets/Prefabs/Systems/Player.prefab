@@ -745,7 +745,7 @@ MonoBehaviour:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SaveSlotsPauseMenu, Assembly-CSharp
         m_MethodName: CloseMenuKey
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -756,6 +756,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fb2941ff-7b9f-4333-af53-6ab0175e024d
     m_ActionName: Player Controls/CloseSaveMenu[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DevTools, Assembly-CSharp
+        m_MethodName: OnDevTools
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 90d23369-56a6-4b5c-882b-e46f719831d7
+    m_ActionName: Player Controls/DevTools[/Keyboard/minus]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
