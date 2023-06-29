@@ -31,7 +31,6 @@ public class MenusManager : MonoBehaviour
     private Button settingsButton;
     private Button creditsButton;
     private Button exitGameButton;
-    private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS
@@ -724,6 +723,34 @@ public class MenusManager : MonoBehaviour
         if (textInputs.Length > 0 && sliders.Length > 0)
         {
             textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+        }
+    }
+
+    public void AdjustSoundInputField(int index)
+    {
+        if (textInputs.Length > 0 && sliders.Length > 0)
+        {
+            textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+        }
+
+        // Set live changes so they can hear the music
+        switch(index)
+        {
+            case 0:
+                AudioManager.Instance.SetMasterVolume(sliders[index].value / 100f);
+                break;
+
+            case 1:
+                AudioManager.Instance.SetMusicVolume(sliders[index].value / 100f);
+                break;
+
+            case 2:
+                AudioManager.Instance.SetSFXVolume(sliders[index].value / 100f);
+                break;
+
+            case 3:
+                AudioManager.Instance.SetAmbienceVolume(sliders[index].value / 100f);
+                break;
         }
     }
 
