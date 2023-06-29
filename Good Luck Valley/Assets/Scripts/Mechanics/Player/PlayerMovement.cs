@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		SetGravityScale(data.gravityScale);
 		isFacingRight = true;
 		playerPosition = transform.position;
-		playerLight = GameObject.Find("Player Light");
+		playerLight = GameObject.Find("PlayerLight");
 		capsuleColliderSize = capsuleCollider.size;
 	}
 
