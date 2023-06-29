@@ -243,13 +243,14 @@ public class DevTools : MonoBehaviour
         }
     }
 
-    public void OnCutToLevel(int level)
+    public void SkipToLevel(int direction)
     {
         if (devToolsEnabled)
         {
             AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
             AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
-            SceneManager.LoadScene(level);
+            Debug.Log("Going to level: " + SceneManager.GetActiveScene().buildIndex + direction);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + direction);
         }
     }
     #endregion

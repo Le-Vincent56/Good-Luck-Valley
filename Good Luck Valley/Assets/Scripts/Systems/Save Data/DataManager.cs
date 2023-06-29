@@ -132,7 +132,10 @@ public class DataManager : MonoBehaviour
 
         gameData = new GameData();
 
-        settingsData = new SettingsData();
+        if (settingsData == null)
+        {
+            settingsData = new SettingsData();
+        }
 
         // If there is no profileID, make one
         if (selectedProfileID == null)
@@ -153,26 +156,29 @@ public class DataManager : MonoBehaviour
             return;
         }
 
-        if (settingsData == null)
-        {
-            Debug.LogWarning("No Settings data was found.");
-        }
-
         // Pass the data to other scripts so they can update it
         foreach(IData dataObj in dataObjects)
         {
             dataObj.SaveData(gameData);
         }
 
-        foreach (ISettingsData settingsObj in settingsDataObjects)
-        {
-            settingsObj.SaveData(settingsData);
-        }
-
         gameData.lastUpdated = System.DateTime.Now.ToBinary();
 
         // Save that data to a file using the data handler
         dataHandler.Save(gameData, selectedProfileID);
+    }
+
+    public void SaveSettings()
+    {
+        if (settingsData == null)
+        {
+            Debug.LogWarning("No Settings data was found.");
+        }
+
+        foreach (ISettingsData settingsObj in settingsDataObjects)
+        {
+            settingsObj.SaveData(settingsData);
+        }
 
         settingsHandler.Save(settingsData);
     }
