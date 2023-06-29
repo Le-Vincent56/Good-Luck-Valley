@@ -10,17 +10,16 @@ using FMOD.Studio;
 public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] PauseScriptableObj pauseEvent;
     [SerializeField] DisableScriptableObj disableEvent;
     private Canvas pauseUI;
     private Canvas settingsUI;
-    private PlayerMovement playerMovement;
     private Journal journalMenu;
     [SerializeField] private SaveSlotsPauseMenu saveMenu;
     #endregion
 
     #region FIELDS
     [SerializeField] private bool paused = false;
-    private bool canPause = true;
     private string levelName;
     private float playtimeTotal;
     private float playtimeHours;
@@ -31,7 +30,6 @@ public class PauseMenu : MonoBehaviour, IData
 
     #region PROPERTIES
     public bool Paused { get { return paused; } set { paused = value; } }
-    public bool CanPause { get { return canPause; } set {  canPause = value; } }
     #endregion
 
     // Start is called before the first frame update
@@ -39,7 +37,6 @@ public class PauseMenu : MonoBehaviour, IData
     {
         journalMenu = GameObject.Find("JournalUI").GetComponent<Journal>();
         pauseUI = GameObject.Find("PauseUI").GetComponent<Canvas>();
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         saveMenu = GameObject.Find("SaveUI").GetComponent<SaveSlotsPauseMenu>();
         pauseUI.enabled = false;
         settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();  
@@ -57,21 +54,21 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="context">The context of the controller</param>
     public void TogglePause(InputAction.CallbackContext context)
     {
-        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0) && canPause && !settingsUI.enabled)
+        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0) && pauseEvent.GetCanPause() && !settingsUI.enabled)
         {
             if (!paused)
             {
                 paused = true;
                 pauseUI.enabled = true;
                 Time.timeScale = 0;
-                disableEvent.Pause();
+                pauseEvent.Pause();
             }
             else
             {
                 paused = false;
                 pauseUI.enabled = false;
                 Time.timeScale = 1f;
-                disableEvent.Unpause();
+                pauseEvent.Unpause();
             }
         }
     }
@@ -86,7 +83,7 @@ public class PauseMenu : MonoBehaviour, IData
             paused = false;
             pauseUI.enabled = false;
             Time.timeScale = 1f;
-            disableEvent.Unpause();
+            pauseEvent.Unpause();
         }
     }
    
@@ -156,6 +153,9 @@ public class PauseMenu : MonoBehaviour, IData
             playtimeTotal += 1;
         }
     }
+
+    #region EVENT FUNCTIONS
+    #endregion
 
     #region DATA HANDLING
     public void LoadData(GameData data)

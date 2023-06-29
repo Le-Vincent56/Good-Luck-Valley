@@ -20,6 +20,8 @@ public class MushroomManager : MonoBehaviour, IData
     #region REFERENCES
     [SerializeField] private MushroomScriptableObj mushroomEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     private GameObject player;
     [SerializeField] private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;                         // PlayerMovement checks which direction player is facing
@@ -134,18 +136,23 @@ public class MushroomManager : MonoBehaviour, IData
 
     private void OnEnable()
     {
-        disableEvent.pauseEvent.AddListener(LockThrow);
-        disableEvent.unpauseEvent.AddListener(UnlockThrow);
+
+        pauseEvent.pauseEvent.AddListener(LockThrow);
+        pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);
         disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
+        cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
+        cutsceneEvent.endLotusCutscene.AddListener(UnlockThrow);
     }
 
     private void OnDisable()
     {
-        disableEvent.pauseEvent.RemoveListener(LockThrow);
-        disableEvent.unpauseEvent.RemoveListener(UnlockThrow);
+        pauseEvent.pauseEvent.RemoveListener(LockThrow);
+        pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
         disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
+        cutsceneEvent.startLotusCutscene.RemoveListener(LockThrow);
+        cutsceneEvent.endLotusCutscene.RemoveListener(UnlockThrow);
     }
 
     // Update is called once per frame

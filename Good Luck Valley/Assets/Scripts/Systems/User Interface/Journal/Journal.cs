@@ -10,7 +10,7 @@ public class Journal : MonoBehaviour, IData
 {
     #region REFERENCES
     [SerializeField] private JournalScriptableObj journalEvent;
-    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     private Canvas journalUI;
     private Button pauseJournalButton;
     #endregion
@@ -83,7 +83,7 @@ public class Journal : MonoBehaviour, IData
         if (hasJournal && !menuOpen)
         {
             // Pause the game
-            disableEvent.Pause();
+            pauseEvent.Pause();
             Time.timeScale = 0;
             openedFromKey = true;
 
@@ -116,7 +116,7 @@ public class Journal : MonoBehaviour, IData
         if(menuOpen && canClose)
         {
             // Unpause the game
-            disableEvent.Unpause();
+            pauseEvent.Unpause();
             Time.timeScale = 1f;
 
             // Close the journal UI and set menuOpen to false

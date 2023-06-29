@@ -157,6 +157,61 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Saving
+--- !u!1 &1386751561034960469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4118935904354343847}
+  - component: {fileID: 2388402358821436061}
+  m_Layer: 5
+  m_Name: Cinematic Bars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4118935904354343847
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386751561034960469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6934267979955361440}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2388402358821436061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386751561034960469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9477312eadab5a4897def9287c4ff8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneEvent: {fileID: 11400000, guid: 876f3bec107b97a4095b015d6d365fb3, type: 2}
+  targetSize: 200
+  showSize: 200
+  changeSizeAmount: 5
+  timeToMove: 0.3
+  isActive: 1
 --- !u!1 &1406263661905506289
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,6 +2315,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3475129836469192683, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
+      propertyPath: pauseEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: d9294628e0915de4d8dc90a39ab7f026, type: 2}
+    - target: {fileID: 3475129836469192683, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: disableEvent
       value: 
       objectReference: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
@@ -2490,6 +2549,10 @@ PrefabInstance:
       propertyPath: saveMenu
       value: 
       objectReference: {fileID: 1794716517}
+    - target: {fileID: 89129477, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
+      propertyPath: pauseEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: d9294628e0915de4d8dc90a39ab7f026, type: 2}
     - target: {fileID: 89129477, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
       propertyPath: disableEvent
       value: 
