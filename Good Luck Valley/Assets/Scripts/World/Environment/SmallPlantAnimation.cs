@@ -44,6 +44,10 @@ public class SmallPlantAnimation : MonoBehaviour
             {
                 animator.Play("RotateSmallPlantRight");
             }
+
+
+
+
         }
     }
 }
