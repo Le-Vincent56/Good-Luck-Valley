@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SaveSlotsPauseMenu : MonoBehaviour
@@ -295,7 +296,8 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// <summary>
     /// Close the menu using a key
     /// </summary>
-    public void CloseMenuKey()
+    /// /// <param name="context">The context of the controller</param>
+    public void CloseMenuKey(InputAction.CallbackContext context)
     {
         // Check if the menu is open
         if (menuOpen && !saving)
