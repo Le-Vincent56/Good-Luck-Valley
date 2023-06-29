@@ -2,6 +2,7 @@ using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioListener : MonoBehaviour
 {
@@ -27,24 +28,9 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.RemoveListener(PlayFootsteps);
     }
 
-    private void OnSceneLoaded()
-    {
-        if ((float)AudioManager.Instance.CurrentArea == 0)
-        {
-            usePlayerSFX = false;
-        }
-        else
-        {
-            usePlayerSFX = true;
-        }
-    }
-
     private void Start()
     {
-        if(usePlayerSFX)
-        {
-            playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
-        }
+        playerFootsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootsteps);
         stepTimer = stepTimerMax;
     }
 

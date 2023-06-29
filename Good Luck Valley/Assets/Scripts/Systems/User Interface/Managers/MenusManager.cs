@@ -31,7 +31,6 @@ public class MenusManager : MonoBehaviour
     private Button settingsButton;
     private Button creditsButton;
     private Button exitGameButton;
-    private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS
@@ -143,6 +142,7 @@ public class MenusManager : MonoBehaviour
             // Make on value change events not happen
             disableCalls = true;
 
+
             // Initialize arrays for holding input components
             navButtons = new GameObject[4];
             sliders = new Slider[6];
@@ -187,13 +187,20 @@ public class MenusManager : MonoBehaviour
         // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false)
         {
-            if (settings.Brightness == 0)
+            if (currentScene == 0)
             {
-                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
+                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
             }
             else
             {
-                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, (1 - (settings.Brightness / 100)));
+                if (settings.Brightness == 0)
+                {
+                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.99f);
+                }
+                else
+                {
+                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, (1 - (settings.Brightness / 100)));
+                }
             }
         }
         else if (currentScene != 0 && currentScene <= 5)
@@ -716,6 +723,34 @@ public class MenusManager : MonoBehaviour
         if (textInputs.Length > 0 && sliders.Length > 0)
         {
             textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+        }
+    }
+
+    public void AdjustSoundInputField(int index)
+    {
+        if (textInputs.Length > 0 && sliders.Length > 0)
+        {
+            textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+        }
+
+        // Set live changes so they can hear the music
+        switch(index)
+        {
+            case 0:
+                AudioManager.Instance.SetMasterVolume(sliders[index].value / 100f);
+                break;
+
+            case 1:
+                AudioManager.Instance.SetMusicVolume(sliders[index].value / 100f);
+                break;
+
+            case 2:
+                AudioManager.Instance.SetSFXVolume(sliders[index].value / 100f);
+                break;
+
+            case 3:
+                AudioManager.Instance.SetAmbienceVolume(sliders[index].value / 100f);
+                break;
         }
     }
 
