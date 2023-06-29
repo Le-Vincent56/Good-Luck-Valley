@@ -7,6 +7,7 @@ public class TutorialJournalUI : MonoBehaviour
 {
     #region REFERENCES
     [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
     private PlayerMovement playerMovement;
     private Tutorial tutorialManager;
     private PauseMenu pauseMenu;
@@ -26,7 +27,7 @@ public class TutorialJournalUI : MonoBehaviour
     {
         if(tutorialManager.ShowingThirdJournalUIText)
         {
-            if(journal.HasOpened && journal.MenuOpen)
+            if(journalEvent.GetOpenedOnce() && journalEvent.GetJournalOpen())
             {
                 disableEvent.Unlock();
                 tutorialManager.FadeThirdJournalUITutorialText();

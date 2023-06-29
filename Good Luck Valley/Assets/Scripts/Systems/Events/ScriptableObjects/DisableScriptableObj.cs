@@ -11,8 +11,6 @@ public class DisableScriptableObj : ScriptableObject
 
     #region EVENTS
     [System.NonSerialized]
-    public UnityEvent pauseEvent;
-    public UnityEvent unpauseEvent;
     public UnityEvent lockPlayerEvent;
     public UnityEvent unlockPlayerEvent;
     public UnityEvent<float> stopInputEvent;
@@ -22,16 +20,6 @@ public class DisableScriptableObj : ScriptableObject
     private void OnEnable()
     {
         #region CREATE EVENTS
-        if(pauseEvent == null)
-        {
-            pauseEvent = new UnityEvent();
-        }
-
-        if (unpauseEvent == null)
-        {
-            unpauseEvent = new UnityEvent();
-        }
-
         if (lockPlayerEvent == null)
         {
             lockPlayerEvent = new UnityEvent();
@@ -56,22 +44,6 @@ public class DisableScriptableObj : ScriptableObject
     public void SetInputCooldown(float inputCooldown)
     {
         this.inputCooldown = inputCooldown;
-    }
-
-    /// <summary>
-    /// Trigger events related to pausing the game
-    /// </summary>
-    public void Pause()
-    {
-        pauseEvent.Invoke();
-    }
-
-    /// <summary>
-    /// Trigger events relaed to unpausing the game
-    /// </summary>
-    public void Unpause()
-    {
-        unpauseEvent.Invoke();
     }
 
     /// <summary>
