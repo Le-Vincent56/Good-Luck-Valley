@@ -28,11 +28,19 @@ public class PauseScriptableObj : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Set whether the player can pause or not
+    /// </summary>
+    /// <param name="canPause">Whether the player can pause or not</param>
     public void SetCanPause(bool canPause)
     {
         this.canPause = canPause;
     }
 
+    /// <summary>
+    /// Get whether the player can pause or not
+    /// </summary>
+    /// <returns>Whether the player can pause or not</returns>
     public bool GetCanPause()
     {
         return canPause;

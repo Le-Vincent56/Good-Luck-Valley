@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SaveSlotsPauseMenu : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private SaveMenuScriptableObj saveMenuEvent;
     [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
     [SerializeField] private ConfirmationPopupMenu overwriteConfirmationMenu;
     private Canvas pauseMenu;
@@ -48,6 +49,16 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         deleteButton.interactable = false;
     }
 
+    private void OnEnable()
+    {
+        saveMenuEvent.activateSaveMenuEvent.AddListener(ActivateMenu);
+    }
+
+    private void OnDisable()
+    {
+        saveMenuEvent.activateSaveMenuEvent.RemoveListener(ActivateMenu);
+    }
+
     void Update()
     {
         // If the close buffer is set to above 0,
@@ -55,9 +66,11 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         if (saveCloseBuffer > 0 && !menuOpen)
         {
             saveCloseBuffer -= Time.deltaTime;
+            saveMenuEvent.SetSaveCloseBuffer(saveCloseBuffer);
         } else if(menuOpen)
         {
             saveCloseBuffer = 0.25f;
+            saveMenuEvent.SetSaveCloseBuffer(saveCloseBuffer);
         }
     }
 
@@ -128,6 +141,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
         // Set menu open
         menuOpen = true;
+        saveMenuEvent.SetSaveMenuOpen(menuOpen);
     }
 
     /// <summary>
@@ -272,6 +286,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
         // Set menu open
         menuOpen = false;
+        saveMenuEvent.SetSaveMenuOpen(menuOpen);
 
         // Activate the pause menu
         pauseMenu.enabled = true;
@@ -288,6 +303,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
             // Close the journal UI and set menuOpen to false
             gameObject.GetComponent<Canvas>().enabled = false;
             menuOpen = false;
+            saveMenuEvent.SetSaveMenuOpen(menuOpen);
 
             pauseMenu.enabled = true;
         }

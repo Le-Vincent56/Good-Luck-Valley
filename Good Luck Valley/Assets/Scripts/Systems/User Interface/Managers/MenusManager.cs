@@ -31,7 +31,6 @@ public class MenusManager : MonoBehaviour
     private Button settingsButton;
     private Button creditsButton;
     private Button exitGameButton;
-    private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS

@@ -11,11 +11,11 @@ public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
     [SerializeField] PauseScriptableObj pauseEvent;
+    [SerializeField] JournalScriptableObj journalEvent;
     [SerializeField] DisableScriptableObj disableEvent;
+    [SerializeField] SaveMenuScriptableObj saveMenuEvent;
     private Canvas pauseUI;
     private Canvas settingsUI;
-    private Journal journalMenu;
-    [SerializeField] private SaveSlotsPauseMenu saveMenu;
     #endregion
 
     #region FIELDS
@@ -35,9 +35,7 @@ public class PauseMenu : MonoBehaviour, IData
     // Start is called before the first frame update
     void Start()
     {
-        journalMenu = GameObject.Find("JournalUI").GetComponent<Journal>();
         pauseUI = GameObject.Find("PauseUI").GetComponent<Canvas>();
-        saveMenu = GameObject.Find("SaveUI").GetComponent<SaveSlotsPauseMenu>();
         pauseUI.enabled = false;
         settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();  
         settingsUI.enabled = false;
@@ -54,7 +52,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="context">The context of the controller</param>
     public void TogglePause(InputAction.CallbackContext context)
     {
-        if((!journalMenu.MenuOpen && journalMenu.CloseBuffer <= 0) && (!saveMenu.MenuOpen && saveMenu.CloseBuffer <= 0) && pauseEvent.GetCanPause() && !settingsUI.enabled)
+        if((!journalEvent.GetJournalOpen() && journalEvent.GetCloseBuffer() <= 0) && (!saveMenuEvent.GetSaveMenuOpen() && saveMenuEvent.GetSaveCloseBuffer() <= 0) && pauseEvent.GetCanPause() && !settingsUI.enabled)
         {
             if (!paused)
             {
@@ -78,7 +76,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// </summary>
     public void Continue()
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen && !settingsUI.enabled)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen() && !settingsUI.enabled)
         {
             paused = false;
             pauseUI.enabled = false;
@@ -93,7 +91,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="scene">The scene number that represents the Settings scene</param>
     public void Settings()
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen && !settingsUI.enabled)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen() && !settingsUI.enabled)
         {
             paused = true;
             pauseUI.enabled = false;
@@ -119,7 +117,7 @@ public class PauseMenu : MonoBehaviour, IData
         pauseUI.enabled = false;
 
         // Activate the save menu
-        saveMenu.ActivateMenu();
+        saveMenuEvent.ActivateSaveMenu();
     }
 
     /// <summary>
@@ -128,7 +126,7 @@ public class PauseMenu : MonoBehaviour, IData
     /// <param name="scene">Scene number that represents Quitting to Title</param>
     public void Quit(int scene)
     {
-        if(!journalMenu.MenuOpen && !saveMenu.MenuOpen)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen())
         {
             if (AudioManager.Instance)
             {

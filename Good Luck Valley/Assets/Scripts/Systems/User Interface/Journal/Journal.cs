@@ -27,11 +27,6 @@ public class Journal : MonoBehaviour, IData
 
     #region PROPERTIES
     public List<Note> Notes { get { return notes; } set { notes = value; } }
-    public bool MenuOpen { get { return menuOpen; } set { menuOpen = value; } }
-    public bool HasJournal { get { return hasJournal; } set { hasJournal = value;} }
-    public bool HasOpened { get { return hasOpened; } set { hasOpened = value; } }
-    public float CloseBuffer { get { return journalCloseBuffer; } set { journalCloseBuffer = value; } }
-    public bool CanClose { get { return canClose; } set { canClose = value; } }
     #endregion
 
     private void OnEnable()
@@ -71,6 +66,7 @@ public class Journal : MonoBehaviour, IData
         if(journalCloseBuffer > 0 && !menuOpen)
         {
             journalCloseBuffer -= Time.deltaTime;
+            journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
 
@@ -97,12 +93,15 @@ public class Journal : MonoBehaviour, IData
             if (!hasOpened)
             {
                 hasOpened = true;
+                journalEvent.SetOpenedOnce(true);
             }
 
             // Enable the journal UI and set menuOpen to true
             journalUI.enabled = true;
             menuOpen = true;
             journalCloseBuffer = 0.25f;
+            journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
 
@@ -122,6 +121,7 @@ public class Journal : MonoBehaviour, IData
             // Close the journal UI and set menuOpen to false
             journalUI.enabled = false;
             menuOpen = false;
+            journalEvent.SetJournalOpen(menuOpen);
 
             // Remove entries to prepare for sorting
             journalEvent.ClearJournal();
@@ -145,11 +145,14 @@ public class Journal : MonoBehaviour, IData
             if (!hasOpened)
             {
                 hasOpened = true;
+                journalEvent.SetOpenedOnce(true);
             }
 
             journalUI.enabled = true;
             menuOpen = true;
             journalCloseBuffer = 0.25f;
+            journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
 
@@ -170,6 +173,7 @@ public class Journal : MonoBehaviour, IData
             // Close the journal UI and set menuOpen to false
             journalUI.enabled = false;
             menuOpen = false;
+            journalEvent.SetJournalOpen(menuOpen);
 
             // Remove entries to prepare for sorting
             journalEvent.ClearJournal();

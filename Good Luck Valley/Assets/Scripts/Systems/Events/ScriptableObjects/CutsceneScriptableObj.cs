@@ -30,12 +30,17 @@ public class CutsceneScriptableObj : ScriptableObject
         #endregion
     }
 
-
+    /// <summary>
+    /// Trigger events relating to starting the Lotus Cutscene
+    /// </summary>
     public void StartLotusCutscene()
     {
         startLotusCutscene.Invoke();
     }
 
+    /// <summary>
+    /// Trigger events relating to ending the Lotus Cutscene
+    /// </summary>
     public void EndLotusCutscene()
     {
         endLotusCutscene.Invoke();
