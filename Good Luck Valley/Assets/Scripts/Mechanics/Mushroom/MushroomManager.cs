@@ -180,6 +180,7 @@ public class MushroomManager : MonoBehaviour, IData
 
 
             case ThrowState.Throwing:
+                Debug.Log("Throw Line: " + throwLineOn);
                 if (throwLineOn && !throwLocked)
                 {
                     throwUI_Script.PlotTrajectory(playerRB.position,
@@ -588,7 +589,6 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void LockThrow()
     {
-        throwLineOn = false;
         recallLocked = true;
         throwLocked = true;
     }
