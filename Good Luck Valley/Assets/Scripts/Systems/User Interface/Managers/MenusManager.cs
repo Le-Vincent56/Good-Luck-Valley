@@ -24,8 +24,8 @@ public class MenusManager : MonoBehaviour
     private static Dropdown resDropdown;
     private static Settings settings;
     private static Toggle fullscreenToggle;
-    private Button newGameButton;
     private Toggle subtitlesToggle;
+    private Button newGameButton;
     private Button continueButton;
     private Button loadGameButton;
     private Button settingsButton;
@@ -77,12 +77,12 @@ public class MenusManager : MonoBehaviour
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
-        if (currentScene == 1 || currentScene == 2 || currentScene == 4 || currentScene > 5)
+        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
         {
             // Find confirmation check in scene
             confirmationCheck = GameObject.Find("ConfirmationCheck");
             // If so, set it to be inactive
-            if (confirmationCheck != null)
+            if (confirmationCheck)
             {
                 confirmationCheck.SetActive(false);
             }
@@ -92,13 +92,16 @@ public class MenusManager : MonoBehaviour
         }
 
         // Check if the scene is one that contains a second confirmation check
-        if (currentScene == 2 || currentScene == 4 || currentScene > 5)
+        if (currentScene == 2 || currentScene == 4)
         {
             // Find second confirmation check
             deleteConfirmation = GameObject.Find("Delete Confirmation");
-            // If so, set it to be inactive
-            deleteConfirmation.SetActive(false);
 
+            if (deleteConfirmation)
+            {
+                // If so, set it to be inactive
+                deleteConfirmation.SetActive(false);
+            }
             // Needs to be set to true for the confirmation checks to pop up
             checkQuit = true;
         }
@@ -137,7 +140,7 @@ public class MenusManager : MonoBehaviour
 
         // Loading things for settings scene
         #region SETTINGS SCENE
-        if (currentScene == 4 | currentScene > 5)
+        if (currentScene == 4)
         { 
             // Make on value change events not happen
             disableCalls = true;
@@ -205,7 +208,10 @@ public class MenusManager : MonoBehaviour
         }
         else if (currentScene != 0 && currentScene <= 5)
         {
-            StartCoroutine(FadeIn());
+            if (deleteConfirmation)
+            {
+                StartCoroutine(FadeIn());
+            }
         }
     }
 
@@ -244,7 +250,7 @@ public class MenusManager : MonoBehaviour
 
         #region SETTINGS SCENE HANDLING
         // Check if scene is settings, 4
-        if (currentScene == 4 || currentScene > 5)
+        if (currentScene == 4)
         {
             // Check if we should update the navigation buttons visuals
             if (checkButtons)
@@ -711,7 +717,6 @@ public class MenusManager : MonoBehaviour
 
     public void AdjustSlider(int index)
     {
-
         if (textInputs.Length > 0 && sliders.Length > 0 && int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
         {
             sliders[index].value = result;

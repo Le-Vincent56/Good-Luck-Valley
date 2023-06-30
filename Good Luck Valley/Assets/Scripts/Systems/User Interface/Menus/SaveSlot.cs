@@ -47,7 +47,7 @@ public class SaveSlot : MonoBehaviour
             noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
 
-            levelName.text = data.levelName;
+            levelName.text = data.currentLevelName;
             playtime.text = data.playtimeString;
         }
     }
