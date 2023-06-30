@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FMOD;
 using FMODUnity;
 
 public class Settings : MonoBehaviour, ISettingsData
@@ -10,6 +9,7 @@ public class Settings : MonoBehaviour, ISettingsData
     private MenusManager menusMan;
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
+    private GameObject brightnessSquare;
     #endregion
 
     #region FIELDS
@@ -62,6 +62,7 @@ public class Settings : MonoBehaviour, ISettingsData
     void Start()
     {
         menusMan = GameObject.Find("MenusManager").GetComponent<MenusManager>();
+        brightnessSquare = GameObject.Find("Fade");
         if (menusMan.CurrentScene > 5)
         {
             mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
@@ -124,6 +125,10 @@ public class Settings : MonoBehaviour, ISettingsData
                     DisableThrowLine();
                 }
                 #endregion
+
+                Debug.Log("Brightness: " + brightness);
+                float transparencyValue = 1 - (brightness / 100);
+                brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
             }
 
             #region SOUND SETTINGS

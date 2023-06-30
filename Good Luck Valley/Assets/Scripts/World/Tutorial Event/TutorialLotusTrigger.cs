@@ -9,7 +9,8 @@ public class TutorialLotusTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
+        // CHanged this to shroomevent for rockstar build
+        tutorialManager = GameObject.Find("ShroomEvent").GetComponent<Tutorial>();
     }
 
     /// <summary>
@@ -21,7 +22,17 @@ public class TutorialLotusTrigger : MonoBehaviour
         // If the collider is the Player, show the Lotus tutorial text
         if (collision.gameObject.tag.Equals("Player"))
         {
-            tutorialManager.ShowingLotusText = true;
+            tutorialManager.ShowLotusTutorialText();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // If the collider is the Player and the InteractableText is active, show 
+        // the interactable tutorial text
+        if (collision.gameObject.tag.Equals("Player"))
+        {
+            tutorialManager.FadeLotusTutorialText();
         }
     }
 }

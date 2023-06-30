@@ -190,23 +190,10 @@ public class MenusManager : MonoBehaviour
         // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false)
         {
-            if (currentScene == 0)
-            {
-                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-            }
-            else
-            {
-                if (settings.Brightness == 0)
-                {
-                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.99f);
-                }
-                else
-                {
-                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, (1 - (settings.Brightness / 100)));
-                }
-            }
+            Debug.Log("Cull");
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
-        else if (currentScene != 0 && currentScene <= 5)
+        else if (currentScene != 0 && currentScene <= 6)
         {
             if (deleteConfirmation)
             {
@@ -312,7 +299,7 @@ public class MenusManager : MonoBehaviour
         // Set the initial values of the square's color, black with full transparency
         fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
 
-        if (currentScene == 0)
+        if (currentScene <= 6)
         {
             // If the scene is 0, title screen, then set fade in to false
             // cuz we shouldn't fade in when loading the title screen
@@ -838,7 +825,7 @@ public class MenusManager : MonoBehaviour
         ApplyAudio();
 
         // Save the game
-        DataManager.Instance.SaveGame();
+        DataManager.Instance.SaveSettings();
 
         // Disables confirmation check
         settingsSaved = true;
