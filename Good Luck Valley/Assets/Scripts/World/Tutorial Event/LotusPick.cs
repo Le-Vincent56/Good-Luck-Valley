@@ -50,20 +50,6 @@ public class LotusPick : Interactable
             // If the control is not triggered, set interacting to false
             interacting = false;
         }
-
-        // If endlevel
-        if (endLevel)
-        {
-            // Start the fade timer
-            if (!finishedInteracting)
-            {
-                pauseMenu.Paused = true;
-            }
-            else if (pauseMenu.Paused)
-            {
-                pauseMenu.Paused = false;
-            }
-        }
     }
 
     /// <summary>
@@ -80,13 +66,16 @@ public class LotusPick : Interactable
 
     private IEnumerator FadeVines()
     {
+        pauseMenu.Paused = true;
         Color color = vineWall.GetComponent<SpriteRenderer>().color;
-        vineWall.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, color.a - 0.001f);
+        vineWall.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, color.a - 0.01f);
      
         if (vineWall.GetComponent<SpriteRenderer>().color.a <= 0)
         {
             disableEvent.Unlock();
             finishedInteracting = true;
+            vineWall.SetActive(false);
+            pauseMenu.Paused = false;
         }
         yield return null;
     }

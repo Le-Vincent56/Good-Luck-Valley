@@ -17,6 +17,7 @@ public class SettingsManager : MonoBehaviour
     private static Toggle fullscreenToggle;
     private static Settings settings;
     private Toggle subtitlesToggle;
+    private GameObject brightnessSquare;
     #endregion
 
     #region FIELDS
@@ -59,6 +60,8 @@ public class SettingsManager : MonoBehaviour
 
         // Get the settings reference
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+
+        brightnessSquare = GameObject.Find("Fade");
 
         // Initial value used to disable exit check
         settingsSaved = true;
@@ -125,7 +128,6 @@ public class SettingsManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Settings Saved? " + settingsSaved);
 
         // Check if scene is settings, 4
         if (currentScene == 4 || currentScene > 5)
@@ -383,20 +385,10 @@ public class SettingsManager : MonoBehaviour
             {
                 case 0:
                     brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
-                    if (brightness < .95f)
-                    {
-                        //fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
-                        settings.Brightness = brightness;
-                    }
                     break;
 
                 case 1:
                     brightness = sliders[5].value;
-                    if (brightness < .95f)
-                    {
-                        //fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
-                        settings.Brightness = brightness;
-                    }
                     break;
             }
             settingsSaved = false;
