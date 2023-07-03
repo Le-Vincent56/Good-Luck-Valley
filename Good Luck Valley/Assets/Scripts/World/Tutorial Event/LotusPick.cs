@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LotusPick : Interactable
 {
@@ -76,6 +77,18 @@ public class LotusPick : Interactable
             finishedInteracting = true;
             vineWall.SetActive(false);
             pauseMenu.Paused = false;
+
+            GameObject endScreen = GameObject.Find("Demo Ending Text");
+            if (endScreen != null)
+            {
+                Debug.Log("EndScreen");
+                pauseMenu.Paused = true;
+                disableEvent.Lock();
+                endScreen.GetComponent<Text>().color = new Color(1, 1, 1, 1);
+                endScreen.GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+                endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color = new Color(1, 1, 1, 1);
+                GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0,0,0, 0.5f);
+            }
         }
         yield return null;
     }

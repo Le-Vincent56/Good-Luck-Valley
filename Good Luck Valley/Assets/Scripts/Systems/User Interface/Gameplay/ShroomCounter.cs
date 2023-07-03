@@ -98,6 +98,9 @@ public class ShroomCounter : MonoBehaviour
             shroomFill1.color = new Color(originalR, originalG, originalB, 0.3882353f);
             shroomFill2.color = new Color(originalR, originalG, originalB, 0.3882353f);
             shroomFill3.color = new Color(originalR, originalG, originalB, 0.3882353f);
+            shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
         }
     }
 
