@@ -52,7 +52,7 @@ public class LotusPick : Interactable
             interacting = false;
         }
     }
-
+        
     /// <summary>
     /// Disable Lotus tutorial text and end the level
     /// </summary>
@@ -81,15 +81,28 @@ public class LotusPick : Interactable
             GameObject endScreen = GameObject.Find("Demo Ending Text");
             if (endScreen != null)
             {
-                Debug.Log("EndScreen");
+                finishedInteracting = false;
                 pauseMenu.Paused = true;
                 disableEvent.Lock();
-                endScreen.GetComponent<Text>().color = new Color(1, 1, 1, 1);
-                endScreen.GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
-                endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color = new Color(1, 1, 1, 1);
-                GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0,0,0, 0.5f);
+                StartCoroutine(FadeEndScreen(endScreen));
             }
         }
+        yield return null;
+    }
+
+    private IEnumerator FadeEndScreen(GameObject endScreen)
+    {
+        endScreen.GetComponent<Text>().color = new Color(1, 1, 1, endScreen.GetComponent<Text>().color.a + 0.01f);
+        endScreen.GetComponentInChildren<Image>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().color.a + 0.01f);
+        endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color.a + 0.01f);
+        GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a + 0.01f);
+
+        if (GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a >= 1)
+        {
+            GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, .85f);
+            finishedInteracting = true;
+        }
+
         yield return null;
     }
 }
