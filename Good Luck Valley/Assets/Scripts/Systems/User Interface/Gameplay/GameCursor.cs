@@ -7,27 +7,27 @@ using Cinemachine;
 public class GameCursor : MonoBehaviour
 {
     #region REFERENCES
-    private Camera cam;
+    [SerializeField] Camera cam;
     private GameObject cmCam;
+    private CinemachineVirtualCamera cineVirt;
     private GameObject player;
     private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS
     [SerializeField] private bool basedOnPlayer;
-    private float cmWidth;
-    private float cmHeight;
+    private Rect cmViewport;
+    private Rect mainViewport;
     private float camHeight;
     private float camWidth;
     private float widthOffset;
     private float heightOffset;
-    private float widthDampen;
-    private float heightDampen;
     private Vector2 cursorPosition;
     private Vector2 cursorVelocity = Vector3.zero;
     private Vector2 cursorDirection = Vector3.zero;
     private float cursorSpeed = 30f;
     private bool usingMouse = false;
+    [SerializeField] private bool showDebugLines = false;
     #endregion
 
     // Start is called before the first frame update
@@ -38,6 +38,7 @@ public class GameCursor : MonoBehaviour
         // Get components
         cam = Camera.main;
         cmCam = GameObject.Find("CM vcam1");
+        cineVirt = cmCam.GetComponent<CinemachineVirtualCamera>();
 
         if(basedOnPlayer)
         {
@@ -51,6 +52,9 @@ public class GameCursor : MonoBehaviour
 
         // Cursor fields
         cursorPosition = transform.position;
+
+        // Confine the cursor to the window
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
@@ -69,7 +73,7 @@ public class GameCursor : MonoBehaviour
         else
         {
             // Update cursor positiond with player
-            if(basedOnPlayer)
+            if (basedOnPlayer)
             {
                 if (player.GetComponent<PlayerMovement>().IsMoving)
                 {
@@ -82,18 +86,35 @@ public class GameCursor : MonoBehaviour
             cursorPosition += cursorVelocity;
         }
 
+        // Calculate the main viewport
+        mainViewport = CalculateViewportRectangleMain();
+
         // Check bounds
-        if(basedOnPlayer)
+        if (basedOnPlayer)
         {
+            // If based on player, take cinemachine into account
+            cmViewport = CalculateViewportRectangleCM();
             CheckCursorBoundsPlayer();
-        } else
+        }
+        else
         {
+            // If not based on player, the static camera will do
             CheckCursorBoundsStatic();
         }
-        
 
         // Draw cursor
         transform.position = cursorPosition;
+
+        // For debugging
+        if (showDebugLines)
+        {
+            if(basedOnPlayer)
+            {
+                Debug.DrawLine(new Vector2(cmViewport.xMin, cmViewport.yMin), new Vector2(cmViewport.xMax, cmViewport.yMax), Color.red);
+            }
+
+            Debug.DrawLine(new Vector2(mainViewport.xMin, mainViewport.yMin), new Vector2(mainViewport.xMax, mainViewport.yMax), Color.blue);
+        }
     }
 
     /// <summary>
@@ -101,103 +122,24 @@ public class GameCursor : MonoBehaviour
     /// </summary>
     public void CheckCursorBoundsPlayer()
     {
-        // Set default Main Camera bounds
-        float leftBound = player.transform.position.x - camWidth;
-        float rightBound = player.transform.position.x + camWidth;
-        float lowerBound = player.transform.position.y - camHeight;
-        float upperBound = player.transform.position.y + camHeight;
-
-        #region WIDTH BOUNDS
-        // Calculate the orthographic width of the Cinemachine Virtual Camera
-        cmWidth = (player.transform.position.x
-            - (cmCam.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize * cmCam.GetComponent<CinemachineVirtualCamera>().m_Lens.Aspect))
-            - cmCam.transform.position.x;
+        // Calculate width offset
+        // Negative values - Cinemachine is to the left of the main Camera
+        // Positive values - Cinemachine is to the right of the main Camera
+        widthOffset = cmViewport.x - mainViewport.x;
+        float leftBound = cmViewport.xMin - widthOffset;
+        float rightBound = cmViewport.xMax - widthOffset;
 
 
-        // Calculate Cinemachine's Left Bound
-        float cmLeftBound = cmCam.transform.position.x + Mathf.Abs(cmWidth);
+        // Calculate height offset
+        // Negative values - Cinemachine is below the main Camera
+        // Positive values - Cinemachine is above the main Camera
+        heightOffset = cmViewport.y - mainViewport.y;
+        float lowerBound = cmViewport.yMin - heightOffset;
+        float upperBound = cmViewport.yMax - heightOffset; 
 
-        // Calculate the Main Camera's Left Bound
-        float mcLeftBound = cam.transform.position.x + Mathf.Abs(camWidth);
-
-        // Compare the width offset between the two cameras
-        widthOffset = cmLeftBound - mcLeftBound;
-
-        // Get the current width of the Main Camera
-        float leftWidth = leftBound - player.transform.position.x;
-
-        // Subtract the absolute value of the dampening height
-        // from the absolute value of the main camera height
-        widthDampen = Mathf.Abs(cmWidth) - Mathf.Abs(leftWidth);
-
-        if(Mathf.Abs(widthOffset) - Mathf.Abs(widthDampen) < 0.01)
-        {
-            // If there is a minimal difference in offset and dampen, just add dampen
-            leftBound = player.transform.position.x - camWidth + widthDampen;
-            rightBound = player.transform.position.x + camWidth + widthDampen;
-        } else
-        {
-            // Otherwise, add offset and dampen
-            leftBound = player.transform.position.x - camWidth - widthOffset + (2 * widthDampen);
-            rightBound = player.transform.position.x + camWidth - widthOffset + (2 * widthDampen);
-        }
-        #endregion
-
-        #region HEIGHT BOUNDS
-        // Calculate the orthographic height of the Cinemachine Virtual Camera
-        cmHeight = (player.transform.position.y 
-            - (cmCam.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize)) 
-            - cmCam.transform.position.y;
-
-        // Calculate Cinemachine's Bottom Bound
-        float cmBottomBound = cmCam.transform.position.y + Mathf.Abs(cmHeight);
-
-        // Calculate the Main Camera's Bottom Bound
-        float mcBottomBound = cam.transform.position.y + Mathf.Abs(camHeight);
-
-        // Compare the height offset between the two cameras
-        heightOffset = Mathf.Abs(cmBottomBound - mcBottomBound);
-
-        // Get the current height of the Main Camera
-        float bottomHeight = lowerBound - player.transform.position.y;
-
-        // Subtract the absolute value of the dampening height
-        // from the absolute value of the main camera height
-        heightDampen = Mathf.Abs(cmHeight) - Mathf.Abs(bottomHeight);
-
-        if (Mathf.Abs(heightOffset) - Mathf.Abs(heightDampen) < 0.01)
-        {
-            // If there is a minimal difference in offset and dampen, just add dampen
-            lowerBound = player.transform.position.y - camHeight + heightDampen;
-            upperBound = player.transform.position.y + camHeight + heightDampen;
-        }
-        else
-        {
-            // Otherwise, add offset and dampen
-            lowerBound = player.transform.position.y - camHeight - heightOffset + (2 * widthDampen);
-            upperBound = player.transform.position.y + camHeight - heightOffset + (2 * widthDampen);
-        }
-        #endregion
-
-        // Check x bounds against camera
-        if (cursorPosition.x < leftBound)
-        {
-            cursorPosition.x = leftBound;
-        }
-        else if (cursorPosition.x > rightBound)
-        {
-            cursorPosition.x = rightBound;
-        }
-
-        // Check y bounds against camera
-        if (cursorPosition.y < lowerBound)
-        {
-            cursorPosition.y = lowerBound;
-        }
-        else if (cursorPosition.y > upperBound)
-        {
-            cursorPosition.y = upperBound;
-        }
+        // Clamp the cursor position into the bounds of the screen
+        cursorPosition.x = Mathf.Clamp(cursorPosition.x, leftBound, rightBound);
+        cursorPosition.y = Mathf.Clamp(cursorPosition.y, lowerBound, upperBound);
     }
 
     /// <summary>
@@ -205,25 +147,44 @@ public class GameCursor : MonoBehaviour
     /// </summary>
     public void CheckCursorBoundsStatic()
     {
-        // Check x bounds against camera
-        if (cursorPosition.x < -camWidth)
-        {
-            cursorPosition.x = -camWidth;
-        }
-        else if (cursorPosition.x > camWidth)
-        {
-            cursorPosition.x = camWidth;
-        }
+        cursorPosition.x = Mathf.Clamp(cursorPosition.x, -camWidth, camWidth);
+        cursorPosition.y = Mathf.Clamp(cursorPosition.y, -camHeight, camHeight);
+    }
 
-        // Check y bounds against camera
-        if (cursorPosition.y < -camHeight)
-        {
-            cursorPosition.y = -camHeight;
-        }
-        else if (cursorPosition.y > camHeight)
-        {
-            cursorPosition.y = camHeight;
-        }
+    private Rect CalculateViewportRectangleCM()
+    {
+        float orthographicSize = cineVirt.m_Lens.OrthographicSize;
+        float aspectRatio = cineVirt.m_Lens.Aspect;
+
+        float viewportHeight = orthographicSize * 2;
+        float viewportWidth = viewportHeight * aspectRatio;
+
+        Vector2 cameraPosition = cineVirt.transform.position;
+
+        Rect viewportRect = new Rect(
+            cameraPosition.x - viewportWidth / 2,
+            cameraPosition.y - viewportHeight / 2,
+            viewportWidth,
+            viewportHeight);
+
+        return viewportRect;
+    }
+
+    private Rect CalculateViewportRectangleMain()
+    {
+        float orthographicSize = cam.orthographicSize;
+        float aspectRatio = cam.aspect;
+
+        float camHeight = orthographicSize * 2;
+        float camWidth = camHeight * aspectRatio;
+
+        Rect viewportRect = new Rect(
+            cam.transform.position.x - camWidth / 2,
+            cam.transform.position.y - camHeight / 2,
+            camWidth,
+            camHeight);
+
+        return viewportRect;
     }
 
     #region INPUT HANDLER

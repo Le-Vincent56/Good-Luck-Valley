@@ -6,14 +6,12 @@ public class PowerSpore : Interactable
 {
     #region REFERENCES
     private MushroomManager mushroomManager;
-    private Tutorial tutorialManager;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
-        tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
 
         remove = false;
     }
@@ -23,9 +21,9 @@ public class PowerSpore : Interactable
     /// </summary>
     public override void Interact()
     {
-        tutorialManager.ShowingBounceText = true;
         mushroomManager.ThrowUnlocked = true;
         finishedInteracting = true;
         remove = true;
+        mushroomManager.ShroomCounter.ResetQueue();
     }
 }

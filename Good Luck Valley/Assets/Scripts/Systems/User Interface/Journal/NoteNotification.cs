@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class NoteNotification : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private JournalScriptableObj journalEvent;
     private Note currentNote;
     private Image panelImage;
     private Text entryAddedText;
@@ -27,6 +28,19 @@ public class NoteNotification : MonoBehaviour
     public Text NoteTitle { get { return noteTitle; } set { noteTitle = value; } }
     public bool NotifInProgress { get { return notifInProgress; } set { notifInProgress = value; } }
     public Queue<Note> NotifQueue { get { return notifQueue; } set { notifQueue = value; } }
+
+    private void OnEnable()
+    {
+        // Subscribe to Journal events
+        journalEvent.noteAddedEvent.AddListener(EnqueueNote);
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to Journal events
+        journalEvent.noteAddedEvent.RemoveListener(EnqueueNote);
+    }
+
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -56,6 +70,9 @@ public class NoteNotification : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Resolve Notification effects within the UI
+    /// </summary>
     public void ResolveNotif()
     {
         // Fade the notification in
@@ -117,6 +134,9 @@ public class NoteNotification : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Prepare notifications to be shown in the UI
+    /// </summary>
     public void PrepareNotification()
     {
         // Set timers and show text
@@ -132,4 +152,15 @@ public class NoteNotification : MonoBehaviour
         continueToFadeOutTimer = false;
         fadeCompleted = false;
     }
+
+    #region EVENT FUNCTIONS
+    /// <summary>
+    /// Enqueue a Note to be notified of
+    /// </summary>
+    /// <param name="noteToEnqueue">The note to enqueue</param>
+    public void EnqueueNote(Note noteToEnqueue)
+    {
+        notifQueue.Enqueue(noteToEnqueue);
+    }
+    #endregion
 }

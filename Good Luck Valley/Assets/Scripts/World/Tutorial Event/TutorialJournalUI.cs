@@ -6,6 +6,8 @@ using UnityEngine;
 public class TutorialJournalUI : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
     private PlayerMovement playerMovement;
     private Tutorial tutorialManager;
     private PauseMenu pauseMenu;
@@ -25,10 +27,10 @@ public class TutorialJournalUI : MonoBehaviour
     {
         if(tutorialManager.ShowingThirdJournalUIText)
         {
-            if(pauseMenu.Paused && journal.HasOpened && journal.MenuOpen)
+            if(journalEvent.GetOpenedOnce() && journalEvent.GetJournalOpen())
             {
-                playerMovement.IsLocked = false;
-                tutorialManager.fadeThirdJournalUITutorialText();
+                disableEvent.Unlock();
+                tutorialManager.FadeThirdJournalUITutorialText();
                 tutorialManager.ShowingThirdJournalUIText = false;
             }
         }
