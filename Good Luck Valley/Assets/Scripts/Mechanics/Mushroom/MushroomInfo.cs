@@ -70,6 +70,7 @@ public class MushroomInfo : MonoBehaviour
         }
         if (isShroom && mushMan.EnableShroomTimers)
         {
+            Debug.Log("Calling Shroom Timers");
             UpdateShroomTimer();    
 
             if(mushMan.MushroomLimit == 3)
@@ -77,7 +78,7 @@ public class MushroomInfo : MonoBehaviour
         }
         else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
         {
-
+            Debug.Log("Nothing");
         }
     }
 
@@ -107,18 +108,14 @@ public class MushroomInfo : MonoBehaviour
 
     void UpdateMushroomCounter()
     {
-        updateCounter = true;
-        if (updateCounter)
+        if (mushMan.ThrowUnlocked)
         {
-            if (mushMan.ThrowUnlocked)
-            {
-                shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
-            }
+            shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
+        }
 
-            if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
-            {
-                shroomIcon.GetComponent<ParticleSystem>().Play();
-            }
+        if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+        {
+            shroomIcon.GetComponent<ParticleSystem>().Play();
         }
     }
 
@@ -126,7 +123,6 @@ public class MushroomInfo : MonoBehaviour
     {
         shroomIcon.GetComponent<Image>().fillAmount = 1;
         shroomIcon.GetComponent<ParticleSystem>().Play();
-        updateCounter = false;
     }
 
     public void StartCounter()
