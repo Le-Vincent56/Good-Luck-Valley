@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LotusPick : Interactable
 {
@@ -51,7 +52,7 @@ public class LotusPick : Interactable
             interacting = false;
         }
     }
-
+        
     /// <summary>
     /// Disable Lotus tutorial text and end the level
     /// </summary>
@@ -76,7 +77,32 @@ public class LotusPick : Interactable
             finishedInteracting = true;
             vineWall.SetActive(false);
             pauseMenu.Paused = false;
+
+            GameObject endScreen = GameObject.Find("Demo Ending Text");
+            if (endScreen != null)
+            {
+                finishedInteracting = false;
+                pauseMenu.Paused = true;
+                disableEvent.Lock();
+                StartCoroutine(FadeEndScreen(endScreen));
+            }
         }
+        yield return null;
+    }
+
+    private IEnumerator FadeEndScreen(GameObject endScreen)
+    {
+        endScreen.GetComponent<Text>().color = new Color(1, 1, 1, endScreen.GetComponent<Text>().color.a + 0.01f);
+        endScreen.GetComponentInChildren<Image>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().color.a + 0.01f);
+        endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color.a + 0.01f);
+        GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a + 0.01f);
+
+        if (GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a >= 1)
+        {
+            GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, .85f);
+            finishedInteracting = true;
+        }
+
         yield return null;
     }
 }
