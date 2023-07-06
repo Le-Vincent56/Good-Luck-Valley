@@ -158,7 +158,7 @@ public class PauseMenu : MonoBehaviour, IData
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
-        levelName = data.levelName;
+        levelName = data.currentLevelName;
         playtimeTotal = data.playtimeTotal;
         playtimeString = data.playtimeString;
     }
@@ -167,15 +167,15 @@ public class PauseMenu : MonoBehaviour, IData
     {
         #region CALCULATE PLAYTIME
         // Turn playtime into hours, minutes, and seconds
-        playtimeHours = (playtimeTotal / 3600) % 24;
-        playtimeMinutes = (playtimeTotal / 60) % 60;
-        playtimeSeconds = playtimeTotal % 60;
+        playtimeHours = (int)(playtimeTotal / 3600) % 24;
+        playtimeMinutes = (int)(playtimeTotal / 60) % 60;
+        playtimeSeconds = (int)playtimeTotal % 60;
 
         // Create a playtime string
         playtimeString = playtimeHours + ":" + playtimeMinutes + ":" + playtimeSeconds;
         #endregion
 
-        data.levelName = levelName;
+        data.currentLevelName = levelName;
         data.playtimeTotal = playtimeTotal;
         data.playtimeString = playtimeString;
     }

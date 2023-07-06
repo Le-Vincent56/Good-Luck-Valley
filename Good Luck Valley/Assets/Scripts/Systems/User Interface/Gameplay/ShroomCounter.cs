@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ public class ShroomCounter : MonoBehaviour
     private Image shroomOutline1;
     private Image shroomOutline2;
     private Image shroomOutline3;
+    private Image shroomFill1;
+    private Image shroomFill2;
+    private Image shroomFill3;
     private MushroomManager mushMan;
     #endregion
 
@@ -38,6 +42,9 @@ public class ShroomCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Figure this out after gettting a working build, less .Find calls
+        // GameObject parent = gameObject;
+
         shroomIcon1 = GameObject.Find("Shroom Icon 1");
         shroomIcon2 = GameObject.Find("Shroom Icon 2");
         shroomIcon3 = GameObject.Find("Shroom Icon 3");
@@ -55,6 +62,10 @@ public class ShroomCounter : MonoBehaviour
         shroomOutline1 = GameObject.Find("Shroom Outline 1").GetComponent<Image>();
         shroomOutline2 = GameObject.Find("Shroom Outline 2").GetComponent<Image>();
         shroomOutline3 = GameObject.Find("Shroom Outline 3").GetComponent<Image>();
+        
+        shroomFill1 = GameObject.Find("ShroomFill 1").GetComponent<Image>();
+        shroomFill2 = GameObject.Find("ShroomFill 2").GetComponent<Image>();
+        shroomFill3 = GameObject.Find("ShroomFill 3").GetComponent<Image>();
 
         shroomIconList = new List<GameObject>()
         {
@@ -69,18 +80,27 @@ public class ShroomCounter : MonoBehaviour
     {
         if (!mushMan.ThrowUnlocked)
         {
-            shroomIcon1.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
-            shroomIcon2.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
-            shroomIcon3.GetComponent<SpriteRenderer>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
+            shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
             shroomOutline1.color = new Color(originalR, originalG, originalB, 0);
             shroomOutline2.color = new Color(originalR, originalG, originalB, 0);
             shroomOutline3.color = new Color(originalR, originalG, originalB, 0);
+            shroomFill1.color = new Color(originalR, originalG, originalB, 0);
+            shroomFill2.color = new Color(originalR, originalG, originalB, 0);
+            shroomFill3.color = new Color(originalR, originalG, originalB, 0);
         }   
         else
         {
             shroomOutline1.color = new Color(originalR, originalG, originalB, 1);
             shroomOutline2.color = new Color(originalR, originalG, originalB, 1);
             shroomOutline3.color = new Color(originalR, originalG, originalB, 1);
+            shroomFill1.color = new Color(originalR, originalG, originalB, 0.3882353f);
+            shroomFill2.color = new Color(originalR, originalG, originalB, 0.3882353f);
+            shroomFill3.color = new Color(originalR, originalG, originalB, 0.3882353f);
+            shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
         }
     }
 

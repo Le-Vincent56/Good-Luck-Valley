@@ -132,11 +132,13 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         tilemap = GameObject.Find("foreground");
+
+        Debug.Log("Reset Queue");
+        shroomCounter.ResetQueue();
     }
 
     private void OnEnable()
     {
-
         pauseEvent.pauseEvent.AddListener(LockThrow);
         pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);
@@ -559,7 +561,7 @@ public class MushroomManager : MonoBehaviour, IData
                 if (mushroomList.Count != 0)
                 {
                     Debug.Log("RemoveLAstshroom");
-                    // Destroys the mushroom at the front of the list
+                    // Destroys the mushroom at the front of the list   
                     if (mushroomLimit == 3)
                     {
                         mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();
@@ -589,7 +591,6 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void LockThrow()
     {
-        throwLineOn = false;
         recallLocked = true;
         throwLocked = true;
     }

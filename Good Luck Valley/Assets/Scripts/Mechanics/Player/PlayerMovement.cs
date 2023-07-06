@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
 using FMOD.Studio;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour, IData
 {
@@ -820,11 +821,13 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <summary>
 	/// Set variables for bouncing
 	/// </summary>
-	private void ApplyBounce()
+	private void ApplyBounce(Vector3 bounceForce, ForceMode2D forceType)
 	{
 		bouncing = true;
 		bounceBuffer = 0.1f;
 		landedTimer = 0.2f;
+
+        RB.AddForce(bounceForce, forceType);
 	}
 
 	/// <summary>
@@ -870,14 +873,27 @@ public class PlayerMovement : MonoBehaviour, IData
 	#region DATA HANDLING
 	public void LoadData(GameData data)
 	{
-		// Load player position
-		gameObject.transform.position = data.playerPosition;
+        // Get the currently active scene
+        Scene scene = SceneManager.GetActiveScene();
+
+        // Check if that scene name exists in the dictionary for good measure
+        if(data.levelData.ContainsKey(scene.name))
+        {
+            // If it does exist, load the players positional data using the data for this scene
+            Vector3 playerPositionForThisScene = data.levelData[scene.name].playerPosition;
+            gameObject.transform.position = playerPositionForThisScene;
+        } else
+        {
+            //If it doesn't exist, let ourselves know that we need to add it to our game data
+            Debug.LogError("Failed to get data for scene with name: " + scene.name + ". It may need to be added to the GameData constructor");
+        }
 	}
 
 	public void SaveData(GameData data)
 	{
-		// Save player position
-		data.playerPosition = gameObject.transform.position;
+        // Save player position in the dictionary slot for this scene
+        Scene scene = SceneManager.GetActiveScene();
+        data.levelData[scene.name].playerPosition = this.transform.position;
 	}
 	#endregion
 }

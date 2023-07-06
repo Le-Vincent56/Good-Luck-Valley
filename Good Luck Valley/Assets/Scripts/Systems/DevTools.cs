@@ -81,7 +81,7 @@ public class DevTools : MonoBehaviour
             noClip = settings.NoClipOn;
             instantThrow = settings.InstantThrowOn;
             infiniteShrooms = settings.InfiniteShroomsOn;
-            mushMan.ThrowUnlocked = false;
+            // mushMan.ThrowUnlocked = false;
             disableShroomDuration = !settings.ShroomDurationOn;
         }
     }
@@ -151,7 +151,21 @@ public class DevTools : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Turn on Dev Tools using a keybind
+    /// </summary>
     #region INPUT HANDLERS
+    public void OnDevTools()
+    {
+        if(!devToolsEnabled)
+        {
+            devToolsEnabled = true;
+        } else
+        {
+            devToolsEnabled = false;
+        }
+    }
+
     public void OnActivateNoClip()
     {
         // Check if devTools is enabled
@@ -243,13 +257,18 @@ public class DevTools : MonoBehaviour
         }
     }
 
-    public void OnCutToLevel(int level)
+    public void SkipToLevel(int direction)
     {
         if (devToolsEnabled)
         {
+            int scene = SceneManager.GetActiveScene().buildIndex;
+            if (scene + direction < SceneManager.sceneCount && scene + direction > 6)
+            {
+            }
             AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
             AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
-            SceneManager.LoadScene(level);
+            Debug.Log("Going to level: " + SceneManager.GetActiveScene().buildIndex + direction);
+            SceneManager.LoadScene(scene + direction);
         }
     }
     #endregion

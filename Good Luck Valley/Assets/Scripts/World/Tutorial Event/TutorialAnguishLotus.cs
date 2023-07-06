@@ -17,7 +17,7 @@ public class TutorialAnguishLotus : Interactable
     #region FIELDS
     private bool endLevel = false;
     private GameObject[] shroomWalls;
-    [SerializeField] private float fadeTimer = 3.0f;
+    [SerializeField] private float fadeAmount = 0.02f;
     #endregion
 
     void Start()
@@ -25,7 +25,6 @@ public class TutorialAnguishLotus : Interactable
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         remove = false;
-        fadeTimer = 2.0f;
         endLevel = false;
 
         shroomWalls = new GameObject[3];
@@ -62,8 +61,7 @@ public class TutorialAnguishLotus : Interactable
         {
             // Start the fade timer
             if (!finishedInteracting)
-            {
-                disableEvent.Lock();
+            {   
                 pauseMenu.Paused = true;
                 //tutorialManager.ShowingDemoEndText = true;
             }
@@ -74,7 +72,6 @@ public class TutorialAnguishLotus : Interactable
                     g.SetActive(false);
                 }
 
-                disableEvent.Unlock();
                 pauseMenu.Paused = false;
             }
         }
@@ -85,6 +82,9 @@ public class TutorialAnguishLotus : Interactable
     /// </summary>
     public override void Interact()
     {
+        // Lock the player
+        disableEvent.Lock();
+
         // End the level
         endLevel = true;
     }
@@ -94,11 +94,12 @@ public class TutorialAnguishLotus : Interactable
         foreach (GameObject g in shroomWalls)
         {
             Color color = g.GetComponent<SpriteRenderer>().color;
-            g.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, color.a - 0.001f);
+            g.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, color.a - fadeAmount);
         }
         if (shroomWalls[0].GetComponent<SpriteRenderer>().color.a <= 0)
         {
             finishedInteracting = true;
+            disableEvent.Unlock();
         }
         yield return null;
     }

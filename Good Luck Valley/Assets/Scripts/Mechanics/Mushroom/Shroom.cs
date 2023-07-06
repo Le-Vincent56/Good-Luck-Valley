@@ -1,33 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using Unity.VisualScripting;
+using UnityEngine.UI;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class MushroomInfo : MonoBehaviour
+public abstract class Shroom : MonoBehaviour
 {
     #region REFERENCES
-    private MushroomManager mushMan;
-    private ShroomCounter shroomCounter;
+    protected MushroomManager mushMan;
+    protected ShroomCounter shroomCounter;
     [SerializeField] GameObject shroomIcon;
-    [SerializeField] private GameObject mushroom;
+    [SerializeField] protected GameObject mushroom;
     #endregion
 
     #region FIELDS
-    private bool hasRotated;
-    [SerializeField] float rotateAngle;
-    private bool bouncing = false;
-    private float bouncingTimer = 0.1f;
-    [SerializeField] private float durationTimer;
-    private bool onScreen;
-    [SerializeField] private bool isShroom;
-    private Color defaultColor;
-    private ParticleSystem shroomParticles;
-    private bool playShroomParticle = true;
-    [SerializeField] float particleTime;
-    private bool updateCounter;
-    float spawnedLifeTime;
+    [SerializeField] protected MushroomScriptableObj mushroomEvent;
+    protected bool hasRotated;
+    [SerializeField] protected float rotateAngle;
+    [SerializeField] protected bool bouncing = false;
+    protected float bouncingTimer = 0.1f;
+    [SerializeField] protected float durationTimer;
+    protected bool onScreen;
+    [SerializeField] protected bool isShroom;
+    protected Color defaultColor;
+    protected ParticleSystem shroomParticles;
+    protected bool playShroomParticle = true;
+    [SerializeField] protected float particleTime;
+    protected bool updateCounter;
+    protected float spawnedLifeTime;
+    [SerializeField] protected float bounceForce;
     #endregion
 
     #region PROPERTIES
@@ -41,47 +43,15 @@ public class MushroomInfo : MonoBehaviour
     public Color ShroomColor { get { return defaultColor; } set { defaultColor = value; } }
     public ParticleSystem ShroomParticles { get { return shroomParticles; } set { shroomParticles = value; } }
     public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
-    public GameObject ShroomIcon { get { return shroomIcon;  } set { shroomIcon = value; } }
+    public GameObject ShroomIcon { get { return shroomIcon; } set { shroomIcon = value; } }
     public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
     public GameObject Mushroom { get { return mushroom; } set { mushroom = value; } }
     #endregion
 
-    private void Awake()
-    {
-        mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
-        shroomCounter = GameObject.Find("MushroomCountUI").GetComponent<ShroomCounter>();
-        shroomParticles = GetComponent<ParticleSystem>();
-        durationTimer = mushMan.ShroomDuration;
-        defaultColor = new Color(168, 168, 168);
-        particleTime = durationTimer;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (bouncing)
-        {     
-            bouncingTimer -= Time.deltaTime;
-            if (bouncingTimer <= 0)
-            {
-                bouncing = false;
-                GetComponent<Animator>().SetBool("Bouncing", false);
-            }
-        }
-        if (isShroom && mushMan.EnableShroomTimers)
-        {
-            UpdateShroomTimer();    
-
-            if(mushMan.MushroomLimit == 3)
-            UpdateMushroomCounter();
-        }
-        else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
-        {
-
-        }
-    }
-
-    void UpdateShroomTimer()
+    /// <summary>
+    /// Updates shroom counter's filling and timer
+    /// </summary>
+    public void UpdateShroomCounter()
     {
         // Decreases time from the timer
         durationTimer -= Time.deltaTime;
@@ -103,12 +73,8 @@ public class MushroomInfo : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
             GetComponentInChildren<Light2D>().intensity -= percentOpacity;
         }
-    }
 
-    void UpdateMushroomCounter()
-    {
-        updateCounter = true;
-        if (updateCounter)
+        if (mushMan.MushroomLimit == 3)
         {
             if (mushMan.ThrowUnlocked)
             {
@@ -122,51 +88,39 @@ public class MushroomInfo : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Resets the mushroom counter to filled and plays the particle effect
+    /// </summary>
+    /// <param name="shroomIcon"></param>
     public void ResetCounter()
     {
-        shroomIcon.GetComponent<Image>().fillAmount = 1;
-        shroomIcon.GetComponent<ParticleSystem>().Play();
-        updateCounter = false;
+        ShroomIcon.GetComponent<Image>().fillAmount = 1;
+        ShroomIcon.GetComponent<ParticleSystem>().Play();
     }
-
-    public void StartCounter()
-    {
-        shroomIcon.GetComponent<Image>().fillAmount = 0;
-    }
-
-
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!hasRotated)
-        {
-            if (collision.collider is CompositeCollider2D)
-            {
-                RotateAndFreeze();
-            }
-            else if (collision.collider is BoxCollider2D)
-            {
-                if (collision.collider.tag == "Decomposable")
-                {
-                    if (collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed == false)
-                    {
-                        collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed = true;
-                    }
-                    RotateAndFreeze();
-                }
-                else if (collision.collider.tag == "Weighted")
-                {
-                    RotateAndFreeze();
-                    collision.gameObject.GetComponent<MoveablePlatform>().CheckWeight(gameObject);
-                }
-            }
-        }
-    }
-
 
     /// <summary>
-    /// Rotates the shrooms to the normal of the plane they collide with
+    /// Starts the mushroom counter's filling
     /// </summary>
-    private void RotateAndFreeze()
+    /// <param name="shroomIcon"></param>
+    public void StartCounter()
+    {
+        ShroomIcon.GetComponent<Image>().fillAmount = 0;
+    }
+
+    /// <summary>
+    /// Bounces the player in the way the shroom wants
+    /// </summary>
+    public abstract void Bounce();
+
+    /// <summary>
+    /// When the mushroom hits an object
+    /// </summary>
+    public abstract void OnCollisionEnter2D(Collision2D collision);
+
+    /// <summary>
+    /// Rotates and Freezes the mushroom 
+    /// </summary>
+    public void RotateAndFreeze()
     {
         // Saves the colliders of the platforms the shroom is coming into contact with intos an array
         ContactPoint2D[] contacts = new ContactPoint2D[10];

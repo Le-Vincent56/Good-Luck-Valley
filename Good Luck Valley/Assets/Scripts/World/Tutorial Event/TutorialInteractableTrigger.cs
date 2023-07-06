@@ -19,7 +19,8 @@ public class TutorialInteractableTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
+        // CHanged this to shroomevent for rockstar build
+        tutorialManager = GameObject.Find("ShroomEvent").GetComponent<Tutorial>();
     }
 
     /// <summary>
@@ -32,7 +33,17 @@ public class TutorialInteractableTrigger : MonoBehaviour
         // the interactable tutorial text
         if (collision.gameObject.tag.Equals("Player") && active)
         {
-            tutorialManager.ShowingInteractableText = true;
+            tutorialManager.ShowInteractableTutorialText();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // If the collider is the Player and the InteractableText is active, show 
+        // the interactable tutorial text
+        if (collision.gameObject.tag.Equals("Player") && active)
+        {
+            tutorialManager.FadeInteractableTutorialText();
         }
     }
 }

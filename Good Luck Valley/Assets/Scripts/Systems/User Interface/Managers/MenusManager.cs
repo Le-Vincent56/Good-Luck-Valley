@@ -24,8 +24,8 @@ public class MenusManager : MonoBehaviour
     private static Dropdown resDropdown;
     private static Settings settings;
     private static Toggle fullscreenToggle;
-    private Button newGameButton;
     private Toggle subtitlesToggle;
+    private Button newGameButton;
     private Button continueButton;
     private Button loadGameButton;
     private Button settingsButton;
@@ -77,12 +77,12 @@ public class MenusManager : MonoBehaviour
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
-        if (currentScene == 1 || currentScene == 2 || currentScene == 4 || currentScene > 5)
+        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
         {
             // Find confirmation check in scene
             confirmationCheck = GameObject.Find("ConfirmationCheck");
             // If so, set it to be inactive
-            if (confirmationCheck != null)
+            if (confirmationCheck)
             {
                 confirmationCheck.SetActive(false);
             }
@@ -92,13 +92,16 @@ public class MenusManager : MonoBehaviour
         }
 
         // Check if the scene is one that contains a second confirmation check
-        if (currentScene == 2 || currentScene == 4 || currentScene > 5)
+        if (currentScene == 2 || currentScene == 4)
         {
             // Find second confirmation check
             deleteConfirmation = GameObject.Find("Delete Confirmation");
-            // If so, set it to be inactive
-            deleteConfirmation.SetActive(false);
 
+            if (deleteConfirmation)
+            {
+                // If so, set it to be inactive
+                deleteConfirmation.SetActive(false);
+            }
             // Needs to be set to true for the confirmation checks to pop up
             checkQuit = true;
         }
@@ -137,7 +140,7 @@ public class MenusManager : MonoBehaviour
 
         // Loading things for settings scene
         #region SETTINGS SCENE
-        if (currentScene == 4 | currentScene > 5)
+        if (currentScene == 4)
         { 
             // Make on value change events not happen
             disableCalls = true;
@@ -187,25 +190,15 @@ public class MenusManager : MonoBehaviour
         // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false)
         {
-            if (currentScene == 0)
-            {
-                fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-            }
-            else
-            {
-                if (settings.Brightness == 0)
-                {
-                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.99f);
-                }
-                else
-                {
-                    fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, (1 - (settings.Brightness / 100)));
-                }
-            }
+            Debug.Log("Cull");
+            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
-        else if (currentScene != 0 && currentScene <= 5)
+        else if (currentScene != 0 && currentScene <= 6)
         {
-            StartCoroutine(FadeIn());
+            if (deleteConfirmation)
+            {
+                StartCoroutine(FadeIn());
+            }
         }
     }
 
@@ -244,7 +237,7 @@ public class MenusManager : MonoBehaviour
 
         #region SETTINGS SCENE HANDLING
         // Check if scene is settings, 4
-        if (currentScene == 4 || currentScene > 5)
+        if (currentScene == 4)
         {
             // Check if we should update the navigation buttons visuals
             if (checkButtons)
@@ -306,7 +299,7 @@ public class MenusManager : MonoBehaviour
         // Set the initial values of the square's color, black with full transparency
         fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
 
-        if (currentScene == 0)
+        if (currentScene <= 6)
         {
             // If the scene is 0, title screen, then set fade in to false
             // cuz we shouldn't fade in when loading the title screen
@@ -711,7 +704,6 @@ public class MenusManager : MonoBehaviour
 
     public void AdjustSlider(int index)
     {
-
         if (textInputs.Length > 0 && sliders.Length > 0 && int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
         {
             sliders[index].value = result;
@@ -821,7 +813,7 @@ public class MenusManager : MonoBehaviour
     {
         // Bool in Settings.cs that lets it know if it should update the
         //  game state based on enabled settings
-        settings.UpdateSettings = true;
+        settings.UpdateSettings();
 
         // Accessibility settings
         ApplyAccessibility();
@@ -833,7 +825,7 @@ public class MenusManager : MonoBehaviour
         ApplyAudio();
 
         // Save the game
-        DataManager.Instance.SaveGame();
+        DataManager.Instance.SaveSettings();
 
         // Disables confirmation check
         settingsSaved = true;
