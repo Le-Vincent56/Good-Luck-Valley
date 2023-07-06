@@ -821,11 +821,13 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <summary>
 	/// Set variables for bouncing
 	/// </summary>
-	private void ApplyBounce()
+	private void ApplyBounce(Vector3 bounceForce, ForceMode2D forceType)
 	{
 		bouncing = true;
 		bounceBuffer = 0.1f;
 		landedTimer = 0.2f;
+
+        RB.AddForce(bounceForce, forceType);
 	}
 
 	/// <summary>
