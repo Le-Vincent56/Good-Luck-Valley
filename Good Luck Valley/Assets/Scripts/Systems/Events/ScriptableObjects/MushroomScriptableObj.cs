@@ -10,10 +10,11 @@ public class MushroomScriptableObj : ScriptableObject
     [SerializeField] private bool bouncing;
     [SerializeField] private bool touchingShroom;
     [SerializeField] private bool throwing;
+    [SerializeField] Vector3 bounceForce;
 
     #region EVENTS
     [System.NonSerialized]
-    public UnityEvent bounceEvent;
+    public UnityEvent<Vector3, ForceMode2D> bounceEvent;
     public UnityEvent<bool> bounceAnimationEvent;
     public UnityEvent<bool> touchingShroomEvent;
     public UnityEvent checkThrowAnimationEvent;
@@ -26,7 +27,7 @@ public class MushroomScriptableObj : ScriptableObject
         #region CREATE EVENTS
         if (bounceEvent == null)
         {
-            bounceEvent = new UnityEvent();
+            bounceEvent = new UnityEvent<Vector3, ForceMode2D>();
         }
 
         if (bounceAnimationEvent == null)
@@ -81,9 +82,9 @@ public class MushroomScriptableObj : ScriptableObject
     /// <summary>
     /// Trigger bounce-related events
     /// </summary>
-    public void Bounce()
+    public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
     {
-        bounceEvent.Invoke();
+        bounceEvent.Invoke(forceToApply, forceType);
         bounceAnimationEvent.Invoke(bouncing);
     }
 
