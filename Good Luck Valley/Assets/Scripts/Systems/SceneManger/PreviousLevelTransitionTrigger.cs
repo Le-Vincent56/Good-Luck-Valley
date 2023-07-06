@@ -1,19 +1,17 @@
-using JetBrains.Annotations;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransitionTrigger : MonoBehaviour
+public class PreviousLevelTransitionTrigger : MonoBehaviour
 {
     #region REFERENCES
     [SerializeField] GameObject levelLoader;
 
     #endregion
-
-    #region FIELDS
     private bool transition;
     private float timeBeforeTransitionTrigger = 5f;
+    #region FIELDS
+
     #endregion
 
     #region PROPERTIES
@@ -28,12 +26,12 @@ public class TransitionTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       if (collision.gameObject.tag == "Player" && transition)
-       {
+        if (collision.gameObject.tag == "Player" && transition)
+        {
             // Save the game before loading the next level
             DataManager.Instance.SaveGame();
-            levelLoader.GetComponent<LoadLevel>().LoadNextLevel();
-       }
+            levelLoader.GetComponent<LoadLevel>().LoadPrevLevel();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -42,6 +40,7 @@ public class TransitionTrigger : MonoBehaviour
         {
             transition = true;
         }
+
     }
 
     private IEnumerator CheckTransition()

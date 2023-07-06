@@ -24,6 +24,11 @@ public class LoadLevel : MonoBehaviour
         StartCoroutine(LoadingLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
+    public void LoadPrevLevel()
+    {
+        StartCoroutine(LoadingLevel(SceneManager.GetActiveScene().buildIndex - 1));
+    }
+
     /// <summary>
     /// Pauses before triggering level change animation
     /// </summary>

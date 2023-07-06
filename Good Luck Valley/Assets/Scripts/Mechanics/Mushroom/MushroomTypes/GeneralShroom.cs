@@ -44,10 +44,6 @@ public class GeneralShroom : Shroom
         {
             UpdateShroomCounter();
         }
-        else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
-        {
-            Debug.Log("Nothing");
-        }
     }
 
     public override void Bounce()
