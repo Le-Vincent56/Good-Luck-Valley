@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class WallShroom : Shroom
 {
+    #region FIELDS
     [SerializeField] private float angleToSubtract;
-    
+    #endregion
 
     private void Awake()
     {
@@ -44,6 +45,9 @@ public class WallShroom : Shroom
         }
     }
 
+    /// <summary>
+    /// Bounce the player
+    /// </summary>
     public override void Bounce()
     {
         Debug.Log("Bounce");
@@ -69,6 +73,10 @@ public class WallShroom : Shroom
         mushroomEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 
+    /// <summary>
+    /// Check for collisions
+    /// </summary>
+    /// <param name="collision">The context of the collider</param>
     public override void OnCollisionEnter2D(Collision2D collision)
     {
         if (!hasRotated)
@@ -86,6 +94,7 @@ public class WallShroom : Shroom
                     shroomType = ShroomType.Regular;
                 }
 
+                // Rotate and freeze the shroom
                 RotateAndFreeze();
             }
         }

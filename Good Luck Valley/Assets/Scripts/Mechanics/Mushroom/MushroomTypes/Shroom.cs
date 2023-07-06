@@ -188,7 +188,6 @@ public abstract class Shroom : MonoBehaviour
                 break;
         }
 
-
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<Shroom>().HasRotated = true;
         shroom.GetComponent<Shroom>().ShroomIcon = gameObject.GetComponent<Shroom>().ShroomIcon;

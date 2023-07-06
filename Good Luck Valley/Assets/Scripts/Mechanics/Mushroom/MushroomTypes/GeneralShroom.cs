@@ -46,6 +46,9 @@ public class GeneralShroom : Shroom
         }
     }
 
+    /// <summary>
+    /// Bounce the player
+    /// </summary>
     public override void Bounce()
     {
         // Check if colliding with a mushroom
@@ -98,7 +101,10 @@ public class GeneralShroom : Shroom
         }
     }
 
-
+    /// <summary>
+    /// Check for collisions
+    /// </summary>
+    /// <param name="collision">The context of the collider</param>
     public override void OnCollisionEnter2D(Collision2D collision)
     {
         if (!hasRotated)
@@ -116,21 +122,30 @@ public class GeneralShroom : Shroom
                     shroomType = ShroomType.Regular;
                 }
 
+                // Rotate and freeze the shroom
                 RotateAndFreeze();
             }
             else if (collision.collider is BoxCollider2D)
             {
+                // Check if the tile is decomposable
                 if (collision.collider.tag == "Decomposable")
                 {
+                    // Set the tile to decomposed
                     if (collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed == false)
                     {
                         collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed = true;
                     }
+                    
+                    // Rotate and freeze the shroom
                     RotateAndFreeze();
                 }
+                // Check if the platform is weighted
                 else if (collision.collider.tag == "Weighted")
                 {
+                    // Rotate and freeze the shroom
                     RotateAndFreeze();
+
+                    // Check if the weight of the platform needs to be activated
                     collision.gameObject.GetComponent<MoveablePlatform>().CheckWeight(gameObject);
                 }
             }
