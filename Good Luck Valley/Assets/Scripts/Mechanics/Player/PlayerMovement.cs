@@ -771,13 +771,20 @@ public class PlayerMovement : MonoBehaviour, IData
         }
     }
 
+    /// <summary>
+    /// Set a jump buffer for jump-bouncing
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator JumpBuffer()
     {
+        // Set the buffer
         if(jumpBuffer <= 0f)
         {
             jumpBuffer = 0.1f;
         }
 
+        // While the buffer is greater than 0, let other code run
+        // then subtract by deltaTime
         while(jumpBuffer > 0f)
         {
             yield return null;
@@ -846,6 +853,9 @@ public class PlayerMovement : MonoBehaviour, IData
         bounceBuffer = 0.1f;
         landedTimer = 0.2f;
 
+        // Check if jumping - if there's a simultaneous jump,
+        // reduce the bounce amount so that the player doesn't launch into the air
+        // more than they are supposed to
         if(isJumping && jumpBuffer > 0)
         {
             Debug.Log("Jump Bouncing!");
