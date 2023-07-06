@@ -72,10 +72,6 @@ public class MushroomInfo : MonoBehaviour, IShroom
         {
             UpdateShroomCounter();
         }
-        else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
-        {
-            Debug.Log("Nothing");
-        }
     }
 
     public void UpdateShroomCounter()

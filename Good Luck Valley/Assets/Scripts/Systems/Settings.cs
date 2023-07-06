@@ -126,7 +126,6 @@ public class Settings : MonoBehaviour, ISettingsData
                 }
                 #endregion
 
-                Debug.Log("Brightness: " + brightness);
                 float transparencyValue = 1 - (brightness / 100);
                 brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
             }

@@ -132,6 +132,9 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         tilemap = GameObject.Find("foreground");
+
+        Debug.Log("Reset Queue");
+        shroomCounter.ResetQueue();
     }
 
     private void OnEnable()
@@ -180,7 +183,6 @@ public class MushroomManager : MonoBehaviour, IData
 
 
             case ThrowState.Throwing:
-                Debug.Log("Throw Line: " + throwLineOn);
                 if (throwLineOn && !throwLocked)
                 {
                     throwUI_Script.PlotTrajectory(playerRB.position,
