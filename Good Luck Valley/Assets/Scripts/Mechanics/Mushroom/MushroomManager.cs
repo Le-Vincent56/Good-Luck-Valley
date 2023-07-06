@@ -559,7 +559,7 @@ public class MushroomManager : MonoBehaviour, IData
                 if (mushroomList.Count != 0)
                 {
                     Debug.Log("RemoveLAstshroom");
-                    // Destroys the mushroom at the front of the list
+                    // Destroys the mushroom at the front of the list   
                     if (mushroomLimit == 3)
                     {
                         mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();

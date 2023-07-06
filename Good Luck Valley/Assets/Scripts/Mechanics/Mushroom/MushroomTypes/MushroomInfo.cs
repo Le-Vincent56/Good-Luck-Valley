@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Unity.VisualScripting;
 
-public class MushroomInfo : MonoBehaviour
+public class MushroomInfo : MonoBehaviour, IShroom
 {
     #region REFERENCES
     private MushroomManager mushMan;
@@ -70,11 +70,7 @@ public class MushroomInfo : MonoBehaviour
         }
         if (isShroom && mushMan.EnableShroomTimers)
         {
-            Debug.Log("Calling Shroom Timers");
-            UpdateShroomTimer();    
-
-            if(mushMan.MushroomLimit == 3)
-            UpdateMushroomCounter();
+            UpdateShroomCounter();
         }
         else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
         {
@@ -82,7 +78,7 @@ public class MushroomInfo : MonoBehaviour
         }
     }
 
-    void UpdateShroomTimer()
+    public void UpdateShroomCounter()
     {
         // Decreases time from the timer
         durationTimer -= Time.deltaTime;
@@ -104,18 +100,18 @@ public class MushroomInfo : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
             GetComponentInChildren<Light2D>().intensity -= percentOpacity;
         }
-    }
 
-    void UpdateMushroomCounter()
-    {
-        if (mushMan.ThrowUnlocked)
+        if (mushMan.MushroomLimit == 3)
         {
-            shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
-        }
+            if (mushMan.ThrowUnlocked)
+            {
+                shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
+            }
 
-        if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
-        {
-            shroomIcon.GetComponent<ParticleSystem>().Play();
+            if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+            {
+                shroomIcon.GetComponent<ParticleSystem>().Play();
+            }
         }
     }
 
@@ -162,7 +158,7 @@ public class MushroomInfo : MonoBehaviour
     /// <summary>
     /// Rotates the shrooms to the normal of the plane they collide with
     /// </summary>
-    private void RotateAndFreeze()
+    public void RotateAndFreeze()
     {
         // Saves the colliders of the platforms the shroom is coming into contact with intos an array
         ContactPoint2D[] contacts = new ContactPoint2D[10];
