@@ -48233,17 +48233,6 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 7691238258581287182, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
   m_PrefabInstance: {fileID: 7691238257745275887}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &935625385 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1401037538959131519, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
-  m_PrefabInstance: {fileID: 8338204710913100452}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b80bb1e3349ec254db557422317e54a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &952475851 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6934267980989886454, guid: 4788b279466473a499dc4b001838241a, type: 3}
@@ -49293,6 +49282,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1248009128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7929834176910632845, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
+  m_PrefabInstance: {fileID: 1142083549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b760406516752440ba8592a9b9f1471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1259274619
 GameObject:
   m_ObjectHideFlags: 0
@@ -50284,14 +50284,26 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 935625385}
-        m_TargetAssemblyTypeName: MenusManager, Assembly-CSharp
-        m_MethodName: CheckFade
-        m_Mode: 3
+      - m_Target: {fileID: 1248009128}
+        m_TargetAssemblyTypeName: DataManager, Assembly-CSharp
+        m_MethodName: ResetPositions
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1248009128}
+        m_TargetAssemblyTypeName: DataManager, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

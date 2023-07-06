@@ -5,45 +5,17 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Unity.VisualScripting;
 
-public class MushroomInfo : MonoBehaviour, IShroom
+public class MushroomInfo : Shroom
 {
     #region REFERENCES
-    private MushroomManager mushMan;
-    private ShroomCounter shroomCounter;
-    [SerializeField] GameObject shroomIcon;
-    [SerializeField] private GameObject mushroom;
+    // [SerializeField] Tutorial tutorialManager;
     #endregion
 
     #region FIELDS
-    private bool hasRotated;
-    [SerializeField] float rotateAngle;
-    private bool bouncing = false;
-    private float bouncingTimer = 0.1f;
-    [SerializeField] private float durationTimer;
-    private bool onScreen;
-    [SerializeField] private bool isShroom;
-    private Color defaultColor;
-    private ParticleSystem shroomParticles;
-    private bool playShroomParticle = true;
-    [SerializeField] float particleTime;
-    private bool updateCounter;
-    float spawnedLifeTime;
-    #endregion
-
-    #region PROPERTIES
-    public bool HasRotated { get { return hasRotated; } set { hasRotated = value; } }
-    public float RotateAngle { get { return rotateAngle; } set { rotateAngle = value; } }
-    public bool Bouncing { get { return bouncing; } set { bouncing = value; } }
-    public float BouncingTimer { get { return bouncingTimer; } set { bouncingTimer = value; } }
-    public bool OnScreen { get { return onScreen; } set { onScreen = value; } }
-    public bool IsShroom { get { return isShroom; } set { isShroom = value; } }
-    public float DurationTimer { get { return durationTimer; } set { durationTimer = value; } }
-    public Color ShroomColor { get { return defaultColor; } set { defaultColor = value; } }
-    public ParticleSystem ShroomParticles { get { return shroomParticles; } set { shroomParticles = value; } }
-    public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
-    public GameObject ShroomIcon { get { return shroomIcon;  } set { shroomIcon = value; } }
-    public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
-    public GameObject Mushroom { get { return mushroom; } set { mushroom = value; } }
+    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private bool onCooldown = false;
+    private float cooldown = 0.1f;
+    // private bool firstBounce = true;
     #endregion
 
     private void Awake()
@@ -56,9 +28,27 @@ public class MushroomInfo : MonoBehaviour, IShroom
         particleTime = durationTimer;
     }
 
+    public void Start()
+    {
+        cooldown = 0.1f;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        // Set a cooldown for when the player can bounce on the shroom again
+        if (onCooldown)
+        {
+            cooldown -= Time.deltaTime;
+        }
+
+        if (cooldown <= 0)
+        {
+            onCooldown = false;
+            cooldown = 0.1f;
+        }
+
+        // Check if the player is bouncing
         if (bouncing)
         {     
             bouncingTimer -= Time.deltaTime;
@@ -78,56 +68,60 @@ public class MushroomInfo : MonoBehaviour, IShroom
         }
     }
 
-    public void UpdateShroomCounter()
+    public override void Bounce()
     {
-        // Decreases time from the timer
-        durationTimer -= Time.deltaTime;
-
-        if (durationTimer <= (particleTime * 0.5) && playShroomParticle)
+        // Check if colliding with a mushroom
+        if (!onCooldown)
         {
-            shroomParticles.Play();
-            playShroomParticle = false;
-        }
+            //// If there is a tutorialManager, and firstBounce is true,
+            //// don't show bounce tutorial text and set firstBounce to false
+            //if (tutorialManager != null && firstBounce)
+            //{
+            //    tutorialManager.ShowingBounceText = false;
+            //    firstBounce = false;
+            //}
 
+            // Set bouncing variables
+            bouncing = true;
+            bouncingTimer = 1f;
 
-        // The percent that should be reducted from the opacity each frame
-        //float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
-        if (durationTimer <= .1f)
-        {
-            float percentOpacity = Time.deltaTime / .1f;
+            // Set the direction
+            Quaternion rotation = Quaternion.AngleAxis(rotateAngle - 90, Vector3.forward);
+            Vector3 direction = rotation * Vector2.up;
 
-            // Adjust opacity of mushroom and intensity of light based on percentOpacity
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
-            GetComponentInChildren<Light2D>().intensity -= percentOpacity;
-        }
+            // Get a number between 0 and 0.5 depending on the angle (besides some edge cases)
+            float rotationDegrees = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float roundedPercentage = (rotationDegrees % 90) / 90;
+            float precisePercentage = Mathf.Abs(0f - roundedPercentage);
 
-        if (mushMan.MushroomLimit == 3)
-        {
-            if (mushMan.ThrowUnlocked)
+            // Check for edge cases - when it might be around 0.98
+            if (precisePercentage > 0.5f && precisePercentage < 1.0f)
             {
-                shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
+                precisePercentage = Mathf.Abs(precisePercentage - 1);
             }
 
-            if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+            // Find the additional force
+            float additionalForce = bounceForce * (precisePercentage / 4);
+
+            // Apply bounce
+            Vector3 forceToApply = direction * (bounceForce + additionalForce);
+            onCooldown = true;
+
+            // If additional force is greater than 0.1, that means you're likely not at an angle, so apply a movement cooldown so the bounce feels most impactful
+            if (additionalForce > 0.1f)
             {
-                shroomIcon.GetComponent<ParticleSystem>().Play();
+                disableEvent.SetInputCooldown(0.05f);
+                disableEvent.StopInput();
             }
+
+            // Trigger events
+            mushroomEvent.SetBounce(true);
+            mushroomEvent.Bounce(forceToApply, ForceMode2D.Impulse);
         }
     }
 
-    public void ResetCounter()
-    {
-        shroomIcon.GetComponent<Image>().fillAmount = 1;
-        shroomIcon.GetComponent<ParticleSystem>().Play();
-    }
 
-    public void StartCounter()
-    {
-        shroomIcon.GetComponent<Image>().fillAmount = 0;
-    }
-
-
-    public void OnCollisionEnter2D(Collision2D collision)
+    public override void OnCollisionEnter2D(Collision2D collision)
     {
         if (!hasRotated)
         {
@@ -152,44 +146,5 @@ public class MushroomInfo : MonoBehaviour, IShroom
                 }
             }
         }
-    }
-
-
-    /// <summary>
-    /// Rotates the shrooms to the normal of the plane they collide with
-    /// </summary>
-    public void RotateAndFreeze()
-    {
-        // Saves the colliders of the platforms the shroom is coming into contact with intos an array
-        ContactPoint2D[] contacts = new ContactPoint2D[10];
-        GetComponent<CircleCollider2D>().GetContacts(contacts);
-
-        // The direction vector that the mushroom needs to point towards,
-        //      contacts[0].point is the point the shroom is touching the platform at
-        //      mushroom.transform.position is the mushroom's position,
-        //          casted to a vector 2 so it can be subtracted from the contact point
-        ContactPoint2D contactPoint = contacts[0];
-        Vector2 direction = contactPoint.normal;
-
-        // The angle that the shroom is going to rotate at
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        // The quaternion that will rotate the shroom
-        Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        transform.rotation = rotation;
-
-        // Freezes shroom movement and rotation, and sets hasRotated to true
-        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        GetComponent<MushroomInfo>().HasRotated = true;
-
-        GameObject shroom = Instantiate(mushroom, transform.position, rotation);
-        shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        shroom.GetComponent<MushroomInfo>().HasRotated = true;
-        shroom.GetComponent<MushroomInfo>().ShroomIcon = gameObject.GetComponent<MushroomInfo>().ShroomIcon;
-        mushMan.ChangeShroomIndexes[mushMan.MushroomList.IndexOf(gameObject)] = shroom;
-
-        // Set the MushroomInfo angle to the calculated angle
-        shroom.GetComponent<MushroomInfo>().RotateAngle = angle;
-        hasRotated = true;
     }
 }
