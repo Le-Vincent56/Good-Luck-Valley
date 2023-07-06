@@ -36,7 +36,6 @@ public class Settings : MonoBehaviour, ISettingsData
 
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
-    private static bool updateSettings;
     #endregion
 
     #region PROPERTIES
@@ -45,7 +44,6 @@ public class Settings : MonoBehaviour, ISettingsData
     public bool InstantThrowOn { get { return instantThrowOn; } set { instantThrowOn = value; } }
     public bool InfiniteShroomsOn { get { return infiniteShroomsOn; } set { infiniteShroomsOn = value; } }
     public bool ShroomDurationOn { get { return shroomDurationOn; } set { shroomDurationOn = value; } }
-    public bool UpdateSettings { get {  return updateSettings; } set {  updateSettings = value; } }
     public float Brightness { get { return brightness; } set {  brightness = value; } }
     public bool SubtitlesEnabled { get {  return subtitlesEnabled; } set {  subtitlesEnabled = value; } }
     public int ResOption { get { return resOption; } set { resOption = value; } }
@@ -69,78 +67,7 @@ public class Settings : MonoBehaviour, ISettingsData
             playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
             playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
             capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (updateSettings)
-        {
-            if (menusMan.CurrentScene > 5)
-            {
-                #region ACCESSIBILITY SETTINGS
-                if (noClipOn)
-                {
-                    ActivateNoClip();
-                }
-                else
-                {
-                    DeactivateNoClip();
-                }
-
-                if (instantThrowOn)
-                {
-                    ActivateInstantShroom();
-                }
-                else
-                {
-                    DeactivateInstantShroom();
-                }
-
-                if (infiniteShroomsOn)
-                {
-                    ActivateInfiniteShrooms();
-                }
-                else
-                {
-                    DeactivateInfiniteShrooms();
-                }
-
-                if (shroomDurationOn)
-                {
-                    ActivateShroomTimers();
-                }
-                else
-                {
-                    DeactivateShroomTimers();
-                }
-
-                if (throwIndicatorShown)
-                {
-                    EnableThrowLine();
-                }
-                else
-                {
-                    DisableThrowLine();
-                }
-                #endregion
-
-                float transparencyValue = 1 - (brightness / 100);
-                brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
-            }
-
-            #region SOUND SETTINGS
-            if(AudioManager.Instance)
-            {
-                AudioManager.Instance.SetMasterVolume(masterVolume / 100);
-                AudioManager.Instance.SetMusicVolume(musicVolume / 100);
-                AudioManager.Instance.SetAmbienceVolume(ambientVolume / 100);
-                AudioManager.Instance.SetSFXVolume(SFXVolume / 100);
-            }
-            #endregion
-
-            updateSettings = false;
+            UpdateSettings();
         }
     }
 
@@ -216,10 +143,6 @@ public class Settings : MonoBehaviour, ISettingsData
     public void LoadData(SettingsData data)
     {
 
-        // Bool in Settings.cs that lets it know if it should update the
-        //  game state based on enabled settings
-        updateSettings = true;
-
         // Load accessibility settings
         #region ACCESSIBILITY
         throwIndicatorShown = data.throwIndicatorShown;
@@ -255,11 +178,12 @@ public class Settings : MonoBehaviour, ISettingsData
         SFXVolume = data.SFXVolume;
         voicesVolume = data.voicesVolume;
         #endregion
+
+        UpdateSettings();
     }
 
     public void SaveData(SettingsData data)
     {
-        updateSettings = true;
 
         // Save accessibility settings values
         #region ACCESSIBILITY
@@ -286,6 +210,79 @@ public class Settings : MonoBehaviour, ISettingsData
         data.voicesVolume = voicesVolume;
         data.SFXVolume = SFXVolume;
         data.musicVolume = musicVolume;
+        #endregion
+
+        UpdateSettings();
+    }
+    #endregion
+
+    #region UPDATING SETTINGS
+    public void UpdateSettings()
+    {
+        if (menusMan!= null && menusMan.CurrentScene > 5)
+        {
+            #region ACCESSIBILITY SETTINGS
+            if (noClipOn)
+            {
+                ActivateNoClip();
+            }
+            else
+            {
+                DeactivateNoClip();
+            }
+
+            if (instantThrowOn)
+            {
+                ActivateInstantShroom();
+            }
+            else
+            {
+                DeactivateInstantShroom();
+            }
+
+            if (infiniteShroomsOn)
+            {
+                ActivateInfiniteShrooms();
+            }
+            else
+            {
+                DeactivateInfiniteShrooms();
+            }
+
+            if (shroomDurationOn)
+            {
+                ActivateShroomTimers();
+            }
+            else
+            {
+                DeactivateShroomTimers();
+            }
+
+            if (throwIndicatorShown)
+            {
+                EnableThrowLine();
+            }
+            else
+            {
+                DisableThrowLine();
+            }
+            #endregion
+
+            #region DISPLAY SETTINGS
+            float transparencyValue = 1 - (brightness / 100);
+            Debug.Log("Transparency: " + transparencyValue);
+            brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
+            #endregion
+        }
+
+        #region SOUND SETTINGS
+        if (AudioManager.Instance)
+        {
+            AudioManager.Instance.SetMasterVolume(masterVolume / 100);
+            AudioManager.Instance.SetMusicVolume(musicVolume / 100);
+            AudioManager.Instance.SetAmbienceVolume(ambientVolume / 100);
+            AudioManager.Instance.SetSFXVolume(SFXVolume / 100);
+        }
         #endregion
     }
     #endregion
