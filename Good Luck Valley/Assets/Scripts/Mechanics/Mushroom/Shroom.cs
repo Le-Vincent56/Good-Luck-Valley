@@ -11,11 +11,14 @@ public abstract class Shroom : MonoBehaviour
     protected MushroomManager mushMan;
     protected ShroomCounter shroomCounter;
     [SerializeField] GameObject shroomIcon;
-    [SerializeField] protected GameObject mushroom;
+    [SerializeField] protected GameObject regShroom;
+    [SerializeField] protected GameObject wallShroom;
     #endregion
 
     #region FIELDS
+    protected ShroomType shroomType;
     [SerializeField] protected MushroomScriptableObj mushroomEvent;
+    [SerializeField] protected DisableScriptableObj disableEvent;
     protected bool hasRotated;
     [SerializeField] protected float rotateAngle;
     [SerializeField] protected bool bouncing = false;
@@ -30,6 +33,8 @@ public abstract class Shroom : MonoBehaviour
     protected bool updateCounter;
     protected float spawnedLifeTime;
     [SerializeField] protected float bounceForce;
+    [SerializeField] protected bool onCooldown = false;
+    protected float cooldown = 0.1f;
     #endregion
 
     #region PROPERTIES
@@ -45,8 +50,14 @@ public abstract class Shroom : MonoBehaviour
     public float ParticleTime { get { return particleTime; } set { particleTime = value; } }
     public GameObject ShroomIcon { get { return shroomIcon; } set { shroomIcon = value; } }
     public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
-    public GameObject Mushroom { get { return mushroom; } set { mushroom = value; } }
+    public GameObject RegularMushroom { get { return regShroom; } set { regShroom = value; } }
+    public GameObject WallMushroom { get { return wallShroom; } set { wallShroom = value; } }
     #endregion
+
+    public void Start()
+    {
+        cooldown = 0.1f;
+    }
 
     /// <summary>
     /// Updates shroom counter's filling and timer
@@ -85,6 +96,21 @@ public abstract class Shroom : MonoBehaviour
             {
                 shroomIcon.GetComponent<ParticleSystem>().Play();
             }
+        }
+    }
+
+    protected void SetCooldown()
+    {
+        // Set a cooldown for when the player can bounce on the shroom again
+        if (onCooldown)
+        {
+            cooldown -= Time.deltaTime;
+        }
+
+        if (cooldown <= 0)
+        {
+            onCooldown = false;
+            cooldown = 0.1f;
         }
     }
 
@@ -142,16 +168,34 @@ public abstract class Shroom : MonoBehaviour
 
         // Freezes shroom movement and rotation, and sets hasRotated to true
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        GetComponent<MushroomInfo>().HasRotated = true;
+        GetComponent<Shroom>().HasRotated = true;
 
-        GameObject shroom = Instantiate(mushroom, transform.position, rotation);
+        GameObject shroom = null;
+
+        // Get shroom type and instantiate shrooms
+        switch(shroomType)
+        {
+            case ShroomType.Regular:
+                shroom = Instantiate(regShroom, transform.position, rotation);
+                break;
+
+            case ShroomType.Wall:
+                shroom = Instantiate(wallShroom, transform.position, rotation);
+                break;
+
+            default:
+                shroom = Instantiate(regShroom, transform.position, rotation);
+                break;
+        }
+
+
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        shroom.GetComponent<MushroomInfo>().HasRotated = true;
-        shroom.GetComponent<MushroomInfo>().ShroomIcon = gameObject.GetComponent<MushroomInfo>().ShroomIcon;
+        shroom.GetComponent<Shroom>().HasRotated = true;
+        shroom.GetComponent<Shroom>().ShroomIcon = gameObject.GetComponent<Shroom>().ShroomIcon;
         mushMan.ChangeShroomIndexes[mushMan.MushroomList.IndexOf(gameObject)] = shroom;
 
         // Set the MushroomInfo angle to the calculated angle
-        shroom.GetComponent<MushroomInfo>().RotateAngle = angle;
+        shroom.GetComponent<Shroom>().RotateAngle = angle;
         hasRotated = true;
     }
 }

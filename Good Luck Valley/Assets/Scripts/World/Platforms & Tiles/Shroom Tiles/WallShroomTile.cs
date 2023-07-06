@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallShroomTile : MonoBehaviour
+public class WallShroomTile : MonoBehaviour, IShroomeable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private ShroomType shroomType = ShroomType.Wall;
 
-    // Update is called once per frame
-    void Update()
+    public ShroomType GetType()
     {
-        
+        return shroomType;
     }
 }

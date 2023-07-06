@@ -10,5 +10,5 @@ public enum ShroomType
 
 public interface IShroomeable
 {
-    void SetType();
+    ShroomType GetType();
 }
