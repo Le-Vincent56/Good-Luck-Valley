@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] float fallingBuffer = 0.25f;
     [SerializeField] float landedTimer = 0f;
     [SerializeField] private float inputCooldown = 0.05f;
+    [SerializeField] private float jumpBuffer = 0f;
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
@@ -70,7 +71,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	#region BOUNCING
 	[SerializeField] private bool bouncing = false;
     [SerializeField] private bool touchingShroom = false;
-    private float bounceBuffer = 0.1f;
+    private float bounceBuffer = 0.01f;
 	#endregion
 	#endregion
 
@@ -769,6 +770,30 @@ public class PlayerMovement : MonoBehaviour, IData
             yield return null;
         }
     }
+
+    /// <summary>
+    /// Set a jump buffer for jump-bouncing
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator JumpBuffer()
+    {
+        // Set the buffer
+        if(jumpBuffer <= 0f)
+        {
+            jumpBuffer = 0.1f;
+        }
+
+        // While the buffer is greater than 0, let other code run
+        // then subtract by deltaTime
+        while(jumpBuffer > 0f)
+        {
+            yield return null;
+
+            jumpBuffer -= Time.deltaTime;
+        }
+
+        yield return null;
+    }
     #endregion
 
     // INPUT HANDLER
@@ -801,13 +826,14 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!isLocked)
+        if (!isLocked && !bouncing && !touchingShroom)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
 			{
 				OnJumpInput();
-			}
+                StartCoroutine(JumpBuffer());
+            }
 			else if (context.canceled)
 			{
 				OnJumpUpInput();
@@ -823,12 +849,23 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// </summary>
 	private void ApplyBounce(Vector3 bounceForce, ForceMode2D forceType)
 	{
-		bouncing = true;
-		bounceBuffer = 0.1f;
-		landedTimer = 0.2f;
+        bouncing = true;
+        bounceBuffer = 0.1f;
+        landedTimer = 0.2f;
+
+        // Check if jumping - if there's a simultaneous jump,
+        // reduce the bounce amount so that the player doesn't launch into the air
+        // more than they are supposed to
+        if(isJumping && jumpBuffer > 0)
+        {
+            Debug.Log("Jump Bouncing!");
+
+            bounceForce /= data.jumpForce;
+        }
 
         RB.AddForce(bounceForce, forceType);
-	}
+
+    }
 
 	/// <summary>
 	/// Set whether the player is touching a shroom

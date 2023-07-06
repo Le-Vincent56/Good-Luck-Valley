@@ -48238,6 +48238,17 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 7691238258581287182, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
   m_PrefabInstance: {fileID: 7691238257745275887}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &935625385 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1401037538959131519, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
+  m_PrefabInstance: {fileID: 8338204710913100452}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80bb1e3349ec254db557422317e54a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &952475851 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6934267980989886454, guid: 4788b279466473a499dc4b001838241a, type: 3}
@@ -49156,6 +49167,10 @@ PrefabInstance:
     - target: {fileID: 7929834176910632844, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
       propertyPath: m_Name
       value: Data Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929834176910632845, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
+      propertyPath: initializeDataIfNull
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7929834176910632846, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
       propertyPath: m_RootOrder
@@ -50289,14 +50304,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1248009128}
-        m_TargetAssemblyTypeName: DataManager, Assembly-CSharp
-        m_MethodName: ResetPositions
-        m_Mode: 1
+      - m_Target: {fileID: 935625385}
+        m_TargetAssemblyTypeName: MenusManager, Assembly-CSharp
+        m_MethodName: CheckFade
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -51055,15 +51070,15 @@ PrefabInstance:
       objectReference: {fileID: 1310835847}
     - target: {fileID: 7691238257605692382, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.8801
+      value: -3.980011
       objectReference: {fileID: 0}
     - target: {fileID: 7691238257605692382, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -59.214306
+      value: 0.028048515
       objectReference: {fileID: 0}
     - target: {fileID: 7691238257605692382, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 92.53485
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_RootOrder
@@ -51071,15 +51086,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.9399
+      value: -35.83999
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 65.52431
+      value: 6.2819514
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -102.53485
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalRotation.w

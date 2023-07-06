@@ -212,7 +212,7 @@ public class MushroomManager : MonoBehaviour, IData
     {
         foreach (GameObject m in mushroomList) 
         { 
-            if (m.GetComponent<MushroomInfo>().DurationTimer <= 0)
+            if (m.GetComponent<Shroom>().DurationTimer <= 0)
             {
                 removeShroomIndexes.Push(mushroomList.IndexOf(m));
             }
@@ -252,7 +252,7 @@ public class MushroomManager : MonoBehaviour, IData
                     }   
                 }
 
-                MushroomInfo mInfo = mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>();
+                Shroom mInfo = mushroomList[mushroomList.Count - 1].GetComponent<Shroom>();
 
                 mInfo.ShroomIcon = assignedShroomIcon;
                 shroomCounter.ShroomIconQueue.Remove(assignedShroomIcon);
@@ -278,7 +278,7 @@ public class MushroomManager : MonoBehaviour, IData
         else if (mushroomList.Count >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
-            MushroomInfo mInfo = mushroomList[0].GetComponent<MushroomInfo>();
+            Shroom mInfo = mushroomList[0].GetComponent<Shroom>();
             throwUI_Script.DeleteLine();
 
             if (mushroomLimit == 3)
@@ -363,9 +363,9 @@ public class MushroomManager : MonoBehaviour, IData
             int shroomIndex = removeShroomIndexes.Pop();
 
             if (mushroomLimit == 3)
-            shroomCounter.ShroomIconQueue.Add(mushroomList[shroomIndex].GetComponent<MushroomInfo>().ShroomIcon);
+            shroomCounter.ShroomIconQueue.Add(mushroomList[shroomIndex].GetComponent<Shroom>().ShroomIcon);
             
-            mushroomList[shroomIndex].GetComponent<MushroomInfo>().ResetCounter();
+            mushroomList[shroomIndex].GetComponent<Shroom>().ResetCounter();
             Destroy(mushroomList[shroomIndex]);
             mushroomList.RemoveAt(shroomIndex);
         }
@@ -527,7 +527,7 @@ public class MushroomManager : MonoBehaviour, IData
                 {
                     // Destroys that mushroom
                     if (mushroomLimit == 3)
-                    m.GetComponent<MushroomInfo>().ResetCounter();
+                    m.GetComponent<Shroom>().ResetCounter();
 
                     Destroy(m);
                 }
@@ -564,12 +564,12 @@ public class MushroomManager : MonoBehaviour, IData
                     // Destroys the mushroom at the front of the list   
                     if (mushroomLimit == 3)
                     {
-                        mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ResetCounter();
+                        mushroomList[mushroomList.Count - 1].GetComponent<Shroom>().ResetCounter();
                     }
                     Destroy(mushroomList[mushroomList.Count - 1]);
 
                     if (mushroomLimit == 3)
-                    shroomCounter.ShroomIconQueue.Add(mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon);
+                    shroomCounter.ShroomIconQueue.Add(mushroomList[mushroomList.Count - 1].GetComponent<Shroom>().ShroomIcon);
 
                     mushroomList.RemoveAt(mushroomList.Count - 1);
                 }

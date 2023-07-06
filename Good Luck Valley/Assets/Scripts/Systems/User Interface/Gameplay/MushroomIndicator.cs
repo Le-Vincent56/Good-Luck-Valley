@@ -52,11 +52,11 @@ public class MushroomIndicator : MonoBehaviour
 
         // Check if the mushroomToIndicate is on screen, if so, enable the
         // Indicator's Renderer, disable it if the mushroomToIndicate is not on screen
-        if (mushroomToIndicate != null && mushroomToIndicate.GetComponent<MushroomInfo>().OnScreen)
+        if (mushroomToIndicate != null && mushroomToIndicate.GetComponent<Shroom>().OnScreen)
         {
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
         }
-        else if(mushroomToIndicate != null && !mushroomToIndicate.GetComponent<MushroomInfo>().OnScreen)
+        else if(mushroomToIndicate != null && !mushroomToIndicate.GetComponent<Shroom>().OnScreen)
         {
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
         } else if(mushroomToIndicate == null)
@@ -67,7 +67,7 @@ public class MushroomIndicator : MonoBehaviour
         // If the indicator is currently linked to a mushroom, track it
         if (linkedToMushroom)
         {
-            if (mushroomToIndicate != null && mushroomToIndicate.GetComponent<MushroomInfo>().IsShroom && !mushroomToIndicate.GetComponent<MushroomInfo>().OnScreen)
+            if (mushroomToIndicate != null && mushroomToIndicate.GetComponent<Shroom>().IsShroom && !mushroomToIndicate.GetComponent<Shroom>().OnScreen)
             {
                 // Find the direction from the screen center to the mushroom position
                 Vector2 directionToShroom = (mushroomToIndicate.transform.position - transform.position).normalized;
