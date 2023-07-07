@@ -34,13 +34,14 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
 
         material = GetComponent<SpriteRenderer>().material;
         startingXVelocity = material.GetFloat(externalInfluence);
+        Debug.Log("stating vel: " + startingXVelocity);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            if (!easeInRunning && Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
+            if (Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 Debug.Log("Enter");
                 StartCoroutine(EaseIn(playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength));
@@ -52,6 +53,7 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            Debug.Log("Exit");
             StartCoroutine(EaseOut());
         }
     }
@@ -60,12 +62,12 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if (!easeOutRunning && Mathf.Abs(velocityLastFrame) > Mathf.Abs(grassVelocityController.VelocityThreshold) &&
+            if (Mathf.Abs(velocityLastFrame) > Mathf.Abs(grassVelocityController.VelocityThreshold) &&
                 Mathf.Abs(playerRB.velocity.x) < Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 StartCoroutine(EaseOut());
             }
-            else if (!easeInRunning && Mathf.Abs(velocityLastFrame) < Mathf.Abs(grassVelocityController.VelocityThreshold) &&
+            else if (Mathf.Abs(velocityLastFrame) < Mathf.Abs(grassVelocityController.VelocityThreshold) &&
                 Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 StartCoroutine(EaseIn(playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength));
@@ -73,7 +75,8 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
             else if (!easeOutRunning && !easeInRunning && 
                 Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
-                grassVelocityController.InfluenceGrass(material, playerRB.velocity.x);
+                Debug.Log("SHOULDNT HAPPEN");
+                grassVelocityController.InfluenceGrass(material, playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength);
             }
 
             velocityLastFrame = playerRB.velocity.x;
@@ -84,14 +87,16 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
     {
         easeInRunning = true;
 
+        Debug.Log("Starting Velocity: " + startingXVelocity);
+
+        Debug.Log("Velocity: " + xVelocity);
+
         float elapsedTime = 0f;
         while (elapsedTime < grassVelocityController.EaseInTime)
         {
             elapsedTime += Time.deltaTime;
             float lerpAmount = Mathf.Lerp(startingXVelocity, xVelocity, (elapsedTime / grassVelocityController.EaseInTime));
             grassVelocityController.InfluenceGrass(material, lerpAmount);
-
-            Debug.Log("Lerp: " + lerpAmount);
 
             yield return null;
         }
@@ -111,8 +116,9 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
             elapsedTime += Time.deltaTime;
 
             float lerpAmount = Mathf.Lerp(currentXInfluence, startingXVelocity, (elapsedTime / grassVelocityController.EaseOutTime));
-            Debug.Log(lerpAmount);
             grassVelocityController.InfluenceGrass(material, lerpAmount);
+
+            Debug.Log("External Influence: " + currentXInfluence);
 
             yield return null;
         }

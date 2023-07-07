@@ -19,6 +19,7 @@ public class WallShroom : Shroom
         durationTimer = mushMan.ShroomDuration;
         defaultColor = new Color(168, 168, 168);
         particleTime = durationTimer;
+        isShroom = true;
     }
 
     // Update is called once per frame
@@ -35,8 +36,10 @@ public class WallShroom : Shroom
                 GetComponent<Animator>().SetBool("Bouncing", false);
             }
         }
+        Debug.Log("Gen Shroom is shroom?: " + isShroom);
         if (isShroom && mushMan.EnableShroomTimers)
         {
+            Debug.Log("Shroom Counter Updating for " + shroomType);
             UpdateShroomCounter();
         }
         else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
@@ -57,7 +60,7 @@ public class WallShroom : Shroom
         Vector3 direction = rotation * Vector2.up;
 
         // If the rotate angle is 0, then invert y direction to send upwards
-        if(rotateAngle == 0)
+        if(rotateAngle >= 0)
         {
             direction.y *= -1;
         }
