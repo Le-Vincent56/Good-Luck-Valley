@@ -5,16 +5,13 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Unity.VisualScripting;
 
-public class MushroomInfo : Shroom
+public class GeneralShroom : Shroom
 {
     #region REFERENCES
     // [SerializeField] Tutorial tutorialManager;
     #endregion
 
     #region FIELDS
-    [SerializeField] private DisableScriptableObj disableEvent;
-    [SerializeField] private bool onCooldown = false;
-    private float cooldown = 0.1f;
     // private bool firstBounce = true;
     #endregion
 
@@ -28,25 +25,10 @@ public class MushroomInfo : Shroom
         particleTime = durationTimer;
     }
 
-    public void Start()
-    {
-        cooldown = 0.1f;
-    }
-
     // Update is called once per frame
     void Update()
     {
-        // Set a cooldown for when the player can bounce on the shroom again
-        if (onCooldown)
-        {
-            cooldown -= Time.deltaTime;
-        }
-
-        if (cooldown <= 0)
-        {
-            onCooldown = false;
-            cooldown = 0.1f;
-        }
+        SetCooldown();
 
         // Check if the player is bouncing
         if (bouncing)
@@ -62,12 +44,11 @@ public class MushroomInfo : Shroom
         {
             UpdateShroomCounter();
         }
-        else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
-        {
-            Debug.Log("Nothing");
-        }
     }
 
+    /// <summary>
+    /// Bounce the player
+    /// </summary>
     public override void Bounce()
     {
         // Check if colliding with a mushroom
@@ -120,28 +101,51 @@ public class MushroomInfo : Shroom
         }
     }
 
-
+    /// <summary>
+    /// Check for collisions
+    /// </summary>
+    /// <param name="collision">The context of the collider</param>
     public override void OnCollisionEnter2D(Collision2D collision)
     {
         if (!hasRotated)
         {
             if (collision.collider is CompositeCollider2D)
             {
+                // Set shroom type
+                IShroomeable shroomeableTile = collision.gameObject.GetComponent<IShroomeable>();
+                if (shroomeableTile != null)
+                {
+                    shroomType = shroomeableTile.GetType();
+                }
+                else
+                {
+                    shroomType = ShroomType.Regular;
+                }
+
+                // Rotate and freeze the shroom
                 RotateAndFreeze();
             }
             else if (collision.collider is BoxCollider2D)
             {
+                // Check if the tile is decomposable
                 if (collision.collider.tag == "Decomposable")
                 {
+                    // Set the tile to decomposed
                     if (collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed == false)
                     {
                         collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed = true;
                     }
+                    
+                    // Rotate and freeze the shroom
                     RotateAndFreeze();
                 }
+                // Check if the platform is weighted
                 else if (collision.collider.tag == "Weighted")
                 {
+                    // Rotate and freeze the shroom
                     RotateAndFreeze();
+
+                    // Check if the weight of the platform needs to be activated
                     collision.gameObject.GetComponent<MoveablePlatform>().CheckWeight(gameObject);
                 }
             }

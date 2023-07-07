@@ -57,7 +57,7 @@ public class MushroomIndicatorManager : MonoBehaviour
             {
                 // If the Indicator at indicatorList[i] is not linked to anything, link it to the Mushroom
                 // at mushroomManager.MushroomList[i]
-                if (!indicatorList[i].LinkedToMushroom && mushroomManager.MushroomList[i].GetComponent<MushroomInfo>().IsShroom)
+                if (!indicatorList[i].LinkedToMushroom && mushroomManager.MushroomList[i].GetComponent<Shroom>().IsShroom)
                 {
                     indicatorList[i].MushroomToIndicate = mushroomManager.MushroomList[i];
                     indicatorList[i].LinkedToMushroom = true;
@@ -66,7 +66,7 @@ public class MushroomIndicatorManager : MonoBehaviour
                 {
                     // Otherwise, if the Indicator at indicatorList[i] is linked to a Mushroom, check if it is the same
                     // Mushroom, as it might have changed - if it is not, change it
-                    if (indicatorList[i].MushroomToIndicate != mushroomManager.MushroomList[i] && mushroomManager.MushroomList[i].GetComponent<MushroomInfo>().IsShroom)
+                    if (indicatorList[i].MushroomToIndicate != mushroomManager.MushroomList[i] && mushroomManager.MushroomList[i].GetComponent<Shroom>().IsShroom)
                     {
                         indicatorList[i].MushroomToIndicate = mushroomManager.MushroomList[i];
                     }
@@ -107,11 +107,11 @@ public class MushroomIndicatorManager : MonoBehaviour
             if (mushroom.transform.position.x < leftBound || mushroom.transform.position.x > rightBound || mushroom.transform.position.y < lowerBound || mushroom.transform.position.y > upperBound)
             {
                 // If so, then set OnScreen to false
-                mushroom.GetComponent<MushroomInfo>().OnScreen = false;
+                mushroom.GetComponent<Shroom>().OnScreen = false;
             } else
             {
                 // Otherwise, set OnScreen to true
-                mushroom.GetComponent<MushroomInfo>().OnScreen = true;
+                mushroom.GetComponent<Shroom>().OnScreen = true;
             }
         }
 

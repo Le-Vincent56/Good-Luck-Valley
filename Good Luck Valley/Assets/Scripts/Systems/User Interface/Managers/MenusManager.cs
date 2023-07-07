@@ -813,7 +813,7 @@ public class MenusManager : MonoBehaviour
     {
         // Bool in Settings.cs that lets it know if it should update the
         //  game state based on enabled settings
-        settings.UpdateSettings = true;
+        settings.UpdateSettings();
 
         // Accessibility settings
         ApplyAccessibility();
