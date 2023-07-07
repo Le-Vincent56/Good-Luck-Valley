@@ -51,7 +51,7 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && !easeOutRunning)
+        if (collision.tag == "Player")
         {
             Debug.Log("Exit");
             StartCoroutine(EaseOut());
@@ -73,7 +73,7 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
                 StartCoroutine(EaseIn(playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength));
             }
             else if (!easeOutRunning && !easeInRunning && 
-                Mathf.Abs(playerRB.velocity.x)  Mathf.Abs(grassVelocityController.VelocityThreshold))
+                Mathf.Abs(playerRB.velocity.x) == Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 Debug.Log("SHOULDNT HAPPEN");
                 //grassVelocityController.InfluenceGrass(material, playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength);
