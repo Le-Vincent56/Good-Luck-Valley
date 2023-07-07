@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class LoadLevel : MonoBehaviour
@@ -43,17 +44,33 @@ public class LoadLevel : MonoBehaviour
         SceneManager.LoadScene(levelIndex);
     }
 
+    /// <summary>
+    /// Start loading a level
+    /// </summary>
     public void StartLoading()
     {
-        Debug.Log("Starting Load");
+        // Trigger start load event
         loadLevelEvent.StartLoad();
     }
 
+    /// <summary>
+    /// End loading a level
+    /// </summary>
     public void EndLoading()
     {
-        Debug.Log("Ending Load");
+        // Trigger end load event
         loadLevelEvent.EndLoad();
-        cutsceneEvent.StartLotusCutscene();
+
+        // Check to see if the lotus cutscene needs to be played
+        PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();
+        if(camDirector != null)
+        {
+            if(camDirector.enabled)
+            {
+                cutsceneEvent.StartLotusCutscene();
+            }
+            
+        }
     }
  
 }

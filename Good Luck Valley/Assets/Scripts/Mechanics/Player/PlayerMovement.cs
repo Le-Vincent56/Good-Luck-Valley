@@ -888,7 +888,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lockedData"></param>
 	private void LockMovement()
 	{
-        Debug.Log("Locking");
         moveInput = Vector2.zero;
         isLocked = true;
 	}
@@ -898,7 +897,6 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void UnlockMovement()
     {
-        Debug.Log("Unlocking");
         isLocked = false;
     }
 

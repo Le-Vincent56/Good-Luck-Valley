@@ -43,17 +43,18 @@ public class CameraManager : MonoBehaviour, IData
         if (camDirector == null)
         {
             playCutscene = false;
-        } else
+        }
+        else
         {
             // Check if data has been loaded before setting to true - player might have already seen the cutscene
-            if(!loadedData)
+            if (!loadedData)
             {
                 playCutscene = true;
             }
         }
 
         // If play cutscene is disabled, disable the cam director
-        if(!playCutscene)
+        if (!playCutscene)
         {
             camDirector.enabled = false;
         }
@@ -61,7 +62,6 @@ public class CameraManager : MonoBehaviour, IData
 
     public void BeginLotusCutscene()
     {
-        Debug.Log("Starting Cutscene");
         // If playing the cutscene and using the cutscene, enable he lotus cam
         if (playCutscene && usingLotusCutscene)
         {
@@ -85,9 +85,6 @@ public class CameraManager : MonoBehaviour, IData
 
             if(camDirector.state != PlayState.Playing)
             {
-                Debug.Log("Ending Cutscene");
-                cutsceneEvent.EndLotusCutscene();
-
                 if (!deactivateLotusCam)
                 {
                     // De-activate lotus cam
@@ -109,6 +106,13 @@ public class CameraManager : MonoBehaviour, IData
                 pauseEvent.SetCanPause(false);
             }
         }
+
+        if(!playCutscene)
+        {
+            cutsceneEvent.EndLotusCutscene();
+        }
+
+        yield break;
     }
 
     public void LoadData(GameData data)
