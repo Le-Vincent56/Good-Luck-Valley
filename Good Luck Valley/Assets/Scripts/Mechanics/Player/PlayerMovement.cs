@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private DisableScriptableObj disableEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
-	private SpriteRenderer spriteRenderer;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
 	private BoxCollider2D playerCollider;
@@ -101,6 +102,8 @@ public class PlayerMovement : MonoBehaviour, IData
         disableEvent.lockPlayerEvent.AddListener(LockMovement);
         disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
         disableEvent.stopInputEvent.AddListener(StopInput);
+        loadLevelEvent.startLoad.AddListener(LockMovement);
+        loadLevelEvent.endLoad.AddListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.AddListener(LockMovement);
         cutsceneEvent.endLotusCutscene.AddListener(UnlockMovement);
     }
@@ -114,6 +117,8 @@ public class PlayerMovement : MonoBehaviour, IData
         disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
         disableEvent.stopInputEvent.RemoveListener(StopInput);
+        loadLevelEvent.startLoad.RemoveListener(LockMovement);
+        loadLevelEvent.endLoad.RemoveListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.RemoveListener(LockMovement);
         cutsceneEvent.endLotusCutscene.RemoveListener(UnlockMovement);
     }
@@ -883,6 +888,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lockedData"></param>
 	private void LockMovement()
 	{
+        Debug.Log("Locking");
         moveInput = Vector2.zero;
         isLocked = true;
 	}
@@ -892,6 +898,7 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void UnlockMovement()
     {
+        Debug.Log("Unlocking");
         isLocked = false;
     }
 
