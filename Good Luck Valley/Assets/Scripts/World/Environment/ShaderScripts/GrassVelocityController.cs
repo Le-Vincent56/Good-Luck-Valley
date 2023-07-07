@@ -9,10 +9,10 @@ public class GrassVelocityController : MonoBehaviour
     #endregion
 
     #region FIELDS
-    [Range(0f, 1f)] private float externalInfluenceStrength = .25f;
-    private float easeInTime = .15f;
-    private float easeOutTime = .15f;
-    private float velocityThreshold = 2f;
+    [SerializeField] [Range(0f, 1f)] private float externalInfluenceStrength = .15f;
+    [SerializeField] private float easeInTime = .25f;
+    [SerializeField] private float easeOutTime = .25f;
+    [SerializeField] private float velocityThreshold = 2f;
     #endregion
 
     #region PROPERTIES
