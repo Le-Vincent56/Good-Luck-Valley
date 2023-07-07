@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class LotusPick : Interactable
 {
     #region REFERENCES
+    [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
-    private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS
@@ -18,7 +18,6 @@ public class LotusPick : Interactable
 
     void Start()
     {
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         vineWall = GameObject.Find("lotus wall");
 
         remove = false;
@@ -38,6 +37,7 @@ public class LotusPick : Interactable
             
             interacting = true;
             StartCoroutine(FadeVines());
+            StartCoroutine(FadeLotus());
 
             // If the inteaction has finished, reset the variables
             if (finishedInteracting)
@@ -63,26 +63,44 @@ public class LotusPick : Interactable
 
     private IEnumerator FadeVines()
     {
-        pauseMenu.Paused = true;
-        Color color = vineWall.GetComponent<Tilemap>().color;
-        vineWall.GetComponent<Tilemap>().color = new Color(color.r, color.g, color.b, color.a - fadeAmount);
-     
-        if (vineWall.GetComponent<Tilemap>().color.a <= 0)
+        pauseEvent.SetPaused(true);
+        while(vineWall.GetComponent<Tilemap>().color.a > 0)
         {
-            disableEvent.Unlock();
-            finishedInteracting = true;
-            vineWall.SetActive(false);
-            pauseMenu.Paused = false;
-
-            GameObject endScreen = GameObject.Find("Demo Ending Text");
-            if (endScreen != null)
-            {
-                finishedInteracting = false;
-                pauseMenu.Paused = true;
-                disableEvent.Lock();
-                StartCoroutine(FadeEndScreen(endScreen));
-            }
+            vineWall.GetComponent<Tilemap>().color = new Color(vineWall.GetComponent<Tilemap>().color.r, 
+                vineWall.GetComponent<Tilemap>().color.g, vineWall.GetComponent<Tilemap>().color.b, 
+                vineWall.GetComponent<Tilemap>().color.a - vineWall.GetComponent<DecomposableVine>().DecomposeTime);
         }
+
+        disableEvent.Unlock();
+        finishedInteracting = true;
+        vineWall.GetComponent<DecomposableVine>().Active = false;
+        vineWall.SetActive(false);
+        pauseEvent.SetPaused(false);
+
+        GameObject endScreen = GameObject.Find("Demo Ending Text");
+        if (endScreen != null)
+        {
+            finishedInteracting = false;
+            pauseEvent.SetPaused(true);
+            disableEvent.Lock();
+            StartCoroutine(FadeEndScreen(endScreen));
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+    private IEnumerator FadeLotus()
+    {
+        // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
+        while (GetComponent<SpriteRenderer>().color.a > 0)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - 0.01f);
+            yield return null;
+        }
+
+        // Set active to false
+        active = false;
         yield return null;
     }
 
@@ -101,6 +119,7 @@ public class LotusPick : Interactable
         if (endScreen.GetComponent<Text>().color.a >= 1)
         {
             finishedInteracting = true;
+            yield return null;
         }
 
         yield return null;

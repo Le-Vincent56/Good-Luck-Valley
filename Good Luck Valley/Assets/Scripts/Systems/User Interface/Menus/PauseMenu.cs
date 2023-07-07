@@ -29,7 +29,6 @@ public class PauseMenu : MonoBehaviour, IData
     #endregion
 
     #region PROPERTIES
-    public bool Paused { get { return paused; } set { paused = value; } }
     #endregion
 
     // Start is called before the first frame update

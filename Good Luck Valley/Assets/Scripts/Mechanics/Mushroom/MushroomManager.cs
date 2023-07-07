@@ -140,6 +140,7 @@ public class MushroomManager : MonoBehaviour, IData
 
     private void OnEnable()
     {
+        mushroomEvent.unlockThrowEvent.AddListener(GetThrow);
         pauseEvent.pauseEvent.AddListener(LockThrow);
         pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);
@@ -152,6 +153,7 @@ public class MushroomManager : MonoBehaviour, IData
 
     private void OnDisable()
     {
+        mushroomEvent.unlockThrowEvent.RemoveListener(GetThrow);
         pauseEvent.pauseEvent.RemoveListener(LockThrow);
         pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
         disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
@@ -591,6 +593,15 @@ public class MushroomManager : MonoBehaviour, IData
     #endregion
 
     #region EVENT FUNCTIONS
+    /// <summary>
+    /// Get the mushroom throw ability
+    /// </summary>
+    public void GetThrow()
+    {
+        throwUnlocked = true;
+        shroomCounter.ResetQueue();
+    }
+
     /// <summary>
     /// Lock mushroom throw
     /// </summary>

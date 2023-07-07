@@ -5,6 +5,7 @@ using UnityEngine;
 public class PowerSpore : Interactable
 {
     #region REFERENCES
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
     private MushroomManager mushroomManager;
     #endregion
 
@@ -21,9 +22,9 @@ public class PowerSpore : Interactable
     /// </summary>
     public override void Interact()
     {
-        mushroomManager.ThrowUnlocked = true;
+        mushroomEvent.UnlockThrow();
         finishedInteracting = true;
         remove = true;
-        mushroomManager.ShroomCounter.ResetQueue();
+        active = false;
     }
 }

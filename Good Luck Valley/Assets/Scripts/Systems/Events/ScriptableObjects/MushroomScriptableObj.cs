@@ -9,6 +9,7 @@ public class MushroomScriptableObj : ScriptableObject
     #region FIELDS
     [SerializeField] private bool bouncing;
     [SerializeField] private bool touchingShroom;
+    [SerializeField] private bool throwUnlocked;
     [SerializeField] private bool throwing;
     [SerializeField] Vector3 bounceForce;
 
@@ -17,6 +18,7 @@ public class MushroomScriptableObj : ScriptableObject
     public UnityEvent<Vector3, ForceMode2D> bounceEvent;
     public UnityEvent<bool> bounceAnimationEvent;
     public UnityEvent<bool> touchingShroomEvent;
+    public UnityEvent unlockThrowEvent;
     public UnityEvent checkThrowAnimationEvent;
     public UnityEvent<bool> setThrowAnimationEvent;
     #endregion
@@ -71,12 +73,30 @@ public class MushroomScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether the player has unlocked the shroom throw or not
+    /// </summary>
+    /// <param name="throwUnlocked">Whether the player has unlocked the shroom throw or not</param>
+    public void SetThrowUnlocked(bool throwUnlocked)
+    {
+        this.throwUnlocked = throwUnlocked;
+    }
+
+    /// <summary>
     /// Set whether the player is throwing
     /// </summary>
     /// <param name="throwing">Whether the player is throwing</param>
     public void SetThrowing(bool throwing)
     {
         this.throwing = throwing;
+    }
+
+    /// <summary>
+    /// Get whether the player has gotten the throw ability or not
+    /// </summary>
+    /// <returns>Whether the player has gotten the throw ability or not</returns>
+    public bool GetThrowUnlocked()
+    {
+        return throwUnlocked;
     }
 
     /// <summary>
@@ -94,6 +114,15 @@ public class MushroomScriptableObj : ScriptableObject
     public void TouchingShroom()
     {
         touchingShroomEvent.Invoke(touchingShroom);
+    }
+
+    /// <summary>
+    /// Trigger events related to getting the shroom throw ability
+    /// </summary>
+    public void UnlockThrow()
+    {
+        throwUnlocked = true;
+        unlockThrowEvent.Invoke();
     }
 
     /// <summary>
