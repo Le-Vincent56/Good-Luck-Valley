@@ -22,6 +22,7 @@ public class MushroomManager : MonoBehaviour, IData
     [SerializeField] private DisableScriptableObj disableEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     private GameObject player;
     [SerializeField] private Rigidbody2D playerRB;             // The player's rigidbody used for spawning mushrooms
     private PlayerMovement playerMove;                         // PlayerMovement checks which direction player is facing
@@ -143,6 +144,8 @@ public class MushroomManager : MonoBehaviour, IData
         pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);
         disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
+        loadLevelEvent.startLoad.AddListener(LockThrow);
+        loadLevelEvent.endLoad.AddListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
         cutsceneEvent.endLotusCutscene.AddListener(UnlockThrow);
     }
@@ -153,6 +156,8 @@ public class MushroomManager : MonoBehaviour, IData
         pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
         disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
+        loadLevelEvent.startLoad.RemoveListener(LockThrow);
+        loadLevelEvent.endLoad.RemoveListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.RemoveListener(LockThrow);
         cutsceneEvent.endLotusCutscene.RemoveListener(UnlockThrow);
     }

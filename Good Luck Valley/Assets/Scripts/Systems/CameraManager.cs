@@ -27,12 +27,12 @@ public class CameraManager : MonoBehaviour, IData
 
     private void OnEnable()
     {
-        cutsceneEvent.startLotusCutscene.AddListener(StartLotusCutscene);
+        cutsceneEvent.startLotusCutscene.AddListener(BeginLotusCutscene);
     }
 
     private void OnDisable()
     {
-        cutsceneEvent.startLotusCutscene.RemoveListener(StartLotusCutscene);
+        cutsceneEvent.startLotusCutscene.RemoveListener(BeginLotusCutscene);
     }
 
     // Start is called before the first frame update
@@ -43,48 +43,33 @@ public class CameraManager : MonoBehaviour, IData
         if (camDirector == null)
         {
             playCutscene = false;
-        } else
+        }
+        else
         {
             // Check if data has been loaded before setting to true - player might have already seen the cutscene
-            if(!loadedData)
+            if (!loadedData)
             {
                 playCutscene = true;
             }
         }
 
         // If play cutscene is disabled, disable the cam director
-        if(!playCutscene)
+        if (!playCutscene)
         {
             camDirector.enabled = false;
         }
-
-        CheckAndBeginLotusCutscene();
     }
 
-    public void CheckAndBeginLotusCutscene()
+    public void BeginLotusCutscene()
     {
         // If playing the cutscene and using the cutscene, enable he lotus cam
         if (playCutscene && usingLotusCutscene)
         {
             lotusCam.enabled = true;
 
-            StartCoroutine(WaitAndPlayLotusCutscene());
+            camDirector.Play();
+            StartCoroutine(PlayLotusCutscene());
         }
-    }
-
-    public void StartLotusCutscene()
-    {
-        StartCoroutine(PlayLotusCutscene());
-    }
-
-    public IEnumerator WaitAndPlayLotusCutscene()
-    {
-        // Wait for one second for the fade
-        yield return new WaitForSeconds(1f);
-
-        // Start the cutscene event
-        camDirector.Play();
-        cutsceneEvent.StartLotusCutscene();
     }
 
     /// <summary>
@@ -100,8 +85,6 @@ public class CameraManager : MonoBehaviour, IData
 
             if(camDirector.state != PlayState.Playing)
             {
-                cutsceneEvent.EndLotusCutscene();
-
                 if (!deactivateLotusCam)
                 {
                     // De-activate lotus cam
@@ -123,6 +106,13 @@ public class CameraManager : MonoBehaviour, IData
                 pauseEvent.SetCanPause(false);
             }
         }
+
+        if(!playCutscene)
+        {
+            cutsceneEvent.EndLotusCutscene();
+        }
+
+        yield break;
     }
 
     public void LoadData(GameData data)
