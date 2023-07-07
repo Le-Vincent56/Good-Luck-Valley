@@ -57,7 +57,7 @@ public class WallShroom : Shroom
         Vector3 direction = rotation * Vector2.up;
 
         // If the rotate angle is 0, then invert y direction to send upwards
-        if(rotateAngle == 0)
+        if(rotateAngle >= 0)
         {
             direction.y *= -1;
         }
