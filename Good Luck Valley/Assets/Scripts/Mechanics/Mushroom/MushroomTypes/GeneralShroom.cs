@@ -111,6 +111,7 @@ public class GeneralShroom : Shroom
         {
             if (collision.collider is CompositeCollider2D)
             {
+                Debug.Log("Composite Collider");
                 // Set shroom type
                 IShroomeable shroomeableTile = collision.gameObject.GetComponent<IShroomeable>();
                 if (shroomeableTile != null)
