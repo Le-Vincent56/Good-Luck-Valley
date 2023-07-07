@@ -76,7 +76,7 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
                 Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 Debug.Log("SHOULDNT HAPPEN");
-                //grassVelocityController.InfluenceGrass(material, playerRB.velocity.x);
+                grassVelocityController.InfluenceGrass(material, playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength);
             }
 
             velocityLastFrame = playerRB.velocity.x;
