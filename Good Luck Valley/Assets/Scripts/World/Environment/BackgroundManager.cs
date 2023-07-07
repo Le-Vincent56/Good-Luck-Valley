@@ -5,7 +5,7 @@ using UnityEngine;
 public class BackgroundManager : MonoBehaviour
 {
     #region REFERENCES
-    private PauseMenu pauseMenu;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     private GameObject cam;
     #endregion
 
@@ -25,7 +25,6 @@ public class BackgroundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         cam = GameObject.Find("Main Camera");
 
         InitializeCloudsFields();
@@ -36,7 +35,7 @@ public class BackgroundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!pauseMenu.Paused)
+        if (!pauseEvent.GetPaused())
         {
             UpdateFields();
             MoveClouds();
