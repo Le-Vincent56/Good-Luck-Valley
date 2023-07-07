@@ -38,7 +38,7 @@ public class MushroomManager : MonoBehaviour, IData
     [SerializeField] private GameObject testObject;
     private ShroomCounter shroomCounter;
     private Tutorial tutorialEvent;
-    
+        
     #endregion
 
     #region FIELDS
@@ -75,9 +75,7 @@ public class MushroomManager : MonoBehaviour, IData
     #region PROPERTIES
     public List<GameObject> MushroomList { get { return mushroomList; } }
     public bool ThrowUnlocked { get { return throwUnlocked; } set { throwUnlocked = value; } }
-
     public int MushroomLimit { get { return mushroomLimit; } set { mushroomLimit = value; } }
-
     public int ThrowMultiplier { get { return throwMultiplier; } set { throwMultiplier = value; } }
     public float ShroomDuration { get { return shroomDuration; } set { shroomDuration = value; } }
     public bool EnableShroomTimers { get { return enableShroomTimers;} set { enableShroomTimers = value; } }
@@ -304,45 +302,6 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     private void StickShrooms()
     {
-        // loops for each object in the mushroomlist
-        //foreach (GameObject m in mushroomList)
-        //{
-        //    MushroomInfo mInfo = m.GetComponent<MushroomInfo>();
-
-        //    if (!mInfo.HasRotated)
-        //    {
-        //        foreach (GameObject p in environmentManager.WeightedPlatforms)
-        //        {
-        //            // checks if the mushroom is touching the platform and hasn't rotated
-        //            if (m.GetComponent<CircleCollider2D>().IsTouching(p.GetComponent<BoxCollider2D>()))
-        //            {
-        //                // If so, calls rotate shroom method to rotate and freeze the shroom properly
-        //                RotateAndFreezeShroom(m);
-
-        //                p.GetComponent<MoveablePlatform>().CheckWeight(m);
-        //            }
-        //        }
-
-        //        // Loops through all decomposable tiles
-        //        foreach (GameObject d in environmentManager.DecomposableTiles)
-        //        {
-        //            // Checks if the tile is touching the shroom
-        //            if (m.GetComponent<CircleCollider2D>().IsTouching(d.GetComponent<BoxCollider2D>()))
-        //            {
-        //                // Sets the tile to decomposed
-        //                //if (d.GetComponent<DecompasableTile>().IsDecomposed == false)
-        //                //{
-        //                //    d.GetComponent<DecompasableTile>().IsDecomposed = true;
-        //                //}
-
-        //                // Pushes the index of shroom that is touching it to the stack of shroom removal indexes
-        //                // removeShroomIndexes.Push(mushroomList.IndexOf(m));
-        //                RotateAndFreezeShroom(m);
-        //            }
-        //        }
-        //    }
-        //}
-
         // Checks if there are any indexes in the removeShroomIndexes stack
         if (removeShroomIndexes.Count > 0)
         {

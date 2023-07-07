@@ -184,7 +184,7 @@ public abstract class Shroom : MonoBehaviour
                 break;
 
             default:
-                shroom = Instantiate(regShroom, transform.position, rotation);
+                shroom = Instantiate(regShroom, transform.position, rotation); 
                 break;
         }
 

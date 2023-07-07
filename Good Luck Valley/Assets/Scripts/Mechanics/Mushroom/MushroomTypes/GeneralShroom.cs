@@ -23,6 +23,7 @@ public class GeneralShroom : Shroom
         durationTimer = mushMan.ShroomDuration;
         defaultColor = new Color(168, 168, 168);
         particleTime = durationTimer;
+        isShroom = true;
     }
 
     // Update is called once per frame
@@ -40,8 +41,10 @@ public class GeneralShroom : Shroom
                 GetComponent<Animator>().SetBool("Bouncing", false);
             }
         }
+        Debug.Log("Gen Shroom is shroom?: " + isShroom);
         if (isShroom && mushMan.EnableShroomTimers)
         {
+            Debug.Log("Shroom Counter Updating for " + shroomType);
             UpdateShroomCounter();
         }
     }
