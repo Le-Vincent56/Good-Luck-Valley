@@ -44,6 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458bf003ccca4d449b46cbb054d3e388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mushroomEvent: {fileID: 0}
+  disableEvent: {fileID: 0}
+  cutsceneEvent: {fileID: 0}
+  pauseEvent: {fileID: 0}
+  loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
   playerRB: {fileID: 0}
   cam: {fileID: 0}
   environmentManager: {fileID: 0}
@@ -58,6 +63,13 @@ MonoBehaviour:
   stuckSurfaceTag: Ground
   mushroomList: []
   offset: {x: 0, y: 0}
+  throwUnlocked: 0
   throwMultiplier: 8
   fixPlayer: {x: 0, y: 0, z: 0}
   shroomDuration: 3
+  enableShroomTimers: 0
+  throwLocked: 0
+  recallLocked: 0
+  usingTutorial: 0
+  firstTimeHittingMax: 1
+  firstTimeRecalling: 1

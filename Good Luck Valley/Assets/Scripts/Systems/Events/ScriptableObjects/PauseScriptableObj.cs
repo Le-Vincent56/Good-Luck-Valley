@@ -17,6 +17,7 @@ public class PauseScriptableObj : ScriptableObject
 
     private void OnEnable()
     {
+        #region CREATE EVENTS
         if (pauseEvent == null)
         {
             pauseEvent = new UnityEvent();
@@ -26,6 +27,7 @@ public class PauseScriptableObj : ScriptableObject
         {
             unpauseEvent = new UnityEvent();
         }
+        #endregion
     }
 
     /// <summary>
