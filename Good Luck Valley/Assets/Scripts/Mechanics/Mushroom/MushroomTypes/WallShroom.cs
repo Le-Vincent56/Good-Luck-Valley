@@ -77,7 +77,6 @@ public class WallShroom : Shroom
             bouncing = true;
         }
 
-        movementEvent.SetIsBounceAnimating(true);
         movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 

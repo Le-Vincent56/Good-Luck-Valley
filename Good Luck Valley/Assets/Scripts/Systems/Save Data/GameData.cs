@@ -66,6 +66,10 @@ public class GameData
         #region LEVEL 1
         levelData["Level 1"] = new LevelData();
         levelData["Level 1"].playerPosition = new Vector3(-39.82f, 6.31f, 0f);
+
+        #region ASSETS
+        levelData["Level 1"].assetsActive.Add("e068c6de-c91c-4956-8202-0aa8f1abf0ad", true);
+        #endregion
         #endregion
 
         currentLevelName = "Prologue";
