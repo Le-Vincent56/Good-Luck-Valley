@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class MushroomScriptableObj : ScriptableObject
 {
     #region FIELDS
-    [SerializeField] private bool bouncing;
     [SerializeField] private bool touchingShroom;
     [SerializeField] private bool throwUnlocked;
     [SerializeField] private bool throwing;
@@ -16,11 +15,10 @@ public class MushroomScriptableObj : ScriptableObject
     #region EVENTS
     [System.NonSerialized]
     public UnityEvent<Vector3, ForceMode2D> bounceEvent;
-    public UnityEvent<bool> bounceAnimationEvent;
     public UnityEvent<bool> touchingShroomEvent;
     public UnityEvent unlockThrowEvent;
     public UnityEvent checkThrowAnimationEvent;
-    public UnityEvent<bool> setThrowAnimationEvent;
+    public UnityEvent setThrowAnimationEvent;
     #endregion
     #endregion
 
@@ -31,15 +29,7 @@ public class MushroomScriptableObj : ScriptableObject
     private void OnEnable()
     {
         #region CREATE EVENTS
-        if (bounceEvent == null)
-        {
-            bounceEvent = new UnityEvent<Vector3, ForceMode2D>();
-        }
-
-        if (bounceAnimationEvent == null)
-        {
-            bounceAnimationEvent = new UnityEvent<bool>();
-        }
+        
 
         if (touchingShroomEvent == null)
         {
@@ -53,18 +43,9 @@ public class MushroomScriptableObj : ScriptableObject
 
         if (setThrowAnimationEvent == null)
         {
-            setThrowAnimationEvent = new UnityEvent<bool>();
+            setThrowAnimationEvent = new UnityEvent();
         }
         #endregion
-    }
-
-    /// <summary>
-    /// Set whether the player is bouncing
-    /// </summary>
-    /// <param name="bouncing">Whether the player is bouncing</param>
-    public void SetBounce(bool bouncing)
-    {
-        this.bouncing = bouncing;
     }
 
     /// <summary>
@@ -94,6 +75,11 @@ public class MushroomScriptableObj : ScriptableObject
         this.throwing = throwing;
     }
 
+    public bool GetThrowing()
+    {
+        return throwing;
+    }
+
     /// <summary>
     /// Get whether the player has gotten the throw ability or not
     /// </summary>
@@ -101,15 +87,6 @@ public class MushroomScriptableObj : ScriptableObject
     public bool GetThrowUnlocked()
     {
         return throwUnlocked;
-    }
-
-    /// <summary>
-    /// Trigger bounce-related events
-    /// </summary>
-    public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
-    {
-        bounceEvent.Invoke(forceToApply, forceType);
-        bounceAnimationEvent.Invoke(bouncing);
     }
 
     /// <summary>
@@ -142,6 +119,6 @@ public class MushroomScriptableObj : ScriptableObject
     /// </summary>
     public void SetThrowAnim()
     {
-        setThrowAnimationEvent.Invoke(throwing);
+        setThrowAnimationEvent.Invoke();
     }
 }

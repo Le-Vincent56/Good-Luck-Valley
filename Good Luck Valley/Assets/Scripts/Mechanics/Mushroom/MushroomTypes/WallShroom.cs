@@ -72,8 +72,12 @@ public class WallShroom : Shroom
         disableEvent.StopInput();
 
         // Apply bounce
-        mushroomEvent.SetBounce(true);
-        mushroomEvent.Bounce(forceToApply, ForceMode2D.Impulse);
+        if(!bouncing)
+        {
+            bouncing = true;
+        }
+
+        movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 
     /// <summary>
