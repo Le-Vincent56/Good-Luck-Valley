@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class DataManager : MonoBehaviour
 {
     #region REFERENCES
-    private GameData gameData;
+    [SerializeField] private GameData gameData;
     private SettingsData settingsData;
     [SerializeField] private List<IData> dataObjects;
     [SerializeField] private List<ISettingsData> settingsDataObjects;
@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
 
     #region PROPERTIES
     public static DataManager Instance { get; private set; }
-    public string Level { get { return gameData.levelName; } }
+    public string Level { get { return gameData.currentLevelName; } }
     public string SelectedProfileID { get { return selectedProfileID; } }
     public string SoftProfileID { get { return softProfileID; } }
     #endregion
@@ -84,7 +84,7 @@ public class DataManager : MonoBehaviour
 
         settingsDataObjects = FindAllSettingsDataObjects();
 
-        // Load the game
+        // Load the Game
         LoadGame();
 
         // If using autosave, start up the auto saving coroutine
@@ -132,7 +132,10 @@ public class DataManager : MonoBehaviour
 
         gameData = new GameData();
 
-        settingsData = new SettingsData();
+        if (settingsData == null)
+        {
+            settingsData = new SettingsData();
+        }
 
         // If there is no profileID, make one
         if (selectedProfileID == null)
@@ -153,26 +156,29 @@ public class DataManager : MonoBehaviour
             return;
         }
 
-        if (settingsData == null)
-        {
-            Debug.LogWarning("No Settings data was found.");
-        }
-
         // Pass the data to other scripts so they can update it
         foreach(IData dataObj in dataObjects)
         {
             dataObj.SaveData(gameData);
         }
 
-        foreach (ISettingsData settingsObj in settingsDataObjects)
-        {
-            settingsObj.SaveData(settingsData);
-        }
-
         gameData.lastUpdated = System.DateTime.Now.ToBinary();
 
         // Save that data to a file using the data handler
         dataHandler.Save(gameData, selectedProfileID);
+    }
+
+    public void SaveSettings()
+    {
+        if (settingsData == null)
+        {
+            Debug.LogWarning("No Settings data was found.");
+        }
+
+        foreach (ISettingsData settingsObj in settingsDataObjects)
+        {
+            settingsObj.SaveData(settingsData);
+        }
 
         settingsHandler.Save(settingsData);
     }
@@ -197,6 +203,12 @@ public class DataManager : MonoBehaviour
         {
             Debug.LogWarning("Settings not found, creating new default profile");
             settingsData = new SettingsData();
+            settingsHandler.Save(settingsData);
+        }
+
+        foreach (ISettingsData settingsObj in settingsDataObjects)
+        {
+            settingsObj.LoadData(settingsData);
         }
 
         // If no data can be loaded, log a warning and return
@@ -210,11 +222,6 @@ public class DataManager : MonoBehaviour
         foreach (IData dataObj in dataObjects)
         {
             dataObj.LoadData(gameData);
-        }
-
-        foreach (ISettingsData settingsObj in settingsDataObjects)
-        {
-            settingsObj.LoadData(settingsData);
         }
     }
 
@@ -306,6 +313,7 @@ public class DataManager : MonoBehaviour
         while(true)
         {
             // Wait for the amount of seconds
+            Debug.Log("?");
             yield return new WaitForSeconds(autoSaveTimeSeconds);
 
             // Save the game

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMOD.Studio;
 
 public class DevTools : MonoBehaviour
 {
@@ -80,7 +81,7 @@ public class DevTools : MonoBehaviour
             noClip = settings.NoClipOn;
             instantThrow = settings.InstantThrowOn;
             infiniteShrooms = settings.InfiniteShroomsOn;
-            mushMan.ThrowUnlocked = false;
+            // mushMan.ThrowUnlocked = false;
             disableShroomDuration = !settings.ShroomDurationOn;
         }
     }
@@ -127,11 +128,11 @@ public class DevTools : MonoBehaviour
             // Disable shroom timer text change
             if (disableShroomDuration)
             {
-                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Disabled";
+                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Disabled";
             }
             else if (disableShroomDuration == false)
             {
-                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
+                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Enabled";
             }
         } 
         else
@@ -143,9 +144,28 @@ public class DevTools : MonoBehaviour
             instantThrowText.text = "";
             noClipText.text = "";
         }
+
+        if (devToolsEnabled)
+        {
+            mushMan.ThrowLineOn = true;
+        }
     }
 
+    /// <summary>
+    /// Turn on Dev Tools using a keybind
+    /// </summary>
     #region INPUT HANDLERS
+    public void OnDevTools()
+    {
+        if(!devToolsEnabled)
+        {
+            devToolsEnabled = true;
+        } else
+        {
+            devToolsEnabled = false;
+        }
+    }
+
     public void OnActivateNoClip()
     {
         // Check if devTools is enabled
@@ -237,11 +257,18 @@ public class DevTools : MonoBehaviour
         }
     }
 
-    public void OnCutToLevel(int level)
+    public void SkipToLevel(int direction)
     {
         if (devToolsEnabled)
         {
-            SceneManager.LoadScene("Level " + level);
+            int scene = SceneManager.GetActiveScene().buildIndex;
+            if (scene + direction < SceneManager.sceneCount && scene + direction > 6)
+            {
+            }
+            AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            Debug.Log("Going to level: " + SceneManager.GetActiveScene().buildIndex + direction);
+            SceneManager.LoadScene(scene + direction);
         }
     }
     #endregion

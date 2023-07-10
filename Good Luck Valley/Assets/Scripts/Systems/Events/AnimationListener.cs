@@ -5,7 +5,9 @@ using UnityEngine.Events;
 
 public class AnimationListener : MonoBehaviour
 {
-    Animator playerAnim;
+    private Animator playerAnim;
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
 
     private void Start()
     {
@@ -15,32 +17,32 @@ public class AnimationListener : MonoBehaviour
     private void OnEnable()
     {
         // Start listening to events
-        EventManager.StartListening("Move", RunningAnim);
-        EventManager.StartListening("Land", LandingAnim);
-        EventManager.StartListening("Jump", JumpingAnim);
-        EventManager.StartListening("Fall", FallingAnim);
-        EventManager.StartListening("Bounce", BouncingAnim);
-        EventManager.StartListening("CheckThrowAnim", CheckThrowingAnim);
-        EventManager.StartListening("SetThrowAnim", SetThrowingAnim);
+        movementEvent.moveEvent.AddListener(RunningAnim);
+        movementEvent.jumpEvent.AddListener(JumpingAnim);
+        movementEvent.landEvent.AddListener(LandingAnim);
+        movementEvent.fallEvent.AddListener(FallingAnim);
+        mushroomEvent.bounceAnimationEvent.AddListener(BouncingAnim);
+        mushroomEvent.checkThrowAnimationEvent.AddListener(CheckThrowingAnim);
+        mushroomEvent.setThrowAnimationEvent.AddListener(SetThrowingAnim);
     }
 
     private void OnDisable()
     {
         // Stop listening to events
-        EventManager.StopListening("Move", RunningAnim);
-        EventManager.StopListening("Land", LandingAnim);
-        EventManager.StopListening("Jump", JumpingAnim);
-        EventManager.StopListening("Fall", FallingAnim);
-        EventManager.StopListening("Bounce", BouncingAnim);
-        EventManager.StopListening("CheckThrowAnim", CheckThrowingAnim);
-        EventManager.StopListening("SetThrowAnim", SetThrowingAnim);
+        movementEvent.moveEvent.RemoveListener(RunningAnim);
+        movementEvent.jumpEvent.RemoveListener(JumpingAnim);
+        movementEvent.landEvent.RemoveListener(LandingAnim);
+        movementEvent.fallEvent.RemoveListener(FallingAnim);
+        mushroomEvent.bounceAnimationEvent.RemoveListener(BouncingAnim);
+        mushroomEvent.checkThrowAnimationEvent.RemoveListener(CheckThrowingAnim);
+        mushroomEvent.setThrowAnimationEvent.RemoveListener(SetThrowingAnim);
     }
 
     /// <summary>
     /// Set running animations based on data
     /// </summary>
     /// <param name="data">Movement data</param>
-    private void RunningAnim(object movementData)
+    private void RunningAnim(float movementData)
     {
         AnimatorClipInfo[] animInfo = playerAnim.GetCurrentAnimatorClipInfo(0);
 
@@ -71,41 +73,40 @@ public class AnimationListener : MonoBehaviour
     /// Set landing animations based on data
     /// </summary>
     /// <param name="data">Landing data</param>
-    private void LandingAnim(object data)
+    private void LandingAnim(bool landData)
     {
         // Set the landing bool based on data
-        playerAnim.SetBool("Landed", (bool)data);
+        playerAnim.SetBool("Landed", landData);
     }
 
     /// <summary>
     /// Set jumping animatinos based on data
     /// </summary>
     /// <param name="data">Jumping data</param>
-    private void JumpingAnim(object data)
+    private void JumpingAnim(bool jumpData)
     {
         // Set the jumping bool based on data
-        playerAnim.SetBool("Jumping", (bool)data);
+        playerAnim.SetBool("Jumping", jumpData);
     }
 
     /// <summary>
     /// Set falling animations based on data
     /// </summary>
     /// <param name="data">Falling data</param>
-    private void FallingAnim(object data)
+    private void FallingAnim(bool fallData)
     {
         // Set the falling bool based on data
-        playerAnim.SetBool("Falling", (bool)data);
+        playerAnim.SetBool("Falling", fallData);
     }
 
     /// <summary>
     /// Set bouncing animations based on data
     /// </summary>
     /// <param name="data"></param>
-    private void BouncingAnim(object data)
+    private void BouncingAnim(bool bounceData)
     {
         // Check if player is bouncing
-        bool bouncing = (bool)data;
-        if(bouncing)
+        if(bounceData)
         {
             // If bouncing, set the trigger
             playerAnim.SetTrigger("Bouncing");
@@ -127,17 +128,50 @@ public class AnimationListener : MonoBehaviour
             AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
             if (animationInfo.normalizedTime % 1 > 0.9)
             {
-                EventManager.TriggerEvent("SetThrowAnim", false);
+                mushroomEvent.SetThrowing(false);
+                mushroomEvent.SetThrowAnim();
             }
         }
+
+        // FOR WHEN THROW ANIMATIONS ARE FULLY IMPLEMENTED
+        //if (throwPrepared)
+        //{
+        //    AnimatorClipInfo[] throwAnimationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
+        //    int currentFrame = (int)(throwAnimationClip[0].weight * (throwAnimationClip[0].clip.length * throwAnimationClip[0].clip.frameRate));
+        //    if (currentFrame == 5)
+        //    {
+        //        throwing = true;
+
+        //        // Throw the shroom
+        //        //switch (throwState)
+        //        //{
+        //        //    case ThrowState.Throwing:
+        //        //        CheckShroomCount();
+        //        //        throwState = ThrowState.NotThrowing;
+        //        //        break;
+        //        //}
+
+        //        if (throwState == ThrowState.Throwing)
+        //        {
+        //            CheckShroomCount();
+        //            throwState = ThrowState.NotThrowing;
+        //        }
+
+        //        // Reset throw variables
+        //        canThrow = false;
+        //        throwCooldown = 0.2f;
+        //        bounceCooldown = 0.2f;
+        //        throwPrepared = false;
+        //    }
+        //}
     }
 
     /// <summary>
     /// Set the throwing animation based on data
     /// </summary>
     /// <param name="data">Throwing data</param>
-    private void SetThrowingAnim(object data)
+    private void SetThrowingAnim(bool throwData)
     {
-        playerAnim.SetBool("Throwing", (bool)data);
+        playerAnim.SetBool("Throwing", throwData);
     }
 }

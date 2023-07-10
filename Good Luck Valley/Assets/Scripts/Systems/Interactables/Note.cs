@@ -3,24 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class Note : Interactable
 {
     #region REFERENCES
+    [SerializeField] private JournalScriptableObj journalEvent;
     public Text textDisplay;
-    private Journal journal;
-    private NoteNotification effectPanelNotification;
     #endregion
 
     #region FIELDS
-    // Create unique ids for each note
-    [SerializeField] private string id;
-    [ContextMenu("Generate GUID for ID")]
-    private void GenerateGuid()
-    {
-        id = System.Guid.NewGuid().ToString();
-    }
-
     [SerializeField] private string noteTitle;
     [SerializeField] private string textValue;
     [SerializeField] private string contentsTitle;
@@ -39,19 +31,18 @@ public class Note : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
-        effectPanelNotification = GameObject.Find("NoteEffectPanel").GetComponent<NoteNotification>();
-
         remove = false;
     }
 
+    /// <summary>
+    /// Collect the Note
+    /// </summary>
     public override void Interact()
     {
         // Add the note to the journal and trigger notification and sound effect
         if(!noteAdded)
         {
-            journal.Notes.Add(this);
-            effectPanelNotification.NotifQueue.Enqueue(this);
+            journalEvent.AddNote(this);
             noteAdded = true;
         }
 
@@ -61,10 +52,12 @@ public class Note : Interactable
     }
 
     #region DATA HANDLING
-    public void LoadData(GameData data)
+    public new void LoadData(GameData data)
     {
         // Get the data for all the notes that have been collected
-        data.notesCollected.TryGetValue(id, out noteAdded);
+        string currentLevel = SceneManager.GetActiveScene().name;
+
+        data.levelData[currentLevel].notesCollected.TryGetValue(id, out noteAdded);
 
         // Check if the note has been added
         if (noteAdded)
@@ -74,17 +67,19 @@ public class Note : Interactable
         }
     }
 
-    public void SaveData(ref GameData data)
+    public new void SaveData(GameData data)
     {
+        string currentLevel = SceneManager.GetActiveScene().name;
+
         // Check to see if data has the id of the note
-        if (data.notesCollected.ContainsKey(id))
+        if (data.levelData[currentLevel].notesCollected.ContainsKey(id))
         {
             // If so, remove it
-            data.notesCollected.Remove(id);
+            data.levelData[currentLevel].notesCollected.Remove(id);
         }
 
         // Add the id and the current bool to make sure everything is up to date
-        data.notesCollected.Add(id, noteAdded);
+        data.levelData[currentLevel].notesCollected.Add(id, noteAdded);
     }
     #endregion
 }

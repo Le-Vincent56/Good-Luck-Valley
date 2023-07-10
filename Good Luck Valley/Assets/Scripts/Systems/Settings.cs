@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class Settings : MonoBehaviour, ISettingsData
 {
@@ -8,6 +9,7 @@ public class Settings : MonoBehaviour, ISettingsData
     private MenusManager menusMan;
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
+    private GameObject brightnessSquare;
     #endregion
 
     #region FIELDS
@@ -26,16 +28,14 @@ public class Settings : MonoBehaviour, ISettingsData
     private static bool isFullscreen;
 
     // Audio settings
-    private static float masterVolume;
-    private static float musicVolume;
-    private static float sfxVolume;
-    private static float ambientVolume;
+    private static float masterVolume = 1.0f;
+    private static float musicVolume = 1.0f;
+    private static float sfxVolume = 1.0f;
+    private static float ambientVolume = 1.0f;
     private static float voicesVolume;
-
 
     private BoxCollider2D playerCollider;
     private CapsuleCollider2D capsuleCollider;
-    private static bool updateSettings;
     #endregion
 
     #region PROPERTIES
@@ -44,7 +44,6 @@ public class Settings : MonoBehaviour, ISettingsData
     public bool InstantThrowOn { get { return instantThrowOn; } set { instantThrowOn = value; } }
     public bool InfiniteShroomsOn { get { return infiniteShroomsOn; } set { infiniteShroomsOn = value; } }
     public bool ShroomDurationOn { get { return shroomDurationOn; } set { shroomDurationOn = value; } }
-    public bool UpdateSettings { get {  return updateSettings; } set {  updateSettings = value; } }
     public float Brightness { get { return brightness; } set {  brightness = value; } }
     public bool SubtitlesEnabled { get {  return subtitlesEnabled; } set {  subtitlesEnabled = value; } }
     public int ResOption { get { return resOption; } set { resOption = value; } }
@@ -61,71 +60,14 @@ public class Settings : MonoBehaviour, ISettingsData
     void Start()
     {
         menusMan = GameObject.Find("MenusManager").GetComponent<MenusManager>();
+        brightnessSquare = GameObject.Find("Fade");
         if (menusMan.CurrentScene > 5)
         {
             mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
             playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
             playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
             capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (menusMan.CurrentScene > 5)
-        {
-            #region ACCESSIBILITY SETTINGS
-            if (updateSettings)
-            {
-                if (noClipOn)
-                {
-                    ActivateNoClip();
-                }
-                else
-                {
-                    DeactivateNoClip();
-                }
-
-                if (instantThrowOn)
-                {
-                    ActivateInstantShroom();
-                }
-                else
-                {
-                    DeactivateInstantShroom();
-                }
-
-                if (infiniteShroomsOn)
-                {
-                    ActivateInfiniteShrooms();
-                }
-                else
-                {
-                    DeactivateInfiniteShrooms();
-                }
-
-                if (shroomDurationOn)
-                {
-                    ActivateShroomTimers();
-                }
-                else
-                {
-                    DeactivateShroomTimers();
-                }
-
-                if (throwIndicatorShown)
-                {
-                    EnableThrowLine();
-                }
-                else
-                {
-                    DisableThrowLine();
-                }
-
-                updateSettings = false;
-            }
-            #endregion
+            UpdateSettings();
         }
     }
 
@@ -200,9 +142,6 @@ public class Settings : MonoBehaviour, ISettingsData
     #region DATA HANDLING
     public void LoadData(SettingsData data)
     {
-        // Bool in Settings.cs that lets it know if it should update the
-        //  game state based on enabled settings
-        updateSettings = true;
 
         // Load accessibility settings
         #region ACCESSIBILITY
@@ -216,7 +155,14 @@ public class Settings : MonoBehaviour, ISettingsData
         // Load display settings
         #region DISPLAY
         brightness = data.brightness;
-        Screen.SetResolution((int)data.resolution.x, (int)data.resolution.y, data.isFullscreen);
+        if (data.resolution.x != 12 && data.resolution.y != 34)
+        {
+            Screen.SetResolution((int)data.resolution.x, (int)data.resolution.y, data.isFullscreen);
+        }
+        else
+        {
+            Screen.SetResolution(1920, 1080, true);
+        }
         Screen.fullScreen = data.isFullscreen;
         subtitlesEnabled = data.subtitlesEnabled;
         isFullscreen = data.isFullscreen;
@@ -232,11 +178,12 @@ public class Settings : MonoBehaviour, ISettingsData
         SFXVolume = data.SFXVolume;
         voicesVolume = data.voicesVolume;
         #endregion
+
+        UpdateSettings();
     }
 
     public void SaveData(SettingsData data)
     {
-        updateSettings = true;
 
         // Save accessibility settings values
         #region ACCESSIBILITY
@@ -263,6 +210,78 @@ public class Settings : MonoBehaviour, ISettingsData
         data.voicesVolume = voicesVolume;
         data.SFXVolume = SFXVolume;
         data.musicVolume = musicVolume;
+        #endregion
+
+        UpdateSettings();
+    }
+    #endregion
+
+    #region UPDATING SETTINGS
+    public void UpdateSettings()
+    {
+        if (menusMan!= null && menusMan.CurrentScene > 5)
+        {
+            #region ACCESSIBILITY SETTINGS
+            if (noClipOn)
+            {
+                ActivateNoClip();
+            }
+            else
+            {
+                DeactivateNoClip();
+            }
+
+            if (instantThrowOn)
+            {
+                ActivateInstantShroom();
+            }
+            else
+            {
+                DeactivateInstantShroom();
+            }
+
+            if (infiniteShroomsOn)
+            {
+                ActivateInfiniteShrooms();
+            }
+            else
+            {
+                DeactivateInfiniteShrooms();
+            }
+
+            if (shroomDurationOn)
+            {
+                ActivateShroomTimers();
+            }
+            else
+            {
+                DeactivateShroomTimers();
+            }
+
+            if (throwIndicatorShown)
+            {
+                EnableThrowLine();
+            }
+            else
+            {
+                DisableThrowLine();
+            }
+            #endregion
+
+            #region DISPLAY SETTINGS
+            float transparencyValue = 1 - (brightness / 100);
+            brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
+            #endregion
+        }
+
+        #region SOUND SETTINGS
+        if (AudioManager.Instance)
+        {
+            AudioManager.Instance.SetMasterVolume(masterVolume / 100);
+            AudioManager.Instance.SetMusicVolume(musicVolume / 100);
+            AudioManager.Instance.SetAmbienceVolume(ambientVolume / 100);
+            AudioManager.Instance.SetSFXVolume(SFXVolume / 100);
+        }
         #endregion
     }
     #endregion

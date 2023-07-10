@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     private CinemachineVirtualCamera lotusCam;
     [SerializeField] private PlayableDirector camDirector; // Initialized in Inspector
-    private MushroomManager mushroomManager;
-    private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS
@@ -24,37 +25,49 @@ public class CameraManager : MonoBehaviour, IData
     public bool UsingLotusCutscene { get { return usingLotusCutscene; } set { usingLotusCutscene = value; } }
     #endregion
 
+    private void OnEnable()
+    {
+        cutsceneEvent.startLotusCutscene.AddListener(BeginLotusCutscene);
+    }
+
+    private void OnDisable()
+    {
+        cutsceneEvent.startLotusCutscene.RemoveListener(BeginLotusCutscene);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        lotusCam = GameObject.Find("LotusCam").GetComponent<CinemachineVirtualCamera>();
-        mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+        lotusCam = GameObject.Find("Lotus Cam").GetComponent<CinemachineVirtualCamera>();
 
         if (camDirector == null)
         {
             playCutscene = false;
-        } else
+        }
+        else
         {
             // Check if data has been loaded before setting to true - player might have already seen the cutscene
-            if(!loadedData)
+            if (!loadedData)
             {
                 playCutscene = true;
             }
         }
 
         // If play cutscene is disabled, disable the cam director
-        if(!playCutscene)
+        if (!playCutscene)
         {
             camDirector.enabled = false;
         }
+    }
 
+    public void BeginLotusCutscene()
+    {
         // If playing the cutscene and using the cutscene, enable he lotus cam
-        if(playCutscene && usingLotusCutscene)
+        if (playCutscene && usingLotusCutscene)
         {
             lotusCam.enabled = true;
 
-            // Start the cutscene coroutine
+            camDirector.Play();
             StartCoroutine(PlayLotusCutscene());
         }
     }
@@ -70,35 +83,8 @@ public class CameraManager : MonoBehaviour, IData
         {
             yield return null;
 
-            // Check if the director is playing the cutscene
-            if (camDirector.state == PlayState.Playing)
+            if(camDirector.state != PlayState.Playing)
             {
-                // Disable the player to pause
-                pauseMenu.CanPause = false;
-
-                // If playing, lock player movement
-                EventManager.TriggerEvent("Lock", true);
-
-                // Lock mushroom throw
-                if (mushroomManager.ThrowUnlocked)
-                {
-                    mushroomManager.ThrowLocked = true;
-                }
-            }
-            else
-            {
-                // Enable the player to pause
-                pauseMenu.CanPause = true;
-
-                // If not playing, unlock player movement
-                EventManager.TriggerEvent("Lock", false);
-
-                // Unlock mushroom throw
-                if (mushroomManager.ThrowUnlocked)
-                {
-                    mushroomManager.ThrowLocked = false;
-                }
-
                 if (!deactivateLotusCam)
                 {
                     // De-activate lotus cam
@@ -110,18 +96,50 @@ public class CameraManager : MonoBehaviour, IData
 
                 // Set play cutscene to false so it does not replay
                 playCutscene = false;
+
+                // Allow the player to pause after the cutscene
+                pauseEvent.SetCanPause(true);
+
+            } else
+            {
+                // Do not allow the player to pause during the cutscene
+                pauseEvent.SetCanPause(false);
             }
         }
+
+        if(!playCutscene)
+        {
+            cutsceneEvent.EndLotusCutscene();
+        }
+
+        yield break;
     }
 
     public void LoadData(GameData data)
     {
-        playCutscene = data.playCutscene;
+        // Get the currently active scene
+        Scene scene = SceneManager.GetActiveScene();
+
+        // Check if that scene name exists in the dictionary for good measure
+        if (data.levelData.ContainsKey(scene.name))
+        {
+            // If it does exist, load the cutscene's play data using the data for this scene
+            bool playCutsceneForThisScene = data.levelData[scene.name].playCutscene;
+            playCutscene = playCutsceneForThisScene;
+        }
+        else
+        {
+            // If it doesn't exist, let ourselves know that we need to add it to our game data
+            Debug.LogError("Failed to get data for scene with name: " + scene.name + ". It may need to be added to the GameData constructor");
+        }
+
         loadedData = true;
     }
 
     public void SaveData(GameData data)
     {
-        data.playCutscene = playCutscene;
+        // Save the cutscene's play data
+        Scene scene = SceneManager.GetActiveScene();
+        data.levelData[scene.name].playCutscene = playCutscene;
     }
 }

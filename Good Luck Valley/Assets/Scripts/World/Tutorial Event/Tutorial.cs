@@ -8,6 +8,7 @@ using TMPro;
 public class Tutorial : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private JournalScriptableObj journalEvent;
     private Text movementTutorialText;
     private Image movePanelImage;
     private Text interactableTutorialText;
@@ -30,7 +31,6 @@ public class Tutorial : MonoBehaviour
     private TMP_Text demoEndText;
     private TMP_Text titleButtonText;
     private Image buttonImage;
-    private Journal journal;
     #endregion
 
     #region FIELDS
@@ -39,7 +39,6 @@ public class Tutorial : MonoBehaviour
     private bool showingMushroomInteractText = false;
     private bool mushroomInteracted = false;
     [SerializeField] private bool showingBounceText = false;
-    [SerializeField] bool movedRemoveTutorial = false;
     [SerializeField] bool showingRemoveText = false;
     [SerializeField] private float removeTutorialTimer = 4.0f;
     private bool showingLotusText = false;
@@ -89,7 +88,6 @@ public class Tutorial : MonoBehaviour
         thirdJournalUITutorialText = GameObject.Find("Journal UI Tutorial Text 3").GetComponent<Text>();
         thirdJournalUIPanelImage = GameObject.Find("Journal UI Tutorial Panel 3").GetComponent<Image>();
         playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
-        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Demo Thanks Message
         demoEndText = GameObject.Find("Demo Ending Text").GetComponent<TMP_Text>();
@@ -122,9 +120,10 @@ public class Tutorial : MonoBehaviour
 
         if (showingFirstJournalUIText)
         {
-            journal.CanClose = false;
+
+            journalEvent.SetCanClose(false);
             ShowFirstJournalUITutorialText();
-            if (journal.HasOpened)
+            if (journalEvent.GetOpenedOnce())
             {
                 showingFirstJournalUIText = false;
                 showingSecondJournalUIText = true;
@@ -140,7 +139,7 @@ public class Tutorial : MonoBehaviour
             GameObject.Find("Continue Button").GetComponent<Button>().interactable = false;
             GameObject.Find("Settings Button").GetComponent<Button>().interactable = false;
             GameObject.Find("Quit Button").GetComponent<Button>().interactable = false;
-            if(journal.HasOpened)
+            if(journalEvent.GetOpenedOnce())
             {
                 showingSecondJournalUIText = false;
                 showingThirdJournalUIText = true;
@@ -159,7 +158,7 @@ public class Tutorial : MonoBehaviour
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = false;
         } else
         {
-            journal.CanClose = true;
+            journalEvent.SetCanClose(true);
             FadeThirdJournalUITutorialText();
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = true;
         }

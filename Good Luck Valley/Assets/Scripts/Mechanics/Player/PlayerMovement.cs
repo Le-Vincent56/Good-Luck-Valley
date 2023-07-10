@@ -7,12 +7,19 @@ using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
 using FMOD.Studio;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour, IData
 {
     #region REFERENCES
     [SerializeField] private PlayerData data;
-	private SpriteRenderer spriteRenderer;
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
 	private BoxCollider2D playerCollider;
@@ -25,20 +32,23 @@ public class PlayerMovement : MonoBehaviour, IData
     #endregion
 
     #region FIELDS
+    [SerializeField] bool debug = false;
     [SerializeField] bool isJumping;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isLocked = false;
-    [SerializeField] private bool justLanded = false;
+    [SerializeField] private bool canInput = true;
     [SerializeField] float fallingBuffer = 0.25f;
     [SerializeField] float landedTimer = 0f;
+    [SerializeField] private float inputCooldown = 0.05f;
+    [SerializeField] private float jumpBuffer = 0f;
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
+    private bool isJumpAnimFalling;
 	private bool isFacingRight;
-    private bool inputHorizontal;
+    private bool landed;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
-    private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
@@ -56,14 +66,13 @@ public class PlayerMovement : MonoBehaviour, IData
     private Vector3 slopeNormalPerp;
     private float slopeSideAngle;
 	private float slopeDownAngle;
-	private float lastDownAngle;
 	private float slopeNormalPerpAngle;
 	#endregion
 
 	#region BOUNCING
 	[SerializeField] private bool bouncing = false;
     [SerializeField] private bool touchingShroom = false;
-    private float bounceBuffer = 0.1f;
+    private float bounceBuffer = 0.01f;
 	#endregion
 	#endregion
 
@@ -86,18 +95,32 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void OnEnable()
     {
-		EventManager.StartListening("Bounce", ApplyBounce);
-		EventManager.StartListening("TouchingShroom", TouchingShroom);
-		EventManager.StartListening("Pause", LockMovement);
-        EventManager.StartListening("Lock", LockMovement);
+        mushroomEvent.bounceEvent.AddListener(ApplyBounce);
+        mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
+        pauseEvent.pauseEvent.AddListener(LockMovement);
+        pauseEvent.unpauseEvent.AddListener(UnlockMovement);
+        disableEvent.lockPlayerEvent.AddListener(LockMovement);
+        disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
+        disableEvent.stopInputEvent.AddListener(StopInput);
+        loadLevelEvent.startLoad.AddListener(LockMovement);
+        loadLevelEvent.endLoad.AddListener(UnlockMovement);
+        cutsceneEvent.startLotusCutscene.AddListener(LockMovement);
+        cutsceneEvent.endLotusCutscene.AddListener(UnlockMovement);
     }
 
     private void OnDisable()
     {
-        EventManager.StopListening("Bounce", ApplyBounce);
-        EventManager.StopListening("TouchingShroom", TouchingShroom);
-		EventManager.StopListening("Pause", LockMovement);
-        EventManager.StopListening("Lock", LockMovement);
+        mushroomEvent.bounceEvent.RemoveListener(ApplyBounce);
+        mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
+        pauseEvent.pauseEvent.RemoveListener(LockMovement);
+        pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
+        disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
+        disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
+        disableEvent.stopInputEvent.RemoveListener(StopInput);
+        loadLevelEvent.startLoad.RemoveListener(LockMovement);
+        loadLevelEvent.endLoad.RemoveListener(UnlockMovement);
+        cutsceneEvent.startLotusCutscene.RemoveListener(LockMovement);
+        cutsceneEvent.endLotusCutscene.RemoveListener(UnlockMovement);
     }
 
     private void Start()
@@ -147,7 +170,7 @@ public class PlayerMovement : MonoBehaviour, IData
         #region COLLISION CHECKS
         if (!isJumping)
         {
-			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, playerCollider.bounds.size, 0f, Vector2.down, 0.1f, groundLayer);
+			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.1f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.down, 0.1f, groundLayer);
 
             if ((boxCheckGround || touchingShroom) && !isJumping) // Checks if set box overlaps with ground
             {
@@ -155,8 +178,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 if (bouncing && bounceBuffer <= 0)
                 {
                     bouncing = false;
-
-					EventManager.TriggerEvent("Bounce", false);
+                    mushroomEvent.SetBounce(false);
                 }
 
                 // Ground player
@@ -203,15 +225,13 @@ public class PlayerMovement : MonoBehaviour, IData
 
         // Set Animations
         #region JUMP ANIMATION CHECKS
-        // If the player is Jumping, update variables and set the jump animation
+        // Set jumpAnimFalling to false so there can be a little animation buffer without affecting the actual movement
+        isJumpAnimFalling = false;
+
+        // If the player is Jumping, update variables
         if (isJumping)
         {
             isGrounded = false;
-            EventManager.TriggerEvent("Jump", true);
-        }
-        else if (!isJumping) // Else, if the player is not jumping, update animations
-        {
-            EventManager.TriggerEvent("Jump", false);
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
@@ -222,22 +242,21 @@ public class PlayerMovement : MonoBehaviour, IData
 			{
                 isGrounded = false;
 
+                // if the falling buffer is true,
 				if(fallingBuffer <= 0)
 				{
-                    EventManager.TriggerEvent("Fall", true);
+                    isJumpAnimFalling = true;
                 }
             }
         }
         else if (!isJumpFalling || isGrounded || bouncing || isOnSlope) // Otherwise, if the player is not falling, update animations
         {
             fallingBuffer = 0.15f;
-            EventManager.TriggerEvent("Fall", false);
         }
 		
 		if(bouncing && !(RB.velocity.y <= 0f)) // Also check for when bouncing is true
 		{
             fallingBuffer = 0.15f;
-            EventManager.TriggerEvent("Fall", false);
         }
         #endregion
 
@@ -257,21 +276,16 @@ public class PlayerMovement : MonoBehaviour, IData
         // If the player has been on the ground for longer than 0 seconds, they have landed
         if (landedTimer > 0 && isGrounded && !bouncing)
         {
-            // Update variables and set animations
+            // Update timer
             landedTimer -= Time.deltaTime;
-            justLanded = true;
 
-			// Trigger Landing event
-			EventManager.TriggerEvent("Land", true);
+            // Set landed to true
+            landed = true;
         }
         else
         {
-            // Otherwise, they have not landed - update
-            // variables and set animations
-            justLanded = false;
-
-			// Trigger Landing event
-            EventManager.TriggerEvent("Land", false);
+            // Set landed to false
+            landed = false;
         }
 
 		if(!isGrounded && RB.velocity.y < 0)
@@ -378,7 +392,14 @@ public class PlayerMovement : MonoBehaviour, IData
             }
 
 			// Handle movement
-			Run(0.5f);
+            if(canInput)
+            {
+                Run(0.5f);
+                StopCoroutine(MovementCooldown());
+            } else
+            {
+                StartCoroutine(MovementCooldown());
+            }
 		}
 		else
 		{
@@ -398,7 +419,12 @@ public class PlayerMovement : MonoBehaviour, IData
 		}
 
         // Trigger events
-        EventManager.TriggerEvent("Move", RB.velocity.x);
+        movementEvent.SetBools(isGrounded, isJumping, isJumpAnimFalling, landed);
+        movementEvent.SetVectors(rb.velocity, moveInput);
+        movementEvent.Move();
+        movementEvent.Jump();
+        movementEvent.Fall();
+        movementEvent.Land();
     }
 
     #region INPUT CALLBACKS
@@ -453,7 +479,7 @@ public class PlayerMovement : MonoBehaviour, IData
         // Set specific air accelerations and deccelerations for bouncing
         if(bouncing)
         {
-            data.accelInAir = 0.15f;
+            data.accelInAir = 0.75f;
             data.deccelInAir = 0f;
         } else
         {
@@ -525,8 +551,6 @@ public class PlayerMovement : MonoBehaviour, IData
                 GetComponent<Transform>().position += Vector3.right * moveInput.x;
             }
         }
-
-        EventManager.TriggerEvent("Footsteps", moveInput.x, rb.velocity.x, isGrounded);
     }
 
     /// <summary>
@@ -591,9 +615,6 @@ public class PlayerMovement : MonoBehaviour, IData
                 isOnSlope = false;
             }
 
-            // Update lastDownAngle
-            lastDownAngle = slopeDownAngle;
-
             // Draw a ray for debugging
             Debug.DrawRay(downHit.point, downHit.normal, Color.red);
         }
@@ -646,9 +667,12 @@ public class PlayerMovement : MonoBehaviour, IData
         }
 
         // Draw rays for debugging
-        Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
-        Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
-        Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+        if(debug)
+        {
+            Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
+            Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
+            Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+        }
     }
 
     /// <summary>
@@ -729,15 +753,61 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
 		return isJumping && RB.velocity.y > 0;
 	}
-	#endregion
+    #endregion
 
-	// INPUT HANDLER
-	#region INPUT HANDLER
-	/// <summary>
-	/// Activate Player movement using controls
-	/// </summary>
-	/// <param name="context">The context of the Controller being used</param>
-	public void OnMove(InputAction.CallbackContext context)
+    // COROUTINES
+    #region COROUTINES
+    /// <summary>
+    /// Apply a movement cooldown
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator MovementCooldown()
+    {
+        if(inputCooldown > 0f)
+        {
+            yield return null;
+
+            inputCooldown -= Time.deltaTime;
+        } else
+        {
+            inputCooldown = 0.05f;
+            canInput = true;
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Set a jump buffer for jump-bouncing
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator JumpBuffer()
+    {
+        // Set the buffer
+        if(jumpBuffer <= 0f)
+        {
+            jumpBuffer = 0.1f;
+        }
+
+        // While the buffer is greater than 0, let other code run
+        // then subtract by deltaTime
+        while(jumpBuffer > 0f)
+        {
+            yield return null;
+
+            jumpBuffer -= Time.deltaTime;
+        }
+
+        yield return null;
+    }
+    #endregion
+
+    // INPUT HANDLER
+    #region INPUT HANDLER
+    /// <summary>
+    /// Activate Player movement using controls
+    /// </summary>
+    /// <param name="context">The context of the Controller being used</param>
+    public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
         if (!isLocked)
@@ -748,17 +818,8 @@ public class PlayerMovement : MonoBehaviour, IData
 			// Check direction to face based on vector
 			if (moveInput.x != 0)
 			{
-				// Set inputHorizontal to true
-                inputHorizontal = true;
-
 				// Check directions to face
                 CheckDirectionToFace(moveInput.x > 0);
-			}
-
-			// If the bind is no longer pressed, set inputHorizontal to false
-			if (context.canceled)
-			{
-				inputHorizontal = false;
 			}
 		}
 	}
@@ -770,13 +831,14 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!isLocked)
+        if (!isLocked && !bouncing && !touchingShroom)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
 			{
 				OnJumpInput();
-			}
+                StartCoroutine(JumpBuffer());
+            }
 			else if (context.canceled)
 			{
 				OnJumpUpInput();
@@ -790,47 +852,90 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <summary>
 	/// Set variables for bouncing
 	/// </summary>
-	private void ApplyBounce()
+	private void ApplyBounce(Vector3 bounceForce, ForceMode2D forceType)
 	{
-		bouncing = true;
-		bounceBuffer = 0.1f;
-		landedTimer = 0.2f;
-	}
+        bouncing = true;
+        bounceBuffer = 0.1f;
+        landedTimer = 0.2f;
+
+        // Check if jumping - if there's a simultaneous jump,
+        // reduce the bounce amount so that the player doesn't launch into the air
+        // more than they are supposed to
+        if(isJumping && jumpBuffer > 0)
+        {
+            Debug.Log("Jump Bouncing!");
+
+            bounceForce /= data.jumpForce;
+        }
+
+        RB.AddForce(bounceForce, forceType);
+
+    }
+
 	/// <summary>
 	/// Set whether the player is touching a shroom
 	/// </summary>
 	/// <param name="touchingData"></param>
 
-	private void TouchingShroom(object touchingData)
+	private void TouchingShroom(bool touchingData)
 	{
-		touchingShroom = (bool)touchingData;
+		touchingShroom = touchingData;
 	}
 
 	/// <summary>
 	/// Lock player movement
 	/// </summary>
 	/// <param name="lockedData"></param>
-	private void LockMovement(object lockedData)
+	private void LockMovement()
 	{
         moveInput = Vector2.zero;
-        isLocked = (bool)lockedData;
+        isLocked = true;
 	}
+
+    /// <summary>
+    /// Unlock player movement
+    /// </summary>
+    private void UnlockMovement()
+    {
+        isLocked = false;
+    }
+
+    /// <summary>
+    /// Stop input
+    /// </summary>
+    /// <param name="cooldownData">The amount of time to stop the input for</param>
+    private void StopInput(float cooldownData)
+    {
+        canInput = false;
+        inputCooldown = cooldownData;
+    }
 	#endregion
 
 	// DATA HANDLING
 	#region DATA HANDLING
 	public void LoadData(GameData data)
 	{
-		// Load player position
-		gameObject.transform.position = data.playerPosition;
-		isLocked = data.isLocked;
+        // Get the currently active scene
+        Scene scene = SceneManager.GetActiveScene();
+
+        // Check if that scene name exists in the dictionary for good measure
+        if(data.levelData.ContainsKey(scene.name))
+        {
+            // If it does exist, load the players positional data using the data for this scene
+            Vector3 playerPositionForThisScene = data.levelData[scene.name].playerPosition;
+            gameObject.transform.position = playerPositionForThisScene;
+        } else
+        {
+            //If it doesn't exist, let ourselves know that we need to add it to our game data
+            Debug.LogError("Failed to get data for scene with name: " + scene.name + ". It may need to be added to the GameData constructor");
+        }
 	}
 
 	public void SaveData(GameData data)
 	{
-		// Save player position
-		data.playerPosition = gameObject.transform.position;
-		data.isLocked = isLocked;
+        // Save player position in the dictionary slot for this scene
+        Scene scene = SceneManager.GetActiveScene();
+        data.levelData[scene.name].playerPosition = this.transform.position;
 	}
 	#endregion
 }

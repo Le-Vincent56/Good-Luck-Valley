@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SaveSlotsPauseMenu : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private SaveMenuScriptableObj saveMenuEvent;
+    [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
+    [SerializeField] private ConfirmationPopupMenu overwriteConfirmationMenu;
     private Canvas pauseMenu;
     private Button saveButton;
     private Button deleteButton;
     private Button backButton;
-    [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
-    [SerializeField] private ConfirmationPopupMenu overwriteConfirmationMenu;
     private SaveSlot[] saveSlots;
     private SaveSlot selectedSaveSlot;
     private Image savingProgressPanel;
@@ -19,12 +21,10 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     #endregion
 
     #region FIELDS
+    [SerializeField] private float saveCloseBuffer = 0.25f;
+    [SerializeField] private float savingTextUpdateTimer = 2.4f;
     private bool menuOpen = false;
     private bool saving = false;
-    [SerializeField] private float saveCloseBuffer = 0.25f;
-    [SerializeField] private float savingTimerAsSeconds = 3f;
-    [SerializeField] private float savingTextUpdateTimer = 2.4f;
-    [SerializeField] private float fadeAmountPerTick = 0.15f;
     private bool playAnimation = false;
     #endregion
 
@@ -50,6 +50,16 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         deleteButton.interactable = false;
     }
 
+    private void OnEnable()
+    {
+        saveMenuEvent.activateSaveMenuEvent.AddListener(ActivateMenu);
+    }
+
+    private void OnDisable()
+    {
+        saveMenuEvent.activateSaveMenuEvent.RemoveListener(ActivateMenu);
+    }
+
     void Update()
     {
         // If the close buffer is set to above 0,
@@ -57,9 +67,11 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         if (saveCloseBuffer > 0 && !menuOpen)
         {
             saveCloseBuffer -= Time.deltaTime;
+            saveMenuEvent.SetSaveCloseBuffer(saveCloseBuffer);
         } else if(menuOpen)
         {
             saveCloseBuffer = 0.25f;
+            saveMenuEvent.SetSaveCloseBuffer(saveCloseBuffer);
         }
     }
 
@@ -130,6 +142,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
         // Set menu open
         menuOpen = true;
+        saveMenuEvent.SetSaveMenuOpen(menuOpen);
     }
 
     /// <summary>
@@ -274,6 +287,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
         // Set menu open
         menuOpen = false;
+        saveMenuEvent.SetSaveMenuOpen(menuOpen);
 
         // Activate the pause menu
         pauseMenu.enabled = true;
@@ -282,7 +296,8 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// <summary>
     /// Close the menu using a key
     /// </summary>
-    public void CloseMenuKey()
+    /// /// <param name="context">The context of the controller</param>
+    public void CloseMenuKey(InputAction.CallbackContext context)
     {
         // Check if the menu is open
         if (menuOpen && !saving)
@@ -290,6 +305,7 @@ public class SaveSlotsPauseMenu : MonoBehaviour
             // Close the journal UI and set menuOpen to false
             gameObject.GetComponent<Canvas>().enabled = false;
             menuOpen = false;
+            saveMenuEvent.SetSaveMenuOpen(menuOpen);
 
             pauseMenu.enabled = true;
         }

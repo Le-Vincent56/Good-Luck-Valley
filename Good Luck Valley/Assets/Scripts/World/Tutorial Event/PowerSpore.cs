@@ -5,15 +5,14 @@ using UnityEngine;
 public class PowerSpore : Interactable
 {
     #region REFERENCES
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
     private MushroomManager mushroomManager;
-    private Tutorial tutorialManager;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         mushroomManager = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
-        tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
 
         remove = false;
     }
@@ -23,12 +22,9 @@ public class PowerSpore : Interactable
     /// </summary>
     public override void Interact()
     {
-        tutorialManager.ShowingBounceText = true;
-        tutorialManager.ShowingMushroomInteractText = false;
-        tutorialManager.MushroomInteracted = true;
-        mushroomManager.ThrowUnlocked = true;
+        mushroomEvent.UnlockThrow();
         finishedInteracting = true;
         remove = true;
-        mushroomManager.ShroomCounter.ResetQueue();
+        active = false;
     }
 }

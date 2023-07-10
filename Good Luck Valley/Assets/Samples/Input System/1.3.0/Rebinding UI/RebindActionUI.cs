@@ -249,7 +249,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 if (binding.effectivePath == newBinding.path)
                 {
                     Debug.Log("Duplicate binding found for reset to defaul: " + newBinding.effectivePath);
-                    action.actionMap.FindAction(binding.action).ApplyBindingOverride(i, newBinding.effectivePath);
+                    action.actionMap.FindAction(binding.action).ApplyBindingOverride(bindingIndex, newBinding.path);
                     action.RemoveBindingOverride(bindingIndex);
                     return true;
                 }

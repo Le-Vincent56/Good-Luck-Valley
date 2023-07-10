@@ -8,25 +8,30 @@ using UnityEngine.SceneManagement;
 public class TutorialAnguishLotus : Interactable
 {
     #region REFERENCES
+    [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     private Tutorial tutorialManager;
     private PlayerMovement playerMovement;
-    private PauseMenu pauseMenu;
-    [SerializeField] GameObject fadeEffect;
     #endregion
 
     #region FIELDS
     private bool endLevel = false;
-    [SerializeField] private float fadeTimer = 3.0f;
+    private DecomposableVine[] shroomWalls;
+    [SerializeField] private float fadeAmount = 0.02f;
     #endregion
 
     void Start()
     {
-        tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         remove = false;
-        fadeTimer = 2.0f;
         endLevel = false;
+
+        shroomWalls = new DecomposableVine[3];
+
+        for (int i = 0; i < 3; i++)
+        {
+            shroomWalls[i] = GameObject.Find("Wall" + i).GetComponent<DecomposableVine>();
+        }
     }
 
     void Update()
@@ -37,6 +42,8 @@ public class TutorialAnguishLotus : Interactable
             // Interact and set variables
             Interact();
             interacting = true;
+            StartCoroutine(FadeVines());
+            StartCoroutine(FadeLotus());
 
             // If the inteaction has finished, reset the variables
             if (finishedInteracting)
@@ -48,37 +55,6 @@ public class TutorialAnguishLotus : Interactable
             // If the control is not triggered, set interacting to false
             interacting = false;
         }
-
-        // If endlevel
-        if(endLevel)
-        {
-            // Start the fade timer
-            if(!pauseMenu.Paused)
-            {
-                EventManager.TriggerEvent("Lock", true);
-                pauseMenu.Paused = true;
-                tutorialManager.ShowingDemoEndText = true;
-            }
-
-            if (fadeEffect.GetComponent<SpriteRenderer>().color.a < .6f)
-            {
-                fadeEffect.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, (Time.deltaTime * .5f));
-            }
-            else if (tutorialManager.ShowingDemoEndText)
-            {
-                tutorialManager.ShowingDemoEndText = false;
-            }
-
-            fadeTimer -= Time.deltaTime;
-
-            // Once the fade timer hits 0, finish interacting
-            // and go to title screen
-            if (fadeTimer <= 0)
-            {
-                finishedInteracting = true;
-            }
-        }
-
     }
 
     /// <summary>
@@ -86,23 +62,44 @@ public class TutorialAnguishLotus : Interactable
     /// </summary>
     public override void Interact()
     {
-        // Fade the Tutorial Text
-        tutorialManager.ShowingLotusText = false;
-
-        // End the level
-        endLevel = true;
+        // Lock the player
+        disableEvent.Lock();
     }
 
-    /// <summary>
-    /// Redirect Player to Title Screen
-    /// </summary>
-
-    public void OnClickTitle()
+    private IEnumerator FadeLotus()
     {
-        // Load Title Screen after interacting with the Lotus
-        if (finishedInteracting)
+        // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
+        while (GetComponent<SpriteRenderer>().color.a > 0)
         {
-            SceneManager.LoadScene("Title Screen");
+            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - fadeAmount);
+            active = false;
+            yield return null;
         }
+    }
+
+    private IEnumerator FadeVines()
+    {
+        foreach (DecomposableVine g in shroomWalls)
+        {
+            while(g.GetComponent<SpriteRenderer>().color.a > 0)
+            {
+                g.GetComponent<SpriteRenderer>().color = new Color(g.GetComponent<SpriteRenderer>().color.r, 
+                    g.GetComponent<SpriteRenderer>().color.g, 
+                    g.GetComponent<SpriteRenderer>().color.b, g.GetComponent<SpriteRenderer>().color.a - g.DecomposeTime);
+            }
+        }
+        if (shroomWalls[shroomWalls.Length - 1].GetComponent<SpriteRenderer>().color.a <= 0)
+        {
+            foreach (DecomposableVine g in shroomWalls)
+            {
+                // Set the vine to inactive
+                g.Active = false;
+                g.gameObject.SetActive(false);
+            }
+            finishedInteracting = true;
+            disableEvent.Unlock();
+        }
+
+        yield return null;
     }
 }

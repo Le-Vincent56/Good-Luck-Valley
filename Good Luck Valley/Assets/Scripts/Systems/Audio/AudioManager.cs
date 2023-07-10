@@ -1,33 +1,100 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using FMODUnity;
 using FMOD.Studio;
 
+public enum MusicArea
+{
+    MAIN_MENU = 0,
+    FOREST = 1
+}
+
 public class AudioManager : MonoBehaviour
 {
+    #region FIELDS
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
+    [SerializeField] private MusicArea currentArea;
+
+    #region VOLUME CONTROL
+    public Bus masterBus;
+    public Bus musicBus;
+    public Bus ambienceBus;
+    public Bus sfxBus;
+    #endregion
+    #endregion
+
+    #region PROPERTIES
     public static AudioManager Instance { get; private set; }
+    public EventInstance MusicEventInstance { get { return musicEventInstance; } }
+    public EventInstance AmbienceEventInstance { get { return ambienceEventInstance; } }
+    public MusicArea CurrentArea { get { return currentArea; } }
+    #endregion
 
     private void Awake()
     {
-        if(Instance != null)
+        // Check if there's already an AudioManager
+        if (Instance != null)
         {
-            Debug.LogError("Found more than one AudioManager in the scene");
+            // If there is, destroy this one to retain singleton design
+            Debug.LogWarning("Found more than one Audio Manager in the scene. Destroying the newest one");
+            Destroy(gameObject);
+            return;
         }
         Instance = this;
 
+        // Don't destroy audio management on load
+        DontDestroyOnLoad(gameObject);
+
         eventInstances = new List<EventInstance>();
         eventEmitters = new List<StudioEventEmitter>();
+
+        masterBus = RuntimeManager.GetBus("bus:/");
+        musicBus = RuntimeManager.GetBus("bus:/Music");
+        ambienceBus = RuntimeManager.GetBus("bus:/Ambience");
+        sfxBus = RuntimeManager.GetBus("bus:/SFX");
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Initialize ambience and music
+        InitializeMusic(FMODEvents.Instance.GameMusic);
         InitializeAmbience(FMODEvents.Instance.Ambience);
-        InitializeMusic(FMODEvents.Instance.ForestMusic);
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    /// <summary>
+    /// Get Music Area based on scene
+    /// </summary>
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch(SceneManager.GetActiveScene().name)
+        {
+            case "Title Screen":
+                SetMusicArea(MusicArea.MAIN_MENU);
+                break;
+
+            case "Main Menu":
+                SetMusicArea(MusicArea.MAIN_MENU);
+                break;
+
+            case "Prologue":
+                SetMusicArea(MusicArea.FOREST);
+                break;
+
+            case "Level 1":
+                SetMusicArea(MusicArea.FOREST);
+                break;
+        }
     }
 
     /// <summary>
@@ -40,12 +107,32 @@ public class AudioManager : MonoBehaviour
         ambienceEventInstance.start();
     }
 
+    /// <summary>
+    /// Initialize a Music EventInstance and start it
+    /// </summary>
+    /// <param name="musicEventReference"></param>
     private void InitializeMusic(EventReference musicEventReference)
     {
         musicEventInstance = CreateEventInstance(musicEventReference);
         musicEventInstance.start();
     }
 
+    /// <summary>
+    /// Set the music associated with an area
+    /// </summary>
+    /// <param name="area">The area to set the music for</param>
+    public void SetMusicArea(MusicArea area)
+    {
+        currentArea = area;
+        musicEventInstance.setParameterByName("Area", (float)area);
+        ambienceEventInstance.setParameterByName("Area", (float)area);
+    }
+
+    /// <summary>
+    /// Play a one shot sound
+    /// </summary>
+    /// <param name="sound"></param>
+    /// <param name="worldPos"></param>
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
     {
         // From FMOD Unity
@@ -62,5 +149,32 @@ public class AudioManager : MonoBehaviour
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
         eventInstances.Add(eventInstance);
         return eventInstance;
+    }
+
+    public void SetMasterVolume(float volumePercentage)
+    {
+        masterBus.setVolume(volumePercentage);
+    }
+
+    public void SetMusicVolume(float volumePercentage)
+    {
+        musicBus.setVolume(volumePercentage);
+    }
+
+    public void SetAmbienceVolume(float volumePercentage)
+    {
+        ambienceBus.setVolume(volumePercentage);
+    }
+
+    public void SetSFXVolume(float volumePercentage)
+    {
+        sfxBus.setVolume(volumePercentage);
+    }
+
+    private bool CheckInstancePlaying(EventInstance instance)
+    {
+        PLAYBACK_STATE state;
+        instance.getPlaybackState(out state);
+        return state != PLAYBACK_STATE.STOPPED;
     }
 }
