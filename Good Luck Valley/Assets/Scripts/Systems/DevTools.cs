@@ -128,11 +128,11 @@ public class DevTools : MonoBehaviour
             // Disable shroom timer text change
             if (disableShroomDuration)
             {
-                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Disabled";
+                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Disabled";
             }
             else if (disableShroomDuration == false)
             {
-                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Timers Enabled";
+                shroomDurationText.text = "Press F4 to disable/enable shroom timers: Enabled";
             }
         } 
         else
