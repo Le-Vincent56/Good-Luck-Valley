@@ -29,6 +29,7 @@ public class LotusPick : Interactable
 
     void Update()
     {
+        Debug.Log("Control trigger: " + controlTriggered);
         // Check if interactable is triggered
         if (controlTriggered)
         {
@@ -96,6 +97,7 @@ public class LotusPick : Interactable
         // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
         while (GetComponent<SpriteRenderer>().color.a > 0)
         {
+            Debug.Log("?");
             GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - 0.01f);
             yield return null;
         }

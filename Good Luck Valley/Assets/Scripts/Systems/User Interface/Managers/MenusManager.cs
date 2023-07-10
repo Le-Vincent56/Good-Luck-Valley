@@ -149,7 +149,7 @@ public class MenusManager : MonoBehaviour
             // Disabled: A6A6A6
 
             // Default screen nav button, currently set to be accessibility panel
-            navButtons[3].GetComponent<Button>().interactable = false;
+            navButtons[0].GetComponent<Button>().interactable = false;
 
             // Allow on value changed events to trigger again
             disableCalls = false;
