@@ -178,12 +178,10 @@ public class PlayerMovement : MonoBehaviour, IData
                 if (bouncing && bounceBuffer <= 0)
                 {
                     bouncing = false;
-                    //movementEvent.SetIsBouncing(false);
                 }
 
                 // Ground player
                 isGrounded = true;
-                //movementEvent.SetIsGrounded(true);
                 movementEvent.Land();
 
                 // Set coyote time
@@ -198,10 +196,8 @@ public class PlayerMovement : MonoBehaviour, IData
         if (isJumping && RB.velocity.y < 0)
         {
             isJumping = false;
-            //movementEvent.SetIsJumping(false);
 
             isJumpFalling = true;
-            //movementEvent.SetIsFalling(true);
             movementEvent.Fall();
         }
 
@@ -215,7 +211,6 @@ public class PlayerMovement : MonoBehaviour, IData
             if (!isJumping)
 			{
                 isJumpFalling = false;
-                //movementEvent.SetIsFalling(false);
             }
         }
 
@@ -227,7 +222,6 @@ public class PlayerMovement : MonoBehaviour, IData
 			isJumpCut = false;
 
             isJumpFalling = true;
-            //movementEvent.SetIsFalling(true);
             movementEvent.Fall();
         }
 
@@ -235,14 +229,11 @@ public class PlayerMovement : MonoBehaviour, IData
         #region JUMP ANIMATION CHECKS
         // Set jumpAnimFalling to false so there can be a little animation buffer without affecting the actual movement
         isJumpAnimFalling = false;
-        //movementEvent.SetIsFalling(false);
 
         // If the player is Jumping, update variables
         if (isJumping)
         {
             isGrounded = false;
-            //movementEvent.SetIsGrounded(false);
-            //movementEvent.SetIsJumping(true);
             movementEvent.Jump();
         }
 
@@ -253,13 +244,11 @@ public class PlayerMovement : MonoBehaviour, IData
 			if(!isOnSlope)
 			{
                 isGrounded = false;
-                //movementEvent.SetIsGrounded(false);
 
                 // if the falling buffer is true,
                 if (fallingBuffer <= 0)
 				{
                     isJumpAnimFalling = true;
-                    //movementEvent.SetIsFalling(true);
                     movementEvent.Fall();
                 }
             }
@@ -296,13 +285,11 @@ public class PlayerMovement : MonoBehaviour, IData
 
             // Set landed to true
             landed = true;
-            //movementEvent.SetIsLanding(true);
         }
         else
         {
             // Set landed to false
             landed = false;
-            //movementEvent.SetIsLanding(false);
         }
 
 		if(!isGrounded && RB.velocity.y < 0)
