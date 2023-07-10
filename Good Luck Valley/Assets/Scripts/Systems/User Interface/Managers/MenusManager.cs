@@ -55,11 +55,12 @@ public class MenusManager : MonoBehaviour
 
     #region PROPERTIES
     public int CurrentScene { get { return currentScene; } }
-    public bool SettingsSaved { get { return settingsSaved; } set { settingsSaved = value; } } 
+    public bool SettingsSaved { get { return settingsSaved; } set { settingsSaved = value; } }
     #endregion
 
     public void Start()
     {
+
         // Check which scene is loaded
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
@@ -74,38 +75,6 @@ public class MenusManager : MonoBehaviour
 
             DisableButtonsDependingOnData();
         }
-
-        #region CONFIRMATION CHECKS
-        // Check if the scene is one that contains a confirmation check
-        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
-        {
-            // Find confirmation check in scene
-            confirmationCheck = GameObject.Find("ConfirmationCheck");
-            // If so, set it to be inactive
-            if (confirmationCheck)
-            {
-                confirmationCheck.SetActive(false);
-            }
-
-            // Needs to be set to true for the confirmation checks to pop up
-            checkQuit = true;
-        }
-
-        // Check if the scene is one that contains a second confirmation check
-        if (currentScene == 2 || currentScene == 4)
-        {
-            // Find second confirmation check
-            deleteConfirmation = GameObject.Find("Delete Confirmation");
-
-            if (deleteConfirmation)
-            {
-                // If so, set it to be inactive
-                deleteConfirmation.SetActive(false);
-            }
-            // Needs to be set to true for the confirmation checks to pop up
-            checkQuit = true;
-        }
-        #endregion
 
         #region SAVE FILES SCENE
         // Check if the scene is the SaveFiles scene
@@ -190,7 +159,6 @@ public class MenusManager : MonoBehaviour
         // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false)
         {
-            Debug.Log("Cull");
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
         else if (currentScene != 0 && currentScene <= 6)
@@ -208,6 +176,7 @@ public class MenusManager : MonoBehaviour
 
         // Check if the current scene is 2, save files scene
         if (currentScene == 2)
+            Debug.Log(deleteConfirmation.activeSelf);
         {
             // Check if a save has been selected
             if (selectedSave != 0)
@@ -278,7 +247,6 @@ public class MenusManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
@@ -290,7 +258,7 @@ public class MenusManager : MonoBehaviour
 
         // Fades between scenes
         #region FADING BETWEEN SCENES
-        // Get reference to the square used for fading
+        // Get reference to the square used for fading  
         fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
 
         // Set fading in to true so that the square will turn transparent
@@ -304,6 +272,30 @@ public class MenusManager : MonoBehaviour
             // If the scene is 0, title screen, then set fade in to false
             // cuz we shouldn't fade in when loading the title screen
             fadeIn = false;
+        }
+        #endregion
+
+        #region CONFIRMATION CHECKS
+        // Check if the scene is one that contains a confirmation check
+        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
+        {
+            // Find confirmation check in scene
+            confirmationCheck = GameObject.Find("ConfirmationCheck");
+            confirmationCheck.SetActive(false);
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
+        }
+        Debug.Log(currentScene);
+
+        // Check if the scene is one that contains a second confirmation check
+        if (currentScene == 2 || currentScene == 4)
+        {
+            Debug.Log(currentScene);
+            // Find second confirmation check
+            deleteConfirmation = GameObject.Find("Delete Confirmation");
+            deleteConfirmation.SetActive(false);
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
         }
         #endregion
     }
@@ -501,6 +493,7 @@ public class MenusManager : MonoBehaviour
                         checkQuit = true;
 
                         // Hides the confirmation box
+                        Debug.Log("Check Quit");
                         deleteConfirmation.SetActive(false);
                     }
                     break;
@@ -551,6 +544,7 @@ public class MenusManager : MonoBehaviour
             }
             else if (confirmCheckNum == 2)
             {
+                Debug.Log("Cancel");
                 deleteConfirmation.SetActive(false);
             }
         }

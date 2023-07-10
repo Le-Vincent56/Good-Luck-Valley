@@ -80,7 +80,7 @@ public class FileDataHandler
                     }
                 } else
                 {
-                    Debug.LogError("Error occured when trying to load file at path: " + fullPath + " and backup did not work." + "\n" + e);
+                    Debug.LogError("Error occured when trying to load file at path: " + fullPath + " and backup did not work." + "\n" + e); 
                 }
                 
             }
