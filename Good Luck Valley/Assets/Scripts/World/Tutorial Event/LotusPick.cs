@@ -84,6 +84,7 @@ public class LotusPick : Interactable
             pauseEvent.SetPaused(true);
             disableEvent.Lock();
             StartCoroutine(FadeEndScreen(endScreen));
+            endScreen.GetComponentInChildren<Button>().interactable = true;
             yield return null;
         }
 
