@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class DataManager : MonoBehaviour
 {
     #region REFERENCES
-    private GameData gameData;
+    [SerializeField] private GameData gameData;
     private SettingsData settingsData;
     [SerializeField] private List<IData> dataObjects;
     [SerializeField] private List<ISettingsData> settingsDataObjects;

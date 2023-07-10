@@ -8,6 +8,7 @@ public class PauseScriptableObj : ScriptableObject
 {
     #region FIELDS
     [SerializeField] private bool canPause = true;
+    [SerializeField] private bool paused = false;
 
     #region EVENTS
     public UnityEvent pauseEvent;
@@ -40,6 +41,15 @@ public class PauseScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether the game is paused or not
+    /// </summary>
+    /// <param name="paused">Whether the game is paused or not</param>
+    public void SetPaused(bool paused)
+    {
+        this.paused = paused;
+    }
+
+    /// <summary>
     /// Get whether the player can pause or not
     /// </summary>
     /// <returns>Whether the player can pause or not</returns>
@@ -49,12 +59,22 @@ public class PauseScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Get whether the game is paused or not
+    /// </summary>
+    /// <returns>Whether the game is paused or not</returns>
+    public bool GetPaused()
+    {
+        return paused;
+    }
+
+    /// <summary>
     /// Trigger events related to pausing the game
     /// </summary>
     public void Pause()
     {
         if(canPause)
         {
+            paused = true;
             pauseEvent.Invoke();
         }
     }
@@ -64,6 +84,7 @@ public class PauseScriptableObj : ScriptableObject
     /// </summary>
     public void Unpause()
     {
+        paused = false;
         unpauseEvent.Invoke();
     }
 }

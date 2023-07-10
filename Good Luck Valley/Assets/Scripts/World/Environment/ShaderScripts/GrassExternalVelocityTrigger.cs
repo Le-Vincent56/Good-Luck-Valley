@@ -26,7 +26,7 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
     #endregion
 
     private void Start()
-    {
+    {   
         player = GameObject.Find("Player");
         playerRB = player.GetComponent<Rigidbody2D>();
         grassVelocityController = GetComponentInParent<GrassVelocityController>();
@@ -41,7 +41,7 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if (Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
+            if (!easeInRunning && Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 Debug.Log("Enter");
                 StartCoroutine(EaseIn(playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength));
@@ -62,12 +62,12 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if (Mathf.Abs(velocityLastFrame) > Mathf.Abs(grassVelocityController.VelocityThreshold) &&
+            if (!easeInRunning && Mathf.Abs(velocityLastFrame) > Mathf.Abs(grassVelocityController.VelocityThreshold) &&
                 Mathf.Abs(playerRB.velocity.x) < Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 StartCoroutine(EaseOut());
             }
-            else if (Mathf.Abs(velocityLastFrame) < Mathf.Abs(grassVelocityController.VelocityThreshold) &&
+            else if (!easeOutRunning && Mathf.Abs(velocityLastFrame) < Mathf.Abs(grassVelocityController.VelocityThreshold) &&
                 Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 StartCoroutine(EaseIn(playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength));
@@ -76,7 +76,7 @@ public class GrassExternalVelocityTrigger : MonoBehaviour
                 Mathf.Abs(playerRB.velocity.x) > Mathf.Abs(grassVelocityController.VelocityThreshold))
             {
                 Debug.Log("SHOULDNT HAPPEN");
-                //grassVelocityController.InfluenceGrass(material, playerRB.velocity.x);
+                //grassVelocityController.InfluenceGrass(material, playerRB.velocity.x * grassVelocityController.ExternalInfluenceStrength);
             }
 
             velocityLastFrame = playerRB.velocity.x;
