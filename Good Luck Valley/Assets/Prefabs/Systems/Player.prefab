@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 194225539}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 22ff4a32c7dac0043997e467e2a27235, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5c4b08a1559a0a545ab43d219df0b2b4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -147,6 +147,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   mushroomEvent: {fileID: 11400000, guid: 7d92506008c604d4b940160fec1a21e2, type: 2}
+  currentState: 
+  movementVector: {x: 0, y: 0}
+  isJumping: 0
+  isGrounded: 0
+  isFalling: 0
+  landed: 0
+  isBouncing: 0
+  isThrowing: 0
+  runThrow_R: 0
 --- !u!1 &508820767
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +403,7 @@ MonoBehaviour:
   moveInput: {x: 0, y: 0}
   bouncing: 0
   touchingShroom: 0
+  bounceBuffer: 0.1
 --- !u!50 &7203912908089909881
 Rigidbody2D:
   serializedVersion: 4
