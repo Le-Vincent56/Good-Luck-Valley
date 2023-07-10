@@ -9,7 +9,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
 
     #endregion
     private bool transition;
-    private float timeBeforeTransitionTrigger = 5f;
+    private float timeBeforeTransitionTrigger = 1f;
     #region FIELDS
 
     #endregion

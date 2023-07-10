@@ -71,7 +71,7 @@ public class TutorialAnguishLotus : Interactable
         // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
         while (GetComponent<SpriteRenderer>().color.a > 0)
         {
-            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - 0.02f);
+            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - fadeAmount);
             active = false;
             yield return null;
         }

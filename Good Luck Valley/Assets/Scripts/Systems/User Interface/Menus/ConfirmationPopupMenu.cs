@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class ConfirmationPopupMenu : MenusManager
+public class ConfirmationPopupMenu : MonoBehaviour
 {
     [SerializeField] private Text displayText;
     [SerializeField] private Button confirmButton;
@@ -18,7 +18,9 @@ public class ConfirmationPopupMenu : MenusManager
     /// <param name="cancelAction">The code that will run on cancellation</param>
     public void ActivateMenu(string displayText, UnityAction confirmAction, UnityAction cancelAction)
     {
+        Debug.Log("What");
         gameObject.SetActive(true);
+        Debug.Log(gameObject);
 
         // Set the display text
         this.displayText.text = displayText;
@@ -44,6 +46,7 @@ public class ConfirmationPopupMenu : MenusManager
 
     public void DeactivateMenu()
     {
+        Debug.Log("Deactivate");
         gameObject.SetActive(false);
     }
 }
