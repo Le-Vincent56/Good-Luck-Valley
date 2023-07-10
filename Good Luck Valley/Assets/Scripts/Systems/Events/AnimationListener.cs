@@ -3,11 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum PLAYERANIM
+{
+    IDLE = 0,
+    RUN = 0,
+    JUMP = 0,
+    FALL = 0,
+    BOUNCE = 1,
+    THROW = 1
+}
+
 public class AnimationListener : MonoBehaviour
 {
+    #region REFERENCES
     private Animator playerAnim;
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private MushroomScriptableObj mushroomEvent;
+    #endregion
+
+    #region FIELDS
+    [SerializeField] private string currentState;
+    [SerializeField] private int currentPriority = 0;
+
+    [SerializeField] private Vector2 movementVector;
+    [SerializeField] private bool isJumping;
+    [SerializeField] private bool isGrounded;
+    [SerializeField] private bool isFalling;
+    [SerializeField] private bool landed;
+    [SerializeField] private bool isBouncing;
+    [SerializeField] private bool isThrowing;
+    [SerializeField] private bool runThrow_R;
+
+    private const string PLAYER_IDLE = "Player_Idle";
+    private const string PLAYER_RUN = "Player_Run";
+    private const string PLAYER_JUMP = "Player_Jump";
+    private const string PLAYER_FALL = "Player_Fall";
+    private const string PLAYER_LAND = "Player_Land";
+    private const string PLAYER_BOUNCE = "Player_Bounce";
+    private const string PLAYER_THROW = "Player_Throw";
+    private const string PLAYER_THROW_R = "Player_Run_Throw_R";
+    private const string PLAYER_THROW_L = "Player_Run_Throw_L";
+    #endregion
 
     private void Start()
     {
@@ -17,41 +53,139 @@ public class AnimationListener : MonoBehaviour
     private void OnEnable()
     {
         // Start listening to events
-        movementEvent.moveEvent.AddListener(RunningAnim);
-        movementEvent.jumpEvent.AddListener(JumpingAnim);
-        movementEvent.landEvent.AddListener(LandingAnim);
-        movementEvent.fallEvent.AddListener(FallingAnim);
-        mushroomEvent.bounceAnimationEvent.AddListener(BouncingAnim);
-        mushroomEvent.checkThrowAnimationEvent.AddListener(CheckThrowingAnim);
-        mushroomEvent.setThrowAnimationEvent.AddListener(SetThrowingAnim);
+        //movementEvent.moveEvent.AddListener(RunningAnim);
+        //movementEvent.jumpEvent.AddListener(JumpingAnim);
+        //movementEvent.landEvent.AddListener(LandingAnim);
+        //movementEvent.fallEvent.AddListener(FallingAnim);
+        //movementEvent.bounceAnimationEvent.AddListener(BouncingAnim);
+        //mushroomEvent.checkThrowAnimationEvent.AddListener(CheckThrowingAnim);
+        //mushroomEvent.setThrowAnimationEvent.AddListener(SetThrowingAnim);
     }
 
     private void OnDisable()
     {
         // Stop listening to events
-        movementEvent.moveEvent.RemoveListener(RunningAnim);
-        movementEvent.jumpEvent.RemoveListener(JumpingAnim);
-        movementEvent.landEvent.RemoveListener(LandingAnim);
-        movementEvent.fallEvent.RemoveListener(FallingAnim);
-        mushroomEvent.bounceAnimationEvent.RemoveListener(BouncingAnim);
-        mushroomEvent.checkThrowAnimationEvent.RemoveListener(CheckThrowingAnim);
-        mushroomEvent.setThrowAnimationEvent.RemoveListener(SetThrowingAnim);
+        //movementEvent.moveEvent.RemoveListener(RunningAnim);
+        //movementEvent.jumpEvent.RemoveListener(JumpingAnim);
+        //movementEvent.landEvent.RemoveListener(LandingAnim);
+        //movementEvent.fallEvent.RemoveListener(FallingAnim);
+        //movementEvent.bounceAnimationEvent.RemoveListener(BouncingAnim);
+        //mushroomEvent.checkThrowAnimationEvent.RemoveListener(CheckThrowingAnim);
+        //mushroomEvent.setThrowAnimationEvent.RemoveListener(SetThrowingAnim);
+    }
+
+    void Update()
+    {
+        movementVector = movementEvent.GetMovementVector();
+        isJumping = movementEvent.GetIsJumping();
+        isGrounded = movementEvent.GetIsGrounded();
+        isFalling = movementEvent.GetIsFalling();
+        landed = movementEvent.GetIsLanding();
+        isBouncing = movementEvent.GetIsBounceAnimating();
+        isThrowing = mushroomEvent.GetThrowing();
+        
+        // Check for running/idle animations
+        if(isGrounded & !isThrowing && !isBouncing)
+        {
+            if (Mathf.Abs(movementVector.x) >= 0.1)
+            {
+                ChangeAnimationState(PLAYER_RUN);
+
+                // Check movement data for which leg Anari is on for throwing animations
+                // If running, then check which leg the player is running on and update accordingly
+                AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
+                AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
+                int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
+                if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
+                {
+                    // Update for left foot
+                    runThrow_R = false;
+                }
+                else if (currentFrame >= 25 && currentFrame < 50)
+                {
+                    // Update for right foot
+                    runThrow_R = true;
+                }
+            } else
+            {
+                ChangeAnimationState(PLAYER_IDLE);
+            }
+        }
+
+        // Check for jumping animation
+        if(isJumping)
+        {
+            ChangeAnimationState(PLAYER_JUMP);
+        }
+
+        // Check for falling animation
+        if(isFalling && !isBouncing)
+        {
+            ChangeAnimationState(PLAYER_FALL);
+        }
+
+        // Check for bouncing animation
+        if (isBouncing && !isThrowing)
+        {
+            ChangeAnimationState(PLAYER_BOUNCE);
+        }
+
+        // Check for throwing animation
+        if (isThrowing && !isBouncing)
+        {
+            if (Mathf.Abs(movementVector.x) >= 0.1)
+            {
+                if (runThrow_R)
+                {
+                    ChangeAnimationState(PLAYER_THROW_R);
+                }
+                else
+                {
+                    ChangeAnimationState(PLAYER_THROW_L);
+                }
+            }
+            else
+            {
+                ChangeAnimationState(PLAYER_THROW);
+            }
+
+            AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
+            if (animationInfo.normalizedTime % 1 > 0.9)
+            {
+                mushroomEvent.SetThrowing(false);
+                isThrowing = false;
+            }
+        }
+    }
+
+    private void ChangeAnimationState(string newState)
+    {
+        if(currentState == newState)
+        {
+            return;
+        }
+
+        playerAnim.Play(newState);
+
+        currentState = newState;
     }
 
     /// <summary>
     /// Set running animations based on data
     /// </summary>
     /// <param name="data">Movement data</param>
-    private void RunningAnim(float movementData)
+    private void RunningAnim()
     {
-        AnimatorClipInfo[] animInfo = playerAnim.GetCurrentAnimatorClipInfo(0);
+        // Set speed
+        float speed = movementVector.x;
 
         // Set float based on movement data
-        playerAnim.SetFloat("Speed", Mathf.Abs((float)movementData));
-
-        // Check movement data for which leg Anari is on for throwing animations
-        if (playerAnim.GetFloat("Speed") > 0.01)
+        if (speed > 0.1 && isGrounded && currentPriority <= (int)PLAYERANIM.RUN)
         {
+            ChangeAnimationState(PLAYER_RUN);
+            currentPriority = (int)PLAYERANIM.RUN;
+
+            // Check movement data for which leg Anari is on for throwing animations
             // If running, then check which leg the player is running on and update accordingly
             AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
             AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
@@ -59,61 +193,70 @@ public class AnimationListener : MonoBehaviour
             if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
             {
                 // Update for left foot
-                playerAnim.SetBool("RunThrow_R", false);
+                runThrow_R = false;
             }
             else if (currentFrame >= 25 && currentFrame < 50)
             {
                 // Update for right foot
-                playerAnim.SetBool("RunThrow_R", true);
+                runThrow_R = true;
             }
+        }
+        else if (isGrounded && currentPriority <= (int)PLAYERANIM.IDLE)
+        {
+            ChangeAnimationState(PLAYER_IDLE);
+            currentPriority = (int)PLAYERANIM.IDLE;
         }
     }
 
     /// <summary>
     /// Set landing animations based on data
     /// </summary>
-    /// <param name="data">Landing data</param>
-    private void LandingAnim(bool landData)
+    private void LandingAnim()
     {
         // Set the landing bool based on data
-        playerAnim.SetBool("Landed", landData);
+        // landed = landData;
+
+        //if(landed)
+        //{
+        //    ChangeAnimationState(PLAYER_LAND);
+        //}
     }
 
     /// <summary>
     /// Set jumping animatinos based on data
     /// </summary>
-    /// <param name="data">Jumping data</param>
-    private void JumpingAnim(bool jumpData)
+    private void JumpingAnim()
     {
-        // Set the jumping bool based on data
-        playerAnim.SetBool("Jumping", jumpData);
+        if(isJumping && currentPriority <= (int)PLAYERANIM.JUMP)
+        {
+            ChangeAnimationState(PLAYER_JUMP);
+            currentPriority = (int)PLAYERANIM.JUMP;
+        }
     }
 
     /// <summary>
     /// Set falling animations based on data
     /// </summary>
-    /// <param name="data">Falling data</param>
-    private void FallingAnim(bool fallData)
+    private void FallingAnim()
     {
-        // Set the falling bool based on data
-        playerAnim.SetBool("Falling", fallData);
+        if(isFalling)
+        {
+            ChangeAnimationState(PLAYER_FALL);
+            currentPriority = (int)PLAYERANIM.FALL;
+        }
     }
 
     /// <summary>
     /// Set bouncing animations based on data
     /// </summary>
-    /// <param name="data"></param>
-    private void BouncingAnim(bool bounceData)
+    private void BouncingAnim()
     {
-        // Check if player is bouncing
-        if(bounceData)
+        currentPriority = (int)PLAYERANIM.BOUNCE;
+
+        if (isBouncing && currentPriority <= (int)PLAYERANIM.BOUNCE)
         {
             // If bouncing, set the trigger
-            playerAnim.SetTrigger("Bouncing");
-        } else
-        {
-            // If not bouncing, reset the trigger
-            playerAnim.ResetTrigger("Bouncing");
+            ChangeAnimationState(PLAYER_BOUNCE);
         }
     }
 
@@ -122,7 +265,7 @@ public class AnimationListener : MonoBehaviour
     /// </summary>
     private void CheckThrowingAnim()
     {
-        if (playerAnim.GetBool("Throwing"))
+        if (isThrowing)
         {
             AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
             AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
@@ -169,9 +312,43 @@ public class AnimationListener : MonoBehaviour
     /// <summary>
     /// Set the throwing animation based on data
     /// </summary>
-    /// <param name="data">Throwing data</param>
-    private void SetThrowingAnim(bool throwData)
+    private void SetThrowingAnim()
     {
-        playerAnim.SetBool("Throwing", throwData);
+        //if(isThrowing && currentPriority <= (int)PLAYERANIM.THROW)
+        //{
+        //    if(speed != 0)
+        //    {
+        //        if (runThrow_R)
+        //        {
+        //            ChangeAnimationState(PLAYER_THROW_R);
+        //        }
+        //        else
+        //        {
+        //            ChangeAnimationState(PLAYER_THROW_L);
+        //        }
+        //    } else
+        //    {
+        //        ChangeAnimationState(PLAYER_THROW);
+        //    }
+
+        //    currentPriority = (int)PLAYERANIM.THROW;
+        //}
+    }
+
+    private void ResetPriority()
+    {
+        currentPriority = 0;
+    }
+
+    private void EndBounceAnimation()
+    {
+        isBouncing = false;
+        movementEvent.SetIsBounceAnimating(false);
+    }
+
+    private void EndThrowAnimation()
+    {
+        isThrowing = false;
+        mushroomEvent.SetThrowing(false);
     }
 }

@@ -441,8 +441,11 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.canceled)
             {
                 // Set animation
-                mushroomEvent.SetThrowing(true);
-                mushroomEvent.SetThrowAnim();
+                if(!throwing)
+                {
+                    mushroomEvent.SetThrowing(true);
+                    mushroomEvent.SetThrowAnim();
+                }
 
                 // Check if the shroom can be thrown
                 if (canThrow)

@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	#region BOUNCING
 	[SerializeField] private bool bouncing = false;
     [SerializeField] private bool touchingShroom = false;
-    private float bounceBuffer = 0.01f;
+    [SerializeField] private float bounceBuffer = 0.1f;
 	#endregion
 	#endregion
 
@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void OnEnable()
     {
-        mushroomEvent.bounceEvent.AddListener(ApplyBounce);
+        movementEvent.bounceEvent.AddListener(ApplyBounce);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
         pauseEvent.pauseEvent.AddListener(LockMovement);
         pauseEvent.unpauseEvent.AddListener(UnlockMovement);
@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void OnDisable()
     {
-        mushroomEvent.bounceEvent.RemoveListener(ApplyBounce);
+        movementEvent.bounceEvent.RemoveListener(ApplyBounce);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
         pauseEvent.pauseEvent.RemoveListener(LockMovement);
         pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
@@ -172,17 +172,19 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.1f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.down, 0.1f, groundLayer);
 
-            if ((boxCheckGround || touchingShroom) && !isJumping) // Checks if set box overlaps with ground
+            if (boxCheckGround  && !touchingShroom && !isJumping) // Checks if set box overlaps with ground while not touching the shroom
             {
                 // If bouncing before and the bounce buffer has ended, end bouncing
                 if (bouncing && bounceBuffer <= 0)
                 {
                     bouncing = false;
-                    mushroomEvent.SetBounce(false);
+                    //movementEvent.SetIsBouncing(false);
                 }
 
                 // Ground player
                 isGrounded = true;
+                //movementEvent.SetIsGrounded(true);
+                movementEvent.Land();
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
@@ -196,8 +198,11 @@ public class PlayerMovement : MonoBehaviour, IData
         if (isJumping && RB.velocity.y < 0)
         {
             isJumping = false;
+            //movementEvent.SetIsJumping(false);
 
             isJumpFalling = true;
+            //movementEvent.SetIsFalling(true);
+            movementEvent.Fall();
         }
 
 		// If the plaer is not Jumping and the time from when they were last on the ground is greater than 0,
@@ -210,6 +215,7 @@ public class PlayerMovement : MonoBehaviour, IData
             if (!isJumping)
 			{
                 isJumpFalling = false;
+                //movementEvent.SetIsFalling(false);
             }
         }
 
@@ -221,17 +227,23 @@ public class PlayerMovement : MonoBehaviour, IData
 			isJumpCut = false;
 
             isJumpFalling = true;
+            //movementEvent.SetIsFalling(true);
+            movementEvent.Fall();
         }
 
         // Set Animations
         #region JUMP ANIMATION CHECKS
         // Set jumpAnimFalling to false so there can be a little animation buffer without affecting the actual movement
         isJumpAnimFalling = false;
+        //movementEvent.SetIsFalling(false);
 
         // If the player is Jumping, update variables
         if (isJumping)
         {
             isGrounded = false;
+            //movementEvent.SetIsGrounded(false);
+            //movementEvent.SetIsJumping(true);
+            movementEvent.Jump();
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
@@ -241,11 +253,14 @@ public class PlayerMovement : MonoBehaviour, IData
 			if(!isOnSlope)
 			{
                 isGrounded = false;
+                //movementEvent.SetIsGrounded(false);
 
                 // if the falling buffer is true,
-				if(fallingBuffer <= 0)
+                if (fallingBuffer <= 0)
 				{
                     isJumpAnimFalling = true;
+                    //movementEvent.SetIsFalling(true);
+                    movementEvent.Fall();
                 }
             }
         }
@@ -281,11 +296,13 @@ public class PlayerMovement : MonoBehaviour, IData
 
             // Set landed to true
             landed = true;
+            //movementEvent.SetIsLanding(true);
         }
         else
         {
             // Set landed to false
             landed = false;
+            //movementEvent.SetIsLanding(false);
         }
 
 		if(!isGrounded && RB.velocity.y < 0)
@@ -374,7 +391,13 @@ public class PlayerMovement : MonoBehaviour, IData
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
             }
         }
-		#endregion
+        #endregion
+
+        movementEvent.SetIsGrounded(isGrounded);
+        movementEvent.SetIsJumping(isJumping);
+        movementEvent.SetIsFalling(isJumpAnimFalling);
+        movementEvent.SetIsBouncing(bouncing);
+        movementEvent.SetIsLanding(landed);
 
         // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;
@@ -395,6 +418,8 @@ public class PlayerMovement : MonoBehaviour, IData
             if(canInput)
             {
                 Run(0.5f);
+                movementEvent.SetVectors(rb.velocity, moveInput);
+                movementEvent.Move();
                 StopCoroutine(MovementCooldown());
             } else
             {
@@ -417,14 +442,6 @@ public class PlayerMovement : MonoBehaviour, IData
 				}
 			}
 		}
-
-        // Trigger events
-        movementEvent.SetBools(isGrounded, isJumping, isJumpAnimFalling, landed);
-        movementEvent.SetVectors(rb.velocity, moveInput);
-        movementEvent.Move();
-        movementEvent.Jump();
-        movementEvent.Fall();
-        movementEvent.Land();
     }
 
     #region INPUT CALLBACKS
@@ -863,8 +880,6 @@ public class PlayerMovement : MonoBehaviour, IData
         // more than they are supposed to
         if(isJumping && jumpBuffer > 0)
         {
-            Debug.Log("Jump Bouncing!");
-
             bounceForce /= data.jumpForce;
         }
 

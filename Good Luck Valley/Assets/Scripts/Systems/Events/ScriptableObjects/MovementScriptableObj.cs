@@ -11,15 +11,19 @@ public class MovementScriptableObj : ScriptableObject
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isFalling;
     [SerializeField] private bool isLanding;
+    [SerializeField] private bool isBouncing;
+    [SerializeField] private bool isBounceAnimating;
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
 
     #region EVENTS
     [System.NonSerialized]
-    public UnityEvent<float> moveEvent;
-    public UnityEvent<bool> jumpEvent;
-    public UnityEvent<bool> fallEvent;
-    public UnityEvent<bool> landEvent;
+    public UnityEvent moveEvent;
+    public UnityEvent jumpEvent;
+    public UnityEvent fallEvent;
+    public UnityEvent landEvent;
+    public UnityEvent<Vector3, ForceMode2D> bounceEvent;
+    public UnityEvent bounceAnimationEvent;
     public UnityEvent<float, float, bool> footstepEvent;
     #endregion
     #endregion
@@ -30,25 +34,35 @@ public class MovementScriptableObj : ScriptableObject
         #region CREATE EVENTS
         if (moveEvent == null)
         {
-            moveEvent = new UnityEvent<float>();
+            moveEvent = new UnityEvent();
         }
 
         if(jumpEvent == null)
         {
-            jumpEvent = new UnityEvent<bool>();
+            jumpEvent = new UnityEvent();
         }
 
         if (fallEvent == null)
         {
-            fallEvent = new UnityEvent<bool>();
+            fallEvent = new UnityEvent();
         }
 
         if (landEvent == null)
         {
-            landEvent = new UnityEvent<bool>();
+            landEvent = new UnityEvent();
         }
 
-        if(footstepEvent == null)
+        if (bounceEvent == null)
+        {
+            bounceEvent = new UnityEvent<Vector3, ForceMode2D>();
+        }
+
+        if (bounceAnimationEvent == null)
+        {
+            bounceAnimationEvent = new UnityEvent();
+        }
+
+        if (footstepEvent == null)
         {
             footstepEvent = new UnityEvent<float, float, bool>();
         }
@@ -56,18 +70,107 @@ public class MovementScriptableObj : ScriptableObject
     }
 
     /// <summary>
-    /// Set movement bools
+    /// Set whether the player is grounded or not
     /// </summary>
-    /// <param name="isGrounded">Whether the player is grounded</param>
-    /// <param name="isJumping">Whether the player is jumping</param>
-    /// <param name="isFalling">Whether the player is falling</param>
-    /// <param name="isLanding">Whether the player is landing</param>
-    public void SetBools(bool isGrounded, bool isJumping, bool isFalling, bool isLanding)
+    /// <param name="isGrounded">Whether the player is grounded or not</param>
+    public void SetIsGrounded(bool isGrounded)
     {
         this.isGrounded = isGrounded;
+    }
+
+    /// <summary>
+    /// Set whether the player is jumping or not
+    /// </summary>
+    /// <param name="isJumping">Whether the player is jumping or not</param>
+    public void SetIsJumping(bool isJumping)
+    {
         this.isJumping = isJumping;
+    }
+
+    /// <summary>
+    /// Set whether the player is falling or not
+    /// </summary>
+    /// <param name="isFalling">Whether the player is falling or not</param>
+    public void SetIsFalling(bool isFalling)
+    {
         this.isFalling = isFalling;
+    }
+
+    /// <summary>
+    /// Set whether the player is landing or not
+    /// </summary>
+    /// <param name="isLanding">Whether the player is landing or not</param>
+    public void SetIsLanding(bool isLanding)
+    {
         this.isLanding = isLanding;
+    }
+
+    /// <summary>
+    /// Set whether the player is bouncing or not
+    /// </summary>
+    /// <param name="isBouncing">Whether the player is bouncing or not</param>
+    public void SetIsBouncing(bool isBouncing)
+    {
+        this.isBouncing = isBouncing;
+    }
+
+    /// <summary>
+    /// Set whether the player animation is set to bouncing or not
+    /// </summary>
+    /// <param name="isBounceAnimating">Whether the player animation is set to bouncing or not</param>
+    public void SetIsBounceAnimating(bool isBounceAnimating)
+    {
+        this.isBounceAnimating = isBounceAnimating;
+    }
+
+    /// <summary>
+    /// Get whether the player is grounded or not
+    /// </summary>
+    /// <returns>Whether the player is grounded or not</returns>
+    public bool GetIsGrounded()
+    {
+        return isGrounded;
+    }
+
+    /// <summary>
+    /// Get whether the player is jumping or not
+    /// </summary>
+    /// <returns>Whether the player is jumping or not</returns>
+    public bool GetIsJumping()
+    {
+        return isJumping;
+    }
+
+    /// <summary>
+    /// Get whether the player is falling or not
+    /// </summary>
+    /// <returns>Whether the player is falling or not</returns>
+    public bool GetIsFalling()
+    {
+        return isFalling;
+    }
+
+    /// <summary>
+    /// Get whether the player is landing or not
+    /// </summary>
+    /// <returns>Whether the player is landing or not</returns>
+    public bool GetIsLanding()
+    {
+        return isLanding;
+    }
+
+    /// <summary>
+    /// Get whether the player is bouncing or not
+    /// </summary>
+    /// <returns>Whether the player is bouncing or not</returns>
+    public bool GetBouncing()
+    {
+        return isBouncing;
+    }
+
+    public bool GetIsBounceAnimating()
+    {
+        return isBounceAnimating;
     }
 
     /// <summary>
@@ -82,11 +185,29 @@ public class MovementScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Get the player movement Vector2
+    /// </summary>
+    /// <returns>The player movement Vector2</returns>
+    public Vector2 GetMovementVector()
+    {
+        return movementDirection;
+    }
+
+    /// <summary>
+    /// Get the player input Vector2
+    /// </summary>
+    /// <returns>Player input Vector2</returns>
+    public Vector2 GetInputVector()
+    {
+        return inputDirection;
+    }
+
+    /// <summary>
     /// Trigger movement-related events
     /// </summary>
     public void Move()
     {
-        moveEvent.Invoke(movementDirection.x);
+        moveEvent.Invoke();
         footstepEvent.Invoke(inputDirection.x, movementDirection.x, isGrounded);
     }
 
@@ -95,7 +216,7 @@ public class MovementScriptableObj : ScriptableObject
     /// </summary>
     public void Jump()
     {
-        jumpEvent.Invoke(isJumping);
+        jumpEvent.Invoke();
     }
 
     /// <summary>
@@ -103,7 +224,7 @@ public class MovementScriptableObj : ScriptableObject
     /// </summary>
     public void Fall()
     {
-        fallEvent.Invoke(isFalling);
+        fallEvent.Invoke();
     }
 
     /// <summary>
@@ -111,6 +232,15 @@ public class MovementScriptableObj : ScriptableObject
     /// </summary>
     public void Land()
     {
-        landEvent.Invoke(isLanding);
+        landEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger bounce-related events
+    /// </summary>
+    public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
+    {
+        bounceEvent.Invoke(forceToApply, forceType);
+        bounceAnimationEvent.Invoke();
     }
 }

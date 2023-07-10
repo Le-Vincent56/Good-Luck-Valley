@@ -66,7 +66,11 @@ public class GeneralShroom : Shroom
             //}
 
             // Set bouncing variables
-            bouncing = true;
+            // Trigger events
+            if (!bouncing)
+            {
+                bouncing = true;
+            }
             bouncingTimer = 1f;
 
             // Set the direction
@@ -98,9 +102,8 @@ public class GeneralShroom : Shroom
                 disableEvent.StopInput();
             }
 
-            // Trigger events
-            mushroomEvent.SetBounce(true);
-            mushroomEvent.Bounce(forceToApply, ForceMode2D.Impulse);
+            movementEvent.SetIsBounceAnimating(true);
+            movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
         }
     }
 

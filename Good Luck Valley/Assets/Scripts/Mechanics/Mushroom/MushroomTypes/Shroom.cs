@@ -17,7 +17,7 @@ public abstract class Shroom : MonoBehaviour
 
     #region FIELDS
     protected ShroomType shroomType;
-    [SerializeField] protected MushroomScriptableObj mushroomEvent;
+    [SerializeField] protected MovementScriptableObj movementEvent;
     [SerializeField] protected DisableScriptableObj disableEvent;
     protected bool hasRotated;
     [SerializeField] protected float rotateAngle;
