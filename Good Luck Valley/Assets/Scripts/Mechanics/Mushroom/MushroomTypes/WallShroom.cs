@@ -65,6 +65,7 @@ public class WallShroom : Shroom
         }
 
         Vector3 forceToApply = direction * bounceForce;
+        Debug.Log(forceToApply);
 
         // Disable input
         disableEvent.SetInputCooldown(0.05f);

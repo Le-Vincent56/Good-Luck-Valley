@@ -285,7 +285,6 @@ public class MenusManager : MonoBehaviour
             // Needs to be set to true for the confirmation checks to pop up
             checkQuit = true;
         }
-        Debug.Log(currentScene);
 
         // Check if the scene is one that contains a second confirmation check
         if (currentScene == 2 || currentScene == 4)

@@ -22,6 +22,10 @@ public class MushroomScriptableObj : ScriptableObject
     #endregion
     #endregion
 
+    #region PROPERTIES
+    public bool IsTouchingShroom { get {  return touchingShroom; } } 
+    #endregion
+
     private void OnEnable()
     {
         #region CREATE EVENTS
