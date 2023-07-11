@@ -1,17 +1,21 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PreviousLevelTransitionTrigger : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private LevelDataObj levelDataObj;
     [SerializeField] GameObject levelLoader;
-
     #endregion
+
+    #region FIELDS
+    [SerializeField] private string levelToLoad;
     private bool transition;
     private float timeBeforeTransitionTrigger = 1f;
-    #region FIELDS
-
     #endregion
 
     #region PROPERTIES
@@ -29,7 +33,9 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player" && transition)
         {
             // Save the game before loading the next level
-            DataManager.Instance.SaveGame();
+            loadLevelEvent.SetInLoadTrigger(true);
+            levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.RETURN);
+            levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
             levelLoader.GetComponent<LoadLevel>().LoadPrevLevel();
         }
     }
@@ -38,6 +44,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            loadLevelEvent.SetInLoadTrigger(false);
             transition = true;
         }
 

@@ -35,6 +35,7 @@ public class DataManager : MonoBehaviour
     public string Level { get { return gameData.currentLevelName; } }
     public string SelectedProfileID { get { return selectedProfileID; } }
     public string SoftProfileID { get { return softProfileID; } }
+    public GameData Data { get { return gameData; } }
     #endregion
 
     private void Awake()
