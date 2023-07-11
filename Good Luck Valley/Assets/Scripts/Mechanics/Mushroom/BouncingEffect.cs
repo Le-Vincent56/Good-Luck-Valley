@@ -17,7 +17,6 @@ public class BouncingEffect : MonoBehaviour
     [Header("Bounce Variables")]
     [SerializeField] private bool canBounce;
     [SerializeField] private bool onCooldown = false;
-    [SerializeField] float bounceForce = 15f;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
     

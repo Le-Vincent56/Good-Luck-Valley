@@ -131,8 +131,6 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         tilemap = GameObject.Find("foreground");
-
-        Debug.Log("Reset Queue");
         shroomCounter.ResetQueue();
     }
 
@@ -441,8 +439,11 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.canceled)
             {
                 // Set animation
-                mushroomEvent.SetThrowing(true);
-                mushroomEvent.SetThrowAnim();
+                if(!throwing)
+                {
+                    mushroomEvent.SetThrowing(true);
+                    mushroomEvent.SetThrowAnim();
+                }
 
                 // Check if the shroom can be thrown
                 if (canThrow)
