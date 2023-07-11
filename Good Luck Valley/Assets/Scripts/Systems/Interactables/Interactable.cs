@@ -67,6 +67,7 @@ public abstract class Interactable : MonoBehaviour, IData
     {
         // Get the data for all the notes that have been collected
         string currentLevel = SceneManager.GetActiveScene().name;
+        Debug.Log(data);
 
         // Try to get the value of the interactable
         data.levelData[currentLevel].assetsActive.TryGetValue(id, out active);
@@ -77,7 +78,7 @@ public abstract class Interactable : MonoBehaviour, IData
             // Remove the note
             remove = true;
         }
-
+        Debug.Log("Lotus active: " + active);
         // Set if the gameobject is active
         gameObject.SetActive(active);
     }
