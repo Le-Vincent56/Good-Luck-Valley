@@ -109,7 +109,7 @@ public class MenusManager : MonoBehaviour
 
         // Loading things for settings scene
         #region SETTINGS SCENE
-        if (currentScene == 4)
+        if (currentScene == 3)
         { 
             // Make on value change events not happen
             disableCalls = true;
@@ -161,7 +161,7 @@ public class MenusManager : MonoBehaviour
         {
             fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
-        else if (currentScene != 0 && currentScene <= 6)
+        else if (currentScene != 0 && currentScene <= 5)
         {
             if (deleteConfirmation)
             {
@@ -205,7 +205,7 @@ public class MenusManager : MonoBehaviour
 
         #region SETTINGS SCENE HANDLING
         // Check if scene is settings, 4
-        if (currentScene == 4)
+        if (currentScene == 3)
         {
             // Check if we should update the navigation buttons visuals
             if (checkButtons)
@@ -246,8 +246,10 @@ public class MenusManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("Scene Loaded");
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(currentScene);
 
         // Get the settings reference
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
@@ -266,7 +268,7 @@ public class MenusManager : MonoBehaviour
         // Set the initial values of the square's color, black with full transparency
         fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
 
-        if (currentScene <= 6)
+        if (currentScene <= 5)
         {
             // If the scene is 0, title screen, then set fade in to false
             // cuz we shouldn't fade in when loading the title screen
@@ -276,17 +278,18 @@ public class MenusManager : MonoBehaviour
 
         #region CONFIRMATION CHECKS
         // Check if the scene is one that contains a confirmation check
-        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
+        if (currentScene == 1 || currentScene == 2 || currentScene == 3)
         {
             // Find confirmation check in scene
             confirmationCheck = GameObject.Find("ConfirmationCheck");
             confirmationCheck.SetActive(false);
+            Debug.Log(confirmationCheck.activeSelf);
             // Needs to be set to true for the confirmation checks to pop up
             checkQuit = true;
         }
 
         // Check if the scene is one that contains a second confirmation check
-        if (currentScene == 2 || currentScene == 4)
+        if (currentScene == 2 || currentScene == 3)
         {
             // Find second confirmation check
             deleteConfirmation = GameObject.Find("Delete Confirmation");
@@ -408,14 +411,12 @@ public class MenusManager : MonoBehaviour
                 NavSaveFiles();
                 break;
             case 3:
-                NavJournal();
-                break;
-            case 4:
                 NavSettings();
                 break;
-            case 5:
+            case 4:
                 NavCredits();
                 break;
+            case 5:
             case 6:
             case 7:
             case 8:
@@ -495,7 +496,7 @@ public class MenusManager : MonoBehaviour
                     break;
 
                 // If the scene is settings scene
-                case 4:
+                case 3:
                     if (confirmCheckNum == 1)
                     {
                         // Sets settingsSaved to true so that we can exit
@@ -540,7 +541,6 @@ public class MenusManager : MonoBehaviour
             }
             else if (confirmCheckNum == 2)
             {
-                Debug.Log("Cancel");
                 deleteConfirmation.SetActive(false);
             }
         }
@@ -551,11 +551,11 @@ public class MenusManager : MonoBehaviour
     {
         if (settingsSaved)
         {
-            if (currentScene <= 5)
+            if (currentScene <= 4)
             StartCoroutine(FadeOut());
             sceneLoadNum = previousScene;
         }
-        else if (currentScene == 4)
+        else if (currentScene == 3)
         {
             ConfirmationCheck(1);
         }
