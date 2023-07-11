@@ -15,8 +15,6 @@ public class TransitionTrigger : MonoBehaviour
 
     #region FIELDS
     [SerializeField] private string levelToLoad;
-    private bool transition;
-    private float timeBeforeTransitionTrigger = 5f;
     #endregion
 
     #region PROPERTIES
@@ -25,13 +23,11 @@ public class TransitionTrigger : MonoBehaviour
 
     private void Awake()
     {
-        transition = false;
-        StartCoroutine(CheckTransition());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       if (collision.gameObject.tag == "Player" && transition)
+       if (collision.gameObject.tag == "Player")
        {
             loadLevelEvent.SetInLoadTrigger(true);
             levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.ENTER);
@@ -45,17 +41,6 @@ public class TransitionTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             loadLevelEvent.SetInLoadTrigger(false);
-            transition = true;
         }
-    }
-
-    private IEnumerator CheckTransition()
-    {
-        while (timeBeforeTransitionTrigger > 0)
-        {
-            timeBeforeTransitionTrigger -= Time.deltaTime;
-            yield return null;
-        }
-        transition = true;
     }
 }
