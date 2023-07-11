@@ -55,6 +55,10 @@ public class PlayerMovement : MonoBehaviour, IData
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
 
+    // For creating dust particles when the player falls, if you find a better solution
+    //  feel free to fuck with it this is just the only way I could figure it out
+    private bool createDustOnFall;
+
     #region SLOPES
     [SerializeField] bool checkForSlopes = false;
     [SerializeField] bool isOnSlope;
@@ -99,6 +103,7 @@ public class PlayerMovement : MonoBehaviour, IData
     private void OnEnable()
     {
         movementEvent.bounceEvent.AddListener(ApplyBounce);
+        movementEvent.landEvent.AddListener(Land);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
         pauseEvent.pauseEvent.AddListener(LockMovement);
         pauseEvent.unpauseEvent.AddListener(UnlockMovement);
@@ -114,6 +119,7 @@ public class PlayerMovement : MonoBehaviour, IData
     private void OnDisable()
     {
         movementEvent.bounceEvent.RemoveListener(ApplyBounce);
+        movementEvent.landEvent.RemoveListener(Land);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
         pauseEvent.pauseEvent.RemoveListener(LockMovement);
         pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
@@ -137,7 +143,12 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
-		// Set playerPosition to the current position and calculate the distance from the previous position
+        Debug.Log("Jumping?: " + isJumping);
+        Debug.Log("Falling?: " + isJumpFalling);
+        Debug.Log("Landed?: " + landed);
+        Debug.Log("Grounded?: " + isGrounded);
+        
+        // Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
@@ -288,7 +299,6 @@ public class PlayerMovement : MonoBehaviour, IData
 
             // Set landed to true
             landed = true;
-            CreateDust();
         }
         else
         {
@@ -727,6 +737,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		// Add the force to the Player's RigidBody
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         CreateDust();
+        createDustOnFall = true;
 		#endregion
 	}
 
@@ -923,6 +934,15 @@ public class PlayerMovement : MonoBehaviour, IData
     {
         canInput = false;
         inputCooldown = cooldownData;
+    }
+
+    private void Land()
+    {
+        if (createDustOnFall)
+        {
+            CreateDust();
+            createDustOnFall = false;
+        }
     }
 	#endregion
 
