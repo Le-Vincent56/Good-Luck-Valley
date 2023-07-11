@@ -29,7 +29,6 @@ public class LotusPick : Interactable
 
     void Update()
     {
-        Debug.Log("Control trigger: " + controlTriggered);
         // Check if interactable is triggered
         if (controlTriggered)
         {

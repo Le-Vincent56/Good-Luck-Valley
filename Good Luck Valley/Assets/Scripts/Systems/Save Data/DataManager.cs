@@ -190,7 +190,6 @@ public class DataManager : MonoBehaviour
     {
         // Load any saved data from a file using the data handler
         gameData = dataHandler.Load(selectedProfileID);
-        Debug.Log("Game Data Object: " + gameData);
 
         settingsData = settingsHandler.Load();
 

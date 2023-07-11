@@ -289,7 +289,6 @@ public class MenusManager : MonoBehaviour
         // Check if the scene is one that contains a second confirmation check
         if (currentScene == 2 || currentScene == 4)
         {
-            Debug.Log(currentScene);
             // Find second confirmation check
             deleteConfirmation = GameObject.Find("Delete Confirmation");
             deleteConfirmation.SetActive(false);
