@@ -139,14 +139,12 @@ public class SaveSlotsMenu : MonoBehaviour
     /// </summary>
     public void DeleteSave()
     {
-        Debug.Log("Huh");
         // Activate the confirmation menu
         deleteConfirmationMenu.ActivateMenu(
                 "Are you sure you want to delete this save?",
                 // Function to execute if we confirm
                 () =>
                 {
-                    Debug.Log("Huh");
                     // Delete the data associated with the selected save slot's profile ID
                     DataManager.Instance.DeleteProfileData(selectedSaveSlot.GetProfileID());
 
@@ -167,7 +165,6 @@ public class SaveSlotsMenu : MonoBehaviour
                 // Function to execute if we cancel
                 () =>
                 {
-                    Debug.Log("Other Huh");
                     // Reload the menu without further action
                     ActivateMenu();
                 }

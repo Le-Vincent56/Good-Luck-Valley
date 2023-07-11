@@ -131,8 +131,6 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         tilemap = GameObject.Find("foreground");
-
-        Debug.Log("Reset Queue");
         shroomCounter.ResetQueue();
     }
 

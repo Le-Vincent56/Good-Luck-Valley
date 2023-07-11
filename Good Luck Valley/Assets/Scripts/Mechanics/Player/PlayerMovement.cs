@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using UnityEngine.Windows;
 using FMOD.Studio;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class PlayerMovement : MonoBehaviour, IData
 {
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
 	private Settings settings;
+    private VisualEffect dust;
     #endregion
 
     #region FIELDS
@@ -91,6 +93,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
+        dust = GetComponentInChildren<VisualEffect>();
 	}
 
     private void OnEnable()
@@ -285,6 +288,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
             // Set landed to true
             landed = true;
+            CreateDust();
         }
         else
         {
@@ -722,8 +726,17 @@ public class PlayerMovement : MonoBehaviour, IData
 
 		// Add the force to the Player's RigidBody
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        CreateDust();
 		#endregion
 	}
+
+    /// <summary>
+    /// Creates dust particles on jump/land
+    /// </summary>
+    private void CreateDust()
+    {
+        dust.Play();
+    }
 	#endregion
 
     // CHECK METHODS

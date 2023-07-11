@@ -18,9 +18,7 @@ public class ConfirmationPopupMenu : MonoBehaviour
     /// <param name="cancelAction">The code that will run on cancellation</param>
     public void ActivateMenu(string displayText, UnityAction confirmAction, UnityAction cancelAction)
     {
-        Debug.Log("What");
         gameObject.SetActive(true);
-        Debug.Log(gameObject);
 
         // Set the display text
         this.displayText.text = displayText;
@@ -46,7 +44,6 @@ public class ConfirmationPopupMenu : MonoBehaviour
 
     public void DeactivateMenu()
     {
-        Debug.Log("Deactivate");
         gameObject.SetActive(false);
     }
 }
