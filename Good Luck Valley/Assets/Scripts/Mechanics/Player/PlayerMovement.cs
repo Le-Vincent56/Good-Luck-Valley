@@ -195,6 +195,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 if (bouncing && bounceBuffer <= 0)
                 {
                     bouncing = false;
+                    movementEvent.SetIsBounceAnimating(false);
                 }
 
                 // Ground player
