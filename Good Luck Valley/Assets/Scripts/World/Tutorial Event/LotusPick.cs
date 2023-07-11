@@ -29,6 +29,7 @@ public class LotusPick : Interactable
 
     void Update()
     {
+        Debug.Log(vineWall.activeSelf);
         // Check if interactable is triggered
         if (controlTriggered)
         {
@@ -63,12 +64,16 @@ public class LotusPick : Interactable
 
     private IEnumerator FadeVines()
     {
+        Debug.Log("Fade Vine");
         pauseEvent.SetPaused(true);
         while(vineWall.GetComponent<Tilemap>().color.a > 0)
         {
+            Debug.Log("?");
             vineWall.GetComponent<Tilemap>().color = new Color(vineWall.GetComponent<Tilemap>().color.r, 
                 vineWall.GetComponent<Tilemap>().color.g, vineWall.GetComponent<Tilemap>().color.b, 
                 vineWall.GetComponent<Tilemap>().color.a - vineWall.GetComponent<DecomposableVine>().DecomposeTime);
+
+            yield return null;
         }
 
         disableEvent.Unlock();
@@ -87,8 +92,6 @@ public class LotusPick : Interactable
             endScreen.GetComponentInChildren<Button>().interactable = true;
             yield return null;
         }
-
-        yield return null;
     }
 
     private IEnumerator FadeLotus()
@@ -96,7 +99,6 @@ public class LotusPick : Interactable
         // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
         while (GetComponent<SpriteRenderer>().color.a > 0)
         {
-            Debug.Log("?");
             GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - 0.01f);
             yield return null;
         }
