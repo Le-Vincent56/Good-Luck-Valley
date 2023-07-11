@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "MushroomScriptableObject", menuName = "ScriptableObjects/Mushroom Event")]
-public class MushroomScriptableObj : ScriptableObject
+public class MushroomScriptableObj : ScriptableObject, IData
 {
     #region FIELDS
     [SerializeField] private bool touchingShroom;
@@ -121,4 +121,16 @@ public class MushroomScriptableObj : ScriptableObject
     {
         setThrowAnimationEvent.Invoke();
     }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        throwing = false;
+    }
+
+    public void SaveData(GameData data)
+    {
+
+    }
+    #endregion
 }

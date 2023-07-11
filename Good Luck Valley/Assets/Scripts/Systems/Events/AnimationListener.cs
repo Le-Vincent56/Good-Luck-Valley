@@ -47,14 +47,6 @@ public class AnimationListener : MonoBehaviour
     private void Start()
     {
         playerAnim = GetComponent<Animator>();
-
-        isJumping = false;
-        isGrounded = false;
-        isFalling = false;
-        landed = false;
-        isBouncing = false;
-        isThrowing = false;
-        runThrow_R = false;
     }
 
     void Update()
@@ -96,15 +88,9 @@ public class AnimationListener : MonoBehaviour
         }
 
         // Check for jumping animation
-        if(isJumping)
+        if(isJumping && !isGrounded)
         {
             ChangeAnimationState(PLAYER_JUMP);
-        }
-
-        // Check for falling animation
-        if(isFalling && !isBouncing)
-        {
-            ChangeAnimationState(PLAYER_FALL);
         }
 
         // Check for bouncing animation
@@ -113,26 +99,39 @@ public class AnimationListener : MonoBehaviour
             ChangeAnimationState(PLAYER_BOUNCE);
         }
 
-        // Check for throwing animation
-        if (isThrowing && !isBouncing && !isJumping && !isFalling)
+        // Check for falling animation
+        if (isFalling && !isBouncing && !isGrounded)
         {
-            // If moving, check which leg to throw from
-            if (Mathf.Abs(movementVector.x) >= 0.1)
+            ChangeAnimationState(PLAYER_FALL);
+        }
+
+        // Check for throwing animation
+        if (isThrowing)
+        {
+            // End throw animation if in the middle of bouncing, jumping, or falling
+            if(isBouncing || isJumping || isFalling)
             {
-                // Set the appropriate animation
-                if (runThrow_R)
+                EndThrowAnimation();
+            } else
+            {
+                // If moving, check which leg to throw from
+                if (Mathf.Abs(movementVector.x) >= 0.1)
                 {
-                    ChangeAnimationState(PLAYER_THROW_R);
+                    // Set the appropriate animation
+                    if (runThrow_R)
+                    {
+                        ChangeAnimationState(PLAYER_THROW_R);
+                    }
+                    else
+                    {
+                        ChangeAnimationState(PLAYER_THROW_L);
+                    }
                 }
                 else
                 {
-                    ChangeAnimationState(PLAYER_THROW_L);
+                    // Otherwise, throw in place
+                    ChangeAnimationState(PLAYER_THROW);
                 }
-            }
-            else
-            {
-                // Otherwise, throw in place
-                ChangeAnimationState(PLAYER_THROW);
             }
         }
     }
