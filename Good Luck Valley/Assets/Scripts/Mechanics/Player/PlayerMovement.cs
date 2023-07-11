@@ -55,6 +55,10 @@ public class PlayerMovement : MonoBehaviour, IData
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
 
+    // For creating dust particles when the player falls, if you find a better solution
+    //  feel free to fuck with it this is just the only way I could figure it out
+    private bool createDustOnFall;
+
     #region SLOPES
     [SerializeField] bool checkForSlopes = false;
     [SerializeField] bool isOnSlope;
@@ -99,12 +103,14 @@ public class PlayerMovement : MonoBehaviour, IData
     private void OnEnable()
     {
         movementEvent.bounceEvent.AddListener(ApplyBounce);
+        movementEvent.landEvent.AddListener(Land);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
         pauseEvent.pauseEvent.AddListener(LockMovement);
         pauseEvent.unpauseEvent.AddListener(UnlockMovement);
         disableEvent.lockPlayerEvent.AddListener(LockMovement);
         disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
         disableEvent.stopInputEvent.AddListener(StopInput);
+        loadLevelEvent.startLoad.AddListener(SetLoadPos);
         loadLevelEvent.startLoad.AddListener(LockMovement);
         loadLevelEvent.endLoad.AddListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.AddListener(LockMovement);
@@ -114,12 +120,14 @@ public class PlayerMovement : MonoBehaviour, IData
     private void OnDisable()
     {
         movementEvent.bounceEvent.RemoveListener(ApplyBounce);
+        movementEvent.landEvent.RemoveListener(Land);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
         pauseEvent.pauseEvent.RemoveListener(LockMovement);
         pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
         disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
         disableEvent.stopInputEvent.RemoveListener(StopInput);
+        loadLevelEvent.startLoad.RemoveListener(SetLoadPos);
         loadLevelEvent.startLoad.RemoveListener(LockMovement);
         loadLevelEvent.endLoad.RemoveListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.RemoveListener(LockMovement);
@@ -137,7 +145,12 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
-		// Set playerPosition to the current position and calculate the distance from the previous position
+        Debug.Log("Jumping?: " + isJumping);
+        Debug.Log("Falling?: " + isJumpFalling);
+        Debug.Log("Landed?: " + landed);
+        Debug.Log("Grounded?: " + isGrounded);
+        
+        // Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
@@ -288,7 +301,6 @@ public class PlayerMovement : MonoBehaviour, IData
 
             // Set landed to true
             landed = true;
-            CreateDust();
         }
         else
         {
@@ -727,6 +739,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		// Add the force to the Player's RigidBody
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         CreateDust();
+        createDustOnFall = true;
 		#endregion
 	}
 
@@ -884,7 +897,6 @@ public class PlayerMovement : MonoBehaviour, IData
         }
 
         RB.AddForce(bounceForce, forceType);
-
     }
 
 	/// <summary>
@@ -897,11 +909,16 @@ public class PlayerMovement : MonoBehaviour, IData
 		touchingShroom = touchingData;
 	}
 
-	/// <summary>
-	/// Lock player movement
-	/// </summary>
-	/// <param name="lockedData"></param>
-	private void LockMovement()
+    private void SetLoadPos()
+    {
+        transform.position = DataManager.Instance.Data.levelData[SceneManager.GetActiveScene().name].playerPosition;
+    }
+
+    /// <summary>
+    /// Lock player movement
+    /// </summary>
+    /// <param name="lockedData"></param>
+    private void LockMovement()
 	{
         moveInput = Vector2.zero;
         isLocked = true;
@@ -924,6 +941,15 @@ public class PlayerMovement : MonoBehaviour, IData
         canInput = false;
         inputCooldown = cooldownData;
     }
+
+    private void Land()
+    {
+        if (createDustOnFall)
+        {
+            CreateDust();
+            createDustOnFall = false;
+        }
+    }
 	#endregion
 
 	// DATA HANDLING
@@ -938,7 +964,7 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             // If it does exist, load the players positional data using the data for this scene
             Vector3 playerPositionForThisScene = data.levelData[scene.name].playerPosition;
-            gameObject.transform.position = playerPositionForThisScene;
+            transform.position = playerPositionForThisScene;
         } else
         {
             //If it doesn't exist, let ourselves know that we need to add it to our game data
@@ -950,7 +976,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
         // Save player position in the dictionary slot for this scene
         Scene scene = SceneManager.GetActiveScene();
-        data.levelData[scene.name].playerPosition = this.transform.position;
+        data.levelData[scene.name].playerPosition = transform.position;
 	}
 	#endregion
 }
