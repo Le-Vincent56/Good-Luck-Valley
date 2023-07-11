@@ -33,6 +33,7 @@ public class TransitionTrigger : MonoBehaviour
        if (collision.gameObject.tag == "Player" && transition)
        {
             levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.ENTER);
+            levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
             levelLoader.GetComponent<LoadLevel>().LoadNextLevel();
        }
     }

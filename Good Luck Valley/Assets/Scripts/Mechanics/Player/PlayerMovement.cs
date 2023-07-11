@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private LevelDataObj levelDataObj;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
@@ -977,6 +978,7 @@ public class PlayerMovement : MonoBehaviour, IData
         // Save player position in the dictionary slot for this scene
         Scene scene = SceneManager.GetActiveScene();
         data.levelData[scene.name].playerPosition = transform.position;
+        levelDataObj.SetLevelPos(scene.name, LEVELPOS.DEFAULT);
 	}
 	#endregion
 }

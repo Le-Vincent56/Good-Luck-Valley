@@ -24,7 +24,7 @@ public class LevelDataObj : ScriptableObject
     #region FIELDS
     public SerializableDictionary<string, LevelPosData> levelPosData = new SerializableDictionary<string, LevelPosData>()
     {
-        { "Prologue", new LevelPosData(LEVELPOS.ENTER, new Vector3(-27.46f, 7.85f, 0f), new Vector3(18.19697f, -0.7317045f, 0f)) },
+        { "Prologue", new LevelPosData(LEVELPOS.ENTER, new Vector3(-27.46f, 7.85f, 0f), new Vector3(16.06508f, -0.7317045f, 0f)) },
         { "Level 1", new LevelPosData(LEVELPOS.ENTER, new Vector3(-39.82f, 6.31f, 0f), new Vector3(-23.1495f, 72.47359f, 0f)) }
     };
 

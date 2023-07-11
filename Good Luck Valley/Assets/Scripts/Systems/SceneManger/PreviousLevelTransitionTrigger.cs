@@ -33,6 +33,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
         {
             // Save the game before loading the next level
             levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.RETURN);
+            levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
             levelLoader.GetComponent<LoadLevel>().LoadPrevLevel();
         }
     }
