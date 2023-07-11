@@ -78,7 +78,7 @@ public class ShroomCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!mushMan.ThrowUnlocked || )
+        if (!mushMan.ThrowUnlocked)
         {
             HideCounter();
         }   
