@@ -246,10 +246,8 @@ public class MenusManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Scene Loaded");
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log(currentScene);
 
         // Get the settings reference
         settings = GameObject.Find("MenusManager").GetComponent<Settings>();
@@ -283,7 +281,6 @@ public class MenusManager : MonoBehaviour
             // Find confirmation check in scene
             confirmationCheck = GameObject.Find("ConfirmationCheck");
             confirmationCheck.SetActive(false);
-            Debug.Log(confirmationCheck.activeSelf);
             // Needs to be set to true for the confirmation checks to pop up
             checkQuit = true;
         }

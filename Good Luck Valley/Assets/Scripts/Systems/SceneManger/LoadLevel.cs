@@ -68,8 +68,7 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void StartLoading()
     {
-        // Set player position if necessary
-        Debug.Log(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos);
+        // Set player position if necessary]
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
             case LEVELPOS.ENTER:

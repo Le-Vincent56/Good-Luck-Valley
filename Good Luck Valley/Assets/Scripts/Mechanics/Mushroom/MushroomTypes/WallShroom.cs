@@ -36,10 +36,8 @@ public class WallShroom : Shroom
                 GetComponent<Animator>().SetBool("Bouncing", false);
             }
         }
-        Debug.Log("Gen Shroom is shroom?: " + isShroom);
         if (isShroom && mushMan.EnableShroomTimers)
         {
-            Debug.Log("Shroom Counter Updating for " + shroomType);
             UpdateShroomCounter();
         }
         else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
