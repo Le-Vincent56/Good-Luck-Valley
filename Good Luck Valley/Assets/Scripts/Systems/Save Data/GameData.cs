@@ -43,8 +43,8 @@ public class GameData
 
         #region PROLOGUE
         levelData["Prologue"] = new LevelData();
+        levelData["Prologue"].levelPos = LEVELPOS.ENTER;
         levelData["Prologue"].playerPosition = new Vector3(-27.46f, 7.85f, 0f);
-
         #region ASSETS
         // Spore vines
         levelData["Prologue"].assetsActive.Add("d36a4464-bcf2-4133-933e-edcc3f1c12e8", true);
@@ -65,6 +65,7 @@ public class GameData
 
         #region LEVEL 1
         levelData["Level 1"] = new LevelData();
+        levelData["Level 1"].levelPos = LEVELPOS.ENTER;
         levelData["Level 1"].playerPosition = new Vector3(-39.82f, 6.31f, 0f);
 
         #region ASSETS

@@ -957,6 +957,9 @@ public class PlayerMovement : MonoBehaviour, IData
 	#region DATA HANDLING
 	public void LoadData(GameData data)
 	{
+        // Load level data
+        levelDataObj.LoadData(data);
+
         // Get the currently active scene
         Scene scene = SceneManager.GetActiveScene();
 
@@ -979,6 +982,8 @@ public class PlayerMovement : MonoBehaviour, IData
         Scene scene = SceneManager.GetActiveScene();
         data.levelData[scene.name].playerPosition = transform.position;
         levelDataObj.SetLevelPos(scene.name, LEVELPOS.DEFAULT);
+
+        levelDataObj.SaveData(data);
 	}
 	#endregion
 }
