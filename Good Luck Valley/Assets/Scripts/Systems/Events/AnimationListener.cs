@@ -126,6 +126,8 @@ public class AnimationListener : MonoBehaviour
                 // Otherwise, throw in place
                 ChangeAnimationState(PLAYER_THROW);
             }
+
+            Invoke("EndThrowAnimation", 1f);
         }
     }
 
