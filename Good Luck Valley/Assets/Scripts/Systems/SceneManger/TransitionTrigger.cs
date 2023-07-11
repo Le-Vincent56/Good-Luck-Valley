@@ -3,15 +3,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TransitionTrigger : MonoBehaviour
 {
     #region REFERENCES
     [SerializeField] GameObject levelLoader;
-
+    [SerializeField] private LevelDataObj levelDataObj;
     #endregion
 
     #region FIELDS
+    [SerializeField] private string levelToLoad;
     private bool transition;
     private float timeBeforeTransitionTrigger = 5f;
     #endregion
@@ -30,8 +32,7 @@ public class TransitionTrigger : MonoBehaviour
     {
        if (collision.gameObject.tag == "Player" && transition)
        {
-            // Save the game before loading the next level
-            DataManager.Instance.SaveGame();
+            levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.ENTER);
             levelLoader.GetComponent<LoadLevel>().LoadNextLevel();
        }
     }
