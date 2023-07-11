@@ -7,6 +7,7 @@ public class LevelData
 {
     #region FIELDS
     #region PLAYER
+    public LEVELPOS levelPos;
     public Vector3 playerPosition;
     #endregion
 
@@ -27,6 +28,7 @@ public class LevelData
     // The values defined in this constructor will be the default values the game stars with when there's no data to load
     public LevelData()
     {
+        levelPos = LEVELPOS.ENTER;
         playerPosition = Vector3.zero;
         playCutscene = true;
         notesCollected = new SerializableDictionary<string, bool>();

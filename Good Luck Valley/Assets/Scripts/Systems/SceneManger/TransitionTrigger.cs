@@ -8,8 +8,9 @@ using UnityEngine.SceneManagement;
 public class TransitionTrigger : MonoBehaviour
 {
     #region REFERENCES
-    [SerializeField] GameObject levelLoader;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private LevelDataObj levelDataObj;
+    [SerializeField] GameObject levelLoader;
     #endregion
 
     #region FIELDS
@@ -32,7 +33,9 @@ public class TransitionTrigger : MonoBehaviour
     {
        if (collision.gameObject.tag == "Player" && transition)
        {
+            loadLevelEvent.SetInLoadTrigger(true);
             levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.ENTER);
+            levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
             levelLoader.GetComponent<LoadLevel>().LoadNextLevel();
        }
     }
@@ -41,6 +44,7 @@ public class TransitionTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            loadLevelEvent.SetInLoadTrigger(false);
             transition = true;
         }
     }

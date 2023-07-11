@@ -9,6 +9,7 @@ public class LoadLevelScriptableObj : ScriptableObject
 {
     #region FIELDS
     [SerializeField] private bool isLoading = false;
+    [SerializeField] private bool insideLoadTrigger = false;
 
     #region EVENTS
     public UnityEvent startLoad;
@@ -41,6 +42,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether the player is inside a load trigger or not
+    /// </summary>
+    /// <param name="insideLoadTrigger">Whether the player is inside a load trigger or not</param>
+    public void SetInLoadTrigger(bool insideLoadTrigger)
+    {
+        this.insideLoadTrigger = insideLoadTrigger;
+    }
+
+    /// <summary>
     /// Get whether the level is loading or not
     /// </summary>
     /// <returns>Whether the level is loading or not</returns>
@@ -49,12 +59,27 @@ public class LoadLevelScriptableObj : ScriptableObject
         return isLoading;
     }
 
+    /// <summary>
+    /// Get whether the player is inside a load trigger or not
+    /// </summary>
+    /// <returns>Whether the player is inside a load trigger or not</returns>
+    public bool GetInLoadTrigger()
+    {
+        return insideLoadTrigger;
+    }
+
+    /// <summary>
+    /// Trigger all events relating to loading a level
+    /// </summary>
     public void StartLoad()
     {
         isLoading = true;
         startLoad.Invoke();
     }
 
+    /// <summary>
+    /// Trigger all events relating to ending the loading process of a level
+    /// </summary>
     public void EndLoad()
     {
         isLoading = false;

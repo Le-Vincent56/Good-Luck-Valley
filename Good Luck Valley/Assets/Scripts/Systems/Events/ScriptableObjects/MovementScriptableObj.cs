@@ -69,6 +69,15 @@ public class MovementScriptableObj : ScriptableObject
         #endregion
     }
 
+    private void Awake()
+    {
+        isGrounded = false;
+        isJumping = false;
+        isFalling = false;
+        isLanding = false;
+        isBouncing = false;
+    }
+
     /// <summary>
     /// Set whether the player is grounded or not
     /// </summary>

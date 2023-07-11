@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private LevelDataObj levelDataObj;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
@@ -145,10 +146,10 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
-        Debug.Log("Jumping?: " + isJumping);
-        Debug.Log("Falling?: " + isJumpFalling);
-        Debug.Log("Landed?: " + landed);
-        Debug.Log("Grounded?: " + isGrounded);
+        //Debug.Log("Jumping?: " + isJumping);
+        //Debug.Log("Falling?: " + isJumpFalling);
+        //Debug.Log("Landed?: " + landed);
+        //Debug.Log("Grounded?: " + isGrounded);
         
         // Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
@@ -427,6 +428,12 @@ public class PlayerMovement : MonoBehaviour, IData
             } else
             {
                 StartCoroutine(MovementCooldown());
+            }
+
+            // If the player is not in the load trigger, set the levelpos type to default
+            if(!loadLevelEvent.GetInLoadTrigger())
+            {
+                levelDataObj.SetLevelPos(SceneManager.GetActiveScene().name, LEVELPOS.DEFAULT);
             }
 		}
 		else
@@ -956,6 +963,9 @@ public class PlayerMovement : MonoBehaviour, IData
 	#region DATA HANDLING
 	public void LoadData(GameData data)
 	{
+        // Load level data
+        levelDataObj.LoadData(data);
+
         // Get the currently active scene
         Scene scene = SceneManager.GetActiveScene();
 
@@ -977,6 +987,8 @@ public class PlayerMovement : MonoBehaviour, IData
         // Save player position in the dictionary slot for this scene
         Scene scene = SceneManager.GetActiveScene();
         data.levelData[scene.name].playerPosition = transform.position;
+
+        levelDataObj.SaveData(data);
 	}
 	#endregion
 }

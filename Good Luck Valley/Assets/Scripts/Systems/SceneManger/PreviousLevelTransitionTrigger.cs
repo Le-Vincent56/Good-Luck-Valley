@@ -7,8 +7,9 @@ using UnityEngine.SceneManagement;
 public class PreviousLevelTransitionTrigger : MonoBehaviour
 {
     #region REFERENCES
-    [SerializeField] GameObject levelLoader;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private LevelDataObj levelDataObj;
+    [SerializeField] GameObject levelLoader;
     #endregion
 
     #region FIELDS
@@ -32,7 +33,9 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player" && transition)
         {
             // Save the game before loading the next level
+            loadLevelEvent.SetInLoadTrigger(true);
             levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.RETURN);
+            levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
             levelLoader.GetComponent<LoadLevel>().LoadPrevLevel();
         }
     }
@@ -41,6 +44,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            loadLevelEvent.SetInLoadTrigger(false);
             transition = true;
         }
 

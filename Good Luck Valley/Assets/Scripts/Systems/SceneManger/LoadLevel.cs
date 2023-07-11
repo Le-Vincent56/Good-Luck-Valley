@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public enum LEVELPOS
 {
+    DEFAULT,
     ENTER,
     RETURN
 }
@@ -21,7 +22,12 @@ public class LoadLevel : MonoBehaviour
     #endregion
 
     #region FIELDS
+    [SerializeField] private bool useLevelData = false;
     public float transitionTime = 1f;
+    #endregion
+
+    #region PROPERTIES
+    public bool UseLevelData { get { return useLevelData; } set { useLevelData = value; } }
     #endregion
 
     public void LoadNextLevel()
@@ -62,9 +68,9 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void StartLoading()
     {
-        // Set player position
+        // Set player position if necessary
         Debug.Log(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos);
-        switch(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
+        switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
             case LEVELPOS.ENTER:
                 DataManager.Instance.Data.levelData[SceneManager.GetActiveScene().name].playerPosition =
@@ -75,10 +81,16 @@ public class LoadLevel : MonoBehaviour
                 DataManager.Instance.Data.levelData[SceneManager.GetActiveScene().name].playerPosition =
                     levelDataObj.levelPosData[SceneManager.GetActiveScene().name].playerReturnPosition;
                 break;
+
+            case LEVELPOS.DEFAULT:
+                break;
         }
 
         // Trigger start load event
         loadLevelEvent.StartLoad();
+
+        // Save the game
+        DataManager.Instance.SaveGame();
     }
 
     /// <summary>
@@ -100,5 +112,4 @@ public class LoadLevel : MonoBehaviour
             
         }
     }
- 
 }

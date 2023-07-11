@@ -47,6 +47,14 @@ public class AnimationListener : MonoBehaviour
     private void Start()
     {
         playerAnim = GetComponent<Animator>();
+
+        isJumping = false;
+        isGrounded = false;
+        isFalling = false;
+        landed = false;
+        isBouncing = false;
+        isThrowing = false;
+        runThrow_R = false;
     }
 
     void Update()
@@ -100,13 +108,13 @@ public class AnimationListener : MonoBehaviour
         }
 
         // Check for bouncing animation
-        if (isBouncing && !isThrowing)
+        if (isBouncing && !isThrowing && !isJumping)
         {
             ChangeAnimationState(PLAYER_BOUNCE);
         }
 
         // Check for throwing animation
-        if (isThrowing && !isBouncing)
+        if (isThrowing && !isBouncing && !isJumping && !isFalling)
         {
             // If moving, check which leg to throw from
             if (Mathf.Abs(movementVector.x) >= 0.1)
