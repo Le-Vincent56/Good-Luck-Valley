@@ -86,11 +86,11 @@ public class LoadLevel : MonoBehaviour
                 break;
         }
 
-        // Save game after loading as well
-        DataManager.Instance.SaveGame();
-
         // Trigger start load event
         loadLevelEvent.StartLoad();
+
+        // Save the game
+        DataManager.Instance.SaveGame();
     }
 
     /// <summary>
