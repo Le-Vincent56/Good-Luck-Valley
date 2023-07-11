@@ -14,6 +14,12 @@ public class GameData
     public string playtimeString;
     #endregion
 
+    #region PLAYER
+    public bool isGrounded;
+    public bool isJumping;
+    public bool isFalling;
+    #endregion
+
     #region LEVEL
     public SerializableDictionary<string, LevelData> levelData;
     public string currentLevelName;

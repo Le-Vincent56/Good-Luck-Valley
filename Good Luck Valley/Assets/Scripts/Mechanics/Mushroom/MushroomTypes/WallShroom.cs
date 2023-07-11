@@ -8,6 +8,7 @@ public class WallShroom : Shroom
 {
     #region FIELDS
     [SerializeField] private float angleToSubtract;
+    private Vector3 showForce;
     #endregion
 
     private void Awake()
@@ -43,6 +44,8 @@ public class WallShroom : Shroom
         {
             Debug.Log("Nothing");
         }
+
+        Debug.DrawRay(transform.position, showForce);
     }
 
     /// <summary>
@@ -63,7 +66,7 @@ public class WallShroom : Shroom
         }
 
         Vector3 forceToApply = direction * bounceForce;
-        Debug.Log(forceToApply);
+        showForce = forceToApply;
 
         // Disable input
         disableEvent.SetInputCooldown(0.05f);
