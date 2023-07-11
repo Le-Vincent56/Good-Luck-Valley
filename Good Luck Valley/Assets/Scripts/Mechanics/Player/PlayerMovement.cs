@@ -110,6 +110,7 @@ public class PlayerMovement : MonoBehaviour, IData
         disableEvent.lockPlayerEvent.AddListener(LockMovement);
         disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
         disableEvent.stopInputEvent.AddListener(StopInput);
+        loadLevelEvent.startLoad.AddListener(SetLoadPos);
         loadLevelEvent.startLoad.AddListener(LockMovement);
         loadLevelEvent.endLoad.AddListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.AddListener(LockMovement);
@@ -126,6 +127,7 @@ public class PlayerMovement : MonoBehaviour, IData
         disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
         disableEvent.stopInputEvent.RemoveListener(StopInput);
+        loadLevelEvent.startLoad.RemoveListener(SetLoadPos);
         loadLevelEvent.startLoad.RemoveListener(LockMovement);
         loadLevelEvent.endLoad.RemoveListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.RemoveListener(LockMovement);
@@ -895,7 +897,6 @@ public class PlayerMovement : MonoBehaviour, IData
         }
 
         RB.AddForce(bounceForce, forceType);
-
     }
 
 	/// <summary>
@@ -908,11 +909,16 @@ public class PlayerMovement : MonoBehaviour, IData
 		touchingShroom = touchingData;
 	}
 
-	/// <summary>
-	/// Lock player movement
-	/// </summary>
-	/// <param name="lockedData"></param>
-	private void LockMovement()
+    private void SetLoadPos()
+    {
+        transform.position = DataManager.Instance.Data.levelData[SceneManager.GetActiveScene().name].playerPosition;
+    }
+
+    /// <summary>
+    /// Lock player movement
+    /// </summary>
+    /// <param name="lockedData"></param>
+    private void LockMovement()
 	{
         moveInput = Vector2.zero;
         isLocked = true;
@@ -958,7 +964,7 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             // If it does exist, load the players positional data using the data for this scene
             Vector3 playerPositionForThisScene = data.levelData[scene.name].playerPosition;
-            gameObject.transform.position = playerPositionForThisScene;
+            transform.position = playerPositionForThisScene;
         } else
         {
             //If it doesn't exist, let ourselves know that we need to add it to our game data
@@ -970,7 +976,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	{
         // Save player position in the dictionary slot for this scene
         Scene scene = SceneManager.GetActiveScene();
-        data.levelData[scene.name].playerPosition = this.transform.position;
+        data.levelData[scene.name].playerPosition = transform.position;
 	}
 	#endregion
 }
