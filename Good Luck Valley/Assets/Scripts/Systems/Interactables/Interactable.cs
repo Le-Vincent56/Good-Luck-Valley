@@ -77,7 +77,7 @@ public abstract class Interactable : MonoBehaviour, IData
             // Remove the note
             remove = true;
         }
-
+        Debug.Log("Lotus active: " + active);
         // Set if the gameobject is active
         gameObject.SetActive(active);
     }

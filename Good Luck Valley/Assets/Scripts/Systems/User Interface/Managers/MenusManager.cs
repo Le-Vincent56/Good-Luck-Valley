@@ -149,7 +149,7 @@ public class MenusManager : MonoBehaviour
             // Disabled: A6A6A6
 
             // Default screen nav button, currently set to be accessibility panel
-            navButtons[3].GetComponent<Button>().interactable = false;
+            navButtons[0].GetComponent<Button>().interactable = false;
 
             // Allow on value changed events to trigger again
             disableCalls = false;
@@ -176,7 +176,6 @@ public class MenusManager : MonoBehaviour
 
         // Check if the current scene is 2, save files scene
         if (currentScene == 2)
-            Debug.Log(deleteConfirmation.activeSelf);
         {
             // Check if a save has been selected
             if (selectedSave != 0)
@@ -289,7 +288,6 @@ public class MenusManager : MonoBehaviour
         // Check if the scene is one that contains a second confirmation check
         if (currentScene == 2 || currentScene == 4)
         {
-            Debug.Log(currentScene);
             // Find second confirmation check
             deleteConfirmation = GameObject.Find("Delete Confirmation");
             deleteConfirmation.SetActive(false);
@@ -492,7 +490,6 @@ public class MenusManager : MonoBehaviour
                         checkQuit = true;
 
                         // Hides the confirmation box
-                        Debug.Log("Check Quit");
                         deleteConfirmation.SetActive(false);
                     }
                     break;

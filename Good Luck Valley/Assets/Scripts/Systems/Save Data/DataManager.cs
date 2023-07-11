@@ -197,6 +197,7 @@ public class DataManager : MonoBehaviour
         // Start a new game if the data is null and we're configured to initialize data for debugging purposes
         if(gameData == null && initializeDataIfNull)
         {
+            Debug.Log("new game");
             NewGame();
         }
 
