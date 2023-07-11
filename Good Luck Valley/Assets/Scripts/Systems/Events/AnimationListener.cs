@@ -47,14 +47,6 @@ public class AnimationListener : MonoBehaviour
     private void Start()
     {
         playerAnim = GetComponent<Animator>();
-
-        isJumping = false;
-        isGrounded = false;
-        isFalling = false;
-        landed = false;
-        isBouncing = false;
-        isThrowing = false;
-        runThrow_R = false;
     }
 
     void Update()

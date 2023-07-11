@@ -438,6 +438,8 @@ public class MushroomManager : MonoBehaviour, IData
 
             if (context.canceled)
             {
+                throwing = mushroomEvent.GetThrowing();
+
                 // Set animation
                 if(!throwing)
                 {
@@ -585,6 +587,9 @@ public class MushroomManager : MonoBehaviour, IData
     public void LoadData(GameData data)
     {
         throwUnlocked = data.throwUnlocked;
+
+        // Load throwing data - setting throwing to false for animations
+        mushroomEvent.LoadData(data);
     }
 
     public void SaveData(GameData data)

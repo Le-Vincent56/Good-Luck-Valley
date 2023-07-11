@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "MovementScriptableObject", menuName = "ScriptableObjects/Movement Event")]
-public class MovementScriptableObj : ScriptableObject
+public class MovementScriptableObj : ScriptableObject, IData
 {
     #region FIELDS
     [SerializeField] private bool isGrounded;
@@ -252,4 +252,22 @@ public class MovementScriptableObj : ScriptableObject
         bounceEvent.Invoke(forceToApply, forceType);
         bounceAnimationEvent.Invoke();
     }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        isGrounded = data.isGrounded;
+        isJumping = data.isJumping;
+        isFalling = data.isFalling;
+
+        isBounceAnimating = false;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.isGrounded = isGrounded;
+        data.isJumping = isJumping;
+        data.isFalling = isFalling;
+    }
+    #endregion
 }
