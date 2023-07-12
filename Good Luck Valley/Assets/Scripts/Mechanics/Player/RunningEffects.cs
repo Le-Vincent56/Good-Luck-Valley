@@ -24,6 +24,8 @@ public class RunningEffects : MonoBehaviour
     #region FIELDS
     private List<GameObject> effects;
     private Vector2 checkPos;
+    private float distanceToSubtract;
+    [SerializeField] private float playerToGroundDistance = 0.1f;
     #endregion
 
     #region PROPERTIES
@@ -47,13 +49,16 @@ public class RunningEffects : MonoBehaviour
             }
         }
         tilemap = GameObject.Find("foreground").GetComponent<Tilemap>();
+        Debug.Log(GetComponent<BoxCollider2D>().size.y);
+        distanceToSubtract = GetComponent<BoxCollider2D>().size.y + playerToGroundDistance;
+        Debug.Log(distanceToSubtract);
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkPos = transform.position - new Vector3(0, 1.5f, 0);
-        if (player.IsMoving && player.IsGrounded)
+        checkPos = transform.position - new Vector3(0, distanceToSubtract, 0);
+        if (Mathf.Abs(playerRB.velocity.x) > 0.001 && player.IsGrounded)
         {
             TileType type = CheckTileMap();
             switch (type)
@@ -88,7 +93,7 @@ public class RunningEffects : MonoBehaviour
         }
         catch
         {
-            Debug.LogWarning("Failed to read tilemap.");
+            Debug.LogWarning("Failed to read tilemap. Defaulting to dirt particle.");
             return TileType.Dirt;
         }
     }
