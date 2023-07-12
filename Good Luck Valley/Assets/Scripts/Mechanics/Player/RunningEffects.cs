@@ -10,22 +10,27 @@ public class RunningEffects : MonoBehaviour
     enum TileType
     { 
         Grass,
-        Dirt
+        Dirt,
+        None
     }
 
     #region REFERENCES
     private PlayerMovement player;
     private Rigidbody2D playerRB;
-    private VisualEffect grassParticles;
-    private VisualEffect dirtParticles;
+    private VisualEffect leavesParticles;
+    private VisualEffect dustParticles;
+    private VisualEffect landLeavesParticles;
+    private VisualEffect landDustParticles;
     private Tilemap tilemap;
+    [SerializeField] private MovementScriptableObj movementEvent;
     #endregion
 
     #region FIELDS
     private List<GameObject> effects;
     private Vector2 checkPos;
-    private float distanceToSubtract;
-    [SerializeField] private float playerToGroundDistance = 0.1f;
+    [SerializeField] private float playerToGroundDistance;
+    private bool createDustOnFall;
+    [SerializeField] private float lowestSpeedForParticle;
     #endregion
 
     #region PROPERTIES
@@ -41,43 +46,52 @@ public class RunningEffects : MonoBehaviour
         {
             if (effects[i].name == "Player Dust")
             {
-                dirtParticles = effects[i].GetComponent<VisualEffect>();
+                dustParticles = effects[i].GetComponent<VisualEffect>();
             }
             else if (effects[i].name == "Player Leaves")
             {
-                grassParticles = effects[i].GetComponent<VisualEffect>();
+                leavesParticles = effects[i].GetComponent<VisualEffect>();
+            }
+            else if (effects[i].name == "Player Leaves Jump")
+            {
+                landLeavesParticles = effects[i].GetComponent<VisualEffect>();
+            }
+            else if (effects[i].name == "Player Dust Jump")
+            {
+                landDustParticles = effects[i].GetComponent<VisualEffect>();
             }
         }
         tilemap = GameObject.Find("foreground").GetComponent<Tilemap>();
-        Debug.Log(GetComponent<BoxCollider2D>().size.y);
-        distanceToSubtract = GetComponent<BoxCollider2D>().size.y + playerToGroundDistance;
-        Debug.Log(distanceToSubtract);
+    }
+
+    private void OnEnable()
+    {
+        movementEvent.landEvent.AddListener(CheckLandParticle);
+        movementEvent.jumpEvent.AddListener(CheckJumpParticle);
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkPos = transform.position - new Vector3(0, distanceToSubtract, 0);
-        if (Mathf.Abs(playerRB.velocity.x) > 0.001 && player.IsGrounded)
+        checkPos = transform.position - new Vector3(0, playerToGroundDistance, 0);
+        CheckRunParticle();
+        if (player.IsGrounded == false)
         {
-            TileType type = CheckTileMap();
-            switch (type)
-            {
-                case TileType.Grass:
-                    grassParticles.Play();
-                    break;
-
-                case TileType.Dirt:
-                    dirtParticles.Play();
-                    break;
-            }
-        }    
+            Debug.Log("Is grounded has been set to false");
+            createDustOnFall = true;
+        }
     }
 
+    /// <summary>
+    /// Checks the type of tile anari is standing on
+    /// </summary>
+    /// <returns></returns>
     private TileType CheckTileMap()
     {
         try
         {
+            Debug.Log("Position: " + checkPos);
+            Debug.Log(tilemap.GetTile(tilemap.WorldToCell(checkPos)));
             if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_d"))
             {
                 return TileType.Dirt;
@@ -88,13 +102,93 @@ public class RunningEffects : MonoBehaviour
             }
             else
             {
-                return TileType.Dirt;
+                Debug.Log("_+_+_+_+_");
+                return TileType.None;
             }
         }
-        catch
+        catch (Exception e)
         {
-            Debug.LogWarning("Failed to read tilemap. Defaulting to dirt particle.");
-            return TileType.Dirt;
+            Debug.LogWarning("Failed to read tilemap. No particle will play. Message: " + e.Message);
+            return TileType.None;
+        }
+    }
+
+    /// <summary>
+    /// Checks which particle to play when player lands
+    /// </summary>
+    private void CheckLandParticle()
+    {
+        if (createDustOnFall)
+        {
+            TileType type = CheckTileMap();
+            switch (type)
+            {
+                case TileType.Grass:
+                    Debug.Log("Fall Grass Playing");
+                    landLeavesParticles.Play();
+                    break;
+
+                case TileType.Dirt:
+                    Debug.Log("Fall Dirt Playing");
+                    landDustParticles.Play();
+                    break;
+
+                case TileType.None:
+                    Debug.Log("No particle playing");
+                    break;
+            }
+        }
+        createDustOnFall = false;
+    }
+
+    /// <summary>
+    /// Check which particle to play when the player runs
+    /// </summary>
+    private void CheckRunParticle()
+    {
+        if (Mathf.Abs(playerRB.velocity.x) > lowestSpeedForParticle && player.IsGrounded)
+        {
+            TileType type = CheckTileMap();
+            switch (type)
+            {
+                case TileType.Grass:
+                    Debug.Log("Run Grass Playing");
+                    leavesParticles.Play();
+                    break;
+
+                case TileType.Dirt:
+                    Debug.Log("Run Dirt Playing");
+                    dustParticles.Play();
+                    break;
+
+                case TileType.None:
+                    Debug.Log("No particle playing");
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checks which particle to play when player lands
+    /// </summary>
+    private void CheckJumpParticle()
+    {
+        TileType type = CheckTileMap();
+        switch (type)
+        {
+            case TileType.Grass:
+                Debug.Log("Jump Grass Playing");
+                landLeavesParticles.Play();
+                break;
+
+            case TileType.Dirt:
+                Debug.Log("Jump Dirt Playing");
+                landDustParticles.Play();
+                break;
+
+            case TileType.None:
+                Debug.Log("No particle playing");
+                break;
         }
     }
 }
