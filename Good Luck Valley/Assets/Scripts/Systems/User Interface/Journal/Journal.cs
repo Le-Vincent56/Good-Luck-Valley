@@ -171,6 +171,7 @@ public class Journal : MonoBehaviour, IData
             // Unfreeze the game - only if the journal was opened from key
             if(openedFromKey)
             {
+                pauseEvent.Unpause();
                 Time.timeScale = 1f;
             }
 

@@ -64,7 +64,6 @@ public class Note : Interactable, IData
         string currentLevel = SceneManager.GetActiveScene().name;
 
         data.levelData[currentLevel].notesCollected.TryGetValue(id, out noteAdded);
-        Debug.Log("ID: " + id + ", Added: " + noteAdded);
 
         // Check if the note has been added
         if (noteAdded)
