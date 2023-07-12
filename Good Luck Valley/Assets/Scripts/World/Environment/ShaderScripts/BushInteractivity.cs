@@ -59,7 +59,6 @@ public class BushInteractivity : MonoBehaviour
 
     private IEnumerator Rotate()
     {
-        Debug.Log("Rotating");
         float rotationCount = 0f;
         currentRotation = bushInteractivityController.RotationDegee;
         while (rotationCount < bushInteractivityController.Rotations)
@@ -67,8 +66,6 @@ public class BushInteractivity : MonoBehaviour
             rotationCount++;
             //float lerpAmount = Mathf.Lerp(startingXVelocity, xVelocity, (elapsedTime / grassVelocityController.EaseInTime));
             bushInteractivityController.RotateBush(material, currentRotation);
-
-            Debug.Log("Rotate: " + currentRotation);
             currentRotation = -currentRotation;
             yield return null;
         }

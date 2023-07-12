@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.VFX;
 
 public class RunningEffects : MonoBehaviour
 {
+    enum TileType
+    { 
+        Grass,
+        Dirt
+    }
+
     #region REFERENCES
     private PlayerMovement player;
-    private GameObject effectsParent;
+    private Rigidbody2D playerRB;
     private VisualEffect grassParticles;
     private VisualEffect dirtParticles;
+    private Tilemap tilemap;
     #endregion
 
     #region FIELDS
+    private List<GameObject> effects;
+    private Vector2 checkPos;
     #endregion
 
     #region PROPERTIES
@@ -21,18 +32,71 @@ public class RunningEffects : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<PlayerMovement>();
-        effectsParent = transform.GetChild(3).gameObject;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        effects = new List<GameObject>(); 
+        playerRB = GetComponent<Rigidbody2D>();
+        effects.AddRange(GameObject.FindGameObjectsWithTag("PlayerEffects"));
+        Debug.Log(effects.Count);
+        for (int i = 0;  i < effects.Count; i++)
+        {
+            if (effects[i].name == "Player Dust")
+            {
+                dirtParticles = effects[i].GetComponent<VisualEffect>();
+            }
+            else if (effects[i].name == "Player Leaves")
+            {
+                grassParticles = effects[i].GetComponent<VisualEffect>();
+            }
+        }
+        tilemap = GameObject.Find("foreground").GetComponent<Tilemap>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        checkPos = transform.position - new Vector3(0, 1.5f, 0);
+        if (player.IsMoving && player.IsGrounded)
+        {
+            TileType type = CheckTileMap();
+            switch (type)
+            {
+                case TileType.Grass:
+                    Debug.Log("grass");
+                    grassParticles.Play();
+                    break;
+
+                case TileType.Dirt:
+                    Debug.Log("dirt");
+                    dirtParticles.Play();
+                    break;
+            }
+        }    
+    }
+
+    private TileType CheckTileMap()
+    {
+        try
+        {
+            Debug.Log("TileMap Name" + tilemap.GetTile(tilemap.WorldToCell(checkPos)).name);
+            if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_d"))
+            {
+                Debug.Log("dirt detected");
+                return TileType.Dirt;
+            }
+            else if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_g"))
+            {
+                Debug.Log("grass detected");
+                return TileType.Grass;
+            }
+            else
+            {
+                Debug.Log("default");
+                return TileType.Dirt;
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("Failed to read tilemap.");
+            return TileType.Dirt;
+        }
     }
 }
