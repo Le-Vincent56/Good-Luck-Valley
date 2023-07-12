@@ -88,6 +88,8 @@ public class PlayerMovement : MonoBehaviour, IData
 	public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
     public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
     public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } }
+
+    public bool IsGrounded { get { return isGrounded; } }
     #endregion
 
     private void Awake()
