@@ -17,6 +17,7 @@ public class ShroomCounter : MonoBehaviour
     private Image shroomFill2;
     private Image shroomFill3;
     private MushroomManager mushMan;
+    private CameraManager camMan;
     #endregion
 
     #region FIELDS
@@ -27,6 +28,7 @@ public class ShroomCounter : MonoBehaviour
     private float newG;
     private float newB;
     private List<GameObject> shroomIconList;
+    private bool displayCounter;
     #endregion
 
     #region PROPERTIES
@@ -44,11 +46,12 @@ public class ShroomCounter : MonoBehaviour
     {
         // Figure this out after gettting a working build, less .Find calls
         // GameObject parent = gameObject;
+        mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
+        camMan = GameObject.Find("CameraManager").GetComponent<CameraManager>();
 
         shroomIcon1 = GameObject.Find("Shroom Icon 1");
         shroomIcon2 = GameObject.Find("Shroom Icon 2");
         shroomIcon3 = GameObject.Find("Shroom Icon 3");
-        mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         originalR = shroomIcon1.GetComponent<Image>().color.r;
         originalG = shroomIcon1.GetComponent<Image>().color.g;
         originalB = shroomIcon1.GetComponent<Image>().color.b;
@@ -78,11 +81,12 @@ public class ShroomCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!mushMan.ThrowUnlocked)
+        if (!mushMan.ThrowUnlocked || camMan.PlayCutscene)
         {
             HideCounter();
+            displayCounter = true;
         }   
-        else
+        else if (displayCounter)
         {
             ShowCounter();
         }
@@ -146,5 +150,9 @@ public class ShroomCounter : MonoBehaviour
         shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
         shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
         shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+        shroomIcon1.GetComponent<Image>().fillAmount = 1;
+        shroomIcon2.GetComponent<Image>().fillAmount = 1;
+        shroomIcon3.GetComponent<Image>().fillAmount = 1;
+        displayCounter = false;
     }
 }
