@@ -15,7 +15,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     #region FIELDS
     [SerializeField] private string levelToLoad;
     private bool transition;
-    private float timeBeforeTransitionTrigger = 1f;
+    [SerializeField] private float timeBeforeTransitionTrigger = 1f;
     #endregion
 
     #region PROPERTIES
@@ -46,8 +46,8 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
         {
             loadLevelEvent.SetInLoadTrigger(false);
             transition = true;
+            timeBeforeTransitionTrigger = 1f;
         }
-
     }
 
     private IEnumerator CheckTransition()

@@ -186,6 +186,8 @@ GameObject:
   m_Component:
   - component: {fileID: 232392002}
   - component: {fileID: 232392003}
+  - component: {fileID: 232392004}
+  - component: {fileID: 232392005}
   m_Layer: 0
   m_Name: pickup (6)
   m_TagString: Untagged
@@ -260,6 +262,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &232392004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232392001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 4152cb73-9f26-473e-9e24-2dfccdb51401
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 6: Away from Jimoto'
+  textValue: The weight lifted from my eyelids allowed me to take in my new surroundings.
+    The world was dim, reminiscent of an astronomical twilight. Expansive fields
+    of navy blades swayed in the wind, illuminated by metallic lamp posts glowing
+    silver and blue. A stark difference from the forests of Jimoto I walked moments
+    ago.
+  contentsTitle: Away from Jimoto
+  journalIndex: 6
+  noteAdded: 0
+--- !u!61 &232392005
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232392001}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!114 &327728301 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3498146380334448273, guid: df96aff57b25e4148900efff46a55eb7, type: 3}
@@ -50285,6 +50339,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1074448061}
   - component: {fileID: 1074448062}
+  - component: {fileID: 1074448063}
+  - component: {fileID: 1074448064}
   m_Layer: 0
   m_Name: pickup (5)
   m_TagString: Untagged
@@ -50359,6 +50415,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1074448063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074448060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: aec1c7d8-92c4-4190-9d37-531aae631fe9
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 5: The Feeling of it All'
+  textValue: The sun felt like water washing over me from head to toe. The warm waves
+    pulled my eyelids down like heavy hands, holding them shut, and plunging me into
+    the depths. Then it all ceased. All feelings, all sounds, all smells. Alone in
+    the darkness.
+  contentsTitle: The Feeling of it All
+  journalIndex: 5
+  noteAdded: 0
+--- !u!61 &1074448064
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074448060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1081893499
 GameObject:
   m_ObjectHideFlags: 0
@@ -50494,6 +50601,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1166932994}
   - component: {fileID: 1166932995}
+  - component: {fileID: 1166932996}
+  - component: {fileID: 1166932997}
   m_Layer: 0
   m_Name: pickup (7)
   m_TagString: Untagged
@@ -50568,6 +50677,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1166932996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166932993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 48bd0adf-8c03-4261-b6ff-d9824eaf9750
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 7: Saiji''s Moon'
+  textValue: "I stared up at Saiji\u2019s moon above me in the sky. Of course at
+    the time I had no idea it was Saiji\u2019s. It was the largest full moon I had
+    ever seen, perfectly spherical and cerulean, casting its spell on the world.
+    Who walks these navy fields, who looks up at this blue moon, who\u2019s world
+    did I fall into."
+  contentsTitle: Saiji's Moon
+  journalIndex: 7
+  noteAdded: 0
+--- !u!61 &1166932997
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166932993}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1175866433
 GameObject:
   m_ObjectHideFlags: 0
@@ -50578,6 +50739,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1175866434}
   - component: {fileID: 1175866435}
+  - component: {fileID: 1175866436}
+  - component: {fileID: 1175866437}
   m_Layer: 0
   m_Name: pickup
   m_TagString: Untagged
@@ -50652,6 +50815,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1175866436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175866433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 70958600-3752-40de-94a1-545b7409b81b
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: Journal Binding
+  textValue: A familiar, ripped-up journal binding.
+  contentsTitle: Journal Binding
+  journalIndex: 0
+  noteAdded: 0
+--- !u!61 &1175866437
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175866433}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!114 &1248009128 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7929834176910632845, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
@@ -50880,6 +51091,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1455380604}
   - component: {fileID: 1455380605}
+  - component: {fileID: 1455380606}
+  - component: {fileID: 1455380607}
   m_Layer: 0
   m_Name: pickup (4)
   m_TagString: Untagged
@@ -50954,6 +51167,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1455380606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455380603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: c090b985-6611-4398-8794-995eccae309e
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 4: A Perfect World'
+  textValue: I still remember the first time I came to the Spirit World, back before
+    I was its Caretaker. The rustling leaves, earthy smells, and familiar flora of
+    my afternoon walk, all gradually became ethereal. Something too perfect for this
+    world, because it was.
+  contentsTitle: A Perfect World
+  journalIndex: 4
+  noteAdded: 0
+--- !u!61 &1455380607
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455380603}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1456804618
 GameObject:
   m_ObjectHideFlags: 0
@@ -50964,6 +51228,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1456804619}
   - component: {fileID: 1456804620}
+  - component: {fileID: 1456804621}
+  - component: {fileID: 1456804622}
   m_Layer: 0
   m_Name: pickup (1)
   m_TagString: Untagged
@@ -51038,6 +51304,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1456804621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456804618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 6f1373e1-ac5f-45f5-825a-fe053b549b38
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 1: The Endless Grove'
+  textValue: 'The Endless Grove, as beautiful as it is large, infinitely. I wonder
+    if my daughter Anari will ever get the chance to come here. To see the impossible,
+    to walk amongst the spirits, to have her spirit meet mine. '
+  contentsTitle: The Endless Grove
+  journalIndex: 1
+  noteAdded: 0
+--- !u!61 &1456804622
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456804618}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1471536612
 GameObject:
   m_ObjectHideFlags: 0
@@ -53716,6 +54032,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1664655970}
   - component: {fileID: 1664655971}
+  - component: {fileID: 1664655972}
+  - component: {fileID: 1664655973}
   m_Layer: 0
   m_Name: pickup (3)
   m_TagString: Untagged
@@ -53790,6 +54108,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1664655972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664655969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 816acec3-2d35-4019-bdd1-d73ff1902243
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 3: Catching Up'
+  textValue: "If Anari ever was here, it means I made up my mind, or I ran out of
+    time. There\u2019s only so much back and forth one\u2019s spirit can handle,
+    even mine. The effects of my travel are bound to catch up to me one day."
+  contentsTitle: Catching Up
+  journalIndex: 3
+  noteAdded: 0
+--- !u!61 &1664655973
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664655969}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!114 &1722282917 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6757172088074778661, guid: b2939b196ceaa4e43b36007de3c43cb0, type: 3}
@@ -53811,6 +54179,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1756194838}
   - component: {fileID: 1756194839}
+  - component: {fileID: 1756194840}
+  - component: {fileID: 1756194841}
   m_Layer: 0
   m_Name: pickup (2)
   m_TagString: Untagged
@@ -53885,6 +54255,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1756194840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756194837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3ccfd056-3a6d-4c19-ae95-636382b4d5c7
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry Two: Wish She Were Here'
+  textValue: So many things I would show her. I can picture her bright smile as she
+    runs through the endless trees. Her Arms outstretched letting her fingers run
+    through the flora. You'd probably never want to leave this forest, a trait you
+    get from me.
+  contentsTitle: I Wish She Were Here
+  journalIndex: 2
+  noteAdded: 0
+--- !u!61 &1756194841
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756194837}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1872060254 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7691238258581287217, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
@@ -54778,9 +55199,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 963860911464531315, guid: f4dc37d031aab5244a3c5c18897f6b12, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5182000021783128450, guid: f4dc37d031aab5244a3c5c18897f6b12, type: 3}
       propertyPath: m_Name
       value: Level Loader
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182000021783128450, guid: f4dc37d031aab5244a3c5c18897f6b12, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6893992594432351799, guid: f4dc37d031aab5244a3c5c18897f6b12, type: 3}
       propertyPath: m_Pivot.x
@@ -55019,17 +55448,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6934267980835830490, guid: 4788b279466473a499dc4b001838241a, type: 3}
+    - target: {fileID: 6934267980698048656, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6934267981029330768, guid: 4788b279466473a499dc4b001838241a, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6934267980835830490, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981029330768, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934267981029330768, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981150708416, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -55043,6 +55476,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 913087201}
+    - target: {fileID: 6934267981321558902, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: hasJournal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6934267981431389839, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
       value: 
