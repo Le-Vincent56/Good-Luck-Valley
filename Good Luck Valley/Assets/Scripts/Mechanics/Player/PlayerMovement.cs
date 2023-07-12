@@ -195,6 +195,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 if (bouncing && bounceBuffer <= 0)
                 {
                     bouncing = false;
+                    movementEvent.SetIsBounceAnimating(false);
                 }
 
                 // Ground player
@@ -980,6 +981,9 @@ public class PlayerMovement : MonoBehaviour, IData
             //If it doesn't exist, let ourselves know that we need to add it to our game data
             Debug.LogError("Failed to get data for scene with name: " + scene.name + ". It may need to be added to the GameData constructor");
         }
+
+        // Load movement data
+        movementEvent.LoadData(data);
 	}
 
 	public void SaveData(GameData data)
@@ -988,6 +992,8 @@ public class PlayerMovement : MonoBehaviour, IData
         Scene scene = SceneManager.GetActiveScene();
         data.levelData[scene.name].playerPosition = transform.position;
 
+        // Save movement and level data
+        movementEvent.SaveData(data);
         levelDataObj.SaveData(data);
 	}
 	#endregion

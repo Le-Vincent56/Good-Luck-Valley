@@ -424,6 +424,8 @@ public class MushroomManager : MonoBehaviour, IData
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
             {
+                throwing = mushroomEvent.GetThrowing();
+
                 //switch (throwState)
                 //{
                 //    case ThrowState.NotThrowing:
@@ -585,6 +587,9 @@ public class MushroomManager : MonoBehaviour, IData
     public void LoadData(GameData data)
     {
         throwUnlocked = data.throwUnlocked;
+
+        // Load throwing data - setting throwing to false for animations
+        mushroomEvent.LoadData(data);
     }
 
     public void SaveData(GameData data)

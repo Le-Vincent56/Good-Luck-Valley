@@ -23,6 +23,7 @@ public class CameraManager : MonoBehaviour, IData
 
     #region PROPERTIES
     public bool UsingLotusCutscene { get { return usingLotusCutscene; } set { usingLotusCutscene = value; } }
+    public bool PlayCutscene { get { return playCutscene; } }
     #endregion
 
     private void OnEnable()
