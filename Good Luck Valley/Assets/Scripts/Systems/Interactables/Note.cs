@@ -26,7 +26,19 @@ public class Note : Interactable, IData
     public string TextValue { get { return textValue; } set { textValue = value; } }
     public string ContentsTitle { get { return contentsTitle; } set { contentsTitle = value; } }
     public int JournalIndex { get { return journalIndex; } }
+    public bool NoteAdded { get { return noteAdded; } }
     #endregion
+
+    public Note(string id, string noteTitle, string textValue, string contentsTitle, int journalIndex, bool noteAdded)
+    {
+        this.id = id;
+        this.noteTitle = noteTitle;
+        this.textValue = textValue;
+        this.contentsTitle = contentsTitle;
+        this.journalIndex = journalIndex;
+        this.noteAdded = noteAdded;
+        remove = true;
+    }
 
     // Start is called before the first frame update
     void Start()

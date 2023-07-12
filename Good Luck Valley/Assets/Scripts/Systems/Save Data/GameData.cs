@@ -4,6 +4,27 @@ using TMPro;
 using UnityEngine;
 
 [System.Serializable]
+public struct NoteData
+{
+    public string id;
+    public string noteTitle;
+    public string textValue;
+    public string contentTitle;
+    public int journalIndex;
+    public bool noteAdded;
+
+    public NoteData(string id, string noteTitle, string textValue, string contentTitle, int journalIndex, bool noteAdded)
+    {
+        this.id = id;
+        this.noteTitle = noteTitle;
+        this.textValue = textValue;
+        this.contentTitle = contentTitle;
+        this.journalIndex = journalIndex;
+        this.noteAdded = noteAdded;
+    }
+}
+
+[System.Serializable]
 public class GameData
 {
     #region FIELDS
@@ -31,7 +52,7 @@ public class GameData
 
     #region JOURNAL
     public int numNotesCollected;
-    public List<Note> notes;
+    public List<NoteData> notes;
     public bool hasJournal;
     #endregion
     #endregion
@@ -57,7 +78,7 @@ public class GameData
 
         #region JOURNAL
         numNotesCollected = 0;
-        notes = new List<Note>();
+        notes = new List<NoteData>();
         hasJournal = true;
         #endregion
     }
