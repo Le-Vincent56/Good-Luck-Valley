@@ -11,6 +11,7 @@ public class Journal : MonoBehaviour, IData
     #region REFERENCES
     [SerializeField] private JournalScriptableObj journalEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     private Canvas journalUI;
     private Button pauseJournalButton;
     #endregion
@@ -20,9 +21,9 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private bool menuOpen = false;
     [SerializeField] private bool hasJournal = false;
     [SerializeField] private bool hasOpened = false;
-    [SerializeField] bool openedFromKey = false;
-    [SerializeField] float journalCloseBuffer = 0.25f;
-    [SerializeField] bool canClose = false;
+    [SerializeField] private bool openedFromKey = false;
+    [SerializeField] private float journalCloseBuffer = 0.25f;
+    [SerializeField] private bool canClose = false;
     #endregion
 
     #region PROPERTIES
@@ -32,11 +33,15 @@ public class Journal : MonoBehaviour, IData
     private void OnEnable()
     {
         journalEvent.noteAddedEvent.AddListener(AddNote);
+        loadLevelEvent.startLoad.AddListener(DisableJournalOpen);
+        loadLevelEvent.endLoad.AddListener(EnableJournalOpen);
     }
 
     private void OnDisable()
     {
         journalEvent.noteAddedEvent.RemoveListener(AddNote);
+        loadLevelEvent.startLoad.RemoveListener(DisableJournalOpen);
+        loadLevelEvent.endLoad.RemoveListener(EnableJournalOpen);
     }
 
     // Start is called before the first frame update
@@ -76,12 +81,13 @@ public class Journal : MonoBehaviour, IData
     /// <param name="context">The context of the controller</param>
     public void OpenJournalKey(InputAction.CallbackContext context)
     {
-        if (hasJournal && !menuOpen)
+        if (hasJournal && !menuOpen && journalEvent.GetCanOpenJournal())
         {
             // Pause the game
             pauseEvent.Pause();
             Time.timeScale = 0;
             openedFromKey = true;
+            canClose = true;
 
             // Sort journal entries by indexes
             notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
@@ -101,6 +107,7 @@ public class Journal : MonoBehaviour, IData
             menuOpen = true;
             journalCloseBuffer = 0.25f;
             journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
@@ -133,7 +140,7 @@ public class Journal : MonoBehaviour, IData
     /// </summary>
     public void OpenJournal()
     {
-        if(hasJournal && !menuOpen)
+        if(hasJournal && !menuOpen && journalEvent.GetCanOpenJournal())
         {
             // Sort journal entries by indexes
             notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
@@ -150,8 +157,10 @@ public class Journal : MonoBehaviour, IData
 
             journalUI.enabled = true;
             menuOpen = true;
+            canClose = true;
             journalCloseBuffer = 0.25f;
             journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
@@ -167,6 +176,7 @@ public class Journal : MonoBehaviour, IData
             // Unfreeze the game - only if the journal was opened from key
             if(openedFromKey)
             {
+                pauseEvent.Unpause();
                 Time.timeScale = 1f;
             }
 
@@ -178,6 +188,22 @@ public class Journal : MonoBehaviour, IData
             // Remove entries to prepare for sorting
             journalEvent.ClearJournal();
         }
+    }
+
+    /// <summary>
+    /// Disable Journal functions relating to opening the Journal
+    /// </summary>
+    public void DisableJournalOpen()
+    {
+        journalEvent.SetCanOpen(false);
+    }
+
+    /// <summary>
+    /// Enable Journal functions relating to opening the Journal
+    /// </summary>
+    public void EnableJournalOpen()
+    {
+        journalEvent.SetCanOpen(true);
     }
 
     #region EVENT FUNCTIONS

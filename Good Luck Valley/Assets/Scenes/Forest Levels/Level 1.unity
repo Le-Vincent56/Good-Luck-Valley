@@ -186,8 +186,10 @@ GameObject:
   m_Component:
   - component: {fileID: 232392002}
   - component: {fileID: 232392003}
+  - component: {fileID: 232392004}
+  - component: {fileID: 232392005}
   m_Layer: 0
-  m_Name: pickup (6)
+  m_Name: Note 6 - Away from Jimoto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,13 +202,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 232392001}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -3.84, y: 41.85, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -21.605816, y: 2.7139702, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
-  m_RootOrder: 7
+  m_Father: {fileID: 1497512531}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &232392003
 SpriteRenderer:
@@ -260,6 +262,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &232392004
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232392001}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &232392005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232392001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 4152cb73-9f26-473e-9e24-2dfccdb51401
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 6: Away from Jimoto'
+  textValue: The weight lifted from my eyelids allowed me to take in my new surroundings.
+    The world was dim, reminiscent of an astronomical twilight. Expansive fields
+    of navy blades swayed in the wind, illuminated by metallic lamp posts glowing
+    silver and blue. A stark difference from the forests of Jimoto I walked moments
+    ago.
+  contentsTitle: Away from Jimoto
+  journalIndex: 0
+  noteAdded: 0
 --- !u!114 &327728301 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3498146380334448273, guid: df96aff57b25e4148900efff46a55eb7, type: 3}
@@ -48437,7 +48491,7 @@ GameObject:
   - component: {fileID: 992478392}
   - component: {fileID: 992478391}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Journal Binding - Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48456,7 +48510,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1471536613}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -50223,7 +50277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7203912908089909877, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7203912908089909877, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_LocalPosition.x
@@ -50285,8 +50339,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1074448061}
   - component: {fileID: 1074448062}
+  - component: {fileID: 1074448063}
+  - component: {fileID: 1074448064}
   m_Layer: 0
-  m_Name: pickup (5)
+  m_Name: Note 5 - The Feeling Of It All
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50299,13 +50355,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074448060}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -7.4098988, y: 58.094303, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -25.175714, y: 18.958275, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
-  m_RootOrder: 6
+  m_Father: {fileID: 1497512531}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &1074448062
 SpriteRenderer:
@@ -50359,6 +50415,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1074448063
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074448060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &1074448064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074448060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: aec1c7d8-92c4-4190-9d37-531aae631fe9
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 5: The Feeling of it All'
+  textValue: The sun felt like water washing over me from head to toe. The warm waves
+    pulled my eyelids down like heavy hands, holding them shut, and plunging me into
+    the depths. Then it all ceased. All feelings, all sounds, all smells. Alone in
+    the darkness.
+  contentsTitle: The Feeling of it All
+  journalIndex: 0
+  noteAdded: 0
 --- !u!1 &1081893499
 GameObject:
   m_ObjectHideFlags: 0
@@ -50421,7 +50528,7 @@ Transform:
   - {fileID: 1259274621}
   - {fileID: 1013867308}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1142083549
 PrefabInstance:
@@ -50494,8 +50601,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1166932994}
   - component: {fileID: 1166932995}
+  - component: {fileID: 1166932996}
+  - component: {fileID: 1166932997}
   m_Layer: 0
-  m_Name: pickup (7)
+  m_Name: Note 7 - Saiji's Moon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50508,13 +50617,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166932993}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -15.61, y: 66.23, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -33.375816, y: 27.093971, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
-  m_RootOrder: 8
+  m_Father: {fileID: 1497512531}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &1166932995
 SpriteRenderer:
@@ -50568,6 +50677,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1166932996
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166932993}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &1166932997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166932993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 48bd0adf-8c03-4261-b6ff-d9824eaf9750
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 7: Saiji''s Moon'
+  textValue: "I stared up at Saiji\u2019s moon above me in the sky. Of course at
+    the time I had no idea it was Saiji\u2019s. It was the largest full moon I had
+    ever seen, perfectly spherical and cerulean, casting its spell on the world.
+    Who walks these navy fields, who looks up at this blue moon, who\u2019s world
+    did I fall into."
+  contentsTitle: Saiji's Moon
+  journalIndex: 0
+  noteAdded: 0
 --- !u!1 &1175866433
 GameObject:
   m_ObjectHideFlags: 0
@@ -50578,8 +50739,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1175866434}
   - component: {fileID: 1175866435}
+  - component: {fileID: 1175866436}
+  - component: {fileID: 1175866437}
   m_Layer: 0
-  m_Name: pickup
+  m_Name: Journal Binding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50592,12 +50755,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1175866433}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 18.18, y: 11.25, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 0.41418457, y: -27.886028, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
+  m_Father: {fileID: 1497512531}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &1175866435
@@ -50652,6 +50815,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1175866436
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175866433}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &1175866437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175866433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 70958600-3752-40de-94a1-545b7409b81b
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: Journal Binding
+  textValue: A familiar, ripped-up journal binding.
+  contentsTitle: Journal Binding
+  journalIndex: 0
+  noteAdded: 0
 --- !u!114 &1248009128 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7929834176910632845, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
@@ -50869,8 +51080,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1455380604}
   - component: {fileID: 1455380605}
+  - component: {fileID: 1455380606}
+  - component: {fileID: 1455380607}
   m_Layer: 0
-  m_Name: pickup (4)
+  m_Name: Note 4 - Something Too Perfect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50883,13 +51096,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455380603}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 24.82, y: 55.37, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 7.054184, y: 16.23397, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
-  m_RootOrder: 5
+  m_Father: {fileID: 1497512531}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &1455380605
 SpriteRenderer:
@@ -50943,6 +51156,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1455380606
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455380603}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &1455380607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455380603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: c090b985-6611-4398-8794-995eccae309e
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 4: Something Too Perfect'
+  textValue: 'I still remember the first time I came to the Spirit World, back before
+    I was its Caretaker. The rustling leaves, earthy smells, and familiar flora of
+    my afternoon walk, all gradually became ethereal. Something too perfect for this
+    world, because it was. '
+  contentsTitle: Something Too Perfect
+  journalIndex: 0
+  noteAdded: 0
 --- !u!1 &1456804618
 GameObject:
   m_ObjectHideFlags: 0
@@ -50953,8 +51217,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1456804619}
   - component: {fileID: 1456804620}
+  - component: {fileID: 1456804621}
+  - component: {fileID: 1456804622}
   m_Layer: 0
-  m_Name: pickup (1)
+  m_Name: Note 1 - The Endless Grove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50967,12 +51233,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456804618}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 24.04, y: 7.56, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 6.274185, y: -31.576029, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
+  m_Father: {fileID: 1497512531}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &1456804620
@@ -51027,6 +51293,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1456804621
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456804618}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &1456804622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456804618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 6f1373e1-ac5f-45f5-825a-fe053b549b38
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 1: The Endless Grove'
+  textValue: 'The Endless Grove, as beautiful as it is large, infinitely. I wonder
+    if my daughter Anari will ever get the chance to come here. To see the impossible,
+    to walk amongst the spirits, to have her spirit meet mine. '
+  contentsTitle: The Endless Grove
+  journalIndex: 0
+  noteAdded: 0
 --- !u!1 &1471536612
 GameObject:
   m_ObjectHideFlags: 0
@@ -51055,16 +51371,47 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 992478390}
+  - {fileID: 1943264019}
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1497512530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1497512531}
+  m_Layer: 0
+  m_Name: Notes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1497512531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497512530}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7312508, y: 39.345627, z: -9.488863}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
   - {fileID: 1175866434}
   - {fileID: 1456804619}
   - {fileID: 1756194838}
   - {fileID: 1664655970}
-  - {fileID: 992478390}
   - {fileID: 1455380604}
   - {fileID: 1074448061}
   - {fileID: 232392002}
   - {fileID: 1166932994}
-  - {fileID: 1943264019}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53080,8 +53427,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1664655970}
   - component: {fileID: 1664655971}
+  - component: {fileID: 1664655972}
+  - component: {fileID: 1664655973}
   m_Layer: 0
-  m_Name: pickup (3)
+  m_Name: Note 3 - One or the Other
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53094,12 +53443,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664655969}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -16.06, y: 32.8, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -33.825813, y: -6.336029, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
+  m_Father: {fileID: 1497512531}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &1664655971
@@ -53154,6 +53503,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1664655972
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664655969}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &1664655973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664655969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 816acec3-2d35-4019-bdd1-d73ff1902243
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 3: One or the Other'
+  textValue: "If Anari ever was here, it means I made up my mind, or I ran out of
+    time. There\u2019s only so much back and forth one\u2019s spirit can handle,
+    even mine. The effects of my travel are bound to catch up to me one day."
+  contentsTitle: One or the Other
+  journalIndex: 0
+  noteAdded: 0
 --- !u!114 &1722282917 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6757172088074778661, guid: b2939b196ceaa4e43b36007de3c43cb0, type: 3}
@@ -53175,8 +53574,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1756194838}
   - component: {fileID: 1756194839}
+  - component: {fileID: 1756194840}
+  - component: {fileID: 1756194841}
   m_Layer: 0
-  m_Name: pickup (2)
+  m_Name: Note 2 - Wish She Were Here
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53189,12 +53590,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756194837}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 32.770103, y: 23.944298, z: 9.419535}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 15.004288, y: -15.1917305, z: 9.488863}
   m_LocalScale: {x: 0.5782, y: 0.5782, z: 0.5782}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1471536613}
+  m_Father: {fileID: 1497512531}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &1756194839
@@ -53249,6 +53650,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1756194840
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756194837}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &1756194841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756194837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760ecaa81ffcfe1429c2f843d13b781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3ccfd056-3a6d-4c19-ae95-636382b4d5c7
+  remove: 0
+  active: 1
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  textDisplay: {fileID: 0}
+  noteTitle: 'Entry 2: Wish She Were Here'
+  textValue: So many things I would show her. I can picture her bright smile as she
+    runs through the endless trees. Her Arms outstretched letting her fingers run
+    through the flora. You'd probably never want to leave this forest, a trait you
+    get from me.
+  contentsTitle: Wish She Were Here
+  journalIndex: 0
+  noteAdded: 0
 --- !u!320 &1872060255 stripped
 PlayableDirector:
   m_CorrespondingSourceObject: {fileID: 4490143501759617804, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
@@ -53266,7 +53718,7 @@ GameObject:
   - component: {fileID: 1943264021}
   - component: {fileID: 1943264020}
   m_Layer: 0
-  m_Name: Text (TMP) (1)
+  m_Name: Wall Jump Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53285,7 +53737,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1471536613}
-  m_RootOrder: 9
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -53738,7 +54190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3498146380334448275, guid: df96aff57b25e4148900efff46a55eb7, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 3498146380334448275, guid: df96aff57b25e4148900efff46a55eb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54112,6 +54564,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Loader
       objectReference: {fileID: 0}
+    - target: {fileID: 5182000021783128450, guid: f4dc37d031aab5244a3c5c18897f6b12, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6893992594432351799, guid: f4dc37d031aab5244a3c5c18897f6b12, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -54210,6 +54666,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768656706457289, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768656706457289, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -54230,6 +54690,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657077674519, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768657077674519, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -54239,6 +54703,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657504053047, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768657647596105, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657647596105, guid: 4788b279466473a499dc4b001838241a, type: 3}
@@ -54255,6 +54723,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657725984503, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768657819380113, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657819380113, guid: 4788b279466473a499dc4b001838241a, type: 3}
@@ -54286,7 +54758,15 @@ PrefabInstance:
       value: AdjustSoundInputField
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658375161902, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768658375161902, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768658412995287, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658412995287, guid: 4788b279466473a499dc4b001838241a, type: 3}
@@ -54297,10 +54777,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 913087201}
+    - target: {fileID: 4084187067967389228, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6934267979955361441, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 913087201}
+    - target: {fileID: 6934267980417881365, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6934267980617897372, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Name
       value: UI
@@ -54349,17 +54837,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6934267980835830490, guid: 4788b279466473a499dc4b001838241a, type: 3}
+    - target: {fileID: 6934267980698048656, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6934267981029330768, guid: 4788b279466473a499dc4b001838241a, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6934267980835830490, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981029330768, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934267981029330768, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981150708416, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -54373,6 +54865,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 913087201}
+    - target: {fileID: 6934267981321558902, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: hasJournal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934267981321558902, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: loadLevelEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
     - target: {fileID: 6934267981431389839, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
       value: 
@@ -54532,6 +55032,10 @@ PrefabInstance:
       propertyPath: camDirector
       value: 
       objectReference: {fileID: 1872060255}
+    - target: {fileID: 3516024432467991317, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
+      propertyPath: journalEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
     - target: {fileID: 3516024432467991317, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
       propertyPath: playCutscene
       value: 1

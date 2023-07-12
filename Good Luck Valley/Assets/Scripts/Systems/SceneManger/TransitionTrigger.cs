@@ -17,10 +17,6 @@ public class TransitionTrigger : MonoBehaviour
     [SerializeField] private string levelToLoad;
     #endregion
 
-    #region PROPERTIES
-
-    #endregion
-
     private void Awake()
     {
     }
