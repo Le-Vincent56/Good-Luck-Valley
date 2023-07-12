@@ -68,9 +68,6 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void StartLoading()
     {
-        // Reset load triggers
-        loadLevelEvent.SetInLoadTrigger(false);
-
         // Set player position if necessary]
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
@@ -89,6 +86,9 @@ public class LoadLevel : MonoBehaviour
         }
 
         Debug.Log(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos);
+
+        // Reset load triggers
+        loadLevelEvent.SetInLoadTrigger(false);
 
         // Trigger start load event
         loadLevelEvent.StartLoad();
@@ -113,7 +113,6 @@ public class LoadLevel : MonoBehaviour
             {
                 cutsceneEvent.StartLotusCutscene();
             }
-            
         }
     }
 }
