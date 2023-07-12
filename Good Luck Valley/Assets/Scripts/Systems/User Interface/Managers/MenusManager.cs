@@ -565,9 +565,8 @@ public class MenusManager : MonoBehaviour
 
     #region FADING
     private IEnumerator FadeIn()
-    {   
-        float transparencyValue = (1 - (settings.Brightness / 100));
-        while (fadeSquare.color.a > transparencyValue)
+    {
+        while (fadeSquare.color.a > 0)
         {
             fadeSquare.color = new Color(fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.a - 0.01f);
             yield return null;
@@ -659,20 +658,10 @@ public class MenusManager : MonoBehaviour
             {
                 case 0:
                     brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
-                    if (brightness < .95f)
-                    {
-                        fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
-                        settings.Brightness = brightness;
-                    }
                     break;
 
                 case 1:
                     brightness = sliders[5].value;
-                    if (brightness < .95f)
-                    {
-                        fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
-                        settings.Brightness = brightness;
-                    }
                     break;
             }
             settingsSaved = false;
