@@ -21,6 +21,7 @@ public class RunningEffects : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<PlayerMovement>();
+        effectsParent = transform.GetChild(3).gameObject;
     }
 
     // Start is called before the first frame update
