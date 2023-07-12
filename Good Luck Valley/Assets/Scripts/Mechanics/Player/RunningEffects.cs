@@ -9,7 +9,7 @@ public class RunningEffects : MonoBehaviour
     private PlayerMovement player;
     private GameObject effectsParent;
     private VisualEffect grassParticles;
-    private VisualEffect 
+    private VisualEffect dirtParticles;
     #endregion
 
     #region FIELDS
