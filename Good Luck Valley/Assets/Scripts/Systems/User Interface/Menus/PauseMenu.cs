@@ -127,11 +127,6 @@ public class PauseMenu : MonoBehaviour, IData
     {
         if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen())
         {
-            if (AudioManager.Instance)
-            {
-                AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
-                AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
-            }
             Time.timeScale = 1f;
             SceneManager.LoadScene(scene);
         }
