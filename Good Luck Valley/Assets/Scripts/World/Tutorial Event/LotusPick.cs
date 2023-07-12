@@ -30,7 +30,7 @@ public class LotusPick : Interactable, IData
 
     void Update()
     {
-        Debug.Log(vineWall.activeSelf);
+        // Debug.Log(vineWall.activeSelf);
         // Check if interactable is triggered
         if (controlTriggered)
         {
