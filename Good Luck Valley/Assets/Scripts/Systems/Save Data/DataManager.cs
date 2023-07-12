@@ -44,7 +44,7 @@ public class DataManager : MonoBehaviour
         if(Instance != null)
         {
             // If there is, destroy this one to retain singleton design
-            Debug.LogError("Found more than one Data Manager in the scene. Destroying the newest one");
+            Debug.LogWarning("Found more than one Data Manager in the scene. Destroying the newest one");
             Destroy(gameObject);
             return;
         }
@@ -197,7 +197,7 @@ public class DataManager : MonoBehaviour
         // Start a new game if the data is null and we're configured to initialize data for debugging purposes
         if(gameData == null && initializeDataIfNull)
         {
-            Debug.Log("new game");
+            Debug.Log("New game");
             NewGame();
         }
 
