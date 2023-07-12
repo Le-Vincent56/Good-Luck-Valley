@@ -82,6 +82,7 @@ public class Journal : MonoBehaviour, IData
             pauseEvent.Pause();
             Time.timeScale = 0;
             openedFromKey = true;
+            canClose = true;
 
             // Sort journal entries by indexes
             notes.Sort((a, b) => a.JournalIndex.CompareTo(b.JournalIndex));
@@ -101,6 +102,7 @@ public class Journal : MonoBehaviour, IData
             menuOpen = true;
             journalCloseBuffer = 0.25f;
             journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
@@ -150,8 +152,10 @@ public class Journal : MonoBehaviour, IData
 
             journalUI.enabled = true;
             menuOpen = true;
+            canClose = true;
             journalCloseBuffer = 0.25f;
             journalEvent.SetJournalOpen(menuOpen);
+            journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
     }
@@ -167,6 +171,7 @@ public class Journal : MonoBehaviour, IData
             // Unfreeze the game - only if the journal was opened from key
             if(openedFromKey)
             {
+                pauseEvent.Unpause();
                 Time.timeScale = 1f;
             }
 
