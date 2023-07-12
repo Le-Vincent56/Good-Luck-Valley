@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class RunningEffects : MonoBehaviour
 {
     #region REFERENCES
     private PlayerMovement player;
+    private GameObject effectsParent;
+    private VisualEffect grassParticles;
+    private VisualEffect 
     #endregion
 
     #region FIELDS
