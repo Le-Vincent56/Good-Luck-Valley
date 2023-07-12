@@ -220,14 +220,35 @@ public class Journal : MonoBehaviour, IData
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
-        notes = data.notes;
+        // Clear the current notes
+        notes.Clear();
+
+        // Add notes according to their note data
+        foreach(NoteData noteData in data.notes)
+        {
+            notes.Add(new Note(noteData.id, noteData.noteTitle, noteData.textValue, noteData.contentTitle, noteData.journalIndex, noteData.noteAdded));
+        }
+
+        // Set if the player has the journal according to data
         hasJournal = data.hasJournal;
     }
 
     public void SaveData(GameData data)
     {
+        // Set the amount of notes collected
         data.numNotesCollected = notes.Count;
-        data.notes = notes;
+
+        // Save each note
+        foreach (Note note in notes)
+        {
+            NoteData savedNote = new NoteData(note.ID, note.NoteTitle, note.TextValue, note.ContentsTitle, note.JournalIndex, note.NoteAdded);
+            if (!data.notes.Contains(savedNote))
+            {
+                data.notes.Add(savedNote);
+            }
+        }
+
+        // Save if the player has the journal or not
         data.hasJournal = hasJournal;
     }
     #endregion
