@@ -35,7 +35,6 @@ public class RunningEffects : MonoBehaviour
         effects = new List<GameObject>(); 
         playerRB = GetComponent<Rigidbody2D>();
         effects.AddRange(GameObject.FindGameObjectsWithTag("PlayerEffects"));
-        Debug.Log(effects.Count);
         for (int i = 0;  i < effects.Count; i++)
         {
             if (effects[i].name == "Player Dust")
@@ -60,12 +59,10 @@ public class RunningEffects : MonoBehaviour
             switch (type)
             {
                 case TileType.Grass:
-                    Debug.Log("grass");
                     grassParticles.Play();
                     break;
 
                 case TileType.Dirt:
-                    Debug.Log("dirt");
                     dirtParticles.Play();
                     break;
             }
@@ -76,20 +73,16 @@ public class RunningEffects : MonoBehaviour
     {
         try
         {
-            Debug.Log("TileMap Name" + tilemap.GetTile(tilemap.WorldToCell(checkPos)).name);
             if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_d"))
             {
-                Debug.Log("dirt detected");
                 return TileType.Dirt;
             }
             else if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_g"))
             {
-                Debug.Log("grass detected");
                 return TileType.Grass;
             }
             else
             {
-                Debug.Log("default");
                 return TileType.Dirt;
             }
         }
