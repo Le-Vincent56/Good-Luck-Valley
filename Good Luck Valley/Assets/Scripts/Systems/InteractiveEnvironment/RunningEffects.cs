@@ -17,17 +17,16 @@ public class RunningEffects : MonoBehaviour
     #region REFERENCES
     private PlayerMovement player;
     private Rigidbody2D playerRB;
-    private VisualEffect leavesParticles;
-    private VisualEffect dustParticles;
-    private VisualEffect landLeavesParticles;
-    private VisualEffect landDustParticles;
     private Tilemap tilemap;
+    [SerializeField] private VisualEffect leavesParticles;
+    [SerializeField] private VisualEffect dustParticles;
+    [SerializeField] private VisualEffect landLeavesParticles;
+    [SerializeField] private VisualEffect landDustParticles;
     [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private GameObject groundCheckHardpoint;
     #endregion
 
     #region FIELDS
-    private List<GameObject> effects;
-    private GameObject groundCheckHardpoint;
     private bool createDustOnFall;
     [SerializeField] private float lowestSpeedForParticle;
     #endregion
@@ -38,36 +37,21 @@ public class RunningEffects : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<PlayerMovement>();
-        effects = new List<GameObject>(); 
         playerRB = GetComponent<Rigidbody2D>();
-        effects.AddRange(GameObject.FindGameObjectsWithTag("PlayerEffects"));
-        for (int i = 0;  i < effects.Count; i++)
-        {
-            if (effects[i].name == "Player Dust")
-            {
-                dustParticles = effects[i].GetComponent<VisualEffect>();
-            }
-            else if (effects[i].name == "Player Leaves")
-            {
-                leavesParticles = effects[i].GetComponent<VisualEffect>();
-            }
-            else if (effects[i].name == "Player Leaves Jump")
-            {
-                landLeavesParticles = effects[i].GetComponent<VisualEffect>();
-            }
-            else if (effects[i].name == "Player Dust Jump")
-            {
-                landDustParticles = effects[i].GetComponent<VisualEffect>();
-            }
-        }
+       
         tilemap = GameObject.Find("foreground").GetComponent<Tilemap>();
-        groundCheckHardpoint = transform.GetChild(4).gameObject;
     }
 
     private void OnEnable()
     {
         movementEvent.landEvent.AddListener(CheckLandParticle);
         movementEvent.jumpEvent.AddListener(PlayLandingEffect);
+    }
+
+    private void OnDisable()
+    {
+        movementEvent.landEvent.RemoveListener(CheckLandParticle);
+        movementEvent.jumpEvent.RemoveListener(PlayLandingEffect);
     }
 
     // Update is called once per frame
