@@ -17,7 +17,6 @@ public class MenusManager : MonoBehaviour
     private GameObject confirmationCheck2;
     private GameObject startButton;
     private GameObject deleteButton;
-    private SpriteRenderer fadeSquare;
     private static GameObject[] navButtons;
     private static GameObject[] textInputs;
     private static Slider[] sliders;
@@ -31,6 +30,7 @@ public class MenusManager : MonoBehaviour
     private Button settingsButton;
     private Button creditsButton;
     private Button exitGameButton;
+    private CanvasGroup canvasGroup;
     #endregion
 
     #region FIELDS
@@ -51,6 +51,8 @@ public class MenusManager : MonoBehaviour
     private static bool subtitlesEnabled;
     private static bool settingsSaved;
     private bool navScenes;
+    private bool fadingIn;
+    private bool fadingOut;
     #endregion
 
     #region PROPERTIES
@@ -159,14 +161,11 @@ public class MenusManager : MonoBehaviour
         // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false)
         {
-            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            //Dont fade
         }
-        else if (currentScene != 0 && currentScene <= 5)
+        else if (currentScene <= 5)
         {
-            if (deleteConfirmation)
-            {
-                StartCoroutine(FadeIn());
-            }
+            StartCoroutine(FadeIn());
         }
     }
 
@@ -246,6 +245,8 @@ public class MenusManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("SCENE LOADED");
+
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
@@ -257,20 +258,16 @@ public class MenusManager : MonoBehaviour
 
         // Fades between scenes
         #region FADING BETWEEN SCENES
-        // Get reference to the square used for fading  
-        fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
 
         // Set fading in to true so that the square will turn transparent
         fadeIn = true;
 
-        // Set the initial values of the square's color, black with full transparency
-        fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
-
         if (currentScene <= 5)
         {
-            // If the scene is 0, title screen, then set fade in to false
-            // cuz we shouldn't fade in when loading the title screen
-            fadeIn = false;
+            canvasGroup = GameObject.Find("Canvas").GetComponent<CanvasGroup>();
+
+            // Set the initial values of the square's color, black with full transparency
+            canvasGroup.alpha = 0f;
         }
         #endregion
 
@@ -566,32 +563,31 @@ public class MenusManager : MonoBehaviour
     #region FADING
     private IEnumerator FadeIn()
     {
-        while (fadeSquare.color.a > 0)
+        while (canvasGroup.alpha < 1)
         {
-            fadeSquare.color = new Color(fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.a - 0.01f);
+            Debug.Log("fading in");
+            canvasGroup.alpha += 0.01f;
             yield return null;
         }
     }
 
     private IEnumerator FadeOut()
     {
-        while (fadeSquare.color.a < 1)
+        while (canvasGroup.alpha > 0)
         {
-            fadeSquare.color = new Color(fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.a + 0.01f);
-            if (fadeSquare.color.a >= 1)
-            {
-                navScenes = true;
-            }
+            canvasGroup.alpha -= 0.01f;
             yield return null;
         }
+        navScenes = true;
     }
 
     public void CheckFade(int sceneToLoad)
     {
+        Debug.Log(settingsSaved);
         if (settingsSaved)
         {
-            StartCoroutine(FadeOut());
             sceneLoadNum = sceneToLoad;
+            StartCoroutine(FadeOut());
         }
     }
     #endregion
