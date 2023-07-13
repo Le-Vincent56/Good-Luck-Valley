@@ -12,6 +12,13 @@ using UnityEngine.VFX;
 
 public class PlayerMovement : MonoBehaviour, IData
 {
+    enum TileType
+    {
+        Grass,
+        Dirt
+    }
+        
+
     #region REFERENCES
     [SerializeField] private PlayerData data;
     [SerializeField] private MovementScriptableObj movementEvent;
@@ -32,6 +39,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	private DevTools devTools;
 	private Settings settings;
     private VisualEffect dust;
+    private VisualEffect grass;
     #endregion
 
     #region FIELDS
@@ -100,7 +108,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
-        dust = GetComponentInChildren<VisualEffect>();
 	}
 
     private void OnEnable()
@@ -752,27 +759,18 @@ public class PlayerMovement : MonoBehaviour, IData
 
 		// Add the force to the Player's RigidBody
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-        CreateDust();
         createDustOnFall = true;
 		#endregion
 	}
-
-    /// <summary>
-    /// Creates dust particles on jump/land
-    /// </summary>
-    private void CreateDust()
-    {
-        dust.Play();
-    }
-	#endregion
+    #endregion
 
     // CHECK METHODS
-	#region CHECK METHODS
-	/// <summary>
-	/// Check which direction the Player is facing
-	/// </summary>
-	/// <param name="isMovingRight">A boolean representing which direction the Player is moving</param>
-	public void CheckDirectionToFace(bool isMovingRight)
+    #region CHECK METHODS
+    /// <summary>
+    /// Check which direction the Player is facing
+    /// </summary>
+    /// <param name="isMovingRight">A boolean representing which direction the Player is moving</param>
+    public void CheckDirectionToFace(bool isMovingRight)
 	{
         if (isMovingRight != isFacingRight)
 		{
@@ -968,11 +966,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Land()
     {
-        if (createDustOnFall)
-        {
-            CreateDust();
-            createDustOnFall = false;
-        }
+
     }
 	#endregion
 

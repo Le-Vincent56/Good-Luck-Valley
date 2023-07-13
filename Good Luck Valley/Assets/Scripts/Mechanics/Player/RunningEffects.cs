@@ -10,20 +10,26 @@ public class RunningEffects : MonoBehaviour
     enum TileType
     { 
         Grass,
-        Dirt
+        Dirt,
+        None
     }
 
     #region REFERENCES
     private PlayerMovement player;
     private Rigidbody2D playerRB;
-    private VisualEffect grassParticles;
-    private VisualEffect dirtParticles;
+    private VisualEffect leavesParticles;
+    private VisualEffect dustParticles;
+    private VisualEffect landLeavesParticles;
+    private VisualEffect landDustParticles;
     private Tilemap tilemap;
+    [SerializeField] private MovementScriptableObj movementEvent;
     #endregion
 
     #region FIELDS
     private List<GameObject> effects;
-    private Vector2 checkPos;
+    private GameObject groundCheckHardpoint;
+    private bool createDustOnFall;
+    [SerializeField] private float lowestSpeedForParticle;
     #endregion
 
     #region PROPERTIES
@@ -39,57 +45,130 @@ public class RunningEffects : MonoBehaviour
         {
             if (effects[i].name == "Player Dust")
             {
-                dirtParticles = effects[i].GetComponent<VisualEffect>();
+                dustParticles = effects[i].GetComponent<VisualEffect>();
             }
             else if (effects[i].name == "Player Leaves")
             {
-                grassParticles = effects[i].GetComponent<VisualEffect>();
+                leavesParticles = effects[i].GetComponent<VisualEffect>();
+            }
+            else if (effects[i].name == "Player Leaves Jump")
+            {
+                landLeavesParticles = effects[i].GetComponent<VisualEffect>();
+            }
+            else if (effects[i].name == "Player Dust Jump")
+            {
+                landDustParticles = effects[i].GetComponent<VisualEffect>();
             }
         }
         tilemap = GameObject.Find("foreground").GetComponent<Tilemap>();
+        groundCheckHardpoint = transform.GetChild(4).gameObject;
+    }
+
+    private void OnEnable()
+    {
+        movementEvent.landEvent.AddListener(CheckLandParticle);
+        movementEvent.jumpEvent.AddListener(PlayLandingEffect);
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkPos = transform.position - new Vector3(0, 1.5f, 0);
-        if (player.IsMoving && player.IsGrounded)
+        CheckRunParticle();
+        if (player.IsGrounded == false)
+        {
+            createDustOnFall = true;
+        }
+    }
+
+    /// <summary>
+    /// Checks the type of tile anari is standing on
+    /// </summary>
+    /// <returns></returns>
+    private TileType CheckTileMap()
+    {
+        try
+        {
+            if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_d"))
+            {
+                Debug.Log("hi");
+                return TileType.Dirt;
+            }
+            else if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_g"))
+            {
+                Debug.Log("what");
+                return TileType.Grass;
+            }
+            else
+            {
+                Debug.Log("_+_+_+_+_");
+                return TileType.None;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Failed to read tilemap. No particle will play. Message: " + e.Message);
+            return TileType.None;
+        }
+    }
+
+    /// <summary>
+    /// Checks which particle to play when player lands
+    /// </summary>
+    private void CheckLandParticle()
+    {
+        if (createDustOnFall)
+        {
+            PlayLandingEffect();
+        }
+        createDustOnFall = false;
+    }
+
+    /// <summary>
+    /// Check which particle to play when the player runs
+    /// </summary>
+    private void CheckRunParticle()
+    {
+        if (Mathf.Abs(playerRB.velocity.x) > lowestSpeedForParticle && player.IsGrounded)
         {
             TileType type = CheckTileMap();
             switch (type)
             {
                 case TileType.Grass:
-                    grassParticles.Play();
+                    leavesParticles.Play();
                     break;
 
                 case TileType.Dirt:
-                    dirtParticles.Play();
+                    dustParticles.Play();
+                    break;
+
+                case TileType.None:
                     break;
             }
-        }    
+        }
     }
 
-    private TileType CheckTileMap()
+    /// <summary>
+    /// Checks which particle to play when player lands, if we want different effects for jump and land
+    /// </summary>
+    //private void CheckJumpParticle()
+    //{
+    //}
+
+    private void PlayLandingEffect()
     {
-        try
+        TileType type = CheckTileMap();
+        switch (type)
         {
-            if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_d"))
-            {
-                return TileType.Dirt;
-            }
-            else if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_g"))
-            {
-                return TileType.Grass;
-            }
-            else
-            {
-                return TileType.Dirt;
-            }
-        }
-        catch
-        {
-            Debug.LogWarning("Failed to read tilemap.");
-            return TileType.Dirt;
+            case TileType.Grass:
+                landLeavesParticles.Play();
+                break;
+
+            case TileType.Dirt:
+                landDustParticles.Play();
+                break;
+
+            case TileType.None:
+                break;
         }
     }
 }
