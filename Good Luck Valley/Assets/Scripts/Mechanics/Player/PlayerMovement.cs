@@ -113,6 +113,8 @@ public class PlayerMovement : MonoBehaviour, IData
         disableEvent.lockPlayerEvent.AddListener(LockMovement);
         disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
         disableEvent.stopInputEvent.AddListener(StopInput);
+        disableEvent.disablePlayerInputEvent.AddListener(DisableInput);
+        disableEvent.enablePlayerInputEvent.AddListener(EnableInput);
         loadLevelEvent.startLoad.AddListener(SetLoadPos);
         loadLevelEvent.startLoad.AddListener(LockMovement);
         loadLevelEvent.endLoad.AddListener(UnlockMovement);
@@ -130,6 +132,8 @@ public class PlayerMovement : MonoBehaviour, IData
         disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
         disableEvent.stopInputEvent.RemoveListener(StopInput);
+        disableEvent.disablePlayerInputEvent.RemoveListener(DisableInput);
+        disableEvent.enablePlayerInputEvent.RemoveListener(EnableInput);
         loadLevelEvent.startLoad.RemoveListener(SetLoadPos);
         loadLevelEvent.startLoad.RemoveListener(LockMovement);
         loadLevelEvent.endLoad.RemoveListener(UnlockMovement);
@@ -950,6 +954,16 @@ public class PlayerMovement : MonoBehaviour, IData
     {
         canInput = false;
         inputCooldown = cooldownData;
+    }
+
+    private void DisableInput()
+    {
+        canInput = false;
+    }
+
+    private void EnableInput()
+    {
+        canInput = true;
     }
 
     private void Land()
