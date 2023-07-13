@@ -141,6 +141,8 @@ public class MushroomManager : MonoBehaviour, IData
         pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);
         disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
+        disableEvent.disablePlayerInputEvent.AddListener(LockThrow);
+        disableEvent.enablePlayerInputEvent.AddListener(UnlockThrow);
         loadLevelEvent.startLoad.AddListener(LockThrow);
         loadLevelEvent.endLoad.AddListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
@@ -154,6 +156,8 @@ public class MushroomManager : MonoBehaviour, IData
         pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
         disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
+        disableEvent.disablePlayerInputEvent.RemoveListener(LockThrow);
+        disableEvent.enablePlayerInputEvent.RemoveListener(UnlockThrow);
         loadLevelEvent.startLoad.RemoveListener(LockThrow);
         loadLevelEvent.endLoad.RemoveListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.RemoveListener(LockThrow);

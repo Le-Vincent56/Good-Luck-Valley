@@ -14,6 +14,8 @@ public class DisableScriptableObj : ScriptableObject
     public UnityEvent lockPlayerEvent;
     public UnityEvent unlockPlayerEvent;
     public UnityEvent<float> stopInputEvent;
+    public UnityEvent disablePlayerInputEvent;
+    public UnityEvent enablePlayerInputEvent;
     #endregion
     #endregion
 
@@ -33,6 +35,16 @@ public class DisableScriptableObj : ScriptableObject
         if (stopInputEvent == null)
         {
             stopInputEvent = new UnityEvent<float>();
+        }
+
+        if (disablePlayerInputEvent == null)
+        {
+            disablePlayerInputEvent = new UnityEvent();
+        }
+
+        if (enablePlayerInputEvent == null)
+        {
+            enablePlayerInputEvent = new UnityEvent();
         }
         #endregion
     }
@@ -68,5 +80,15 @@ public class DisableScriptableObj : ScriptableObject
     public void StopInput()
     {
         stopInputEvent.Invoke(inputCooldown);
+    }
+
+    public void DisableInput()
+    {
+        disablePlayerInputEvent.Invoke();
+    }
+
+    public void EnableInput()
+    {
+        enablePlayerInputEvent.Invoke();
     }
 }
