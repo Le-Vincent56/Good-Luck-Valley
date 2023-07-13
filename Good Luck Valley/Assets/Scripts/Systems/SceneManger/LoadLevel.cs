@@ -14,6 +14,7 @@ public enum LEVELPOS
 public class LoadLevel : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private LevelDataObj levelDataObj;
@@ -80,11 +81,17 @@ public class LoadLevel : MonoBehaviour
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
             case LEVELPOS.ENTER:
+                // Reset player turn
+                movementEvent.ResetTurn();
+
                 loadingThroughCutscene = true;
                 cutsceneEvent.StartEnterCutscene();
                 break;
 
             case LEVELPOS.RETURN:
+                // Reset player turn
+                movementEvent.ResetTurn();
+
                 loadingThroughCutscene = true;
                 cutsceneEvent.StartEnterCutscene();
                 break;

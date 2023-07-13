@@ -10,6 +10,7 @@ public class CutsceneScriptableObj : ScriptableObject
     #region FIELDS
     [SerializeField] private PlayableAsset leaveCutscene;
     [SerializeField] private PlayableAsset enterCutscene;
+    [SerializeField] private bool enterCutsceneActive = false;
 
     #region EVENTS
     [System.NonSerialized]
@@ -114,6 +115,7 @@ public class CutsceneScriptableObj : ScriptableObject
     /// </summary>
     public void StartLeaveCutscene()
     {
+        enterCutsceneActive = true;
         startLeaveCutscene.Invoke();
     }
 
@@ -122,6 +124,7 @@ public class CutsceneScriptableObj : ScriptableObject
     /// </summary>
     public void StartEnterCutscene()
     {
+        enterCutsceneActive = true;
         startEnterCutscene.Invoke();
     }
 
@@ -130,6 +133,7 @@ public class CutsceneScriptableObj : ScriptableObject
     /// </summary>
     public void EndLeaveCutscene()
     {
+        enterCutsceneActive = false;
         endLeaveCutscene.Invoke();
     }
 
@@ -138,6 +142,7 @@ public class CutsceneScriptableObj : ScriptableObject
     /// </summary>
     public void EndEnterCutscene()
     {
+        enterCutsceneActive = false;
         endEnterCutscene.Invoke();
     }
 }

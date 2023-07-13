@@ -427,6 +427,9 @@ GameObject:
   - component: {fileID: 1310835840}
   - component: {fileID: 1310835841}
   - component: {fileID: 1310835857}
+  - component: {fileID: 8355761742207839243}
+  - component: {fileID: 1215084800303885987}
+  - component: {fileID: 8168050982135615402}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -984,6 +987,59 @@ CapsuleCollider2D:
   m_Offset: {x: -0.02029419, y: -0.34139907}
   m_Size: {x: 0.5, y: 0.50000006}
   m_Direction: 0
+--- !u!114 &8355761742207839243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203912908089909882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b270baa591ad194c8b05b3f5029aa23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneEvent: {fileID: 11400000, guid: 876f3bec107b97a4095b015d6d365fb3, type: 2}
+  playerDirector: {fileID: 0}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
+  loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
+--- !u!95 &1215084800303885987
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203912908089909882}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!320 &8168050982135615402
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203912908089909882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 0}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &9091228867239698347
 GameObject:
   m_ObjectHideFlags: 0

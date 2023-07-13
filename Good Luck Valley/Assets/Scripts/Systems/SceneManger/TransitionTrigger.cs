@@ -35,6 +35,9 @@ public class TransitionTrigger : MonoBehaviour
     {
        if (collision.gameObject.tag == "Player" && transition && loadLevelEvent.GetTriggersActive())
        {
+            // Set inside load trigger
+            loadLevelEvent.SetInLoadTrigger(true);
+
             // Set the cutscene event and play it
             cutsceneEvent.SetLeaveCutscene(cutsceneToPlayLeave);
             cutsceneEvent.SetEnterCutscene(cutsceneToPlayEnter);
