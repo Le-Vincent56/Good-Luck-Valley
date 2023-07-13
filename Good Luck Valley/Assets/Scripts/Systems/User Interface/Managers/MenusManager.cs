@@ -51,6 +51,8 @@ public class MenusManager : MonoBehaviour
     private static bool subtitlesEnabled;
     private static bool settingsSaved;
     private bool navScenes;
+    private bool fadingIn;
+    private bool fadingOut;
     #endregion
 
     #region PROPERTIES
@@ -169,7 +171,6 @@ public class MenusManager : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log("Canvas Alpha: " + canvasGroup.alpha);
         #region SAVE FILES SCENE HANDLING
 
         // Check if the current scene is 2, save files scene
@@ -562,9 +563,9 @@ public class MenusManager : MonoBehaviour
     #region FADING
     private IEnumerator FadeIn()
     {
-        Debug.Log("Fade In???");
-        while (canvasGroup.alpha <= 1)
+        while (canvasGroup.alpha < 1)
         {
+            Debug.Log("fading in");
             canvasGroup.alpha += 0.01f;
             yield return null;
         }
@@ -572,10 +573,9 @@ public class MenusManager : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
-        while (canvasGroup.alpha >= 0)
+        while (canvasGroup.alpha > 0)
         {
-            canvasGroup.alpha = canvasGroup.alpha - 0.01f;
-            Debug.Log("Alpha: " + canvasGroup.alpha);
+            canvasGroup.alpha -= 0.01f;
             yield return null;
         }
         navScenes = true;
