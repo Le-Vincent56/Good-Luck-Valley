@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BushRustleTest : MonoBehaviour
+public class InteractiveBush : MonoBehaviour
 {
     #region REFERENCES
     private Material mat;
@@ -49,7 +49,7 @@ public class BushRustleTest : MonoBehaviour
         rustling = true;
 
         float elapsedTime = 0;
-        while(elapsedTime < rustleDuration)
+        while (elapsedTime < rustleDuration)
         {
             elapsedTime += Time.deltaTime;
             float lerpAmount = Mathf.Lerp(minRustleValue, maxRustleValue, (elapsedTime / rustleDuration));
