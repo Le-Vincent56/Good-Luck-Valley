@@ -8,6 +8,7 @@ using UnityEngine.Events;
 public class LoadLevelScriptableObj : ScriptableObject
 {
     #region FIELDS
+    [SerializeField] private bool activeTriggers = false;
     [SerializeField] private bool isLoading = false;
     [SerializeField] private bool insideLoadTrigger = false;
 
@@ -33,6 +34,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether loading triggers are active or not
+    /// </summary>
+    /// <param name="triggersActive">Whether loading triggers are active or not</param>
+    public void SetTriggersActive(bool triggersActive)
+    {
+        activeTriggers = triggersActive;
+    }
+
+    /// <summary>
     /// Set whether the level is loading or not
     /// </summary>
     /// <param name="isLoading">Whether the level is loading or not</param>
@@ -48,6 +58,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     public void SetInLoadTrigger(bool insideLoadTrigger)
     {
         this.insideLoadTrigger = insideLoadTrigger;
+    }
+
+    /// <summary>
+    /// Get whether loading triggers are active or not
+    /// </summary>
+    /// <returns>Whether loading triggers are active or not</returns>
+    public bool GetTriggersActive()
+    {
+        return activeTriggers;
     }
 
     /// <summary>

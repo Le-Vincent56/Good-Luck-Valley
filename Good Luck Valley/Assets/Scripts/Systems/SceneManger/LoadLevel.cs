@@ -14,6 +14,7 @@ public enum LEVELPOS
 public class LoadLevel : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private LevelDataObj levelDataObj;
@@ -22,6 +23,7 @@ public class LoadLevel : MonoBehaviour
     #endregion
 
     #region FIELDS
+    [SerializeField] private bool loadingThroughCutscene = false;
     [SerializeField] private bool useLevelData = false;
     public float transitionTime = 1f;
     #endregion
@@ -30,20 +32,24 @@ public class LoadLevel : MonoBehaviour
     public bool UseLevelData { get { return useLevelData; } set { useLevelData = value; } }
     #endregion
 
+    /// <summary>
+    /// Load the next level
+    /// </summary>
     public void LoadNextLevel()
     {
-        // Save the level before loading
-        DataManager.Instance.SaveGame();
-
         StartCoroutine(LoadingLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
+    /// <summary>
+    /// Load the previous level
+    /// </summary>
     public void LoadPrevLevel()
     {
         // Save the level before loading
         DataManager.Instance.SaveGame();
 
         StartCoroutine(LoadingLevel(SceneManager.GetActiveScene().buildIndex - 1));
+
     }
 
     /// <summary>
@@ -59,6 +65,9 @@ public class LoadLevel : MonoBehaviour
         // Wait
         yield return new WaitForSeconds(transitionTime);
 
+        // De-activate triggers
+        loadLevelEvent.SetTriggersActive(false);
+
         // Load scene
         SceneManager.LoadScene(levelIndex);
     }
@@ -68,33 +77,34 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void StartLoading()
     {
-        // Set player position if necessary]
+        // Play the respective cutscenes depending on whether the player is entering, returning, or just loading in
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
             case LEVELPOS.ENTER:
-                DataManager.Instance.Data.levelData[SceneManager.GetActiveScene().name].playerPosition =
-                    levelDataObj.levelPosData[SceneManager.GetActiveScene().name].playerEnterPosition;
+                // Reset player turn
+                movementEvent.ResetTurn();
+
+                loadingThroughCutscene = true;
+                cutsceneEvent.StartEnterCutscene();
                 break;
 
             case LEVELPOS.RETURN:
-                DataManager.Instance.Data.levelData[SceneManager.GetActiveScene().name].playerPosition =
-                    levelDataObj.levelPosData[SceneManager.GetActiveScene().name].playerReturnPosition;
+                // Reset player turn
+                movementEvent.ResetTurn();
+
+                loadingThroughCutscene = true;
+                cutsceneEvent.StartEnterCutscene();
                 break;
 
             case LEVELPOS.DEFAULT:
                 break;
         }
 
-        Debug.Log(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos);
-
         // Reset load triggers
         loadLevelEvent.SetInLoadTrigger(false);
 
         // Trigger start load event
         loadLevelEvent.StartLoad();
-
-        // Save the game
-        DataManager.Instance.SaveGame();
     }
 
     /// <summary>
@@ -102,8 +112,17 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void EndLoading()
     {
+        // If loading through a cutscene, return so there's no overlap
+        if(loadingThroughCutscene)
+        {
+            return;
+        }
+
         // Trigger end load event
         loadLevelEvent.EndLoad();
+
+        // Save the game
+        DataManager.Instance.SaveGame();
 
         // Check to see if the lotus cutscene needs to be played
         PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();
@@ -114,5 +133,36 @@ public class LoadLevel : MonoBehaviour
                 cutsceneEvent.StartLotusCutscene();
             }
         }
+
+        // Set load triggers to be active
+        loadLevelEvent.SetTriggersActive(true);
+    }
+
+    /// <summary>
+    /// End loading for a level through a signal receiver - mainly for entering/leaving cutscenes
+    /// </summary>
+    public void EndLoadingAfterCutscene()
+    {
+        // Trigger end load event
+        loadLevelEvent.EndLoad();
+
+        // Check to see if the lotus cutscene needs to be played
+        PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();
+        if (camDirector != null)
+        {
+            if (camDirector.enabled)
+            {
+                cutsceneEvent.StartLotusCutscene();
+            }
+        }
+
+        // End the enter cutscene
+        cutsceneEvent.EndEnterCutscene();
+
+        // Set to false in case of future problems
+        loadingThroughCutscene = false;
+
+        // Set load triggers to be active
+        loadLevelEvent.SetTriggersActive(true);
     }
 }

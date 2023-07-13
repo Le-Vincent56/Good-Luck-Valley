@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour, IData
         Grass,
         Dirt
     }
-        
 
     #region REFERENCES
     [SerializeField] private PlayerData data;
@@ -48,6 +47,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isLocked = false;
     [SerializeField] private bool canInput = true;
+    [SerializeField] private bool canInputHard = true;
     [SerializeField] float fallingBuffer = 0.25f;
     [SerializeField] float landedTimer = 0f;
     [SerializeField] private float inputCooldown = 0.05f;
@@ -114,12 +114,15 @@ public class PlayerMovement : MonoBehaviour, IData
     {
         movementEvent.bounceEvent.AddListener(ApplyBounce);
         movementEvent.landEvent.AddListener(Land);
+        movementEvent.resetTurn.AddListener(ResetTurn);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
         pauseEvent.pauseEvent.AddListener(LockMovement);
         pauseEvent.unpauseEvent.AddListener(UnlockMovement);
         disableEvent.lockPlayerEvent.AddListener(LockMovement);
         disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
         disableEvent.stopInputEvent.AddListener(StopInput);
+        disableEvent.disablePlayerInputEvent.AddListener(DisableInput);
+        disableEvent.enablePlayerInputEvent.AddListener(EnableInput);
         loadLevelEvent.startLoad.AddListener(SetLoadPos);
         loadLevelEvent.startLoad.AddListener(LockMovement);
         loadLevelEvent.endLoad.AddListener(UnlockMovement);
@@ -131,12 +134,15 @@ public class PlayerMovement : MonoBehaviour, IData
     {
         movementEvent.bounceEvent.RemoveListener(ApplyBounce);
         movementEvent.landEvent.RemoveListener(Land);
+        movementEvent.resetTurn.RemoveListener(ResetTurn);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
         pauseEvent.pauseEvent.RemoveListener(LockMovement);
         pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
         disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
         disableEvent.stopInputEvent.RemoveListener(StopInput);
+        disableEvent.disablePlayerInputEvent.RemoveListener(DisableInput);
+        disableEvent.enablePlayerInputEvent.RemoveListener(EnableInput);
         loadLevelEvent.startLoad.RemoveListener(SetLoadPos);
         loadLevelEvent.startLoad.RemoveListener(LockMovement);
         loadLevelEvent.endLoad.RemoveListener(UnlockMovement);
@@ -724,6 +730,19 @@ public class PlayerMovement : MonoBehaviour, IData
 
         isFacingRight = !isFacingRight;
 	}
+
+    /// <summary>
+    /// Reset the way the player is looking
+    /// </summary>
+    public void ResetTurn()
+    {
+        // Resets the scale
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x);
+        transform.localScale = scale;
+
+        isFacingRight = true;
+    }
 	#endregion
 
     // JUMP METHODS
@@ -848,7 +867,7 @@ public class PlayerMovement : MonoBehaviour, IData
     public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
-        if (!isLocked)
+        if (!isLocked && canInputHard)
         {
 			// Set the move input to the value returned by context
 			moveInput = context.ReadValue<Vector2>();
@@ -948,6 +967,18 @@ public class PlayerMovement : MonoBehaviour, IData
     {
         canInput = false;
         inputCooldown = cooldownData;
+    }
+
+    private void DisableInput()
+    {
+        canInput = false;
+        canInputHard = false;
+    }
+
+    private void EnableInput()
+    {
+        canInput = true;
+        canInputHard = true;
     }
 
     private void Land()

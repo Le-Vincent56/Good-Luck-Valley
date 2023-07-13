@@ -25,6 +25,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     public UnityEvent<Vector3, ForceMode2D> bounceEvent;
     public UnityEvent bounceAnimationEvent;
     public UnityEvent<float, float, bool> footstepEvent;
+    public UnityEvent resetTurn;
     #endregion
     #endregion
 
@@ -65,6 +66,11 @@ public class MovementScriptableObj : ScriptableObject, IData
         if (footstepEvent == null)
         {
             footstepEvent = new UnityEvent<float, float, bool>();
+        }
+
+        if(resetTurn == null)
+        {
+            resetTurn = new UnityEvent();
         }
         #endregion
     }
@@ -251,6 +257,14 @@ public class MovementScriptableObj : ScriptableObject, IData
     {
         bounceEvent.Invoke(forceToApply, forceType);
         bounceAnimationEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger events relating to resetting the player turn direction
+    /// </summary>
+    public void ResetTurn()
+    {
+        resetTurn.Invoke();
     }
 
     #region DATA HANDLING
