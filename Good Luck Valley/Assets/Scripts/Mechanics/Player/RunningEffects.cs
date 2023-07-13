@@ -27,8 +27,7 @@ public class RunningEffects : MonoBehaviour
 
     #region FIELDS
     private List<GameObject> effects;
-    private Vector2 checkPos;
-    [SerializeField] private float playerToGroundDistance;
+    private GameObject groundCheckHardpoint;
     private bool createDustOnFall;
     [SerializeField] private float lowestSpeedForParticle;
     #endregion
@@ -62,22 +61,21 @@ public class RunningEffects : MonoBehaviour
             }
         }
         tilemap = GameObject.Find("foreground").GetComponent<Tilemap>();
+        groundCheckHardpoint = transform.GetChild(4).gameObject;
     }
 
     private void OnEnable()
     {
         movementEvent.landEvent.AddListener(CheckLandParticle);
-        movementEvent.jumpEvent.AddListener(CheckJumpParticle);
+        movementEvent.jumpEvent.AddListener(PlayLandingEffect);
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkPos = transform.position - new Vector3(0, playerToGroundDistance, 0);
         CheckRunParticle();
         if (player.IsGrounded == false)
         {
-            Debug.Log("Is grounded has been set to false");
             createDustOnFall = true;
         }
     }
@@ -90,14 +88,14 @@ public class RunningEffects : MonoBehaviour
     {
         try
         {
-            Debug.Log("Position: " + checkPos);
-            Debug.Log(tilemap.GetTile(tilemap.WorldToCell(checkPos)));
-            if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_d"))
+            if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_d"))
             {
+                Debug.Log("hi");
                 return TileType.Dirt;
             }
-            else if (tilemap.GetTile(tilemap.WorldToCell(checkPos)).name.Contains("_g"))
+            else if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_g"))
             {
+                Debug.Log("what");
                 return TileType.Grass;
             }
             else
@@ -120,23 +118,7 @@ public class RunningEffects : MonoBehaviour
     {
         if (createDustOnFall)
         {
-            TileType type = CheckTileMap();
-            switch (type)
-            {
-                case TileType.Grass:
-                    Debug.Log("Fall Grass Playing");
-                    landLeavesParticles.Play();
-                    break;
-
-                case TileType.Dirt:
-                    Debug.Log("Fall Dirt Playing");
-                    landDustParticles.Play();
-                    break;
-
-                case TileType.None:
-                    Debug.Log("No particle playing");
-                    break;
-            }
+            PlayLandingEffect();
         }
         createDustOnFall = false;
     }
@@ -152,42 +134,40 @@ public class RunningEffects : MonoBehaviour
             switch (type)
             {
                 case TileType.Grass:
-                    Debug.Log("Run Grass Playing");
                     leavesParticles.Play();
                     break;
 
                 case TileType.Dirt:
-                    Debug.Log("Run Dirt Playing");
                     dustParticles.Play();
                     break;
 
                 case TileType.None:
-                    Debug.Log("No particle playing");
                     break;
             }
         }
     }
 
     /// <summary>
-    /// Checks which particle to play when player lands
+    /// Checks which particle to play when player lands, if we want different effects for jump and land
     /// </summary>
-    private void CheckJumpParticle()
+    //private void CheckJumpParticle()
+    //{
+    //}
+
+    private void PlayLandingEffect()
     {
         TileType type = CheckTileMap();
         switch (type)
         {
             case TileType.Grass:
-                Debug.Log("Jump Grass Playing");
                 landLeavesParticles.Play();
                 break;
 
             case TileType.Dirt:
-                Debug.Log("Jump Dirt Playing");
                 landDustParticles.Play();
                 break;
 
             case TileType.None:
-                Debug.Log("No particle playing");
                 break;
         }
     }
