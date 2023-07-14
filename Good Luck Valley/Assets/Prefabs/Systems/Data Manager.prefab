@@ -44,10 +44,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b760406516752440ba8592a9b9f1471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameData:
+    lastUpdated: 0
+    playtimeTotal: 0
+    playtimeString: 0:00:00
+    isGrounded: 0
+    isJumping: 0
+    isFalling: 0
+    levelData:
+      keys:
+      - Prologue
+      - Level 1
+      values:
+      - levelPos: 1
+        playerPosition: {x: -27.46, y: 7.85, z: 0}
+        playCutscene: 1
+        notesCollected:
+          keys: []
+          values: 
+        assetsActive:
+          keys:
+          - d36a4464-bcf2-4133-933e-edcc3f1c12e8
+          - cfcb25a9-c90c-4001-8b02-f3709a9e417d
+          - 94f7a370-3732-44b5-8ef7-966b10c051e3
+          - 62d1a4a9-3861-42b1-b0aa-06684d32d1f2
+          - f229ac6e-1474-412e-b4f5-d62b0e1f8dff
+          - 3b83efc7-7f42-4edf-ba58-78df7032e497
+          - 130aa8b9-595d-47f2-96bb-54818ee26ef9
+          values: 01010101010101
+      - levelPos: 1
+        playerPosition: {x: -39.82, y: 6.31, z: 0}
+        playCutscene: 1
+        notesCollected:
+          keys:
+          - 70958600-3752-40de-94a1-545b7409b81b
+          - 6f1373e1-ac5f-45f5-825a-fe053b549b38
+          - 3ccfd056-3a6d-4c19-ae95-636382b4d5c7
+          - 816acec3-2d35-4019-bdd1-d73ff1902243
+          - c090b985-6611-4398-8794-995eccae309e
+          - aec1c7d8-92c4-4190-9d37-531aae631fe9
+          - 4152cb73-9f26-473e-9e24-2dfccdb51401
+          - 48bd0adf-8c03-4261-b6ff-d9824eaf9750
+          values: 0000000000000000
+        assetsActive:
+          keys:
+          - dd57ac64-ca88-4a0e-b33b-c9fd6faccb49
+          values: 01
+    currentLevelName: Prologue
+    throwUnlocked: 0
+    numNotesCollected: 0
+    notes: []
+    hasJournal: 1
   actions: {fileID: -944628639613478452, guid: 4832bb4af7bdd7547b345e2e4fd4c2bd, type: 3}
   fileName: PlayerSave.json
   settingsFileName: SettingsSave.json
   useEncryption: 1
-  initializeDataIfNull: 0
+  initializeDataIfNull: 1
   useAutoSave: 0
   autoSaveTimeSeconds: 60

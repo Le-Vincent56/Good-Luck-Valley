@@ -17,9 +17,11 @@ public class LotusPick : Interactable, IData
     [SerializeField] private float fadeAmount;
     #endregion
 
+
+
+
     void Start()
     {
-        vineWall = GameObject.Find("lotus wall");
 
         remove = false;
         if (fadeAmount == 0)

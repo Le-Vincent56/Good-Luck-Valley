@@ -58,7 +58,7 @@ public class CameraManager : MonoBehaviour, IData
         // If play cutscene is disabled, disable the cam director
         if (!playCutscene)
         {
-            camDirector.enabled = false;
+            camDirector.enabled = false;    
         }
     }
 
@@ -70,6 +70,7 @@ public class CameraManager : MonoBehaviour, IData
             lotusCam.enabled = true;
 
             camDirector.Play();
+            Debug.Log("Cutscene Play");
             StartCoroutine(PlayLotusCutscene());
         }
     }
