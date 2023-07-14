@@ -545,6 +545,15 @@ public class MenusManager : MonoBehaviour
     {
         if (settingsSaved)
         {
+            // Work on this for after rockstar :D
+            //if (currentScene == 3)
+            //{
+            //    foreach (GameObject menuPanel in GameObject.FindGameObjectsWithTag("MenuPanel"))
+            //    {
+            //        menuPanel.SetActive(false);
+            //    }
+            //}
+
             if (currentScene <= 4)
             StartCoroutine(FadeOut());
             sceneLoadNum = previousScene;
@@ -566,7 +575,7 @@ public class MenusManager : MonoBehaviour
         while (canvasGroup.alpha < 1)
         {
             Debug.Log("fading in");
-            canvasGroup.alpha += 0.01f;
+            canvasGroup.alpha += 0.1f;
             yield return null;
         }
     }
@@ -575,7 +584,7 @@ public class MenusManager : MonoBehaviour
     {
         while (canvasGroup.alpha > 0)
         {
-            canvasGroup.alpha -= 0.01f;
+            canvasGroup.alpha -= 0.1f;
             yield return null;
         }
         navScenes = true;
