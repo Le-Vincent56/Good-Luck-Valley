@@ -53,6 +53,7 @@ public class MenusManager : MonoBehaviour
     private bool navScenes;
     private bool fadingIn;
     private bool fadingOut;
+    private GameObject menuParent;
     #endregion
 
     #region PROPERTIES
