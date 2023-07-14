@@ -70,6 +70,7 @@ public class CameraManager : MonoBehaviour, IData
             lotusCam.enabled = true;
 
             camDirector.Play();
+            Debug.Log("Cutscene Play");
             StartCoroutine(PlayLotusCutscene());
         }
     }
