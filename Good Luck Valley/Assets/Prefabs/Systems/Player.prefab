@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 8355761742207839243}
   - component: {fileID: 1215084800303885987}
   - component: {fileID: 8168050982135615402}
+  - component: {fileID: 1310835855}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -543,6 +544,7 @@ MonoBehaviour:
   isGrounded: 0
   isLocked: 0
   canInput: 1
+  canInputHard: 1
   fallingBuffer: 0.15
   landedTimer: 0
   inputCooldown: 0.05
@@ -1034,14 +1036,45 @@ PlayableDirector:
   m_GameObject: {fileID: 7203912908089909882}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 0}
+  m_PlayableAsset: {fileID: 11400000, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
-  m_SceneBindings: []
+  m_SceneBindings:
+  - key: {fileID: 514288493317156277, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
+    value: {fileID: 1215084800303885987}
+  - key: {fileID: 7471364732745245195, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
+    value: {fileID: 194225542}
+  - key: {fileID: -1383747830014298737, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 514288493317156277, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 7471364732745245195, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -7813174953043516010, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &1310835855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203912908089909882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7885fbc49380dd4c94406a8e746efa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leavesParticles: {fileID: 229647803}
+  dustParticles: {fileID: 1324947139}
+  landLeavesParticles: {fileID: 7352382603728157341}
+  landDustParticles: {fileID: 461840233086944339}
+  movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  groundCheckHardpoint: {fileID: 9091228867239698347}
+  lowestSpeedForParticle: 0.01
 --- !u!1 &9091228867239698347
 GameObject:
   m_ObjectHideFlags: 0
