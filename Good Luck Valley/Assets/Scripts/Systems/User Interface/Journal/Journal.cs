@@ -121,9 +121,12 @@ public class Journal : MonoBehaviour, IData
         // Check if the menu is open
         if(menuOpen && canClose)
         {
-            // Unpause the game
-            pauseEvent.Unpause();
-            Time.timeScale = 1f;
+            // Unpause the game - as long as the pause menu isn't open
+            if(!pauseEvent.GetPauseMenuOpen())
+            {
+                pauseEvent.Unpause();
+                Time.timeScale = 1f;
+            }
 
             // Close the journal UI and set menuOpen to false
             journalUI.enabled = false;
@@ -174,9 +177,9 @@ public class Journal : MonoBehaviour, IData
         if (menuOpen && canClose)
         {
             // Unfreeze the game - only if the journal was opened from key
-            if(openedFromKey)
+            if(openedFromKey && !pauseEvent.GetPauseMenuOpen())
             {
-                //pauseEvent.Unpause();
+                pauseEvent.Unpause();
                 Time.timeScale = 1f;
             }
 
