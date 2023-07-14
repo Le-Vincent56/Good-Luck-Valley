@@ -228,7 +228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7691238257605692383}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.9767838, y: 0.02802658, z: 0}
+  m_LocalPosition: {x: -0.00050354004, y: 0.73714066, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -388,7 +388,8 @@ GameObject:
   - component: {fileID: 7691238258581287216}
   - component: {fileID: 7691238258581287180}
   - component: {fileID: -1367331021242656641}
-  - component: {fileID: 4490143501759617804}
+  - component: {fileID: 1080154718}
+  - component: {fileID: 1080154724}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -443,7 +444,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 4.5
-  m_Depth: -1
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 2147483647
@@ -516,7 +517,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -539,7 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
---- !u!320 &4490143501759617804
+--- !u!320 &1080154718
 PlayableDirector:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -548,20 +549,95 @@ PlayableDirector:
   m_GameObject: {fileID: 7691238258581287217}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: f793530c74a23fa4f8eb52171481e69e, type: 2}
-  m_InitialState: 1
+  m_PlayableAsset: {fileID: 11400000, guid: bb8d89d759c8eab4cb19e7b1895bba2c, type: 2}
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
-  - key: {fileID: -7086707986967096586, guid: f793530c74a23fa4f8eb52171481e69e, type: 2}
+  - key: {fileID: -8537984659958667978, guid: 32cf77d56db29bd49b5d71ec0c5d2361, type: 2}
+    value: {fileID: 7691238258581287216}
+  - key: {fileID: -7086707986967096586, guid: bb8d89d759c8eab4cb19e7b1895bba2c, type: 2}
     value: {fileID: 7691238258581287216}
   m_ExposedReferences:
     m_References:
-    - 2fd75f27e189ae84099db7ffef24197c: {fileID: 7691238257605692380}
-    - b795ee06406ac3245beb5315512c132d: {fileID: 7691238257605692380}
-    - 0f956b52fd31dd7408fb29768e508883: {fileID: 7691238257605692380}
-    - a329c99739e26c249b76da7cf959ea3e: {fileID: 0}
+    - f747bd46d37dcdd4c84a09e863b81548: {fileID: 0}
+    - 0bf355b676407954a8e5ddd26e7ff7a3: {fileID: 0}
+    - 3c43ee392c563b640a23e324c1e3c39a: {fileID: 0}
+    - 9ed494c2e3a4ecf4d8452148f2b34d13: {fileID: 7691238257605692380}
+    - 23ee6396d4e04fc439cd19c63ac7beb8: {fileID: 7691238257605692380}
+    - 48a0873ce7edb3841b818baa3e70782a: {fileID: 7691238257605692380}
+    - 09344f472a1f2fe4d84e42446f1f470e: {fileID: 7691238257605692380}
+    - 103516ca23f3d8045bd142676e08b6a5: {fileID: 7691238257605692380}
+    - 63f01618ce94467488aaa835e8644fc2: {fileID: 7691238257605692380}
+    - 54db772c895e8cc4f88dcd513448a605: {fileID: 0}
+    - 74d507a9d18061d478c3af811bce6665: {fileID: 7691238257605692380}
+    - 91464db0d950fd54fa9171e3e599078a: {fileID: 0}
+    - 5ce751294816b6449b61016107ba3762: {fileID: 0}
+    - 7e1b9d365aae54c4491501226b553f7a: {fileID: 0}
+    - 08a4ba4e836fad249a1f937db0478dd9: {fileID: 0}
+    - 6187850936d10cd41944b148ea3d9cae: {fileID: 7691238257605692380}
+    - 3f46ee346fe4d6f4e9742063d9cb1792: {fileID: 0}
+--- !u!114 &1080154724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691238258581287217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 7691238258581287181}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 1
+  m_ShowCustomSorter: 1
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1 &7691238258671280091
 GameObject:
   m_ObjectHideFlags: 0
