@@ -267,6 +267,21 @@ public class MovementScriptableObj : ScriptableObject, IData
         resetTurn.Invoke();
     }
 
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        isGrounded = false;
+        isJumping = false;
+        isFalling = false;
+        isLanding = false;
+        isBouncing = false;
+        isBounceAnimating = false;
+        movementDirection = Vector3.zero;
+        inputDirection = Vector3.zero;
+    }
+
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
