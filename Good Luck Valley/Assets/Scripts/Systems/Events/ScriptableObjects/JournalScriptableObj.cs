@@ -46,6 +46,7 @@ public class JournalScriptableObj : ScriptableObject
     /// <param name="hasJournal">Whether the player has the Journal</param>
     public void SetHasJournal(bool hasJournal)
     {
+        Debug.Log(hasJournal);
         this.hasJournal = hasJournal;
     }
 
