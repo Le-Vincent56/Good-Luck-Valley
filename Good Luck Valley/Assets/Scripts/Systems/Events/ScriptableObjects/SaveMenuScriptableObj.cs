@@ -69,4 +69,13 @@ public class SaveMenuScriptableObj : ScriptableObject
     {
         activateSaveMenuEvent.Invoke();
     }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        saveMenuOpen = false;
+        saveCloseBuffer = 0.25f;
+    }
 }

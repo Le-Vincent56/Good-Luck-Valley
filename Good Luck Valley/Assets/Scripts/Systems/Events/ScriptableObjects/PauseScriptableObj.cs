@@ -106,4 +106,14 @@ public class PauseScriptableObj : ScriptableObject
         paused = false;
         unpauseEvent.Invoke();
     }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        canPause = true;
+        paused = false;
+        pauseMenuOpen = false;
+    }
 }

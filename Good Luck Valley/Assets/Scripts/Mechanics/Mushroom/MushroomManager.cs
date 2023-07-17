@@ -590,7 +590,9 @@ public class MushroomManager : MonoBehaviour, IData
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
+        // Set whether or not the player has their throw unlocked depending on data
         throwUnlocked = data.throwUnlocked;
+        mushroomEvent.SetThrowUnlocked(throwUnlocked);
 
         // Load throwing data - setting throwing to false for animations
         mushroomEvent.LoadData(data);

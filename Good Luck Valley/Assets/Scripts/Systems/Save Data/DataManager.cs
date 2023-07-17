@@ -9,6 +9,14 @@ using UnityEngine.InputSystem;
 public class DataManager : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private SaveMenuScriptableObj saveMenuEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
     [SerializeField] private GameData gameData;
     private SettingsData settingsData;
     [SerializeField] private List<IData> dataObjects;
@@ -124,7 +132,8 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
-        Debug.Log("New Game");
+        // Reset scriptable objects
+        ResetScriptableObjs();
 
         // Gets rebinds so that starting a new game doesn't mess up keybinds
         string rebinds = PlayerPrefs.GetString("rebinds");
@@ -296,6 +305,21 @@ public class DataManager : MonoBehaviour
     {
         // Return if settingsData is null or not
         return settingsData != null;
+    }
+
+    /// <summary>
+    /// Reset scriptable objects
+    /// </summary>
+    public void ResetScriptableObjs()
+    {
+        movementEvent.ResetObj();
+        mushroomEvent.ResetObj();
+        disableEvent.ResetObj();
+        cutsceneEvent.ResetObj();
+        loadLevelEvent.ResetObj();
+        pauseEvent.ResetObj();
+        saveMenuEvent.ResetObj();
+        journalEvent.ResetObj();
     }
 
     /// <summary>
