@@ -56,14 +56,17 @@ public class Journal : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
-        if(!hasJournal)
+        Debug.Log("Has Journal?: " + journalEvent.GetHasJournal());
+        if (!journalEvent.GetHasJournal())
         {
+            hasJournal = false;
             pauseJournalButton.interactable = false;
             Color jColor = pauseJournalButton.GetComponent<Image>().color;
             pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 0.3f);
         } 
         else
         {
+            hasJournal = true;
             pauseJournalButton.interactable = true;
             Color jColor = pauseJournalButton.GetComponent<Image>().color;
             pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 1f);
