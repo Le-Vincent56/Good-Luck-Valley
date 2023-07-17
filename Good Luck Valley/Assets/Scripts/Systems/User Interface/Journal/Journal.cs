@@ -60,9 +60,9 @@ public class Journal : MonoBehaviour, IData
         if(!hasJournal)
         {
             pauseJournalButton.interactable = false;
-        } else
+        } 
+        else
         {
-            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.selectedColor;
             pauseJournalButton.interactable = true;
         }
 
