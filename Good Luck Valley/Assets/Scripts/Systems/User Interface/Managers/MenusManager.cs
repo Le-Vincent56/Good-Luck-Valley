@@ -17,7 +17,6 @@ public class MenusManager : MonoBehaviour
     private GameObject confirmationCheck2;
     private GameObject startButton;
     private GameObject deleteButton;
-    private SpriteRenderer fadeSquare;
     private static GameObject[] navButtons;
     private static GameObject[] textInputs;
     private static Slider[] sliders;
@@ -31,6 +30,7 @@ public class MenusManager : MonoBehaviour
     private Button settingsButton;
     private Button creditsButton;
     private Button exitGameButton;
+    private CanvasGroup canvasGroup;
     #endregion
 
     #region FIELDS
@@ -51,15 +51,19 @@ public class MenusManager : MonoBehaviour
     private static bool subtitlesEnabled;
     private static bool settingsSaved;
     private bool navScenes;
+    private bool fadingIn;
+    private bool fadingOut;
+    private GameObject menuParent;
     #endregion
 
     #region PROPERTIES
     public int CurrentScene { get { return currentScene; } }
-    public bool SettingsSaved { get { return settingsSaved; } set { settingsSaved = value; } } 
+    public bool SettingsSaved { get { return settingsSaved; } set { settingsSaved = value; } }
     #endregion
 
     public void Start()
     {
+
         // Check which scene is loaded
         if (SceneManager.GetActiveScene().name == "Main Menu")
         {
@@ -74,38 +78,6 @@ public class MenusManager : MonoBehaviour
 
             DisableButtonsDependingOnData();
         }
-
-        #region CONFIRMATION CHECKS
-        // Check if the scene is one that contains a confirmation check
-        if (currentScene == 1 || currentScene == 2 || currentScene == 4)
-        {
-            // Find confirmation check in scene
-            confirmationCheck = GameObject.Find("ConfirmationCheck");
-            // If so, set it to be inactive
-            if (confirmationCheck)
-            {
-                confirmationCheck.SetActive(false);
-            }
-
-            // Needs to be set to true for the confirmation checks to pop up
-            checkQuit = true;
-        }
-
-        // Check if the scene is one that contains a second confirmation check
-        if (currentScene == 2 || currentScene == 4)
-        {
-            // Find second confirmation check
-            deleteConfirmation = GameObject.Find("Delete Confirmation");
-
-            if (deleteConfirmation)
-            {
-                // If so, set it to be inactive
-                deleteConfirmation.SetActive(false);
-            }
-            // Needs to be set to true for the confirmation checks to pop up
-            checkQuit = true;
-        }
-        #endregion
 
         #region SAVE FILES SCENE
         // Check if the scene is the SaveFiles scene
@@ -140,7 +112,7 @@ public class MenusManager : MonoBehaviour
 
         // Loading things for settings scene
         #region SETTINGS SCENE
-        if (currentScene == 4)
+        if (currentScene == 3)
         { 
             // Make on value change events not happen
             disableCalls = true;
@@ -180,7 +152,7 @@ public class MenusManager : MonoBehaviour
             // Disabled: A6A6A6
 
             // Default screen nav button, currently set to be accessibility panel
-            navButtons[3].GetComponent<Button>().interactable = false;
+            navButtons[0].GetComponent<Button>().interactable = false;
 
             // Allow on value changed events to trigger again
             disableCalls = false;
@@ -190,15 +162,11 @@ public class MenusManager : MonoBehaviour
         // If both fade ins are false then set the fade square to have the brightness value for transparency
         if (fadeIn == false)
         {
-            Debug.Log("Cull");
-            fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            //Dont fade
         }
-        else if (currentScene != 0 && currentScene <= 6)
+        else if (currentScene <= 5)
         {
-            if (deleteConfirmation)
-            {
-                StartCoroutine(FadeIn());
-            }
+            StartCoroutine(FadeIn());
         }
     }
 
@@ -237,7 +205,7 @@ public class MenusManager : MonoBehaviour
 
         #region SETTINGS SCENE HANDLING
         // Check if scene is settings, 4
-        if (currentScene == 4)
+        if (currentScene == 3)
         {
             // Check if we should update the navigation buttons visuals
             if (checkButtons)
@@ -290,20 +258,38 @@ public class MenusManager : MonoBehaviour
 
         // Fades between scenes
         #region FADING BETWEEN SCENES
-        // Get reference to the square used for fading
-        fadeSquare = GameObject.Find("Fade").GetComponent<SpriteRenderer>();
 
         // Set fading in to true so that the square will turn transparent
         fadeIn = true;
 
-        // Set the initial values of the square's color, black with full transparency
-        fadeSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
-
-        if (currentScene <= 6)
+        if (currentScene <= 5)
         {
-            // If the scene is 0, title screen, then set fade in to false
-            // cuz we shouldn't fade in when loading the title screen
-            fadeIn = false;
+            canvasGroup = GameObject.Find("Canvas").GetComponent<CanvasGroup>();
+
+            // Set the initial values of the square's color, black with full transparency
+            canvasGroup.alpha = 0f;
+        }
+        #endregion
+
+        #region CONFIRMATION CHECKS
+        // Check if the scene is one that contains a confirmation check
+        if (currentScene == 1 || currentScene == 2 || currentScene == 3)
+        {
+            // Find confirmation check in scene
+            confirmationCheck = GameObject.Find("ConfirmationCheck");
+            confirmationCheck.SetActive(false);
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
+        }
+
+        // Check if the scene is one that contains a second confirmation check
+        if (currentScene == 2 || currentScene == 3)
+        {
+            // Find second confirmation check
+            deleteConfirmation = GameObject.Find("Delete Confirmation");
+            deleteConfirmation.SetActive(false);
+            // Needs to be set to true for the confirmation checks to pop up
+            checkQuit = true;
         }
         #endregion
     }
@@ -419,14 +405,12 @@ public class MenusManager : MonoBehaviour
                 NavSaveFiles();
                 break;
             case 3:
-                NavJournal();
-                break;
-            case 4:
                 NavSettings();
                 break;
-            case 5:
+            case 4:
                 NavCredits();
                 break;
+            case 5:
             case 6:
             case 7:
             case 8:
@@ -506,7 +490,7 @@ public class MenusManager : MonoBehaviour
                     break;
 
                 // If the scene is settings scene
-                case 4:
+                case 3:
                     if (confirmCheckNum == 1)
                     {
                         // Sets settingsSaved to true so that we can exit
@@ -561,11 +545,12 @@ public class MenusManager : MonoBehaviour
     {
         if (settingsSaved)
         {
-            if (currentScene <= 5)
+
+            if (currentScene <= 4)
             StartCoroutine(FadeOut());
             sceneLoadNum = previousScene;
         }
-        else if (currentScene == 4)
+        else if (currentScene == 3)
         {
             ConfirmationCheck(1);
         }
@@ -578,34 +563,70 @@ public class MenusManager : MonoBehaviour
 
     #region FADING
     private IEnumerator FadeIn()
-    {   
-        float transparencyValue = (1 - (settings.Brightness / 100));
-        while (fadeSquare.color.a > transparencyValue)
+    {
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(false);
+        //        if (g.transform.parent.gameObject == menuParent)
+        //        {
+        //            g.SetActive(true);
+        //        }
+        //    }
+        //}
+
+        while (canvasGroup.alpha < 1)
         {
-            fadeSquare.color = new Color(fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.a - 0.01f);
+            canvasGroup.alpha += 0.1f;
             yield return null;
         }
+
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(true);
+        //    }
+        //}
     }
 
     private IEnumerator FadeOut()
     {
-        while (fadeSquare.color.a < 1)
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(false);
+        //        if (g.transform.parent.gameObject == menuParent)
+        //        {
+        //            g.SetActive(true);
+        //        }
+        //    }
+        //}
+
+        while (canvasGroup.alpha > 0)
         {
-            fadeSquare.color = new Color(fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.r, fadeSquare.color.a + 0.01f);
-            if (fadeSquare.color.a >= 1)
-            {
-                navScenes = true;
-            }
+            canvasGroup.alpha -= 0.1f;
             yield return null;
         }
+        navScenes = true;
+
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(true);
+        //    }
+        //}
     }
 
     public void CheckFade(int sceneToLoad)
     {
         if (settingsSaved)
         {
-            StartCoroutine(FadeOut());
             sceneLoadNum = sceneToLoad;
+            StartCoroutine(FadeOut());
         }
     }
     #endregion
@@ -672,20 +693,10 @@ public class MenusManager : MonoBehaviour
             {
                 case 0:
                     brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
-                    if (brightness < .95f)
-                    {
-                        fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
-                        settings.Brightness = brightness;
-                    }
                     break;
 
                 case 1:
                     brightness = sliders[5].value;
-                    if (brightness < .95f)
-                    {
-                        fadeSquare.color = new Color(0, 0, 0, 1 - (brightness / 100f));
-                        settings.Brightness = brightness;
-                    }
                     break;
             }
             settingsSaved = false;
@@ -700,6 +711,7 @@ public class MenusManager : MonoBehaviour
             navButtons[i].GetComponent<Button>().interactable = true;
         }
         navButtons[button].GetComponent<Button>().interactable = false;
+        menuParent = navButtons[button].gameObject.transform.parent.gameObject;
     }
 
     public void AdjustSlider(int index)

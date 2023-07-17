@@ -3,175 +3,174 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum PLAYERANIM
+{
+    IDLE = 0,
+    RUN = 0,
+    JUMP = 0,
+    FALL = 0,
+    BOUNCE = 1,
+    THROW = 1
+}
+
 public class AnimationListener : MonoBehaviour
 {
+    #region REFERENCES
     private Animator playerAnim;
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private MushroomScriptableObj mushroomEvent;
+    #endregion
+
+    #region FIELDS
+    [SerializeField] private string currentState;
+
+    [SerializeField] private Vector2 movementVector;
+    [SerializeField] private bool isJumping;
+    [SerializeField] private bool isGrounded;
+    [SerializeField] private bool isFalling;
+    [SerializeField] private bool landed;
+    [SerializeField] private bool isBouncing;
+    [SerializeField] private bool isThrowing;
+    [SerializeField] private bool runThrow_R;
+
+    private const string PLAYER_IDLE = "Player_Idle";
+    private const string PLAYER_RUN = "Player_Run";
+    private const string PLAYER_JUMP = "Player_Jump";
+    private const string PLAYER_FALL = "Player_Fall";
+    private const string PLAYER_LAND = "Player_Land";
+    private const string PLAYER_BOUNCE = "Player_Bounce";
+    private const string PLAYER_THROW = "Player_Throw";
+    private const string PLAYER_THROW_R = "Player_Run_Throw_R";
+    private const string PLAYER_THROW_L = "Player_Run_Throw_L";
+    #endregion
 
     private void Start()
     {
         playerAnim = GetComponent<Animator>();
     }
 
-    private void OnEnable()
+    void Update()
     {
-        // Start listening to events
-        movementEvent.moveEvent.AddListener(RunningAnim);
-        movementEvent.jumpEvent.AddListener(JumpingAnim);
-        movementEvent.landEvent.AddListener(LandingAnim);
-        movementEvent.fallEvent.AddListener(FallingAnim);
-        mushroomEvent.bounceAnimationEvent.AddListener(BouncingAnim);
-        mushroomEvent.checkThrowAnimationEvent.AddListener(CheckThrowingAnim);
-        mushroomEvent.setThrowAnimationEvent.AddListener(SetThrowingAnim);
-    }
-
-    private void OnDisable()
-    {
-        // Stop listening to events
-        movementEvent.moveEvent.RemoveListener(RunningAnim);
-        movementEvent.jumpEvent.RemoveListener(JumpingAnim);
-        movementEvent.landEvent.RemoveListener(LandingAnim);
-        movementEvent.fallEvent.RemoveListener(FallingAnim);
-        mushroomEvent.bounceAnimationEvent.RemoveListener(BouncingAnim);
-        mushroomEvent.checkThrowAnimationEvent.RemoveListener(CheckThrowingAnim);
-        mushroomEvent.setThrowAnimationEvent.RemoveListener(SetThrowingAnim);
-    }
-
-    /// <summary>
-    /// Set running animations based on data
-    /// </summary>
-    /// <param name="data">Movement data</param>
-    private void RunningAnim(float movementData)
-    {
-        AnimatorClipInfo[] animInfo = playerAnim.GetCurrentAnimatorClipInfo(0);
-
-        // Set float based on movement data
-        playerAnim.SetFloat("Speed", Mathf.Abs((float)movementData));
-
-        // Check movement data for which leg Anari is on for throwing animations
-        if (playerAnim.GetFloat("Speed") > 0.01)
+        movementVector = movementEvent.GetMovementVector();
+        isJumping = movementEvent.GetIsJumping();
+        isGrounded = movementEvent.GetIsGrounded();
+        isFalling = movementEvent.GetIsFalling();
+        landed = movementEvent.GetIsLanding();
+        isBouncing = movementEvent.GetIsBounceAnimating();
+        isThrowing = mushroomEvent.GetThrowing();
+        
+        // Check for running/idle animations
+        if(isGrounded & !isThrowing && !isBouncing)
         {
-            // If running, then check which leg the player is running on and update accordingly
-            AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
-            AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-            int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
-            if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
+            if (Mathf.Abs(movementVector.x) >= 0.1)
             {
-                // Update for left foot
-                playerAnim.SetBool("RunThrow_R", false);
-            }
-            else if (currentFrame >= 25 && currentFrame < 50)
+                ChangeAnimationState(PLAYER_RUN);
+
+                // Check movement data for which leg Anari is on for throwing animations
+                // If running, then check which leg the player is running on and update accordingly
+                AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
+                AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
+                int currentFrame = (int)(animationClip[0].clip.length * (animationInfo.normalizedTime % 1) * animationClip[0].clip.frameRate);
+                if (currentFrame == 50 || (currentFrame >= 0 && currentFrame < 25))
+                {
+                    // Update for left foot
+                    runThrow_R = false;
+                }
+                else if (currentFrame >= 25 && currentFrame < 50)
+                {
+                    // Update for right foot
+                    runThrow_R = true;
+                }
+            } else
             {
-                // Update for right foot
-                playerAnim.SetBool("RunThrow_R", true);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Set landing animations based on data
-    /// </summary>
-    /// <param name="data">Landing data</param>
-    private void LandingAnim(bool landData)
-    {
-        // Set the landing bool based on data
-        playerAnim.SetBool("Landed", landData);
-    }
-
-    /// <summary>
-    /// Set jumping animatinos based on data
-    /// </summary>
-    /// <param name="data">Jumping data</param>
-    private void JumpingAnim(bool jumpData)
-    {
-        // Set the jumping bool based on data
-        playerAnim.SetBool("Jumping", jumpData);
-    }
-
-    /// <summary>
-    /// Set falling animations based on data
-    /// </summary>
-    /// <param name="data">Falling data</param>
-    private void FallingAnim(bool fallData)
-    {
-        // Set the falling bool based on data
-        playerAnim.SetBool("Falling", fallData);
-    }
-
-    /// <summary>
-    /// Set bouncing animations based on data
-    /// </summary>
-    /// <param name="data"></param>
-    private void BouncingAnim(bool bounceData)
-    {
-        // Check if player is bouncing
-        if(bounceData)
-        {
-            // If bouncing, set the trigger
-            playerAnim.SetTrigger("Bouncing");
-        } else
-        {
-            // If not bouncing, reset the trigger
-            playerAnim.ResetTrigger("Bouncing");
-        }
-    }
-
-    /// <summary>
-    /// Check the throwing animation to see when to end
-    /// </summary>
-    private void CheckThrowingAnim()
-    {
-        if (playerAnim.GetBool("Throwing"))
-        {
-            AnimatorClipInfo[] animationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
-            AnimatorStateInfo animationInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-            if (animationInfo.normalizedTime % 1 > 0.9)
-            {
-                mushroomEvent.SetThrowing(false);
-                mushroomEvent.SetThrowAnim();
+                ChangeAnimationState(PLAYER_IDLE);
             }
         }
 
-        // FOR WHEN THROW ANIMATIONS ARE FULLY IMPLEMENTED
-        //if (throwPrepared)
-        //{
-        //    AnimatorClipInfo[] throwAnimationClip = playerAnim.GetCurrentAnimatorClipInfo(0);
-        //    int currentFrame = (int)(throwAnimationClip[0].weight * (throwAnimationClip[0].clip.length * throwAnimationClip[0].clip.frameRate));
-        //    if (currentFrame == 5)
-        //    {
-        //        throwing = true;
+        // Check for jumping animation
+        if(isJumping && !isGrounded)
+        {
+            ChangeAnimationState(PLAYER_JUMP);
+        }
 
-        //        // Throw the shroom
-        //        //switch (throwState)
-        //        //{
-        //        //    case ThrowState.Throwing:
-        //        //        CheckShroomCount();
-        //        //        throwState = ThrowState.NotThrowing;
-        //        //        break;
-        //        //}
+        // Check for bouncing animation
+        if (isBouncing && !isThrowing && !isJumping)
+        {
+            ChangeAnimationState(PLAYER_BOUNCE);
+        }
 
-        //        if (throwState == ThrowState.Throwing)
-        //        {
-        //            CheckShroomCount();
-        //            throwState = ThrowState.NotThrowing;
-        //        }
+        // Check for falling animation
+        if (isFalling && !isBouncing && !isGrounded)
+        {
+            ChangeAnimationState(PLAYER_FALL);
+        }
 
-        //        // Reset throw variables
-        //        canThrow = false;
-        //        throwCooldown = 0.2f;
-        //        bounceCooldown = 0.2f;
-        //        throwPrepared = false;
-        //    }
-        //}
+        // Check for throwing animation
+        if (isThrowing)
+        {
+            // End throw animation if in the middle of bouncing, jumping, or falling
+            if(isBouncing || isJumping || isFalling)
+            {
+                EndThrowAnimation();
+            } else
+            {
+                // If moving, check which leg to throw from
+                if (Mathf.Abs(movementVector.x) >= 0.1)
+                {
+                    // Set the appropriate animation
+                    if (runThrow_R)
+                    {
+                        ChangeAnimationState(PLAYER_THROW_R);
+                    }
+                    else
+                    {
+                        ChangeAnimationState(PLAYER_THROW_L);
+                    }
+                }
+                else
+                {
+                    // Otherwise, throw in place
+                    ChangeAnimationState(PLAYER_THROW);
+                }
+            }
+        }
     }
 
     /// <summary>
-    /// Set the throwing animation based on data
+    /// Change animation states
     /// </summary>
-    /// <param name="data">Throwing data</param>
-    private void SetThrowingAnim(bool throwData)
+    /// <param name="newState">The new state to change to</param>
+    private void ChangeAnimationState(string newState)
     {
-        playerAnim.SetBool("Throwing", throwData);
+        // Check if the current state is the same as the new state
+        if(currentState == newState)
+        {
+            // If so, return to prevent repetition of frames and animations
+            return;
+        }
+
+        // Play the new state
+        playerAnim.Play(newState);
+
+        // Set the current state to the new state
+        currentState = newState;
+    }
+
+    /// <summary>
+    /// End the bounce animation
+    /// </summary>
+    private void EndBounceAnimation()
+    {
+        isBouncing = false;
+        movementEvent.SetIsBounceAnimating(false);
+    }
+
+    /// <summary>
+    /// End the throw animatino
+    /// </summary>
+    private void EndThrowAnimation()
+    {
+        isThrowing = false;
+        mushroomEvent.SetThrowing(false);
     }
 }

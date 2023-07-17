@@ -10,6 +10,7 @@ public class CameraManager : MonoBehaviour, IData
     #region REFERENCES
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
     private CinemachineVirtualCamera lotusCam;
     [SerializeField] private PlayableDirector camDirector; // Initialized in Inspector
     #endregion
@@ -23,6 +24,7 @@ public class CameraManager : MonoBehaviour, IData
 
     #region PROPERTIES
     public bool UsingLotusCutscene { get { return usingLotusCutscene; } set { usingLotusCutscene = value; } }
+    public bool PlayCutscene { get { return playCutscene; } }
     #endregion
 
     private void OnEnable()
@@ -56,7 +58,7 @@ public class CameraManager : MonoBehaviour, IData
         // If play cutscene is disabled, disable the cam director
         if (!playCutscene)
         {
-            camDirector.enabled = false;
+            camDirector.enabled = false;    
         }
     }
 
@@ -100,10 +102,16 @@ public class CameraManager : MonoBehaviour, IData
                 // Allow the player to pause after the cutscene
                 pauseEvent.SetCanPause(true);
 
+                // Allow the player to open the journal after the cutscene
+                journalEvent.SetCanOpen(true);
+
             } else
             {
                 // Do not allow the player to pause during the cutscene
                 pauseEvent.SetCanPause(false);
+
+                // Do not allow the player to open the journal during the cutscene
+                journalEvent.SetCanOpen(false);
             }
         }
 

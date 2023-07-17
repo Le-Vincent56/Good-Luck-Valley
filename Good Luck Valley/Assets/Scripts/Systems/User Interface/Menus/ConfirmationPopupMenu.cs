@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class ConfirmationPopupMenu : MenusManager
+public class ConfirmationPopupMenu : MonoBehaviour
 {
     [SerializeField] private Text displayText;
     [SerializeField] private Button confirmButton;

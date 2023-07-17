@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class BouncingEffect : MonoBehaviour
@@ -16,7 +17,6 @@ public class BouncingEffect : MonoBehaviour
     [Header("Bounce Variables")]
     [SerializeField] private bool canBounce;
     [SerializeField] private bool onCooldown = false;
-    [SerializeField] float bounceForce = 15f;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
     
@@ -32,17 +32,20 @@ public class BouncingEffect : MonoBehaviour
     /// <param name="collision">The Collision2D triggering the collision</param>
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
-        if (shroomToBounce != null)
+        if (!mushroomEvent.IsTouchingShroom)
         {
-            shroomToBounce.Bounce();
-        }
+            Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
+            if (shroomToBounce != null)
+            {
+                shroomToBounce.Bounce();
+            }
 
-        if (collision.gameObject.tag.Equals("Mushroom"))
-        {
-            // Set touching shroom to true if colliding with the mushroom
-            mushroomEvent.SetTouchingShroom(true);
-            mushroomEvent.TouchingShroom();
+            if (collision.gameObject.tag.Equals("Mushroom"))
+            {
+                // Set touching shroom to true if colliding with the mushroom
+                mushroomEvent.SetTouchingShroom(true);
+                mushroomEvent.TouchingShroom();
+            }
         }
     }
 

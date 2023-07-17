@@ -7,7 +7,6 @@ using TMPro;
 
 public class QuickInteractableTutorial : MonoBehaviour
 {
-    [SerializeField] MushroomScriptableObj mushroomEvent;
     private Image interactPanel;
     private Text interactText;
 
@@ -28,7 +27,7 @@ public class QuickInteractableTutorial : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // If the collider is the Player, show the Lotus tutorial text
-        if (collision.gameObject.tag.Equals("Player"));
+        if (collision.tag == "Player" && gameObject.activeSelf)
         {
             StartCoroutine(ShowInteract());
         }
@@ -38,7 +37,7 @@ public class QuickInteractableTutorial : MonoBehaviour
     {
         // If the collider is the Player and the InteractableText is active, show 
         // the interactable tutorial text
-        if (collision.gameObject.tag.Equals("Player"))
+        if (collision.tag == "Player" && gameObject.activeSelf)
         {
             StartCoroutine(HideInteract());
         }
@@ -46,23 +45,20 @@ public class QuickInteractableTutorial : MonoBehaviour
 
     private IEnumerator ShowInteract()
     {
-        if(!mushroomEvent.GetThrowUnlocked())
+        while (interactPanel.color.a < 1 && interactText.color.a < 1)
         {
-            while (interactPanel.color.a < 1 && interactText.color.a < 1)
+            string tutorialText = "Press E";
+
+            // Set text
+            interactText.text = tutorialText;
+
+            // Fade in the text using deltaTime and alpha values
+            if (interactPanel.color.a < 1 && interactText.color.a < 1)
             {
-                string tutorialText = "Press E";
-
-                // Set text
-                interactText.text = tutorialText;
-
-                // Fade in the text using deltaTime and alpha values
-                if (interactPanel.color.a < 1 && interactText.color.a < 1)
-                {
-                    interactPanel.color = new Color(interactPanel.color.r, interactPanel.color.g, interactPanel.color.b, interactPanel.color.a + 0.01f);
-                    interactText.color = new Color(interactText.color.r, interactText.color.g, interactText.color.b, interactText.color.a + 0.01f);
-                }
-                yield return null;
+                interactPanel.color = new Color(interactPanel.color.r, interactPanel.color.g, interactPanel.color.b, interactPanel.color.a + 0.01f);
+                interactText.color = new Color(interactText.color.r, interactText.color.g, interactText.color.b, interactText.color.a + 0.01f);
             }
+            yield return null;
         }
     }
 

@@ -8,9 +8,16 @@ using UnityEngine.UIElements;
 using UnityEngine.Windows;
 using FMOD.Studio;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class PlayerMovement : MonoBehaviour, IData
 {
+    enum TileType
+    {
+        Grass,
+        Dirt
+    }
+
     #region REFERENCES
     [SerializeField] private PlayerData data;
     [SerializeField] private MovementScriptableObj movementEvent;
@@ -19,6 +26,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private LevelDataObj levelDataObj;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
@@ -29,6 +37,8 @@ public class PlayerMovement : MonoBehaviour, IData
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
 	private Settings settings;
+    private VisualEffect dust;
+    private VisualEffect grass;
     #endregion
 
     #region FIELDS
@@ -37,6 +47,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isLocked = false;
     [SerializeField] private bool canInput = true;
+    [SerializeField] private bool canInputHard = true;
     [SerializeField] float fallingBuffer = 0.25f;
     [SerializeField] float landedTimer = 0f;
     [SerializeField] private float inputCooldown = 0.05f;
@@ -52,6 +63,10 @@ public class PlayerMovement : MonoBehaviour, IData
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
+
+    // For creating dust particles when the player falls, if you find a better solution
+    //  feel free to fuck with it this is just the only way I could figure it out
+    private bool createDustOnFall;
 
     #region SLOPES
     [SerializeField] bool checkForSlopes = false;
@@ -72,7 +87,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	#region BOUNCING
 	[SerializeField] private bool bouncing = false;
     [SerializeField] private bool touchingShroom = false;
-    private float bounceBuffer = 0.01f;
+    [SerializeField] private float bounceBuffer = 0.1f;
 	#endregion
 	#endregion
 
@@ -81,6 +96,8 @@ public class PlayerMovement : MonoBehaviour, IData
 	public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
     public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
     public Vector2 DistanceFromLastPosition { get { return distanceFromLastPosition; } }
+
+    public bool IsGrounded { get { return isGrounded; } }
     #endregion
 
     private void Awake()
@@ -95,13 +112,18 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void OnEnable()
     {
-        mushroomEvent.bounceEvent.AddListener(ApplyBounce);
+        movementEvent.bounceEvent.AddListener(ApplyBounce);
+        movementEvent.landEvent.AddListener(Land);
+        movementEvent.resetTurn.AddListener(ResetTurn);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
         pauseEvent.pauseEvent.AddListener(LockMovement);
         pauseEvent.unpauseEvent.AddListener(UnlockMovement);
         disableEvent.lockPlayerEvent.AddListener(LockMovement);
         disableEvent.unlockPlayerEvent.AddListener(UnlockMovement);
         disableEvent.stopInputEvent.AddListener(StopInput);
+        disableEvent.disablePlayerInputEvent.AddListener(DisableInput);
+        disableEvent.enablePlayerInputEvent.AddListener(EnableInput);
+        loadLevelEvent.startLoad.AddListener(SetLoadPos);
         loadLevelEvent.startLoad.AddListener(LockMovement);
         loadLevelEvent.endLoad.AddListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.AddListener(LockMovement);
@@ -110,13 +132,18 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void OnDisable()
     {
-        mushroomEvent.bounceEvent.RemoveListener(ApplyBounce);
+        movementEvent.bounceEvent.RemoveListener(ApplyBounce);
+        movementEvent.landEvent.RemoveListener(Land);
+        movementEvent.resetTurn.RemoveListener(ResetTurn);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
         pauseEvent.pauseEvent.RemoveListener(LockMovement);
         pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
         disableEvent.lockPlayerEvent.RemoveListener(LockMovement);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockMovement);
         disableEvent.stopInputEvent.RemoveListener(StopInput);
+        disableEvent.disablePlayerInputEvent.RemoveListener(DisableInput);
+        disableEvent.enablePlayerInputEvent.RemoveListener(EnableInput);
+        loadLevelEvent.startLoad.RemoveListener(SetLoadPos);
         loadLevelEvent.startLoad.RemoveListener(LockMovement);
         loadLevelEvent.endLoad.RemoveListener(UnlockMovement);
         cutsceneEvent.startLotusCutscene.RemoveListener(LockMovement);
@@ -134,7 +161,12 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
-		// Set playerPosition to the current position and calculate the distance from the previous position
+        //Debug.Log("Jumping?: " + isJumping);
+        //Debug.Log("Falling?: " + isJumpFalling);
+        //Debug.Log("Landed?: " + landed);
+        //Debug.Log("Grounded?: " + isGrounded);
+        
+        // Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
@@ -172,17 +204,18 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.1f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.down, 0.1f, groundLayer);
 
-            if ((boxCheckGround || touchingShroom) && !isJumping) // Checks if set box overlaps with ground
+            if (boxCheckGround  && !touchingShroom && !isJumping) // Checks if set box overlaps with ground while not touching the shroom
             {
                 // If bouncing before and the bounce buffer has ended, end bouncing
                 if (bouncing && bounceBuffer <= 0)
                 {
                     bouncing = false;
-                    mushroomEvent.SetBounce(false);
+                    movementEvent.SetIsBounceAnimating(false);
                 }
 
                 // Ground player
                 isGrounded = true;
+                movementEvent.Land();
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
@@ -198,6 +231,7 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumping = false;
 
             isJumpFalling = true;
+            movementEvent.Fall();
         }
 
 		// If the plaer is not Jumping and the time from when they were last on the ground is greater than 0,
@@ -221,6 +255,7 @@ public class PlayerMovement : MonoBehaviour, IData
 			isJumpCut = false;
 
             isJumpFalling = true;
+            movementEvent.Fall();
         }
 
         // Set Animations
@@ -232,6 +267,7 @@ public class PlayerMovement : MonoBehaviour, IData
         if (isJumping)
         {
             isGrounded = false;
+            movementEvent.Jump();
         }
 
 		// If the player is falling or their velocity downwards is greater than -0.1,
@@ -243,9 +279,10 @@ public class PlayerMovement : MonoBehaviour, IData
                 isGrounded = false;
 
                 // if the falling buffer is true,
-				if(fallingBuffer <= 0)
+                if (fallingBuffer <= 0)
 				{
                     isJumpAnimFalling = true;
+                    movementEvent.Fall();
                 }
             }
         }
@@ -374,7 +411,13 @@ public class PlayerMovement : MonoBehaviour, IData
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
             }
         }
-		#endregion
+        #endregion
+
+        movementEvent.SetIsGrounded(isGrounded);
+        movementEvent.SetIsJumping(isJumping);
+        movementEvent.SetIsFalling(isJumpAnimFalling);
+        movementEvent.SetIsBouncing(bouncing);
+        movementEvent.SetIsLanding(landed);
 
         // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;
@@ -395,10 +438,18 @@ public class PlayerMovement : MonoBehaviour, IData
             if(canInput)
             {
                 Run(0.5f);
+                movementEvent.SetVectors(rb.velocity, moveInput);
+                movementEvent.Move();
                 StopCoroutine(MovementCooldown());
             } else
             {
                 StartCoroutine(MovementCooldown());
+            }
+
+            // If the player is not in the load trigger, set the levelpos type to default
+            if(!loadLevelEvent.GetInLoadTrigger())
+            {
+                levelDataObj.SetLevelPos(SceneManager.GetActiveScene().name, LEVELPOS.DEFAULT);
             }
 		}
 		else
@@ -417,14 +468,6 @@ public class PlayerMovement : MonoBehaviour, IData
 				}
 			}
 		}
-
-        // Trigger events
-        movementEvent.SetBools(isGrounded, isJumping, isJumpAnimFalling, landed);
-        movementEvent.SetVectors(rb.velocity, moveInput);
-        movementEvent.Move();
-        movementEvent.Jump();
-        movementEvent.Fall();
-        movementEvent.Land();
     }
 
     #region INPUT CALLBACKS
@@ -687,6 +730,19 @@ public class PlayerMovement : MonoBehaviour, IData
 
         isFacingRight = !isFacingRight;
 	}
+
+    /// <summary>
+    /// Reset the way the player is looking
+    /// </summary>
+    public void ResetTurn()
+    {
+        // Resets the scale
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x);
+        transform.localScale = scale;
+
+        isFacingRight = true;
+    }
 	#endregion
 
     // JUMP METHODS
@@ -718,17 +774,18 @@ public class PlayerMovement : MonoBehaviour, IData
 
 		// Add the force to the Player's RigidBody
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        createDustOnFall = true;
 		#endregion
 	}
-	#endregion
+    #endregion
 
     // CHECK METHODS
-	#region CHECK METHODS
-	/// <summary>
-	/// Check which direction the Player is facing
-	/// </summary>
-	/// <param name="isMovingRight">A boolean representing which direction the Player is moving</param>
-	public void CheckDirectionToFace(bool isMovingRight)
+    #region CHECK METHODS
+    /// <summary>
+    /// Check which direction the Player is facing
+    /// </summary>
+    /// <param name="isMovingRight">A boolean representing which direction the Player is moving</param>
+    public void CheckDirectionToFace(bool isMovingRight)
 	{
         if (isMovingRight != isFacingRight)
 		{
@@ -810,7 +867,7 @@ public class PlayerMovement : MonoBehaviour, IData
     public void OnMove(InputAction.CallbackContext context)
     {
 		// Check if the game is paused
-        if (!isLocked)
+        if (!isLocked && canInputHard)
         {
 			// Set the move input to the value returned by context
 			moveInput = context.ReadValue<Vector2>();
@@ -831,7 +888,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!isLocked && !bouncing && !touchingShroom)
+        if (!isLocked && !bouncing && !touchingShroom && canInputHard)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -863,13 +920,10 @@ public class PlayerMovement : MonoBehaviour, IData
         // more than they are supposed to
         if(isJumping && jumpBuffer > 0)
         {
-            Debug.Log("Jump Bouncing!");
-
             bounceForce /= data.jumpForce;
         }
 
         RB.AddForce(bounceForce, forceType);
-
     }
 
 	/// <summary>
@@ -882,11 +936,16 @@ public class PlayerMovement : MonoBehaviour, IData
 		touchingShroom = touchingData;
 	}
 
-	/// <summary>
-	/// Lock player movement
-	/// </summary>
-	/// <param name="lockedData"></param>
-	private void LockMovement()
+    private void SetLoadPos()
+    {
+        transform.position = DataManager.Instance.Data.levelData[SceneManager.GetActiveScene().name].playerPosition;
+    }
+
+    /// <summary>
+    /// Lock player movement
+    /// </summary>
+    /// <param name="lockedData"></param>
+    private void LockMovement()
 	{
         moveInput = Vector2.zero;
         isLocked = true;
@@ -909,12 +968,38 @@ public class PlayerMovement : MonoBehaviour, IData
         canInput = false;
         inputCooldown = cooldownData;
     }
+
+    /// <summary>
+    /// Disable player movement input
+    /// </summary>
+    private void DisableInput()
+    {
+        canInput = false;
+        canInputHard = false;
+    }
+
+    /// <summary>
+    /// Enable player movement input
+    /// </summary>
+    private void EnableInput()
+    {
+        canInput = true;
+        canInputHard = true;
+    }
+
+    private void Land()
+    {
+
+    }
 	#endregion
 
 	// DATA HANDLING
 	#region DATA HANDLING
 	public void LoadData(GameData data)
 	{
+        // Load level data
+        levelDataObj.LoadData(data);
+
         // Get the currently active scene
         Scene scene = SceneManager.GetActiveScene();
 
@@ -923,19 +1008,26 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             // If it does exist, load the players positional data using the data for this scene
             Vector3 playerPositionForThisScene = data.levelData[scene.name].playerPosition;
-            gameObject.transform.position = playerPositionForThisScene;
+            transform.position = playerPositionForThisScene;
         } else
         {
             //If it doesn't exist, let ourselves know that we need to add it to our game data
             Debug.LogError("Failed to get data for scene with name: " + scene.name + ". It may need to be added to the GameData constructor");
         }
+
+        // Load movement data
+        movementEvent.LoadData(data);
 	}
 
 	public void SaveData(GameData data)
 	{
         // Save player position in the dictionary slot for this scene
         Scene scene = SceneManager.GetActiveScene();
-        data.levelData[scene.name].playerPosition = this.transform.position;
+        data.levelData[scene.name].playerPosition = transform.position;
+
+        // Save movement and level data
+        movementEvent.SaveData(data);
+        levelDataObj.SaveData(data);
 	}
 	#endregion
 }

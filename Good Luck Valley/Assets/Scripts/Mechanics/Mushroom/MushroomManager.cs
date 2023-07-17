@@ -131,8 +131,6 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         tilemap = GameObject.Find("foreground");
-
-        Debug.Log("Reset Queue");
         shroomCounter.ResetQueue();
     }
 
@@ -143,6 +141,8 @@ public class MushroomManager : MonoBehaviour, IData
         pauseEvent.unpauseEvent.AddListener(UnlockThrow);
         disableEvent.lockPlayerEvent.AddListener(LockThrow);
         disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
+        disableEvent.disablePlayerInputEvent.AddListener(LockThrow);
+        disableEvent.enablePlayerInputEvent.AddListener(UnlockThrow);
         loadLevelEvent.startLoad.AddListener(LockThrow);
         loadLevelEvent.endLoad.AddListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
@@ -156,6 +156,8 @@ public class MushroomManager : MonoBehaviour, IData
         pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
         disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
         disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
+        disableEvent.disablePlayerInputEvent.RemoveListener(LockThrow);
+        disableEvent.enablePlayerInputEvent.RemoveListener(UnlockThrow);
         loadLevelEvent.startLoad.RemoveListener(LockThrow);
         loadLevelEvent.endLoad.RemoveListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.RemoveListener(LockThrow);
@@ -426,6 +428,8 @@ public class MushroomManager : MonoBehaviour, IData
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
             {
+                throwing = mushroomEvent.GetThrowing();
+
                 //switch (throwState)
                 //{
                 //    case ThrowState.NotThrowing:
@@ -441,8 +445,11 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.canceled)
             {
                 // Set animation
-                mushroomEvent.SetThrowing(true);
-                mushroomEvent.SetThrowAnim();
+                if(!throwing)
+                {
+                    mushroomEvent.SetThrowing(true);
+                    mushroomEvent.SetThrowAnim();
+                }
 
                 // Check if the shroom can be thrown
                 if (canThrow)
@@ -583,11 +590,16 @@ public class MushroomManager : MonoBehaviour, IData
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
+        Debug.Log(data.throwUnlocked);
         throwUnlocked = data.throwUnlocked;
+
+        // Load throwing data - setting throwing to false for animations
+        mushroomEvent.LoadData(data);
     }
 
     public void SaveData(GameData data)
     {
+        Debug.Log(data.throwUnlocked);
         data.throwUnlocked = throwUnlocked;
     }
     #endregion

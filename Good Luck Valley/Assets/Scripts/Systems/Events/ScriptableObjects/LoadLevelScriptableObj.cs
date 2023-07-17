@@ -8,7 +8,10 @@ using UnityEngine.Events;
 public class LoadLevelScriptableObj : ScriptableObject
 {
     #region FIELDS
+    [SerializeField] private bool activeTriggers = false;
     [SerializeField] private bool isLoading = false;
+    [SerializeField] private bool loadingThroughCutscene = false;
+    [SerializeField] private bool insideLoadTrigger = false;
 
     #region EVENTS
     public UnityEvent startLoad;
@@ -32,12 +35,48 @@ public class LoadLevelScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether loading triggers are active or not
+    /// </summary>
+    /// <param name="triggersActive">Whether loading triggers are active or not</param>
+    public void SetTriggersActive(bool triggersActive)
+    {
+        activeTriggers = triggersActive;
+    }
+
+    /// <summary>
     /// Set whether the level is loading or not
     /// </summary>
     /// <param name="isLoading">Whether the level is loading or not</param>
     public void SetIsLoading(bool isLoading)
     {
         this.isLoading = isLoading;
+    }
+
+    /// <summary>
+    /// Set whether the player is inside a load trigger or not
+    /// </summary>
+    /// <param name="insideLoadTrigger">Whether the player is inside a load trigger or not</param>
+    public void SetInLoadTrigger(bool insideLoadTrigger)
+    {
+        this.insideLoadTrigger = insideLoadTrigger;
+    }
+
+    /// <summary>
+    /// Set whether a player is loading through a cutscene or not
+    /// </summary>
+    /// <param name="loadingThroughCutscene">Whether a player is loading through a cutscene or not</param>
+    public void SetLoadingThroughCutscene(bool loadingThroughCutscene)
+    {
+        this.loadingThroughCutscene = loadingThroughCutscene;
+    }
+
+    /// <summary>
+    /// Get whether loading triggers are active or not
+    /// </summary>
+    /// <returns>Whether loading triggers are active or not</returns>
+    public bool GetTriggersActive()
+    {
+        return activeTriggers;
     }
 
     /// <summary>
@@ -49,12 +88,36 @@ public class LoadLevelScriptableObj : ScriptableObject
         return isLoading;
     }
 
+    /// <summary>
+    /// Get whether the player is inside a load trigger or not
+    /// </summary>
+    /// <returns>Whether the player is inside a load trigger or not</returns>
+    public bool GetInLoadTrigger()
+    {
+        return insideLoadTrigger;
+    }
+
+    /// <summary>
+    /// Get whether the player is loading through a cutscene or not
+    /// </summary>
+    /// <returns>Whether the player is loading through a cutscene or not</returns>
+    public bool GetLoadingThroughCutscene()
+    {
+        return loadingThroughCutscene;
+    }
+
+    /// <summary>
+    /// Trigger all events relating to loading a level
+    /// </summary>
     public void StartLoad()
     {
         isLoading = true;
         startLoad.Invoke();
     }
 
+    /// <summary>
+    /// Trigger all events relating to ending the loading process of a level
+    /// </summary>
     public void EndLoad()
     {
         isLoading = false;

@@ -10,6 +10,7 @@ public class JournalScriptableObj : ScriptableObject
     [SerializeField] private bool hasJournal = false;
     [SerializeField] private bool journalOpen = false;
     [SerializeField] private bool openedOnce = false;
+    [SerializeField] private bool canOpen = true;
     [SerializeField] private bool canClose = true;
     [SerializeField] private float journalCloseBuffer = 0.25f;
 
@@ -67,6 +68,15 @@ public class JournalScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether the Journal can be opened or not
+    /// </summary>
+    /// <param name="canOpen">Whether the Journal can be opened or not</param>
+    public void SetCanOpen(bool canOpen)
+    {
+        this.canOpen = canOpen;
+    }
+
+    /// <summary>
     /// Set whether the player can close the Journal
     /// </summary>
     /// <param name="canClose">Whether the player can close the Journal</param>
@@ -109,6 +119,15 @@ public class JournalScriptableObj : ScriptableObject
     public bool GetOpenedOnce()
     {
         return openedOnce;
+    }
+
+    /// <summary>
+    /// Get whether the Journal can be opened or not
+    /// </summary>
+    /// <returns>Whether the Journal can be opened or not</returns>
+    public bool GetCanOpenJournal()
+    {
+        return canOpen;
     }
 
     /// <summary>

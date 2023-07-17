@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
-public class Note : Interactable
+public class Note : Interactable, IData
 {
     #region REFERENCES
     [SerializeField] private JournalScriptableObj journalEvent;
@@ -17,7 +17,7 @@ public class Note : Interactable
     [SerializeField] private string textValue;
     [SerializeField] private string contentsTitle;
     [SerializeField] private int journalIndex = 0;
-    private bool noteAdded = false;
+    [SerializeField] private bool noteAdded = false;
     #endregion
 
     #region PROPERTIES
@@ -26,12 +26,30 @@ public class Note : Interactable
     public string TextValue { get { return textValue; } set { textValue = value; } }
     public string ContentsTitle { get { return contentsTitle; } set { contentsTitle = value; } }
     public int JournalIndex { get { return journalIndex; } }
+    public bool NoteAdded { get { return noteAdded; } }
     #endregion
+
+    public Note(string id, string noteTitle, string textValue, string contentsTitle, int journalIndex, bool noteAdded)
+    {
+        this.id = id;
+        this.noteTitle = noteTitle;
+        this.textValue = textValue;
+        this.contentsTitle = contentsTitle;
+        this.journalIndex = journalIndex;
+        this.noteAdded = noteAdded;
+        remove = true;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         remove = false;
+
+        // If the note is already added, make it inactive in the scene
+        if(noteAdded)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -52,7 +70,7 @@ public class Note : Interactable
     }
 
     #region DATA HANDLING
-    public new void LoadData(GameData data)
+    public void LoadData(GameData data)
     {
         // Get the data for all the notes that have been collected
         string currentLevel = SceneManager.GetActiveScene().name;
@@ -64,10 +82,13 @@ public class Note : Interactable
         {
             // Remove the note
             remove = true;
+        } else
+        {
+            remove = false;
         }
     }
 
-    public new void SaveData(GameData data)
+    public void SaveData(GameData data)
     {
         string currentLevel = SceneManager.GetActiveScene().name;
 

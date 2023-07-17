@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class LotusPick : Interactable
+public class LotusPick : Interactable, IData
 {
     #region REFERENCES
     [SerializeField] private PauseScriptableObj pauseEvent;
@@ -16,9 +17,11 @@ public class LotusPick : Interactable
     [SerializeField] private float fadeAmount;
     #endregion
 
+
+
+
     void Start()
     {
-        vineWall = GameObject.Find("lotus wall");
 
         remove = false;
         if (fadeAmount == 0)
@@ -29,6 +32,7 @@ public class LotusPick : Interactable
 
     void Update()
     {
+        // Debug.Log(vineWall.activeSelf);
         // Check if interactable is triggered
         if (controlTriggered)
         {
@@ -69,6 +73,8 @@ public class LotusPick : Interactable
             vineWall.GetComponent<Tilemap>().color = new Color(vineWall.GetComponent<Tilemap>().color.r, 
                 vineWall.GetComponent<Tilemap>().color.g, vineWall.GetComponent<Tilemap>().color.b, 
                 vineWall.GetComponent<Tilemap>().color.a - vineWall.GetComponent<DecomposableVine>().DecomposeTime);
+
+            yield return null;
         }
 
         disableEvent.Unlock();
@@ -84,10 +90,9 @@ public class LotusPick : Interactable
             pauseEvent.SetPaused(true);
             disableEvent.Lock();
             StartCoroutine(FadeEndScreen(endScreen));
+            endScreen.GetComponentInChildren<Button>().interactable = true;
             yield return null;
         }
-
-        yield return null;
     }
 
     private IEnumerator FadeLotus()
@@ -124,4 +129,39 @@ public class LotusPick : Interactable
 
         yield return null;
     }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        // Get the data for all the notes that have been collected
+        string currentLevel = SceneManager.GetActiveScene().name;
+
+        // Try to get the value of the interactable
+        data.levelData[currentLevel].assetsActive.TryGetValue(id, out active);
+
+        // Check if the note has been added
+        if (!active)
+        {
+            // Remove the note
+            remove = true;
+        }
+        // Set if the gameobject is active
+        gameObject.SetActive(active);
+    }
+
+    public void SaveData(GameData data)
+    {
+        string currentLevel = SceneManager.GetActiveScene().name;
+
+        // Check to see if data has the id of the note
+        if (data.levelData[currentLevel].assetsActive.ContainsKey(id))
+        {
+            // If so, remove it
+            data.levelData[currentLevel].assetsActive.Remove(id);
+        }
+
+        // Add the id and the current bool to make sure everything is up to date
+        data.levelData[currentLevel].assetsActive.Add(id, active);
+    }
+    #endregion
 }

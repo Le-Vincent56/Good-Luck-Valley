@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -9,6 +8,7 @@ public class WallShroom : Shroom
 {
     #region FIELDS
     [SerializeField] private float angleToSubtract;
+    private Vector3 showForce;
     #endregion
 
     private void Awake()
@@ -36,16 +36,16 @@ public class WallShroom : Shroom
                 GetComponent<Animator>().SetBool("Bouncing", false);
             }
         }
-        Debug.Log("Gen Shroom is shroom?: " + isShroom);
         if (isShroom && mushMan.EnableShroomTimers)
         {
-            Debug.Log("Shroom Counter Updating for " + shroomType);
             UpdateShroomCounter();
         }
         else if (mushMan.EnableShroomTimers && mushMan.MushroomLimit == 3)
         {
             Debug.Log("Nothing");
         }
+
+        Debug.DrawRay(transform.position, showForce);
     }
 
     /// <summary>
@@ -66,14 +66,19 @@ public class WallShroom : Shroom
         }
 
         Vector3 forceToApply = direction * bounceForce;
+        showForce = forceToApply;
 
         // Disable input
         disableEvent.SetInputCooldown(0.05f);
         disableEvent.StopInput();
 
         // Apply bounce
-        mushroomEvent.SetBounce(true);
-        mushroomEvent.Bounce(forceToApply, ForceMode2D.Impulse);
+        if(!bouncing)
+        {
+            bouncing = true;
+        }
+
+        movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 
     /// <summary>

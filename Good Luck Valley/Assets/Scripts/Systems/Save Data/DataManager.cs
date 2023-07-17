@@ -35,6 +35,7 @@ public class DataManager : MonoBehaviour
     public string Level { get { return gameData.currentLevelName; } }
     public string SelectedProfileID { get { return selectedProfileID; } }
     public string SoftProfileID { get { return softProfileID; } }
+    public GameData Data { get { return gameData; } }
     #endregion
 
     private void Awake()
@@ -43,7 +44,7 @@ public class DataManager : MonoBehaviour
         if(Instance != null)
         {
             // If there is, destroy this one to retain singleton design
-            Debug.LogError("Found more than one Data Manager in the scene. Destroying the newest one");
+            Debug.LogWarning("Found more than one Data Manager in the scene. Destroying the newest one");
             Destroy(gameObject);
             return;
         }
@@ -123,6 +124,8 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
+        Debug.Log("New Game");
+
         // Gets rebinds so that starting a new game doesn't mess up keybinds
         string rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))

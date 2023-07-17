@@ -1,21 +1,27 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class PreviousLevelTransitionTrigger : MonoBehaviour
 {
     #region REFERENCES
-    [SerializeField] GameObject levelLoader;
-
+    [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private LevelDataObj levelDataObj;
+    [SerializeField] private GameObject levelLoader;
+    [SerializeField] private PlayableAsset cutsceneToPlayLeave;
+    [SerializeField] private PlayableAsset cutsceneToPlayEnter;
     #endregion
-    private bool transition;
-    private float timeBeforeTransitionTrigger = 5f;
+
     #region FIELDS
-
-    #endregion
-
-    #region PROPERTIES
-
+    [SerializeField] private string levelToLoad;
+    [SerializeField] private bool transition;
+    [SerializeField] private float timeBeforeTransitionTrigger = 1f;
     #endregion
 
     private void Awake()
@@ -26,11 +32,18 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && transition)
+        if (collision.gameObject.tag == "Player" && transition && loadLevelEvent.GetTriggersActive())
         {
-            // Save the game before loading the next level
-            DataManager.Instance.SaveGame();
-            levelLoader.GetComponent<LoadLevel>().LoadPrevLevel();
+            // Set inside load triger
+            loadLevelEvent.SetInLoadTrigger(true);
+
+            // Set variables
+            pauseEvent.SetCanPause(false);
+
+            // Set the cutscene event and play it
+            cutsceneEvent.SetLeaveCutscene(cutsceneToPlayLeave);
+            cutsceneEvent.SetEnterCutscene(cutsceneToPlayEnter);
+            cutsceneEvent.StartLeaveCutscene();
         }
     }
 
@@ -38,11 +51,33 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            // Reset triggers and variables
+            pauseEvent.SetCanPause(true);
+            loadLevelEvent.SetInLoadTrigger(false);
             transition = true;
+            timeBeforeTransitionTrigger = 1f;
         }
-
     }
 
+    /// <summary>
+    /// Trigger the loading screen
+    /// </summary>
+    public void TriggerLoad()
+    {
+        // Set variables
+        loadLevelEvent.SetInLoadTrigger(true);
+        loadLevelEvent.SetLoadingThroughCutscene(true);
+        levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.RETURN);
+        levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
+
+        // Load the previous level
+        levelLoader.GetComponent<LoadLevel>().LoadPrevLevel();
+    }
+
+    /// <summary>
+    /// Check for transition times
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CheckTransition()
     {
         while (timeBeforeTransitionTrigger > 0)

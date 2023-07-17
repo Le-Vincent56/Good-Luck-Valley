@@ -41,10 +41,8 @@ public class GeneralShroom : Shroom
                 GetComponent<Animator>().SetBool("Bouncing", false);
             }
         }
-        Debug.Log("Gen Shroom is shroom?: " + isShroom);
         if (isShroom && mushMan.EnableShroomTimers)
         {
-            Debug.Log("Shroom Counter Updating for " + shroomType);
             UpdateShroomCounter();
         }
     }
@@ -66,7 +64,11 @@ public class GeneralShroom : Shroom
             //}
 
             // Set bouncing variables
-            bouncing = true;
+            // Trigger events
+            if (!bouncing)
+            {
+                bouncing = true;
+            }
             bouncingTimer = 1f;
 
             // Set the direction
@@ -98,9 +100,8 @@ public class GeneralShroom : Shroom
                 disableEvent.StopInput();
             }
 
-            // Trigger events
-            mushroomEvent.SetBounce(true);
-            mushroomEvent.Bounce(forceToApply, ForceMode2D.Impulse);
+            movementEvent.SetIsBounceAnimating(true);
+            movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
         }
     }
 
@@ -114,7 +115,6 @@ public class GeneralShroom : Shroom
         {
             if (collision.collider is CompositeCollider2D)
             {
-                Debug.Log("Composite Collider");
                 // Set shroom type
                 IShroomeable shroomeableTile = collision.gameObject.GetComponent<IShroomeable>();
                 if (shroomeableTile != null)
