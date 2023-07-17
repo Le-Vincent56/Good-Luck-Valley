@@ -17,9 +17,11 @@ public class LotusPick : Interactable, IData
     [SerializeField] private float fadeAmount;
     #endregion
 
+
+
+
     void Start()
     {
-        vineWall = GameObject.Find("lotus wall");
 
         remove = false;
         if (fadeAmount == 0)
@@ -145,7 +147,6 @@ public class LotusPick : Interactable, IData
             // Remove the note
             remove = true;
         }
-        Debug.Log("Lotus active: " + active);
         // Set if the gameobject is active
         gameObject.SetActive(active);
     }

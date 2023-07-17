@@ -888,7 +888,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!isLocked && !bouncing && !touchingShroom)
+        if (!isLocked && !bouncing && !touchingShroom && canInputHard)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -969,12 +969,18 @@ public class PlayerMovement : MonoBehaviour, IData
         inputCooldown = cooldownData;
     }
 
+    /// <summary>
+    /// Disable player movement input
+    /// </summary>
     private void DisableInput()
     {
         canInput = false;
         canInputHard = false;
     }
 
+    /// <summary>
+    /// Enable player movement input
+    /// </summary>
     private void EnableInput()
     {
         canInput = true;

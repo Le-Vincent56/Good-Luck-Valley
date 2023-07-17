@@ -59,6 +59,7 @@ public class PauseMenu : MonoBehaviour, IData
                 pauseUI.enabled = true;
                 Time.timeScale = 0;
                 pauseEvent.Pause();
+                pauseEvent.SetPauseMenuOpen(true);
             }
             else
             {
@@ -66,6 +67,7 @@ public class PauseMenu : MonoBehaviour, IData
                 pauseUI.enabled = false;
                 Time.timeScale = 1f;
                 pauseEvent.Unpause();
+                pauseEvent.SetPauseMenuOpen(false);
             }
         }
     }
@@ -81,6 +83,7 @@ public class PauseMenu : MonoBehaviour, IData
             pauseUI.enabled = false;
             Time.timeScale = 1f;
             pauseEvent.Unpause();
+            pauseEvent.SetPauseMenuOpen(false);
         }
     }
    
@@ -129,6 +132,7 @@ public class PauseMenu : MonoBehaviour, IData
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(scene);
+            pauseEvent.SetPauseMenuOpen(false);
         }
     }
 

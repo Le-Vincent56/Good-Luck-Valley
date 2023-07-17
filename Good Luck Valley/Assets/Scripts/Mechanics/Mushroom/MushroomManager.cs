@@ -564,6 +564,7 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void GetThrow()
     {
+        Debug.Log("Getting Throw");
         throwUnlocked = true;
         shroomCounter.ResetQueue();
     }
@@ -573,6 +574,7 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void LockThrow()
     {
+        Debug.Log("Locking Throw");
         recallLocked = true;
         throwLocked = true;
     }
@@ -582,6 +584,7 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void UnlockThrow()
     {
+        Debug.Log("Unlocking Throw");
         recallLocked = false;
         throwLocked = false;
     }
@@ -590,6 +593,7 @@ public class MushroomManager : MonoBehaviour, IData
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
+        Debug.Log(data.throwUnlocked);
         throwUnlocked = data.throwUnlocked;
 
         // Load throwing data - setting throwing to false for animations
@@ -598,6 +602,7 @@ public class MushroomManager : MonoBehaviour, IData
 
     public void SaveData(GameData data)
     {
+        Debug.Log(data.throwUnlocked);
         data.throwUnlocked = throwUnlocked;
     }
     #endregion
