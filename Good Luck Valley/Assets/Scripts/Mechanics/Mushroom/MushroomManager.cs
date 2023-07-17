@@ -564,7 +564,6 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void GetThrow()
     {
-        Debug.Log("Getting Throw");
         throwUnlocked = true;
         shroomCounter.ResetQueue();
     }
@@ -574,7 +573,6 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void LockThrow()
     {
-        Debug.Log("Locking Throw");
         recallLocked = true;
         throwLocked = true;
     }
@@ -584,7 +582,6 @@ public class MushroomManager : MonoBehaviour, IData
     /// </summary>
     public void UnlockThrow()
     {
-        Debug.Log("Unlocking Throw");
         recallLocked = false;
         throwLocked = false;
     }

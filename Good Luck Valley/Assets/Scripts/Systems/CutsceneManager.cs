@@ -62,7 +62,6 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void PlayLeaveCutscene()
     {
-        Debug.Log("Playing leave cutscene");
 
         // Save the game
         DataManager.Instance.SaveGame();
