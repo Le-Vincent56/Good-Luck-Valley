@@ -145,4 +145,14 @@ public class CutsceneScriptableObj : ScriptableObject
         enterCutsceneActive = false;
         endEnterCutscene.Invoke();
     }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        leaveCutscene = null;
+        enterCutscene = null;
+        enterCutsceneActive = false;
+    }
 }

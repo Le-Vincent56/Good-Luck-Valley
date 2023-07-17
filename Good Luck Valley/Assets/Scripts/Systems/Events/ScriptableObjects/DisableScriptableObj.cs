@@ -79,22 +79,38 @@ public class DisableScriptableObj : ScriptableObject
     }
 
     /// <summary>
-    /// Trigger events related to stopping input
+    /// Trigger events related to stopping input on a cooldown
     /// </summary>
     public void StopInput()
     {
         stopInputEvent.Invoke(inputCooldown);
     }
 
+    /// <summary>
+    /// Trigger events relating to disabling input
+    /// </summary>
     public void DisableInput()
     {
         inputEnabled = false;
         disablePlayerInputEvent.Invoke();
     }
 
+    /// <summary>
+    /// Trigger events relating to enabling input
+    /// </summary>
     public void EnableInput()
     {
         inputEnabled = true;
         enablePlayerInputEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        playerLocked = false;
+        inputEnabled = true;
+        inputCooldown = 0f;
     }
 }

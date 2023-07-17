@@ -123,4 +123,15 @@ public class LoadLevelScriptableObj : ScriptableObject
         isLoading = false;
         endLoad.Invoke();
     }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        activeTriggers = false;
+        isLoading = false;
+        loadingThroughCutscene = false;
+        insideLoadTrigger = false;
+    }
 }

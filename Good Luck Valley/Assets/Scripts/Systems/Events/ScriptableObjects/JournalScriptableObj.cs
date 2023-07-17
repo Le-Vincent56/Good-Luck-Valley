@@ -173,4 +173,17 @@ public class JournalScriptableObj : ScriptableObject
     {
         clearJournalEvent.Invoke();
     }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        hasJournal = false;
+        journalOpen = false;
+        openedOnce = false;
+        canOpen = true;
+        canClose = true;
+        journalCloseBuffer = 0.25f;
+    }
 }

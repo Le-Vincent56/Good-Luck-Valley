@@ -124,6 +124,17 @@ public class MushroomScriptableObj : ScriptableObject, IData
         setThrowAnimationEvent.Invoke();
     }
 
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        touchingShroom = false;
+        throwUnlocked = false;
+        throwing = false;
+        bounceForce = Vector3.zero;
+    }
+
     #region DATA HANDLING
     public void LoadData(GameData data)
     {
