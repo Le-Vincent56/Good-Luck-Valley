@@ -86,7 +86,7 @@ public class GameData
     public void InitializePrologue()
     {
         levelData["Prologue"] = new LevelData();
-        levelData["Prologue"].levelPos = LEVELPOS.ENTER;
+        levelData["Prologue"].levelPos = LEVELPOS.DEFAULT;
         levelData["Prologue"].playerPosition = new Vector3(-27.46f, 7.85f, 0f);
 
         #region ASSETS

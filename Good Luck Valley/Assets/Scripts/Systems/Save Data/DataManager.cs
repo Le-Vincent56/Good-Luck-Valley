@@ -124,6 +124,8 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
+        Debug.Log("New Game");
+
         // Gets rebinds so that starting a new game doesn't mess up keybinds
         string rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))

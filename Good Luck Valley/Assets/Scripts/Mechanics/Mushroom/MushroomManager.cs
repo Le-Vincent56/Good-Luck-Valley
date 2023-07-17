@@ -581,7 +581,7 @@ public class MushroomManager : MonoBehaviour, IData
     /// Unlock mushroom throw
     /// </summary>
     public void UnlockThrow()
-    {   
+    {
         recallLocked = false;
         throwLocked = false;
     }

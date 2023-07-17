@@ -63,6 +63,7 @@ public class TransitionTrigger : MonoBehaviour
     {
         // Set variables
         loadLevelEvent.SetInLoadTrigger(true);
+        loadLevelEvent.SetLoadingThroughCutscene(true);
         levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.ENTER);
         levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
 
