@@ -63,6 +63,7 @@ public class MushroomScriptableObj : ScriptableObject, IData
     /// <param name="throwUnlocked">Whether the player has unlocked the shroom throw or not</param>
     public void SetThrowUnlocked(bool throwUnlocked)
     {
+        Debug.Log("Setting throw unlocked");
         this.throwUnlocked = throwUnlocked;
     }
 
@@ -102,6 +103,7 @@ public class MushroomScriptableObj : ScriptableObject, IData
     /// </summary>
     public void UnlockThrow()
     {
+        Debug.Log("Unlocking Throw");
         throwUnlocked = true;
         unlockThrowEvent.Invoke();
     }

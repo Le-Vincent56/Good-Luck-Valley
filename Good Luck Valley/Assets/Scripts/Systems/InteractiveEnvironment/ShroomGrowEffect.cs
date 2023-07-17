@@ -48,17 +48,14 @@ public class ShroomGrowEffect : MonoBehaviour
         {
             if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_d"))
             {
-                Debug.Log("hi");
                 return TileType.Dirt;
             }
             else if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_g"))
             {
-                Debug.Log("what");
                 return TileType.Grass;
             }
             else
             {
-                Debug.Log("_+_+_+_+_");
                 return TileType.None;
             }
         }

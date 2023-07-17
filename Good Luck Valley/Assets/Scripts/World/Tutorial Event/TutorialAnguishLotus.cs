@@ -10,28 +10,18 @@ public class TutorialAnguishLotus : Interactable, IData
     #region REFERENCES
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
-    private Tutorial tutorialManager;
-    private PlayerMovement playerMovement;
     #endregion
 
     #region FIELDS
-    private bool endLevel = false;
-    private DecomposableVine[] shroomWalls;
+    private GameObject shroomVines;
     [SerializeField] private float fadeAmount = 0.02f;
     #endregion
 
     void Start()
     {
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         remove = false;
-        endLevel = false;
 
-        shroomWalls = new DecomposableVine[3];
-
-        for (int i = 0; i < 3; i++)
-        {
-            shroomWalls[i] = GameObject.Find("Wall" + i).GetComponent<DecomposableVine>();
-        }
+        shroomVines = GameObject.Find("ShroomVineWall");
     }
 
     void Update()
@@ -79,23 +69,19 @@ public class TutorialAnguishLotus : Interactable, IData
 
     private IEnumerator FadeVines()
     {
-        foreach (DecomposableVine g in shroomWalls)
+        //Shit too fast changing to fadeAmount
+        //shroomVines.GetComponent<DecomposableVine>().DecomposeTime
+
+        while (shroomVines.GetComponent<SpriteRenderer>().color.a > 0)
         {
-            while(g.GetComponent<SpriteRenderer>().color.a > 0)
-            {
-                g.GetComponent<SpriteRenderer>().color = new Color(g.GetComponent<SpriteRenderer>().color.r, 
-                    g.GetComponent<SpriteRenderer>().color.g, 
-                    g.GetComponent<SpriteRenderer>().color.b, g.GetComponent<SpriteRenderer>().color.a - g.DecomposeTime);
-            }
+            shroomVines.GetComponent<SpriteRenderer>().color = new Color(shroomVines.GetComponent<SpriteRenderer>().color.r,
+            shroomVines.GetComponent<SpriteRenderer>().color.g,
+            shroomVines.GetComponent<SpriteRenderer>().color.b, 
+            shroomVines.GetComponent<SpriteRenderer>().color.a - fadeAmount);
         }
-        if (shroomWalls[shroomWalls.Length - 1].GetComponent<SpriteRenderer>().color.a <= 0)
+        if (shroomVines.GetComponent<SpriteRenderer>().color.a <= 0)
         {
-            foreach (DecomposableVine g in shroomWalls)
-            {
-                // Set the vine to inactive
-                g.Active = false;
-                g.gameObject.SetActive(false);
-            }
+            shroomVines.SetActive(false);
             finishedInteracting = true;
             disableEvent.Unlock();
         }

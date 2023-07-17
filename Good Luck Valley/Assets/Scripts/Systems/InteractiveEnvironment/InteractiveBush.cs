@@ -11,9 +11,9 @@ public class InteractiveBush : MonoBehaviour
     #endregion
 
     #region FIELDS
-    [SerializeField] private float rustleDuration;
+    [SerializeField] private float rustleDuration = 0.35f;
     [SerializeField] private bool rustling;
-    [SerializeField] private float maxRustleValue;
+    [SerializeField] private float maxRustleValue = 1.1f;
     #endregion
 
     #region PROPERTIES
@@ -32,12 +32,10 @@ public class InteractiveBush : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.x > 0)
             {
-                Debug.Log("ye");
                 mat.SetFloat("_SwapDirection", 1);
             }
             else
             {
-                Debug.Log("yNE");
                 mat.SetFloat("_SwapDirection", 0);
             }
             StartCoroutine(Rustle());
@@ -54,7 +52,6 @@ public class InteractiveBush : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float lerpAmount = Mathf.Lerp(minRustleValue, maxRustleValue, (elapsedTime / rustleDuration));
             mat.SetFloat(squashRef, lerpAmount);
-            Debug.Log("Squash Val: " + mat.GetFloat(squashRef));
             yield return null;
         }
 

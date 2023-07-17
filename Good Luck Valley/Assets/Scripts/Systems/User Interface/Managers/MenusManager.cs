@@ -53,6 +53,7 @@ public class MenusManager : MonoBehaviour
     private bool navScenes;
     private bool fadingIn;
     private bool fadingOut;
+    private GameObject menuParent;
     #endregion
 
     #region PROPERTIES
@@ -245,7 +246,6 @@ public class MenusManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("SCENE LOADED");
 
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
@@ -545,14 +545,6 @@ public class MenusManager : MonoBehaviour
     {
         if (settingsSaved)
         {
-            // Work on this for after rockstar :D
-            //if (currentScene == 3)
-            //{
-            //    foreach (GameObject menuPanel in GameObject.FindGameObjectsWithTag("MenuPanel"))
-            //    {
-            //        menuPanel.SetActive(false);
-            //    }
-            //}
 
             if (currentScene <= 4)
             StartCoroutine(FadeOut());
@@ -572,27 +564,65 @@ public class MenusManager : MonoBehaviour
     #region FADING
     private IEnumerator FadeIn()
     {
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(false);
+        //        if (g.transform.parent.gameObject == menuParent)
+        //        {
+        //            g.SetActive(true);
+        //        }
+        //    }
+        //}
+
         while (canvasGroup.alpha < 1)
         {
-            Debug.Log("fading in");
             canvasGroup.alpha += 0.1f;
             yield return null;
         }
+
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(true);
+        //    }
+        //}
     }
 
     private IEnumerator FadeOut()
     {
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(false);
+        //        if (g.transform.parent.gameObject == menuParent)
+        //        {
+        //            g.SetActive(true);
+        //        }
+        //    }
+        //}
+
         while (canvasGroup.alpha > 0)
         {
             canvasGroup.alpha -= 0.1f;
             yield return null;
         }
         navScenes = true;
+
+        //if (currentScene == 3)
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(true);
+        //    }
+        //}
     }
 
     public void CheckFade(int sceneToLoad)
     {
-        Debug.Log(settingsSaved);
         if (settingsSaved)
         {
             sceneLoadNum = sceneToLoad;
@@ -681,6 +711,7 @@ public class MenusManager : MonoBehaviour
             navButtons[i].GetComponent<Button>().interactable = true;
         }
         navButtons[button].GetComponent<Button>().interactable = false;
+        menuParent = navButtons[button].gameObject.transform.parent.gameObject;
     }
 
     public void AdjustSlider(int index)
