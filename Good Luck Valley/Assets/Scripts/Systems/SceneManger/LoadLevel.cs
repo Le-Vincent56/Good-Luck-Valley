@@ -23,7 +23,6 @@ public class LoadLevel : MonoBehaviour
     #endregion
 
     #region FIELDS
-    [SerializeField] private bool loadingThroughCutscene = false;
     [SerializeField] private bool useLevelData = false;
     public float transitionTime = 1f;
     #endregion
@@ -49,7 +48,6 @@ public class LoadLevel : MonoBehaviour
         DataManager.Instance.SaveGame();
 
         StartCoroutine(LoadingLevel(SceneManager.GetActiveScene().buildIndex - 1));
-
     }
 
     /// <summary>
@@ -83,16 +81,12 @@ public class LoadLevel : MonoBehaviour
             case LEVELPOS.ENTER:
                 // Reset player turn
                 movementEvent.ResetTurn();
-
-                loadingThroughCutscene = true;
                 cutsceneEvent.StartEnterCutscene();
                 break;
 
             case LEVELPOS.RETURN:
                 // Reset player turn
                 movementEvent.ResetTurn();
-
-                loadingThroughCutscene = true;
                 cutsceneEvent.StartEnterCutscene();
                 break;
 
@@ -113,8 +107,9 @@ public class LoadLevel : MonoBehaviour
     public void EndLoading()
     {
         // If loading through a cutscene, return so there's no overlap
-        if(loadingThroughCutscene)
+        if(loadLevelEvent.GetLoadingThroughCutscene())
         {
+            loadLevelEvent.SetLoadingThroughCutscene(false);
             return;
         }
 
@@ -160,7 +155,7 @@ public class LoadLevel : MonoBehaviour
         cutsceneEvent.EndEnterCutscene();
 
         // Set to false in case of future problems
-        loadingThroughCutscene = false;
+        loadLevelEvent.SetLoadingThroughCutscene(false);
 
         // Set load triggers to be active
         loadLevelEvent.SetTriggersActive(true);

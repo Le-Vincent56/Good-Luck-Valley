@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public class DisableScriptableObj : ScriptableObject
 {
     #region FIELDS
+    [SerializeField] private bool playerLocked;
+    [SerializeField] private bool inputEnabled;
     [SerializeField] private float inputCooldown;
 
     #region EVENTS
@@ -63,6 +65,7 @@ public class DisableScriptableObj : ScriptableObject
     /// </summary>
     public void Lock()
     {
+        playerLocked = true;
         lockPlayerEvent.Invoke();
     }
 
@@ -71,6 +74,7 @@ public class DisableScriptableObj : ScriptableObject
     /// </summary>
     public void Unlock()
     {
+        playerLocked = false;
         unlockPlayerEvent.Invoke();
     }
 
@@ -84,11 +88,13 @@ public class DisableScriptableObj : ScriptableObject
 
     public void DisableInput()
     {
+        inputEnabled = false;
         disablePlayerInputEvent.Invoke();
     }
 
     public void EnableInput()
     {
+        inputEnabled = true;
         enablePlayerInputEvent.Invoke();
     }
 }

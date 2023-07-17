@@ -10,6 +10,7 @@ public class LoadLevelScriptableObj : ScriptableObject
     #region FIELDS
     [SerializeField] private bool activeTriggers = false;
     [SerializeField] private bool isLoading = false;
+    [SerializeField] private bool loadingThroughCutscene = false;
     [SerializeField] private bool insideLoadTrigger = false;
 
     #region EVENTS
@@ -61,6 +62,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether a player is loading through a cutscene or not
+    /// </summary>
+    /// <param name="loadingThroughCutscene">Whether a player is loading through a cutscene or not</param>
+    public void SetLoadingThroughCutscene(bool loadingThroughCutscene)
+    {
+        this.loadingThroughCutscene = loadingThroughCutscene;
+    }
+
+    /// <summary>
     /// Get whether loading triggers are active or not
     /// </summary>
     /// <returns>Whether loading triggers are active or not</returns>
@@ -85,6 +95,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     public bool GetInLoadTrigger()
     {
         return insideLoadTrigger;
+    }
+
+    /// <summary>
+    /// Get whether the player is loading through a cutscene or not
+    /// </summary>
+    /// <returns>Whether the player is loading through a cutscene or not</returns>
+    public bool GetLoadingThroughCutscene()
+    {
+        return loadingThroughCutscene;
     }
 
     /// <summary>
