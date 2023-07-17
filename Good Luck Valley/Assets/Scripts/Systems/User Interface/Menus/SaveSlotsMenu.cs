@@ -169,6 +169,7 @@ public class SaveSlotsMenu : MonoBehaviour
                     // Delete the data associated with the selected save slot's profile ID
                     DataManager.Instance.DeleteProfileData(selectedSaveSlot.GetProfileID());
 
+                    // Show delete overlay
                     ShowDeleteOverlay();
                 },
                 // Function to execute if we cancel
@@ -214,7 +215,6 @@ public class SaveSlotsMenu : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DeleteDelay()
     {
-        // Fade in UI elements
         // Fade in UI elements
         yield return StartCoroutine(FadeInProgressUI());
 

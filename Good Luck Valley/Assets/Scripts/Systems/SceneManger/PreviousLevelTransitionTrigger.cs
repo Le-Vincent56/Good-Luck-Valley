@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PreviousLevelTransitionTrigger : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
@@ -36,6 +37,9 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
             // Set inside load triger
             loadLevelEvent.SetInLoadTrigger(true);
 
+            // Set variables
+            pauseEvent.SetCanPause(false);
+
             // Set the cutscene event and play it
             cutsceneEvent.SetLeaveCutscene(cutsceneToPlayLeave);
             cutsceneEvent.SetEnterCutscene(cutsceneToPlayEnter);
@@ -48,6 +52,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // Reset triggers and variables
+            pauseEvent.SetCanPause(true);
             loadLevelEvent.SetInLoadTrigger(false);
             transition = true;
             timeBeforeTransitionTrigger = 1f;
