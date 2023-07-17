@@ -58,10 +58,18 @@ public class Note : Interactable, IData
     public override void Interact()
     {
         // Add the note to the journal and trigger notification and sound effect
-        if(!noteAdded)
+        if (!noteAdded)
         {
             journalEvent.AddNote(this);
             noteAdded = true;
+        }
+        Debug.Log("journal index: " + journalIndex);
+        Debug.Log(journalEvent.GetHasJournal());
+
+        if (!journalEvent.GetHasJournal() && journalIndex == 0)
+        {
+            Debug.Log("open journal");
+            journalEvent.SetHasJournal(true);
         }
 
         // Finish interacting

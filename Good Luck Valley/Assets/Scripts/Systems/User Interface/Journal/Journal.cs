@@ -49,7 +49,6 @@ public class Journal : MonoBehaviour, IData
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
-
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;
     }
@@ -57,13 +56,20 @@ public class Journal : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
-        if(!hasJournal)
+        Debug.Log("Has Journal?: " + journalEvent.GetHasJournal());
+        if (!journalEvent.GetHasJournal())
         {
+            hasJournal = false;
             pauseJournalButton.interactable = false;
+            Color jColor = pauseJournalButton.GetComponent<Image>().color;
+            pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 0.3f);
         } 
         else
         {
+            hasJournal = true;
             pauseJournalButton.interactable = true;
+            Color jColor = pauseJournalButton.GetComponent<Image>().color;
+            pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 1f);
         }
 
         // If the close buffer is set to above 0,

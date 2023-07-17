@@ -14,7 +14,7 @@ public class TutorialAnguishLotus : Interactable, IData
 
     #region FIELDS
     private GameObject shroomVines;
-    [SerializeField] private float fadeAmount = 0.02f;
+    [SerializeField] private float fadeAmount = 0.001f;
     #endregion
 
     void Start()
@@ -78,6 +78,8 @@ public class TutorialAnguishLotus : Interactable, IData
             shroomVines.GetComponent<SpriteRenderer>().color.g,
             shroomVines.GetComponent<SpriteRenderer>().color.b, 
             shroomVines.GetComponent<SpriteRenderer>().color.a - fadeAmount);
+
+            yield return null;
         }
         if (shroomVines.GetComponent<SpriteRenderer>().color.a <= 0)
         {
@@ -85,8 +87,6 @@ public class TutorialAnguishLotus : Interactable, IData
             finishedInteracting = true;
             disableEvent.Unlock();
         }
-
-        yield return null;
     }
 
     #region DATA HANDLING
@@ -104,7 +104,6 @@ public class TutorialAnguishLotus : Interactable, IData
             // Remove the note
             remove = true;
         }
-        Debug.Log("Lotus active: " + active);
         // Set if the gameobject is active
         gameObject.SetActive(active);
     }

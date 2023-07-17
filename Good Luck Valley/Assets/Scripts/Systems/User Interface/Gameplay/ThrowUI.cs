@@ -209,6 +209,7 @@ public class ThrowUI : MonoBehaviour
                 case true:
                     // If they are facing right the trajectory line cannot go past the left 
                     //    side of the player 
+                    Debug.Log("Turn check 1: " + (playerPos.x - launchForce.x < playerPos.x));
                     if (player.GetComponent<Rigidbody2D>().velocity.x < 0 && playerPos.x - launchForce.x < playerPos.x)
                     {
                         // Turns the player by calling playerMovement's Turn method
