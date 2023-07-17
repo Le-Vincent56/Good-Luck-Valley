@@ -20,7 +20,7 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private List<Note> notes;
     [SerializeField] private bool menuOpen = false;
     [SerializeField] private bool hasJournal = false;
-    [SerializeField] private bool hasOpened = false;
+    [SerializeField] private bool hasOpenedOnce = false;
     [SerializeField] private bool openedFromKey = false;
     [SerializeField] private float journalCloseBuffer = 0.25f;
     [SerializeField] private bool canClose = false;
@@ -102,9 +102,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
-            if (!hasOpened)
+            if (!hasOpenedOnce)
             {
-                hasOpened = true;
+                hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
             }
 
@@ -158,9 +158,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
-            if (!hasOpened)
+            if (!hasOpenedOnce)
             {
-                hasOpened = true;
+                hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
             }
 
@@ -240,6 +240,10 @@ public class Journal : MonoBehaviour, IData
 
         // Set if the player has the journal according to data
         hasJournal = data.hasJournal;
+        journalEvent.SetHasJournal(hasJournal);
+
+        hasOpenedOnce = data.hasOpenedJournalOnce;
+        journalEvent.SetOpenedOnce(hasOpenedOnce);
     }
 
     public void SaveData(GameData data)
@@ -259,6 +263,9 @@ public class Journal : MonoBehaviour, IData
 
         // Save if the player has the journal or not
         data.hasJournal = hasJournal;
+
+        // Save if the player has opened the journal or not
+        data.hasOpenedJournalOnce = hasOpenedOnce;
     }
     #endregion
 }
