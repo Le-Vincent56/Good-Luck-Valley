@@ -12,9 +12,14 @@ public class SaveSlotsMenu : MonoBehaviour
     [SerializeField] private ConfirmationPopupMenu deleteConfirmationMenu;
     private SaveSlot[] saveSlots;
     private SaveSlot selectedSaveSlot;
+    [SerializeField] private Image deleteProgressPanel;
+    [SerializeField] private Text deleteProgressText;
     #endregion
 
     #region FIELDS
+    private float deleteTextUpdateTimer = 2.4f;
+    private bool deleting = false;
+    private bool playAnimation = false;
     #endregion
 
     private void Awake()
@@ -135,6 +140,22 @@ public class SaveSlotsMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Set the interactablity of the delete button
+    /// </summary>
+    public void SetDeleteButtonInteractable()
+    {
+        if (selectedSaveSlot.HasData && DataManager.Instance.SelectedProfileID != DataManager.Instance.SoftProfileID)
+        {
+            // Only enable delete button if there is data to delete and the profile selected is not the current profile
+            deleteButton.interactable = true;
+        }
+        else
+        {
+            deleteButton.interactable = false;
+        }
+    }
+
+    /// <summary>
     /// Delete the selected save slot
     /// </summary>
     public void DeleteSave()
@@ -148,19 +169,7 @@ public class SaveSlotsMenu : MonoBehaviour
                     // Delete the data associated with the selected save slot's profile ID
                     DataManager.Instance.DeleteProfileData(selectedSaveSlot.GetProfileID());
 
-                    if(!DataManager.Instance.HasGameData())
-                    {
-                        // Reload the menu
-                        ActivateMenu();
-
-                        // Go back to main menu
-                        SceneManager.LoadSceneAsync("Main Menu");
-
-                    } else
-                    {
-                        // Reload the menu
-                        ActivateMenu();
-                    }
+                    ShowDeleteOverlay();
                 },
                 // Function to execute if we cancel
                 () =>
@@ -181,5 +190,155 @@ public class SaveSlotsMenu : MonoBehaviour
         DataManager.Instance.SaveGame();
 
         SceneManager.LoadSceneAsync(sceneToLoad);
+    }
+
+    /// <summary>
+    /// Show the delete overlay
+    /// </summary>
+    private void ShowDeleteOverlay()
+    {
+        // Show saving in progress UI elements and set saving text update timer
+        deleteProgressPanel.enabled = true;
+        deleteProgressText.enabled = true;
+        deleteProgressText.text = "Deleting";
+        deleteTextUpdateTimer = 2.4f;
+
+        // Set a delay for saving before re-activating the menu to allow time for the new save to appear
+        deleting = true;
+        StartCoroutine(DeleteDelay());
+    }
+
+    /// <summary>
+    /// Progress the delete loading screen
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeleteDelay()
+    {
+        // Fade in UI elements
+        // Fade in UI elements
+        yield return StartCoroutine(FadeInProgressUI());
+
+        // Start the timer for saving
+        yield return StartCoroutine(DeleteTimer());
+
+        // Stop animation
+        playAnimation = false;
+        StopCoroutine(DeletingAnimation());
+
+        // Fade out UI elements
+        yield return StartCoroutine(FadeOutProgressUI());
+
+        // Check if there's game data
+        if (!DataManager.Instance.HasGameData())
+        {
+            // Reload the menu
+            ActivateMenu();
+
+            // Go back to main menu
+            SceneManager.LoadSceneAsync("Main Menu");
+        }
+        else
+        {
+            // Reload the menu
+            ActivateMenu();
+        }
+
+        // Enable buttons
+        SetDeleteButtonInteractable();
+        startButton.interactable = true;
+
+        deleting = false;
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Hold the deleting panel and text for a given time
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeleteTimer()
+    {
+        // Play animation while waiting
+        playAnimation = true;
+        StartCoroutine(DeletingAnimation());
+        yield return new WaitForSecondsRealtime(3f);
+    }
+
+    /// <summary>
+    /// Play the deleting animation
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeletingAnimation()
+    {
+        // Check if it should be playing the animation, if so, enter a loop
+        while (playAnimation)
+        {
+            // Yield so that other code can run
+            yield return null;
+
+            // Update savingProgressText based on timer
+            if (deleteTextUpdateTimer > 0)
+            {
+                if (deleteTextUpdateTimer <= 2.4f && deleteTextUpdateTimer > 1.8f)
+                {
+                    deleteProgressText.text = "Deleting";
+                }
+                else if (deleteTextUpdateTimer <= 1.8f && deleteTextUpdateTimer > 1.2f)
+                {
+                    deleteProgressText.text = "Deleting.";
+                }
+                else if (deleteTextUpdateTimer <= 1.2f && deleteTextUpdateTimer > 0.6f)
+                {
+                    deleteProgressText.text = "Deleting..";
+                }
+                else if (deleteTextUpdateTimer <= 0.6f)
+                {
+                    deleteProgressText.text = "Deleting...";
+                }
+            }
+            else if (deleteTextUpdateTimer <= 0)
+            {
+                // Reset timer once it hits 0
+                deleteTextUpdateTimer = 2.4f;
+            }
+
+            // Subtract by unscaledDeltaTime (game is paused, so deltaTime won't work because it is scaled)
+            deleteTextUpdateTimer -= Time.unscaledDeltaTime;
+        }
+    }
+
+    /// <summary>
+    /// Fade in the Deleting in Progress UI
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FadeInProgressUI()
+    {
+        // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
+        while (deleteProgressPanel.color.a < 0.67 && deleteProgressText.color.a < 1)
+        {
+            deleteProgressPanel.color = new Color(deleteProgressPanel.color.r, deleteProgressPanel.color.g, deleteProgressPanel.color.b, deleteProgressPanel.color.a + (Time.unscaledDeltaTime * 2));
+            deleteProgressText.color = new Color(deleteProgressText.color.r, deleteProgressText.color.g, deleteProgressText.color.b, deleteProgressText.color.a + (Time.unscaledDeltaTime * 3f));
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Fade out the Deleting in Progress UI
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FadeOutProgressUI()
+    {
+        // While alpha values are over the desired numbers, decrease them by an unscaled delta time (because we are paused)
+        while (deleteProgressPanel.color.a > 0 && deleteProgressText.color.a > 0)
+        {
+            deleteProgressPanel.color = new Color(deleteProgressPanel.color.r, deleteProgressPanel.color.g, deleteProgressPanel.color.b, deleteProgressPanel.color.a - (Time.unscaledDeltaTime * 2));
+            deleteProgressText.color = new Color(deleteProgressText.color.r, deleteProgressText.color.g, deleteProgressText.color.b, deleteProgressText.color.a - (Time.unscaledDeltaTime * 3f));
+        }
+
+        // Disable the UI elements once they are gone
+        deleteProgressPanel.enabled = false;
+        deleteProgressText.enabled = false;
+
+        yield return null;
     }
 }
