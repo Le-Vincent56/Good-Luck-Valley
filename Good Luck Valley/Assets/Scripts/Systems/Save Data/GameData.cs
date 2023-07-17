@@ -79,7 +79,7 @@ public class GameData
         #region JOURNAL
         numNotesCollected = 0;
         notes = new List<NoteData>();
-        hasJournal = true;
+        hasJournal = false;
         #endregion
     }
 
