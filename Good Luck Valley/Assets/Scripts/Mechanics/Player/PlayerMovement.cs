@@ -440,6 +440,14 @@ public class PlayerMovement : MonoBehaviour, IData
                 Run(0.5f);
                 movementEvent.SetVectors(rb.velocity, moveInput);
                 movementEvent.Move();
+
+                // Check direction to face based on vector
+                if (moveInput.x != 0)
+                {
+                    // Check directions to face
+                    CheckDirectionToFace(moveInput.x > 0);
+                }
+
                 StopCoroutine(MovementCooldown());
             } else
             {
@@ -871,13 +879,6 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			// Set the move input to the value returned by context
 			moveInput = context.ReadValue<Vector2>();
-			
-			// Check direction to face based on vector
-			if (moveInput.x != 0)
-			{
-				// Check directions to face
-                CheckDirectionToFace(moveInput.x > 0);
-			}
 		}
 	}
 
