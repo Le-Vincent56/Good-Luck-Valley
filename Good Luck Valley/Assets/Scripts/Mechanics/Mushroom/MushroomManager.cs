@@ -8,6 +8,7 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using static UnityEngine.ParticleSystem;
+using UnityEngine.UI;
 
 public enum ThrowState
 {
@@ -254,24 +255,30 @@ public class MushroomManager : MonoBehaviour, IData
             {
                 // mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = shroomCounter.ShroomIconQueue[0];
                 // shroomCounter.ShroomIconQueue.RemoveAt(0);
-                float rightMostXPos = int.MinValue;
-                GameObject assignedShroomIcon = null;
-                foreach (GameObject shroomIcon in shroomCounter.ShroomIconQueue)
-                {
-                    if (shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
-                    {
-                        rightMostXPos = shroomIcon.GetComponent<RectTransform>().position.x;
-                        assignedShroomIcon = shroomIcon;
-                    }   
-                }
 
                 Shroom mInfo = mushroomList[mushroomList.Count - 1].GetComponent<Shroom>();
 
-                mInfo.ShroomIcon = assignedShroomIcon;
-                shroomCounter.ShroomIconQueue.Remove(assignedShroomIcon);
+                mInfo.ShroomIcon = GetRightMostShroomIcon();
+                shroomCounter.ShroomIconQueue.Remove(mInfo.ShroomIcon);
                 mInfo.StartCounter();
             }
         }
+    }
+
+    private GameObject GetRightMostShroomIcon()
+    {
+        float rightMostXPos = int.MinValue;
+        GameObject assignedShroomIcon = null;
+        foreach (GameObject shroomIcon in shroomCounter.ShroomIconQueue)
+        {
+            if (shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
+            {
+                rightMostXPos = shroomIcon.GetComponent<RectTransform>().position.x;
+                assignedShroomIcon = shroomIcon;
+            }
+        }
+
+        return assignedShroomIcon;
     }
 
     /// <summary>
