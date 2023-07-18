@@ -2671,7 +2671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -57347,7 +57347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -58826,6 +58826,10 @@ PrefabInstance:
       propertyPath: disableEvent
       value: 
       objectReference: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
+    - target: {fileID: 7479375662854046019, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
+      propertyPath: interactableTutorial
+      value: 
+      objectReference: {fileID: 1418604557}
     - target: {fileID: 7479375662854046041, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: m_Name
       value: Anguish Lotus
@@ -61889,7 +61893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db9d9747ce52cc4d9cfc2d93f6bee67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: cfcb25a9-c90c-4001-8b02-f3709a9e417d
+  id: 7d6b9b97-f377-4119-a443-468aeb2e7104
   timeToDecompose: 0.02
 --- !u!60 &978430893
 PolygonCollider2D:
@@ -63018,6 +63022,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 194225541, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1310835840, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -76333,7 +76341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7929834176910632845, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
       propertyPath: initializeDataIfNull
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7929834176910632846, guid: 691749bffb03db540b1028c313cf5d88, type: 3}
       propertyPath: m_RootOrder
