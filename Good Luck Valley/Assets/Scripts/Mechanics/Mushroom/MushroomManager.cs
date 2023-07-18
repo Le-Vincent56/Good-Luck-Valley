@@ -147,6 +147,7 @@ public class MushroomManager : MonoBehaviour, IData
         loadLevelEvent.endLoad.AddListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
         cutsceneEvent.endLotusCutscene.AddListener(UnlockThrow);
+        cutsceneEvent.startLeaveCutscene.AddListener(DeleteThrowLine);
     }
 
     private void OnDisable()
@@ -198,7 +199,7 @@ public class MushroomManager : MonoBehaviour, IData
                 }
                 if (!throwLineOn)
                 {
-                    throwUI_Script.DeleteLine();
+                    DeleteThrowLine();
                 }
                 break;                
         }
@@ -213,6 +214,11 @@ public class MushroomManager : MonoBehaviour, IData
         //CheckIfCanBounce();
         CheckShroomDuration();
         //UpdateShroomCooldowns();
+    }
+
+    private void DeleteThrowLine()
+    {
+        throwUI_Script.DeleteLine();
     }
 
     void CheckShroomDuration()
@@ -279,21 +285,21 @@ public class MushroomManager : MonoBehaviour, IData
         // Checks if the current number of spawned mushrooms is lower than the max amount
         if (mushroomList.Count < mushroomLimit)
         {
-            throwUI_Script.DeleteLine();
+            DeleteThrowLine();
             ThrowMushroom();
         }
         else if (mushroomList.Count >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
             Shroom mInfo = mushroomList[0].GetComponent<Shroom>();
-            throwUI_Script.DeleteLine();
+            DeleteThrowLine();
 
             if (mushroomLimit == 3)
             {
                 shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
                 mInfo.ResetCounter();
             }
-
+            
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
             ThrowMushroom();
