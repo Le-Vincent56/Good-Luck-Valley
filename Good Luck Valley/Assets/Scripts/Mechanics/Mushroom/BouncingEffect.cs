@@ -37,6 +37,9 @@ public class BouncingEffect : MonoBehaviour
             Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
             if (shroomToBounce != null)
             {
+                // Cuts momentum before applying bounce
+                GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
                 shroomToBounce.Bounce();
             }
 

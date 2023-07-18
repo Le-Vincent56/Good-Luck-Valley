@@ -8,6 +8,7 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using static UnityEngine.ParticleSystem;
+using UnityEngine.UI;
 
 public enum ThrowState
 {
@@ -147,6 +148,7 @@ public class MushroomManager : MonoBehaviour, IData
         loadLevelEvent.endLoad.AddListener(UnlockThrow);
         cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
         cutsceneEvent.endLotusCutscene.AddListener(UnlockThrow);
+        cutsceneEvent.startLeaveCutscene.AddListener(DeleteThrowLine);
     }
 
     private void OnDisable()
@@ -198,7 +200,7 @@ public class MushroomManager : MonoBehaviour, IData
                 }
                 if (!throwLineOn)
                 {
-                    throwUI_Script.DeleteLine();
+                    DeleteThrowLine();
                 }
                 break;                
         }
@@ -213,6 +215,11 @@ public class MushroomManager : MonoBehaviour, IData
         //CheckIfCanBounce();
         CheckShroomDuration();
         //UpdateShroomCooldowns();
+    }
+
+    private void DeleteThrowLine()
+    {
+        throwUI_Script.DeleteLine();
     }
 
     void CheckShroomDuration()
@@ -248,24 +255,30 @@ public class MushroomManager : MonoBehaviour, IData
             {
                 // mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = shroomCounter.ShroomIconQueue[0];
                 // shroomCounter.ShroomIconQueue.RemoveAt(0);
-                float rightMostXPos = int.MinValue;
-                GameObject assignedShroomIcon = null;
-                foreach (GameObject shroomIcon in shroomCounter.ShroomIconQueue)
-                {
-                    if (shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
-                    {
-                        rightMostXPos = shroomIcon.GetComponent<RectTransform>().position.x;
-                        assignedShroomIcon = shroomIcon;
-                    }   
-                }
 
                 Shroom mInfo = mushroomList[mushroomList.Count - 1].GetComponent<Shroom>();
 
-                mInfo.ShroomIcon = assignedShroomIcon;
-                shroomCounter.ShroomIconQueue.Remove(assignedShroomIcon);
+                mInfo.ShroomIcon = GetRightMostShroomIcon();
+                shroomCounter.ShroomIconQueue.Remove(mInfo.ShroomIcon);
                 mInfo.StartCounter();
             }
         }
+    }
+
+    private GameObject GetRightMostShroomIcon()
+    {
+        float rightMostXPos = int.MinValue;
+        GameObject assignedShroomIcon = null;
+        foreach (GameObject shroomIcon in shroomCounter.ShroomIconQueue)
+        {
+            if (shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
+            {
+                rightMostXPos = shroomIcon.GetComponent<RectTransform>().position.x;
+                assignedShroomIcon = shroomIcon;
+            }
+        }
+
+        return assignedShroomIcon;
     }
 
     /// <summary>
@@ -279,21 +292,21 @@ public class MushroomManager : MonoBehaviour, IData
         // Checks if the current number of spawned mushrooms is lower than the max amount
         if (mushroomList.Count < mushroomLimit)
         {
-            throwUI_Script.DeleteLine();
+            DeleteThrowLine();
             ThrowMushroom();
         }
         else if (mushroomList.Count >= mushroomLimit)
         {
             // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
             Shroom mInfo = mushroomList[0].GetComponent<Shroom>();
-            throwUI_Script.DeleteLine();
+            DeleteThrowLine();
 
             if (mushroomLimit == 3)
             {
                 shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
                 mInfo.ResetCounter();
             }
-
+            
             Destroy(mushroomList[0]);
             mushroomList.RemoveAt(0);
             ThrowMushroom();
