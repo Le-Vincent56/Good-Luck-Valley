@@ -20,7 +20,7 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private List<Note> notes;
     [SerializeField] private bool menuOpen = false;
     [SerializeField] private bool hasJournal = false;
-    [SerializeField] private bool hasOpened = false;
+    [SerializeField] private bool hasOpenedOnce = false;
     [SerializeField] private bool openedFromKey = false;
     [SerializeField] private float journalCloseBuffer = 0.25f;
     [SerializeField] private bool canClose = false;
@@ -49,7 +49,6 @@ public class Journal : MonoBehaviour, IData
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
-
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;
     }
@@ -57,13 +56,20 @@ public class Journal : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
-        if(!hasJournal)
+        Debug.Log("Has Journal?: " + journalEvent.GetHasJournal());
+        if (!journalEvent.GetHasJournal())
         {
+            hasJournal = false;
             pauseJournalButton.interactable = false;
+            Color jColor = pauseJournalButton.GetComponent<Image>().color;
+            pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 0.3f);
         } 
         else
         {
+            hasJournal = true;
             pauseJournalButton.interactable = true;
+            Color jColor = pauseJournalButton.GetComponent<Image>().color;
+            pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 1f);
         }
 
         // If the close buffer is set to above 0,
@@ -96,9 +102,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
-            if (!hasOpened)
+            if (!hasOpenedOnce)
             {
-                hasOpened = true;
+                hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
             }
 
@@ -152,9 +158,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
-            if (!hasOpened)
+            if (!hasOpenedOnce)
             {
-                hasOpened = true;
+                hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
             }
 
@@ -234,6 +240,10 @@ public class Journal : MonoBehaviour, IData
 
         // Set if the player has the journal according to data
         hasJournal = data.hasJournal;
+        journalEvent.SetHasJournal(hasJournal);
+
+        hasOpenedOnce = data.hasOpenedJournalOnce;
+        journalEvent.SetOpenedOnce(hasOpenedOnce);
     }
 
     public void SaveData(GameData data)
@@ -253,6 +263,9 @@ public class Journal : MonoBehaviour, IData
 
         // Save if the player has the journal or not
         data.hasJournal = hasJournal;
+
+        // Save if the player has opened the journal or not
+        data.hasOpenedJournalOnce = hasOpenedOnce;
     }
     #endregion
 }

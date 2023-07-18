@@ -415,7 +415,6 @@ public class MenusManager : MonoBehaviour
             case 7:
             case 8:
             case 9:
-                Debug.Log("Level: " + DataManager.Instance.Level);
                 SceneManager.LoadScene(DataManager.Instance.Level);
                 break;
         }
@@ -576,10 +575,13 @@ public class MenusManager : MonoBehaviour
         //    }
         //}
 
-        while (canvasGroup.alpha < 1)
+        if (canvasGroup != null)
         {
-            canvasGroup.alpha += 0.1f;
-            yield return null;
+            while (canvasGroup.alpha < 1)
+            {
+                canvasGroup.alpha += 0.1f;
+                yield return null;
+            }
         }
 
         //if (currentScene == 3)
@@ -605,12 +607,15 @@ public class MenusManager : MonoBehaviour
         //    }
         //}
 
-        while (canvasGroup.alpha > 0)
+        if (canvasGroup != null)
         {
-            canvasGroup.alpha -= 0.1f;
-            yield return null;
+            while (canvasGroup.alpha > 0)
+            {
+                canvasGroup.alpha -= 0.1f;
+                yield return null;
+            }
+            navScenes = true;
         }
-        navScenes = true;
 
         //if (currentScene == 3)
         //{

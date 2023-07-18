@@ -54,6 +54,7 @@ public class GameData
     public int numNotesCollected;
     public List<NoteData> notes;
     public bool hasJournal;
+    public bool hasOpenedJournalOnce;
     #endregion
     #endregion
 
@@ -79,7 +80,8 @@ public class GameData
         #region JOURNAL
         numNotesCollected = 0;
         notes = new List<NoteData>();
-        hasJournal = true;
+        hasJournal = false;
+        hasOpenedJournalOnce = false;
         #endregion
     }
 
