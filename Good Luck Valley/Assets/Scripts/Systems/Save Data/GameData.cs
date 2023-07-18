@@ -93,9 +93,7 @@ public class GameData
 
         #region ASSETS
         // Spore vines
-        levelData["Prologue"].assetsActive.Add("d36a4464-bcf2-4133-933e-edcc3f1c12e8", true);
-        levelData["Prologue"].assetsActive.Add("cfcb25a9-c90c-4001-8b02-f3709a9e417d", true);
-        levelData["Prologue"].assetsActive.Add("94f7a370-3732-44b5-8ef7-966b10c051e3", true);
+        levelData["Prologue"].assetsActive.Add("7d6b9b97-f377-4119-a443-468aeb2e7104", true);
 
         // Spore
         levelData["Prologue"].assetsActive.Add("62d1a4a9-3861-42b1-b0aa-06684d32d1f2", true);

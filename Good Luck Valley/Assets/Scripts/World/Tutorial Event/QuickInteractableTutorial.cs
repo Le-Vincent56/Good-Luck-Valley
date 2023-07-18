@@ -7,8 +7,10 @@ using TMPro;
 
 public class QuickInteractableTutorial : MonoBehaviour
 {
+    #region FIELDS
     private Image interactPanel;
     private Text interactText;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +64,7 @@ public class QuickInteractableTutorial : MonoBehaviour
         }
     }
 
-    private IEnumerator HideInteract()
+    public IEnumerator HideInteract()
     {
         while (interactPanel.color.a > 0 && interactText.color.a > 0)
         {
@@ -72,6 +74,7 @@ public class QuickInteractableTutorial : MonoBehaviour
                 interactPanel.color = new Color(interactPanel.color.r, interactPanel.color.g, interactPanel.color.b, interactPanel.color.a - 0.02f);
                 interactText.color = new Color(interactText.color.r, interactText.color.g, interactText.color.b, interactText.color.a - 0.02f);
             }
+
             yield return null;
         }
     }
