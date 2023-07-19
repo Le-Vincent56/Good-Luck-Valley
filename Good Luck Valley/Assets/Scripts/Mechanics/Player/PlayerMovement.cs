@@ -117,6 +117,8 @@ public class PlayerMovement : MonoBehaviour, IData
         movementEvent.bounceEvent.AddListener(ApplyBounce);
         movementEvent.landEvent.AddListener(Land);
         movementEvent.resetTurn.AddListener(ResetTurn);
+        movementEvent.applyMovementDirection.AddListener(SetMovementDirection);
+        movementEvent.setTurnDirection.AddListener(SetTurnDirection);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
         pauseEvent.pauseEvent.AddListener(LockMovement);
         pauseEvent.unpauseEvent.AddListener(UnlockMovement);
@@ -137,6 +139,8 @@ public class PlayerMovement : MonoBehaviour, IData
         movementEvent.bounceEvent.RemoveListener(ApplyBounce);
         movementEvent.landEvent.RemoveListener(Land);
         movementEvent.resetTurn.RemoveListener(ResetTurn);
+        movementEvent.applyMovementDirection.RemoveListener(SetMovementDirection);
+        movementEvent.setTurnDirection.RemoveListener(SetTurnDirection);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
         pauseEvent.pauseEvent.RemoveListener(LockMovement);
         pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
@@ -520,8 +524,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
-        Debug.Log("Moving");
-
         // Calculate the direction we want to move in and our desired velocity
         float targetSpeed = moveInput.x * data.runMaxSpeed;
 
@@ -992,6 +994,44 @@ public class PlayerMovement : MonoBehaviour, IData
         playerInput.ActivateInput();
         canInput = true;
         canInputHard = true;
+    }
+
+    /// <summary>
+    /// Set the player movement direction
+    /// </summary>
+    /// <param name="movementDirection">The movement direction</param>
+    private void SetMovementDirection(Vector2 movementDirection)
+    {
+        RB.velocity = movementDirection;
+    }
+
+    /// <summary>
+    /// Set in which direction the player is facing
+    /// </summary>
+    /// <param name="directionToface">The direction to face, 1 for right, -1 for left</param>
+    private void SetTurnDirection(int directionToFace)
+    {
+        switch(directionToFace)
+        {
+            // If directionToFace is 1, set the player facing right
+            case 1:
+                Vector3 scaleRight = transform.localScale;
+                scaleRight.x = Mathf.Abs(scaleRight.x);
+                transform.localScale = scaleRight;
+
+                isFacingRight = true;
+                break;
+
+            // If directionToFace is -1, set the player facing left
+            case -1:
+                Vector3 scaleLeft = transform.localScale;
+                scaleLeft.x = Mathf.Abs(scaleLeft.x);
+                scaleLeft.x = -scaleLeft.x;
+                transform.localScale = scaleLeft;
+
+                isFacingRight = false;
+                break;
+        }
     }
 
     private void Land()

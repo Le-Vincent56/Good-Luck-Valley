@@ -12,6 +12,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     [SerializeField] private DisableScriptableObj disableEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private LevelDataObj levelDataObj;
     [SerializeField] private GameObject levelLoader;
     [SerializeField] private PlayableAsset cutsceneToPlayLeave;
@@ -19,6 +20,8 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     #endregion
 
     #region FIELDS
+    [SerializeField] private Vector2 movementDirection;
+    [SerializeField] private int directionToFace;
     [SerializeField] private string levelToLoad;
     [SerializeField] private bool transition;
     [SerializeField] private float timeBeforeTransitionTrigger = 1f;
@@ -36,6 +39,11 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
         {
             // Lock the player
             disableEvent.DisableInput();
+
+            // Set player movement
+            movementEvent.SetTurnDirection(directionToFace);
+            movementEvent.SetMovementDirection(movementDirection);
+            movementEvent.ApplyMovementDirection();
 
             // Set inside load triger
             loadLevelEvent.SetInLoadTrigger(true);

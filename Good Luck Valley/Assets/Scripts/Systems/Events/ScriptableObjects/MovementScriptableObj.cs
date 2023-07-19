@@ -25,7 +25,9 @@ public class MovementScriptableObj : ScriptableObject, IData
     public UnityEvent<Vector3, ForceMode2D> bounceEvent;
     public UnityEvent bounceAnimationEvent;
     public UnityEvent<float, float, bool> footstepEvent;
+    public UnityEvent<int> setTurnDirection;
     public UnityEvent resetTurn;
+    public UnityEvent<Vector2> applyMovementDirection;
     #endregion
     #endregion
 
@@ -68,9 +70,19 @@ public class MovementScriptableObj : ScriptableObject, IData
             footstepEvent = new UnityEvent<float, float, bool>();
         }
 
+        if(setTurnDirection == null)
+        {
+            setTurnDirection = new UnityEvent<int>();
+        }
+
         if(resetTurn == null)
         {
             resetTurn = new UnityEvent();
+        }
+
+        if(applyMovementDirection == null)
+        {
+            applyMovementDirection = new UnityEvent<Vector2>();
         }
         #endregion
     }
@@ -139,6 +151,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set the movement direction of the player
+    /// </summary>
+    /// <param name="movementDirection">The movement direction of the player</param>
+    public void SetMovementDirection(Vector2 movementDirection)
+    {
+        this.movementDirection = movementDirection;
+    }
+
+    /// <summary>
     /// Get whether the player is grounded or not
     /// </summary>
     /// <returns>Whether the player is grounded or not</returns>
@@ -183,6 +204,10 @@ public class MovementScriptableObj : ScriptableObject, IData
         return isBouncing;
     }
 
+    /// <summary>
+    /// Get whether the player is animating a bounce or not
+    /// </summary>
+    /// <returns>Whether the player is animating a bounce or not</returns>
     public bool GetIsBounceAnimating()
     {
         return isBounceAnimating;
@@ -260,11 +285,28 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set the player's turn direction
+    /// </summary>
+    /// <param name="direction">The turn direction, 1 for right, -1 for left</param>
+    public void SetTurnDirection(int direction)
+    {
+        setTurnDirection.Invoke(direction);
+    }
+
+    /// <summary>
     /// Trigger events relating to resetting the player turn direction
     /// </summary>
     public void ResetTurn()
     {
         resetTurn.Invoke();
+    }
+
+    /// <summary>
+    /// Apply movement direction to the player
+    /// </summary>
+    public void ApplyMovementDirection()
+    {
+        applyMovementDirection.Invoke(movementDirection);
     }
 
     /// <summary>
