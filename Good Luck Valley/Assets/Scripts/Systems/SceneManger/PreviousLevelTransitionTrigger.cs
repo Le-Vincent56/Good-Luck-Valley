@@ -34,6 +34,9 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && transition && loadLevelEvent.GetTriggersActive())
         {
+            // Lock the player
+            disableEvent.DisableInput();
+
             // Set inside load triger
             loadLevelEvent.SetInLoadTrigger(true);
 

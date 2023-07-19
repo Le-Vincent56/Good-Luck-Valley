@@ -9,6 +9,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference Ambience { get; private set; }
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference PlayerFootsteps { get; private set; }
+    [field: SerializeField] public List<EventReference> BushRustles { get; private set; }
 
     [field: Header("Music")]
     [field: SerializeField] public EventReference GameMusic { get; private set; }

@@ -131,12 +131,26 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Play a one shot sound
     /// </summary>
-    /// <param name="sound"></param>
-    /// <param name="worldPos"></param>
+    /// <param name="sound">Sound to play</param>
+    /// <param name="worldPos">Where to play it</param>
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
     {
         // From FMOD Unity
         RuntimeManager.PlayOneShot(sound, worldPos);
+    }
+
+    /// <summary>
+    /// Play a random one shot sound out of a list of sounds
+    /// </summary>
+    /// <param name="sounds">Sound to play</param>
+    /// <param name="worldPos">Where to play it</param>
+    public void PlayRandomizedOneShot(List<EventReference> sounds, Vector3 worldPos)
+    {
+        // Get a random number in range of the list indexes
+        int soundIndex = (int)Random.Range(0f, 4f);
+
+        // Play one of the one shots within the list
+        RuntimeManager.PlayOneShot(sounds[soundIndex], worldPos);
     }
 
     /// <summary>
