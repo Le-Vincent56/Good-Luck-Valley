@@ -56,7 +56,6 @@ public class Journal : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Has Journal?: " + journalEvent.GetHasJournal());
         if (!journalEvent.GetHasJournal())
         {
             hasJournal = false;
