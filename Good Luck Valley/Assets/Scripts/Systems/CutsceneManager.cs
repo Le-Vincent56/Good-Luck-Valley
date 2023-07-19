@@ -62,12 +62,8 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void PlayLeaveCutscene()
     {
-
         // Save the game
         DataManager.Instance.SaveGame();
-
-        // Lock the player
-        disableEvent.DisableInput();
 
         // Set the player director asset and play it
         playerDirector.playableAsset = cutsceneEvent.GetLeaveCutscene();

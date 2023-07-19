@@ -17,6 +17,7 @@ public class LoadLevel : MonoBehaviour
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LevelDataObj levelDataObj;
     private GameObject player;
     public Animator transition;
@@ -75,6 +76,9 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void StartLoading()
     {
+        // Prevent the player from pausing
+        pauseEvent.SetCanPause(false);
+
         // Play the respective cutscenes depending on whether the player is entering, returning, or just loading in
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
@@ -131,6 +135,9 @@ public class LoadLevel : MonoBehaviour
 
         // Set load triggers to be active
         loadLevelEvent.SetTriggersActive(true);
+
+        // Allow the player to pause
+        pauseEvent.SetCanPause(true);
     }
 
     /// <summary>
@@ -159,5 +166,8 @@ public class LoadLevel : MonoBehaviour
 
         // Set load triggers to be active
         loadLevelEvent.SetTriggersActive(true);
+
+        // Allow the player to pause
+        pauseEvent.SetCanPause(true);
     }
 }
