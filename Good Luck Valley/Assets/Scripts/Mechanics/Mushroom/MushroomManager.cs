@@ -441,22 +441,26 @@ public class MushroomManager : MonoBehaviour, IData
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
             {
-                throwing = mushroomEvent.GetThrowing();
-
-                //switch (throwState)
-                //{
-                //    case ThrowState.NotThrowing:
-                //        throwState = ThrowState.Throwing;
-                //        break;
-                //}
-                if (throwState == ThrowState.NotThrowing) 
+                if (canThrow)
                 {
-                    throwState = ThrowState.Throwing;
+                    throwing = mushroomEvent.GetThrowing();
+
+                    //switch (throwState)
+                    //{
+                    //    case ThrowState.NotThrowing:
+                    //        throwState = ThrowState.Throwing;
+                    //        break;
+                    //}
+                    if (throwState == ThrowState.NotThrowing)
+                    {
+                        throwState = ThrowState.Throwing;
+                    }
                 }
             }
 
             if (context.canceled)
             {
+
                 // Set animation
                 if(!throwing)
                 {
@@ -491,6 +495,10 @@ public class MushroomManager : MonoBehaviour, IData
 
                     // Prepare the throw for Animation
                     throwPrepared = true;
+
+                        
+                    Debug.Log("Deleting Line");
+                    DeleteThrowLine();
                 }
             }
         }
