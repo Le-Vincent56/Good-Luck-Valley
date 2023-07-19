@@ -25,8 +25,6 @@ public class JournalScriptableObj : ScriptableObject
 
     private void OnEnable()
     {
-        Debug.Log("Has Journal On Enable?: " + hasJournal);
-
         if(noteAddedEvent == null)
         {
             noteAddedEvent = new UnityEvent<Note>();

@@ -115101,7 +115101,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 194225541, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1310835840, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -115511,6 +115511,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8355761742207839243, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
+      propertyPath: movementEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0b1eae3f70cf5f428c3d51133e0efad, type: 3}
 --- !u!1 &1061819082 stripped
@@ -131201,9 +131205,9 @@ PrefabInstance:
       value: Prologue
       objectReference: {fileID: 0}
     - target: {fileID: 1377007229847325983, guid: 963c44a9d16d50a4bbf0b6228a1a5d5d, type: 3}
-      propertyPath: movementEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+      propertyPath: directionToFace
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1377007229847325983, guid: 963c44a9d16d50a4bbf0b6228a1a5d5d, type: 3}
       propertyPath: cutsceneToPlayEnter
       value: 
@@ -131212,6 +131216,10 @@ PrefabInstance:
       propertyPath: cutsceneToPlayLeave
       value: 
       objectReference: {fileID: 11400000, guid: d70018256f0de904ea88c46dc29d06bc, type: 2}
+    - target: {fileID: 1377007229847325983, guid: 963c44a9d16d50a4bbf0b6228a1a5d5d, type: 3}
+      propertyPath: movementDirection.x
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 3139360471805923648, guid: 963c44a9d16d50a4bbf0b6228a1a5d5d, type: 3}
       propertyPath: m_Name
       value: PreviousLevelTransitionCollider
