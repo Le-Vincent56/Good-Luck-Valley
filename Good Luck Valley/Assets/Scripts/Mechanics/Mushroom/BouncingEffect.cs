@@ -68,8 +68,8 @@ public class BouncingEffect : MonoBehaviour
             {
                 rotateAngle = 0;
             }
-            movementEvent.SetIsTouchingWall(true);
             SetBounceForce();
+            movementEvent.SetIsTouchingWall(true);
             //mushroomEvent.SetTouchingShroom(true);
             //mushroomEvent.TouchingShroom();
         }
@@ -87,6 +87,11 @@ public class BouncingEffect : MonoBehaviour
             // If exiting, set touchingShroom to false
             mushroomEvent.SetTouchingShroom(false);
             mushroomEvent.TouchingShroom();
+        }
+
+        if (collision.gameObject.name == "WallJump")
+        {
+            movementEvent.SetIsTouchingWall(false);
         }
     }
     public void SetBounceForce()

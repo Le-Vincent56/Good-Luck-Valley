@@ -169,6 +169,7 @@ public class MushroomManager : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
+
         // Direction force is being applied to shroom
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
