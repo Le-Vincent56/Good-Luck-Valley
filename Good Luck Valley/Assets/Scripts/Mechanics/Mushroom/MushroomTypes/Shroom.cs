@@ -195,6 +195,7 @@ public abstract class Shroom : MonoBehaviour
 
         // Set the MushroomInfo angle to the calculated angle
         shroom.GetComponent<Shroom>().RotateAngle = angle;
+        Debug.Log("Rotate Angle: " + angle);
         hasRotated = true;
     }
 }

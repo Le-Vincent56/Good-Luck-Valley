@@ -520,7 +520,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
-        Debug.Log("Moving");
 
         // Calculate the direction we want to move in and our desired velocity
         float targetSpeed = moveInput.x * data.runMaxSpeed;
@@ -769,26 +768,41 @@ public class PlayerMovement : MonoBehaviour, IData
 		lastOnGroundTime = 0;
 
 		#region Perform Jump
-		// If the player is grounded and moving upwards, force velocity to 0
-		// so jumps stay consistent
-		if(isGrounded && RB.velocity.y > 0)
-		{
-			RB.velocity -= Vector2.up * rb.velocity.y;
-		}
 
-        // We increase the force applied if we are falling
-        // This means we'll always feel like we jump the same amount
-        float force = data.jumpForce;
-		if (RB.velocity.y < 0)
+        if(!movementEvent.GetIsTouchingWall())
         {
-			force -= RB.velocity.y;
-		}
+            // If the player is grounded and moving upwards, force velocity to 0
+            // so jumps stay consistent
+            if (isGrounded && RB.velocity.y > 0)
+            {
+                RB.velocity -= Vector2.up * rb.velocity.y;
+            }
 
-		// Add the force to the Player's RigidBody
-		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-        createDustOnFall = true;
-		#endregion
-	}
+            // We increase the force applied if we are falling
+            // This means we'll always feel like we jump the same amount
+            float force = data.jumpForce;
+            if (RB.velocity.y < 0)
+            {
+                force -= RB.velocity.y;
+            }
+
+            // Add the force to the Player's RigidBody
+            RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+            createDustOnFall = true;
+            #endregion
+
+        }
+        else
+        {
+            Vector3 forceToApply = movementEvent.GetBounceForce();
+
+            disableEvent.SetInputCooldown(0.05f);
+            disableEvent.StopInput();
+
+            movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
+            movementEvent.SetIsTouchingWall(false);
+        }
+    }
     #endregion
 
     // CHECK METHODS
@@ -928,6 +942,7 @@ public class PlayerMovement : MonoBehaviour, IData
             bounceForce /= data.jumpForce;
         }
 
+        Debug.Log("Applying Bounce: " + bounceForce + " , " + forceType);
         RB.AddForce(bounceForce, forceType);
     }
 

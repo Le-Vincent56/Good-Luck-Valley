@@ -25,7 +25,6 @@ public class JournalScriptableObj : ScriptableObject
 
     private void OnEnable()
     {
-        Debug.Log("Has Journal On Enable?: " + hasJournal);
 
         if(noteAddedEvent == null)
         {
@@ -49,7 +48,6 @@ public class JournalScriptableObj : ScriptableObject
     /// <param name="hasJournal">Whether the player has the Journal</param>
     public void SetHasJournal(bool hasJournal)
     {
-        Debug.Log("Setting Has Journal: " + hasJournal);
         this.hasJournal = hasJournal;
     }
 
