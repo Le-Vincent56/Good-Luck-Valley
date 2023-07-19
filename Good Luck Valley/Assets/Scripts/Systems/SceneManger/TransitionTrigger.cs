@@ -43,7 +43,7 @@ public class TransitionTrigger : MonoBehaviour
             pauseEvent.SetCanPause(false);
 
             // Set the cutscene event and play it
-            cutsceneEvent.SetLeaveCutscene(cutsceneToPlayLeave);
+            cutsceneEvent.SetLeaveCutscene(cutsceneToPlayLeave);    
             cutsceneEvent.SetEnterCutscene(cutsceneToPlayEnter);
             cutsceneEvent.StartLeaveCutscene();
         }
