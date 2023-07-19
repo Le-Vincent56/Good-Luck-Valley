@@ -146,7 +146,8 @@ public class AudioManager : MonoBehaviour
     /// <param name="worldPos">Where to play it</param>
     public void PlayRandomizedOneShot(List<EventReference> sounds, Vector3 worldPos)
     {
-        int soundIndex = ((int)Random.value * 3);
+        int soundIndex = (int)Random.Range(0f, 4f);
+        Debug.Log(soundIndex);
         RuntimeManager.PlayOneShot(sounds[soundIndex], worldPos);
     }
 
