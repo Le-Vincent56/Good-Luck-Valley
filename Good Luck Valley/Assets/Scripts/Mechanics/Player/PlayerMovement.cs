@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private LevelDataObj levelDataObj;
+    [SerializeField] private PlayerInput playerInput;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
@@ -102,6 +103,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Awake()
 	{
+        playerInput = GetComponent<PlayerInput>();
 		RB = GetComponent<Rigidbody2D>();
 		spriteRenderer = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
 		playerCollider = GetComponent<BoxCollider2D>();
@@ -449,7 +451,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 }
 
                 StopCoroutine(MovementCooldown());
-            } else
+            } else if(!cutsceneEvent.GetPlayingCutscene())
             {
                 StartCoroutine(MovementCooldown());
             }
@@ -518,6 +520,8 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
+        Debug.Log("Moving");
+
         // Calculate the direction we want to move in and our desired velocity
         float targetSpeed = moveInput.x * data.runMaxSpeed;
 
@@ -975,6 +979,7 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void DisableInput()
     {
+        playerInput.DeactivateInput();
         canInput = false;
         canInputHard = false;
     }
@@ -984,6 +989,7 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void EnableInput()
     {
+        playerInput.ActivateInput();
         canInput = true;
         canInputHard = true;
     }
