@@ -169,6 +169,7 @@ public class MushroomManager : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
+
         // Direction force is being applied to shroom
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
@@ -441,22 +442,26 @@ public class MushroomManager : MonoBehaviour, IData
             // If we want the same button for fire and aim - aim on press, fire on release
             if (context.started)
             {
-                throwing = mushroomEvent.GetThrowing();
-
-                //switch (throwState)
-                //{
-                //    case ThrowState.NotThrowing:
-                //        throwState = ThrowState.Throwing;
-                //        break;
-                //}
-                if (throwState == ThrowState.NotThrowing) 
+                if (canThrow)
                 {
-                    throwState = ThrowState.Throwing;
+                    throwing = mushroomEvent.GetThrowing();
+
+                    //switch (throwState)
+                    //{
+                    //    case ThrowState.NotThrowing:
+                    //        throwState = ThrowState.Throwing;
+                    //        break;
+                    //}
+                    if (throwState == ThrowState.NotThrowing)
+                    {
+                        throwState = ThrowState.Throwing;
+                    }
                 }
             }
 
             if (context.canceled)
             {
+
                 // Set animation
                 if(!throwing)
                 {
@@ -491,6 +496,10 @@ public class MushroomManager : MonoBehaviour, IData
 
                     // Prepare the throw for Animation
                     throwPrepared = true;
+
+                        
+                    Debug.Log("Deleting Line");
+                    DeleteThrowLine();
                 }
             }
         }

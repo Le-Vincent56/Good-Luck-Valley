@@ -13,8 +13,10 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private bool isLanding;
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isBounceAnimating;
+    [SerializeField] private bool isTouchingWall;
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
+    [SerializeField] private Vector3 bounceForce;
 
     #region EVENTS
     [System.NonSerialized]
@@ -94,6 +96,7 @@ public class MovementScriptableObj : ScriptableObject, IData
         isFalling = false;
         isLanding = false;
         isBouncing = false;
+        isTouchingWall = false;
     }
 
     /// <summary>
@@ -148,6 +151,34 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void SetIsBounceAnimating(bool isBounceAnimating)
     {
         this.isBounceAnimating = isBounceAnimating;
+    }
+
+    /// <summary>
+    /// Set whether the player is touching wall jump wall
+    /// </summary>
+    /// <param name="isTouchingWall">Whether the player is touching wall</param>
+    public void SetIsTouchingWall(bool isTouchingWall)
+    {
+        this.isTouchingWall = isTouchingWall;
+    }
+
+    public void SetBounceForce(Vector3 bounceForce)
+    {
+        this.bounceForce = bounceForce;
+    }
+
+    public Vector3 GetBounceForce()
+    {
+        return bounceForce;
+    }
+
+    /// <summary>
+    /// Get whether the player is touching wall jump wall
+    /// </summary>
+    /// <returns> Whether the player is touching wall or not</returns>
+    public bool GetIsTouchingWall()
+    {
+        return this.isTouchingWall;
     }
 
     /// <summary>
