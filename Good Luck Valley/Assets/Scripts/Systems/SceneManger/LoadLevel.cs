@@ -83,15 +83,23 @@ public class LoadLevel : MonoBehaviour
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
             case LEVELPOS.ENTER:
+                // Set the enter cutscene
+                cutsceneEvent.SetEnterCutscene(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].enterCutscene);
+
                 // Reset player turn
                 movementEvent.ResetTurn();
                 cutsceneEvent.StartEnterCutscene();
+                Debug.Log("Playing Enter Cutscene");
                 break;
 
             case LEVELPOS.RETURN:
+                // Set the return cutscene
+                cutsceneEvent.SetEnterCutscene(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].returnCutscene);
+
                 // Reset player turn
                 movementEvent.ResetTurn();
                 cutsceneEvent.StartEnterCutscene();
+                Debug.Log("Playing Return Cutscene");
                 break;
 
             case LEVELPOS.DEFAULT:
@@ -147,6 +155,9 @@ public class LoadLevel : MonoBehaviour
     {
         // Trigger end load event
         loadLevelEvent.EndLoad();
+
+        // Save the game
+        DataManager.Instance.SaveGame();
 
         // Check to see if the lotus cutscene needs to be played
         PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();

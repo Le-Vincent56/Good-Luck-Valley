@@ -466,16 +466,16 @@ public class PlayerMovement : MonoBehaviour, IData
                     CheckDirectionToFace(moveInput.x > 0);
                 }
 
+                // If the player is not in the load trigger, set the levelpos type to default
+                if (!loadLevelEvent.GetInLoadTrigger())
+                {
+                    levelDataObj.SetLevelPos(SceneManager.GetActiveScene().name, LEVELPOS.DEFAULT);
+                }
+
                 StopCoroutine(MovementCooldown());
             } else if(!cutsceneEvent.GetPlayingCutscene())
             {
                 StartCoroutine(MovementCooldown());
-            }
-
-            // If the player is not in the load trigger, set the levelpos type to default
-            if(!loadLevelEvent.GetInLoadTrigger())
-            {
-                levelDataObj.SetLevelPos(SceneManager.GetActiveScene().name, LEVELPOS.DEFAULT);
             }
 		}
 		else
@@ -536,10 +536,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
-
-
-
-
         // Calculate the direction we want to move in and our desired velocity
         float targetSpeed = moveInput.x * data.runMaxSpeed;
 
@@ -957,7 +953,7 @@ public class PlayerMovement : MonoBehaviour, IData
             bounceForce /= data.jumpForce;
         }
 
-        Debug.Log("Applying Bounce: " + bounceForce + " , " + forceType);
+        mushroomEvent.SetBounceForce(bounceForce);
         RB.AddForce(bounceForce, forceType);
     }
 
@@ -991,7 +987,13 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void UnlockMovement()
     {
+        Debug.Log("Unlocked Movement");
         isLocked = false;
+
+        if (!playerInput.inputIsActive)
+        {
+            playerInput.ActivateInput();
+        }
     }
 
     /// <summary>
