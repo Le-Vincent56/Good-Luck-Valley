@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] float landedTimer = 0f;
     [SerializeField] private float inputCooldown = 0.05f;
     [SerializeField] private float jumpBuffer = 0f;
+    [SerializeField] private float wallJumpFallSpeed;
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
@@ -61,6 +62,7 @@ public class PlayerMovement : MonoBehaviour, IData
     private bool landed;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
+    private float originalMaxFallSpeed;
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
@@ -163,10 +165,20 @@ public class PlayerMovement : MonoBehaviour, IData
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
 		capsuleColliderSize = capsuleCollider.size;
-	}
+        originalMaxFallSpeed = data.maxFallSpeed;
+    }
 
     private void Update()
 	{
+        if (movementEvent.GetIsTouchingWall())
+        {
+            data.maxFallSpeed = wallJumpFallSpeed;
+        }
+        else
+        {
+            data.maxFallSpeed = originalMaxFallSpeed;
+        }
+
         //Debug.Log("Jumping?: " + isJumping);
         //Debug.Log("Falling?: " + isJumpFalling);
         //Debug.Log("Landed?: " + landed);
@@ -524,6 +536,10 @@ public class PlayerMovement : MonoBehaviour, IData
 	/// <param name="lerpAmount">The amount to sooth movement by</param>
 	private void Run(float lerpAmount)
 	{
+
+
+
+
         // Calculate the direction we want to move in and our desired velocity
         float targetSpeed = moveInput.x * data.runMaxSpeed;
 
@@ -770,27 +786,27 @@ public class PlayerMovement : MonoBehaviour, IData
 		lastPressedJumpTime = 0;
 		lastOnGroundTime = 0;
 
-		#region Perform Jump
-		// If the player is grounded and moving upwards, force velocity to 0
-		// so jumps stay consistent
-		if(isGrounded && RB.velocity.y > 0)
-		{
-			RB.velocity -= Vector2.up * rb.velocity.y;
-		}
+        #region Perform Jump
+        // If the player is grounded and moving upwards, force velocity to 0
+        // so jumps stay consistent
+        if (isGrounded && RB.velocity.y > 0)
+        {
+            RB.velocity -= Vector2.up * rb.velocity.y;
+        }
 
         // We increase the force applied if we are falling
         // This means we'll always feel like we jump the same amount
         float force = data.jumpForce;
-		if (RB.velocity.y < 0)
+        if (RB.velocity.y < 0)
         {
-			force -= RB.velocity.y;
-		}
+            force -= RB.velocity.y;
+        }
 
-		// Add the force to the Player's RigidBody
-		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        // Add the force to the Player's RigidBody
+        RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         createDustOnFall = true;
-		#endregion
-	}
+        #endregion
+    }
     #endregion
 
     // CHECK METHODS
@@ -895,7 +911,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!isLocked && !bouncing && !touchingShroom && canInputHard)
+        if (!isLocked && !bouncing && !touchingShroom && canInputHard && !movementEvent.GetIsTouchingWall())
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -908,6 +924,17 @@ public class PlayerMovement : MonoBehaviour, IData
 				OnJumpUpInput();
 			}
 		}
+
+        if (movementEvent.GetIsTouchingWall())
+        {
+            Vector3 forceToApply = movementEvent.GetBounceForce();
+
+            disableEvent.SetInputCooldown(0.05f);
+            disableEvent.StopInput();
+            Debug.Log("Force: " + forceToApply);
+            movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
+            movementEvent.SetIsTouchingWall(false);
+        }
 	}
 	#endregion
 
@@ -925,11 +952,12 @@ public class PlayerMovement : MonoBehaviour, IData
         // Check if jumping - if there's a simultaneous jump,
         // reduce the bounce amount so that the player doesn't launch into the air
         // more than they are supposed to
-        if(isJumping && jumpBuffer > 0)
+        if(isJumping && jumpBuffer > 0 && !movementEvent.GetIsTouchingWall())
         {
             bounceForce /= data.jumpForce;
         }
 
+        Debug.Log("Applying Bounce: " + bounceForce + " , " + forceType);
         RB.AddForce(bounceForce, forceType);
     }
 
