@@ -68,6 +68,9 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void PlayLeaveCutscene()
     {
+        // Save the game
+        DataManager.Instance.SaveGame();
+
         // Set playing cutscene to true
         cutsceneEvent.SetPlayingCutscene(true);
 
