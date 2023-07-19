@@ -76,6 +76,8 @@ public class ShroomCounter : MonoBehaviour
             shroomIcon2,
             shroomIcon1
         };
+
+        ResetQueue();
     }
 
     // Update is called once per frame
@@ -98,7 +100,6 @@ public class ShroomCounter : MonoBehaviour
     public void ResetQueue()
     {
         // Clears the queue
-        
         if (!shroomIconList.Contains(shroomIcon1))
         {
             shroomIcon1.GetComponent<ParticleSystem>().Play();

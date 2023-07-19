@@ -83,6 +83,7 @@ public class TutorialAnguishLotus : Interactable, IData
         }
         if (shroomVines.GetComponent<SpriteRenderer>().color.a <= 0)
         {
+            shroomVines.GetComponent<DecomposableVine>().Active = false;
             shroomVines.SetActive(false);
             finishedInteracting = true;
             disableEvent.Unlock();

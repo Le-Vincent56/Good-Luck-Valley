@@ -9,6 +9,7 @@ public class AudioListener : MonoBehaviour
     #region FIELDS
     [SerializeField] private MovementScriptableObj movementEvent;
     private EventInstance playerFootsteps;
+    private EventInstance bushRustles;
     [SerializeField] private bool usePlayerSFX = true;
     [SerializeField] private float stepTimerMax;
     [SerializeField] private float stepTimer;

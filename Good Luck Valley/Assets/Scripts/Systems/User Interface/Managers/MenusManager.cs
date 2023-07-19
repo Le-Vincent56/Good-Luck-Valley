@@ -151,8 +151,9 @@ public class MenusManager : MonoBehaviour
             // Selected: 808080
             // Disabled: A6A6A6
 
-            // Default screen nav button, currently set to be accessibility panel
+            // Default screen nav button, currently set to be audio panel
             navButtons[0].GetComponent<Button>().interactable = false;
+            menuParent = navButtons[0].transform.parent.gameObject;
 
             // Allow on value changed events to trigger again
             disableCalls = false;
@@ -563,49 +564,54 @@ public class MenusManager : MonoBehaviour
     #region FADING
     private IEnumerator FadeIn()
     {
-        //if (currentScene == 3)
-        //{
-        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
-        //    {
-        //        g.SetActive(false);
-        //        if (g.transform.parent.gameObject == menuParent)
-        //        {
-        //            g.SetActive(true);
-        //        }
-        //    }
-        //}
+        List<GameObject> menuPanels = new List<GameObject>();
+        if (currentScene == 3)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+            {
+                menuPanels.Add(g);
+                g.SetActive(false);
+                if (g.transform.parent.gameObject == menuParent)
+                {
+                    Debug.Log("Setting Menu Parent to true");
+                    g.SetActive(true);
+                }
+            }
+        }
 
         if (canvasGroup != null)
         {
             while (canvasGroup.alpha < 1)
             {
+                Debug.Log("Increasing Alpha");
                 canvasGroup.alpha += 0.1f;
                 yield return null;
             }
         }
 
-        //if (currentScene == 3)
-        //{
-        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
-        //    {
-        //        g.SetActive(true);
-        //    }
-        //}
+        if (currentScene == 3)
+        {
+            foreach (GameObject g in menuPanels)
+            {
+                Debug.Log("Setting Things to active");
+                g.SetActive(true);
+            }
+        }
     }
 
     private IEnumerator FadeOut()
     {
-        //if (currentScene == 3)
-        //{
-        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
-        //    {
-        //        g.SetActive(false);
-        //        if (g.transform.parent.gameObject == menuParent)
-        //        {
-        //            g.SetActive(true);
-        //        }
-        //    }
-        //}
+        if (currentScene == 3)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+            {
+                g.SetActive(false);
+                if (g.transform.parent.gameObject == menuParent)
+                {
+                    g.SetActive(true);
+                }
+            }
+        }
 
         if (canvasGroup != null)
         {
@@ -617,13 +623,13 @@ public class MenusManager : MonoBehaviour
             navScenes = true;
         }
 
-        //if (currentScene == 3)
-        //{
-        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
-        //    {
-        //        g.SetActive(true);
-        //    }
-        //}
+        if (currentScene == 3)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+            {
+                g.SetActive(true);
+            }
+        }
     }
 
     public void CheckFade(int sceneToLoad)
@@ -710,13 +716,17 @@ public class MenusManager : MonoBehaviour
 
     public void SetButton(int button)
     {
-        checkButtons = true;
-        for (int i = 0; i < navButtons.Length; i++)
+        if (!disableCalls)
         {
-            navButtons[i].GetComponent<Button>().interactable = true;
+            Debug.Log("Setting button");
+            checkButtons = true;
+            for (int i = 0; i < navButtons.Length; i++)
+            {
+                navButtons[i].GetComponent<Button>().interactable = true;
+            }
+            navButtons[button].GetComponent<Button>().interactable = false;
+            menuParent = navButtons[button].transform.parent.gameObject;
         }
-        navButtons[button].GetComponent<Button>().interactable = false;
-        menuParent = navButtons[button].gameObject.transform.parent.gameObject;
     }
 
     public void AdjustSlider(int index)

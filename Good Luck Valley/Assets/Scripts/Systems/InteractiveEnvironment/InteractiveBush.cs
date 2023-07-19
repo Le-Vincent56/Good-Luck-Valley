@@ -14,6 +14,7 @@ public class InteractiveBush : MonoBehaviour
     [SerializeField] private float rustleDuration = 0.35f;
     [SerializeField] private bool rustling;
     [SerializeField] private float maxRustleValue = 1.1f;
+    [SerializeField] private bool playedSound = false;
     #endregion
 
     #region PROPERTIES
@@ -30,6 +31,13 @@ public class InteractiveBush : MonoBehaviour
     {
         if (collision.tag == "Player" && !rustling)
         {
+            // If a sound hasn't been played, play one
+            if(!playedSound)
+            {
+                AudioManager.Instance.PlayRandomizedOneShot(FMODEvents.Instance.BushRustles, transform.position);
+                playedSound = true;
+            }
+
             if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.x > 0)
             {
                 mat.SetFloat("_SwapDirection", 1);
@@ -39,6 +47,18 @@ public class InteractiveBush : MonoBehaviour
                 mat.SetFloat("_SwapDirection", 0);
             }
             StartCoroutine(Rustle());
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            // Set played sound to false to be able to trigger a sound again
+            if(playedSound)
+            {
+                playedSound = false;
+            }
         }
     }
 
