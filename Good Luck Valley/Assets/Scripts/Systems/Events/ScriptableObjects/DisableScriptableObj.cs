@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "DisableScriptableObject", menuName = "ScriptableObjects/Disable Event")]
 public class DisableScriptableObj : ScriptableObject

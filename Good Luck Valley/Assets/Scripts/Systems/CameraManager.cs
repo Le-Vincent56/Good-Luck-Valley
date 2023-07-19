@@ -62,13 +62,21 @@ public class CameraManager : MonoBehaviour, IData
         }
     }
 
+    /// <summary>
+    /// Begin the lotus cutscene
+    /// </summary>
     public void BeginLotusCutscene()
     {
         // If playing the cutscene and using the cutscene, enable he lotus cam
         if (playCutscene && usingLotusCutscene)
         {
+            // Set playing cutscene to true
+            cutsceneEvent.SetPlayingCutscene(true);
+
+            // Enable the lotus cam
             lotusCam.enabled = true;
 
+            // Play the cutscene
             camDirector.Play();
             StartCoroutine(PlayLotusCutscene());
         }
@@ -105,6 +113,9 @@ public class CameraManager : MonoBehaviour, IData
                 // Allow the player to open the journal after the cutscene
                 journalEvent.SetCanOpen(true);
 
+                // Set playing cutscene to false
+                cutsceneEvent.SetPlayingCutscene(false);
+
             } else
             {
                 // Do not allow the player to pause during the cutscene
@@ -115,6 +126,7 @@ public class CameraManager : MonoBehaviour, IData
             }
         }
 
+        // If the cutscene is no longer playing, end it
         if(!playCutscene)
         {
             cutsceneEvent.EndLotusCutscene();
