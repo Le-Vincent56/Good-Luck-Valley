@@ -25,7 +25,6 @@ public class JournalScriptableObj : ScriptableObject
 
     private void OnEnable()
     {
-
         if(noteAddedEvent == null)
         {
             noteAddedEvent = new UnityEvent<Note>();
