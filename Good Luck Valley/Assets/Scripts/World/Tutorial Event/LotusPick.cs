@@ -17,12 +17,8 @@ public class LotusPick : Interactable, IData
     [SerializeField] private float fadeAmount;
     #endregion
 
-
-
-
     void Start()
     {
-
         remove = false;
         if (fadeAmount == 0)
         {
@@ -63,6 +59,13 @@ public class LotusPick : Interactable, IData
     {
         // Lock the player
         disableEvent.Lock();
+
+        // Play the vine flee sound
+        if(!playedSound)
+        {
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.VineFlee, transform.position);
+            playedSound = true;
+        }
     }
 
     private IEnumerator FadeVines()

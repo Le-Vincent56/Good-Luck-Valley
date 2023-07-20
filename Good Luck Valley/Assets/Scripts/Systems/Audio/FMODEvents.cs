@@ -7,9 +7,23 @@ public class FMODEvents : MonoBehaviour
 {
     [field: Header("Ambience")]
     [field: SerializeField] public EventReference Ambience { get; private set; }
+    [field: SerializeField] public List<EventReference> BirdCalls { get; private set; }
+    [field: SerializeField] public List<EventReference> Crickets { get; private set; }
+
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference PlayerFootsteps { get; private set; }
+
+    [field: Header("Journal SFX")]
+    [field: SerializeField] public EventReference JournalOpen { get; private set; }
+    [field: SerializeField] public EventReference JournalClose { get; private set; }
+    [field: SerializeField] public EventReference JournalEntrySelected { get; private set; }
+    [field: SerializeField] public EventReference NotePickup { get; private set; }
+
+
+    [field: Header("Environment SFX - Forest")]
     [field: SerializeField] public List<EventReference> BushRustles { get; private set; }
+    [field: SerializeField] public EventReference VineFlee { get; private set; }
+
 
     [field: Header("Music")]
     [field: SerializeField] public EventReference GameMusic { get; private set; }

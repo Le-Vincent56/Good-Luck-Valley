@@ -54,6 +54,13 @@ public class TutorialAnguishLotus : Interactable, IData
     {
         // Lock the player
         disableEvent.Lock();
+
+        // Play the vine flee sound
+        if (!playedSound)
+        {
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.VineFlee, transform.position);
+            playedSound = true;
+        }
     }
 
     private IEnumerator FadeLotus()
