@@ -16,7 +16,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
-    [SerializeField] private Vector3 bounceForce;
+    [SerializeField] private Vector3 mushroomPosition;
 
     #region EVENTS
     [System.NonSerialized]
@@ -162,23 +162,9 @@ public class MovementScriptableObj : ScriptableObject, IData
         this.isTouchingWall = isTouchingWall;
     }
 
-    public void SetBounceForce(Vector3 bounceForce)
+    public void SetMushroomPosition(Vector3 position)
     {
-        this.bounceForce = bounceForce;
-    }
-
-    public Vector3 GetBounceForce()
-    {
-        return bounceForce;
-    }
-
-    /// <summary>
-    /// Get whether the player is touching wall jump wall
-    /// </summary>
-    /// <returns> Whether the player is touching wall or not</returns>
-    public bool GetIsTouchingWall()
-    {
-        return this.isTouchingWall;
+        this.mushroomPosition = position;
     }
 
     /// <summary>
@@ -188,6 +174,20 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void SetMovementDirection(Vector2 movementDirection)
     {
         this.movementDirection = movementDirection;
+    }
+
+    public Vector3 GetMushroomPosition()
+    {
+        return mushroomPosition;
+    }
+
+    /// <summary>
+    /// Get whether the player is touching wall jump wall
+    /// </summary>
+    /// <returns> Whether the player is touching wall or not</returns>
+    public bool GetIsTouchingWall()
+    {
+        return isTouchingWall;
     }
 
     /// <summary>
