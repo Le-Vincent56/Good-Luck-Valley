@@ -148,6 +148,7 @@ public class DevTools : MonoBehaviour
             infiniteShroomText.text = "";
             instantThrowText.text = "";
             noClipText.text = "";
+            shroomBounceText.text = "";
         }
 
         if (devToolsEnabled)
