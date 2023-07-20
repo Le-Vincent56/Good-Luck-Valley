@@ -157,6 +157,8 @@ public abstract class Shroom : MonoBehaviour
     /// </summary>
     public void RotateAndFreeze()
     {
+        Debug.Log("Rotating And Freezing");
+
         // Saves the colliders of the platforms the shroom is coming into contact with intos an array
         ContactPoint2D[] contacts = new ContactPoint2D[10];
         GetComponent<CircleCollider2D>().GetContacts(contacts);
@@ -196,6 +198,9 @@ public abstract class Shroom : MonoBehaviour
                 shroom = Instantiate(regShroom, transform.position, rotation); 
                 break;
         }
+
+        // Play the shroom sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ShroomPlant, transform.position);
 
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<Shroom>().HasRotated = true;

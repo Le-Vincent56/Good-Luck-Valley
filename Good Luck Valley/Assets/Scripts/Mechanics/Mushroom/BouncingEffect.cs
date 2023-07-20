@@ -33,7 +33,31 @@ public class BouncingEffect : MonoBehaviour
     /// <param name="collision">The Collision2D triggering the collision</param>
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!mushroomEvent.IsTouchingShroom)
+        if (collision.gameObject.name == "WallJump")
+        {
+            ContactPoint2D[] contacts = collision.contacts;
+
+            Vector2 lowestPoint = contacts[0].point;
+            Debug.Log("Contacts: " + contacts.Length);
+
+            for (int i = 0; i < contacts.Length; i++) 
+            { 
+                Debug.Log("Contact Point " + i + ": " + contacts[i].point);
+                if (contacts[i].point.y < lowestPoint.y)
+                {
+                    lowestPoint = contacts[i].point;
+                }
+            }
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(lowestPoint);
+            //mushroomEvent.SetTouchingShroom(true);
+            //mushroomEvent.TouchingShroom();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!mushroomEvent.IsTouchingShroom && collision.gameObject.tag == "Mushroom")
         {
             Debug.Log("Bounce");
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
@@ -52,15 +76,6 @@ public class BouncingEffect : MonoBehaviour
                 mushroomEvent.TouchingShroom();
             }
         }
-
-        if (collision.gameObject.name == "WallJump")
-        {
-            ContactPoint2D contact = collision.GetContact(0);
-            movementEvent.SetIsTouchingWall(true);
-            movementEvent.SetMushroomPosition(contact.point);
-            //mushroomEvent.SetTouchingShroom(true);
-            //mushroomEvent.TouchingShroom();
-        }
     }
 
     /// <summary>
@@ -69,17 +84,44 @@ public class BouncingEffect : MonoBehaviour
     /// <param name="collision">The Collision2D checking for an exit</param>
     void OnCollisionExit2D(Collision2D collision)
     {
+        if (collision.gameObject.name == "WallJump")
+        {
+            movementEvent.SetIsTouchingWall(false);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "WallJump")
+        {
+            ContactPoint2D[] contacts = collision.contacts;
+
+            Vector2 lowestPoint = contacts[0].point;
+            Debug.Log("Contacts: " + contacts.Length);
+
+            for (int i = 0; i < contacts.Length; i++)
+            {
+                Debug.Log("Contact Point " + i + ": " + contacts[i].point);
+                if (contacts[i].point.y < lowestPoint.y)
+                {
+                    lowestPoint = contacts[i].point;
+                }
+            }
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(lowestPoint);
+            //mushroomEvent.SetTouchingShroom(true);
+            //mushroomEvent.TouchingShroom();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
         // Check if the collider is a mushroom
-        if(collision.gameObject.tag.Equals("Mushroom"))
+        if (collision.gameObject.tag.Equals("Mushroom"))
         {
             // If exiting, set touchingShroom to false
             mushroomEvent.SetTouchingShroom(false);
             mushroomEvent.TouchingShroom();
-        }
-
-        if (collision.gameObject.name == "WallJump")
-        {
-            movementEvent.SetIsTouchingWall(false);
         }
     }
 }

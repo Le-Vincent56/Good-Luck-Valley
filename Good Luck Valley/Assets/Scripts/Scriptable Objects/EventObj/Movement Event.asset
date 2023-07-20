@@ -18,8 +18,10 @@ MonoBehaviour:
   isLanding: 0
   isBouncing: 0
   isBounceAnimating: 0
-  movementDirection: {x: 0, y: 0}
+  isTouchingWall: 0
+  movementDirection: {x: -0.0000006400433, y: 0}
   inputDirection: {x: 0, y: 0}
+  mushroomPosition: {x: 0.8512755, y: 46.030075, z: 0}
   jumpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -36,5 +38,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   footstepEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  setTurnDirection:
+    m_PersistentCalls:
+      m_Calls: []
+  resetTurn:
+    m_PersistentCalls:
+      m_Calls: []
+  applyMovementDirection:
     m_PersistentCalls:
       m_Calls: []

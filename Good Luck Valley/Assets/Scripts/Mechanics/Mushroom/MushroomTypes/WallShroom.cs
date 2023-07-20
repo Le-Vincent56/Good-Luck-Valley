@@ -82,7 +82,6 @@ public class WallShroom : Shroom
             bouncing = true;
         }
 
-        Debug.Log("Bounce Force: " + forceToApply);
         movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 
