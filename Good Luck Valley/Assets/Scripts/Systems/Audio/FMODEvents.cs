@@ -12,6 +12,8 @@ public class FMODEvents : MonoBehaviour
 
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference PlayerFootsteps { get; private set; }
+    [field: SerializeField] public List<EventReference> ShroomBounces { get; private set; }
+    [field: SerializeField] public EventReference ShroomPlant { get; private set; }
 
     [field: Header("Journal SFX")]
     [field: SerializeField] public EventReference JournalOpen { get; private set; }
