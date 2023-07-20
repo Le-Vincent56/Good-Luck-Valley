@@ -170,16 +170,16 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
-        if (movementEvent.GetIsTouchingWall())
-        {
-            data.maxFallSpeed = wallJumpFallSpeed;
-            Debug.Log("Is Touching Wall Fall speed: " + data.maxFallSpeed);
-        }
-        else
-        {
-            data.maxFallSpeed = regularFallSpeed;
-            Debug.Log("Fall speed: " + data.maxFallSpeed);
-        }
+        //if (movementEvent.GetIsTouchingWall())
+        //{
+        //    data.maxFallSpeed = wallJumpFallSpeed;
+        //    Debug.Log("Is Touching Wall Fall speed: " + data.maxFallSpeed);
+        //}
+        //else
+        //{
+        //    data.maxFallSpeed = regularFallSpeed;
+        //    Debug.Log("Fall speed: " + data.maxFallSpeed);
+        //}
 
         //Debug.Log("Jumping?: " + isJumping);
         //Debug.Log("Falling?: " + isJumpFalling);
@@ -909,7 +909,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!isLocked && !bouncing && !touchingShroom && canInputHard && !movementEvent.GetIsTouchingWall())
+        if (!isLocked && !bouncing && !touchingShroom && canInputHard)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -923,51 +923,51 @@ public class PlayerMovement : MonoBehaviour, IData
 			}
 		}
 
-        // Check if the player is touching a wall
-        if (movementEvent.GetIsTouchingWall())
-        {
-            // Only call when the button is pressed, not on release as well
-            if (context.started)
-            {
-                // Set the default rotation for left side collision
-                float rotation = -90;
-                // Set the default difference in position for left side collision
-                float difference = GetComponent<BoxCollider2D>().size.x;
+        //// Check if the player is touching a wall
+        //if (movementEvent.GetIsTouchingWall())
+        //{
+        //    // Only call when the button is pressed, not on release as well
+        //    if (context.started)
+        //    {
+        //        // Set the default rotation for left side collision
+        //        float rotation = -90;
+        //        // Set the default difference in position for left side collision
+        //        float difference = GetComponent<BoxCollider2D>().size.x;
 
-                // Check if the wall is to the right of the player
-                if (movementEvent.GetMushroomPosition().x > transform.position.x)
-                {
-                    // Flip rotation and difference
-                    rotation *= -1;
-                    difference *= -1;
-                }
+        //        // Check if the wall is to the right of the player
+        //        if (movementEvent.GetMushroomPosition().x > transform.position.x)
+        //        {
+        //            // Flip rotation and difference
+        //            rotation *= -1;
+        //            difference *= -1;
+        //        }
 
-                // Create the shroom that bounces the player
-                GameObject shroom = Instantiate(wallShroomPrefab, new Vector3(transform.position.x - (difference / 2), transform.position.y, 0), Quaternion.identity);
+        //        // Create the shroom that bounces the player
+        //        GameObject shroom = Instantiate(wallShroomPrefab, new Vector3(transform.position.x - (difference / 2), transform.position.y, 0), Quaternion.identity);
 
-                // Set the shroom to not be an anari shroom so certain things wont happen to it
-                shroom.GetComponent<Shroom>().NonAnariShroom = true;
+        //        // Set the shroom to not be an anari shroom so certain things wont happen to it
+        //        shroom.GetComponent<Shroom>().NonAnariShroom = true;
 
-                // Rotate the mushroom using the given rotation
-                shroom.transform.Rotate(new Vector3(0, 0, rotation));
+        //        // Rotate the mushroom using the given rotation
+        //        shroom.transform.Rotate(new Vector3(0, 0, rotation));
 
-                // Check if the rotation is greater than 0 (right side collision)
-                if (rotation >= 0)
-                {
-                    // Flip the rotation
-                    shroom.GetComponent<Shroom>().FlipRotation = true;
-                }
-                // Otherwise dont flip the rotation
-                else
-                {
-                    // Flip the rotation
-                    shroom.GetComponent<Shroom>().FlipRotation = false;
-                }
+        //        // Check if the rotation is greater than 0 (right side collision)
+        //        if (rotation >= 0)
+        //        {
+        //            // Flip the rotation
+        //            shroom.GetComponent<Shroom>().FlipRotation = true;
+        //        }
+        //        // Otherwise dont flip the rotation
+        //        else
+        //        {
+        //            // Flip the rotation
+        //            shroom.GetComponent<Shroom>().FlipRotation = false;
+        //        }
 
-                // Player is no longer touching the wall
-                movementEvent.SetIsTouchingWall(false);
-            }
-        }
+        //        // Player is no longer touching the wall
+        //        movementEvent.SetIsTouchingWall(false);
+        //    }
+        //}
 	}
 	#endregion
 
@@ -985,7 +985,7 @@ public class PlayerMovement : MonoBehaviour, IData
         // Check if jumping - if there's a simultaneous jump,
         // reduce the bounce amount so that the player doesn't launch into the air
         // more than they are supposed to
-        if(isJumping && jumpBuffer > 0 && !movementEvent.GetIsTouchingWall())
+        if(isJumping && jumpBuffer > 0)
         {
             bounceForce /= data.jumpForce;
         }
@@ -1025,7 +1025,6 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void UnlockMovement()
     {
-        Debug.Log("Unlocked Movement");
         isLocked = false;
 
         if (!playerInput.inputIsActive)

@@ -208,7 +208,6 @@ public abstract class Shroom : MonoBehaviour
         //{
         //    shroom.GetComponent<Shroom>().flipRotation = true;
         //}
-        Debug.Log("Rotate Angle: " + angle);
         hasRotated = true;
     }
 }

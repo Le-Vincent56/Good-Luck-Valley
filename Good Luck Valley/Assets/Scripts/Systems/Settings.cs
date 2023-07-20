@@ -271,7 +271,7 @@ public class Settings : MonoBehaviour, ISettingsData
 
             #region DISPLAY SETTINGS
             float transparencyValue = 1 - (brightness / 100);
-            brightnessSquare.GetComponent<Image>().color = new Color(0, 0, 0, transparencyValue);
+            brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
             #endregion
         }
 
