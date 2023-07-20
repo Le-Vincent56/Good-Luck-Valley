@@ -170,18 +170,6 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
-        Debug.Log("Is player touching wall?: " + movementEvent.GetIsTouchingWall());
-        if (movementEvent.GetIsTouchingWall())
-        {
-            data.maxFallSpeed = wallJumpFallSpeed;
-            Debug.Log("Is Touching Wall Fall speed: " + data.maxFallSpeed);
-        }
-        else
-        {
-            data.maxFallSpeed = regularFallSpeed;
-            Debug.Log("Fall speed: " + data.maxFallSpeed);
-        }
-
         //Debug.Log("Jumping?: " + isJumping);
         //Debug.Log("Falling?: " + isJumpFalling);
         //Debug.Log("Landed?: " + landed);
