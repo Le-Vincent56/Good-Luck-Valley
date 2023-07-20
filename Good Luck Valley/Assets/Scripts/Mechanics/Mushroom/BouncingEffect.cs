@@ -19,8 +19,6 @@ public class BouncingEffect : MonoBehaviour
     [SerializeField] private bool onCooldown = false;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
-    [SerializeField] private float angleToSubtract;
-    [SerializeField] private float bounceForce;
     [SerializeField] private Vector3 showForce;
     [SerializeField] private float rotateAngle;
     #endregion
@@ -37,6 +35,7 @@ public class BouncingEffect : MonoBehaviour
     {
         if (!mushroomEvent.IsTouchingShroom)
         {
+            Debug.Log("Bounce");
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
             if (shroomToBounce != null)
@@ -56,20 +55,9 @@ public class BouncingEffect : MonoBehaviour
 
         if (collision.gameObject.name == "WallJump")
         {
-            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             ContactPoint2D contact = collision.GetContact(0);
-
-            if (contact.point.x > transform.position.x)
-            {
-                Debug.Log("Rotate Angle: " + rotateAngle);
-                rotateAngle = -180;
-            }
-            else
-            {
-                rotateAngle = 0;
-            }
-            SetBounceForce();
             movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(contact.point);
             //mushroomEvent.SetTouchingShroom(true);
             //mushroomEvent.TouchingShroom();
         }
@@ -93,30 +81,5 @@ public class BouncingEffect : MonoBehaviour
         {
             movementEvent.SetIsTouchingWall(false);
         }
-    }
-    public void SetBounceForce()
-    {
-        // Calculate the force to apply
-        Quaternion rotation = Quaternion.AngleAxis(rotateAngle - angleToSubtract, Vector3.forward);
-        Vector3 direction = rotation * Vector2.up;
-
-        // If the rotate angle is 0, then invert y direction to send upwards
-        if (rotateAngle >= 0)
-        {
-            direction.y *= -1;
-        }
-
-
-        Vector3 forceToApply = direction * bounceForce;
-        showForce = forceToApply;
-
-        movementEvent.SetBounceForce(forceToApply);
-
-        // Disable input
-        //disableEvent.SetInputCooldown(0.05f);
-        //disableEvent.StopInput();
-        //
-        //Debug.Log("Bounce: " + forceToApply);
-        //movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 }

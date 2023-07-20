@@ -430,9 +430,10 @@ GameObject:
   - component: {fileID: 1310835841}
   - component: {fileID: 1310835857}
   - component: {fileID: 8355761742207839243}
-  - component: {fileID: 1215084800303885987}
-  - component: {fileID: 8168050982135615402}
   - component: {fileID: 1310835855}
+  - component: {fileID: 1310835849}
+  - component: {fileID: 1310835848}
+  - component: {fileID: 1310835850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -450,7 +451,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.02, y: -0.02, z: 0}
   m_LocalScale: {x: 1.8583279, y: 1.8583279, z: 1.8583279}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 508820769}
   - {fileID: 194225540}
@@ -532,6 +533,7 @@ MonoBehaviour:
   pauseEvent: {fileID: 11400000, guid: d9294628e0915de4d8dc90a39ab7f026, type: 2}
   loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
   levelDataObj: {fileID: 11400000, guid: 4d5eb77cbbaa9e6428755227d4c5ee91, type: 2}
+  playerInput: {fileID: 0}
   playerLight: {fileID: 0}
   rb: {fileID: 0}
   groundLayer:
@@ -539,6 +541,7 @@ MonoBehaviour:
     m_Bits: 8
   noFriction: {fileID: 6200000, guid: ee68d7080b1df0f48a666e6baaefce7a, type: 2}
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
+  wallShroomPrefab: {fileID: 2826449021895497117, guid: aaf160548af4c654aaec6f6e39b72538, type: 3}
   debug: 0
   isJumping: 0
   isGrounded: 0
@@ -549,6 +552,7 @@ MonoBehaviour:
   landedTimer: 0
   inputCooldown: 0.05
   jumpBuffer: 0
+  wallJumpFallSpeed: 0
   checkForSlopes: 1
   isOnSlope: 0
   canWalkOnSlope: 0
@@ -824,19 +828,7 @@ MonoBehaviour:
     m_ActionId: fb2941ff-7b9f-4333-af53-6ab0175e024d
     m_ActionName: Player Controls/CloseSaveMenu[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SaveSlotsPauseMenu, Assembly-CSharp
-        m_MethodName: CloseMenuKey
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: -1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: fb2941ff-7b9f-4333-af53-6ab0175e024d
     m_ActionName: Player Controls/CloseSaveMenu[/Keyboard/escape]
   - m_PersistentCalls:
@@ -975,6 +967,10 @@ MonoBehaviour:
   onCooldown: 0
   bounceClampMin: 0.5
   bounceClampMax: 0.7
+  angleToSubtract: 145
+  bounceForce: 20
+  showForce: {x: 0, y: 0, z: 0}
+  rotateAngle: 0
 --- !u!70 &1310835857
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1007,55 +1003,6 @@ MonoBehaviour:
   playerDirector: {fileID: 0}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
---- !u!95 &1215084800303885987
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7203912908089909882}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!320 &8168050982135615402
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7203912908089909882}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 514288493317156277, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
-    value: {fileID: 1215084800303885987}
-  - key: {fileID: 7471364732745245195, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
-    value: {fileID: 194225542}
-  - key: {fileID: -1383747830014298737, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: 514288493317156277, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: 7471364732745245195, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -7813174953043516010, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
-    value: {fileID: 0}
-  m_ExposedReferences:
-    m_References: []
 --- !u!114 &1310835855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,6 +1022,89 @@ MonoBehaviour:
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   groundCheckHardpoint: {fileID: 9091228867239698347}
   lowestSpeedForParticle: 0.01
+--- !u!320 &1310835849
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203912908089909882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: d70018256f0de904ea88c46dc29d06bc, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -4411592345525310695, guid: d0c3debf2301e0b4bbc4282b85b47342, type: 2}
+    value: {fileID: 1310835848}
+  - key: {fileID: 3437404610655140268, guid: d0c3debf2301e0b4bbc4282b85b47342, type: 2}
+    value: {fileID: 194225542}
+  - key: {fileID: 6336335012292251104, guid: d0c3debf2301e0b4bbc4282b85b47342, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -4411592345525310695, guid: d70018256f0de904ea88c46dc29d06bc, type: 2}
+    value: {fileID: 1310835848}
+  - key: {fileID: 3437404610655140268, guid: d70018256f0de904ea88c46dc29d06bc, type: 2}
+    value: {fileID: 194225542}
+  - key: {fileID: 6336335012292251104, guid: d70018256f0de904ea88c46dc29d06bc, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -7086707986967096586, guid: bb8d89d759c8eab4cb19e7b1895bba2c, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -8537984659958667978, guid: ce1cc3aa6d333db4988fd40590d9ffcf, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 514288493317156277, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 7471364732745245195, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -7813174953043516010, guid: 4d9bf87db2325fd478f467ef909f0578, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 514288493317156277, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 7471364732745245195, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -7086707986967096586, guid: f793530c74a23fa4f8eb52171481e69e, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -1383747830014298737, guid: cfdd330b87f39c94db2ceb9749084a04, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []
+--- !u!95 &1310835848
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203912908089909882}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1310835850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203912908089909882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b270baa591ad194c8b05b3f5029aa23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneEvent: {fileID: 11400000, guid: 876f3bec107b97a4095b015d6d365fb3, type: 2}
+  playerDirector: {fileID: 0}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
+  loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
 --- !u!1 &9091228867239698347
 GameObject:
   m_ObjectHideFlags: 0

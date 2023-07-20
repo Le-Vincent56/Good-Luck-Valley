@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	private Settings settings;
     private VisualEffect dust;
     private VisualEffect grass;
+    [SerializeField] private GameObject wallShroomPrefab;
     #endregion
 
     #region FIELDS
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private float inputCooldown = 0.05f;
     [SerializeField] private float jumpBuffer = 0f;
     [SerializeField] private float wallJumpFallSpeed;
+    [SerializeField] private float regularFallSpeed;
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
@@ -62,7 +64,6 @@ public class PlayerMovement : MonoBehaviour, IData
     private bool landed;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
-    private float originalMaxFallSpeed;
     private Vector2 playerPosition;
     private Vector2 previousPlayerPosition;
     private Vector2 distanceFromLastPosition;
@@ -112,7 +113,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
-	}
+    }
 
     private void OnEnable()
     {
@@ -165,7 +166,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
 		capsuleColliderSize = capsuleCollider.size;
-        originalMaxFallSpeed = data.maxFallSpeed;
     }
 
     private void Update()
@@ -173,17 +173,19 @@ public class PlayerMovement : MonoBehaviour, IData
         if (movementEvent.GetIsTouchingWall())
         {
             data.maxFallSpeed = wallJumpFallSpeed;
+            Debug.Log("Is Touching Wall Fall speed: " + data.maxFallSpeed);
         }
         else
         {
-            data.maxFallSpeed = originalMaxFallSpeed;
+            data.maxFallSpeed = regularFallSpeed;
+            Debug.Log("Fall speed: " + data.maxFallSpeed);
         }
 
         //Debug.Log("Jumping?: " + isJumping);
         //Debug.Log("Falling?: " + isJumpFalling);
         //Debug.Log("Landed?: " + landed);
         //Debug.Log("Grounded?: " + isGrounded);
-        
+
         // Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
@@ -907,7 +909,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		// Check if the game is paused
-        if (!isLocked && !bouncing && !touchingShroom && canInputHard && !movementEvent.GetIsTouchingWall())
+        if (!isLocked && !bouncing && !touchingShroom && canInputHard)
         {
 			// Check jump based on whether the bind was pressed or released
 			if (context.started)
@@ -921,17 +923,52 @@ public class PlayerMovement : MonoBehaviour, IData
 			}
 		}
 
+        // Check if the player is touching a wall
         if (movementEvent.GetIsTouchingWall())
         {
-            Vector3 forceToApply = movementEvent.GetBounceForce();
+            // Only call when the button is pressed, not on release as well
+            if (context.started)
+            {
+                // Set the default rotation for left side collision
+                float rotation = -90;
+                // Set the default difference in position for left side collision
+                float difference = GetComponent<BoxCollider2D>().size.x;
 
-            disableEvent.SetInputCooldown(0.05f);
-            disableEvent.StopInput();
-            Debug.Log("Force: " + forceToApply);
-            movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
-            movementEvent.SetIsTouchingWall(false);
+                // Check if the wall is to the right of the player
+                if (movementEvent.GetMushroomPosition().x > transform.position.x)
+                {
+                    // Flip rotation and difference
+                    rotation *= -1;
+                    difference *= -1;
+                }
+
+                // Create the shroom that bounces the player
+                GameObject shroom = Instantiate(wallShroomPrefab, new Vector3(transform.position.x - (difference / 2), transform.position.y, 0), Quaternion.identity);
+
+                // Set the shroom to not be an anari shroom so certain things wont happen to it
+                shroom.GetComponent<Shroom>().NonAnariShroom = true;
+
+                // Rotate the mushroom using the given rotation
+                shroom.transform.Rotate(new Vector3(0, 0, rotation));
+
+                // Check if the rotation is greater than 0 (right side collision)
+                if (rotation >= 0)
+                {
+                    // Flip the rotation
+                    shroom.GetComponent<Shroom>().FlipRotation = true;
+                }
+                // Otherwise dont flip the rotation
+                else
+                {
+                    // Flip the rotation
+                    shroom.GetComponent<Shroom>().FlipRotation = false;
+                }
+
+                // Player is no longer touching the wall
+                movementEvent.SetIsTouchingWall(false);
+            }
         }
-	}
+    }
 	#endregion
 
     // EVENT FUNCTIONS
@@ -948,7 +985,7 @@ public class PlayerMovement : MonoBehaviour, IData
         // Check if jumping - if there's a simultaneous jump,
         // reduce the bounce amount so that the player doesn't launch into the air
         // more than they are supposed to
-        if(isJumping && jumpBuffer > 0 && !movementEvent.GetIsTouchingWall())
+        if(isJumping && jumpBuffer > 0)
         {
             bounceForce /= data.jumpForce;
         }
@@ -987,7 +1024,6 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void UnlockMovement()
     {
-        Debug.Log("Unlocked Movement");
         isLocked = false;
 
         if (!playerInput.inputIsActive)
