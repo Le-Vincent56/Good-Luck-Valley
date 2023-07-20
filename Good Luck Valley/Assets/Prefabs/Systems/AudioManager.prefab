@@ -47,6 +47,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentArea: 0
+  playingCricketNoise: 0
+  cricketAmbientCooldown: -1
+  minCricketWait: 0.1
+  maxCricketWait: 1
+  playingBirdNoise: 0
+  birdAmbientCooldown: -1
+  minBirdWait: 0.1
+  maxBirdWait: 1
 --- !u!114 &552928820361386477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +185,32 @@ MonoBehaviour:
       Data3: -1697525313
       Data4: 1110492703
     Path: event:/SFX/Player/PlayerFootsteps
+  <ShroomBounces>k__BackingField:
+  - Guid:
+      Data1: 611293733
+      Data2: 1124846057
+      Data3: 788045746
+      Data4: -1558786443
+    Path: event:/SFX/Player/Shroom/ShroomBounce1
+  - Guid:
+      Data1: 1501636832
+      Data2: 1170311865
+      Data3: 596563080
+      Data4: 2023050022
+    Path: event:/SFX/Player/Shroom/ShroomBounce2
+  - Guid:
+      Data1: 452056322
+      Data2: 1333641059
+      Data3: -1236284737
+      Data4: 73655383
+    Path: event:/SFX/Player/Shroom/ShroomBounce3
+  <ShroomPlant>k__BackingField:
+    Guid:
+      Data1: -510730674
+      Data2: 1118360512
+      Data3: 1965726338
+      Data4: 266807339
+    Path: event:/SFX/Player/Shroom/ShroomGrow
   <JournalOpen>k__BackingField:
     Guid:
       Data1: -1091909965

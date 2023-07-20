@@ -239,7 +239,6 @@ public class AudioManager : MonoBehaviour
             {
                 // Play a random cricket noise
                 PlayRandomizedOneShot(FMODEvents.Instance.Crickets, transform.position);
-                Debug.Log("Cricket Noise");
 
                 // Set the cooldown - multiply by 60 to transfer minutes to seconds
                 cricketAmbientCooldown = Random.Range(minCricketWait * 60, maxCricketWait * 60);
@@ -269,7 +268,6 @@ public class AudioManager : MonoBehaviour
             {
                 // Play a random bird call
                 PlayRandomizedOneShot(FMODEvents.Instance.BirdCalls, transform.position);
-                Debug.Log("Bird Noise");
 
                 // Set the cooldown - multiply by 60 to transfer minutes to seconds
                 birdAmbientCooldown = Random.Range(minBirdWait * 60, maxBirdWait * 60);
