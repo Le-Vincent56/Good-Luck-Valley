@@ -439,7 +439,7 @@ public class MushroomManager : MonoBehaviour, IData
     public void OnCheckWallShroom(InputAction.CallbackContext context) 
     {
         // Check if the player is touching a wall
-        if (movementEvent.GetIsTouchingWall())
+        if (movementEvent.GetIsTouchingWall() && !playerMove.IsGrounded)
         {
             // Player is no longer touching the wall
             movementEvent.SetIsTouchingWall(false);
@@ -447,7 +447,6 @@ public class MushroomManager : MonoBehaviour, IData
             // Only call when the button is pressed, not on release as well
             if (context.started)
             {
-                
                 if (mushroomList.Count >= mushroomLimit)
                 {
                     // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
@@ -463,7 +462,6 @@ public class MushroomManager : MonoBehaviour, IData
                     mushroomList.RemoveAt(0);
                 }
 
-
                 // Set the default rotation for left side collision
                 float rotation = -90;
                 // Set the default difference in position for left side collision
@@ -478,8 +476,9 @@ public class MushroomManager : MonoBehaviour, IData
                     differenceX *= -1;
                 }
 
+                Vector3 shroomPos = new Vector3(playerRB.transform.position.x - (differenceX / 2), playerRB.transform.position.y, 0);
                 // Create the shroom that bounces the player
-                GameObject shroom = Instantiate(spore, new Vector3(playerRB.transform.position.x - (differenceX / 2), playerRB.transform.position.y - (differenceY / 2), 0), Quaternion.identity);
+                GameObject shroom = Instantiate(spore, movementEvent.GetMushroomPosition(), Quaternion.identity);
 
                 mushroomList.Add(shroom);
                 Vector2 direction = movementEvent.GetMushroomPosition() - playerRB.transform.position;
