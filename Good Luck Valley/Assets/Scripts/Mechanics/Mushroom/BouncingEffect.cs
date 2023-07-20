@@ -19,8 +19,6 @@ public class BouncingEffect : MonoBehaviour
     [SerializeField] private bool onCooldown = false;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
-    [SerializeField] private float angleToSubtract;
-    [SerializeField] private float bounceForce;
     [SerializeField] private Vector3 showForce;
     [SerializeField] private float rotateAngle;
     #endregion
@@ -55,14 +53,14 @@ public class BouncingEffect : MonoBehaviour
             }
         }
 
-        //if (collision.gameObject.name == "WallJump")
-        //{
-        //    ContactPoint2D contact = collision.GetContact(0);
-        //    movementEvent.SetIsTouchingWall(true);
-        //    movementEvent.SetMushroomPosition(contact.point);
-        //    //mushroomEvent.SetTouchingShroom(true);
-        //    //mushroomEvent.TouchingShroom();
-        //}
+        if (collision.gameObject.name == "WallJump")
+        {
+            ContactPoint2D contact = collision.GetContact(0);
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(contact.point);
+            //mushroomEvent.SetTouchingShroom(true);
+            //mushroomEvent.TouchingShroom();
+        }
     }
 
     /// <summary>
@@ -79,9 +77,9 @@ public class BouncingEffect : MonoBehaviour
             mushroomEvent.TouchingShroom();
         }
 
-        //if (collision.gameObject.name == "WallJump")
-        //{
-        //    movementEvent.SetIsTouchingWall(false);
-        //}
+        if (collision.gameObject.name == "WallJump")
+        {
+            movementEvent.SetIsTouchingWall(false);
+        }
     }
 }
