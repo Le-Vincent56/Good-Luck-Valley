@@ -51,14 +51,14 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
             levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.RETURN);
             levelDataObj.SetLevelPos(currentLevel, LEVELPOS.ENTER);
 
-            // Set variables
+            // Set variablesa
             pauseEvent.SetCanPause(false);
 
             // Set the cutscene event and play it
             cutsceneEvent.SetLeaveCutscene(levelDataObj.levelPosData[currentLevel].exitCutscene);
             cutsceneEvent.StartLeaveCutscene();
         }
-    }
+    }   
 
     private void OnTriggerExit2D(Collider2D collision)
     {
