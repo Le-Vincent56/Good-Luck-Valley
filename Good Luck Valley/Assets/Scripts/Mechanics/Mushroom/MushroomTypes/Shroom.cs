@@ -35,6 +35,8 @@ public abstract class Shroom : MonoBehaviour
     [SerializeField] protected float bounceForce;
     [SerializeField] protected bool onCooldown = false;
     protected float cooldown = 0.1f;
+    protected bool nonAnariShroom;
+    protected bool flipRotation;
     #endregion
 
     #region PROPERTIES
@@ -52,6 +54,8 @@ public abstract class Shroom : MonoBehaviour
     public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
     public GameObject RegularMushroom { get { return regShroom; } set { regShroom = value; } }
     public GameObject WallMushroom { get { return wallShroom; } set { wallShroom = value; } }
+    public bool NonAnariShroom { get { return nonAnariShroom; } set {  nonAnariShroom = value; } }
+    public bool FlipRotation {  get { return flipRotation; } set {  flipRotation = value; } }
     #endregion
 
     public void Start()
@@ -64,6 +68,11 @@ public abstract class Shroom : MonoBehaviour
     /// </summary>
     public void UpdateShroomCounter()
     {
+        if (durationTimer <= 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
         // Decreases time from the timer
         durationTimer -= Time.deltaTime;
 
@@ -85,7 +94,7 @@ public abstract class Shroom : MonoBehaviour
             GetComponentInChildren<Light2D>().intensity -= percentOpacity;
         }
 
-        if (mushMan.MushroomLimit == 3)
+        if (mushMan.MushroomLimit == 3 && !nonAnariShroom)
         {
             if (mushMan.ThrowUnlocked)
             {
@@ -170,7 +179,7 @@ public abstract class Shroom : MonoBehaviour
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         GetComponent<Shroom>().HasRotated = true;
 
-        GameObject shroom = null;
+        GameObject shroom;
 
         // Get shroom type and instantiate shrooms
         switch(shroomType)
@@ -195,7 +204,10 @@ public abstract class Shroom : MonoBehaviour
 
         // Set the MushroomInfo angle to the calculated angle
         shroom.GetComponent<Shroom>().RotateAngle = angle;
-        Debug.Log("Rotate Angle: " + angle);
+        //if (angle >= 0)
+        //{
+        //    shroom.GetComponent<Shroom>().flipRotation = true;
+        //}
         hasRotated = true;
     }
 }
