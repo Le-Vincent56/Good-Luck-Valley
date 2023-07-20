@@ -49,6 +49,7 @@ public class Journal : MonoBehaviour, IData
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
+
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;
     }
@@ -114,6 +115,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.SetJournalOpen(menuOpen);
             journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
+
+            // Play the open journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalOpen, transform.position);
         }
     }
 
@@ -140,6 +144,9 @@ public class Journal : MonoBehaviour, IData
 
             // Remove entries to prepare for sorting
             journalEvent.ClearJournal();
+
+            // Play the close journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalClose, transform.position);
         }
     }
 
@@ -170,6 +177,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.SetJournalOpen(menuOpen);
             journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
+
+            // Play the open journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalOpen, transform.position);
         }
     }
 
@@ -195,6 +205,9 @@ public class Journal : MonoBehaviour, IData
 
             // Remove entries to prepare for sorting
             journalEvent.ClearJournal();
+
+            // Play the close journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalClose, transform.position);
         }
     }
 

@@ -78,6 +78,8 @@ public class LoadLevel : MonoBehaviour
     {
         // Prevent the player from pausing
         pauseEvent.SetCanPause(false);
+        pauseEvent.SetPauseMenuOpen(false);
+        pauseEvent.SetPaused(false);
 
         // Play the respective cutscenes depending on whether the player is entering, returning, or just loading in
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)

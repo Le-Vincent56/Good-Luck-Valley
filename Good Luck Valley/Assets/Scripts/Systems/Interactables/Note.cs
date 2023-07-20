@@ -75,6 +75,13 @@ public class Note : Interactable, IData
         // Finish interacting
         finishedInteracting = true;
         remove = true;
+
+        // Play the note pickup sound
+        if (!playedSound)
+        {
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NotePickup, transform.position);
+            playedSound = true;
+        }
     }
 
     #region DATA HANDLING
