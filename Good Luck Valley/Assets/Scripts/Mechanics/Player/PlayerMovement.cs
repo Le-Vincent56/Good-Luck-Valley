@@ -955,6 +955,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
         mushroomEvent.SetBounceForce(bounceForce);
         RB.AddForce(bounceForce, forceType);
+        Debug.LogError("Bounce Force Added");
     }
 
 	/// <summary>

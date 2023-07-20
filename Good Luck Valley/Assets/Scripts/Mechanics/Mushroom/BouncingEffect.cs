@@ -111,6 +111,7 @@ public class BouncingEffect : MonoBehaviour
         showForce = forceToApply;
 
         movementEvent.SetBounceForce(forceToApply);
+        Debug.LogError("Set Bounce Force");
 
         // Disable input
         //disableEvent.SetInputCooldown(0.05f);
