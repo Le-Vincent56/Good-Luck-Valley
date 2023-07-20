@@ -120,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018153667, y: -0.09887858}
+  m_Offset: {x: -0.018153667, y: -0.16706155}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.51, y: 1.121604}
+  m_Size: {x: 0.51, y: 0.98523784}
   m_EdgeRadius: 0
 --- !u!114 &400684425
 MonoBehaviour:
@@ -553,6 +553,7 @@ MonoBehaviour:
   inputCooldown: 0.05
   jumpBuffer: 0
   wallJumpFallSpeed: 0
+  regularFallSpeed: 0
   checkForSlopes: 1
   isOnSlope: 0
   canWalkOnSlope: 0
@@ -597,7 +598,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018153667, y: -0.09887858}
+  m_Offset: {x: -0.018153667, y: -0.16718793}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -608,7 +609,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.51, y: 1.1216038}
+  m_Size: {x: 0.51, y: 0.9849851}
   m_EdgeRadius: 0
 --- !u!114 &1310835840
 MonoBehaviour:
@@ -967,8 +968,6 @@ MonoBehaviour:
   onCooldown: 0
   bounceClampMin: 0.5
   bounceClampMax: 0.7
-  angleToSubtract: 145
-  bounceForce: 20
   showForce: {x: 0, y: 0, z: 0}
   rotateAngle: 0
 --- !u!70 &1310835857

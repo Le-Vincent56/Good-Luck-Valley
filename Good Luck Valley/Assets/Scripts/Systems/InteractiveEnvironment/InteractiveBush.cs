@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class InteractiveBush : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] VisualEffect leavesParticle;
     private Material mat;
     private int squashRef;
     private float minRustleValue;
@@ -47,6 +49,13 @@ public class InteractiveBush : MonoBehaviour
                 mat.SetFloat("_SwapDirection", 0);
             }
             StartCoroutine(Rustle());
+        }
+
+        if (collision.tag == "Player" || collision.tag == "Mushroom")
+        {
+            leavesParticle.transform.position = GetComponent<BoxCollider2D>().ClosestPoint(collision.transform.position);
+            Debug.Log("leaves particle position: " + leavesParticle.transform.position);
+            leavesParticle.Play();
         }
     }
 
