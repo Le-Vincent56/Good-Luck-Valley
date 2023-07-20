@@ -15,14 +15,13 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private LevelDataObj levelDataObj;
     [SerializeField] private GameObject levelLoader;
-    [SerializeField] private PlayableAsset cutsceneToPlayLeave;
-    [SerializeField] private PlayableAsset cutsceneToPlayEnter;
     #endregion
 
     #region FIELDS
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private int directionToFace;
     [SerializeField] private string levelToLoad;
+    [SerializeField] private string currentLevel;
     [SerializeField] private bool transition;
     [SerializeField] private float timeBeforeTransitionTrigger = 1f;
     #endregion
@@ -48,12 +47,15 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
             // Set inside load triger
             loadLevelEvent.SetInLoadTrigger(true);
 
+            // Set level pos
+            levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.RETURN);
+            levelDataObj.SetLevelPos(currentLevel, LEVELPOS.ENTER);
+
             // Set variables
             pauseEvent.SetCanPause(false);
 
             // Set the cutscene event and play it
-            cutsceneEvent.SetLeaveCutscene(cutsceneToPlayLeave);
-            cutsceneEvent.SetEnterCutscene(cutsceneToPlayEnter);
+            cutsceneEvent.SetLeaveCutscene(levelDataObj.levelPosData[currentLevel].exitCutscene);
             cutsceneEvent.StartLeaveCutscene();
         }
     }
@@ -78,7 +80,6 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
         // Set variables
         loadLevelEvent.SetInLoadTrigger(true);
         loadLevelEvent.SetLoadingThroughCutscene(true);
-        levelDataObj.SetLevelPos(levelToLoad, LEVELPOS.RETURN);
         levelLoader.GetComponent<LoadLevel>().UseLevelData = true;
 
         // Load the previous level

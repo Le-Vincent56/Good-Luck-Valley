@@ -104,6 +104,11 @@ public class CutsceneScriptableObj : ScriptableObject
         return enterCutscene;
     }
 
+    public bool GetEnterCutsceneActive()
+    {
+        return enterCutsceneActive;
+    }
+
     /// <summary>
     /// Get whether a cutscene is playing or not
     /// </summary>

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 [System.Serializable]
 public class LevelPosData 
@@ -8,6 +9,9 @@ public class LevelPosData
     public LEVELPOS levelPos;
     public Vector3 playerEnterPosition;
     public Vector3 playerReturnPosition;
+    public PlayableAsset enterCutscene;
+    public PlayableAsset exitCutscene;
+    public PlayableAsset returnCutscene;
 
     public LevelPosData(LEVELPOS levelPos, Vector3 playerEnterPosition, Vector3 playerReturnPosition)
     {
@@ -36,11 +40,13 @@ public class LevelDataObj : ScriptableObject, IData
     public void LoadData(GameData data)
     {
         levelPosData["Prologue"].levelPos = data.levelData["Prologue"].levelPos;
+        levelPosData["Level 1"].levelPos = data.levelData["Level 1"].levelPos;
     }
 
     public void SaveData(GameData data)
     {
         data.levelData["Prologue"].levelPos = levelPosData["Prologue"].levelPos;
+        data.levelData["Level 1"].levelPos = levelPosData["Level 1"].levelPos;
     }
     #endregion
 }

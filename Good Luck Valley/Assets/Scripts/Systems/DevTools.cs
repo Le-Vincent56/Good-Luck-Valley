@@ -9,6 +9,7 @@ using FMOD.Studio;
 public class DevTools : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
     private Text devText;
@@ -16,6 +17,7 @@ public class DevTools : MonoBehaviour
     private Text instantThrowText;
     private Text infiniteShroomText;
     private Text shroomDurationText;
+    private Text shroomBounceText;
     private Settings settings;
     private GameObject textHolder;
     #endregion
@@ -59,6 +61,7 @@ public class DevTools : MonoBehaviour
         instantThrowText = textHolder.transform.GetChild(2).GetComponentInChildren<Text>();
         infiniteShroomText = textHolder.transform.GetChild(3).GetComponentInChildren<Text>();
         shroomDurationText = textHolder.transform.GetChild(4).GetComponentInChildren<Text>();
+        shroomBounceText = textHolder.transform.GetChild(5).GetComponentInChildren<Text>();
 
         // Checks if dev tools are enabled
         if (devToolsEnabled)
@@ -134,6 +137,8 @@ public class DevTools : MonoBehaviour
             {
                 shroomDurationText.text = "Press F4 to disable/enable shroom timers: Enabled";
             }
+
+            shroomBounceText.text = "Shroom Bounce Force: " + mushroomEvent.GetBounceForce();
         } 
         else
         {
@@ -143,6 +148,7 @@ public class DevTools : MonoBehaviour
             infiniteShroomText.text = "";
             instantThrowText.text = "";
             noClipText.text = "";
+            shroomBounceText.text = "";
         }
 
         if (devToolsEnabled)

@@ -75,6 +75,15 @@ public class MushroomScriptableObj : ScriptableObject, IData
         this.throwing = throwing;
     }
 
+    /// <summary>
+    /// Set the bounce force of the last mushroom bounced on
+    /// </summary>
+    /// <param name="bounceForce">Bounce force of the last mushroom bounced on</param>
+    public void SetBounceForce(Vector3 bounceForce)
+    {
+        this.bounceForce = bounceForce;
+    }
+
     public bool GetThrowing()
     {
         return throwing;
@@ -87,6 +96,11 @@ public class MushroomScriptableObj : ScriptableObject, IData
     public bool GetThrowUnlocked()
     {
         return throwUnlocked;
+    }
+
+    public Vector3 GetBounceForce()
+    {
+        return bounceForce;
     }
 
     /// <summary>
