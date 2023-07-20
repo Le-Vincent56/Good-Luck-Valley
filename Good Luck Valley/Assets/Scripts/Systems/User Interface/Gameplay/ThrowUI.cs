@@ -201,7 +201,6 @@ public class ThrowUI : MonoBehaviour
     /// </summary>
     public void DeleteLine()
     {
-        Debug.Log("Removing Line");
         if (lineRenderer)
         {
             lineRenderer.positionCount = 0;

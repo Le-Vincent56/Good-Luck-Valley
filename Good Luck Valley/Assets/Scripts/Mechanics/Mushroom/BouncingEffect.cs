@@ -55,14 +55,14 @@ public class BouncingEffect : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.name == "WallJump")
-        {
-            ContactPoint2D contact = collision.GetContact(0);
-            movementEvent.SetIsTouchingWall(true);
-            movementEvent.SetMushroomPosition(contact.point);
-            //mushroomEvent.SetTouchingShroom(true);
-            //mushroomEvent.TouchingShroom();
-        }
+        //if (collision.gameObject.name == "WallJump")
+        //{
+        //    ContactPoint2D contact = collision.GetContact(0);
+        //    movementEvent.SetIsTouchingWall(true);
+        //    movementEvent.SetMushroomPosition(contact.point);
+        //    //mushroomEvent.SetTouchingShroom(true);
+        //    //mushroomEvent.TouchingShroom();
+        //}
     }
 
     /// <summary>
@@ -79,9 +79,9 @@ public class BouncingEffect : MonoBehaviour
             mushroomEvent.TouchingShroom();
         }
 
-        if (collision.gameObject.name == "WallJump")
-        {
-            movementEvent.SetIsTouchingWall(false);
-        }
+        //if (collision.gameObject.name == "WallJump")
+        //{
+        //    movementEvent.SetIsTouchingWall(false);
+        //}
     }
 }

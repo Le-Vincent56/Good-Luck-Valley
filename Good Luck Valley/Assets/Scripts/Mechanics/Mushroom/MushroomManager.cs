@@ -497,8 +497,6 @@ public class MushroomManager : MonoBehaviour, IData
                     // Prepare the throw for Animation
                     throwPrepared = true;
 
-                        
-                    Debug.Log("Deleting Line");
                     DeleteThrowLine();
                 }
             }

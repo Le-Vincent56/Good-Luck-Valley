@@ -77,6 +77,7 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     /// </summary>
     public void TriggerLoad()
     {
+        Debug.Log("Trigger Load");
         // Set variables
         loadLevelEvent.SetInLoadTrigger(true);
         loadLevelEvent.SetLoadingThroughCutscene(true);
