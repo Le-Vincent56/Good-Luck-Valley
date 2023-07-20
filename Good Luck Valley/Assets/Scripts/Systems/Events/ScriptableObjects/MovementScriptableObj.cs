@@ -17,6 +17,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
     [SerializeField] private Vector3 mushroomPosition;
+    [SerializeField] private TileType movementTileType;
 
     #region EVENTS
     [System.NonSerialized]
@@ -26,7 +27,9 @@ public class MovementScriptableObj : ScriptableObject, IData
     public UnityEvent landEvent;
     public UnityEvent<Vector3, ForceMode2D> bounceEvent;
     public UnityEvent bounceAnimationEvent;
-    public UnityEvent<float, float, bool> footstepEvent;
+    public UnityEvent<float, float, bool, TileType> footstepEvent;
+    public UnityEvent<float, bool, TileType> startFootstepEventCutscene;
+    public UnityEvent<float, bool, TileType> stopFootstepEventCutscene;
     public UnityEvent<int> setTurnDirection;
     public UnityEvent resetTurn;
     public UnityEvent<Vector2> applyMovementDirection;
@@ -69,10 +72,20 @@ public class MovementScriptableObj : ScriptableObject, IData
 
         if (footstepEvent == null)
         {
-            footstepEvent = new UnityEvent<float, float, bool>();
+            footstepEvent = new UnityEvent<float, float, bool, TileType>();
         }
 
-        if(setTurnDirection == null)
+        if(startFootstepEventCutscene == null)
+        {
+            startFootstepEventCutscene = new UnityEvent<float, bool, TileType>();
+        }
+
+        if (stopFootstepEventCutscene == null)
+        {
+            stopFootstepEventCutscene = new UnityEvent<float, bool, TileType>();
+        }
+
+        if (setTurnDirection == null)
         {
             setTurnDirection = new UnityEvent<int>();
         }
@@ -176,6 +189,15 @@ public class MovementScriptableObj : ScriptableObject, IData
         this.movementDirection = movementDirection;
     }
 
+    /// <summary>
+    /// Set the current tile type the player is moving on
+    /// </summary>
+    /// <param name="tileType"></param>
+    public void SetTileType(TileType tileType)
+    {
+        movementTileType = tileType;
+    }
+
     public Vector3 GetMushroomPosition()
     {
         return mushroomPosition;
@@ -274,12 +296,34 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Get the current tile type the player is moving on
+    /// </summary>
+    /// <returns>The current tile type the player is moving on</returns>
+    public TileType GetTileType()
+    {
+        return movementTileType;
+    }
+
+    /// <summary>
     /// Trigger movement-related events
     /// </summary>
     public void Move()
     {
         moveEvent.Invoke();
-        footstepEvent.Invoke(inputDirection.x, movementDirection.x, isGrounded);
+        footstepEvent.Invoke(inputDirection.x, movementDirection.x, isGrounded, movementTileType);
+    }
+
+    /// <summary>
+    /// Trigger any events related to the starting the footstep cutscene event
+    /// </summary>
+    public void StartCutsceneFootstepEvent()
+    {
+        startFootstepEventCutscene.Invoke(movementDirection.x, isGrounded, movementTileType);
+    }
+
+    public void StopCutsceneFootstepEvent()
+    {
+        stopFootstepEventCutscene.Invoke(movementDirection.x, isGrounded, movementTileType);
     }
 
     /// <summary>
