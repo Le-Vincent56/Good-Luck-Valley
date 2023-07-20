@@ -20,6 +20,18 @@ public class AudioManager : MonoBehaviour
     private EventInstance musicEventInstance;
     [SerializeField] private MusicArea currentArea;
 
+    [Header("Cricket Noises")]
+    [SerializeField] private bool playingCricketNoise = false;
+    [SerializeField] private float cricketAmbientCooldown = -1f;
+    [SerializeField] private float minCricketWait = 0.1f;
+    [SerializeField] private float maxCricketWait = 1f;
+
+    [Header("Bird Noises")]
+    [SerializeField] private bool playingBirdNoise = false;
+    [SerializeField] private float birdAmbientCooldown = -1f;
+    [SerializeField] private float minBirdWait = 0.1f;
+    [SerializeField] private float maxBirdWait = 1f;
+
     #region VOLUME CONTROL
     public Bus masterBus;
     public Bus musicBus;
@@ -72,6 +84,7 @@ public class AudioManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
     /// <summary>
     /// Get Music Area based on scene
     /// </summary>
@@ -93,6 +106,24 @@ public class AudioManager : MonoBehaviour
 
             case "Level 1":
                 SetMusicArea(MusicArea.FOREST);
+                break;
+        }
+
+        switch(currentArea)
+        {
+            case MusicArea.MAIN_MENU:
+                // Stop all coroutines - ambient sounds
+                StopAllCoroutines();
+                break;
+
+            case MusicArea.FOREST:
+                // Set ambient cooldowns
+                cricketAmbientCooldown = Random.Range(minCricketWait * 60, maxCricketWait * 60);
+                birdAmbientCooldown = Random.Range(minBirdWait * 60, maxBirdWait * 60);
+
+                // Start ambient coroutines
+                StartCoroutine(CheckCricketSounds());
+                StartCoroutine(CheckBirdSounds());
                 break;
         }
     }
@@ -190,5 +221,66 @@ public class AudioManager : MonoBehaviour
         PLAYBACK_STATE state;
         instance.getPlaybackState(out state);
         return state != PLAYBACK_STATE.STOPPED;
+    }
+
+    private IEnumerator CheckCricketSounds()
+    {
+        while(true)
+        {
+            if (!playingCricketNoise)
+            {
+                // Wait for a certain amount of seconds in real time
+                yield return new WaitForSecondsRealtime(cricketAmbientCooldown);
+
+                // Set playingCricketNoise
+                playingCricketNoise = true;
+            }
+            else
+            {
+                // Play a random cricket noise
+                PlayRandomizedOneShot(FMODEvents.Instance.Crickets, transform.position);
+                Debug.Log("Cricket Noise");
+
+                // Set the cooldown - multiply by 60 to transfer minutes to seconds
+                cricketAmbientCooldown = Random.Range(minCricketWait * 60, maxCricketWait * 60);
+
+                // Reset playingCricketNoise
+                playingCricketNoise = false;
+            }
+
+            // Allow other code to run
+            yield return null;
+        }
+    }
+
+    private IEnumerator CheckBirdSounds()
+    {
+        while(true)
+        {
+            if (!playingBirdNoise)
+            {
+                // Wait for a certain amount of seconds in real time
+                yield return new WaitForSecondsRealtime(birdAmbientCooldown);
+
+                // Set playingBirdNoise
+                playingBirdNoise = true;
+            }
+            else
+            {
+                // Play a random bird call
+                PlayRandomizedOneShot(FMODEvents.Instance.BirdCalls, transform.position);
+                Debug.Log("Bird Noise");
+
+                // Set the cooldown - multiply by 60 to transfer minutes to seconds
+                birdAmbientCooldown = Random.Range(minBirdWait * 60, maxBirdWait * 60);
+
+                // Rseet playingBirdNoise
+                playingBirdNoise = false;
+            }
+
+            // Allow other code to run
+            yield return null;
+        }
+        
     }
 }

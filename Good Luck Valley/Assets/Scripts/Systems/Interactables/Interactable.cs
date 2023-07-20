@@ -19,6 +19,7 @@ public abstract class Interactable : MonoBehaviour
     protected bool inRange = false;
     protected bool controlTriggered = false;
     protected bool finishedInteracting = false;
+    protected bool playedSound = false;
     [SerializeField] protected bool remove = false;
     [SerializeField] protected bool active = true;
     #endregion
@@ -32,6 +33,7 @@ public abstract class Interactable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playedSound = false;
         remove = false;
     }
 
