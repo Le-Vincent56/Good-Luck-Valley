@@ -199,6 +199,9 @@ public abstract class Shroom : MonoBehaviour
                 break;
         }
 
+        // Play the shroom sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ShroomPlant, transform.position);
+
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<Shroom>().HasRotated = true;
         shroom.GetComponent<Shroom>().ShroomIcon = gameObject.GetComponent<Shroom>().ShroomIcon;

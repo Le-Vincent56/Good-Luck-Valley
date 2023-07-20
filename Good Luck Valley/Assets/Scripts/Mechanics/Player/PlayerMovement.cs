@@ -933,8 +933,12 @@ public class PlayerMovement : MonoBehaviour, IData
             bounceForce /= data.jumpForce;
         }
 
+        // Add forces
         mushroomEvent.SetBounceForce(bounceForce);
         RB.AddForce(bounceForce, forceType);
+
+        // Play the shroom sound
+        AudioManager.Instance.PlayRandomizedOneShot(FMODEvents.Instance.ShroomBounces, transform.position);
     }
 
 	/// <summary>
