@@ -170,6 +170,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
+        Debug.Log("Is player touching wall?: " + movementEvent.GetIsTouchingWall());
         if (movementEvent.GetIsTouchingWall())
         {
             data.maxFallSpeed = wallJumpFallSpeed;
@@ -922,52 +923,6 @@ public class PlayerMovement : MonoBehaviour, IData
 				OnJumpUpInput();
 			}
 		}
-
-        // Check if the player is touching a wall
-        if (movementEvent.GetIsTouchingWall())
-        {
-            // Only call when the button is pressed, not on release as well
-            if (context.started)
-            {
-                // Set the default rotation for left side collision
-                float rotation = -90;
-                // Set the default difference in position for left side collision
-                float difference = GetComponent<BoxCollider2D>().size.x;
-
-                // Check if the wall is to the right of the player
-                if (movementEvent.GetMushroomPosition().x > transform.position.x)
-                {
-                    // Flip rotation and difference
-                    rotation *= -1;
-                    difference *= -1;
-                }
-
-                // Create the shroom that bounces the player
-                GameObject shroom = Instantiate(wallShroomPrefab, new Vector3(transform.position.x - (difference / 2), transform.position.y, 0), Quaternion.identity);
-
-                // Set the shroom to not be an anari shroom so certain things wont happen to it
-                shroom.GetComponent<Shroom>().NonAnariShroom = true;
-
-                // Rotate the mushroom using the given rotation
-                shroom.transform.Rotate(new Vector3(0, 0, rotation));
-
-                // Check if the rotation is greater than 0 (right side collision)
-                if (rotation >= 0)
-                {
-                    // Flip the rotation
-                    shroom.GetComponent<Shroom>().FlipRotation = true;
-                }
-                // Otherwise dont flip the rotation
-                else
-                {
-                    // Flip the rotation
-                    shroom.GetComponent<Shroom>().FlipRotation = false;
-                }
-
-                // Player is no longer touching the wall
-                movementEvent.SetIsTouchingWall(false);
-            }
-        }
     }
 	#endregion
 
