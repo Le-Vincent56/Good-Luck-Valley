@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.UI;
 
 public class Settings : MonoBehaviour, ISettingsData
 {
@@ -270,7 +271,7 @@ public class Settings : MonoBehaviour, ISettingsData
 
             #region DISPLAY SETTINGS
             float transparencyValue = 1 - (brightness / 100);
-            brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
+            brightnessSquare.GetComponent<Image>().color = new Color(0, 0, 0, transparencyValue);
             #endregion
         }
 
