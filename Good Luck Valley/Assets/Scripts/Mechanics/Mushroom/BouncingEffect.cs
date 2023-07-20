@@ -57,7 +57,7 @@ public class BouncingEffect : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!mushroomEvent.IsTouchingShroom)
+        if (!mushroomEvent.IsTouchingShroom && collision.gameObject.tag == "Mushroom")
         {
             Debug.Log("Bounce");
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
