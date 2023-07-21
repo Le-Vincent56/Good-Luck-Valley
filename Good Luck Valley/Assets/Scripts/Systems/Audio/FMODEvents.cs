@@ -12,9 +12,14 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public List<EventReference> TreeSettles { get; private set; }
     [field: SerializeField] public List<EventReference> Wind { get; private set; }
 
+    [field: Header("UI")]
+    [field: SerializeField] public EventReference UIButton { get; private set; }
+    [field: SerializeField] public EventReference UICheckmark { get; private set; }
+    [field: SerializeField] public EventReference UITab { get; private set; }
+
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference PlayerFootstepsGrass { get; private set; }
-    [field:SerializeField] public EventReference PlayerLandGrass { get; private set; }
+    [field: SerializeField] public EventReference PlayerLandGrass { get; private set; }
     [field: SerializeField] public EventReference PlayerFootstepsDirt { get; private set; }
     [field: SerializeField] public EventReference PlayerLandDirt { get; private set; }
     [field: SerializeField] public List<EventReference> ShroomBounces { get; private set; }
