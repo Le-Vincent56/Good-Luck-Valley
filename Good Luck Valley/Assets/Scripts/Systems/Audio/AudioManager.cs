@@ -179,7 +179,6 @@ public class AudioManager : MonoBehaviour
     {
         // Get a random number in range of the list indexes
         int soundIndex = (int)Random.Range(0f, sounds.Count);
-        Debug.Log("Sounds Count: " + sounds.Count);
 
         // Play one of the one shots within the list
         RuntimeManager.PlayOneShot(sounds[soundIndex], worldPos);
@@ -197,21 +196,37 @@ public class AudioManager : MonoBehaviour
         return eventInstance;
     }
 
+    /// <summary>
+    /// Set the master volume
+    /// </summary>
+    /// <param name="volumePercentage">The percent of volume as a float between 0 and 1</param>
     public void SetMasterVolume(float volumePercentage)
     {
         masterBus.setVolume(volumePercentage);
     }
 
+    /// <summary>
+    /// Set the music volume
+    /// </summary>
+    /// <param name="volumePercentage">The percent of volume as a float between 0 and 1</param>
     public void SetMusicVolume(float volumePercentage)
     {
         musicBus.setVolume(volumePercentage);
     }
 
+    /// <summary>
+    /// Set the ambience volume
+    /// </summary>
+    /// <param name="volumePercentage">The percent of volume as a float between 0 and 1</param>
     public void SetAmbienceVolume(float volumePercentage)
     {
         ambienceBus.setVolume(volumePercentage);
     }
 
+    /// <summary>
+    /// Set the SFX volume
+    /// </summary>
+    /// <param name="volumePercentage">The percent of volume as a float between 0 and 1</param>
     public void SetSFXVolume(float volumePercentage)
     {
         sfxBus.setVolume(volumePercentage);
