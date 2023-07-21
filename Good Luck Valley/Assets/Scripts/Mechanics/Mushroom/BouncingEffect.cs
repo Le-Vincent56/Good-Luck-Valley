@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -62,15 +63,12 @@ public class BouncingEffect : MonoBehaviour
             if (shroomToBounce != null)
             {
                 // Cuts momentum before applying bounce
-                movementEvent.SetIsGrounded(false);
-                shroomToBounce.Bounce();
-            }
-
-            if (collision.gameObject.tag.Equals("Mushroom"))
-            {
+                Debug.Log("Bounce Happens");
                 // Set touching shroom to true if colliding with the mushroom
                 mushroomEvent.SetTouchingShroom(true);
                 mushroomEvent.TouchingShroom();
+                movementEvent.SetIsGrounded(false);
+                shroomToBounce.Bounce();
             }
         }
     }

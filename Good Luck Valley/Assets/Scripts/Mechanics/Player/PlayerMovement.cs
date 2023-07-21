@@ -223,7 +223,7 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.1f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.down, 0.1f, groundLayer);
 
-            if (boxCheckGround  && !touchingShroom && !isJumping) // Checks if set box overlaps with ground while not touching the shroom
+            if (boxCheckGround && !touchingShroom && !isJumping) // Checks if set box overlaps with ground while not touching the shroom
             {
                 // If bouncing before and the bounce buffer has ended, end bouncing
                 if (bouncing && bounceBuffer <= 0)
@@ -443,6 +443,12 @@ public class PlayerMovement : MonoBehaviour, IData
             }
         }
         #endregion
+
+        // Sets grounded to false if you are bouncing 
+        if (bouncing)
+        {
+            isGrounded = false;
+        }
 
         movementEvent.SetIsGrounded(isGrounded);
         movementEvent.SetIsJumping(isJumping);

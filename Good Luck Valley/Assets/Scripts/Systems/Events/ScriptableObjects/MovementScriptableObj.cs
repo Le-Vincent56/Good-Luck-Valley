@@ -139,6 +139,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     /// <param name="isGrounded">Whether the player is grounded or not</param>
     public void SetIsGrounded(bool isGrounded)
     {
+        Debug.Log("Changing Grounded to " + isGrounded);
         this.isGrounded = isGrounded;
     }
 
