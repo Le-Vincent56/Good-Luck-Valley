@@ -30438,7 +30438,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1739622516}
-  m_RootOrder: 30
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &475107304
 SpriteRenderer:
@@ -59950,7 +59950,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1739622516}
-  m_RootOrder: 28
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &707119504
 GameObject:
@@ -61963,8 +61963,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0
+  previousPos: {x: 0, y: 0}
+  currentPos: {x: 0, y: 0}
+  currentX: 0
+  prevX: 0
 --- !u!1 &901628765
 GameObject:
   m_ObjectHideFlags: 0
@@ -62857,8 +62862,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.2
+  previousPos: {x: 0, y: 0}
+  currentPos: {x: 0, y: 0}
+  currentX: 0
+  prevX: 0
 --- !u!1 &978430888
 GameObject:
   m_ObjectHideFlags: 0
@@ -64279,8 +64289,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0
+  previousPos: {x: 0, y: 0}
+  currentPos: {x: 0, y: 0}
+  currentX: 0
+  prevX: 0
 --- !u!1 &1057308219
 GameObject:
   m_ObjectHideFlags: 0
@@ -65371,8 +65386,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.2
+  previousPos: {x: 0, y: 0}
+  currentPos: {x: 0, y: 0}
+  currentX: 0
+  prevX: 0
 --- !u!1 &1132150235
 GameObject:
   m_ObjectHideFlags: 0
@@ -65404,7 +65424,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1739622516}
-  m_RootOrder: 26
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1132150237
 SpriteRenderer:
@@ -68538,7 +68558,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1739622516}
-  m_RootOrder: 25
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1435859904
 SpriteRenderer:
@@ -69908,7 +69928,7 @@ Transform:
   - {fileID: 1940651497}
   - {fileID: 379486449}
   m_Father: {fileID: 1739622516}
-  m_RootOrder: 29
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1552847861
 GameObject:
@@ -71358,9 +71378,11 @@ Transform:
   - {fileID: 2021594940}
   - {fileID: 1566863967}
   - {fileID: 1525683957}
+  - {fileID: 263771220}
+  - {fileID: 1238251552}
+  - {fileID: 1022091448}
   - {fileID: 1435859903}
   - {fileID: 1132150236}
-  - {fileID: 1022091448}
   - {fileID: 702748803}
   - {fileID: 1535555625}
   - {fileID: 475107303}
@@ -71380,8 +71402,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0
+  previousPos: {x: 0, y: 0}
+  currentPos: {x: 0, y: 0}
+  currentX: 0
+  prevX: 0
 --- !u!1001 &1750386889
 PrefabInstance:
   m_ObjectHideFlags: 0

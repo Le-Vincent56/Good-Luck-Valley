@@ -7,6 +7,7 @@ public class Parallax : MonoBehaviour
     #region REFERENCES
     private GameObject mainCam;
     [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     #endregion
 
     #region FIELDS
@@ -15,8 +16,10 @@ public class Parallax : MonoBehaviour
     [Header("0: no parallax | 1: parallax speed = anari speed")]
     [Range(0f, 1f)]
     [SerializeField] private float parallaxMultiplyValue;
-    private Vector2 previousPos;
-    private Vector2 currentPos;
+    [SerializeField] private Vector2 previousPos;
+    [SerializeField] private Vector2 currentPos;
+    [SerializeField] private float currentX;
+    [SerializeField] private float prevX;
     #endregion
 
     // Start is called before the first frame update
@@ -32,13 +35,8 @@ public class Parallax : MonoBehaviour
         currentPos = mainCam.transform.position;
 
         parallaxScrolling = (movementEvent.GetMovementVector().x * parallaxMultiplyValue);
-        Debug.Log("Player Vel: " + movementEvent.GetMovementVector());
-        Debug.Log("Parallax Speed: " + parallaxScrolling);
 
-        float currentX = Mathf.Round(currentPos.x * 100f) / 100f;
-        float prevX = Mathf.Round(previousPos.x * 100f) / 100f;
-
-        if (currentX != prevX)
+        if (disableEvent.GetDisableParallax() == false)
         {
             transform.position = new Vector3(transform.position.x + (parallaxScrolling * Time.deltaTime), transform.position.y, transform.position.z);
         }
