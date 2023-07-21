@@ -90,7 +90,15 @@ public class LoadLevel : MonoBehaviour
 
                 // Reset player turn
                 movementEvent.ResetTurn();
+
+                // Stop any footstep noises
+                movementEvent.StopCutsceneFootstepEvent();
+
+                // Start the cutscene
                 cutsceneEvent.StartEnterCutscene();
+
+                // Start cutscene footstep noises
+                movementEvent.StartCutsceneFootstepEvent();
                 Debug.Log("Playing Enter Cutscene");
                 break;
 
@@ -100,7 +108,15 @@ public class LoadLevel : MonoBehaviour
 
                 // Reset player turn
                 movementEvent.ResetTurn();
+
+                // Stop any footstep noises
+                movementEvent.StopCutsceneFootstepEvent();
+
+                // Start the cutscene
                 cutsceneEvent.StartEnterCutscene();
+
+                // Start cutscene footstep noises
+                movementEvent.StartCutsceneFootstepEvent();
                 Debug.Log("Playing Return Cutscene");
                 break;
 
@@ -173,6 +189,9 @@ public class LoadLevel : MonoBehaviour
 
         // End the enter cutscene
         cutsceneEvent.EndEnterCutscene();
+
+        // Stop the cutscene footstep event
+        movementEvent.StopCutsceneFootstepEvent();
 
         // Set to false in case of future problems
         loadLevelEvent.SetLoadingThroughCutscene(false);

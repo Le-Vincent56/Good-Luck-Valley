@@ -57,6 +57,9 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
             // Set the cutscene event and play it
             cutsceneEvent.SetLeaveCutscene(levelDataObj.levelPosData[currentLevel].exitCutscene);
             cutsceneEvent.StartLeaveCutscene();
+
+            // Trigger footstep sounds
+            movementEvent.StartCutsceneFootstepEvent();
         }
     }   
 

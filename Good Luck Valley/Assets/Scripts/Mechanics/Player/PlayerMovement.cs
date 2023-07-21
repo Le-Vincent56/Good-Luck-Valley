@@ -12,12 +12,6 @@ using UnityEngine.VFX;
 
 public class PlayerMovement : MonoBehaviour, IData
 {
-    enum TileType
-    {
-        Grass,
-        Dirt
-    }
-
     #region REFERENCES
     [SerializeField] private PlayerData data;
     [SerializeField] private MovementScriptableObj movementEvent;
@@ -61,7 +55,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	private bool isJumpFalling;
     private bool isJumpAnimFalling;
 	private bool isFacingRight;
-    private bool landed;
+    [SerializeField] private bool landed;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
     private Vector2 playerPosition;
@@ -224,7 +218,6 @@ public class PlayerMovement : MonoBehaviour, IData
 
                 // Ground player
                 isGrounded = true;
-                movementEvent.Land();
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
@@ -327,6 +320,8 @@ public class PlayerMovement : MonoBehaviour, IData
 
             // Set landed to true
             landed = true;
+
+            movementEvent.Land();
         }
         else
         {
