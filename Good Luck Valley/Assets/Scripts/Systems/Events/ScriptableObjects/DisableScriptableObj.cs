@@ -99,7 +99,7 @@ public class DisableScriptableObj : ScriptableObject
 
     /// <summary>
     /// Trigger events relating to enabling input
-    /// </summary>
+    /// </summary>  
     public void EnableInput()
     {
         inputEnabled = true;

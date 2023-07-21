@@ -63,7 +63,7 @@ public class LotusPick : Interactable, IData
         // Play the vine flee sound
         if(!playedSound)
         {
-            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.VineFlee, transform.position);
+            StartCoroutine(PlayLotusSounds());
             playedSound = true;
         }
     }
@@ -131,6 +131,27 @@ public class LotusPick : Interactable, IData
         }
 
         yield return null;
+    }
+
+    private IEnumerator PlayPickSound()
+    {
+        // Play lotus pick sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.LotusPick, transform.position);
+
+        // Return
+        yield break;
+    }
+
+    private IEnumerator PlayLotusSounds()
+    {
+        // Play the pick sound
+        yield return StartCoroutine(PlayPickSound());
+
+        // Play vine sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.VineDecompose, transform.position);
+
+        // Return
+        yield break;
     }
 
     #region DATA HANDLING
