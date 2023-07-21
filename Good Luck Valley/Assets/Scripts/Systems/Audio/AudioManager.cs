@@ -128,6 +128,9 @@ public class AudioManager : MonoBehaviour
             case MusicArea.MAIN_MENU:
                 // Stop all coroutines - ambient sounds
                 StopAllCoroutines();
+                
+                // Stop ambient sounds
+                ambienceBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 break;
 
             case MusicArea.FOREST:
