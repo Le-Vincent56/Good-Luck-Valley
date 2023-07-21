@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public class MovementScriptableObj : ScriptableObject, IData
 {
     #region FIELDS
+    [SerializeField] private PlayerState currentState;
+    [SerializeField] private PlayerState prevState;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isFalling;
@@ -113,6 +115,24 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set the current movement state of the player
+    /// </summary>
+    /// <param name="currentState">The current movement state of the player</param>
+    public void SetCurrentState(PlayerState currentState)
+    {
+        this.currentState = currentState;
+    }
+
+    /// <summary>
+    /// Set the previous movement state of the player
+    /// </summary>
+    /// <param name="prevState">The previous movement state of the player</param>
+    public void SetPreviousState(PlayerState prevState)
+    {
+        this.prevState = prevState;
+    }
+
+    /// <summary>
     /// Set whether the player is grounded or not
     /// </summary>
     /// <param name="isGrounded">Whether the player is grounded or not</param>
@@ -196,6 +216,24 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void SetTileType(TileType tileType)
     {
         movementTileType = tileType;
+    }
+
+    /// <summary>
+    /// Get the current movement state of the player
+    /// </summary>
+    /// <returns>The current movement state of the player</returns>
+    public PlayerState GetCurrentState()
+    {
+        return currentState;
+    }
+
+    /// <summary>
+    /// Get the previous movement state of the player
+    /// </summary>
+    /// <returns>The previous movement state of the player</returns>
+    public PlayerState GetPreviousState()
+    {
+        return prevState;
     }
 
     public Vector3 GetMushroomPosition()
@@ -356,7 +394,6 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
     {
         bounceEvent.Invoke(forceToApply, forceType);
-        Debug.LogError("Bounce Event Called");
         bounceAnimationEvent.Invoke();
     }
 

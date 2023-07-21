@@ -10,6 +10,15 @@ using FMOD.Studio;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
 
+public enum PlayerState
+{
+    Idle,
+    Running,
+    Jumping,
+    Falling,
+    Bouncing
+}
+
 public class PlayerMovement : MonoBehaviour, IData
 {
     #region REFERENCES
@@ -38,6 +47,8 @@ public class PlayerMovement : MonoBehaviour, IData
     #endregion
 
     #region FIELDS
+    [SerializeField] private PlayerState currentState;
+    [SerializeField] private PlayerState previousState;
     [SerializeField] bool debug = false;
     [SerializeField] bool isJumping;
     [SerializeField] private bool isGrounded;
@@ -174,10 +185,14 @@ public class PlayerMovement : MonoBehaviour, IData
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
 		// Check if the player is moving using RB.velocity
-        isMoving = false;
         if (RB.velocity != Vector2.zero)
         {
             isMoving = true;
+        } else
+        {
+            isMoving = false;
+            currentState = PlayerState.Idle;
+            movementEvent.SetCurrentState(currentState);
         }
 
 		// Set the playerLight's position to the player's position
@@ -233,6 +248,10 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumping = false;
 
             isJumpFalling = true;
+
+            currentState = PlayerState.Falling;
+            movementEvent.SetCurrentState(currentState);
+
             movementEvent.Fall();
         }
 
@@ -257,6 +276,10 @@ public class PlayerMovement : MonoBehaviour, IData
 			isJumpCut = false;
 
             isJumpFalling = true;
+
+            currentState = PlayerState.Falling;
+            movementEvent.SetCurrentState(currentState);
+
             movementEvent.Fall();
         }
 
@@ -306,6 +329,9 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumping = true;
             isJumpCut = false;
             isJumpFalling = false;
+            currentState = PlayerState.Jumping;
+            movementEvent.SetCurrentState(currentState);
+            Debug.Log("Current State set to Jumping");
             Jump();
         }
         #endregion
@@ -313,7 +339,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		// Land Animation Checks
         #region LAND ANIMATION CHECKS
         // If the player has been on the ground for longer than 0 seconds, they have landed
-        if (landedTimer > 0 && isGrounded && !bouncing)
+        if (landedTimer > 0 && isGrounded && !bouncing && !isJumping && (previousState == PlayerState.Falling))
         {
             // Update timer
             landedTimer -= Time.deltaTime;
@@ -321,6 +347,7 @@ public class PlayerMovement : MonoBehaviour, IData
             // Set landed to true
             landed = true;
 
+            // Trigger landing events
             movementEvent.Land();
         }
         else
@@ -332,7 +359,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		if(!isGrounded && RB.velocity.y < 0)
 		{
 			// If not grounded and has a negative velocity, reset landed timer
-			landedTimer = 0.2f;
+			landedTimer = 0.01f;
 		}
         #endregion
 
@@ -425,6 +452,11 @@ public class PlayerMovement : MonoBehaviour, IData
 
         // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;
+
+        // Update previous state
+        previousState = currentState;
+        movementEvent.SetPreviousState(previousState);
+        Debug.Log("Previous State set to Current State (" + previousState + ")");
     }
 
 	private void FixedUpdate()
@@ -444,6 +476,13 @@ public class PlayerMovement : MonoBehaviour, IData
                 Run(0.5f);
                 movementEvent.SetVectors(rb.velocity, moveInput);
                 movementEvent.Move();
+
+                // Set current state to running if the player is moving while grounded
+                if(isGrounded)
+                {
+                    currentState = PlayerState.Running;
+                    movementEvent.SetCurrentState(currentState);
+                }
 
                 // Check direction to face based on vector
                 if (moveInput.x != 0)
@@ -919,11 +958,13 @@ public class PlayerMovement : MonoBehaviour, IData
         bouncing = true;
         bounceBuffer = 0.1f;
         landedTimer = 0.2f;
+        currentState = PlayerState.Bouncing;
+        movementEvent.SetCurrentState(currentState);
 
         // Check if jumping - if there's a simultaneous jump,
         // reduce the bounce amount so that the player doesn't launch into the air
         // more than they are supposed to
-        if(isJumping && jumpBuffer > 0)
+        if (isJumping && jumpBuffer > 0)
         {
             bounceForce /= data.jumpForce;
         }
