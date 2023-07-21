@@ -39,7 +39,8 @@ public class FMODEvents : MonoBehaviour
 
     [field: Header("Environment SFX - Forest")]
     [field: SerializeField] public List<EventReference> BushRustles { get; private set; }
-    [field: SerializeField] public EventReference VineFlee { get; private set; }
+    [field: SerializeField] public EventReference VineDecompose { get; private set; }
+    [field: SerializeField] public EventReference LotusPick { get; private set; }
 
 
     [field: Header("Music")]
