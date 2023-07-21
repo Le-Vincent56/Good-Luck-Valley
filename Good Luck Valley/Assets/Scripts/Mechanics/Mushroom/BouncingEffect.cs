@@ -62,7 +62,7 @@ public class BouncingEffect : MonoBehaviour
             if (shroomToBounce != null)
             {
                 // Cuts momentum before applying bounce
-
+                movementEvent.SetIsGrounded(false);
                 shroomToBounce.Bounce();
             }
 
