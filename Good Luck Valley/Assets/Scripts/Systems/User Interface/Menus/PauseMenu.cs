@@ -84,6 +84,9 @@ public class PauseMenu : MonoBehaviour, IData
             Time.timeScale = 1f;
             pauseEvent.Unpause();
             pauseEvent.SetPauseMenuOpen(false);
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
         }
     }
    
@@ -99,6 +102,9 @@ public class PauseMenu : MonoBehaviour, IData
             pauseUI.enabled = false;
             Time.timeScale = 0f;
             settingsUI.enabled = true;
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
         }
     }
 
@@ -108,6 +114,9 @@ public class PauseMenu : MonoBehaviour, IData
         pauseUI.enabled = true;
         settingsUI.enabled = false;
         paused = true;
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
     }
 
     /// <summary>
@@ -120,6 +129,9 @@ public class PauseMenu : MonoBehaviour, IData
 
         // Activate the save menu
         saveMenuEvent.ActivateSaveMenu();
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
     }
 
     /// <summary>
@@ -133,6 +145,9 @@ public class PauseMenu : MonoBehaviour, IData
             Time.timeScale = 1f;
             SceneManager.LoadScene(scene);
             pauseEvent.SetPauseMenuOpen(false);
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
         }
     }
 
@@ -149,9 +164,6 @@ public class PauseMenu : MonoBehaviour, IData
             playtimeTotal += 1;
         }
     }
-
-    #region EVENT FUNCTIONS
-    #endregion
 
     #region DATA HANDLING
     public void LoadData(GameData data)

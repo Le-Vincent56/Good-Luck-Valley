@@ -31,12 +31,18 @@ public class ConfirmationPopupMenu : MonoBehaviour
         // Assign the onClick listeners
         confirmButton.onClick.AddListener(() =>
         {
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
             DeactivateMenu();
             confirmAction();
         });
 
         cancelButton.onClick.AddListener(() =>
         {
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
             DeactivateMenu();
             cancelAction();
         });

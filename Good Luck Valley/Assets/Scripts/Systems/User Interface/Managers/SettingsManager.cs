@@ -215,6 +215,9 @@ public class SettingsManager : MonoBehaviour
 
     public void OpenConfirmationCheck(int confirmCheckNum)
     {
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
         if (checkQuit)
         {
             switch (confirmCheckNum)
@@ -255,6 +258,9 @@ public class SettingsManager : MonoBehaviour
 
         // Calls reset settings to reset to defaults
         ResetSettings();
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
     }
 
     public void Back(PauseMenu pause)
@@ -283,6 +289,9 @@ public class SettingsManager : MonoBehaviour
         {
             ConfirmationCheck(1);
         }
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
     }
 
     /// <summary>
@@ -348,6 +357,9 @@ public class SettingsManager : MonoBehaviour
             {
                 confirmationCheck2.SetActive(false);
             }
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
         }
     }
     #endregion
@@ -365,6 +377,9 @@ public class SettingsManager : MonoBehaviour
 
             resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
             settingsSaved = false;
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
         }
     }
 
@@ -374,6 +389,9 @@ public class SettingsManager : MonoBehaviour
         {
             isFullscreen = fullscreenToggle.isOn;
             settingsSaved = false;
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
         }
     }
 
@@ -403,6 +421,9 @@ public class SettingsManager : MonoBehaviour
             navButtons[i].GetComponent<Button>().interactable = true;
         }
         navButtons[button].GetComponent<Button>().interactable = false;
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UITab, transform.position);
     }
 
     public void AdjustSlider(int index)
@@ -461,6 +482,9 @@ public class SettingsManager : MonoBehaviour
         {
             accessibilityTools[index] = !accessibilityTools[index];
             settingsSaved = false;
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
         }
     }
 
@@ -470,6 +494,9 @@ public class SettingsManager : MonoBehaviour
         {
             subtitlesEnabled = subtitlesToggle.isOn;
             settingsSaved = false;
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
         }
     }
     #endregion
@@ -500,7 +527,6 @@ public class SettingsManager : MonoBehaviour
         settings.ResOption = resDropdown.value;
         settings.IsFullscreen = fullscreenToggle.isOn;
         settings.Resolution = resValues;
-
     }
 
     private void ApplyAudio()
@@ -535,6 +561,9 @@ public class SettingsManager : MonoBehaviour
 
         // Save the game
         DataManager.Instance.SaveSettings();
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
 
         // Disables confirmation check
         settingsSaved = true;
@@ -591,6 +620,18 @@ public class SettingsManager : MonoBehaviour
         ApplySettings();
 
         disableCalls = false;
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+    }
+
+    /// <summary>
+    /// Play the button sound
+    /// </summary>
+    public void PlayButtonSound()
+    {
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
     }
     #endregion
 }
