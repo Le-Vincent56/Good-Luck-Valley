@@ -60,15 +60,25 @@ public class BouncingEffect : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
+
+            // Check to see if there is a shroom component
             if (shroomToBounce != null)
             {
                 // Cuts momentum before applying bounce
                 Debug.Log("Bounce Happens");
+
                 // Set touching shroom to true if colliding with the mushroom
                 mushroomEvent.SetTouchingShroom(true);
                 mushroomEvent.TouchingShroom();
                 movementEvent.SetIsGrounded(false);
                 shroomToBounce.Bounce();
+            }
+
+            Animator shroomAnimator = collision.gameObject.GetComponent<Animator>();
+
+            if(shroomAnimator != null)
+            {
+                shroomAnimator.SetTrigger("Bouncing");
             }
         }
     }
