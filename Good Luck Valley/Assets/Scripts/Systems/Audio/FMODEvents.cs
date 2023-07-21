@@ -11,7 +11,10 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public List<EventReference> Crickets { get; private set; }
 
     [field: Header("Player SFX")]
-    [field: SerializeField] public EventReference PlayerFootsteps { get; private set; }
+    [field: SerializeField] public EventReference PlayerFootstepsGrass { get; private set; }
+    [field:SerializeField] public EventReference PlayerLandGrass { get; private set; }
+    [field: SerializeField] public EventReference PlayerFootstepsDirt { get; private set; }
+    [field: SerializeField] public EventReference PlayerLandDirt { get; private set; }
     [field: SerializeField] public List<EventReference> ShroomBounces { get; private set; }
     [field: SerializeField] public EventReference ShroomPlant { get; private set; }
 

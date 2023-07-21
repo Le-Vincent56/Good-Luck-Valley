@@ -5,15 +5,15 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.VFX;
 
+public enum TileType
+{
+    Grass,
+    Dirt,
+    None
+}
+
 public class RunningEffects : MonoBehaviour
 {
-    enum TileType
-    { 
-        Grass,
-        Dirt,
-        None
-    }
-
     #region REFERENCES
     private PlayerMovement player;
     private Rigidbody2D playerRB;
@@ -112,6 +112,7 @@ public class RunningEffects : MonoBehaviour
         if (Mathf.Abs(playerRB.velocity.x) > lowestSpeedForParticle && player.IsGrounded)
         {
             TileType type = CheckTileMap();
+            movementEvent.SetTileType(type);
             switch (type)
             {
                 case TileType.Grass:
@@ -138,14 +139,17 @@ public class RunningEffects : MonoBehaviour
     private void PlayLandingEffect()
     {
         TileType type = CheckTileMap();
+        movementEvent.SetTileType(type);
         switch (type)
         {
             case TileType.Grass:
                 landLeavesParticles.Play();
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerLandGrass, transform.position);
                 break;
 
             case TileType.Dirt:
                 landDustParticles.Play();
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerLandDirt, transform.position);
                 break;
 
             case TileType.None:
