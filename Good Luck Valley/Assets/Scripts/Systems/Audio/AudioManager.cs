@@ -178,7 +178,8 @@ public class AudioManager : MonoBehaviour
     public void PlayRandomizedOneShot(List<EventReference> sounds, Vector3 worldPos)
     {
         // Get a random number in range of the list indexes
-        int soundIndex = (int)Random.Range(0f, 4f);
+        int soundIndex = (int)Random.Range(0f, sounds.Count);
+        Debug.Log("Sounds Count: " + sounds.Count);
 
         // Play one of the one shots within the list
         RuntimeManager.PlayOneShot(sounds[soundIndex], worldPos);
