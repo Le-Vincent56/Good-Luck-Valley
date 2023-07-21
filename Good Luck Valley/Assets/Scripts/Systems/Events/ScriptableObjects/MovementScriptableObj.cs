@@ -356,7 +356,6 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
     {
         bounceEvent.Invoke(forceToApply, forceType);
-        Debug.LogError("Bounce Event Called");
         bounceAnimationEvent.Invoke();
     }
 

@@ -45,12 +45,14 @@ public class RunningEffects : MonoBehaviour
     private void OnEnable()
     {
         movementEvent.landEvent.AddListener(CheckLandParticle);
+        movementEvent.landEvent.AddListener(PlayLandingEffect);
         movementEvent.jumpEvent.AddListener(PlayLandingEffect);
     }
 
     private void OnDisable()
     {
         movementEvent.landEvent.RemoveListener(CheckLandParticle);
+        movementEvent.landEvent.RemoveListener(PlayLandingEffect);
         movementEvent.jumpEvent.RemoveListener(PlayLandingEffect);
     }
 
