@@ -36,8 +36,14 @@ public class AudioManager : MonoBehaviour
     [Header("Tree Noises")]
     [SerializeField] private bool playingTreeNoise = false;
     [SerializeField] private float treeAmbientCooldown = -1f;
-    [SerializeField] private float minTreeWait = 0.1f;
-    [SerializeField] private float maxTreeWait = 1f;
+    [SerializeField] private float minTreeWait = 0.5f;
+    [SerializeField] private float maxTreeWait = 2f;
+
+    [Header("Wind Noises")]
+    [SerializeField] private bool playingWindNoise = false;
+    [SerializeField] private float windAmbientCooldown = -1f;
+    [SerializeField] private float minWindWait = 0.5f;
+    [SerializeField] private float maxWindWait = 2f;
     #endregion
 
     #region VOLUME CONTROL
@@ -128,11 +134,14 @@ public class AudioManager : MonoBehaviour
                 // Set ambient cooldowns
                 cricketAmbientCooldown = Random.Range(minCricketWait * 60, maxCricketWait * 60);
                 birdAmbientCooldown = Random.Range(minBirdWait * 60, maxBirdWait * 60);
+                treeAmbientCooldown = Random.Range(minTreeWait * 60, maxTreeWait * 60);
+                windAmbientCooldown = Random.Range(minWindWait * 60, maxWindWait * 60);
 
                 // Start ambient coroutines
                 StartCoroutine(CheckCricketSounds());
                 StartCoroutine(CheckBirdSounds());
                 StartCoroutine(CheckTreeSounds());
+                StartCoroutine(CheckWindSounds());
                 break;
         }
     }
@@ -328,6 +337,35 @@ public class AudioManager : MonoBehaviour
 
                 // Rseet playingBirdNoise
                 playingTreeNoise = false;
+            }
+
+            // Allow other code to run
+            yield return null;
+        }
+    }
+
+    private IEnumerator CheckWindSounds()
+    {
+        while (true)
+        {
+            if (!playingWindNoise)
+            {
+                // Wait for a certain amount of seconds in real time
+                yield return new WaitForSecondsRealtime(windAmbientCooldown);
+
+                // Set playingBirdNoise
+                playingWindNoise = true;
+            }
+            else
+            {
+                // Play a random bird call
+                PlayRandomizedOneShot(FMODEvents.Instance.Wind, transform.position);
+
+                // Set the cooldown - multiply by 60 to transfer minutes to seconds
+                windAmbientCooldown = Random.Range(minWindWait * 60, maxWindWait * 60);
+
+                // Rseet playingBirdNoise
+                playingWindNoise = false;
             }
 
             // Allow other code to run

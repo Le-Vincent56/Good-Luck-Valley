@@ -87,6 +87,41 @@ public class MushroomManager : MonoBehaviour, IData
     public Dictionary<int, GameObject> ChangeShroomIndexes { get { return changeShroomIndexes; } }
     #endregion
 
+    private void OnEnable()
+    {
+        mushroomEvent.unlockThrowEvent.AddListener(GetThrow);
+        mushroomEvent.endThrowEvent.AddListener(EndThrow);
+        mushroomEvent.clearShroomsEvent.AddListener(ClearShrooms);
+        pauseEvent.pauseEvent.AddListener(LockThrow);
+        pauseEvent.unpauseEvent.AddListener(UnlockThrow);
+        disableEvent.lockPlayerEvent.AddListener(LockThrow);
+        disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
+        disableEvent.disablePlayerInputEvent.AddListener(LockThrow);
+        disableEvent.enablePlayerInputEvent.AddListener(UnlockThrow);
+        loadLevelEvent.startLoad.AddListener(LockThrow);
+        loadLevelEvent.endLoad.AddListener(UnlockThrow);
+        cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
+        cutsceneEvent.endLotusCutscene.AddListener(UnlockThrow);
+        cutsceneEvent.startLeaveCutscene.AddListener(DeleteThrowLine);
+    }
+
+    private void OnDisable()
+    {
+        mushroomEvent.unlockThrowEvent.RemoveListener(GetThrow);
+        mushroomEvent.endThrowEvent.RemoveListener(EndThrow);
+        mushroomEvent.clearShroomsEvent.RemoveListener(ClearShrooms);
+        pauseEvent.pauseEvent.RemoveListener(LockThrow);
+        pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
+        disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
+        disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
+        disableEvent.disablePlayerInputEvent.RemoveListener(LockThrow);
+        disableEvent.enablePlayerInputEvent.RemoveListener(UnlockThrow);
+        loadLevelEvent.startLoad.RemoveListener(LockThrow);
+        loadLevelEvent.endLoad.RemoveListener(UnlockThrow);
+        cutsceneEvent.startLotusCutscene.RemoveListener(LockThrow);
+        cutsceneEvent.endLotusCutscene.RemoveListener(UnlockThrow);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -136,37 +171,6 @@ public class MushroomManager : MonoBehaviour, IData
         shroomCounter.ResetQueue();
     }
 
-    private void OnEnable()
-    {
-        mushroomEvent.unlockThrowEvent.AddListener(GetThrow);
-        pauseEvent.pauseEvent.AddListener(LockThrow);
-        pauseEvent.unpauseEvent.AddListener(UnlockThrow);
-        disableEvent.lockPlayerEvent.AddListener(LockThrow);
-        disableEvent.unlockPlayerEvent.AddListener(UnlockThrow);
-        disableEvent.disablePlayerInputEvent.AddListener(LockThrow);
-        disableEvent.enablePlayerInputEvent.AddListener(UnlockThrow);
-        loadLevelEvent.startLoad.AddListener(LockThrow);
-        loadLevelEvent.endLoad.AddListener(UnlockThrow);
-        cutsceneEvent.startLotusCutscene.AddListener(LockThrow);
-        cutsceneEvent.endLotusCutscene.AddListener(UnlockThrow);
-        cutsceneEvent.startLeaveCutscene.AddListener(DeleteThrowLine);
-    }
-
-    private void OnDisable()
-    {
-        mushroomEvent.unlockThrowEvent.RemoveListener(GetThrow);
-        pauseEvent.pauseEvent.RemoveListener(LockThrow);
-        pauseEvent.unpauseEvent.RemoveListener(UnlockThrow);
-        disableEvent.lockPlayerEvent.RemoveListener(LockThrow);
-        disableEvent.unlockPlayerEvent.RemoveListener(UnlockThrow);
-        disableEvent.disablePlayerInputEvent.RemoveListener(LockThrow);
-        disableEvent.enablePlayerInputEvent.RemoveListener(UnlockThrow);
-        loadLevelEvent.startLoad.RemoveListener(LockThrow);
-        loadLevelEvent.endLoad.RemoveListener(UnlockThrow);
-        cutsceneEvent.startLotusCutscene.RemoveListener(LockThrow);
-        cutsceneEvent.endLotusCutscene.RemoveListener(UnlockThrow);
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -175,8 +179,6 @@ public class MushroomManager : MonoBehaviour, IData
         forceDirection = cursor.transform.position - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
-        //Debug.Log(forceDirection);
-        //Debug.Log(playerRB.position);
 
         if(usingTutorial && firstTimeHittingMax && mushroomList.Count == 3)
         {
@@ -640,7 +642,6 @@ public class MushroomManager : MonoBehaviour, IData
                 // Checks if the mushroomCount isn't 0
                 if (mushroomList.Count != 0)
                 {
-                    Debug.Log("RemoveLAstshroom");
                     // Destroys the mushroom at the front of the list   
                     if (mushroomLimit == 3)
                     {
