@@ -331,7 +331,6 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumpFalling = false;
             currentState = PlayerState.Jumping;
             movementEvent.SetCurrentState(currentState);
-            Debug.Log("Current State set to Jumping");
             Jump();
         }
         #endregion
@@ -456,7 +455,6 @@ public class PlayerMovement : MonoBehaviour, IData
         // Update previous state
         previousState = currentState;
         movementEvent.SetPreviousState(previousState);
-        Debug.Log("Previous State set to Current State (" + previousState + ")");
     }
 
 	private void FixedUpdate()
