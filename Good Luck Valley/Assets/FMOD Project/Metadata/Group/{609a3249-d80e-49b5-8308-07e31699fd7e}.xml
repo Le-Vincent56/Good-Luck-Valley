@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerGroup" id="{609a3249-d80e-49b5-8308-07e31699fd7e}">
+		<property name="name">
+			<value>Shroom</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{cc9e78ea-3272-44cc-85a4-aa318d53c1c8}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{5ad20409-324b-43d4-a747-cc445b9be940}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{96d55050-3dcd-4570-bab7-e0034359a861}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{cc9e78ea-3272-44cc-85a4-aa318d53c1c8}">
+		<relationship name="effects">
+			<destination>{cabf8ef2-ddb5-4136-b29c-b40e52b3578b}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{5ad20409-324b-43d4-a747-cc445b9be940}" />
+	<object class="MixerBusFader" id="{cabf8ef2-ddb5-4136-b29c-b40e52b3578b}" />
+</objects>

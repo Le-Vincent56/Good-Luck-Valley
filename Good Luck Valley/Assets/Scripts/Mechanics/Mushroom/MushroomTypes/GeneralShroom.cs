@@ -102,7 +102,6 @@ public class GeneralShroom : Shroom
 
             movementEvent.SetIsBounceAnimating(true);
             movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
-            Debug.LogError("Bounce called from Shroom");
         }
     }
 

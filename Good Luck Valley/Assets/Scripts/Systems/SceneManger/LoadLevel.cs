@@ -88,9 +88,6 @@ public class LoadLevel : MonoBehaviour
                 // Set the enter cutscene
                 cutsceneEvent.SetEnterCutscene(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].enterCutscene);
 
-                // Reset player turn
-                movementEvent.ResetTurn();
-
                 // Stop any footstep noises
                 movementEvent.StopCutsceneFootstepEvent();
 
@@ -105,9 +102,6 @@ public class LoadLevel : MonoBehaviour
             case LEVELPOS.RETURN:
                 // Set the return cutscene
                 cutsceneEvent.SetEnterCutscene(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].returnCutscene);
-
-                // Reset player turn
-                movementEvent.ResetTurn();
 
                 // Stop any footstep noises
                 movementEvent.StopCutsceneFootstepEvent();

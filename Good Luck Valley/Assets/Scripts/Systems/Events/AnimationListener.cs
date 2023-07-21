@@ -32,6 +32,7 @@ public class AnimationListener : MonoBehaviour
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isThrowing;
     [SerializeField] private bool runThrow_R;
+    [SerializeField] private bool playedThrowSound = false;
 
     private const string PLAYER_IDLE = "Player_Idle";
     private const string PLAYER_RUN = "Player_Run";
@@ -132,7 +133,17 @@ public class AnimationListener : MonoBehaviour
                     // Otherwise, throw in place
                     ChangeAnimationState(PLAYER_THROW);
                 }
+
+                // Play the throw sound
+                if(!playedThrowSound)
+                {
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ShroomThrow, transform.position);
+                    playedThrowSound = true;
+                }
             }
+        } else
+        {
+            playedThrowSound = false;
         }
     }
 

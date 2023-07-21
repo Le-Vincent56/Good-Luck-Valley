@@ -54,7 +54,6 @@ public class InteractiveBush : MonoBehaviour
         if (collision.tag == "Player" || collision.tag == "Mushroom")
         {
             leavesParticle.transform.position = GetComponent<BoxCollider2D>().ClosestPoint(collision.transform.position);
-            Debug.Log("leaves particle position: " + leavesParticle.transform.position);
             leavesParticle.Play();
         }
     }

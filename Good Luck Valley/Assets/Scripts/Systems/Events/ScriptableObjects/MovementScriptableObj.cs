@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public class MovementScriptableObj : ScriptableObject, IData
 {
     #region FIELDS
+    [SerializeField] private PlayerState currentState;
+    [SerializeField] private PlayerState prevState;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isFalling;
@@ -14,6 +16,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isBounceAnimating;
     [SerializeField] private bool isTouchingWall;
+    [SerializeField] private bool canTurn;
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
     [SerializeField] private Vector3 mushroomPosition;
@@ -113,6 +116,24 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set the current movement state of the player
+    /// </summary>
+    /// <param name="currentState">The current movement state of the player</param>
+    public void SetCurrentState(PlayerState currentState)
+    {
+        this.currentState = currentState;
+    }
+
+    /// <summary>
+    /// Set the previous movement state of the player
+    /// </summary>
+    /// <param name="prevState">The previous movement state of the player</param>
+    public void SetPreviousState(PlayerState prevState)
+    {
+        this.prevState = prevState;
+    }
+
+    /// <summary>
     /// Set whether the player is grounded or not
     /// </summary>
     /// <param name="isGrounded">Whether the player is grounded or not</param>
@@ -175,9 +196,22 @@ public class MovementScriptableObj : ScriptableObject, IData
         this.isTouchingWall = isTouchingWall;
     }
 
-    public void SetMushroomPosition(Vector3 position)
+    /// <summary>
+    /// Set whether the player is allowed to turn or not
+    /// </summary>
+    /// <param name="canTurn">Whether the player is allowed to turn or not</param>
+    public void SetCanTurn(bool canTurn)
     {
-        this.mushroomPosition = position;
+        this.canTurn = canTurn;
+    }
+
+    /// <summary>
+    /// Set the mushrom position
+    /// </summary>
+    /// <param name="position">The mushroom position</param>
+    public void SetMushroomPosition(Vector3 mushroomPosition)
+    {
+        this.mushroomPosition = mushroomPosition;
     }
 
     /// <summary>
@@ -196,6 +230,24 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void SetTileType(TileType tileType)
     {
         movementTileType = tileType;
+    }
+
+    /// <summary>
+    /// Get the current movement state of the player
+    /// </summary>
+    /// <returns>The current movement state of the player</returns>
+    public PlayerState GetCurrentState()
+    {
+        return currentState;
+    }
+
+    /// <summary>
+    /// Get the previous movement state of the player
+    /// </summary>
+    /// <returns>The previous movement state of the player</returns>
+    public PlayerState GetPreviousState()
+    {
+        return prevState;
     }
 
     public Vector3 GetMushroomPosition()
@@ -278,6 +330,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Get whether or not the player is allowed to turn or not
+    /// </summary>
+    /// <returns>Whether or not the player is allowed to turn or not</returns>
+    public bool GetCanTurn()
+    {
+        return canTurn;
+    }
+
+    /// <summary>
     /// Get the player movement Vector2
     /// </summary>
     /// <returns>The player movement Vector2</returns>
@@ -356,7 +417,6 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
     {
         bounceEvent.Invoke(forceToApply, forceType);
-        Debug.LogError("Bounce Event Called");
         bounceAnimationEvent.Invoke();
     }
 
@@ -396,6 +456,7 @@ public class MovementScriptableObj : ScriptableObject, IData
         isLanding = false;
         isBouncing = false;
         isBounceAnimating = false;
+        canTurn = true;
         movementDirection = Vector3.zero;
         inputDirection = Vector3.zero;
     }

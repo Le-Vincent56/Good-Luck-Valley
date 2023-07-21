@@ -562,74 +562,107 @@ public class MenusManager : MonoBehaviour
     }
 
     #region FADING
+    /// <summary>
+    /// Fades in the menu screens
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeIn()
     {
+        // The menu panels in the scene (only used for the settings scene)
         List<GameObject> menuPanels = new List<GameObject>();
+
+        // This is done in order to remove the the effect of the settings panels overlapping each other when the menu as a whole is fading out
+        // Checks if the current scene is the settings scene
         if (currentScene == 3)
         {
+            // Loops through all the gameObject with the tag MenuPanel
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
             {
+                // Adds them to the menuPanels list
                 menuPanels.Add(g);
+
+                // Sets them to inactive
                 g.SetActive(false);
+
+                // Checks if this menu is the menu being viewed by the user
                 if (g.transform.parent.gameObject == menuParent)
                 {
-                    Debug.Log("Setting Menu Parent to true");
+                    // If so, sets it to active
                     g.SetActive(true);
                 }
             }
         }
 
+        // checks if the canvas group isn't null
         if (canvasGroup != null)
         {
+            // Loops while its alpha is less than one
             while (canvasGroup.alpha < 1)
             {
-                Debug.Log("Increasing Alpha");
+                // Increases its alpha
                 canvasGroup.alpha += 0.1f;
                 yield return null;
             }
         }
 
+        // Checks if the current scene is the settings scene
         if (currentScene == 3)
         {
+            // Sets all the menu panels to active
             foreach (GameObject g in menuPanels)
             {
-                Debug.Log("Setting Things to active");
                 g.SetActive(true);
             }
         }
     }
 
+    /// <summary>
+    /// Fades out the menu screens
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeOut()
     {
+        // Checks if the scene is settings
         if (currentScene == 3)
         {
+            // Loops through all the menu panels in the scene
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
             {
+                // Sets them to inactive
                 g.SetActive(false);
+
+                // Checks if this menu is the menu being viewed by the user
                 if (g.transform.parent.gameObject == menuParent)
                 {
+                    // If so, sets it to active
                     g.SetActive(true);
                 }
             }
         }
 
+        // Checks if the canvas group isn't null
         if (canvasGroup != null)
         {
+            // Loops while the alpha is greater than 0
             while (canvasGroup.alpha > 0)
             {
+                // Decreases the alpha
                 canvasGroup.alpha -= 0.1f;
                 yield return null;
             }
+            // Sets navScenes to true because this happens right before we switch scenes
             navScenes = true;
         }
 
-        if (currentScene == 3)
-        {
-            foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
-            {
-                g.SetActive(true);
-            }
-        }
+        // Checks if the current scene is the settings scene
+        //if (currentScene == 3)
+        //{
+        //    // Sets all menu panels to active
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(true);
+        //    }
+        //}
     }
 
     public void CheckFade(int sceneToLoad)

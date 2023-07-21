@@ -38,11 +38,9 @@ public class BouncingEffect : MonoBehaviour
             ContactPoint2D[] contacts = collision.contacts;
 
             Vector2 lowestPoint = contacts[0].point;
-            Debug.Log("Contacts: " + contacts.Length);
 
             for (int i = 0; i < contacts.Length; i++) 
             { 
-                Debug.Log("Contact Point " + i + ": " + contacts[i].point);
                 if (contacts[i].point.y < lowestPoint.y)
                 {
                     lowestPoint = contacts[i].point;
@@ -59,7 +57,6 @@ public class BouncingEffect : MonoBehaviour
     {
         if (!mushroomEvent.IsTouchingShroom && collision.gameObject.tag == "Mushroom")
         {
-            Debug.Log("Bounce");
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
             if (shroomToBounce != null)
@@ -97,11 +94,9 @@ public class BouncingEffect : MonoBehaviour
             ContactPoint2D[] contacts = collision.contacts;
 
             Vector2 lowestPoint = contacts[0].point;
-            Debug.Log("Contacts: " + contacts.Length);
 
             for (int i = 0; i < contacts.Length; i++)
             {
-                Debug.Log("Contact Point " + i + ": " + contacts[i].point);
                 if (contacts[i].point.y < lowestPoint.y)
                 {
                     lowestPoint = contacts[i].point;

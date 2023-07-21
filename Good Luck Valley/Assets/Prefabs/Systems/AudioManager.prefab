@@ -55,6 +55,14 @@ MonoBehaviour:
   birdAmbientCooldown: -1
   minBirdWait: 0.1
   maxBirdWait: 1
+  playingTreeNoise: 0
+  treeAmbientCooldown: -1
+  minTreeWait: 0.5
+  maxTreeWait: 2
+  playingWindNoise: 0
+  windAmbientCooldown: -1
+  minWindWait: 0.5
+  maxWindWait: 2
 --- !u!114 &552928820361386477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +80,7 @@ MonoBehaviour:
   usePlayerSFX: 1
   stepTimerMax: 0
   stepTimer: 0
+  playingFootstepsDuringCutscene: 0
 --- !u!1 &552928820439025786
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,6 +188,62 @@ MonoBehaviour:
       Data3: -231930993
       Data4: 1225194473
     Path: event:/Ambience/Forest/Crickets/Crickets4
+  <TreeSettles>k__BackingField:
+  - Guid:
+      Data1: -1319744374
+      Data2: 1283203958
+      Data3: 800871335
+      Data4: -1339038238
+    Path: event:/Ambience/Forest/Trees/TreeSettle1
+  - Guid:
+      Data1: 54251382
+      Data2: 1183521616
+      Data3: 297377926
+      Data4: -278163817
+    Path: event:/Ambience/Forest/Trees/TreeSettle2
+  - Guid:
+      Data1: -2130305106
+      Data2: 1158778368
+      Data3: 1470938035
+      Data4: 867602912
+    Path: event:/Ambience/Forest/Trees/TreeSettle3
+  - Guid:
+      Data1: -1159746346
+      Data2: 1272183966
+      Data3: 167366319
+      Data4: -1840290832
+    Path: event:/Ambience/Forest/Trees/TreeSettle4
+  <Wind>k__BackingField:
+  - Guid:
+      Data1: 1758429426
+      Data2: 1077377128
+      Data3: -208724574
+      Data4: -1504547235
+    Path: event:/Ambience/Forest/Wind/Wind1
+  - Guid:
+      Data1: 1392287910
+      Data2: 1179072620
+      Data3: -874100044
+      Data4: 882489632
+    Path: event:/Ambience/Forest/Wind/Wind2
+  - Guid:
+      Data1: 457899614
+      Data2: 1307969998
+      Data3: -428399965
+      Data4: -1411536559
+    Path: event:/Ambience/Forest/Wind/Wind3
+  - Guid:
+      Data1: -339272846
+      Data2: 1150542418
+      Data3: -41174600
+      Data4: -858818184
+    Path: event:/Ambience/Forest/Wind/Wind4
+  - Guid:
+      Data1: 1120208570
+      Data2: 1212496148
+      Data3: 1729134524
+      Data4: 2125769921
+    Path: event:/Ambience/Forest/Wind/Wind5
   <PlayerFootstepsGrass>k__BackingField:
     Guid:
       Data1: -1122529396
@@ -233,6 +298,13 @@ MonoBehaviour:
       Data3: 1965726338
       Data4: 266807339
     Path: event:/SFX/Player/Shroom/ShroomGrow
+  <ShroomThrow>k__BackingField:
+    Guid:
+      Data1: 932697111
+      Data2: 1196240039
+      Data3: 1054858175
+      Data4: -1643319442
+    Path: event:/SFX/Player/Shroom/ShroomThrow
   <JournalOpen>k__BackingField:
     Guid:
       Data1: -1091909965

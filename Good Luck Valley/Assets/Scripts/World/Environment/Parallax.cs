@@ -6,33 +6,43 @@ public class Parallax : MonoBehaviour
 {
     #region REFERENCES
     private GameObject mainCam;
+    [SerializeField] private MovementScriptableObj movementEvent;
     #endregion
 
     #region FIELDS
     [SerializeField] private float parallaxScrolling;
-    private float startPosition;
+
+    [Header("0: no parallax | 1: parallax speed = anari speed")]
+    [Range(0f, 1f)]
+    [SerializeField] private float parallaxMultiplyValue;
+    private Vector2 previousPos;
+    private Vector2 currentPos;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         mainCam = GameObject.Find("Main Camera");
-        startPosition = transform.position.x;
-        parallaxScrolling /= 10f;
+        currentPos = mainCam.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float distance = (mainCam.transform.position.x * parallaxScrolling);
+        currentPos = mainCam.transform.position;
 
-        if (distance == 0)
+        parallaxScrolling = (movementEvent.GetMovementVector().x * parallaxMultiplyValue);
+        Debug.Log("Player Vel: " + movementEvent.GetMovementVector());
+        Debug.Log("Parallax Speed: " + parallaxScrolling);
+
+        float currentX = Mathf.Round(currentPos.x * 100f) / 100f;
+        float prevX = Mathf.Round(previousPos.x * 100f) / 100f;
+
+        if (currentX != prevX)
         {
-            transform.position = new Vector3(mainCam.transform.position.x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + (parallaxScrolling * Time.deltaTime), transform.position.y, transform.position.z);
         }
-        else
-        {
-            transform.position = new Vector3(startPosition - distance, transform.position.y, transform.position.z);
-        }
+
+        previousPos = currentPos;
     }
 }
