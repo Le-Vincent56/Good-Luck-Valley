@@ -548,9 +548,8 @@ public class MushroomManager : MonoBehaviour, IData
 
             if (context.canceled)
             {
-
                 // Set animation
-                if(!throwing)
+                if (!throwing)
                 {
                     mushroomEvent.SetThrowing(true);
                     mushroomEvent.SetThrowAnim();
@@ -584,6 +583,7 @@ public class MushroomManager : MonoBehaviour, IData
                     // Prepare the throw for Animation
                     throwPrepared = true;
 
+                    // Delete the throw line
                     DeleteThrowLine();
                 }
             }
@@ -691,6 +691,74 @@ public class MushroomManager : MonoBehaviour, IData
     {
         recallLocked = false;
         throwLocked = false;
+    }
+
+    /// <summary>
+    /// Forcibly end a throw
+    /// </summary>
+    public void EndThrow()
+    {
+        if(throwState == ThrowState.Throwing)
+        {
+            // Set animation
+            if (!throwing)
+            {
+                mushroomEvent.SetThrowing(true);
+                mushroomEvent.SetThrowAnim();
+            }
+
+            // Check if the shroom can be thrown
+            if (canThrow)
+            {
+                throwing = true;
+
+                // Throw the shroom
+                //switch (throwState)
+                //{
+                //    case ThrowState.Throwing:
+                //        CheckShroomCount();
+                //        throwState = ThrowState.NotThrowing;
+                //        break;
+                //}
+
+                if (throwState == ThrowState.Throwing)
+                {
+                    CheckShroomCount();
+                    throwState = ThrowState.NotThrowing;
+                }
+
+                // Reset throw variables
+                canThrow = false;
+                throwCooldown = 0.2f;
+                bounceCooldown = 0.2f;
+
+                // Prepare the throw for Animation
+                throwPrepared = true;
+
+                // Delete the throw line
+                DeleteThrowLine();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Clear all shrooms
+    /// </summary>
+    public void ClearShrooms()
+    {
+        // Loops through all mushrooms in the mushroomList
+        foreach (GameObject m in mushroomList)
+        {
+            // Destroys that mushroom
+            if (mushroomLimit == 3)
+                m.GetComponent<Shroom>().ResetCounter();
+
+            Destroy(m);
+        }
+
+        // Removes all mushrooms from the list
+        shroomCounter.ResetQueue();
+        mushroomList.Clear();
     }
     #endregion
 

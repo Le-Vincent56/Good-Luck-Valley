@@ -16,6 +16,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isBounceAnimating;
     [SerializeField] private bool isTouchingWall;
+    [SerializeField] private bool canTurn;
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
     [SerializeField] private Vector3 mushroomPosition;
@@ -195,9 +196,22 @@ public class MovementScriptableObj : ScriptableObject, IData
         this.isTouchingWall = isTouchingWall;
     }
 
-    public void SetMushroomPosition(Vector3 position)
+    /// <summary>
+    /// Set whether the player is allowed to turn or not
+    /// </summary>
+    /// <param name="canTurn">Whether the player is allowed to turn or not</param>
+    public void SetCanTurn(bool canTurn)
     {
-        this.mushroomPosition = position;
+        this.canTurn = canTurn;
+    }
+
+    /// <summary>
+    /// Set the mushrom position
+    /// </summary>
+    /// <param name="position">The mushroom position</param>
+    public void SetMushroomPosition(Vector3 mushroomPosition)
+    {
+        this.mushroomPosition = mushroomPosition;
     }
 
     /// <summary>
@@ -313,6 +327,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     {
         this.movementDirection = movementDirection;
         this.inputDirection = inputDirection;
+    }
+
+    /// <summary>
+    /// Get whether or not the player is allowed to turn or not
+    /// </summary>
+    /// <returns>Whether or not the player is allowed to turn or not</returns>
+    public bool GetCanTurn()
+    {
+        return canTurn;
     }
 
     /// <summary>
@@ -433,6 +456,7 @@ public class MovementScriptableObj : ScriptableObject, IData
         isLanding = false;
         isBouncing = false;
         isBounceAnimating = false;
+        canTurn = true;
         movementDirection = Vector3.zero;
         inputDirection = Vector3.zero;
     }
