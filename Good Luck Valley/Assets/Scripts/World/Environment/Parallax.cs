@@ -12,10 +12,9 @@ public class Parallax : MonoBehaviour
     #region FIELDS
     [SerializeField] private float parallaxScrolling;
 
-    [Header("How much to divide parallax scrolling by")]
+    [Header("0: no parallax | 1: parallax speed = anari speed")]
     [Range(0f, 1f)]
     [SerializeField] private float parallaxMultiplyValue;
-    [SerializeField] private float parallaxDivisbleValue;
     private Vector2 previousPos;
     private Vector2 currentPos;
     #endregion
@@ -25,10 +24,6 @@ public class Parallax : MonoBehaviour
     {
         mainCam = GameObject.Find("Main Camera");
         currentPos = mainCam.transform.position;
-        if (parallaxDivisbleValue == 0)
-        {
-            parallaxDivisbleValue = 10000;
-        }
     }
 
     // Update is called once per frame
