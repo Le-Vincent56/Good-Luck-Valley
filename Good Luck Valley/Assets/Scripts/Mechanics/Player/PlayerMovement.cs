@@ -192,6 +192,7 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             isMoving = false;
             currentState = PlayerState.Idle;
+            movementEvent.SetCurrentState(currentState);
         }
 
 		// Set the playerLight's position to the player's position
@@ -249,6 +250,7 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumpFalling = true;
 
             currentState = PlayerState.Falling;
+            movementEvent.SetCurrentState(currentState);
 
             movementEvent.Fall();
         }
@@ -276,6 +278,7 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumpFalling = true;
 
             currentState = PlayerState.Falling;
+            movementEvent.SetCurrentState(currentState);
 
             movementEvent.Fall();
         }
@@ -327,6 +330,8 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumpCut = false;
             isJumpFalling = false;
             currentState = PlayerState.Jumping;
+            movementEvent.SetCurrentState(currentState);
+            Debug.Log("Current State set to Jumping");
             Jump();
         }
         #endregion
@@ -450,6 +455,8 @@ public class PlayerMovement : MonoBehaviour, IData
 
         // Update previous state
         previousState = currentState;
+        movementEvent.SetPreviousState(previousState);
+        Debug.Log("Previous State set to Current State (" + previousState + ")");
     }
 
 	private void FixedUpdate()
@@ -474,6 +481,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 if(isGrounded)
                 {
                     currentState = PlayerState.Running;
+                    movementEvent.SetCurrentState(currentState);
                 }
 
                 // Check direction to face based on vector
@@ -951,11 +959,12 @@ public class PlayerMovement : MonoBehaviour, IData
         bounceBuffer = 0.1f;
         landedTimer = 0.2f;
         currentState = PlayerState.Bouncing;
+        movementEvent.SetCurrentState(currentState);
 
         // Check if jumping - if there's a simultaneous jump,
         // reduce the bounce amount so that the player doesn't launch into the air
         // more than they are supposed to
-        if(isJumping && jumpBuffer > 0)
+        if (isJumping && jumpBuffer > 0)
         {
             bounceForce /= data.jumpForce;
         }
