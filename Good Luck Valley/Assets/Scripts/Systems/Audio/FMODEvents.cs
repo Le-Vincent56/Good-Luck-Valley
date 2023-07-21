@@ -10,6 +10,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public List<EventReference> BirdCalls { get; private set; }
     [field: SerializeField] public List<EventReference> Crickets { get; private set; }
     [field: SerializeField] public List<EventReference> TreeSettles { get; private set; }
+    [field: SerializeField] public List<EventReference> Wind { get; private set; }
 
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference PlayerFootstepsGrass { get; private set; }
@@ -18,6 +19,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference PlayerLandDirt { get; private set; }
     [field: SerializeField] public List<EventReference> ShroomBounces { get; private set; }
     [field: SerializeField] public EventReference ShroomPlant { get; private set; }
+    [field: SerializeField] public EventReference ShroomThrow { get; private set; }
 
     [field: Header("Journal SFX")]
     [field: SerializeField] public EventReference JournalOpen { get; private set; }
