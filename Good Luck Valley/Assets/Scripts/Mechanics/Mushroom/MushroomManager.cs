@@ -216,9 +216,7 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         CheckIfCanThrow();
-        //CheckIfCanBounce();
         CheckShroomDuration();
-        //UpdateShroomCooldowns();
     }
 
     private void DeleteThrowLine()
@@ -441,16 +439,15 @@ public class MushroomManager : MonoBehaviour, IData
     public void OnCheckWallShroom(InputAction.CallbackContext context) 
     {
         // Check if the player is touching a wall
-        Debug.Log("Touching Wall: " + movementEvent.GetIsTouchingWall());
-        Debug.Log("Is Grounded?: " + playerMove.IsGrounded);
-        if (movementEvent.GetIsTouchingWall() && !playerMove.IsGrounded)
+        if (movementEvent.GetIsTouchingWall() && !movementEvent.GetIsGrounded())
         {
-            // Player is no longer touching the wall
-            movementEvent.SetIsTouchingWall(false);
-
             // Only call when the button is pressed, not on release as well
             if (context.started)
             {
+                Debug.Log("Check Wall");
+                // Player is no longer touching the wall
+                movementEvent.SetIsTouchingWall(false);
+
                 if (mushroomList.Count >= mushroomLimit)
                 {
                     // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
@@ -479,14 +476,11 @@ public class MushroomManager : MonoBehaviour, IData
                     rotation *= -1;
                     differenceX *= -1;
                 }
-
-                Vector3 shroomPos = new Vector3(playerRB.transform.position.x - (differenceX / 2), playerRB.transform.position.y, 0);
                 // Create the shroom that bounces the player
                 GameObject shroom = Instantiate(spore, movementEvent.GetMushroomPosition(), Quaternion.identity);
 
+
                 mushroomList.Add(shroom);
-                Vector2 direction = movementEvent.GetMushroomPosition() - playerRB.transform.position;
-                //MushroomList[mushroomList.Count - 1].GetComponent<Rigidbody2D>().AddForce(direction.normalized * throwMultiplier, ForceMode2D.Impulse);
                 shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 
                 if (mushroomLimit == 3)
