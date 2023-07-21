@@ -9,6 +9,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference Ambience { get; private set; }
     [field: SerializeField] public List<EventReference> BirdCalls { get; private set; }
     [field: SerializeField] public List<EventReference> Crickets { get; private set; }
+    [field: SerializeField] public List<EventReference> TreeSettles { get; private set; }
 
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference PlayerFootstepsGrass { get; private set; }

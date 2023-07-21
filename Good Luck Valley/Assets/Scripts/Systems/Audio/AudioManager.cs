@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     private EventInstance musicEventInstance;
     [SerializeField] private MusicArea currentArea;
 
+    #region TIMED AMBIENT NOISES
     [Header("Cricket Noises")]
     [SerializeField] private bool playingCricketNoise = false;
     [SerializeField] private float cricketAmbientCooldown = -1f;
@@ -31,6 +32,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float birdAmbientCooldown = -1f;
     [SerializeField] private float minBirdWait = 0.1f;
     [SerializeField] private float maxBirdWait = 1f;
+
+    [Header("Tree Noises")]
+    [SerializeField] private bool playingTreeNoise = false;
+    [SerializeField] private float treeAmbientCooldown = -1f;
+    [SerializeField] private float minTreeWait = 0.1f;
+    [SerializeField] private float maxTreeWait = 1f;
+    #endregion
 
     #region VOLUME CONTROL
     public Bus masterBus;
@@ -124,6 +132,7 @@ public class AudioManager : MonoBehaviour
                 // Start ambient coroutines
                 StartCoroutine(CheckCricketSounds());
                 StartCoroutine(CheckBirdSounds());
+                StartCoroutine(CheckTreeSounds());
                 break;
         }
     }
@@ -295,6 +304,34 @@ public class AudioManager : MonoBehaviour
             // Allow other code to run
             yield return null;
         }
-        
+    }
+
+    private IEnumerator CheckTreeSounds()
+    {
+        while (true)
+        {
+            if (!playingTreeNoise)
+            {
+                // Wait for a certain amount of seconds in real time
+                yield return new WaitForSecondsRealtime(treeAmbientCooldown);
+
+                // Set playingBirdNoise
+                playingTreeNoise = true;
+            }
+            else
+            {
+                // Play a random bird call
+                PlayRandomizedOneShot(FMODEvents.Instance.TreeSettles, transform.position);
+
+                // Set the cooldown - multiply by 60 to transfer minutes to seconds
+                treeAmbientCooldown = Random.Range(minTreeWait * 60, maxTreeWait * 60);
+
+                // Rseet playingBirdNoise
+                playingTreeNoise = false;
+            }
+
+            // Allow other code to run
+            yield return null;
+        }
     }
 }
