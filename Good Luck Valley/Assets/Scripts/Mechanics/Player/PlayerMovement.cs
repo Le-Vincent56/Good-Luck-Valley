@@ -483,7 +483,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 }
 
                 // Check direction to face based on vector
-                if (moveInput.x != 0)
+                if (moveInput.x != 0 && movementEvent.GetCanTurn())
                 {
                     // Check directions to face
                     CheckDirectionToFace(moveInput.x > 0);
@@ -997,6 +997,7 @@ public class PlayerMovement : MonoBehaviour, IData
     private void LockMovement()
 	{
         moveInput = Vector2.zero;
+        movementEvent.SetCanTurn(false);
         isLocked = true;
 	}
 
@@ -1011,6 +1012,7 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             playerInput.ActivateInput();
         }
+        movementEvent.SetCanTurn(true);
     }
 
     /// <summary>
@@ -1029,6 +1031,7 @@ public class PlayerMovement : MonoBehaviour, IData
     private void DisableInput()
     {
         playerInput.DeactivateInput();
+        movementEvent.SetCanTurn(false);
         canInput = false;
         canInputHard = false;
     }
@@ -1039,6 +1042,7 @@ public class PlayerMovement : MonoBehaviour, IData
     private void EnableInput()
     {
         playerInput.ActivateInput();
+        movementEvent.SetCanTurn(true);
         canInput = true;
         canInputHard = true;
     }

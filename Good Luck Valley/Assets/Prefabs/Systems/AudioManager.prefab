@@ -55,6 +55,10 @@ MonoBehaviour:
   birdAmbientCooldown: -1
   minBirdWait: 0.1
   maxBirdWait: 1
+  playingTreeNoise: 0
+  treeAmbientCooldown: -1
+  minTreeWait: 0.1
+  maxTreeWait: 1
 --- !u!114 &552928820361386477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +76,7 @@ MonoBehaviour:
   usePlayerSFX: 1
   stepTimerMax: 0
   stepTimer: 0
+  playingFootstepsDuringCutscene: 0
 --- !u!1 &552928820439025786
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,6 +184,31 @@ MonoBehaviour:
       Data3: -231930993
       Data4: 1225194473
     Path: event:/Ambience/Forest/Crickets/Crickets4
+  <TreeSettles>k__BackingField:
+  - Guid:
+      Data1: -1319744374
+      Data2: 1283203958
+      Data3: 800871335
+      Data4: -1339038238
+    Path: event:/Ambience/Forest/Trees/TreeSettle1
+  - Guid:
+      Data1: 54251382
+      Data2: 1183521616
+      Data3: 297377926
+      Data4: -278163817
+    Path: event:/Ambience/Forest/Trees/TreeSettle2
+  - Guid:
+      Data1: -2130305106
+      Data2: 1158778368
+      Data3: 1470938035
+      Data4: 867602912
+    Path: event:/Ambience/Forest/Trees/TreeSettle3
+  - Guid:
+      Data1: -1159746346
+      Data2: 1272183966
+      Data3: 167366319
+      Data4: -1840290832
+    Path: event:/Ambience/Forest/Trees/TreeSettle4
   <PlayerFootstepsGrass>k__BackingField:
     Guid:
       Data1: -1122529396

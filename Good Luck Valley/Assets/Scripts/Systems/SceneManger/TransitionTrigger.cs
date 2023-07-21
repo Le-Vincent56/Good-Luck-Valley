@@ -15,6 +15,7 @@ public class TransitionTrigger : MonoBehaviour
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
     [SerializeField] private LevelDataObj levelDataObj;
     [SerializeField] private GameObject levelLoader;
     #endregion
@@ -38,6 +39,13 @@ public class TransitionTrigger : MonoBehaviour
     {
        if (collision.gameObject.tag == "Player" && transition && loadLevelEvent.GetTriggersActive())
        {
+            // End the mushroom throw and clear mushrooms
+            mushroomEvent.EndThrow();
+            mushroomEvent.ClearShrooms();
+
+            // Reset player turn
+            movementEvent.ResetTurn();
+
             // Lock the player
             disableEvent.DisableInput();
 

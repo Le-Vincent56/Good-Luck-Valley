@@ -19,6 +19,8 @@ public class MushroomScriptableObj : ScriptableObject, IData
     public UnityEvent unlockThrowEvent;
     public UnityEvent checkThrowAnimationEvent;
     public UnityEvent setThrowAnimationEvent;
+    public UnityEvent endThrowEvent;
+    public UnityEvent clearShroomsEvent;
     #endregion
     #endregion
 
@@ -44,6 +46,16 @@ public class MushroomScriptableObj : ScriptableObject, IData
         if (setThrowAnimationEvent == null)
         {
             setThrowAnimationEvent = new UnityEvent();
+        }
+
+        if(endThrowEvent == null)
+        {
+            endThrowEvent = new UnityEvent();
+        }
+
+        if(clearShroomsEvent == null)
+        {
+            clearShroomsEvent = new UnityEvent();
         }
         #endregion
     }
@@ -134,6 +146,22 @@ public class MushroomScriptableObj : ScriptableObject, IData
     public void SetThrowAnim()
     {
         setThrowAnimationEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger events relating to ending the throwing state
+    /// </summary>
+    public void EndThrow()
+    {
+        endThrowEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger events relating to clearing shrooms
+    /// </summary>
+    public void ClearShrooms()
+    {
+        clearShroomsEvent.Invoke();
     }
 
     /// <summary>
