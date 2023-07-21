@@ -18,6 +18,7 @@ public class DevTools : MonoBehaviour
     private Text infiniteShroomText;
     private Text shroomDurationText;
     private Text shroomBounceText;
+    private Text playerVelocityText;
     private Settings settings;
     private GameObject textHolder;
     #endregion
@@ -62,6 +63,8 @@ public class DevTools : MonoBehaviour
         infiniteShroomText = textHolder.transform.GetChild(3).GetComponentInChildren<Text>();
         shroomDurationText = textHolder.transform.GetChild(4).GetComponentInChildren<Text>();
         shroomBounceText = textHolder.transform.GetChild(5).GetComponentInChildren<Text>();
+        playerVelocityText = textHolder.transform.GetChild(6).GetComponentInChildren<Text>();
+
 
         // Checks if dev tools are enabled
         if (devToolsEnabled)
@@ -139,6 +142,7 @@ public class DevTools : MonoBehaviour
             }
 
             shroomBounceText.text = "Shroom Bounce Force: " + mushroomEvent.GetBounceForce();
+            playerVelocityText.text = "Player Velocity: " + playerMove.gameObject.GetComponent<Rigidbody2D>().velocity;
         } 
         else
         {
@@ -149,6 +153,7 @@ public class DevTools : MonoBehaviour
             instantThrowText.text = "";
             noClipText.text = "";
             shroomBounceText.text = "";
+            playerVelocityText.text = "";
         }
 
         if (devToolsEnabled)
