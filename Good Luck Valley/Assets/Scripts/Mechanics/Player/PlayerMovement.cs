@@ -175,6 +175,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
+
         //Debug.Log("Jumping?: " + isJumping);
         //Debug.Log("Falling?: " + isJumpFalling);
         //Debug.Log("Landed?: " + landed);
@@ -962,13 +963,13 @@ public class PlayerMovement : MonoBehaviour, IData
         // Check if jumping - if there's a simultaneous jump,
         // reduce the bounce amount so that the player doesn't launch into the air
         // more than they are supposed to
-        if (isJumping && jumpBuffer > 0)
+        if (isJumping && jumpBuffer > 0 && !movementEvent.GetIsTouchingWall())
         {
             bounceForce /= data.jumpForce;
         }
 
         // Add forces
-        mushroomEvent.SetBounceForce(bounceForce);
+        //mushroomEvent.SetBounceForce(bounceForce);
         RB.AddForce(bounceForce, forceType);
 
         // Play the shroom sound
