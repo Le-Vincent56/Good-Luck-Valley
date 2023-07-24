@@ -37,6 +37,8 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void PlayEnterCutscene()
     {
+        disableEvent.SetDisableParallax(true);
+
         // Set playing cutscene to true
         cutsceneEvent.SetPlayingCutscene(true);
 
@@ -53,6 +55,8 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void EndEnterCutscene()
     {
+        disableEvent.SetDisableParallax(false);
+
         // Save the game
         DataManager.Instance.SaveGame();
 
@@ -68,6 +72,8 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void PlayLeaveCutscene()
     {
+        disableEvent.SetDisableParallax(true);
+
         // Save the game
         DataManager.Instance.SaveGame();
 

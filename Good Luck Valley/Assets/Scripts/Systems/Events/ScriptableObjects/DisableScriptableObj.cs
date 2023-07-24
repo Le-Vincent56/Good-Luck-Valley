@@ -10,6 +10,7 @@ public class DisableScriptableObj : ScriptableObject
     #region FIELDS
     [SerializeField] private bool playerLocked;
     [SerializeField] private bool inputEnabled;
+    [SerializeField] private bool disableParallax;
     [SerializeField] private float inputCooldown;
 
     #region EVENTS
@@ -98,7 +99,7 @@ public class DisableScriptableObj : ScriptableObject
 
     /// <summary>
     /// Trigger events relating to enabling input
-    /// </summary>
+    /// </summary>  
     public void EnableInput()
     {
         inputEnabled = true;
@@ -113,5 +114,15 @@ public class DisableScriptableObj : ScriptableObject
         playerLocked = false;
         inputEnabled = true;
         inputCooldown = 0f;
+    }
+
+    public void SetDisableParallax(bool disableParallax)
+    {
+        this.disableParallax = disableParallax;
+    }
+
+    public bool GetDisableParallax()
+    {
+        return disableParallax;
     }
 }
