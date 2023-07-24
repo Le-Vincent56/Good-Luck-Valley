@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3dc222aece45a408a7570c12e16e07, type: 3}
   m_Name: Movement Event
   m_EditorClassIdentifier: 
+  currentState: 1
+  prevState: 1
   isGrounded: 1
   isJumping: 0
   isFalling: 0
@@ -19,9 +21,12 @@ MonoBehaviour:
   isBouncing: 0
   isBounceAnimating: 0
   isTouchingWall: 0
-  movementDirection: {x: -0.0000006400433, y: 0}
+  canTurn: 0
+  movementDirection: {x: -0.06919965, y: 0.0000002682209}
   inputDirection: {x: 0, y: 0}
-  mushroomPosition: {x: 0.8512755, y: 46.030075, z: 0}
+  mushroomPosition: {x: -18.941227, y: 52.322693, z: 0}
+  wallCollisionPoint: {x: -18.941227, y: 52.363842}
+  movementTileType: 0
   jumpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -31,6 +36,9 @@ MonoBehaviour:
   landEvent:
     m_PersistentCalls:
       m_Calls: []
+  wallEvent:
+    m_PersistentCalls:
+      m_Calls: []
   bounceEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -38,6 +46,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   footstepEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  startFootstepEventCutscene:
+    m_PersistentCalls:
+      m_Calls: []
+  stopFootstepEventCutscene:
     m_PersistentCalls:
       m_Calls: []
   setTurnDirection:
