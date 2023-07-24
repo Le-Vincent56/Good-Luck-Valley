@@ -75,6 +75,24 @@ public class DisableScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Get whether the player is locked or not
+    /// </summary>
+    /// <returns>Whether the player is locked or not</returns>
+    public bool GetPlayerLocked()
+    {
+        return playerLocked;
+    }
+
+    /// <summary>
+    /// Get whether the player has input enabled or not
+    /// </summary>
+    /// <returns>Whether the player has input enabled or not</returns>
+    public bool GetInputEnabled()
+    {
+        return inputEnabled;
+    }
+
+    /// <summary>
     /// Trigger events related to locking the player
     /// </summary>
     public void Lock()

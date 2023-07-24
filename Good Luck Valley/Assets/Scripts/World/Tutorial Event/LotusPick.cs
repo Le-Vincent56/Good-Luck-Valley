@@ -48,13 +48,15 @@ public class LotusPick : Interactable, IData
             Interact();
             
             interacting = true;
-            StartCoroutine(FadeVines());
-            StartCoroutine(FadeLotus());
 
             // If the inteaction has finished, reset the variables
             if (finishedInteracting)
             {
                 controlTriggered = false;
+
+                StopAllCoroutines();
+
+                disableEvent.Unlock();
             }
         }
         else
@@ -75,7 +77,7 @@ public class LotusPick : Interactable, IData
         // Lock the player
         disableEvent.Lock();
 
-        // Play the vine flee sound
+        // Start the lotus pick by playing the sound
         if(!playedSound)
         {
             StartCoroutine(PlayLotusSounds());
@@ -100,6 +102,8 @@ public class LotusPick : Interactable, IData
         vineWall.GetComponent<DecomposableVine>().Active = false;
         vineWall.SetActive(false);
         pauseEvent.SetPaused(false);
+
+        yield return null;
 
         GameObject endScreen = GameObject.Find("Demo Ending Text");
         if (endScreen != null)
@@ -152,6 +156,13 @@ public class LotusPick : Interactable, IData
     {
         // Play lotus pick sound
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.LotusPick, transform.position);
+
+        // Wait until the "pick" noise
+        yield return new WaitForSeconds(2.5f);
+
+        // Start the fading coroutines
+        StartCoroutine(FadeVines());
+        StartCoroutine(FadeLotus());
 
         // Return
         yield break;
