@@ -19,6 +19,7 @@ public class AnimationListener : MonoBehaviour
     private Animator playerAnim;
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     #endregion
 
     #region FIELDS
@@ -63,7 +64,7 @@ public class AnimationListener : MonoBehaviour
         // Check for running/idle animations
         if(isGrounded & !isThrowing && !isBouncing)
         {
-            if (Mathf.Abs(movementVector.x) >= 0.1)
+            if (Mathf.Abs(movementVector.x) >= 0.1 && !disableEvent.GetPlayerLocked())
             {
                 ChangeAnimationState(PLAYER_RUN);
 

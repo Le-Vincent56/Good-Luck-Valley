@@ -17,6 +17,7 @@ public class DataManager : MonoBehaviour
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private SaveMenuScriptableObj saveMenuEvent;
     [SerializeField] private JournalScriptableObj journalEvent;
+    [SerializeField] private CameraScriptableObj cameraEvent;
     [SerializeField] private GameData gameData;
     private SettingsData settingsData;
     [SerializeField] private List<IData> dataObjects;
@@ -320,6 +321,7 @@ public class DataManager : MonoBehaviour
         pauseEvent.ResetObj();
         saveMenuEvent.ResetObj();
         journalEvent.ResetObj();
+        cameraEvent.ResetObj();
     }
 
     /// <summary>

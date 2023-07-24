@@ -19,6 +19,7 @@ public class LoadLevel : MonoBehaviour
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LevelDataObj levelDataObj;
+    [SerializeField] private DisableScriptableObj disableEvent;
     private GameObject player;
     public Animator transition;
     #endregion
@@ -76,6 +77,9 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void StartLoading()
     {
+        // Disable the HUD while loading
+        disableEvent.DisableHUD();
+
         // Prevent the player from pausing
         pauseEvent.SetCanPause(false);
         pauseEvent.SetPauseMenuOpen(false);
@@ -150,7 +154,15 @@ public class LoadLevel : MonoBehaviour
             if(camDirector.enabled)
             {
                 cutsceneEvent.StartLotusCutscene();
+            } else
+            {
+                // Enable the HUD is a cutscene doesn't start
+                disableEvent.EnableHUD();
             }
+        } else
+        {
+            // Enable the HUD if a director doesn't exist
+            disableEvent.EnableHUD();
         }
 
         // Set load triggers to be active
@@ -171,6 +183,10 @@ public class LoadLevel : MonoBehaviour
         // Save the game
         DataManager.Instance.SaveGame();
 
+        // Set the movement to 0 so there's no animation bugs
+        movementEvent.SetMovementDirection(new Vector2(0, movementEvent.GetMovementVector().y));
+        movementEvent.ApplyMovementDirection();
+
         // Check to see if the lotus cutscene needs to be played
         PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();
         if (camDirector != null)
@@ -178,7 +194,15 @@ public class LoadLevel : MonoBehaviour
             if (camDirector.enabled)
             {
                 cutsceneEvent.StartLotusCutscene();
+            } else
+            {
+                // Enable the HUD is a cutscene doesn't start
+                disableEvent.EnableHUD();
             }
+        } else
+        {
+            // Enable the HUD if a director doesn't exist
+            disableEvent.EnableHUD();
         }
 
         // End the enter cutscene

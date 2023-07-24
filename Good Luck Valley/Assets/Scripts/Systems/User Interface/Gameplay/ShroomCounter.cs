@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class ShroomCounter : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] DisableScriptableObj disableEvent;
+    [SerializeField] MushroomScriptableObj mushroomEvent;
     private GameObject shroomIcon1;
     private GameObject shroomIcon2;
     private GameObject shroomIcon3;
@@ -16,8 +18,6 @@ public class ShroomCounter : MonoBehaviour
     private Image shroomFill1;
     private Image shroomFill2;
     private Image shroomFill3;
-    private MushroomManager mushMan;
-    private CameraManager camMan;
     #endregion
 
     #region FIELDS
@@ -41,14 +41,23 @@ public class ShroomCounter : MonoBehaviour
     public float oB { get { return originalB; } }
     #endregion
 
+    private void OnEnable()
+    {
+        mushroomEvent.unlockThrowEvent.AddListener(ShowCounter);
+        disableEvent.enableHUD.AddListener(ShowCounter);
+        disableEvent.disableHUD.AddListener(HideCounter);
+    }
+
+    private void OnDisable()
+    {
+        mushroomEvent.unlockThrowEvent.RemoveListener(ShowCounter);
+        disableEvent.enableHUD.RemoveListener(ShowCounter);
+        disableEvent.disableHUD.RemoveListener(HideCounter);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        // Figure this out after gettting a working build, less .Find calls
-        // GameObject parent = gameObject;
-        mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
-        camMan = GameObject.Find("CameraManager").GetComponent<CameraManager>();
-
         shroomIcon1 = GameObject.Find("Shroom Icon 1");
         shroomIcon2 = GameObject.Find("Shroom Icon 2");
         shroomIcon3 = GameObject.Find("Shroom Icon 3");
@@ -78,20 +87,6 @@ public class ShroomCounter : MonoBehaviour
         };
 
         ResetQueue();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!mushMan.ThrowUnlocked || camMan.PlayCutscene)
-        {
-            HideCounter();
-            displayCounter = true;
-        }   
-        else if (displayCounter)
-        {
-            ShowCounter();
-        }
     }
 
     /// <summary>
@@ -127,6 +122,9 @@ public class ShroomCounter : MonoBehaviour
         shroomIcon1.GetComponent<Image>().fillAmount = 1;
     }
 
+    /// <summary>
+    /// Hide the Shroom Counter
+    /// </summary>
     private void HideCounter()
     {
         shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
@@ -140,20 +138,27 @@ public class ShroomCounter : MonoBehaviour
         shroomFill3.color = new Color(originalR, originalG, originalB, 0);
     }
 
+    /// <summary>
+    /// Show the Shroom Counter, given the player can throw Mushrooms
+    /// </summary>
     private void ShowCounter()
     {
-        shroomOutline1.color = new Color(originalR, originalG, originalB, 1);
-        shroomOutline2.color = new Color(originalR, originalG, originalB, 1);
-        shroomOutline3.color = new Color(originalR, originalG, originalB, 1);
-        shroomFill1.color = new Color(originalR, originalG, originalB, 0.3882353f);
-        shroomFill2.color = new Color(originalR, originalG, originalB, 0.3882353f);
-        shroomFill3.color = new Color(originalR, originalG, originalB, 0.3882353f);
-        shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
-        shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
-        shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
-        shroomIcon1.GetComponent<Image>().fillAmount = 1;
-        shroomIcon2.GetComponent<Image>().fillAmount = 1;
-        shroomIcon3.GetComponent<Image>().fillAmount = 1;
-        displayCounter = false;
+        // Check if the player has unlocked the throw ability
+        if(mushroomEvent.GetThrowUnlocked())
+        {
+            shroomOutline1.color = new Color(originalR, originalG, originalB, 1);
+            shroomOutline2.color = new Color(originalR, originalG, originalB, 1);
+            shroomOutline3.color = new Color(originalR, originalG, originalB, 1);
+            shroomFill1.color = new Color(originalR, originalG, originalB, 0.3882353f);
+            shroomFill2.color = new Color(originalR, originalG, originalB, 0.3882353f);
+            shroomFill3.color = new Color(originalR, originalG, originalB, 0.3882353f);
+            shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
+            shroomIcon1.GetComponent<Image>().fillAmount = 1;
+            shroomIcon2.GetComponent<Image>().fillAmount = 1;
+            shroomIcon3.GetComponent<Image>().fillAmount = 1;
+            displayCounter = false;
+        }
     }
 }
