@@ -19,6 +19,8 @@ public class TutorialAnguishLotus : Interactable, IData
 
     void Start()
     {
+        gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Thickness", 0.02f);
+
         remove = false;
 
         shroomVines = GameObject.Find("ShroomVineWall");
@@ -26,6 +28,16 @@ public class TutorialAnguishLotus : Interactable, IData
 
     void Update()
     {
+        // Show the outline if in range
+        if (inRange)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 1);
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 0);
+        }
+
         // Check if interactable is triggered
         if (controlTriggered)
         {
