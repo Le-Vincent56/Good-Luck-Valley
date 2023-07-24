@@ -510,29 +510,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		// If the player isn't locked
 		if (!isLocked)
 		{
-            // Check if the player is touching the wall
-            if (movementEvent.GetIsTouchingWall())
-            {
-                // Apply wall force - if not bouncing
-                if(!bouncing)
-                {
-                    ApplyWallForce();
-                }
-
-                // Trigger other wall-related events
-                movementEvent.Wall();
-            }
-            else if (wallStickTimer > 0) // Check if the wall stick timer is running
-            {
-                // If so, apply wall force - if not bouncing
-                if (!bouncing)
-                {
-                    ApplyWallForce();
-                }
-            }
-
-            
-
             // Check for slopes
 			if(checkForSlopes)
 			{
@@ -555,7 +532,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 }
 
                 // Check direction to face based on vector
-                if (moveInput.x != 0 && movementEvent.GetCanTurn())
+                if (moveInput.x != 0 && movementEvent.GetCanTurn() && !movementEvent.GetIsTouchingWall())
                 {
                     // Check directions to face
                     CheckDirectionToFace(moveInput.x > 0);
@@ -568,11 +545,32 @@ public class PlayerMovement : MonoBehaviour, IData
                 }
 
                 StopCoroutine(MovementCooldown());
-            } else if(!cutsceneEvent.GetPlayingCutscene())
+            } else if(!cutsceneEvent.GetPlayingCutscene()) // Only apply the movement cooldown when playing the game and not in a cutscene
             {
                 StartCoroutine(MovementCooldown());
             }
-		}
+
+            // Check if the player is touching the wall
+            if (movementEvent.GetIsTouchingWall())
+            {
+                // Apply wall force - if not bouncing
+                if (!bouncing)
+                {
+                    ApplyWallForce();
+                }
+
+                // Trigger other wall-related events
+                movementEvent.Wall();
+            }
+            else if (wallStickTimer > 0) // Check if the wall stick timer is running
+            {
+                // If so, apply wall force - if not bouncing
+                if (!bouncing)
+                {
+                    ApplyWallForce();
+                }
+            }
+        }
 		else
 		{
 			// Reset velocity to 0
@@ -856,6 +854,9 @@ public class PlayerMovement : MonoBehaviour, IData
         Vector2 stickVector = wallDir - checkPos;
         Vector2 stickForce = stickVector.normalized * wallStickForce;
 
+        // Turn the opposite way
+        Turn((int)-stickVector.normalized.x);
+
         // Add the force
         RB.AddForce(stickForce, ForceMode2D.Force);
 
@@ -878,6 +879,42 @@ public class PlayerMovement : MonoBehaviour, IData
 
         isFacingRight = !isFacingRight;
 	}
+
+    /// <summary>
+    /// Turn the player to face a certain direction
+    /// </summary>
+    /// <param name="direction">The direction to face, -1 for left, 1 for right</param>
+    public void Turn(int direction)
+    {
+        // Get the localScale of the player
+        Vector3 scale = transform.localScale;
+
+        // Change scale depending on parameters
+        switch(direction)
+        {
+            case -1:
+                // If the scale is positive, turn it negative
+                if(scale.x > 0)
+                {
+                    scale.x *= -1f;
+                }
+                isFacingRight = false;
+                break;
+
+            case 1:
+                // Turn the scale positive
+                scale.x = Mathf.Abs(scale.x);
+                isFacingRight = true;
+                break;
+
+            // Fallthrough case
+            default:
+                break;
+        }
+
+        // Apply turn
+        transform.localScale = scale;
+    }
 
     /// <summary>
     /// Reset the way the player is looking
