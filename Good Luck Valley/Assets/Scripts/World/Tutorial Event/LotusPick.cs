@@ -19,6 +19,8 @@ public class LotusPick : Interactable, IData
 
     void Start()
     {
+        gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Thickness", 0.02f);
+
         remove = false;
         if (fadeAmount == 0)
         {
@@ -28,6 +30,16 @@ public class LotusPick : Interactable, IData
 
     void Update()
     {
+        // Show the outline if in range
+        if (inRange)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 1);
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 0);
+        }
+
         // Debug.Log(vineWall.activeSelf);
         // Check if interactable is triggered
         if (controlTriggered)
