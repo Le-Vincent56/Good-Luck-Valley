@@ -587,7 +587,7 @@ public class MushroomManager : MonoBehaviour, IData
 
     public void OnQuickBounce(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !throwLocked)
         {
             if (mushroomList.Count >= mushroomLimit)
             {
