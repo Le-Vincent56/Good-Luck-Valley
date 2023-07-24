@@ -20,6 +20,8 @@ public class DisableScriptableObj : ScriptableObject
     public UnityEvent<float> stopInputEvent;
     public UnityEvent disablePlayerInputEvent;
     public UnityEvent enablePlayerInputEvent;
+    public UnityEvent enableHUD;
+    public UnityEvent disableHUD;
     #endregion
     #endregion
 
@@ -50,6 +52,16 @@ public class DisableScriptableObj : ScriptableObject
         {
             enablePlayerInputEvent = new UnityEvent();
         }
+
+        if(enableHUD == null)
+        {
+            enableHUD = new UnityEvent();
+        }
+
+        if (disableHUD == null)
+        {
+            disableHUD = new UnityEvent();
+        }
         #endregion
     }
 
@@ -60,6 +72,24 @@ public class DisableScriptableObj : ScriptableObject
     public void SetInputCooldown(float inputCooldown)
     {
         this.inputCooldown = inputCooldown;
+    }
+
+    /// <summary>
+    /// Get whether the player is locked or not
+    /// </summary>
+    /// <returns>Whether the player is locked or not</returns>
+    public bool GetPlayerLocked()
+    {
+        return playerLocked;
+    }
+
+    /// <summary>
+    /// Get whether the player has input enabled or not
+    /// </summary>
+    /// <returns>Whether the player has input enabled or not</returns>
+    public bool GetInputEnabled()
+    {
+        return inputEnabled;
     }
 
     /// <summary>
@@ -104,6 +134,22 @@ public class DisableScriptableObj : ScriptableObject
     {
         inputEnabled = true;
         enablePlayerInputEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger events relating to enabling the HUD
+    /// </summary>
+    public void EnableHUD()
+    {
+        enableHUD.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger events relating to disabling the HUD
+    /// </summary>
+    public void DisableHUD()
+    {
+        disableHUD.Invoke();
     }
 
     /// <summary>

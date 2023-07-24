@@ -16,7 +16,7 @@ public abstract class Interactable : MonoBehaviour
     }
 
     protected bool interacting = false;
-    protected bool inRange = false;
+    [SerializeField] protected bool inRange = false;
     protected bool controlTriggered = false;
     protected bool finishedInteracting = false;
     protected bool playedSound = false;
@@ -40,6 +40,15 @@ public abstract class Interactable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Show the outline if in range
+        if(inRange)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 1);
+        } else
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 0);
+        }
+
         // Check if interactable is triggered
         if (controlTriggered)
         {

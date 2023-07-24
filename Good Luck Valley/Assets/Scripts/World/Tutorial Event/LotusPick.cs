@@ -19,6 +19,8 @@ public class LotusPick : Interactable, IData
 
     void Start()
     {
+        gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Thickness", 0.02f);
+
         remove = false;
         if (fadeAmount == 0)
         {
@@ -28,6 +30,16 @@ public class LotusPick : Interactable, IData
 
     void Update()
     {
+        // Show the outline if in range
+        if (inRange)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 1);
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 0);
+        }
+
         // Debug.Log(vineWall.activeSelf);
         // Check if interactable is triggered
         if (controlTriggered)
@@ -36,13 +48,15 @@ public class LotusPick : Interactable, IData
             Interact();
             
             interacting = true;
-            StartCoroutine(FadeVines());
-            StartCoroutine(FadeLotus());
 
             // If the inteaction has finished, reset the variables
             if (finishedInteracting)
             {
                 controlTriggered = false;
+
+                StopAllCoroutines();
+
+                disableEvent.Unlock();
             }
         }
         else
@@ -57,10 +71,13 @@ public class LotusPick : Interactable, IData
     /// </summary>
     public override void Interact()
     {
+        // Save the game
+        DataManager.Instance.SaveGame();
+
         // Lock the player
         disableEvent.Lock();
 
-        // Play the vine flee sound
+        // Start the lotus pick by playing the sound
         if(!playedSound)
         {
             StartCoroutine(PlayLotusSounds());
@@ -85,6 +102,8 @@ public class LotusPick : Interactable, IData
         vineWall.GetComponent<DecomposableVine>().Active = false;
         vineWall.SetActive(false);
         pauseEvent.SetPaused(false);
+
+        yield return null;
 
         GameObject endScreen = GameObject.Find("Demo Ending Text");
         if (endScreen != null)
@@ -137,6 +156,13 @@ public class LotusPick : Interactable, IData
     {
         // Play lotus pick sound
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.LotusPick, transform.position);
+
+        // Wait until the "pick" noise
+        yield return new WaitForSeconds(2.5f);
+
+        // Start the fading coroutines
+        StartCoroutine(FadeVines());
+        StartCoroutine(FadeLotus());
 
         // Return
         yield break;
