@@ -35,7 +35,6 @@ public abstract class Shroom : MonoBehaviour
     [SerializeField] protected float bounceForce;
     [SerializeField] protected bool onCooldown = false;
     protected float cooldown = 0.1f;
-    protected bool nonAnariShroom;
     protected bool flipRotation;
     #endregion
 
@@ -54,7 +53,6 @@ public abstract class Shroom : MonoBehaviour
     public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
     public GameObject RegularMushroom { get { return regShroom; } set { regShroom = value; } }
     public GameObject WallMushroom { get { return wallShroom; } set { wallShroom = value; } }
-    public bool NonAnariShroom { get { return nonAnariShroom; } set {  nonAnariShroom = value; } }
     public bool FlipRotation {  get { return flipRotation; } set {  flipRotation = value; } }
     #endregion
 
@@ -94,7 +92,7 @@ public abstract class Shroom : MonoBehaviour
             GetComponentInChildren<Light2D>().intensity -= percentOpacity;
         }
 
-        if (mushMan.MushroomLimit == 3 && !nonAnariShroom)
+        if (mushMan.MushroomLimit == 3)
         {
             if (mushMan.ThrowUnlocked)
             {

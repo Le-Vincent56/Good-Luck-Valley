@@ -71,7 +71,7 @@ public class LotusPick : Interactable, IData
     private IEnumerator FadeVines()
     {
         pauseEvent.SetPaused(true);
-        while(vineWall.GetComponent<Tilemap>().color.a > 0)
+        while (vineWall.GetComponent<Tilemap>().color.a > 0)
         {
             vineWall.GetComponent<Tilemap>().color = new Color(vineWall.GetComponent<Tilemap>().color.r, 
                 vineWall.GetComponent<Tilemap>().color.g, vineWall.GetComponent<Tilemap>().color.b, 
