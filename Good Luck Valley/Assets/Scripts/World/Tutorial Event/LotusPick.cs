@@ -48,13 +48,15 @@ public class LotusPick : Interactable, IData
             Interact();
             
             interacting = true;
-            StartCoroutine(FadeVines());
-            StartCoroutine(FadeLotus());
 
             // If the inteaction has finished, reset the variables
             if (finishedInteracting)
             {
                 controlTriggered = false;
+
+                StopAllCoroutines();
+
+                disableEvent.Unlock();
             }
         }
         else
@@ -69,10 +71,13 @@ public class LotusPick : Interactable, IData
     /// </summary>
     public override void Interact()
     {
+        // Save the game
+        DataManager.Instance.SaveGame();
+
         // Lock the player
         disableEvent.Lock();
 
-        // Play the vine flee sound
+        // Start the lotus pick by playing the sound
         if(!playedSound)
         {
             StartCoroutine(PlayLotusSounds());
@@ -115,7 +120,7 @@ public class LotusPick : Interactable, IData
         // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
         while (GetComponent<SpriteRenderer>().color.a > 0)
         {
-            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - 0.01f);
+            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - fadeAmount);
             yield return null;
         }
 
@@ -149,6 +154,13 @@ public class LotusPick : Interactable, IData
     {
         // Play lotus pick sound
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.LotusPick, transform.position);
+
+        // Wait until the "pick" noise
+        yield return new WaitForSeconds(2.5f);
+
+        // Start the fading coroutines
+        StartCoroutine(FadeVines());
+        StartCoroutine(FadeLotus());
 
         // Return
         yield break;

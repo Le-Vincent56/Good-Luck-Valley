@@ -1258,6 +1258,146 @@ Transform:
   m_Father: {fileID: 1739622516}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &119488673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 119488674}
+  - component: {fileID: 119488677}
+  - component: {fileID: 119488676}
+  - component: {fileID: 119488675}
+  - component: {fileID: 119488678}
+  - component: {fileID: 119488679}
+  m_Layer: 0
+  m_Name: InteractTrigger
+  m_TagString: TutorialMessage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &119488674
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119488673}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 537902707}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.92, y: -5.91}
+  m_SizeDelta: {x: 413.7823, y: 77.72}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &119488675
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119488673}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -5.398964, y: -181.08139}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 457.80463, y: 100.977234}
+  m_EdgeRadius: 0
+--- !u!114 &119488676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119488673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 1
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Press "E" to interact.
+--- !u!222 &119488677
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119488673}
+  m_CullTransparentMesh: 1
+--- !u!114 &119488678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119488673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e5dae7121c580c47b6fb98447c7e72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: {fileID: -944628639613478452, guid: 4832bb4af7bdd7547b345e2e4fd4c2bd, type: 3}
+  textValue: Press "E" to interact.
+  fadeAmount: 0.01
+  controlIndexes: 06000000
+--- !u!114 &119488679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119488673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3.75, y: -2.86}
+  m_UseGraphicAlpha: 1
 --- !u!4 &122385152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5507618586217357950, guid: e521b152f4b97f14fa9f985244ae2170, type: 3}
@@ -2440,83 +2580,6 @@ Transform:
   m_Father: {fileID: 1552847862}
   m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &299591261
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 299591262}
-  - component: {fileID: 299591264}
-  - component: {fileID: 299591263}
-  m_Layer: 0
-  m_Name: Mushroom Interact Tutorial Panel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &299591262
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299591261}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.012650315, y: 0.012650315, z: 0.012650315}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 538324489}
-  m_Father: {fileID: 547356017}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.102, y: 0.855}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &299591263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299591261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ab93bacbb4751024b8e8a917b63c0d1c, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &299591264
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299591261}
-  m_CullTransparentMesh: 1
 --- !u!1 &322376914
 GameObject:
   m_ObjectHideFlags: 0
@@ -57771,7 +57834,7 @@ Transform:
   m_Father: {fileID: 1739622516}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &538324488
+--- !u!1 &537902705
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57779,77 +57842,70 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 538324489}
-  - component: {fileID: 538324491}
-  - component: {fileID: 538324490}
+  - component: {fileID: 537902707}
+  - component: {fileID: 537902706}
+  - component: {fileID: 537902708}
   m_Layer: 0
-  m_Name: Mushroom Interact Tutorial Text
+  m_Name: TutorialTriggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &538324489
+--- !u!223 &537902706
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537902705}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 203086902}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 1121031789
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
+--- !u!224 &537902707
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538324488}
+  m_GameObject: {fileID: 537902705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 299591262}
-  m_RootOrder: 0
+  m_Children:
+  - {fileID: 1688928001}
+  - {fileID: 119488674}
+  - {fileID: 1054585260}
+  - {fileID: 1978874592}
+  - {fileID: 590330984}
+  - {fileID: 1648248922}
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.79999924, y: 0}
-  m_SizeDelta: {x: 60, y: -70}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -9.1082, y: 1.06}
+  m_SizeDelta: {x: 51.4368, y: 22.9978}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &538324490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538324488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 25
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Press E
---- !u!222 &538324491
+--- !u!222 &537902708
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538324488}
+  m_GameObject: {fileID: 537902705}
   m_CullTransparentMesh: 1
 --- !u!1 &547219452
 GameObject:
@@ -57986,7 +58042,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 978430889}
-  - {fileID: 299591262}
   - {fileID: 1418604552}
   - {fileID: 1394259474}
   m_Father: {fileID: 0}
@@ -58434,6 +58489,146 @@ Transform:
   m_Father: {fileID: 1552847862}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &590330983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590330984}
+  - component: {fileID: 590330986}
+  - component: {fileID: 590330985}
+  - component: {fileID: 590330987}
+  - component: {fileID: 590330988}
+  - component: {fileID: 590330989}
+  m_Layer: 0
+  m_Name: MushroomTrigger2
+  m_TagString: TutorialMessage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &590330984
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590330983}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 537902707}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 8.402603, y: -6.550003}
+  m_SizeDelta: {x: 489.68, y: 224.85}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &590330985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590330983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 50
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Hold "Left-Click" to aim your cursor. Release to throw a mushroom.
+--- !u!222 &590330986
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590330983}
+  m_CullTransparentMesh: 1
+--- !u!61 &590330987
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590330983}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 304.3084, y: 146.34}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 962, y: 1697.36}
+  m_EdgeRadius: 0
+--- !u!114 &590330988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590330983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e5dae7121c580c47b6fb98447c7e72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: {fileID: -944628639613478452, guid: 4832bb4af7bdd7547b345e2e4fd4c2bd, type: 3}
+  textValue: Hold "Left-Click" to aim your cursor. Release to throw a mushroom.
+  fadeAmount: 0.01
+  controlIndexes: 03000000
+--- !u!114 &590330989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590330983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3.75, y: -2.86}
+  m_UseGraphicAlpha: 1
 --- !u!1 &610210320
 GameObject:
   m_ObjectHideFlags: 0
@@ -59475,7 +59670,7 @@ PrefabInstance:
     - target: {fileID: 7479375662854046019, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: interactableTutorial
       value: 
-      objectReference: {fileID: 1418604557}
+      objectReference: {fileID: 0}
     - target: {fileID: 7479375662854046041, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: m_Name
       value: Anguish Lotus
@@ -59510,7 +59705,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 291f261926999764eaaa763fadbbee8c, type: 2}
     - target: {fileID: 7479375662854046047, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7479375662854046047, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62389,14 +62584,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 1
   parallaxMultiplyValue: 0.03
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  currentX: 0
-  prevX: 0
 --- !u!1 &901628765
 GameObject:
   m_ObjectHideFlags: 0
@@ -63288,14 +63480,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.3
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  currentX: 0
-  prevX: 0
 --- !u!1 &978430888
 GameObject:
   m_ObjectHideFlags: 0
@@ -64792,14 +64981,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.01
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  currentX: 0
-  prevX: 0
 --- !u!1 &1057308219
 GameObject:
   m_ObjectHideFlags: 0
@@ -65451,11 +65637,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1078787419 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7479375662854046041, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
-  m_PrefabInstance: {fileID: 670748407}
-  m_PrefabAsset: {fileID: 0}
 --- !u!320 &1080154718 stripped
 PlayableDirector:
   m_CorrespondingSourceObject: {fileID: 1080154718, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
@@ -65931,14 +66112,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.2
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  currentX: 0
-  prevX: 0
 --- !u!1 &1132150235
 GameObject:
   m_ObjectHideFlags: 0
@@ -68910,18 +69088,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7479375662854046047, guid: 210fd0976563d9f43b7d5640b9340232, type: 3}
   m_PrefabInstance: {fileID: 670748407}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1418604557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1078787419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 729c343b09200d947871a845f0cb34cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1429293579
 GameObject:
   m_ObjectHideFlags: 0
@@ -71116,6 +71282,146 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1648248921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1648248922}
+  - component: {fileID: 1648248924}
+  - component: {fileID: 1648248923}
+  - component: {fileID: 1648248925}
+  - component: {fileID: 1648248926}
+  - component: {fileID: 1648248927}
+  m_Layer: 0
+  m_Name: MushroomTrigger3
+  m_TagString: TutorialMessage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1648248922
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648248921}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 537902707}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 14.30603, y: -4.935999}
+  m_SizeDelta: {x: 396.35, y: 46.95}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1648248923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648248921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Jump on a mushroom to go higher.
+--- !u!222 &1648248924
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648248921}
+  m_CullTransparentMesh: 1
+--- !u!61 &1648248925
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648248921}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -286.44318, y: -14.920013}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 962, y: 1697.36}
+  m_EdgeRadius: 0
+--- !u!114 &1648248926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648248921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e5dae7121c580c47b6fb98447c7e72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: {fileID: -944628639613478452, guid: 4832bb4af7bdd7547b345e2e4fd4c2bd, type: 3}
+  textValue: Jump on a mushroom to go higher.
+  fadeAmount: 0.01
+  controlIndexes: 
+--- !u!114 &1648248927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648248921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3.75, y: -2.86}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1649703287
 GameObject:
   m_ObjectHideFlags: 0
@@ -71289,6 +71595,146 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1482306203001718602, guid: 409e0a5dded88d64494211535d100832, type: 3}
   m_PrefabInstance: {fileID: 1834402384}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1688928000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688928001}
+  - component: {fileID: 1688928004}
+  - component: {fileID: 1688928003}
+  - component: {fileID: 1688928002}
+  - component: {fileID: 1688928005}
+  - component: {fileID: 1688928006}
+  m_Layer: 0
+  m_Name: MovementTrigger
+  m_TagString: TutorialMessage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1688928001
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688928000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 537902707}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -18.355, y: 7.456}
+  m_SizeDelta: {x: 495.3, y: 77.72}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &1688928002
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688928000}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -5.398964, y: -181.08139}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 457.80463, y: 100.977234}
+  m_EdgeRadius: 0
+--- !u!114 &1688928003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688928000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 1
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Use "A" and "D" to move. Press "Space Bar" to jump.
+--- !u!222 &1688928004
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688928000}
+  m_CullTransparentMesh: 1
+--- !u!114 &1688928005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688928000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e5dae7121c580c47b6fb98447c7e72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: {fileID: -944628639613478452, guid: 4832bb4af7bdd7547b345e2e4fd4c2bd, type: 3}
+  textValue: Use "A" and "D" to move. Press "Space Bar" to jump.
+  fadeAmount: 0.01
+  controlIndexes: 000000000000000001000000
+--- !u!114 &1688928006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688928000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3.75, y: -2.86}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1695704080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71964,14 +72410,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.02
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  currentX: 0
-  prevX: 0
 --- !u!1001 &1750386889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72026,6 +72469,10 @@ PrefabInstance:
     - target: {fileID: 2601493969986879182, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
       propertyPath: m_Name
       value: Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 3516024432467991317, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
+      propertyPath: gameCam
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3516024432467991317, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
       propertyPath: camDirector
@@ -72691,7 +73138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658167404321, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00592041
+      value: 0.0060424805
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658375161902, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -72787,7 +73234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981150708416, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: -0.00091552734
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981321558900, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
@@ -74311,7 +74758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4690782783730924585, guid: 87b5007139566ce4883de0b08af206dd, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4690782783730924585, guid: 87b5007139566ce4883de0b08af206dd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -76063,6 +76510,148 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de57668f667236040a4adeb3820a0e89, type: 3}
+--- !u!1 &1978874591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1978874592}
+  - component: {fileID: 1978874595}
+  - component: {fileID: 1978874594}
+  - component: {fileID: 1978874593}
+  - component: {fileID: 1978874596}
+  - component: {fileID: 1978874597}
+  m_Layer: 0
+  m_Name: MushroomTrigger
+  m_TagString: TutorialMessage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1978874592
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978874591}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 537902707}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 10.851, y: -4.752}
+  m_SizeDelta: {x: 630.5531, y: 438.618}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &1978874593
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978874591}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 58.2294, y: -32.6109}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 962, y: 1697.36}
+  m_EdgeRadius: 0
+--- !u!114 &1978874594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978874591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 1
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: You can only have 3 mushrooms out at a time. Press "R" to recall the last
+    thrown mushroom and "Q" to recall all mushrooms.
+--- !u!222 &1978874595
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978874591}
+  m_CullTransparentMesh: 1
+--- !u!114 &1978874596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978874591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e5dae7121c580c47b6fb98447c7e72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: {fileID: -944628639613478452, guid: 4832bb4af7bdd7547b345e2e4fd4c2bd, type: 3}
+  textValue: You can only have 3 mushrooms out at a time. Press "R" to recall the
+    last thrown mushroom and "Q" to recall all mushrooms.
+  fadeAmount: 0.01
+  controlIndexes: 0900000007000000
+--- !u!114 &1978874597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978874591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3.75, y: -2.86}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1978930824
 GameObject:
   m_ObjectHideFlags: 0

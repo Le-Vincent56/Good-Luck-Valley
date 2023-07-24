@@ -7,21 +7,14 @@ using Cinemachine;
 public class GameCursor : MonoBehaviour
 {
     #region REFERENCES
-    [SerializeField] Camera cam;
-    private GameObject cmCam;
-    private CinemachineVirtualCamera cineVirt;
+    [SerializeField] CameraScriptableObj cameraEvent;
+    [SerializeField] DisableScriptableObj disableEvent;
     private GameObject player;
     private PauseMenu pauseMenu;
     #endregion
 
     #region FIELDS
     [SerializeField] private bool basedOnPlayer;
-    private Rect cmViewport;
-    private Rect mainViewport;
-    private float camHeight;
-    private float camWidth;
-    private float widthOffset;
-    private float heightOffset;
     private Vector2 cursorPosition;
     private Vector2 cursorVelocity = Vector3.zero;
     private Vector2 cursorDirection = Vector3.zero;
@@ -30,25 +23,28 @@ public class GameCursor : MonoBehaviour
     [SerializeField] private bool showDebugLines = false;
     #endregion
 
+    private void OnEnable()
+    {
+        disableEvent.enableHUD.AddListener(EnableCursor);
+        disableEvent.disableHUD.AddListener(DisableCursor);
+    }
+
+    private void OnDisable()
+    {
+        disableEvent.enableHUD.RemoveListener(EnableCursor);
+        disableEvent.disableHUD.RemoveListener(DisableCursor);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
-
-        // Get components
-        cam = Camera.main;
-        cmCam = GameObject.Find("CM vcam1");
-        cineVirt = cmCam.GetComponent<CinemachineVirtualCamera>();
 
         if(basedOnPlayer)
         {
             player = GameObject.Find("Player");
             pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
         }
-
-        // Create bounds
-        camHeight = cam.orthographicSize;
-        camWidth = camHeight * cam.aspect;
 
         // Cursor fields
         cursorPosition = transform.position;
@@ -60,6 +56,7 @@ public class GameCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Set cursor visibility to zero
         Cursor.visible = false;
 
         // Check if using mouse or gamepad input
@@ -68,7 +65,7 @@ public class GameCursor : MonoBehaviour
             // If using mouse, track mouse
             cursorDirection = Vector3.zero;
             cursorVelocity = Vector3.zero;
-            cursorPosition = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y));
+            cursorPosition = cameraEvent.GetMainCamera().ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y));
         }
         else
         {
@@ -86,14 +83,9 @@ public class GameCursor : MonoBehaviour
             cursorPosition += cursorVelocity;
         }
 
-        // Calculate the main viewport
-        mainViewport = CalculateViewportRectangleMain();
-
         // Check bounds
         if (basedOnPlayer)
         {
-            // If based on player, take cinemachine into account
-            cmViewport = CalculateViewportRectangleCM();
             CheckCursorBoundsPlayer();
         }
         else
@@ -104,87 +96,35 @@ public class GameCursor : MonoBehaviour
 
         // Draw cursor
         transform.position = cursorPosition;
-
-        // For debugging
-        if (showDebugLines)
-        {
-            if(basedOnPlayer)
-            {
-                Debug.DrawLine(new Vector2(cmViewport.xMin, cmViewport.yMin), new Vector2(cmViewport.xMax, cmViewport.yMax), Color.red);
-            }
-
-            Debug.DrawLine(new Vector2(mainViewport.xMin, mainViewport.yMin), new Vector2(mainViewport.xMax, mainViewport.yMax), Color.blue);
-        }
     }
 
     /// <summary>
     /// Check cursor bounds when there is a dynamic camera
     /// </summary>
-    public void CheckCursorBoundsPlayer()
+    private void CheckCursorBoundsPlayer()
     {
-        // Calculate width offset
-        // Negative values - Cinemachine is to the left of the main Camera
-        // Positive values - Cinemachine is to the right of the main Camera
-        widthOffset = cmViewport.x - mainViewport.x;
-        float leftBound = cmViewport.xMin - widthOffset;
-        float rightBound = cmViewport.xMax - widthOffset;
-
-
-        // Calculate height offset
-        // Negative values - Cinemachine is below the main Camera
-        // Positive values - Cinemachine is above the main Camera
-        heightOffset = cmViewport.y - mainViewport.y;
-        float lowerBound = cmViewport.yMin - heightOffset;
-        float upperBound = cmViewport.yMax - heightOffset; 
-
         // Clamp the cursor position into the bounds of the screen
-        cursorPosition.x = Mathf.Clamp(cursorPosition.x, leftBound, rightBound);
-        cursorPosition.y = Mathf.Clamp(cursorPosition.y, lowerBound, upperBound);
+        cursorPosition.x = Mathf.Clamp(cursorPosition.x, cameraEvent.GetLeftBound(), cameraEvent.GetRightBound());
+        cursorPosition.y = Mathf.Clamp(cursorPosition.y, cameraEvent.GetBottomBound(), cameraEvent.GetTopBound());
     }
 
     /// <summary>
     /// Check cursor bounds when there is a static camera
     /// </summary>
-    public void CheckCursorBoundsStatic()
+    private void CheckCursorBoundsStatic()
     {
-        cursorPosition.x = Mathf.Clamp(cursorPosition.x, -camWidth, camWidth);
-        cursorPosition.y = Mathf.Clamp(cursorPosition.y, -camHeight, camHeight);
+        cursorPosition.x = Mathf.Clamp(cursorPosition.x, -cameraEvent.GetCamWidth(), cameraEvent.GetCamWidth());
+        cursorPosition.y = Mathf.Clamp(cursorPosition.y, -cameraEvent.GetCamHeight(), cameraEvent.GetCamHeight());
     }
 
-    private Rect CalculateViewportRectangleCM()
+    private void EnableCursor()
     {
-        float orthographicSize = cineVirt.m_Lens.OrthographicSize;
-        float aspectRatio = cineVirt.m_Lens.Aspect;
-
-        float viewportHeight = orthographicSize * 2;
-        float viewportWidth = viewportHeight * aspectRatio;
-
-        Vector2 cameraPosition = cineVirt.transform.position;
-
-        Rect viewportRect = new Rect(
-            cameraPosition.x - viewportWidth / 2,
-            cameraPosition.y - viewportHeight / 2,
-            viewportWidth,
-            viewportHeight);
-
-        return viewportRect;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
-    private Rect CalculateViewportRectangleMain()
+    private void DisableCursor()
     {
-        float orthographicSize = cam.orthographicSize;
-        float aspectRatio = cam.aspect;
-
-        float camHeight = orthographicSize * 2;
-        float camWidth = camHeight * aspectRatio;
-
-        Rect viewportRect = new Rect(
-            cam.transform.position.x - camWidth / 2,
-            cam.transform.position.y - camHeight / 2,
-            camWidth,
-            camHeight);
-
-        return viewportRect;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     #region INPUT HANDLER

@@ -37,6 +37,9 @@ public class PreviousLevelTransitionTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && transition && loadLevelEvent.GetTriggersActive())
         {
+            // Disable HUD
+            disableEvent.DisableHUD();
+
             // End the mushroom throw and clear mushrooms
             mushroomEvent.EndThrow();
             mushroomEvent.ClearShrooms();
