@@ -20,6 +20,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
     [SerializeField] private Vector3 mushroomPosition;
+    [SerializeField] private Vector2 wallCollisionPoint;
     [SerializeField] private TileType movementTileType;
 
     #region EVENTS
@@ -28,6 +29,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     public UnityEvent jumpEvent;
     public UnityEvent fallEvent;
     public UnityEvent landEvent;
+    public UnityEvent wallEvent;
     public UnityEvent<Vector3, ForceMode2D> bounceEvent;
     public UnityEvent bounceAnimationEvent;
     public UnityEvent<float, float, bool, TileType> footstepEvent;
@@ -61,6 +63,11 @@ public class MovementScriptableObj : ScriptableObject, IData
         if (landEvent == null)
         {
             landEvent = new UnityEvent();
+        }
+
+        if (wallEvent == null)
+        {
+            wallEvent = new UnityEvent();
         }
 
         if (bounceEvent == null)
@@ -216,6 +223,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set the collision point between the player and the wall
+    /// </summary>
+    /// <param name="wallCollisionPoint"></param>
+    public void SetWallCollisionPoint(Vector2 wallCollisionPoint)
+    {
+        this.wallCollisionPoint = wallCollisionPoint;
+    }
+
+    /// <summary>
     /// Set the movement direction of the player
     /// </summary>
     /// <param name="movementDirection">The movement direction of the player</param>
@@ -358,6 +374,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Get the collision point between the player and the wall
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 GetWallCollisionPoint()
+    {
+        return wallCollisionPoint;
+    }
+
+    /// <summary>
     /// Get the current tile type the player is moving on
     /// </summary>
     /// <returns>The current tile type the player is moving on</returns>
@@ -413,6 +438,14 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Trigger wall-related events
+    /// </summary>
+    public void Wall()
+    {
+        wallEvent.Invoke();
+    }
+
+    /// <summary>
     /// Trigger bounce-related events
     /// </summary>
     public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
@@ -458,6 +491,7 @@ public class MovementScriptableObj : ScriptableObject, IData
         isBouncing = false;
         isBounceAnimating = false;
         canTurn = true;
+        isTouchingWall = false;
         movementDirection = Vector3.zero;
         inputDirection = Vector3.zero;
     }

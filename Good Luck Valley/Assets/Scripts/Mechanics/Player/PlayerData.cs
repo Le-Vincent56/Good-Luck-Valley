@@ -19,6 +19,10 @@ public class PlayerData : ScriptableObject
 	public float bounceGravityMult; // Multiplier to the player's gravityScale when bouncing
 	public float fallFromBounceGravityMult; // Multiplier to the player's gravityScale when falling from a bounce
 
+	[Space(5)]
+	public float wallSlideGravityMult;
+	public float maxWallSlideSpeed;
+
 	[Space(20)]
 
 	[Header("Run")]

@@ -112,6 +112,7 @@ public class BouncingEffect : MonoBehaviour
             }
             movementEvent.SetIsTouchingWall(true);
             movementEvent.SetMushroomPosition(lowestPoint);
+            movementEvent.SetWallCollisionPoint(contacts[0].point);
             //mushroomEvent.SetTouchingShroom(true);
             //mushroomEvent.TouchingShroom();
         }
