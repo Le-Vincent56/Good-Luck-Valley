@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour, IData
     #endregion
 
     #region FIELDS
+    [Header("General")]
     [SerializeField] private PlayerState currentState;
     [SerializeField] private PlayerState previousState;
     [SerializeField] bool debug = false;
@@ -59,8 +60,6 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] float landedTimer = 0f;
     [SerializeField] private float inputCooldown = 0.05f;
     [SerializeField] private float jumpBuffer = 0f;
-    [SerializeField] private float wallJumpFallSpeed;
-    [SerializeField] private float regularFallSpeed;
     private bool isMoving;
     private bool isJumpCut;
 	private bool isJumpFalling;
@@ -77,13 +76,24 @@ public class PlayerMovement : MonoBehaviour, IData
     //  feel free to fuck with it this is just the only way I could figure it out
     private bool createDustOnFall;
 
+    #region WALLS
+    [Header("Walls")]
+    [SerializeField] private float wallStickForce;
+    [SerializeField] private bool previousWallState;
+    [SerializeField] private float wallStickTimerMax;
+    [SerializeField] private float wallStickTimer = -1f;
+    #endregion
+
     #region SLOPES
+    [Header("Slopes")]
     [SerializeField] bool checkForSlopes = false;
     [SerializeField] bool isOnSlope;
     [SerializeField] bool canWalkOnSlope;
     [SerializeField] float slopeCheckDistance;
     [SerializeField] float slopeForceMagnitude = 5f;
     [SerializeField] float maxSlopeAngle;
+    [SerializeField] private float currentSlopeDownAngle;
+    [SerializeField] private float currentSlopeSideAngle;
     [SerializeField] private Vector2 moveInput;
     private Vector2 capsuleColliderSize;
 	private Vector2 slopeNormal;
@@ -91,9 +101,10 @@ public class PlayerMovement : MonoBehaviour, IData
     private float slopeSideAngle;
 	private float slopeDownAngle;
 	private float slopeNormalPerpAngle;
-	#endregion
+    #endregion
 
-	#region BOUNCING
+    #region BOUNCING
+    [Header("Bouncing")]
 	[SerializeField] private bool bouncing = false;
     [SerializeField] private bool touchingShroom = false;
     [SerializeField] private float bounceBuffer = 0.1f;
@@ -171,6 +182,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
 		capsuleColliderSize = capsuleCollider.size;
+        wallStickTimer = -1f;
     }
 
     private void Update()
@@ -202,7 +214,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		// Update timers
         #region TIMERS
         lastOnGroundTime -= Time.deltaTime;
-
         lastPressedJumpTime -= Time.deltaTime;
 
         // If the player is falling, update the fallingBuffer
@@ -214,6 +225,11 @@ public class PlayerMovement : MonoBehaviour, IData
         if (bounceBuffer > 0 && bouncing)
         {
             bounceBuffer -= Time.deltaTime;
+        }
+
+        if(wallStickTimer > 0)
+        {
+            wallStickTimer -= Time.deltaTime;
         }
         #endregion
 
@@ -237,6 +253,17 @@ public class PlayerMovement : MonoBehaviour, IData
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
+            }
+        }
+
+        // Check for is the player is on a wall
+        if(movementEvent.GetIsTouchingWall())
+        {
+            // If bouncing before and the bounce buffer has ended, end bouncing
+            if (bouncing && bounceBuffer <= 0)
+            {
+                bouncing = false;
+                movementEvent.SetIsBounceAnimating(false);
             }
         }
         #endregion
@@ -369,39 +396,46 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             // Check for slope gravity first
             if (isOnSlope && !isLocked && !isJumping && !touchingShroom && canWalkOnSlope)
-			{
-				// Check for movement input
-				if(moveInput.x == 0.0f)
-				{
-					// If not moving, set to 0 so the player can stop on the hill
+            {
+                // Check for movement input
+                if (moveInput.x == 0.0f)
+                {
+                    // If not moving, set to 0 so the player can stop on the hill
                     SetGravityScale(0);
-                } else if(isGrounded && canWalkOnSlope)
-				{
-					// If moving, apply normal gravity
-					SetGravityScale(data.gravityScale);
-				}
-			}
+                } else if (isGrounded && canWalkOnSlope)
+                {
+                    // If moving, apply normal gravity
+                    SetGravityScale(data.gravityScale);
+                }
+            }
+            else if (RB.velocity.y < 0 && movementEvent.GetIsTouchingWall()) // If wall sliding
+            {
+                // Lower gravity if sliding on a wall
+                SetGravityScale(data.gravityScale * data.wallSlideGravityMult);
+
+                // Caps maximum slide speed
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxWallSlideSpeed));
+            }
             else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling
 			{
 				// Higher gravity if we've released the jump input or are falling
-
 				// Much higher gravity if holding down
 				SetGravityScale(data.gravityScale * data.fastFallGravityMult);
 
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
 			}
-			else if (isJumpCut)
+			else if (isJumpCut) // If jump cutting
 			{
 				// Higher gravity if jump button released
 				SetGravityScale(data.gravityScale * data.jumpCutGravityMult);
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
 			}
-			else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
+			else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold) // If jump hanging
 			{
 				SetGravityScale(data.gravityScale * data.jumpHangGravityMult);
 			}
-			else if (RB.velocity.y < 0)
+			else if (RB.velocity.y < 0) // If regular falling
 			{
 				// Higher gravity if falling
 				SetGravityScale(data.gravityScale * data.fallGravityMult);
@@ -450,6 +484,12 @@ public class PlayerMovement : MonoBehaviour, IData
             isGrounded = false;
         }
 
+        // Check for the first frame for when the player is not touching a wall
+        if (previousWallState && (previousWallState != movementEvent.GetIsTouchingWall()))
+        {
+            wallStickTimer = wallStickTimerMax;
+        }
+
         movementEvent.SetIsGrounded(isGrounded);
         movementEvent.SetIsJumping(isJumping);
         movementEvent.SetIsFalling(isJumpAnimFalling);
@@ -462,6 +502,7 @@ public class PlayerMovement : MonoBehaviour, IData
         // Update previous state
         previousState = currentState;
         movementEvent.SetPreviousState(previousState);
+        previousWallState = movementEvent.GetIsTouchingWall();
     }
 
 	private void FixedUpdate()
@@ -469,6 +510,30 @@ public class PlayerMovement : MonoBehaviour, IData
 		// If the player isn't locked
 		if (!isLocked)
 		{
+            // Check if the player is touching the wall
+            if (movementEvent.GetIsTouchingWall())
+            {
+                // Apply wall force - if not bouncing
+                if(!bouncing)
+                {
+                    ApplyWallForce();
+                }
+
+                // Trigger other wall-related events
+                movementEvent.Wall();
+            }
+            else if (wallStickTimer > 0) // Check if the wall stick timer is running
+            {
+                // If so, apply wall force - if not bouncing
+                if (!bouncing)
+                {
+                    ApplyWallForce();
+                }
+            }
+
+            
+
+            // Check for slopes
 			if(checkForSlopes)
 			{
                 // Handle slopes
@@ -725,8 +790,8 @@ public class PlayerMovement : MonoBehaviour, IData
         #endregion
 
         #region Barrier Checks
-        // If the slope angle is less than the max slope that the player can climb, then allow them to walk on it
-        if (Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
+        // If the slope angle is less than the max slope that the player can climb, then allow them to walk on it, as long as they're grounded
+        if (Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle && isGrounded)
         {
             canWalkOnSlope = true;
         }
@@ -735,6 +800,10 @@ public class PlayerMovement : MonoBehaviour, IData
             // Otherwise, do not allow them to walk on it
             canWalkOnSlope = false;
         }
+
+        currentSlopeDownAngle = Mathf.Abs(slopeDownAngle);
+        currentSlopeSideAngle = slopeSideAngle;
+
         #endregion
 
         // If the player is grounded, is on a slope, is able to walk on the slope, and is not jumping, and is not bouncing, then apply the slope force
@@ -771,6 +840,29 @@ public class PlayerMovement : MonoBehaviour, IData
             Debug.DrawRay(checkPos, new Vector3(0, -slopeCheckDistance, 0), Color.cyan); // Downward distance check
             Debug.DrawRay(checkPos, new Vector3(slopeCheckDistance, 0, 0), Color.blue); // Right distance check
             Debug.DrawRay(checkPos, new Vector3(-slopeCheckDistance, 0, 0), Color.yellow); // Left distance check
+        }
+    }
+
+    /// <summary>
+    /// Add forces to player movement to be stickier towards walls
+    /// </summary>
+    private void ApplyWallForce()
+    {
+        // Get the vector from the center of the playerp position to the wall
+        Vector2 checkPos = playerCollider.bounds.center;
+        Vector2 wallDir = new Vector2(movementEvent.GetWallCollisionPoint().x, checkPos.y);
+
+        // Calculate the stick vector
+        Vector2 stickVector = wallDir - checkPos;
+        Vector2 stickForce = stickVector.normalized * wallStickForce;
+
+        // Add the force
+        RB.AddForce(stickForce, ForceMode2D.Force);
+
+        // Draw rays for debugging
+        if (debug)
+        {
+            Debug.DrawRay(transform.position, stickForce, Color.magenta);
         }
     }
 

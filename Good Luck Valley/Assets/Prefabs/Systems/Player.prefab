@@ -156,6 +156,7 @@ MonoBehaviour:
   isBouncing: 0
   isThrowing: 0
   runThrow_R: 0
+  playedThrowSound: 0
 --- !u!1 &508820767
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,6 +543,8 @@ MonoBehaviour:
   noFriction: {fileID: 6200000, guid: ee68d7080b1df0f48a666e6baaefce7a, type: 2}
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
   wallShroomPrefab: {fileID: 2826449021895497117, guid: aaf160548af4c654aaec6f6e39b72538, type: 3}
+  currentState: 0
+  previousState: 0
   debug: 0
   isJumping: 0
   isGrounded: 0
@@ -552,14 +555,19 @@ MonoBehaviour:
   landedTimer: 0
   inputCooldown: 0.05
   jumpBuffer: 0
-  wallJumpFallSpeed: 0
-  regularFallSpeed: 0
+  landed: 0
+  wallStickForce: 10
+  previousWallState: 0
+  wallStickTimerMax: 0.2
+  wallStickTimer: -1
   checkForSlopes: 1
   isOnSlope: 0
   canWalkOnSlope: 0
   slopeCheckDistance: 1.5
   slopeForceMagnitude: 28
   maxSlopeAngle: 75
+  currentSlopeDownAngle: 0
+  currentSlopeSideAngle: 0
   moveInput: {x: 0, y: 0}
   bouncing: 0
   touchingShroom: 0
