@@ -31,8 +31,6 @@ public class Parallax : MonoBehaviour
 
     private void UpdateParallax()
     {
-        Debug.Log("Updating Parallax");
-
         // Set the parallax scrolling
         parallaxScrolling = (movementEvent.GetMovementVector().x * parallaxMultiplyValue);
 
