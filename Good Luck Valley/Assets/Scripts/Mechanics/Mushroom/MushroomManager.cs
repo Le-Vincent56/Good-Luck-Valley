@@ -465,19 +465,19 @@ public class MushroomManager : MonoBehaviour, IData
 
                 // Set the default rotation for left side collision
                 float rotation = -90;
-                // Set the default difference in position for left side collision
-                float differenceX = playerRB.GetComponent<BoxCollider2D>().size.x;
-                float differenceY = playerRB.GetComponent<BoxCollider2D>().size.y;
+                Vector3 difference = new Vector3(0.01f, 0, 0);
 
                 // Check if the wall is to the right of the player
+                Debug.Log("Mushroom Event Pos: " + movementEvent.GetMushroomPosition());
+                Debug.Log("Player Pos: " + playerRB.transform.position);
                 if (movementEvent.GetMushroomPosition().x > playerRB.transform.position.x)
                 {
                     // Flip rotation and difference
                     rotation *= -1;
-                    differenceX *= -1;
+                    difference *= -1;
                 }
                 // Create the shroom that bounces the player
-                GameObject shroom = Instantiate(spore, movementEvent.GetMushroomPosition(), Quaternion.identity);
+                GameObject shroom = Instantiate(spore, movementEvent.GetMushroomPosition() + difference, Quaternion.identity);
 
 
                 mushroomList.Add(shroom);
@@ -497,9 +497,6 @@ public class MushroomManager : MonoBehaviour, IData
                         mInfo.StartCounter();
                     }
                 }
-
-                // Set the shroom to not be an anari shroom so certain things wont happen to it
-                shroom.GetComponent<Shroom>().NonAnariShroom = true;
 
                 // Rotate the mushroom using the given rotation
                 shroom.transform.Rotate(new Vector3(0, 0, rotation));
@@ -586,6 +583,55 @@ public class MushroomManager : MonoBehaviour, IData
                 }
             }
         }
+    }
+
+    public void OnQuickBounce(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (mushroomList.Count >= mushroomLimit)
+            {
+                // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
+                Shroom mInfo = mushroomList[0].GetComponent<Shroom>();
+
+                if (mushroomLimit == 3)
+                {
+                    shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
+                    mInfo.ResetCounter();
+                }
+
+                Destroy(mushroomList[0]);
+                mushroomList.RemoveAt(0);
+            }
+
+            Vector3 difference = new Vector3(0, playerRB.GetComponent<BoxCollider2D>().size.y, 0);
+
+            // Create the shroom that bounces the player
+            GameObject shroom = Instantiate(spore, playerRB.transform.position - difference, Quaternion.identity);
+
+
+            mushroomList.Add(shroom);
+            shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+
+            if (mushroomLimit == 3)
+            {
+                if (mushroomList.Count - 1 < mushroomLimit)
+                {
+                    // mushroomList[mushroomList.Count - 1].GetComponent<MushroomInfo>().ShroomIcon = shroomCounter.ShroomIconQueue[0];
+                    // shroomCounter.ShroomIconQueue.RemoveAt(0);
+
+                    Shroom mInfo = mushroomList[mushroomList.Count - 1].GetComponent<Shroom>();
+
+                    mInfo.ShroomIcon = GetRightMostShroomIcon();
+                    shroomCounter.ShroomIconQueue.Remove(mInfo.ShroomIcon);
+                    mInfo.StartCounter();
+                }
+            }
+
+            // Flip the rotation
+            shroom.GetComponent<Shroom>().FlipRotation = false;
+        }
+
     }
 
     /// <summary>

@@ -126,6 +126,9 @@ public class GameData
 
         // Lotus
         levelData["Level 1"].assetsActive.Add("dd57ac64-ca88-4a0e-b33b-c9fd6faccb49", true);
+
+        // Vine Wall
+        levelData["Level 1"].assetsActive.Add("c2827f9d-736d-425c-8f2d-1627e43195bd", true);
         #endregion
     }
 }
