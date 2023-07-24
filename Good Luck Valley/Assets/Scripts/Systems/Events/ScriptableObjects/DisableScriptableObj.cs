@@ -20,6 +20,8 @@ public class DisableScriptableObj : ScriptableObject
     public UnityEvent<float> stopInputEvent;
     public UnityEvent disablePlayerInputEvent;
     public UnityEvent enablePlayerInputEvent;
+    public UnityEvent enableHUD;
+    public UnityEvent disableHUD;
     #endregion
     #endregion
 
@@ -49,6 +51,16 @@ public class DisableScriptableObj : ScriptableObject
         if (enablePlayerInputEvent == null)
         {
             enablePlayerInputEvent = new UnityEvent();
+        }
+
+        if(enableHUD == null)
+        {
+            enableHUD = new UnityEvent();
+        }
+
+        if (disableHUD == null)
+        {
+            disableHUD = new UnityEvent();
         }
         #endregion
     }
@@ -104,6 +116,22 @@ public class DisableScriptableObj : ScriptableObject
     {
         inputEnabled = true;
         enablePlayerInputEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger events relating to enabling the HUD
+    /// </summary>
+    public void EnableHUD()
+    {
+        enableHUD.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger events relating to disabling the HUD
+    /// </summary>
+    public void DisableHUD()
+    {
+        disableHUD.Invoke();
     }
 
     /// <summary>

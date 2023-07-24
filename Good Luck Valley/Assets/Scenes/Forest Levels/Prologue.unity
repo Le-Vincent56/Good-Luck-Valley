@@ -62161,12 +62161,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 1
   parallaxMultiplyValue: 0.03
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
+  isCameraMoving: 0
+  previousRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  currentRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   currentX: 0
   prevX: 0
 --- !u!1 &901628765
@@ -63060,12 +63072,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.3
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
+  isCameraMoving: 0
+  previousRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  currentRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   currentX: 0
   prevX: 0
 --- !u!1 &978430888
@@ -64487,12 +64511,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.01
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
+  isCameraMoving: 0
+  previousRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  currentRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   currentX: 0
   prevX: 0
 --- !u!1 &1057308219
@@ -65625,12 +65661,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.2
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
+  isCameraMoving: 0
+  previousRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  currentRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   currentX: 0
   prevX: 0
 --- !u!1 &1132150235
@@ -71641,12 +71689,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxScrolling: 0
   parallaxMultiplyValue: 0.02
-  previousPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
+  isCameraMoving: 0
+  previousRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  currentRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   currentX: 0
   prevX: 0
 --- !u!1001 &1750386889
@@ -71703,6 +71763,10 @@ PrefabInstance:
     - target: {fileID: 2601493969986879182, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
       propertyPath: m_Name
       value: Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 3516024432467991317, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
+      propertyPath: gameCam
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3516024432467991317, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
       propertyPath: camDirector
@@ -72368,7 +72432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658167404321, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00592041
+      value: 319.68915
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658375161902, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -72464,7 +72528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981150708416, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: -0.00091552734
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981321558900, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
