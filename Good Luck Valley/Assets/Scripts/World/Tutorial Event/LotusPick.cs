@@ -69,6 +69,9 @@ public class LotusPick : Interactable, IData
     /// </summary>
     public override void Interact()
     {
+        // Save the game
+        DataManager.Instance.SaveGame();
+
         // Lock the player
         disableEvent.Lock();
 
