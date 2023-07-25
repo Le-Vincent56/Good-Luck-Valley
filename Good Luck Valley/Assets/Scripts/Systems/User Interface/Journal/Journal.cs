@@ -12,6 +12,7 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private JournalScriptableObj journalEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private Text journalTutorialMessage;
     private Canvas journalUI;
     private Button pauseJournalButton;
     #endregion
@@ -50,6 +51,17 @@ public class Journal : MonoBehaviour, IData
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
 
+        if (journalEvent.GetTutorialMessage() == false)
+        {
+            journalTutorialMessage.enabled = false;
+            //journalTutorialMessage.GetComponent<Shadow>().enabled = false;
+        }
+        else
+        {
+            journalTutorialMessage.enabled = true;
+            //.GetComponent<Shadow>().enabled = true;
+        }
+
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;
     }
@@ -78,6 +90,12 @@ public class Journal : MonoBehaviour, IData
         {
             journalCloseBuffer -= Time.deltaTime;
             journalEvent.SetCloseBuffer(journalCloseBuffer);
+        }
+
+        if (journalEvent.GetTutorialMessage() == false) 
+        {
+            journalTutorialMessage.enabled = false;
+            //journalTutorialMessage.GetComponent<Shadow>().enabled = false;
         }
     }
 

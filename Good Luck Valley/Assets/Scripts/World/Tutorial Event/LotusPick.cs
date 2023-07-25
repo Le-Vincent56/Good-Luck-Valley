@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class LotusPick : Interactable, IData
 {
     #region REFERENCES
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
+    private VisualEffect lotusParticles;
     #endregion
 
     #region FIELDS
@@ -20,6 +22,7 @@ public class LotusPick : Interactable, IData
     void Start()
     {
         gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Thickness", 0.02f);
+        lotusParticles = GetComponentInChildren<VisualEffect>();
 
         remove = false;
         if (fadeAmount == 0)
@@ -126,6 +129,7 @@ public class LotusPick : Interactable, IData
 
         // Set active to false
         active = false;
+        lotusParticles.enabled = false;
         yield return null;
     }
 
