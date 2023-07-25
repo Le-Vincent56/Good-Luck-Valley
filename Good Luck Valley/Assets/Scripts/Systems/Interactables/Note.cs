@@ -18,6 +18,7 @@ public class Note : Interactable, IData
     [SerializeField] private string contentsTitle;
     [SerializeField] private int journalIndex = 0;
     [SerializeField] private bool noteAdded = false;
+    [SerializeField] private float musicFadeLevel = 0;
     #endregion
 
     #region PROPERTIES
@@ -62,6 +63,12 @@ public class Note : Interactable, IData
         {
             journalEvent.AddNote(this);
             noteAdded = true;
+
+            // Add the note to update music - only in level one
+            if(AudioManager.Instance.CurrentArea == MusicArea.FOREST && AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN)
+            {
+                StartCoroutine(UpdateMusicLayer());
+            }
         }
         Debug.Log("journal index: " + journalIndex);
         Debug.Log(journalEvent.GetHasJournal());
@@ -82,6 +89,25 @@ public class Note : Interactable, IData
             AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NotePickup, transform.position);
             playedSound = true;
         }
+    }
+
+    private IEnumerator UpdateMusicLayer()
+    {
+        while(musicFadeLevel < 1)
+        {
+            // Wait for realtime
+            yield return new WaitForSecondsRealtime(0.001f);
+
+            // Add music to the music fade level
+            musicFadeLevel += 0.001f;
+
+            // Set the FMOD parameters
+            AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + musicFadeLevel);
+
+            // Allow other code to run
+            yield return null;
+        }
+        yield break;
     }
 
     #region DATA HANDLING
