@@ -103,8 +103,6 @@ public class LotusPick : Interactable, IData
         vineWall.SetActive(false);
         pauseEvent.SetPaused(false);
 
-        yield return null;
-
         GameObject endScreen = GameObject.Find("Demo Ending Text");
         if (endScreen != null)
         {
@@ -122,7 +120,7 @@ public class LotusPick : Interactable, IData
         // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
         while (GetComponent<SpriteRenderer>().color.a > 0)
         {
-            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - 0.01f);
+            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - fadeAmount);
             yield return null;
         }
 
