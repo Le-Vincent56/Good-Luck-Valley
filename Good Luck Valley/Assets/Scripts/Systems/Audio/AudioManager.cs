@@ -239,7 +239,7 @@ public class AudioManager : MonoBehaviour, IData
     public void SetForestNoteProgress(float forestProgression)
     {
         forestMusicProgression = forestProgression;
-        musicEventInstance.setParameterByName("ForestProgression", forestProgression);
+        musicEventInstance.setParameterByName("ForestProgression", forestMusicProgression);
     }
 
     /// <summary>

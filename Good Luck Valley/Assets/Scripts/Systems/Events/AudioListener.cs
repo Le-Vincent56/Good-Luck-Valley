@@ -205,19 +205,25 @@ public class AudioListener : MonoBehaviour
     {
         if(AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN)
         {
-            while(AudioManager.Instance.CurrentForestLevel < 0)
+            while(AudioManager.Instance.CurrentForestProgression < 0)
             {
+                Debug.Log("Updating Thruogh Listener");
+
                 // Wait for seconds in real time
-                yield return new WaitForSecondsRealtime(0.001f);
+                yield return new WaitForSecondsRealtime(0.1f);
 
                 // Update forest progression
-                AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + 0.001f);
+                AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + 0.1f);
+
+                if (AudioManager.Instance.CurrentForestProgression >= 0)
+                {
+                    // Round out the number
+                    AudioManager.Instance.SetForestNoteProgress((int)AudioManager.Instance.CurrentForestProgression);
+                }
 
                 // Allow other code to run
                 yield return null;
             }
-
-            yield break;
         }
     }
 }

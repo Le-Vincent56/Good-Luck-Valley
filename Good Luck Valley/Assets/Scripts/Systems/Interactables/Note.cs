@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEditor.TextCore.Text;
 
 public class Note : Interactable, IData
 {
@@ -18,7 +19,8 @@ public class Note : Interactable, IData
     [SerializeField] private string contentsTitle;
     [SerializeField] private int journalIndex = 0;
     [SerializeField] private bool noteAdded = false;
-    [SerializeField] private float musicFadeLevel = 0;
+    [SerializeField] private bool progressesMusic;
+    [SerializeField] private float progressLevel;
     #endregion
 
     #region PROPERTIES
@@ -61,21 +63,28 @@ public class Note : Interactable, IData
         // Add the note to the journal and trigger notification and sound effect
         if (!noteAdded)
         {
+            // Set the object to invisible
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+            // Add it to the journla
             journalEvent.AddNote(this);
             noteAdded = true;
 
-            // Add the note to update music - only in level one
-            if(AudioManager.Instance.CurrentArea == MusicArea.FOREST && AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN)
-            {
-                StartCoroutine(UpdateMusicLayer());
-            }
+            StartCoroutine(ProcessNote());
         }
-        Debug.Log("journal index: " + journalIndex);
-        Debug.Log(journalEvent.GetHasJournal());
+    }
 
+    private IEnumerator ProcessNote()
+    {
+        // Add the note to update music - only in level one
+        if (AudioManager.Instance.CurrentArea == MusicArea.FOREST && AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN && progressesMusic)
+        {
+            yield return StartCoroutine(UpdateMusicLayer());
+        }
+
+        // Check if the player has the journal and if the note is the Journal Binding
         if (!journalEvent.GetHasJournal() && journalIndex == 0)
         {
-            Debug.Log("open journal");
             journalEvent.SetHasJournal(true);
         }
 
@@ -93,21 +102,22 @@ public class Note : Interactable, IData
 
     private IEnumerator UpdateMusicLayer()
     {
-        while(musicFadeLevel < 1)
+        while(AudioManager.Instance.CurrentForestProgression <= progressLevel)
         {
             // Wait for realtime
-            yield return new WaitForSecondsRealtime(0.001f);
-
-            // Add music to the music fade level
-            musicFadeLevel += 0.001f;
-
+            yield return new WaitForSecondsRealtime(0.1f);
             // Set the FMOD parameters
-            AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + musicFadeLevel);
+            AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + 0.1f);
+
+            if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
+            {
+                // Round out the number
+                AudioManager.Instance.SetForestNoteProgress((int)AudioManager.Instance.CurrentForestProgression);
+            }
 
             // Allow other code to run
             yield return null;
         }
-        yield break;
     }
 
     #region DATA HANDLING
