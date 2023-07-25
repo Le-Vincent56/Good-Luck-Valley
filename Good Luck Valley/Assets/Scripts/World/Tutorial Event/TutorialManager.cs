@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,9 +22,14 @@ public class TutorialManager : MonoBehaviour
     public bool UpdateMessages { get { return updateMessages; } set {  updateMessages = value; } }
     #endregion
 
+    private void OnEnable()
+    {
+        cutsceneEvent.endEnterCutscene.AddListener(EnableMovementPrompt);
+    }
+
     private void Start()
     {
-        if (cutsceneEvent.GetEnterCutsceneActive())
+        if (movementPrompt != null)
         {
             movementPrompt.SetActive(false);
         }
@@ -41,17 +47,13 @@ public class TutorialManager : MonoBehaviour
         {
             interactPrompt2.SetActive(true);
         }
+    }
 
+    public void EnableMovementPrompt()
+    {
         if (movementPrompt != null)
         {
-            if (cutsceneEvent.GetPlayingCutscene())
-            {
-                movementPrompt.SetActive(false);
-            }
-            else if (!cutsceneEvent.GetEnterCutsceneActive())
-            {
-                movementPrompt.SetActive(true);
-            }
+            movementPrompt.SetActive(true);
         }
     }
 
@@ -63,7 +65,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator WaitFor1Sec()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.25f);
         updateMessages = false;
     }    
 }
