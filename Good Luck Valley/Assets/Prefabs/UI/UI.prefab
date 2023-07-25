@@ -241,6 +241,103 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &931839848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 931839849}
+  - component: {fileID: 931839851}
+  - component: {fileID: 931839850}
+  - component: {fileID: 931839852}
+  m_Layer: 5
+  m_Name: JournalTutorialUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &931839849
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931839848}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6934267981321558903}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 338, y: 0.0000038147}
+  m_SizeDelta: {x: 583.41, y: 193.3}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &931839851
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931839848}
+  m_CullTransparentMesh: 1
+--- !u!114 &931839850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931839848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 8f4d3dbef9fb2a44ba962320df34fb62, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: To look at journal entries, click the name of the entry you want to look
+    at on the left-hand side.
+--- !u!114 &931839852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931839848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3.75, y: -2.86}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1270337055
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,11 +2510,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768656890906322, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000061035156
+      value: 0.00012207031
       objectReference: {fileID: 0}
     - target: {fileID: 2574768656890906322, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.006039936
+      value: 0.0060424805
       objectReference: {fileID: 0}
     - target: {fileID: 2574768656913484800, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3149,11 +3246,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657616280611, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_Size
-      value: 0.67175645
+      value: 0.6717565
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657616280611, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_Value
-      value: 0.9999813
+      value: 0.9999811
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657616280611, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_Transition
@@ -3525,11 +3622,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658223410038, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_Size
-      value: 0.9999999
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658223410038, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658258702154, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_Type
@@ -3654,6 +3751,10 @@ PrefabInstance:
     - target: {fileID: 2574768658401037672, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SettingsManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039760997504932481, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_Text
+      value: C
       objectReference: {fileID: 0}
     - target: {fileID: 6354049518386645382, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4511,6 +4612,270 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.87058824
       objectReference: {fileID: 0}
+    - target: {fileID: 9155326243143913492, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243143913492, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243143913492, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243143913492, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243143913492, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243143913492, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243187780323, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243187780323, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243187780323, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243187780323, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243187780323, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243187780323, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243229912666, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243229912666, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243229912666, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243229912666, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243229912666, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243229912666, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243517524195, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243517524195, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243517524195, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243517524195, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243517524195, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243517524195, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243648862504, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243648862504, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243648862504, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243648862504, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243648862504, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243648862504, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243771566067, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243771566067, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243771566067, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243771566067, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243771566067, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326243771566067, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244133204991, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244133204991, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244133204991, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244133204991, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244133204991, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244133204991, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244282696883, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244282696883, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244282696883, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244282696883, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244282696883, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244282696883, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244448534783, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244448534783, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244448534783, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244448534783, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244448534783, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244448534783, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244601708803, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244601708803, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244601708803, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244601708803, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244601708803, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244601708803, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244912061141, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244912061141, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244912061141, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244912061141, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableMessageUpdates
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244912061141, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9155326244912061141, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
+      propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2574768657399048140, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
     - {fileID: 2574768657506546311, guid: 697dc0fb85520c24692b8ea1f9e31553, type: 3}
@@ -4900,11 +5265,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -117.70044
+      value: -117.700195
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252111475612, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 41.10016
+      value: 41.100098
       objectReference: {fileID: 0}
     - target: {fileID: 7040431252887863128, guid: f32bde4582ce53a43a66d4455022515f, type: 3}
       propertyPath: m_BlockingMask.m_Bits
@@ -5801,7 +6166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3475129836396658269, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0006713867
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 3475129836469192680, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: m_ScreenMatchMode
@@ -5929,7 +6294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3475129837563539466, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: m_Size
-      value: 0.9999999
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3475129837563539466, guid: b66e1ec4e1b72554ea8ec5507d4f9110, type: 3}
       propertyPath: m_Value

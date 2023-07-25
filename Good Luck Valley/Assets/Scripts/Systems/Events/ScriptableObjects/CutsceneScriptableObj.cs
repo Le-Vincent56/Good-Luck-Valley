@@ -166,6 +166,7 @@ public class CutsceneScriptableObj : ScriptableObject
     /// </summary>
     public void EndEnterCutscene()
     {
+        Debug.Log("????");
         enterCutsceneActive = false;
         endEnterCutscene.Invoke();
     }

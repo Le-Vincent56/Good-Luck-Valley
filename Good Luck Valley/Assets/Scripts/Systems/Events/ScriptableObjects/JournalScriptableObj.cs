@@ -14,6 +14,7 @@ public class JournalScriptableObj : ScriptableObject
     [SerializeField] private bool canOpen = true;
     [SerializeField] private bool canClose = true;
     [SerializeField] private float journalCloseBuffer = 0.25f;
+    [SerializeField] private bool enableTutorialMessage = true;
 
     #region EVENTS
     [System.NonSerialized]
@@ -93,6 +94,25 @@ public class JournalScriptableObj : ScriptableObject
     public void SetCloseBuffer(float journalCloseBuffer)
     {
         this.journalCloseBuffer = journalCloseBuffer;
+    }
+
+    /// <summary>
+    /// Sets the tutorial message enabled value
+    /// </summary>
+    /// <param name="enableTutorialMessage">Whether or not to show the tutorial message</param>
+    public void SetTutorialMessage(bool enableTutorialMessage)
+    {
+        this.enableTutorialMessage = enableTutorialMessage;
+        Debug.Log("Tutorial Message: " + this.enableTutorialMessage);
+    }
+
+    /// <summary>
+    /// gets the tutorial message enabled value
+    /// </summary>
+    /// <returns>Whether to show the tutorial message</returns>
+    public bool GetTutorialMessage()
+    {
+        return enableTutorialMessage;
     }
 
     /// <summary>

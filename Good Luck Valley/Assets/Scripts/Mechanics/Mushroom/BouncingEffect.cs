@@ -64,8 +64,7 @@ public class BouncingEffect : MonoBehaviour
             // Check to see if there is a shroom component
             if (shroomToBounce != null)
             {
-                // Cuts momentum before applying bounce
-                Debug.Log("Bounce Happens");
+                // Cuts momentum before applying bounce 
 
                 // Set touching shroom to true if colliding with the mushroom
                 mushroomEvent.SetTouchingShroom(true);
