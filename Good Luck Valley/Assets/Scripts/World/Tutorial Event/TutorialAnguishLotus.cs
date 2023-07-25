@@ -4,12 +4,14 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class TutorialAnguishLotus : Interactable, IData
 {
     #region REFERENCES
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
+    private VisualEffect lotusParticles;
     #endregion
 
     #region FIELDS
@@ -20,6 +22,7 @@ public class TutorialAnguishLotus : Interactable, IData
     void Start()
     {
         gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Thickness", 0.02f);
+        lotusParticles = GetComponentInChildren<VisualEffect>();
 
         remove = false;
 
@@ -82,6 +85,7 @@ public class TutorialAnguishLotus : Interactable, IData
         {
             GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - fadeAmount);
             active = false;
+            lotusParticles.enabled = false;
             yield return null;
         }
     }

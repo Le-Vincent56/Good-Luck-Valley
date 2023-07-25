@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ShroomCounter : MonoBehaviour
@@ -86,7 +87,10 @@ public class ShroomCounter : MonoBehaviour
             shroomIcon1
         };
 
-        ResetQueue();
+        if (SceneManager.GetActiveScene().buildIndex >= 6)
+        {
+            ResetQueue();
+        }
     }
 
     /// <summary>

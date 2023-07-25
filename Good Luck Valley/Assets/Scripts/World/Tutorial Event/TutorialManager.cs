@@ -6,26 +6,42 @@ using UnityEngine.SceneManagement;
 public class TutorialManager : MonoBehaviour
 {
     #region REFERENCES
-    private List<TutorialMessage> messages;
+    [SerializeField] private TutorialMessage interactPrompt;
+    [SerializeField] private Interactable interactableObject;
+    [SerializeField] private GameObject interactPrompt2;
     #endregion
 
     #region FIELDS
-    private int currentLevel;
+    private bool updateMessages;
     #endregion
 
     #region PROPERTIES
+    public bool UpdateMessages { get { return updateMessages; } set {  updateMessages = value; } }
     #endregion
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        currentLevel = SceneManager.GetActiveScene().buildIndex - 6;
+        if (interactableObject.Remove == true)
+        {
+            interactPrompt.RemoveMessage = true;
+            StartCoroutine(interactPrompt.FadeOut());
+        }
+
+        if (interactPrompt.gameObject.activeSelf == false)
+        {
+            interactPrompt2.SetActive(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EnableMessageUpdates()
     {
-        
+        updateMessages = true;
+        StartCoroutine(WaitFor1Sec());
     }
+
+    private IEnumerator WaitFor1Sec()
+    {
+        yield return new WaitForSeconds(1);
+        updateMessages = false;
+    }    
 }
