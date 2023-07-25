@@ -24,7 +24,12 @@ public class TutorialManager : MonoBehaviour
 
     private void OnEnable()
     {
-        cutsceneEvent.endEnterCutscene.AddListener(EnableMovementPrompt);
+        cutsceneEvent.endLotusCutscene.AddListener(EnableMovementPrompt);
+    }
+
+    private void OnDisable()
+    {
+        cutsceneEvent.endLotusCutscene.RemoveListener(EnableMovementPrompt);
     }
 
     private void Start()
@@ -51,6 +56,7 @@ public class TutorialManager : MonoBehaviour
 
     public void EnableMovementPrompt()
     {
+        Debug.Log("?");
         if (movementPrompt != null)
         {
             movementPrompt.SetActive(true);
