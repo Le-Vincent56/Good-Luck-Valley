@@ -56,7 +56,6 @@ public class TutorialManager : MonoBehaviour
 
     public void EnableMovementPrompt()
     {
-        Debug.Log("?");
         if (movementPrompt != null)
         {
             movementPrompt.SetActive(true);

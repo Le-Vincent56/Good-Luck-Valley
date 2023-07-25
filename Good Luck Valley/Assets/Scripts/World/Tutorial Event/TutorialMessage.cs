@@ -49,7 +49,7 @@ public class TutorialMessage : MonoBehaviour
     private void Update()
     {
         // If we should update the tutorial messages, run the initialization method again to do so
-        if (manager.UpdateMessages)
+        if (manager.UpdateMessages) 
         {
             InitializeTextValue();
         }
