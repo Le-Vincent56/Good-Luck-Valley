@@ -103,7 +103,6 @@ public class JournalScriptableObj : ScriptableObject
     public void SetTutorialMessage(bool enableTutorialMessage)
     {
         this.enableTutorialMessage = enableTutorialMessage;
-        Debug.Log("Tutorial Message: " + this.enableTutorialMessage);
     }
 
     /// <summary>
@@ -206,5 +205,6 @@ public class JournalScriptableObj : ScriptableObject
         canOpen = true;
         canClose = true;
         journalCloseBuffer = 0.25f;
+        enableTutorialMessage = true;
     }
 }

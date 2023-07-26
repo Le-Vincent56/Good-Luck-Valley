@@ -463,7 +463,7 @@ public class MushroomManager : MonoBehaviour, IData
 
                 // Set the default rotation for left side collision
                 float rotation = -90;
-                Vector3 difference = new Vector3(0.01f, 0, 0);
+                Vector3 difference = new Vector3(0.02f, 0, 0);
 
                 // Check if the wall is to the right of the player
                 if (movementEvent.GetMushroomPosition().x > playerRB.transform.position.x)
