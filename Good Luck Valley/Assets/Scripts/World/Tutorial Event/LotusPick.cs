@@ -95,7 +95,7 @@ public class LotusPick : Interactable, IData
         {
             vineWall.GetComponent<Tilemap>().color = new Color(vineWall.GetComponent<Tilemap>().color.r, 
                 vineWall.GetComponent<Tilemap>().color.g, vineWall.GetComponent<Tilemap>().color.b, 
-                vineWall.GetComponent<Tilemap>().color.a - vineWall.GetComponent<DecomposableVine>().DecomposeTime);
+                vineWall.GetComponent<Tilemap>().color.a - fadeAmount);
 
             yield return null;
         }
@@ -135,24 +135,21 @@ public class LotusPick : Interactable, IData
 
     private IEnumerator FadeEndScreen(GameObject endScreen)
     {
-        endScreen.GetComponent<Text>().color = new Color(1, 1, 1, endScreen.GetComponent<Text>().color.a + fadeAmount);
-        endScreen.GetComponentInChildren<Image>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().color.a + fadeAmount);
-        endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color.a + fadeAmount);
-        GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a + fadeAmount);
-
-        if (GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a >= 0.85)
+        while (endScreen.GetComponent<Text>().color.a <= 1)
         {
-            GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, .85f);
-        }
+            endScreen.GetComponent<Text>().color = new Color(1, 1, 1, endScreen.GetComponent<Text>().color.a + fadeAmount);
+            endScreen.GetComponentInChildren<Image>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().color.a + fadeAmount);
+            endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color = new Color(1, 1, 1, endScreen.GetComponentInChildren<Image>().GetComponentInChildren<Text>().color.a + fadeAmount);
+            GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a + fadeAmount);
 
-        if (endScreen.GetComponent<Text>().color.a >= 1)
-        {
-            finishedInteracting = true;
+            if (GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color.a >= 0.85)
+            {
+                GameObject.Find("EndSquare").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, .85f);
+            }
             yield return null;
         }
-
-        yield return null;
-    }
+        finishedInteracting = true;
+    } 
 
     private IEnumerator PlayPickSound()
     {

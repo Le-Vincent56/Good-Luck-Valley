@@ -57922,6 +57922,7 @@ MonoBehaviour:
   interactPrompt2: {fileID: 1663130743}
   movementPrompt: {fileID: 1688928000}
   cutsceneEvent: {fileID: 11400000, guid: 876f3bec107b97a4095b015d6d365fb3, type: 2}
+  journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
 --- !u!1 &547219452
 GameObject:
   m_ObjectHideFlags: 0
@@ -62602,8 +62603,9 @@ MonoBehaviour:
   cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
-  parallaxScrolling: 1
-  parallaxMultiplyValue: 0.03
+  parallaxSpeed: 0
+  direction: 1
+  parallaxMultiplyValue: 0.05
 --- !u!1 &901628765
 GameObject:
   m_ObjectHideFlags: 0
@@ -63498,8 +63500,9 @@ MonoBehaviour:
   cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
-  parallaxScrolling: 0
-  parallaxMultiplyValue: 0.3
+  parallaxSpeed: 0
+  direction: 1
+  parallaxMultiplyValue: 0.15
 --- !u!1 &978430888
 GameObject:
   m_ObjectHideFlags: 0
@@ -64999,8 +65002,9 @@ MonoBehaviour:
   cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
-  parallaxScrolling: 0
-  parallaxMultiplyValue: 0.01
+  parallaxSpeed: 0
+  direction: -1
+  parallaxMultiplyValue: 0.025
 --- !u!1 &1057308219
 GameObject:
   m_ObjectHideFlags: 0
@@ -66130,8 +66134,9 @@ MonoBehaviour:
   cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
-  parallaxScrolling: 0
-  parallaxMultiplyValue: 0.2
+  parallaxSpeed: 0
+  direction: 1
+  parallaxMultiplyValue: 0.1
 --- !u!1 &1132150235
 GameObject:
   m_ObjectHideFlags: 0
@@ -67374,6 +67379,10 @@ PrefabInstance:
       propertyPath: vineWall
       value: 
       objectReference: {fileID: 1956326349}
+    - target: {fileID: 9058104938817191183, guid: b5b043dbbb687894e933b93128453478, type: 3}
+      propertyPath: fadeAmount
+      value: 0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5b043dbbb687894e933b93128453478, type: 3}
 --- !u!4 &1232279529 stripped
@@ -68245,6 +68254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1314667028}
+  - component: {fileID: 1314667029}
   m_Layer: 0
   m_Name: Foreground Blobs
   m_TagString: Untagged
@@ -68306,6 +68316,24 @@ Transform:
   m_Father: {fileID: 1153544577}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1314667029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314667027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ac8a8449651a44199cac6b313cb59e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
+  movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
+  parallaxSpeed: 0
+  direction: -1
+  parallaxMultiplyValue: 0.035
 --- !u!1 &1326092642
 GameObject:
   m_ObjectHideFlags: 0
@@ -72467,8 +72495,9 @@ MonoBehaviour:
   cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
-  parallaxScrolling: 0
-  parallaxMultiplyValue: 0.02
+  parallaxSpeed: 0
+  direction: 1
+  parallaxMultiplyValue: 0.025
 --- !u!1001 &1750386889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73102,6 +73131,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1634688743, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2574768656675993626, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -73174,14 +73207,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 203086902}
-    - target: {fileID: 2574768658167404321, guid: 4788b279466473a499dc4b001838241a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.00018310547
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574768658167404321, guid: 4788b279466473a499dc4b001838241a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.0060424805
-      objectReference: {fileID: 0}
     - target: {fileID: 2574768658375161902, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -73262,22 +73287,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6934267981029330768, guid: 4788b279466473a499dc4b001838241a, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6934267981150708416, guid: 4788b279466473a499dc4b001838241a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
-      objectReference: {fileID: 0}
     - target: {fileID: 6934267981321558900, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 203086902}
-    - target: {fileID: 6934267981321558902, guid: 4788b279466473a499dc4b001838241a, type: 3}
-      propertyPath: journalTutorialMessage
-      value: 
-      objectReference: {fileID: 1794716514}
     - target: {fileID: 6934267981431389839, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
       value: 
@@ -73352,17 +73365,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 184c1101157946d498f25d96b9cc78e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1794716514 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 931839850, guid: 4788b279466473a499dc4b001838241a, type: 3}
-  m_PrefabInstance: {fileID: 1794716511}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1794716517 stripped

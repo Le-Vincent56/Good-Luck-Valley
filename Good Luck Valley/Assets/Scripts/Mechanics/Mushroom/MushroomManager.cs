@@ -168,7 +168,6 @@ public class MushroomManager : MonoBehaviour, IData
         }
 
         tilemap = GameObject.Find("foreground");
-        shroomCounter.ResetQueue();
     }
 
     // Update is called once per frame
@@ -444,7 +443,6 @@ public class MushroomManager : MonoBehaviour, IData
             // Only call when the button is pressed, not on release as well
             if (context.started)
             {
-                Debug.Log("Check Wall");
                 // Player is no longer touching the wall
                 movementEvent.SetIsTouchingWall(false);
 
@@ -468,8 +466,6 @@ public class MushroomManager : MonoBehaviour, IData
                 Vector3 difference = new Vector3(0.01f, 0, 0);
 
                 // Check if the wall is to the right of the player
-                Debug.Log("Mushroom Event Pos: " + movementEvent.GetMushroomPosition());
-                Debug.Log("Player Pos: " + playerRB.transform.position);
                 if (movementEvent.GetMushroomPosition().x > playerRB.transform.position.x)
                 {
                     // Flip rotation and difference
