@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using UnityEditor.TextCore.Text;
 
 public class Note : Interactable, IData
 {
