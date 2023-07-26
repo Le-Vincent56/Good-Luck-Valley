@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -180,14 +181,19 @@ public abstract class Shroom : MonoBehaviour
         GameObject shroom;
 
         // Get shroom type and instantiate shrooms
-        switch(shroomType)
+        switch (shroomType)
         {
             case ShroomType.Regular:
                 shroom = Instantiate(regShroom, transform.position, rotation);
                 break;
 
             case ShroomType.Wall:
-                shroom = Instantiate(wallShroom, transform.position, rotation);
+                Vector3 diff = new Vector3(0.1f, 0, 0);
+                if (contactPoint.point.x < transform.position.x)
+                {
+                    diff *= -1;
+                }
+                shroom = Instantiate(wallShroom, transform.position + diff, rotation);
                 break;
 
             default:
