@@ -41,6 +41,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public List<EventReference> BushRustles { get; private set; }
     [field: SerializeField] public EventReference VineDecompose { get; private set; }
     [field: SerializeField] public EventReference LotusPick { get; private set; }
+    [field: SerializeField] public EventReference LotusPulse { get; private set; }
 
 
     [field: Header("Music")]

@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,9 +17,14 @@ public class LotusPick : Interactable, IData
     #endregion
 
     #region FIELDS
+    private EventInstance lotusPulse;
+    [SerializeField] private float interactRange;
     [SerializeField] private float fadeAmount;
     [SerializeField] private bool progressesMusic;
     [SerializeField] private float progressLevel;
+    [SerializeField] private float playerDistance;
+    [SerializeField] private float maxSoundDistance;
+    [SerializeField] private float soundPercentage;
     #endregion
 
     void Start()
@@ -31,6 +37,8 @@ public class LotusPick : Interactable, IData
         {
             fadeAmount = 0.01f;
         }
+
+        lotusPulse = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.LotusPulse);
     }
 
     void Update()
@@ -50,7 +58,10 @@ public class LotusPick : Interactable, IData
         if (controlTriggered)
         {
             // Interact and set variables
-            Interact();
+            if(!interacting)
+            {
+                Interact();
+            }
             
             interacting = true;
 
@@ -89,11 +100,74 @@ public class LotusPick : Interactable, IData
         }
 
         // Start the lotus pick by playing the sound
-        if(!playedSound)
+        StartCoroutine(PlayLotusSounds());
+        playedSound = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player" && active)
         {
-            StartCoroutine(PlayLotusSounds());
-            playedSound = true;
+            // Calculate the maximum distance of the collider
+            maxSoundDistance = CalculateDistance(collision);
+
+            // Start the lotus sound
+            PLAYBACK_STATE playbackStatePulse;
+            lotusPulse.getPlaybackState(out playbackStatePulse);
+            if (playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                // If so, start it
+                lotusPulse.start();
+            }
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // Check if the collider is the player
+        if(collision.gameObject.tag == "Player" && active)
+        {
+            // Check distance between lotus and player
+            playerDistance = CalculateDistance(collision);
+
+            // Check if the player is in range
+            if(playerDistance < interactRange)
+            {
+                inRange = true;
+            } else
+            {
+                inRange = false;
+            }
+            // Calculate the sound percentage for the pulse
+            soundPercentage = playerDistance / maxSoundDistance;
+
+            // Set the distance parameter for adaptive sound
+            lotusPulse.setParameterByName("LotusDistance", soundPercentage);
+
+            // Dampen other sounds to really hone in on the effect
+            AudioManager.Instance.DampenMusic(Mathf.Clamp(1f - soundPercentage, 0f, 1f));
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Player" && active)
+        {
+            PLAYBACK_STATE playbackStatePulse;
+            lotusPulse.getPlaybackState(out playbackStatePulse);
+            if (!playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                // If so, start it
+                lotusPulse.stop(STOP_MODE.IMMEDIATE);
+            }
+        }
+    }
+
+    public float CalculateDistance(Collider2D other)
+    {
+        Vector3 lotusCenter = transform.position;
+        Vector3 playerCenter = other.gameObject.transform.position;
+        return Vector3.Distance(playerCenter, lotusCenter);
     }
 
     private IEnumerator FadeVines()
@@ -170,6 +244,7 @@ public class LotusPick : Interactable, IData
         // Start the fading coroutines
         StartCoroutine(FadeVines());
         StartCoroutine(FadeLotus());
+        StartCoroutine(UndampenSound());
 
         // Return
         yield break;
@@ -185,6 +260,28 @@ public class LotusPick : Interactable, IData
 
         // Return
         yield break;
+    }
+
+    private IEnumerator UndampenSound()
+    {
+        while(AudioManager.Instance.GetDampen() > 0)
+        {
+            // Let other code run
+            yield return null;
+
+            // Undampen the music
+            AudioManager.Instance.DampenMusic(AudioManager.Instance.GetDampen() - Time.deltaTime);
+        }
+
+        PLAYBACK_STATE playbackStatePulse;
+        lotusPulse.getPlaybackState(out playbackStatePulse);
+        if (!playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
+        {
+            // If so, start it
+            lotusPulse.stop(STOP_MODE.IMMEDIATE);
+        }
+
+        yield return null;
     }
 
     #region DATA HANDLING

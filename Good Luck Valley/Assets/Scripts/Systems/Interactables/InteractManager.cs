@@ -23,12 +23,16 @@ public class InteractManager : MonoBehaviour
         foreach(Interactable interactable in interactables)
         {
             // Check if the player is in range to interact
-            if (interactable.GetComponent<BoxCollider2D>().IsTouching(player.GetComponent<BoxCollider2D>()))
+            if(!interactable.OverridesRangeDetection)
             {
-                interactable.InRange = true;
-            } else
-            {
-                interactable.InRange = false;
+                if (interactable.GetComponent<BoxCollider2D>().IsTouching(player.GetComponent<BoxCollider2D>()))
+                {
+                    interactable.InRange = true;
+                }
+                else
+                {
+                    interactable.InRange = false;
+                }
             }
         }
 

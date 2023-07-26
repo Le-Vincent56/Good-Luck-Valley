@@ -121,9 +121,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1907502018104928408}
   - component: {fileID: 1907502018104928409}
-  - component: {fileID: 1907502018104928410}
   - component: {fileID: 1907502018104928389}
   - component: {fileID: 9058104938817191183}
+  - component: {fileID: 210753220984827302}
   m_Layer: 0
   m_Name: 2Anguish Lotus
   m_TagString: Untagged
@@ -199,32 +199,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1907502018104928410
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907502018104928414}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.2115562, y: -1.9216309}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.6, y: 9.6}
-    newSize: {x: 6.83, y: 7.18}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 5.7017055, y: 5.1702423}
-  m_EdgeRadius: 0
 --- !u!95 &1907502018104928389
 Animator:
   serializedVersion: 4
@@ -258,9 +232,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+  inRange: 0
+  overridesRangeDetection: 1
   remove: 0
   active: 1
   pauseEvent: {fileID: 11400000, guid: d9294628e0915de4d8dc90a39ab7f026, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   vineWall: {fileID: 0}
+  interactRange: 0
   fadeAmount: 0
+  progressesMusic: 1
+  progressLevel: 7
+  playerDistance: 0
+  maxSoundDistance: 0
+  soundPercentage: 0
+--- !u!58 &210753220984827302
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907502018104928414}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 5}
+  serializedVersion: 2
+  m_Radius: 20
