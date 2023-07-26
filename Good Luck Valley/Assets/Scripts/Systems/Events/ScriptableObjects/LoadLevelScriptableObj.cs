@@ -15,6 +15,7 @@ public class LoadLevelScriptableObj : ScriptableObject
 
     #region EVENTS
     public UnityEvent startLoad;
+    public UnityEvent<float> startMusicLoad;
     public UnityEvent endLoad;
     #endregion
     #endregion
@@ -30,6 +31,11 @@ public class LoadLevelScriptableObj : ScriptableObject
         if (endLoad == null)
         {
             endLoad = new UnityEvent();
+        }
+
+        if(startMusicLoad == null)
+        {
+            startMusicLoad = new UnityEvent<float>();
         }
         #endregion
     }
@@ -113,6 +119,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     {
         isLoading = true;
         startLoad.Invoke();
+    }
+
+    /// <summary>
+    /// Trigger all events relating to updating music through loading
+    /// </summary>
+    /// <param name="progressLevel">The level to progress to</param>
+    public void StartMusicLoad(float progressLevel)
+    {
+        startMusicLoad.Invoke(progressLevel);
     }
 
     /// <summary>

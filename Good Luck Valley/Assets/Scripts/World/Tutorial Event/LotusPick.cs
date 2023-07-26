@@ -11,12 +11,14 @@ public class LotusPick : Interactable, IData
     #region REFERENCES
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] GameObject vineWall;
     private VisualEffect lotusParticles;
     #endregion
 
     #region FIELDS
-    [SerializeField] GameObject vineWall;
     [SerializeField] private float fadeAmount;
+    [SerializeField] private bool progressesMusic;
+    [SerializeField] private float progressLevel;
     #endregion
 
     void Start()
@@ -79,6 +81,12 @@ public class LotusPick : Interactable, IData
 
         // Lock the player
         disableEvent.Lock();
+
+        // Progress music
+        if(AudioManager.Instance.CurrentForestProgression < progressLevel && progressesMusic)
+        {
+            AudioManager.Instance.SetForestProgress(progressLevel);
+        }
 
         // Start the lotus pick by playing the sound
         if(!playedSound)

@@ -25,7 +25,7 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.AddListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.AddListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.AddListener(StopFootstepsCutscene);
-        loadLevelEvent.startLoad.AddListener(UpdateForestProgressToZero);
+        loadLevelEvent.startMusicLoad.AddListener(UpdateForestMusicProgress);
     }
 
     private void OnDisable()
@@ -34,7 +34,7 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.RemoveListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.RemoveListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.RemoveListener(StopFootstepsCutscene);
-        loadLevelEvent.startLoad.RemoveListener(UpdateForestProgressToZero);
+        loadLevelEvent.startMusicLoad.RemoveListener(UpdateForestMusicProgress);
     }
 
     private void Start()
@@ -167,12 +167,10 @@ public class AudioListener : MonoBehaviour
     /// <summary>
     /// Update Forest Progress to 0
     /// </summary>
-    public void UpdateForestProgressToZero()
+    /// <param name="progressLevel">The level to progress to</param>
+    public void UpdateForestMusicProgress(float progressLevel)
     {
-        if(SceneManager.GetActiveScene().name == "Level 1" && AudioManager.Instance.CurrentForestProgression < 0)
-        {
-            StartCoroutine(UpdateForestProgress());
-        }
+        StartCoroutine(UpdateForestMusicProgressEnum(progressLevel));
     }
 
     /// <summary>
@@ -198,27 +196,23 @@ public class AudioListener : MonoBehaviour
     }
 
     /// <summary>
-    /// Update Forest Progress to 0
+    /// Update Forest Progress
     /// </summary>
+    /// <param name="progressLevel">The level to progress to</param>
     /// <returns></returns>
-    private IEnumerator UpdateForestProgress()
+    private IEnumerator UpdateForestMusicProgressEnum(float progressLevel)
     {
         if(AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN)
         {
-            while(AudioManager.Instance.CurrentForestProgression < 0)
+            while(AudioManager.Instance.CurrentForestProgression < progressLevel)
             {
-                Debug.Log("Updating Thruogh Listener");
-
-                // Wait for seconds in real time
-                yield return new WaitForSecondsRealtime(0.1f);
-
                 // Update forest progression
-                AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + 0.1f);
+                AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
 
-                if (AudioManager.Instance.CurrentForestProgression >= 0)
+                if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
                 {
                     // Round out the number
-                    AudioManager.Instance.SetForestNoteProgress((int)AudioManager.Instance.CurrentForestProgression);
+                    AudioManager.Instance.SetForestProgress(Mathf.Floor(AudioManager.Instance.CurrentForestProgression));
                 }
 
                 // Allow other code to run
