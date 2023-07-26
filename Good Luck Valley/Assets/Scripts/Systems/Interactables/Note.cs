@@ -104,15 +104,13 @@ public class Note : Interactable, IData
     {
         while(AudioManager.Instance.CurrentForestProgression <= progressLevel)
         {
-            // Wait for realtime
-            yield return new WaitForSecondsRealtime(0.1f);
             // Set the FMOD parameters
-            AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + 0.1f);
+            AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
 
             if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
             {
                 // Round out the number
-                AudioManager.Instance.SetForestNoteProgress((int)AudioManager.Instance.CurrentForestProgression);
+                AudioManager.Instance.SetForestProgress(Mathf.Floor(AudioManager.Instance.CurrentForestProgression));
             }
 
             // Allow other code to run

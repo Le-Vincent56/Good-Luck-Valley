@@ -27,6 +27,8 @@ public class TransitionTrigger : MonoBehaviour
     [SerializeField] private string currentLevel;
     [SerializeField] private bool transition;
     [SerializeField] private float timeBeforeTransitionTrigger = 1f;
+    [SerializeField] private bool progressesMusic;
+    [SerializeField] private float progressLevel;
     #endregion
 
     private void Awake()
@@ -63,6 +65,12 @@ public class TransitionTrigger : MonoBehaviour
 
             // Set inside load trigger
             loadLevelEvent.SetInLoadTrigger(true);
+
+            // Trigger any music loading
+            if (progressesMusic)
+            {
+                loadLevelEvent.StartMusicLoad(progressLevel);
+            }
 
             // Set variables
             pauseEvent.SetCanPause(false);

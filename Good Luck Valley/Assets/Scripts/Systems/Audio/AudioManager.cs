@@ -236,7 +236,7 @@ public class AudioManager : MonoBehaviour, IData
     /// Set the music associated with how much the player has progressed it
     /// </summary>
     /// <param name="notes">How much the player has progressed the music</param>
-    public void SetForestNoteProgress(float forestProgression)
+    public void SetForestProgress(float forestProgression)
     {
         forestMusicProgression = forestProgression;
         musicEventInstance.setParameterByName("ForestProgression", forestMusicProgression);
