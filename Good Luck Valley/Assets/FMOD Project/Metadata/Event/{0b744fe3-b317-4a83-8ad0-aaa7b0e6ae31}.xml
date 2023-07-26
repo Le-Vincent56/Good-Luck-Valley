@@ -60,7 +60,6 @@
 			<destination>{937a0bb6-c259-462f-8baf-14a8ee974e9c}</destination>
 			<destination>{5ae2f398-ca47-43ac-8bd8-4032d234f408}</destination>
 			<destination>{d0b9f6ee-34d8-4d3c-99fd-1a2bd8e25af8}</destination>
-			<destination>{bdce2beb-e127-495e-8729-1e0efd1029c3}</destination>
 		</relationship>
 		<relationship name="timeline">
 			<destination>{e8551a1b-c9f8-4a9d-a736-82da065e735d}</destination>
@@ -382,11 +381,6 @@
 		</relationship>
 		<relationship name="mixerReturn">
 			<destination>{b39f8c62-c2c0-4229-8c1a-a208b1acd3e9}</destination>
-		</relationship>
-	</object>
-	<object class="ReturnTrack" id="{bdce2beb-e127-495e-8729-1e0efd1029c3}">
-		<relationship name="mixerReturn">
-			<destination>{ec6b23fa-2c03-495a-94e4-624035f7dc1c}</destination>
 		</relationship>
 	</object>
 	<object class="Timeline" id="{e8551a1b-c9f8-4a9d-a736-82da065e735d}">
@@ -1602,20 +1596,6 @@
 			<destination>{9636c0d7-0a25-46bb-bf94-f4a214a3028e}</destination>
 		</relationship>
 	</object>
-	<object class="EventMixerReturn" id="{ec6b23fa-2c03-495a-94e4-624035f7dc1c}">
-		<property name="name">
-			<value>A</value>
-		</property>
-		<relationship name="effectChain">
-			<destination>{df01f04b-2ddf-4d41-8af8-016cb01f2d95}</destination>
-		</relationship>
-		<relationship name="panner">
-			<destination>{c4bf8714-b1ef-4038-aa5f-51d596128fba}</destination>
-		</relationship>
-		<relationship name="output">
-			<destination>{9636c0d7-0a25-46bb-bf94-f4a214a3028e}</destination>
-		</relationship>
-	</object>
 	<object class="TempoMarker" id="{9219f62a-3010-494a-a03c-01a113941315}">
 		<property name="position">
 			<value>0</value>
@@ -2008,12 +1988,6 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{19075201-d3ee-46cd-8507-df6b21f5db7c}" />
-	<object class="MixerBusEffectChain" id="{df01f04b-2ddf-4d41-8af8-016cb01f2d95}">
-		<relationship name="effects">
-			<destination>{15cd8c98-2ccb-48a8-87e5-3b221d082776}</destination>
-		</relationship>
-	</object>
-	<object class="MixerBusPanner" id="{c4bf8714-b1ef-4038-aa5f-51d596128fba}" />
 	<object class="ParameterCondition" id="{2f89e5b0-8775-4608-b4d6-bf49d400c1ad}">
 		<property name="minimum">
 			<value>7</value>
@@ -2749,7 +2723,6 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{67158acc-e112-40a9-94ea-376f2d4570c5}" />
-	<object class="MixerBusFader" id="{15cd8c98-2ccb-48a8-87e5-3b221d082776}" />
 	<object class="AutomationPoint" id="{1bd28d25-da0a-4b78-875b-6141357fc2b4}">
 		<property name="position">
 			<value>-1</value>

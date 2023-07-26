@@ -243,6 +243,22 @@ public class AudioManager : MonoBehaviour, IData
     }
 
     /// <summary>
+    /// Dampen the music by a percentage
+    /// </summary>
+    /// <param name="percentage">The percentage to dampen the music by, 0 is no dapmen, 1 is fully dampened</param>
+    public void DampenMusic(float percentage)
+    {
+        RuntimeManager.StudioSystem.setParameterByName("Dampen", percentage);
+    }
+
+    public float GetDampen()
+    {
+        float dampenLevel;
+        RuntimeManager.StudioSystem.getParameterByName("Dampen", out dampenLevel);
+        return dampenLevel;
+    }
+
+    /// <summary>
     /// Play a one shot sound
     /// </summary>
     /// <param name="sound">Sound to play</param>

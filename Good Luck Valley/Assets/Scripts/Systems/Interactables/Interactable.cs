@@ -17,6 +17,7 @@ public abstract class Interactable : MonoBehaviour
 
     protected bool interacting = false;
     [SerializeField] protected bool inRange = false;
+    [SerializeField] protected bool overridesRangeDetection;
     protected bool controlTriggered = false;
     protected bool finishedInteracting = false;
     protected bool playedSound = false;
@@ -28,6 +29,7 @@ public abstract class Interactable : MonoBehaviour
     public bool InRange { get { return inRange; } set { inRange = value; } }
     public bool ControlTriggered { get { return controlTriggered; } set { controlTriggered = value; } }
     public bool Remove { get { return remove; } set { remove = value; } }
+    public bool OverridesRangeDetection { get { return overridesRangeDetection; } }
     #endregion
 
     // Start is called before the first frame update
