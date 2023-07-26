@@ -12,6 +12,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject interactPrompt2;
     [SerializeField] private GameObject movementPrompt;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
     #endregion
 
     #region FIELDS
@@ -42,7 +43,7 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if (interactableObject.Remove == true)
+        if (interactableObject.Remove == true || interactableObject.gameObject.activeSelf == false)
         {
             interactPrompt.RemoveMessage = true;
             StartCoroutine(interactPrompt.FadeOut());
@@ -51,6 +52,11 @@ public class TutorialManager : MonoBehaviour
         if (interactPrompt.gameObject.activeSelf == false)
         {
             interactPrompt2.SetActive(true);
+        }
+
+        if (journalEvent.GetOpenedOnce())
+        {
+            interactPrompt2 .SetActive(true);
         }
     }
 

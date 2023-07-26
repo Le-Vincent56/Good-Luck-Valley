@@ -12,8 +12,10 @@ public class Parallax : MonoBehaviour
     #endregion
 
     #region FIELDS
-    [SerializeField] private float parallaxScrolling;
-
+    [SerializeField] private float parallaxSpeed;
+    [Header("-1 = left scrolling parallax | 1 = right scrolling parallax")]
+    [Range(-1f, 1f)]
+    [SerializeField] private int direction;
     [Header("0: no parallax | 1: parallax speed = anari speed")]
     [Range(0f, 1f)]
     [SerializeField] private float parallaxMultiplyValue;
@@ -32,11 +34,11 @@ public class Parallax : MonoBehaviour
     private void UpdateParallax()
     {
         // Set the parallax scrolling
-        parallaxScrolling = (movementEvent.GetMovementVector().x * parallaxMultiplyValue);
+        parallaxSpeed = (movementEvent.GetMovementVector().x * parallaxMultiplyValue * direction);
 
         if (disableEvent.GetDisableParallax() == false)
         {
-            transform.position = new Vector3(transform.position.x + (parallaxScrolling * Time.deltaTime), transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + (parallaxSpeed * Time.deltaTime), transform.position.y, transform.position.z);
         }
     }
 }
