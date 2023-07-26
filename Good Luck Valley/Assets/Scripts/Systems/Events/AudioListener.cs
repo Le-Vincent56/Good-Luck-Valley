@@ -9,6 +9,7 @@ public class AudioListener : MonoBehaviour
     #region FIELDS
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     private EventInstance playerFootstepsGrass;
     private EventInstance playerFootstepsDirt;
     private EventInstance bushRustles;
@@ -24,6 +25,7 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.AddListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.AddListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.AddListener(StopFootstepsCutscene);
+        loadLevelEvent.startLoad.AddListener(UpdateForestProgressToZero);
     }
 
     private void OnDisable()
@@ -32,6 +34,7 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.RemoveListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.RemoveListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.RemoveListener(StopFootstepsCutscene);
+        loadLevelEvent.startLoad.RemoveListener(UpdateForestProgressToZero);
     }
 
     private void Start()
@@ -70,9 +73,14 @@ public class AudioListener : MonoBehaviour
         {
             StartCoroutine(PlayUntilLoad(movementData, groundedData, tileType));
         }
-        
     }
 
+    /// <summary>
+    /// Stop cutscene footsteps according to movement
+    /// </summary>
+    /// <param name="movementData">Rigidbody data</param>
+    /// <param name="groundedData">Grounded data</param>
+    /// <param name="tileType">The type of tile the player is on</param>
     private void StopFootstepsCutscene(float movementData, bool groundedData, TileType tileType)
     {
         if(playingFootstepsDuringCutscene)
@@ -157,6 +165,17 @@ public class AudioListener : MonoBehaviour
     }
 
     /// <summary>
+    /// Update Forest Progress to 0
+    /// </summary>
+    public void UpdateForestProgressToZero()
+    {
+        if(SceneManager.GetActiveScene().name == "Level 1" && AudioManager.Instance.CurrentForestProgression < 0)
+        {
+            StartCoroutine(UpdateForestProgress());
+        }
+    }
+
+    /// <summary>
     /// Play footsteps until the end of a cutscene
     /// </summary>
     /// <param name="movementData">Rigidbody data</param>
@@ -174,6 +193,36 @@ public class AudioListener : MonoBehaviour
             if (movementData != 0 && groundedData)
             {
                 ChooseFootsteps(tileType);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Update Forest Progress to 0
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator UpdateForestProgress()
+    {
+        if(AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN)
+        {
+            while(AudioManager.Instance.CurrentForestProgression < 0)
+            {
+                Debug.Log("Updating Thruogh Listener");
+
+                // Wait for seconds in real time
+                yield return new WaitForSecondsRealtime(0.1f);
+
+                // Update forest progression
+                AudioManager.Instance.SetForestNoteProgress(AudioManager.Instance.CurrentForestProgression + 0.1f);
+
+                if (AudioManager.Instance.CurrentForestProgression >= 0)
+                {
+                    // Round out the number
+                    AudioManager.Instance.SetForestNoteProgress((int)AudioManager.Instance.CurrentForestProgression);
+                }
+
+                // Allow other code to run
+                yield return null;
             }
         }
     }

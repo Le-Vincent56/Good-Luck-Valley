@@ -46,6 +46,11 @@ public class GameData
     public string currentLevelName;
     #endregion
 
+    #region MUSIC
+    public ForestLevel currentForestLevel;
+    public float forestMusicProgression;
+    #endregion
+
     #region SHROOM
     public bool throwUnlocked;
     #endregion

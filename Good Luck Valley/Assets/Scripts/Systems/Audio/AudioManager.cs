@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using FMODUnity;
 using FMOD.Studio;
+using UnityEngine.UIElements;
 
 public enum MusicArea
 {
@@ -11,14 +12,26 @@ public enum MusicArea
     FOREST = 1
 }
 
-public class AudioManager : MonoBehaviour
+public enum ForestLevel
+{
+    MAIN = 0,
+    END = 1
+}
+
+public class AudioManager : MonoBehaviour, IData
 {
     #region FIELDS
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
+
+    [Header("Areas")]
     [SerializeField] private MusicArea currentArea;
+
+    [Header("Forest")]
+    [SerializeField] private ForestLevel currentForestLevel;
+    [SerializeField] private float forestMusicProgression = -2f;
 
     #region TIMED AMBIENT NOISES
     [Header("Cricket Noises")]
@@ -59,6 +72,8 @@ public class AudioManager : MonoBehaviour
     public EventInstance MusicEventInstance { get { return musicEventInstance; } }
     public EventInstance AmbienceEventInstance { get { return ambienceEventInstance; } }
     public MusicArea CurrentArea { get { return currentArea; } }
+    public ForestLevel CurrentForestLevel { get { return currentForestLevel; } }
+    public float CurrentForestProgression { get { return forestMusicProgression; } }
     #endregion
 
     private void Awake()
@@ -107,19 +122,45 @@ public class AudioManager : MonoBehaviour
         switch(SceneManager.GetActiveScene().name)
         {
             case "Title Screen":
+                // Set the music area
                 SetMusicArea(MusicArea.MAIN_MENU);
                 break;
 
             case "Main Menu":
+                // Set the music area
                 SetMusicArea(MusicArea.MAIN_MENU);
                 break;
 
             case "Prologue":
+                // Set the music area
                 SetMusicArea(MusicArea.FOREST);
+
+                // Set default values, if they're not set already
+                if(currentForestLevel != ForestLevel.MAIN)
+                {
+                    SetForestLevel(ForestLevel.MAIN);
+                }
+
+                if(forestMusicProgression < -1f)
+                {
+                    forestMusicProgression = -1f;
+                }
                 break;
 
             case "Level 1":
+                // Set the music area
                 SetMusicArea(MusicArea.FOREST);
+
+                // Set default values, if they're not set already
+                if (currentForestLevel != ForestLevel.MAIN)
+                {
+                    SetForestLevel(ForestLevel.MAIN);
+                }
+
+                if (forestMusicProgression < -1f)
+                {
+                    forestMusicProgression = -1f;
+                }
                 break;
         }
 
@@ -178,6 +219,27 @@ public class AudioManager : MonoBehaviour
         currentArea = area;
         musicEventInstance.setParameterByName("Area", (float)area);
         ambienceEventInstance.setParameterByName("Area", (float)area);
+    }
+
+    /// <summary>
+    /// Set the music associated with the forest level
+    /// </summary>
+    /// <param name="level">The forest level to associate the music with</param>
+
+    public void SetForestLevel(ForestLevel level)
+    {
+        currentForestLevel = level;
+        musicEventInstance.setParameterByName("ForestLevel", (float)level);
+    }
+
+    /// <summary>
+    /// Set the music associated with how much the player has progressed it
+    /// </summary>
+    /// <param name="notes">How much the player has progressed the music</param>
+    public void SetForestNoteProgress(float forestProgression)
+    {
+        forestMusicProgression = forestProgression;
+        musicEventInstance.setParameterByName("ForestProgression", forestMusicProgression);
     }
 
     /// <summary>
@@ -375,4 +437,19 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
     }
+
+    #region DATA HANDLING
+
+    public void LoadData(GameData data)
+    {
+        currentForestLevel = data.currentForestLevel;
+        forestMusicProgression = data.forestMusicProgression;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.currentForestLevel = currentForestLevel;
+        data.forestMusicProgression = forestMusicProgression;
+    }
+    #endregion
 }
