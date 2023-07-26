@@ -58,7 +58,10 @@ public class LotusPick : Interactable, IData
         if (controlTriggered)
         {
             // Interact and set variables
-            Interact();
+            if(!interacting)
+            {
+                Interact();
+            }
             
             interacting = true;
 
@@ -97,11 +100,8 @@ public class LotusPick : Interactable, IData
         }
 
         // Start the lotus pick by playing the sound
-        if(!playedSound)
-        {
-            StartCoroutine(PlayLotusSounds());
-            playedSound = true;
-        }
+        StartCoroutine(PlayLotusSounds());
+        playedSound = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
