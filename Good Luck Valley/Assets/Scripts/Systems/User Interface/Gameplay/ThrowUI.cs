@@ -28,10 +28,10 @@ public class ThrowUI : MonoBehaviour
         player = GameObject.Find("Player");
 
         // Width of the line
-        width = 0.2f;
+        width = 0.1f;
 
         // Number of segments for the trajectory line
-        segments = 300;  
+        segments = 200;  
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
