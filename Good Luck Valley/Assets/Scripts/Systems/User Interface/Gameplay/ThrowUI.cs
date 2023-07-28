@@ -70,7 +70,7 @@ public class ThrowUI : MonoBehaviour
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
 
-        lineRenderer.material.mainTextureScale = new Vector2(2f, 1f);
+        lineRenderer.material.mainTextureScale = new Vector2(1f, 1f);
         lineRenderer.startWidth = width;
 
         // Gravity acting on the shroom when it is being thrown
