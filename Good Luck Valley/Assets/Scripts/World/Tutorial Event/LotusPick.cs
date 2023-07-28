@@ -271,11 +271,11 @@ public class LotusPick : Interactable, IData
         }
 
         PLAYBACK_STATE playbackStatePulse;
-        lotusPulse.getPlaybackState(out playbackStatePulse);
+        AudioManager.Instance.LotusPulseEventInstance.getPlaybackState(out playbackStatePulse);
         if (!playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
         {
             // If so, start it
-            lotusPulse.stop(STOP_MODE.IMMEDIATE);
+            AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
         }
 
         yield return null;
