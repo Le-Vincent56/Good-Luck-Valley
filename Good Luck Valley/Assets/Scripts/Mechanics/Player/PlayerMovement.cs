@@ -9,6 +9,7 @@ using UnityEngine.Windows;
 using FMOD.Studio;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
+using UnityEditor.Rendering;
 
 public enum PlayerState
 {
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	private BoxCollider2D playerCollider;
 	private CapsuleCollider2D capsuleCollider;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer;
 	[SerializeField] private PhysicsMaterial2D noFriction;
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
@@ -78,6 +80,7 @@ public class PlayerMovement : MonoBehaviour, IData
 
     #region WALLS
     [Header("Walls")]
+    [SerializeField] private bool debugWall;
     [SerializeField] private float wallStickForce;
     [SerializeField] private bool previousWallState;
     [SerializeField] private float wallStickTimerMax;
@@ -251,8 +254,11 @@ public class PlayerMovement : MonoBehaviour, IData
             }
         }
 
+        // Check to see if a wall is being touched
+        CheckForWall();
+
         // Check for is the player is on a wall
-        if(movementEvent.GetIsTouchingWall())
+        if (movementEvent.GetIsTouchingWall())
         {
             // If bouncing before and the bounce buffer has ended, end bouncing
             if (bouncing && bounceBuffer <= 0)
@@ -553,22 +559,21 @@ public class PlayerMovement : MonoBehaviour, IData
             // Check if the player is touching the wall
             if (movementEvent.GetIsTouchingWall())
             {
-                // Apply wall force - if not bouncing
-                if (!bouncing)
+                if(!isGrounded)
                 {
-                    ApplyWallForce();
+                    TurnToWall();
                 }
+
+                // Apply wall force
+                ApplyWallForce();
 
                 // Trigger other wall-related events
                 movementEvent.Wall();
             }
             else if (wallStickTimer > 0) // Check if the wall stick timer is running
             {
-                // If so, apply wall force - if not bouncing
-                if (!bouncing)
-                {
-                    ApplyWallForce();
-                }
+                // Apply wall force
+                ApplyWallForce();
             }
         }
 		else
@@ -854,9 +859,6 @@ public class PlayerMovement : MonoBehaviour, IData
         Vector2 stickVector = wallDir - checkPos;
         Vector2 stickForce = stickVector.normalized * wallStickForce;
 
-        // Turn the opposite way
-        Turn((int)-stickVector.normalized.x);
-
         // Add the force
         RB.AddForce(stickForce, ForceMode2D.Force);
 
@@ -865,6 +867,19 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             Debug.DrawRay(transform.position, stickForce, Color.magenta);
         }
+    }
+
+    private void TurnToWall()
+    {
+        // Get the vector from the center of the playerp position to the wall
+        Vector2 checkPos = playerCollider.bounds.center;
+        Vector2 wallDir = new Vector2(movementEvent.GetWallCollisionPoint().x, checkPos.y);
+
+        // Calculate the stick vector
+        Vector2 stickVector = wallDir - checkPos;
+
+        // Turn the opposite way
+        Turn((int)-stickVector.normalized.x);
     }
 
     /// <summary>
@@ -977,6 +992,20 @@ public class PlayerMovement : MonoBehaviour, IData
 			Turn();
 		}
 	}
+
+    public void CheckForWall()
+    {
+        RaycastHit2D wallCheckRight = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.left, 0.25f, wallLayer);
+        RaycastHit2D wallCheckLeft = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x + 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.right, 0.25f, wallLayer);
+
+        if(wallCheckRight || wallCheckLeft)
+        {
+            movementEvent.SetIsTouchingWall(true);
+        } else
+        {
+            movementEvent.SetIsTouchingWall(false);
+        }
+    }
 
 	/// <summary>
 	/// Check if the Player can Jump
@@ -1263,5 +1292,5 @@ public class PlayerMovement : MonoBehaviour, IData
         movementEvent.SaveData(data);
         levelDataObj.SaveData(data);
 	}
-	#endregion
+    #endregion
 }

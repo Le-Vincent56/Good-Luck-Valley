@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour, IData
     private List<StudioEventEmitter> eventEmitters;
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
+    private EventInstance lotusPulseEventInstance;
 
     [Header("Areas")]
     [SerializeField] private MusicArea currentArea;
@@ -71,6 +72,8 @@ public class AudioManager : MonoBehaviour, IData
     public static AudioManager Instance { get; private set; }
     public EventInstance MusicEventInstance { get { return musicEventInstance; } }
     public EventInstance AmbienceEventInstance { get { return ambienceEventInstance; } }
+
+    public EventInstance LotusPulseEventInstance { get { return lotusPulseEventInstance; } }
     public MusicArea CurrentArea { get { return currentArea; } }
     public ForestLevel CurrentForestLevel { get { return currentForestLevel; } }
     public float CurrentForestProgression { get { return forestMusicProgression; } }
@@ -107,6 +110,7 @@ public class AudioManager : MonoBehaviour, IData
         // Initialize ambience and music
         InitializeMusic(FMODEvents.Instance.GameMusic);
         InitializeAmbience(FMODEvents.Instance.Ambience);
+        lotusPulseEventInstance = CreateEventInstance(FMODEvents.Instance.LotusPulse);
     }
 
     private void OnDisable()
@@ -172,6 +176,9 @@ public class AudioManager : MonoBehaviour, IData
                 
                 // Stop ambient sounds
                 ambienceBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+                // Stop lotus pulses
+                LotusPulseEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 break;
 
             case MusicArea.FOREST:

@@ -86,10 +86,6 @@ public class TutorialManager : MonoBehaviour
         {
             interactPrompt2.SetActive(false);
         }
-        else
-        {
-            interactPrompt2.SetActive(true);
-        }
     }
 
     public void EnableMovementPrompt()

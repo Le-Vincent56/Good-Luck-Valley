@@ -17,7 +17,6 @@ public class LotusPick : Interactable, IData
     #endregion
 
     #region FIELDS
-    private EventInstance lotusPulse;
     [SerializeField] private float interactRange;
     [SerializeField] private float fadeAmount;
     [SerializeField] private bool progressesMusic;
@@ -37,8 +36,6 @@ public class LotusPick : Interactable, IData
         {
             fadeAmount = 0.01f;
         }
-
-        lotusPulse = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.LotusPulse);
     }
 
     void Update()
@@ -113,11 +110,11 @@ public class LotusPick : Interactable, IData
 
             // Start the lotus sound
             PLAYBACK_STATE playbackStatePulse;
-            lotusPulse.getPlaybackState(out playbackStatePulse);
+            AudioManager.Instance.LotusPulseEventInstance.getPlaybackState(out playbackStatePulse);
             if (playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
             {
                 // If so, start it
-                lotusPulse.start();
+                AudioManager.Instance.LotusPulseEventInstance.start();
             }
         }
     }
@@ -142,7 +139,7 @@ public class LotusPick : Interactable, IData
             soundPercentage = playerDistance / maxSoundDistance;
 
             // Set the distance parameter for adaptive sound
-            lotusPulse.setParameterByName("LotusDistance", soundPercentage);
+            AudioManager.Instance.LotusPulseEventInstance.setParameterByName("LotusDistance", soundPercentage);
 
             // Dampen other sounds to really hone in on the effect
             AudioManager.Instance.DampenMusic(Mathf.Clamp(1f - soundPercentage, 0f, 1f));
@@ -154,11 +151,11 @@ public class LotusPick : Interactable, IData
         if(collision.gameObject.tag == "Player" && active)
         {
             PLAYBACK_STATE playbackStatePulse;
-            lotusPulse.getPlaybackState(out playbackStatePulse);
+            AudioManager.Instance.LotusPulseEventInstance.getPlaybackState(out playbackStatePulse);
             if (!playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
             {
                 // If so, start it
-                lotusPulse.stop(STOP_MODE.IMMEDIATE);
+                AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
             }
         }
     }
