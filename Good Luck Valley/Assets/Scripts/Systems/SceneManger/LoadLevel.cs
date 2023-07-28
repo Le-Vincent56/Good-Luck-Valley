@@ -100,7 +100,6 @@ public class LoadLevel : MonoBehaviour
 
                 // Start cutscene footstep noises
                 movementEvent.StartCutsceneFootstepEvent();
-                Debug.Log("Playing Enter Cutscene");
                 break;
 
             case LEVELPOS.RETURN:
@@ -115,7 +114,6 @@ public class LoadLevel : MonoBehaviour
 
                 // Start cutscene footstep noises
                 movementEvent.StartCutsceneFootstepEvent();
-                Debug.Log("Playing Return Cutscene");
                 break;
 
             case LEVELPOS.DEFAULT:

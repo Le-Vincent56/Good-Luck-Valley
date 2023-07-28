@@ -120,7 +120,6 @@ public class Journal : MonoBehaviour, IData
             // Update so that it is no longer the first time opening
             if (!hasOpenedOnce)
             {
-                Debug.Log("Setting Opened Once");
                 hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
             }
