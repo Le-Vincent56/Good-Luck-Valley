@@ -19,6 +19,7 @@ public class ThrowUI : MonoBehaviour
     private bool facingRight;
     private Vector2 launchForce;
     private Vector2 playerPos;
+    [SerializeField] private Vector2 offset;
     #endregion
 
     // Start is called before the first frame update
@@ -43,7 +44,6 @@ public class ThrowUI : MonoBehaviour
 
         // Sets the with in the lineRenderer using width field
         lineRenderer.startWidth = width;
-
 
         // Tells the lineRenderer to use worldspace for defining segmentsx`
         lineRenderer.useWorldSpace = true;
@@ -70,7 +70,7 @@ public class ThrowUI : MonoBehaviour
 
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
-        
+
         lineRenderer.material.mainTextureScale = new Vector2(1f, 1f);
 
         // Gravity acting on the shroom when it is being thrown
@@ -130,11 +130,11 @@ public class ThrowUI : MonoBehaviour
 
             // x position is determined by player x + velocity X multiplied
             //  by the amount of time passed
-            x = playerPos.x + launchForce.x * (tT);
+            x = (playerPos.x + (launchForce.x) * (tT));
 
             // y position is determined by player x + velocity x multiplied
             //  by time passed - half of gravity multiplied by twice the time passed
-            y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
+            y = (playerPos.y + (launchForce.y) * (tT) - 0.5f * g * (tT) * (tT));
 
             // Sets the position for this segment using the x and y generated above
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
@@ -181,7 +181,6 @@ public class ThrowUI : MonoBehaviour
 
                 // Collided is true
                 collided = true;
-
                 // Breaks out of the array
                 break;
             }
