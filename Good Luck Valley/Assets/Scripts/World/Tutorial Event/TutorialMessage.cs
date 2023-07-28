@@ -67,6 +67,9 @@ public class TutorialMessage : MonoBehaviour
 
     public void Show()
     {
+        // Stop other coroutines
+        StopAllCoroutines();
+
         if(gameObject.activeSelf != false)
         {
             // Fade in the message
@@ -76,8 +79,8 @@ public class TutorialMessage : MonoBehaviour
 
     public void Hide()
     {
-        // Stop fade-in coroutine
-        StopCoroutine(FadeIn());
+        // Stop other coroutines
+        StopAllCoroutines();
 
         // Make sure the game object isnt set to inactive
         if (gameObject.activeSelf != false)

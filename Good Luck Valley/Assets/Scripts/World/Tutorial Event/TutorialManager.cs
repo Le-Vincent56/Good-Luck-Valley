@@ -19,12 +19,14 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private JournalScriptableObj journalEvent;
     [SerializeField] private MushroomScriptableObj mushroomEvent;
     [SerializeField] private CameraScriptableObj cameraEvent;
+    [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private Camera UICam;
     #endregion
 
     #region FIELDS
     private bool updateMessages;
     private bool showThrowMessageTriggered = false;
+    private bool waitingToShow = false;
     #endregion
 
     #region PROPERTIES
@@ -139,9 +141,9 @@ public class TutorialManager : MonoBehaviour
         // Show the prompt
         if(mushroomEvent.GetFirstFull())
         {
+            waitingToShow = true;
             mushroomLimitPrompt.SetActive(true);
-            ShowOverPlayer(mushroomLimitPrompt);
-            mushroomLimitPrompt.GetComponent<TutorialMessage>().Show();
+            StartCoroutine(WaitUntilGrounded());
         }
     }
 
@@ -172,6 +174,23 @@ public class TutorialManager : MonoBehaviour
 
         // Set the objects position within canvas pos
         UIObject.transform.localPosition = canvasPos;
+    }
+
+    private IEnumerator WaitUntilGrounded()
+    {
+        // Wait until grounded
+        while(waitingToShow)
+        {
+            if(movementEvent.GetIsGrounded())
+            {
+                // When grounded, show the mushroom limit prompt
+                ShowOverPlayer(mushroomLimitPrompt);
+                mushroomLimitPrompt.GetComponent<TutorialMessage>().Show();
+                waitingToShow = false;
+            }
+
+            yield return null;
+        }
     }
 
     private IEnumerator WaitFor1Sec()
