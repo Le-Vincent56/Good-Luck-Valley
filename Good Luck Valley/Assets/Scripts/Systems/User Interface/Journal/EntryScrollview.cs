@@ -48,7 +48,7 @@ public class EntryScrollview : MonoBehaviour
     /// <param name="journalToRefresh"></param>
     public void SetEntries(Journal journalToRefresh)
     {
-        foreach(Note note in journalToRefresh.Notes)
+        foreach (Note note in journalToRefresh.Notes)
         {
             bool noteAlreadyAdded = false;
 
