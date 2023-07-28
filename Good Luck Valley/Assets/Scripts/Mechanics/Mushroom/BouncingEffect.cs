@@ -49,8 +49,6 @@ public class BouncingEffect : MonoBehaviour
             }
             movementEvent.SetIsTouchingWall(true);
             movementEvent.SetMushroomPosition(lowestPoint);
-            //mushroomEvent.SetTouchingShroom(true);
-            //mushroomEvent.TouchingShroom();
         }
     }
 
@@ -64,7 +62,11 @@ public class BouncingEffect : MonoBehaviour
             // Check to see if there is a shroom component
             if (shroomToBounce != null)
             {
-                // Cuts momentum before applying bounce 
+                // Remove tutorial message
+                if (mushroomEvent.GetFirstBounce())
+                {
+                    mushroomEvent.HideBounceMessage();
+                }
 
                 // Set touching shroom to true if colliding with the mushroom
                 mushroomEvent.SetTouchingShroom(true);
@@ -73,8 +75,8 @@ public class BouncingEffect : MonoBehaviour
                 shroomToBounce.Bounce();
             }
 
+            // Trigger shroom bounce animation, if it exists
             Animator shroomAnimator = collision.gameObject.GetComponent<Animator>();
-
             if(shroomAnimator != null)
             {
                 shroomAnimator.SetTrigger("Bouncing");

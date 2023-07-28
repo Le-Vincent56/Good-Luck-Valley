@@ -147,6 +147,9 @@ public class LoadLevel : MonoBehaviour
         // Save the game
         DataManager.Instance.SaveGame();
 
+        // Reset movement obj
+        movementEvent.ResetObj();
+
         // Check to see if the lotus cutscene needs to be played
         PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();
         if(camDirector != null)
@@ -182,6 +185,9 @@ public class LoadLevel : MonoBehaviour
 
         // Save the game
         DataManager.Instance.SaveGame();
+
+        // Reset movement obj
+        movementEvent.ResetObj();
 
         // Set the movement to 0 so there's no animation bugs
         movementEvent.SetMovementDirection(new Vector2(0, movementEvent.GetMovementVector().y));
