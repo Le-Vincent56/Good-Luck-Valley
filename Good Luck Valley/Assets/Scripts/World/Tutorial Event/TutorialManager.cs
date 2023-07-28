@@ -84,6 +84,10 @@ public class TutorialManager : MonoBehaviour
 
         if (journalEvent.GetOpenedOnce())
         {
+            interactPrompt2.SetActive(false);
+        }
+        else
+        {
             interactPrompt2.SetActive(true);
         }
     }
@@ -105,7 +109,7 @@ public class TutorialManager : MonoBehaviour
     public void ShowMushThrowMessage()
     {
         // Show the prompt
-        if(mushroomEvent.GetFirstThrow())
+        if(mushroomEvent.GetFirstThrow() && mushroomThrowPrompt != null)
         {
             ShowOverPlayer(mushroomThrowPrompt);
             mushroomThrowPrompt.GetComponent<TutorialMessage>().Show();
@@ -115,14 +119,17 @@ public class TutorialManager : MonoBehaviour
     public void HideMushThrowMessage()
     {
         // Hide the prompt
-        mushroomThrowPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
-        mushroomThrowPrompt.GetComponent<TutorialMessage>().Hide();
+        if(mushroomThrowPrompt != null)
+        {
+            mushroomThrowPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
+            mushroomThrowPrompt.GetComponent<TutorialMessage>().Hide();
+        }
     }
 
     public void ShowMushBounceMessage()
     {
         // Show the prompt
-        if(mushroomEvent.GetFirstBounce())
+        if(mushroomEvent.GetFirstBounce() && mushroomBouncePrompt != null)
         {
             ShowOverPlayer(mushroomBouncePrompt);
             mushroomBouncePrompt.GetComponent<TutorialMessage>().Show();
@@ -132,14 +139,17 @@ public class TutorialManager : MonoBehaviour
     public void HideMushBouceMessage()
     {
         // Hide the prompt
-        mushroomBouncePrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
-        mushroomBouncePrompt.GetComponent<TutorialMessage>().Hide();
+        if(mushroomBouncePrompt != null)
+        {
+            mushroomBouncePrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
+            mushroomBouncePrompt.GetComponent<TutorialMessage>().Hide();
+        }
     }
 
     public void ShowMushMaxMessage()
     {
         // Show the prompt
-        if(mushroomEvent.GetFirstFull())
+        if(mushroomEvent.GetFirstFull() && mushroomLimitPrompt != null)
         {
             waitingToShow = true;
             mushroomLimitPrompt.SetActive(true);
@@ -149,9 +159,12 @@ public class TutorialManager : MonoBehaviour
 
     public void HideMushMaxMessage()
     {
-        // Hide the prompt
-        mushroomLimitPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
-        mushroomLimitPrompt.GetComponent<TutorialMessage>().Hide();
+        if(mushroomLimitPrompt != null)
+        {
+            // Hide the prompt
+            mushroomLimitPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
+            mushroomLimitPrompt.GetComponent<TutorialMessage>().Hide();
+        }
     }
 
     public void ShowOverPlayer(GameObject UIObject)

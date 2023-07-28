@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Linq;
+using TMPro;
 
 public class Journal : MonoBehaviour, IData
 {
@@ -25,6 +26,7 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private bool openedFromKey = false;
     [SerializeField] private float journalCloseBuffer = 0.25f;
     [SerializeField] private bool canClose = false;
+    [SerializeField] private bool showTutorialMessage = false;
     #endregion
 
     #region PROPERTIES
@@ -51,7 +53,7 @@ public class Journal : MonoBehaviour, IData
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
 
-        if (journalEvent.GetTutorialMessage() == false)
+        if (!journalEvent.GetTutorialMessage())
         {
             journalTutorialMessage.enabled = false;
             //journalTutorialMessage.GetComponent<Shadow>().enabled = false;
@@ -92,11 +94,7 @@ public class Journal : MonoBehaviour, IData
             journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
 
-        if (journalEvent.GetTutorialMessage() == false) 
-        {
-            journalTutorialMessage.enabled = false;
-            //journalTutorialMessage.GetComponent<Shadow>().enabled = false;
-        }
+        CheckJournalTutorial();
     }
 
     /// <summary>
@@ -246,6 +244,20 @@ public class Journal : MonoBehaviour, IData
         journalEvent.SetCanOpen(true);
     }
 
+    /// <summary>
+    /// Check if the journal tutorial needs to be enabled or disabled
+    /// </summary>
+    public void CheckJournalTutorial()
+    {
+        if (!journalEvent.GetTutorialMessage())
+        {
+            journalTutorialMessage.enabled = false;
+        } else
+        {
+            journalTutorialMessage.enabled = true;
+        }
+    }
+
     #region EVENT FUNCTIONS
     /// <summary>
     /// Add a Note to the Journal
@@ -273,8 +285,13 @@ public class Journal : MonoBehaviour, IData
         hasJournal = data.hasJournal;
         journalEvent.SetHasJournal(hasJournal);
 
+        // Set if the player has opened the journal for the first time
         hasOpenedOnce = data.hasOpenedJournalOnce;
         journalEvent.SetOpenedOnce(hasOpenedOnce);
+
+        // Set if the tutorial message needs to be shown
+        showTutorialMessage = data.showJournalTutorial;
+        journalEvent.SetTutorialMessage(showTutorialMessage);
     }
 
     public void SaveData(GameData data)
@@ -297,6 +314,9 @@ public class Journal : MonoBehaviour, IData
 
         // Save if the player has opened the journal or not
         data.hasOpenedJournalOnce = hasOpenedOnce;
+
+        // Save if the tutorial message needs to be shown
+        data.showJournalTutorial = showTutorialMessage;
     }
     #endregion
 }
