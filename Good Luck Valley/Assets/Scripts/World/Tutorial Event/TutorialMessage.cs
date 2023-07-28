@@ -57,23 +57,30 @@ public class TutorialMessage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Stop the currently running coroutines
-        StopCoroutine(FadeIn());
-        StopCoroutine(FadeOut());
-        
-        // Make sure the game object isnt set to inactive
-        if (gameObject.activeSelf != false)
+        Show();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Hide();
+    }
+
+    public void Show()
+    {
+        // Stop other coroutines
+        StopAllCoroutines();
+
+        if(gameObject.activeSelf != false)
         {
             // Fade in the message
             StartCoroutine(FadeIn());
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void Hide()
     {
-        // Stop the currently runnnig coroutines
-        StopCoroutine(FadeIn());
-        StopCoroutine(FadeOut());
+        // Stop other coroutines
+        StopAllCoroutines();
 
         // Make sure the game object isnt set to inactive
         if (gameObject.activeSelf != false)
@@ -99,14 +106,15 @@ public class TutorialMessage : MonoBehaviour
         while (messageText.color.a >= 0)
         {
             messageText.color = new Color(1, 1, 1, messageText.color.a - fadeAmount);
-            yield return null;
-        }
 
-        // Check if we need to remove this message
-        if (removeMessage)
-        {
-            // If so, set it to inactive
-            gameObject.SetActive(false);
+            // Check if we need to remove this message
+            if (messageText.color.a < 0 && removeMessage)
+            {
+                // If so, set it to inactive
+                gameObject.SetActive(false);
+            }
+
+            yield return null;
         }
     }
 

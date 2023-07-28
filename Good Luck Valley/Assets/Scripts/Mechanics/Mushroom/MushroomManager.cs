@@ -72,6 +72,9 @@ public class MushroomManager : MonoBehaviour, IData
     [SerializeField] private bool firstTimeHittingMax = true;
     [SerializeField] private bool firstTimeRecalling = true;
     private bool throwLineOn;
+    private bool firstThrow;
+    private bool firstBounce;
+    private bool firstFull;
     #endregion
 
     #region PROPERTIES
@@ -179,12 +182,6 @@ public class MushroomManager : MonoBehaviour, IData
         //forceDirection = cam.ScreenToWorldPoint(new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y)) - playerRB.transform.position;
         //forceDirection = cam.ScreenToWorldPoint(Input.mousePosition) - playerRB.transform.position;
 
-        if(usingTutorial && firstTimeHittingMax && mushroomList.Count == 3)
-        {
-            tutorialEvent.ShowingRemoveText = true;
-            firstTimeHittingMax = false;
-        }
-
         // Trigger CheckThrow Event
         mushroomEvent.CheckThrow();
 
@@ -213,6 +210,20 @@ public class MushroomManager : MonoBehaviour, IData
             StickShrooms();
             // TriggerPlatforms(); moved to stick shrooms to save some memory
         }
+
+        if(mushroomList.Count == mushroomLimit)
+        {
+            // Set if it's the first time the player has hit 3 mushrooms
+            if (!mushroomEvent.GetFirstFull())
+            {
+                // Set first full
+                firstFull = true;
+
+                // Show the tutorial message about removing mushrooms
+                mushroomEvent.ShowMaxMessage();
+            }
+        }
+
 
         CheckIfCanThrow();
         CheckShroomDuration();
@@ -304,6 +315,7 @@ public class MushroomManager : MonoBehaviour, IData
 
             if (mushroomLimit == 3)
             {
+                // Update counter
                 shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
                 mInfo.ResetCounter();
             }
@@ -549,6 +561,14 @@ public class MushroomManager : MonoBehaviour, IData
                 // Check if the shroom can be thrown
                 if (canThrow)
                 {
+                    // Remove tutorial message
+                    if(mushroomEvent.GetFirstThrow())
+                    {
+                        firstThrow = false;
+                        mushroomEvent.HideThrowMessage();
+                        mushroomEvent.ShowBounceMessage();
+                    }
+
                     throwing = true;
 
                     // Throw the shroom
@@ -642,6 +662,12 @@ public class MushroomManager : MonoBehaviour, IData
             // On initial button press
             if (context.started)
             {
+                // Hide the mushroom max tutorial message if showing
+                if (mushroomEvent.GetShowingMaxMessage())
+                {
+                    mushroomEvent.HideMaxMessage();
+                }
+
                 // Loops through all mushrooms in the mushroomList
                 foreach (GameObject m in mushroomList)
                 {
@@ -680,6 +706,12 @@ public class MushroomManager : MonoBehaviour, IData
                 // Checks if the mushroomCount isn't 0
                 if (mushroomList.Count != 0)
                 {
+                    // Hide the mushroom max tutorial message if showing
+                    if (mushroomEvent.GetShowingMaxMessage())
+                    {
+                        mushroomEvent.HideMaxMessage();
+                    }
+
                     // Destroys the mushroom at the front of the list   
                     if (mushroomLimit == 3)
                     {
@@ -805,15 +837,21 @@ public class MushroomManager : MonoBehaviour, IData
     public void LoadData(GameData data)
     {
         // Set whether or not the player has their throw unlocked depending on data
+        firstThrow = data.firstThrow;
+        firstBounce = data.firstBounce;
+        firstFull = data.firstFull;
         throwUnlocked = data.throwUnlocked;
+        mushroomEvent.SetFirstThrow(firstThrow);
+        mushroomEvent.SetFirstBounce(firstBounce);
+        mushroomEvent.SetFirstFull(firstFull);
         mushroomEvent.SetThrowUnlocked(throwUnlocked);
-
-        // Load throwing data - setting throwing to false for animations
-        mushroomEvent.LoadData(data);
     }
 
     public void SaveData(GameData data)
     {
+        data.firstThrow = firstThrow;
+        data.firstBounce = firstBounce;
+        data.firstFull = firstFull;
         data.throwUnlocked = throwUnlocked;
     }
     #endregion

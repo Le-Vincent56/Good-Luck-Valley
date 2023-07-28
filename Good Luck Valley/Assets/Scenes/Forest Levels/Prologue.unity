@@ -1346,7 +1346,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8f4d3dbef9fb2a44ba962320df34fb62, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -57890,6 +57890,7 @@ RectTransform:
   m_Children:
   - {fileID: 1688928001}
   - {fileID: 119488674}
+  - {fileID: 1978874592}
   - {fileID: 1663130744}
   m_Father: {fileID: 0}
   m_RootOrder: 22
@@ -57919,12 +57920,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb19fdd4d5d053149aa499e72c3e719e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 401034194}
   interactPrompt: {fileID: 119488678}
   interactableObject: {fileID: 1916335995}
   interactPrompt2: {fileID: 1663130743}
+  mushroomThrowPrompt: {fileID: 590330983}
+  mushroomBouncePrompt: {fileID: 1648248921}
+  mushroomLimitPrompt: {fileID: 1978874591}
   movementPrompt: {fileID: 1688928000}
   cutsceneEvent: {fileID: 11400000, guid: 876f3bec107b97a4095b015d6d365fb3, type: 2}
   journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
+  mushroomEvent: {fileID: 11400000, guid: 7d92506008c604d4b940160fec1a21e2, type: 2}
+  cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
+  movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+  UICam: {fileID: 203086902}
 --- !u!1 &547219452
 GameObject:
   m_ObjectHideFlags: 0
@@ -58518,7 +58527,6 @@ GameObject:
   - component: {fileID: 590330984}
   - component: {fileID: 590330986}
   - component: {fileID: 590330985}
-  - component: {fileID: 590330987}
   - component: {fileID: 590330988}
   - component: {fileID: 590330989}
   m_Layer: 0
@@ -58541,11 +58549,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1663130744}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.402603, y: -6.550003}
+  m_AnchoredPosition: {x: 8.402603, y: -18.58}
   m_SizeDelta: {x: 489.68, y: 224.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &590330985
@@ -58569,7 +58577,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8f4d3dbef9fb2a44ba962320df34fb62, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -58590,32 +58598,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590330983}
   m_CullTransparentMesh: 1
---- !u!61 &590330987
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 590330983}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 304.3084, y: 146.34}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 962, y: 1697.36}
-  m_EdgeRadius: 0
 --- !u!114 &590330988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71779,7 +71761,6 @@ GameObject:
   - component: {fileID: 1648248922}
   - component: {fileID: 1648248924}
   - component: {fileID: 1648248923}
-  - component: {fileID: 1648248925}
   - component: {fileID: 1648248926}
   - component: {fileID: 1648248927}
   m_Layer: 0
@@ -71802,11 +71783,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1663130744}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 14.30603, y: -4.935999}
+  m_AnchoredPosition: {x: 14.30603, y: -17.82}
   m_SizeDelta: {x: 396.35, y: 46.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1648248923
@@ -71830,7 +71811,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8f4d3dbef9fb2a44ba962320df34fb62, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -71851,32 +71832,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648248921}
   m_CullTransparentMesh: 1
---- !u!61 &1648248925
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648248921}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -286.44318, y: -14.920013}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 962, y: 1697.36}
-  m_EdgeRadius: 0
 --- !u!114 &1648248926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72104,11 +72059,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1978874592}
   - {fileID: 590330984}
   - {fileID: 1648248922}
   m_Father: {fileID: 537902707}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -72208,7 +72162,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8f4d3dbef9fb2a44ba962320df34fb62, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -73914,9 +73868,17 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6934267981133021769, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -117.700134
+      objectReference: {fileID: 0}
     - target: {fileID: 6934267981150708416, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934267981277640121, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -46.46499
       objectReference: {fileID: 0}
     - target: {fileID: 6934267981321558900, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
@@ -76936,16 +76898,15 @@ GameObject:
   - component: {fileID: 1978874592}
   - component: {fileID: 1978874595}
   - component: {fileID: 1978874594}
-  - component: {fileID: 1978874593}
   - component: {fileID: 1978874596}
   - component: {fileID: 1978874597}
   m_Layer: 0
-  m_Name: MushroomTrigger
+  m_Name: MushMaxTrigger
   m_TagString: TutorialMessage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1978874592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -76958,40 +76919,14 @@ RectTransform:
   m_LocalScale: {x: 0.01, y: 0.01, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1663130744}
-  m_RootOrder: 0
+  m_Father: {fileID: 537902707}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.851, y: -4.752}
+  m_AnchoredPosition: {x: 0, y: -4.7519984}
   m_SizeDelta: {x: 630.5531, y: 438.618}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!61 &1978874593
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978874591}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 58.2294, y: -32.6109}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 962, y: 1697.36}
-  m_EdgeRadius: 0
 --- !u!114 &1978874594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77013,7 +76948,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8f4d3dbef9fb2a44ba962320df34fb62, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -80840,11 +80775,11 @@ PrefabInstance:
       objectReference: {fileID: 1310835847}
     - target: {fileID: 7691238257605692382, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.00015068054
+      value: -0.00015258789
       objectReference: {fileID: 0}
     - target: {fileID: 7691238257605692382, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2171402
+      value: 0.21766949
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_RootOrder
@@ -80852,11 +80787,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.459848
+      value: -27.459846
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.1128597
+      value: 7.1123304
       objectReference: {fileID: 0}
     - target: {fileID: 7691238258581287181, guid: f70cf4d0f4f03724e8e244bafb507cb2, type: 3}
       propertyPath: m_LocalPosition.z

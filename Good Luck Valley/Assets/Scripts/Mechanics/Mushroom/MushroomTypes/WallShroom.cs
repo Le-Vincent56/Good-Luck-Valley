@@ -73,7 +73,7 @@ public class WallShroom : Shroom
         showForce = forceToApply;
 
         // Disable input
-        disableEvent.SetInputCooldown(0.05f);
+        disableEvent.SetInputCooldown(0.15f);
         disableEvent.StopInput();
 
         // Apply bounce
@@ -82,6 +82,7 @@ public class WallShroom : Shroom
             bouncing = true;
         }
 
+        movementEvent.SetIsBounceAnimating(true);
         movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 

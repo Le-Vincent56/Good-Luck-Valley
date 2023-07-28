@@ -53,6 +53,9 @@ public class GameData
 
     #region SHROOM
     public bool throwUnlocked;
+    public bool firstThrow;
+    public bool firstBounce;
+    public bool firstFull;
     #endregion
 
     #region JOURNAL
@@ -80,6 +83,9 @@ public class GameData
 
         #region SHROOM
         throwUnlocked = false;
+        firstThrow = true;
+        firstBounce = true;
+        firstFull = false;
         #endregion
 
         #region JOURNAL

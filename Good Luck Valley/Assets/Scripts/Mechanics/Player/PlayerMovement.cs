@@ -187,12 +187,6 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Update()
 	{
-
-        //Debug.Log("Jumping?: " + isJumping);
-        //Debug.Log("Falling?: " + isJumpFalling);
-        //Debug.Log("Landed?: " + landed);
-        //Debug.Log("Grounded?: " + isGrounded);
-
         // Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
@@ -244,6 +238,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 // If bouncing before and the bounce buffer has ended, end bouncing
                 if (bouncing && bounceBuffer <= 0)
                 {
+                    disableEvent.EnableInput();
                     bouncing = false;
                     movementEvent.SetIsBounceAnimating(false);
                 }
@@ -262,7 +257,6 @@ public class PlayerMovement : MonoBehaviour, IData
             // If bouncing before and the bounce buffer has ended, end bouncing
             if (bouncing && bounceBuffer <= 0)
             {
-                bouncing = false;
                 movementEvent.SetIsBounceAnimating(false);
             }
         }
@@ -408,10 +402,10 @@ public class PlayerMovement : MonoBehaviour, IData
                     SetGravityScale(data.gravityScale);
                 }
             }
-            else if (RB.velocity.y < 0 && movementEvent.GetIsTouchingWall()) // If wall sliding
+            else if (RB.velocity.y < 0 && movementEvent.GetIsTouchingWall()) // If sliding down a wall
             {
                 // Lower gravity if sliding on a wall
-                SetGravityScale(data.gravityScale * data.wallSlideGravityMult);
+                SetGravityScale(data.gravityScale * data.wallSlideGravityMultDown);
 
                 // Caps maximum slide speed
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxWallSlideSpeed));
@@ -453,11 +447,17 @@ public class PlayerMovement : MonoBehaviour, IData
             // If bouncing upwards, using bounceGravity
             if (RB.velocity.y > 0)
             {
-                // Higher gravity if falling
-                SetGravityScale(data.gravityScale * data.bounceGravityMult);
+                if(movementEvent.GetIsTouchingWall()) // Check if touching a wall
+                {
+                    SetGravityScale(data.gravityScale * data.wallSlideGravityMultBounceUp);
+                } else
+                {
+                    // Higher gravity if falling
+                    SetGravityScale(data.gravityScale * data.bounceGravityMult);
 
-                // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
+                    // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+                    RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
+                }
 			}
 			else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling from bounce
 			{
