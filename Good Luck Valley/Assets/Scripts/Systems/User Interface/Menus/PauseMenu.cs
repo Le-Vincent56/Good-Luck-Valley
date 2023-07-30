@@ -4,50 +4,72 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using FMOD.Studio;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, IData
 {
     #region REFERENCES
+    [SerializeField] PauseScriptableObj pauseEvent;
+    [SerializeField] JournalScriptableObj journalEvent;
+    [SerializeField] DisableScriptableObj disableEvent;
+    [SerializeField] SaveMenuScriptableObj saveMenuEvent;
     private Canvas pauseUI;
-    private PlayerMovement playerMovement;
-    private Journal journalMenu;
-    private Button pauseSettingsButton;
+    private Canvas settingsUI;
     #endregion
 
     #region FIELDS
     [SerializeField] private bool paused = false;
+    private string levelName;
+    private float playtimeTotal;
+    private float playtimeHours;
+    private float playtimeMinutes;
+    private float playtimeSeconds;
+    private string playtimeString;
     #endregion
 
     #region PROPERTIES
-    public bool Paused { get { return paused; } set { paused = value; } }
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        journalMenu = GameObject.Find("JournalUI").GetComponent<Journal>();
         pauseUI = GameObject.Find("PauseUI").GetComponent<Canvas>();
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        pauseSettingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
         pauseUI.enabled = false;
-    }
+        settingsUI = GameObject.Find("SettingsUI").GetComponent<Canvas>();  
+        settingsUI.enabled = false;
 
-    public void Update()
-    {
-        pauseSettingsButton.targetGraphic.color = pauseSettingsButton.colors.disabledColor;
-        pauseSettingsButton.interactable = false;
+        levelName = SceneManager.GetActiveScene().name;
+
+        // Start time record coroutine
+        StartCoroutine(RecordTimeRoutine());
     }
 
     /// <summary>
-    /// Pause the Game
+    /// Toggle the pause menu
     /// </summary>
-    /// <param name="context">The context of the Controller</param>    
-    public void Pause(InputAction.CallbackContext context)
+    /// <param name="context">The context of the controller</param>
+    public void TogglePause(InputAction.CallbackContext context)
     {
-        paused = true;
-        pauseUI.enabled = true;
-        playerMovement.MoveInput = Vector2.zero;
-        Time.timeScale = 0;
+        if((!journalEvent.GetJournalOpen() && journalEvent.GetCloseBuffer() <= 0) && (!saveMenuEvent.GetSaveMenuOpen() && saveMenuEvent.GetSaveCloseBuffer() <= 0) && pauseEvent.GetCanPause() && !settingsUI.enabled)
+        {
+            if (!paused)
+            {
+                paused = true;
+                pauseUI.enabled = true;
+                Time.timeScale = 0;
+                pauseEvent.Pause();
+                pauseEvent.SetPauseMenuOpen(true);
+            }
+            else
+            {
+                paused = false;
+                pauseUI.enabled = false;
+                Time.timeScale = 1f;
+                pauseEvent.Unpause();
+                pauseEvent.SetPauseMenuOpen(false);
+            }
+        }
     }
 
     /// <summary>
@@ -55,11 +77,16 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void Continue()
     {
-        if(!journalMenu.MenuOpen)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen() && !settingsUI.enabled)
         {
             paused = false;
             pauseUI.enabled = false;
             Time.timeScale = 1f;
+            pauseEvent.Unpause();
+            pauseEvent.SetPauseMenuOpen(false);
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
         }
     }
    
@@ -67,13 +94,44 @@ public class PauseMenu : MonoBehaviour
     /// Take the Player to Settings screen
     /// </summary>
     /// <param name="scene">The scene number that represents the Settings scene</param>
-    public void Settings(int scene)
+    public void Settings()
     {
-        if(!journalMenu.MenuOpen)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen() && !settingsUI.enabled)
         {
+            paused = true;
+            pauseUI.enabled = false;
             Time.timeScale = 0f;
-            SceneManager.LoadScene(scene);
+            settingsUI.enabled = true;
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
         }
+    }
+
+    public void CloseSettings()
+    {
+        Debug.Log("Close Settings");
+        pauseUI.enabled = true;
+        settingsUI.enabled = false;
+        paused = true;
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+    }
+
+    /// <summary>
+    /// Save the Game
+    /// </summary>
+    public void Save()
+    {
+        // Disable pause UI
+        pauseUI.enabled = false;
+
+        // Activate the save menu
+        saveMenuEvent.ActivateSaveMenu();
+
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
     }
 
     /// <summary>
@@ -82,10 +140,54 @@ public class PauseMenu : MonoBehaviour
     /// <param name="scene">Scene number that represents Quitting to Title</param>
     public void Quit(int scene)
     {
-        if(!journalMenu.MenuOpen)
+        if(!journalEvent.GetJournalOpen() && !saveMenuEvent.GetSaveMenuOpen())
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(scene);
+            pauseEvent.SetPauseMenuOpen(false);
+
+            // Play sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
         }
     }
+
+    /// <summary>
+    /// Coroutine to record playtime
+    /// </summary>
+    /// <returns>The total time played stored in variables</returns>
+    public IEnumerator RecordTimeRoutine()
+    {
+        while(!paused)
+        {
+            // Record playtime every second
+            yield return new WaitForSeconds(1);
+            playtimeTotal += 1;
+        }
+    }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        levelName = data.currentLevelName;
+        playtimeTotal = data.playtimeTotal;
+        playtimeString = data.playtimeString;
+    }
+
+    public void SaveData(GameData data)
+    {
+        #region CALCULATE PLAYTIME
+        // Turn playtime into hours, minutes, and seconds
+        playtimeHours = (int)(playtimeTotal / 3600) % 24;
+        playtimeMinutes = (int)(playtimeTotal / 60) % 60;
+        playtimeSeconds = (int)playtimeTotal % 60;
+
+        // Create a playtime string
+        playtimeString = playtimeHours + ":" + playtimeMinutes + ":" + playtimeSeconds;
+        #endregion
+
+        data.currentLevelName = levelName;
+        data.playtimeTotal = playtimeTotal;
+        data.playtimeString = playtimeString;
+    }
+    #endregion
 }

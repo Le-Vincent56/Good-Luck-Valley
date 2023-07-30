@@ -6,15 +6,20 @@ using UnityEngine;
 public class ThrowUI : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private MovementScriptableObj movementEvent;
     private MushroomManager mushroomManager;
     private GameObject player;
     #endregion
 
     #region FIELDS
     private int segments;
-    private float width;
+    [SerializeField] private float width;
     private LineRenderer lineRenderer = null;
     private Vector3[] lineRendererStartingPoints = null;
+    private bool facingRight;
+    private Vector2 launchForce;
+    private Vector2 playerPos;
+    [SerializeField] private Vector2 offset;
     #endregion
 
     // Start is called before the first frame update
@@ -24,10 +29,10 @@ public class ThrowUI : MonoBehaviour
         player = GameObject.Find("Player");
 
         // Width of the line
-        width = 0.2f;
+        width = 0.1f;
 
         // Number of segments for the trajectory line
-        segments = 300;  
+        segments = 200;  
 
         // Gets the LineRenderer component from the lineRenderer game object applied in inspector
         lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -38,8 +43,6 @@ public class ThrowUI : MonoBehaviour
         lineRendererStartingPoints = new Vector3[segments];
 
         // Sets the with in the lineRenderer using width field
-        lineRenderer.startWidth = width;
-
 
         // Tells the lineRenderer to use worldspace for defining segmentsx`
         lineRenderer.useWorldSpace = true;
@@ -60,16 +63,21 @@ public class ThrowUI : MonoBehaviour
     /// <param name="facingRight"> Whether the player is facing left or right</param>
     public void PlotTrajectory(Vector2 playerPos, Vector2 launchForce, bool facingRight)
     {
+        this.launchForce = launchForce;
+        this.facingRight = facingRight;
+        this.playerPos = playerPos;
+
         // Sets the position count to be the segment count
         lineRenderer.positionCount = segments;
-        
+
         lineRenderer.material.mainTextureScale = new Vector2(1f, 1f);
+        lineRenderer.startWidth = width;
 
         // Gravity acting on the shroom when it is being thrown
         const float g = 9.8f;
 
         // Determines how trajectoy line will be
-        float timeStep = .05f;
+        float timeStep = .04f;
 
         // Total time that has passed since the lineRenderer started rendering
         float tT = 0f; 
@@ -78,33 +86,37 @@ public class ThrowUI : MonoBehaviour
         float x;
         float y;
 
-        // Checks whether the player is facing right or left
-        switch (facingRight)
+        if(movementEvent.GetCanTurn())
         {
-            case true:
-                // If they are facing right the trajectory line cannot go past the left 
-                //    side of the player 
-                if (playerPos.x + launchForce.x < playerPos.x)
-                {
-                    // Turns the player by calling playerMovement's Turn method
-                    player.GetComponent<PlayerMovement>().Turn();
-                }
-                // Sets starting position for line to match the location the shrooms are
-                //      spawned from with the offset
-                break;
+            // Checks whether the player is facing right or left
+            switch (facingRight)
+            {
+                case true:
+                    // If they are facing right the trajectory line cannot go past the left 
+                    //    side of the player 
+                    if (playerPos.x + launchForce.x < playerPos.x)
+                    {
+                        // Turns the player by calling playerMovement's Turn method
+                        player.GetComponent<PlayerMovement>().Turn();
+                    }
+                    // Sets starting position for line to match the location the shrooms are
+                    //      spawned from with the offset
+                    break;
 
-            case false:
-                // if the player is facing left the trajectory line cannot go past
-                //      the right side of the player
-                if (playerPos.x - launchForce.x < playerPos.x)
-                {
-                    // sets launchforce to zero to 'stop' the renderer
-                    player.GetComponent<PlayerMovement>().Turn();
-                }
-                // sets starting position for line to match the location the shrooms are
-                //      spawned from with the offseta
-                break;
+                case false:
+                    // if the player is facing left the trajectory line cannot go past
+                    //      the right side of the player
+                    if (playerPos.x - launchForce.x < playerPos.x)
+                    {
+                        // sets launchforce to zero to 'stop' the renderer
+                        player.GetComponent<PlayerMovement>().Turn();
+                    }
+                    // sets starting position for line to match the location the shrooms are
+                    //      spawned from with the offseta
+                    break;
+            }
         }
+        
 
         // Sets the position for the first segment using player position
         Vector3 start = new Vector3(playerPos.x, playerPos.y, 0);
@@ -118,11 +130,11 @@ public class ThrowUI : MonoBehaviour
 
             // x position is determined by player x + velocity X multiplied
             //  by the amount of time passed
-            x = playerPos.x + launchForce.x * (tT);
+            x = (playerPos.x + (launchForce.x) * (tT));
 
             // y position is determined by player x + velocity x multiplied
             //  by time passed - half of gravity multiplied by twice the time passed
-            y = playerPos.y + launchForce.y * (tT) - 0.5f * g * (tT) * (tT);
+            y = (playerPos.y + (launchForce.y) * (tT) - 0.5f * g * (tT) * (tT));
 
             // Sets the position for this segment using the x and y generated above
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
@@ -169,7 +181,6 @@ public class ThrowUI : MonoBehaviour
 
                 // Collided is true
                 collided = true;
-
                 // Breaks out of the array
                 break;
             }
@@ -194,6 +205,39 @@ public class ThrowUI : MonoBehaviour
     /// </summary>
     public void DeleteLine()
     {
-        lineRenderer.positionCount = 0;
+        if (lineRenderer)
+        {
+            lineRenderer.positionCount = 0;
+
+            if(movementEvent.GetCanTurn())
+            {
+                switch (facingRight)
+                {
+                    case true:
+                        // If they are facing right the trajectory line cannot go past the left 
+                        //    side of the player 
+                        if (player.GetComponent<Rigidbody2D>().velocity.x < 0 && playerPos.x - launchForce.x < playerPos.x)
+                        {
+                            // Turns the player by calling playerMovement's Turn method
+                            player.GetComponent<PlayerMovement>().Turn();
+                        }
+                        // Sets starting position for line to match the location the shrooms are
+                        //      spawned from with the offset
+                        break;
+
+                    case false:
+                        // if the player is facing left the trajectory line cannot go past
+                        //      the right side of the player
+                        if (player.GetComponent<Rigidbody2D>().velocity.x > 0 && playerPos.x + launchForce.x < playerPos.x)
+                        {
+                            // sets launchforce to zero to 'stop' the renderer
+                            player.GetComponent<PlayerMovement>().Turn();
+                        }
+                        // sets starting position for line to match the location the shrooms are
+                        //      spawned from with the offseta
+                        break;
+                }
+            }
+        }
     }
 }

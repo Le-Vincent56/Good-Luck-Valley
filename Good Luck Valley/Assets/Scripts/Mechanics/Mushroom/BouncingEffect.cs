@@ -1,82 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class BouncingEffect : MonoBehaviour
 {
     #region REFERENCES
-    private Rigidbody2D RB;
-    private Animator animator;
-    private PlayerMovement playerMovement;
-    private BoxCollider2D playerCollider;
-    [SerializeField] PlayerData playerData;
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     #endregion
 
     #region FIELDS
-    #region TUTORIAL
-    [SerializeField] Tutorial tutorialManager;
-    private bool firstBounce = true;
-    #endregion
-
     [Header("Bounce Variables")]
-    [SerializeField] float minSpeed = 100f; // 140 original minimumSpeed
-    [SerializeField] private bool bouncing;
     [SerializeField] private bool canBounce;
     [SerializeField] private bool onCooldown = false;
-    private float bounceBuffer = 0.1f;
-    private float cooldown = 0.1f;
-
-    private float speed;
-    private Vector2 direction;
-    [SerializeField] private Vector2 lastVelocity;
+    [SerializeField] float bounceClampMin = 0.4f;
+    [SerializeField] float bounceClampMax = 0.6f;
+    [SerializeField] private Vector3 showForce;
+    [SerializeField] private float rotateAngle;
     #endregion
 
     #region PROPERTIES
-    public bool Bouncing { get { return bouncing; } set { bouncing = value; } }
     public bool CanBounce { get { return canBounce; } set { canBounce = value; } }
-    public float BounceBuffer { get { return bounceBuffer; } set { bounceBuffer = value; } }
     #endregion
-
-    void Start()
-    {
-        // Get components
-        RB = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        playerMovement = GetComponent<PlayerMovement>();
-        playerCollider = GetComponent<BoxCollider2D>();
-
-        // PlayerData is added through the Inspector
-        // tutorialManager is added through the Inspector
-
-        cooldown = 0.1f;
-
-    }
-
-    void Update()
-    {
-        // Create a bounce buffer so that if the player immediately hits a slope
-        // or wall, it does not end the bouncing
-        if(bounceBuffer > 0 && bouncing)
-        {
-            bounceBuffer -= Time.deltaTime;
-        }
-
-
-
-        if (onCooldown)
-        {
-            cooldown -= Time.deltaTime;
-        }
-
-        if(cooldown <= 0)
-        {
-            onCooldown = false;
-            cooldown = 0.1f;
-        }
-
-        // Get last velocity
-        lastVelocity = RB.velocity;
-    }
 
     /// <summary>
     /// Checks Collisions, specifically with Mushrooms, and sees if a bounce can trigger
@@ -84,72 +34,99 @@ public class BouncingEffect : MonoBehaviour
     /// <param name="collision">The Collision2D triggering the collision</param>
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if colliding with a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom") && RB.velocity.x < 0.1f && !onCooldown)
+        if (collision.gameObject.name == "WallJump")
         {
-            // If there is a tutorialManager, and firstBounece is true,
-            // don't show bounce tutorial text and set firstBounce to false
-            if (tutorialManager != null && firstBounce)
-            {
-                tutorialManager.ShowingBounceText = false;
-                firstBounce = false;
+            ContactPoint2D[] contacts = collision.contacts;
+
+            Vector2 lowestPoint = contacts[0].point;
+
+            for (int i = 0; i < contacts.Length; i++) 
+            { 
+                if (contacts[i].point.y < lowestPoint.y)
+                {
+                    lowestPoint = contacts[i].point;
+                }
             }
-
-            // Set bouncing to true
-            bouncing = true;
-            bounceBuffer = 0.1f;
-
-            // Reset landed timer
-            playerMovement.LandedTimer = 0.2f;
-
-            // Set the MushroomInfo to bouncing
-            animator.SetTrigger("Bouncing");
-            collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
-            collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
-
-            // Set the direction
-            direction = Vector2.up;
-
-            RB.AddForce(direction * minSpeed, ForceMode2D.Impulse);
-            onCooldown = true;
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(lowestPoint);
         }
-        else if (collision.gameObject.tag.Equals("Mushroom") && canBounce && !onCooldown)
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!mushroomEvent.IsTouchingShroom && collision.gameObject.tag == "Mushroom")
         {
-            // If there is a tutorialManager, and firstBounece is true,
-            // don't show bounce tutorial text and set firstBounce to false
-            if (tutorialManager != null && firstBounce)
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
+
+            // Check to see if there is a shroom component
+            if (shroomToBounce != null)
             {
-                tutorialManager.ShowingBounceText = false;
-                firstBounce = false;
+                // Remove tutorial message
+                if (mushroomEvent.GetFirstBounce())
+                {
+                    mushroomEvent.HideBounceMessage();
+                }
+
+                // Set touching shroom to true if colliding with the mushroom
+                mushroomEvent.SetTouchingShroom(true);
+                mushroomEvent.TouchingShroom();
+                movementEvent.SetIsGrounded(false);
+                shroomToBounce.Bounce();
             }
 
-            // Set bouncing to true
-            bouncing = true;
-            bounceBuffer = 0.1f;
+            // Trigger shroom bounce animation, if it exists
+            Animator shroomAnimator = collision.gameObject.GetComponent<Animator>();
+            if(shroomAnimator != null)
+            {
+                shroomAnimator.SetTrigger("Bouncing");
+            }
+        }
+    }
 
-            // Reset landed timer
-            playerMovement.LandedTimer = 0.2f;
+    /// <summary>
+    /// Checks for when the object is not touching the Mushroom
+    /// </summary>
+    /// <param name="collision">The Collision2D checking for an exit</param>
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "WallJump")
+        {
+            movementEvent.SetIsTouchingWall(false);
+        }
+    }
 
-            // Set the MushroomInfo to bouncing
-            animator.SetTrigger("Bouncing");
-            collision.gameObject.GetComponent<MushroomInfo>().Bouncing = true;
-            collision.gameObject.GetComponent<MushroomInfo>().BouncingTimer = 1f;
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "WallJump")
+        {
+            ContactPoint2D[] contacts = collision.contacts;
 
-            // Get the calculated speed based on last Velocity
-            speed = lastVelocity.magnitude;
+            Vector2 lowestPoint = contacts[0].point;
 
-            //Vector2 velDirection = lastVelocity.normalized;
-            //if (speed <= 0.01f)
-            //{
-            //    velDirection = Vector2.up;
-            //    speed = 5f;
-            //}
+            for (int i = 0; i < contacts.Length; i++)
+            {
+                if (contacts[i].point.y < lowestPoint.y)
+                {
+                    lowestPoint = contacts[i].point;
+                }
+            }
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(lowestPoint);
+            movementEvent.SetWallCollisionPoint(contacts[0].point);
+            //mushroomEvent.SetTouchingShroom(true);
+            //mushroomEvent.TouchingShroom();
+        }
+    }
 
-            // Set the direction
-            direction = Vector2.Reflect(lastVelocity.normalized, collision.GetContact(0).normal);
-
-            RB.AddForce(direction * Mathf.Max(speed, minSpeed), ForceMode2D.Impulse);
-            onCooldown = true;
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // Check if the collider is a mushroom
+        if (collision.gameObject.tag.Equals("Mushroom"))
+        {
+            // If exiting, set touchingShroom to false
+            mushroomEvent.SetTouchingShroom(false);
+            mushroomEvent.TouchingShroom();
         }
     }
 }

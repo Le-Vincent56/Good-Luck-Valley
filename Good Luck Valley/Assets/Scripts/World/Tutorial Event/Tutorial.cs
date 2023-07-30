@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Tutorial : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private JournalScriptableObj journalEvent;
     private Text movementTutorialText;
     private Image movePanelImage;
     private Text interactableTutorialText;
     private Image interPanelImage;
+    private Text mushroomInteractText;
+    private Image mushroomInteractImage;
     private Text bounceTutorialText;
     private Image bouncePanelImage;
+    private Text removeTutorialText;
+    private Image removePanelImage;
     private Text lotusTutorialText;
     private Image lotusPanelImage;
     private Text journalUITutorialText;
@@ -22,17 +28,19 @@ public class Tutorial : MonoBehaviour
     private Text thirdJournalUITutorialText;
     private Image thirdJournalUIPanelImage;
     private PlayerInput playerInput;
-    private Text demoEndText;
-    private Text titleButtonText;
+    private TMP_Text demoEndText;
+    private TMP_Text titleButtonText;
     private Image buttonImage;
-    private PauseMenu pauseMenu;
-    private Journal journal;
     #endregion
 
     #region FIELDS
     [SerializeField] private bool showingMovementText = false;
     [SerializeField] private bool showingInteractableText = false;
+    private bool showingMushroomInteractText = false;
+    private bool mushroomInteracted = false;
     [SerializeField] private bool showingBounceText = false;
+    [SerializeField] bool showingRemoveText = false;
+    [SerializeField] private float removeTutorialTimer = 4.0f;
     private bool showingLotusText = false;
     [SerializeField] private bool showingFirstJournalUIText = false;
     [SerializeField] private bool showingSecondJournalUIText = false;
@@ -47,7 +55,10 @@ public class Tutorial : MonoBehaviour
     #region PROPERTIES
     public bool ShowingMovementText { get { return showingMovementText; } set { showingMovementText = value; } }
     public bool ShowingInteractableText { get { return showingInteractableText; } set { showingInteractableText = value; } }
+    public bool ShowingMushroomInteractText { get { return showingMushroomInteractText; } set { showingMushroomInteractText = value; } }
+    public bool MushroomInteracted { get { return mushroomInteracted; } set { mushroomInteracted = value; } }
     public bool ShowingBounceText { get { return showingBounceText; } set { showingBounceText = value; } }
+    public bool ShowingRemoveText { get { return showingRemoveText; } set { showingRemoveText = value; } }
     public bool ShowingLotusText { get { return showingLotusText; } set { showingLotusText = value; } }
     public bool ShowingFirstJournalUIText { get { return showingFirstJournalUIText; } set { showingFirstJournalUIText = value; } }
     public bool ShowingSecondJournalUIText { get { return showingSecondJournalUIText; } set { showingSecondJournalUIText = value; } }
@@ -62,8 +73,12 @@ public class Tutorial : MonoBehaviour
         movePanelImage = GameObject.Find("Movement Tutorial Panel").GetComponent<Image>();
         interactableTutorialText = GameObject.Find("Interactable Tutorial Text").GetComponent<Text>();
         interPanelImage = GameObject.Find("Interactable Tutorial Panel").GetComponent<Image>();
+        mushroomInteractText = GameObject.Find("Mushroom Interact Tutorial Text").GetComponent<Text>();
+        mushroomInteractImage = GameObject.Find("Mushroom Interact Tutorial Panel").GetComponent<Image>();
         bounceTutorialText = GameObject.Find("Mushroom Bounce Tutorial Text").GetComponent<Text>();
         bouncePanelImage = GameObject.Find("Mushroom Bounce Tutorial Panel").GetComponent<Image>();
+        removeTutorialText = GameObject.Find("Mushroom Remove Tutorial Text").GetComponent<Text>();
+        removePanelImage = GameObject.Find("Mushroom Remove Tutorial Panel").GetComponent<Image>();
         lotusTutorialText = GameObject.Find("Anguish Lotus Tutorial Text").GetComponent<Text>();
         lotusPanelImage = GameObject.Find("Anguish Lotus Tutorial Panel").GetComponent<Image>();
         journalUITutorialText = GameObject.Find("Journal UI Tutorial Text").GetComponent<Text>();
@@ -73,12 +88,10 @@ public class Tutorial : MonoBehaviour
         thirdJournalUITutorialText = GameObject.Find("Journal UI Tutorial Text 3").GetComponent<Text>();
         thirdJournalUIPanelImage = GameObject.Find("Journal UI Tutorial Panel 3").GetComponent<Image>();
         playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
-        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
 
         // Demo Thanks Message
-        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<Text>();
-        titleButtonText = GameObject.Find("Title Text").GetComponent<Text>();
+        demoEndText = GameObject.Find("Demo Ending Text").GetComponent<TMP_Text>();
+        titleButtonText = GameObject.Find("Title Text").GetComponent<TMP_Text>();
         buttonImage = GameObject.Find("Title Screen").GetComponent<Image>();
     }
 
@@ -90,92 +103,121 @@ public class Tutorial : MonoBehaviour
         // Show/Hide Movement Tutorial Text
         if (showingMovementText)
         {
-            showMovementTutorialText();
+            ShowMovementTutorialText();
         } else
         {
-            fadeMovementTutorialText();
+            FadeMovementTutorialText();
         }
 
         // Show/Hide Interactable Tutorial Text
         if(showingInteractableText)
         {
-            showInteractableTutorialText();
+            ShowInteractableTutorialText();
         } else
         {
-            fadeInteractableTutorialText();
+            FadeInteractableTutorialText();
         }
 
         if (showingFirstJournalUIText)
         {
-            showFirstJournalUITutorialText();
-            if (pauseMenu.Paused && !journal.HasOpened)
+
+            journalEvent.SetCanClose(false);
+            ShowFirstJournalUITutorialText();
+            if (journalEvent.GetOpenedOnce())
             {
                 showingFirstJournalUIText = false;
                 showingSecondJournalUIText = true;
             }
         } else
         {
-            fadeFirstJournalUITutorialText();
+            FadeFirstJournalUITutorialText();
         }
 
         if(showingSecondJournalUIText)
         {
-            showSecondJournalUITutorialText();
+            ShowSecondJournalUITutorialText();
             GameObject.Find("Continue Button").GetComponent<Button>().interactable = false;
             GameObject.Find("Settings Button").GetComponent<Button>().interactable = false;
             GameObject.Find("Quit Button").GetComponent<Button>().interactable = false;
-            if(pauseMenu.Paused && journal.HasOpened)
+            if(journalEvent.GetOpenedOnce())
             {
                 showingSecondJournalUIText = false;
                 showingThirdJournalUIText = true;
             }
         } else
         {
-            fadeSecondJournalUITutorialText();
+            FadeSecondJournalUITutorialText();
             GameObject.Find("Continue Button").GetComponent<Button>().interactable = true;
-            GameObject.Find("Settings Button").GetComponent<Button>().interactable = true;
+            //GameObject.Find("Settings Button").GetComponent<Button>().interactable = true;
             GameObject.Find("Quit Button").GetComponent<Button>().interactable = true;
         }
 
         if(showingThirdJournalUIText)
         {
-            showThirdJournalUITutorialText();
+            ShowThirdJournalUITutorialText();
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = false;
         } else
         {
-            fadeThirdJournalUITutorialText();
+            journalEvent.SetCanClose(true);
+            FadeThirdJournalUITutorialText();
             GameObject.Find("Journal Back Button").GetComponent<Button>().interactable = true;
         }
+
+        if (showingMushroomInteractText && !mushroomInteracted)
+        {
+            ShowMushroomInteractText();
+        }
+        else
+        {
+            FadeMushroomInteractText();
+        }
+
 
         // Show/Hide Bounce Tutorial Text
         if(showingBounceText)
         {
-            showBounceTutorialText();
+            ShowBounceTutorialText();
         } else
         {
-            fadeBounceTutorialText();
+            FadeBounceTutorialText();
+        }
+
+        if(showingRemoveText)
+        {
+            if(removeTutorialTimer > 0)
+            {
+                removeTutorialTimer -= Time.deltaTime;
+            } else
+            {
+                showingRemoveText = false;
+            }
+            ShowRemoveTutorialText();
+            
+        } else
+        {
+            FadeRemoveTutorialText();
         }
 
         // Show/Hide Lotus Tutorial Text
         if(showingLotusText)
         {
-            showLotusTutorialText();
+            ShowLotusTutorialText();
         } else
         {
-            fadeLotusTutorialText();
+            FadeLotusTutorialText();
         }
 
         // Demo Thanks Message
         if (showingDemoEndText)
         {
-            showDemoEndText();
+            ShowDemoEndText();
         }
     }
 
     /// <summary>
     /// Show Movement tutorial text depending on the control scheme
     /// </summary>
-    public void showMovementTutorialText()
+    public void ShowMovementTutorialText()
     {
         string tutorialText = "";
 
@@ -216,7 +258,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Fade out the Movement tutorial text
     /// </summary>
-    public void fadeMovementTutorialText()
+    public void FadeMovementTutorialText()
     {
         // Fade out the text using deltaTime and alpha values
         if (movePanelImage.color.a > 0 && movementTutorialText.color.a > 0)
@@ -229,7 +271,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Show the Interactable tutorial text depending on the control scheme
     /// </summary>
-    public void showInteractableTutorialText()
+    public void ShowInteractableTutorialText()
     {
         string tutorialText = "";
 
@@ -271,7 +313,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Fade out the Interactable tutorial text
     /// </summary>
-    public void fadeInteractableTutorialText()
+    public void FadeInteractableTutorialText()
     {
         // Fade out the text using deltaTime and alpha values
         if (interPanelImage.color.a > 0 && interactableTutorialText.color.a > 0)
@@ -284,7 +326,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Show the first part of the Journal UI Tutorial Text
     /// </summary>
-    public void showFirstJournalUITutorialText()
+    public void ShowFirstJournalUITutorialText()
     {
         string tutorialText = "";
 
@@ -293,7 +335,7 @@ public class Tutorial : MonoBehaviour
         {
 
             case "Keyboard & Mouse":
-                tutorialText = "To read newly obtained notes, press the ESC button!";
+                tutorialText = "To read newly obtained notes, press ESC and select 'Journal' from the Pause Menu, or use TAB!";
                 break;
 
             case "Playstation Controller":
@@ -326,7 +368,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Hide the first part of the Journal UI Tutorial Text
     /// </summary>
-    public void fadeFirstJournalUITutorialText()
+    public void FadeFirstJournalUITutorialText()
     {
         // Fade out the text using deltaTime and alpha values
         if (journalUIPanelImage.color.a > 0 && journalUITutorialText.color.a > 0)
@@ -339,7 +381,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Show the second part of the Journal UI Tutorial Text
     /// </summary>
-    public void showSecondJournalUITutorialText()
+    public void ShowSecondJournalUITutorialText()
     {
         // Set text
         secondJournalUITutorialText.text = "Press the \"Journal\" Button to see the list of collected entries";
@@ -355,7 +397,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Hide the first part of the Journal UI Tutorial Text
     /// </summary>
-    public void fadeSecondJournalUITutorialText()
+    public void FadeSecondJournalUITutorialText()
     {
         // Fade out the text using deltaTime and alpha values
         if (secondJournalUIPanelImage.color.a > 0 && secondJournalUITutorialText.color.a > 0)
@@ -368,10 +410,10 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Show the third part of the Journal UI Tutorial Text
     /// </summary>
-    public void showThirdJournalUITutorialText()
+    public void ShowThirdJournalUITutorialText()
     {
         // Set text
-        thirdJournalUITutorialText.text = "Click on a Entry Title on the left to see the full Entry on the right";
+        thirdJournalUITutorialText.text = "Click an Entry Title on the left to see its contents on the right";
 
         // Fade in the text using deltaTime and alpha values
         if (thirdJournalUIPanelImage.color.a < 1 && thirdJournalUITutorialText.color.a < 1)
@@ -384,7 +426,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Hide the third part of the Journal UI Tutorial Text
     /// </summary>
-    public void fadeThirdJournalUITutorialText()
+    public void FadeThirdJournalUITutorialText()
     {
         // Fade out the text using deltaTime and alpha values
         if (thirdJournalUIPanelImage.color.a > 0 && thirdJournalUITutorialText.color.a > 0)
@@ -395,9 +437,9 @@ public class Tutorial : MonoBehaviour
     }
 
     /// <summary>
-    /// Show Bounce tutorial text depending on the control scheme
+    /// Show Mushroom interact tutorial text depending on the control scheme
     /// </summary>
-    public void showBounceTutorialText()
+    public void ShowMushroomInteractText()
     {
         string tutorialText = "";
 
@@ -405,23 +447,73 @@ public class Tutorial : MonoBehaviour
         switch (currentControlScheme)
         {
             case "Keyboard & Mouse":
-                tutorialText = "Hold Left-Click to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with Q and remove the last thrown Shroom using R";
+                tutorialText = "Press E";
                 break;
 
             case "Playstation Controller":
-                tutorialText = "Hold R2 to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with Triangle and remove the last thrown Shroom using Square";
+                tutorialText = "Press Circle";
                 break;
 
             case "XBox Controller":
-                tutorialText = "Hold RT to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with Y and remove the last thrown Shroom using X";
+                tutorialText = "Press B";
                 break;
 
             case "Switch Pro Controller":
-                tutorialText = "Hold ZR to aim towards your cursor and release to fire a Mushroom. \n\nColliding with the Mushroom will push you in the opposite direction." +
-                    "\n\nRemove all Shrooms with X and remove the last thrown Shroom using Y";
+                tutorialText = "Press A";
+                break;
+
+            default:
+                break;
+        }
+
+        // Set text
+        mushroomInteractText.text = tutorialText;
+
+        // Fade in the text using deltaTime and alpha values
+        if (mushroomInteractImage.color.a < 1 && mushroomInteractText.color.a < 1)
+        {
+            mushroomInteractImage.color = new Color(mushroomInteractImage.color.r, mushroomInteractImage.color.g, mushroomInteractImage.color.b, mushroomInteractImage.color.a + (Time.unscaledDeltaTime * 2));
+            mushroomInteractText.color = new Color(mushroomInteractText.color.r, mushroomInteractText.color.g, mushroomInteractText.color.b, mushroomInteractText.color.a + (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
+    /// Fade Mushroom interact tutorial text.
+    /// </summary>
+    public void FadeMushroomInteractText()
+    {
+        // Fade out the text using deltaTime and alpha values
+        if (mushroomInteractImage.color.a > 0 && mushroomInteractText.color.a > 0)
+        {
+            mushroomInteractImage.color = new Color(mushroomInteractImage.color.r, mushroomInteractImage.color.g, mushroomInteractImage.color.b, mushroomInteractImage.color.a - (Time.unscaledDeltaTime * 2));
+            mushroomInteractText.color = new Color(mushroomInteractText.color.r, mushroomInteractText.color.g, mushroomInteractText.color.b, mushroomInteractText.color.a - (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
+    /// Show Bounce tutorial text depending on the control scheme
+    /// </summary>
+    public void ShowBounceTutorialText()
+    {
+        string tutorialText = "";
+
+        // Show correct controls for the different controllers
+        switch (currentControlScheme)
+        {
+            case "Keyboard & Mouse":
+                tutorialText = "Hold Left-Click to aim towards your cursor. Release to throw a Mushroom. \n\nJump on the Mushroom to bounce!";
+                break;
+
+            case "Playstation Controller":
+                tutorialText = "Hold R2 to aim towards your cursor. Release to fire a Mushroom. \n\nJump on the Mushroom to bounce!";
+                break;
+
+            case "XBox Controller":
+                tutorialText = "Hold RT to aim towards your cursor. Release to fire a Mushroom. \n\nJump on the Mushroom to bounce!";
+                break;
+
+            case "Switch Pro Controller":
+                tutorialText = "Hold ZR to aim towards your cursor. Release to fire a Mushroom. \n\nJump on the Mushroom to bounce!";
                 break;
 
             default:
@@ -442,7 +534,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Fade out the Bounce tutorial text
     /// </summary>
-    public void fadeBounceTutorialText()
+    public void FadeBounceTutorialText()
     {
         // Fade out the text using deltaTime and alpha values
         if (bouncePanelImage.color.a > 0 && bounceTutorialText.color.a > 0)
@@ -453,9 +545,70 @@ public class Tutorial : MonoBehaviour
     }
 
     /// <summary>
+    /// Show Remove tutorial text depending on control scheme
+    /// </summary>
+    public void ShowRemoveTutorialText()
+    {
+        string tutorialText = "";
+
+        // Show correct controls for the different controllers
+        switch (currentControlScheme)
+        {
+            case "Keyboard & Mouse":
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
+                    "\nPress Q to remove all shrooms" +
+                    "\nPress R to remove the last thrown shroom";
+                break;
+
+            case "Playstation Controller":
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
+                    "\nPress Triangle to remove all shrooms" +
+                    "\nPress Square to remove the last thrown shroom";
+                break;
+
+            case "XBox Controller":
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
+                    "\nPress Y to remove all shrooms" +
+                    "\nPress X to remove the last thrown shroom";
+                break;
+
+            case "Switch Pro Controller":
+                tutorialText = "You can have a maximum of 3 shrooms out at a time." +
+                    "\nPress X to remove all shrooms" +
+                    "\nPress Y to remove the last thrown shroom";
+                break;
+
+            default:
+                break;
+        }
+
+        // Set text
+        removeTutorialText.text = tutorialText;
+
+        // Fade in the text using deltaTime and alpha values
+        if (removePanelImage.color.a < 1 && removeTutorialText.color.a < 1)
+        {
+            removePanelImage.color = new Color(removePanelImage.color.r, removePanelImage.color.g, removePanelImage.color.b, removePanelImage.color.a + (Time.unscaledDeltaTime * 2));
+            removeTutorialText.color = new Color(removeTutorialText.color.r, removeTutorialText.color.g, removeTutorialText.color.b, removeTutorialText.color.a + (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
+    /// Fade out the Remove tutorial text
+    /// </summary>
+    public void FadeRemoveTutorialText()
+    {
+        if(removePanelImage.color.a > 0 && removeTutorialText.color.a > 0)
+        {
+            removePanelImage.color = new Color(removePanelImage.color.r, removePanelImage.color.g, removePanelImage.color.b, removePanelImage.color.a - (Time.unscaledDeltaTime * 2));
+            removeTutorialText.color = new Color(removeTutorialText.color.r, removeTutorialText.color.g, removeTutorialText.color.b, removeTutorialText.color.a - (Time.unscaledDeltaTime * 2));
+        }
+    }
+
+    /// <summary>
     /// Show Lotus tutorial text
     /// </summary>
-    public void showLotusTutorialText()
+    public void ShowLotusTutorialText()
     {
         // Set text
         lotusTutorialText.text = "Interact with the Anguish Lotus to Complete the Level!";
@@ -471,7 +624,7 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Fade out the Lotus tutorial text
     /// </summary>
-    public void fadeLotusTutorialText()
+    public void FadeLotusTutorialText()
     {
         // Fade out the text using deltaTime and alpha values
         if (lotusPanelImage.color.a > 0 && lotusTutorialText.color.a > 0)
@@ -484,10 +637,10 @@ public class Tutorial : MonoBehaviour
     /// <summary>
     /// Show Thank You message for completing the Demo
     /// </summary>
-    public void showDemoEndText()
+    public void ShowDemoEndText()
     {
         // Set text
-        demoEndText.text = "You have reached the end of the demo. Thank you for playing!";
+        demoEndText.text = "You have reached the end of the demo. \nThank you for playing!";
         titleButtonText.text = "Return To Title";
 
         // Fade in the text using deltaTime and alpha values
@@ -496,6 +649,7 @@ public class Tutorial : MonoBehaviour
             demoEndText.color = new Color(demoEndText.color.r, demoEndText.color.g, demoEndText.color.b, demoEndText.color.a + (Time.unscaledDeltaTime * 1f));
             titleButtonText.color = new Color(titleButtonText.color.r, titleButtonText.color.g, titleButtonText.color.b, titleButtonText.color.a + (Time.unscaledDeltaTime * 1f));
             buttonImage.color = new Color(buttonImage.color.r, buttonImage.color.g, buttonImage.color.b, buttonImage.color.a + (Time.unscaledDeltaTime * 1f));
+            buttonImage.gameObject.GetComponent<Button>().interactable = true;
         }
     }
 }

@@ -2,40 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
-public class TutorialAnguishLotus : Interactable
+public class TutorialAnguishLotus : Interactable, IData
 {
     #region REFERENCES
-    private Tutorial tutorialManager;
-    private PlayerMovement playerMovement;
-    private PauseMenu pauseMenu;
-    [SerializeField] GameObject fadeEffect;
+    [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
+    private VisualEffect lotusParticles;
     #endregion
 
     #region FIELDS
-    private bool endLevel = false;
-    [SerializeField] private float fadeTimer = 3.0f;
+    private GameObject shroomVines;
+    [SerializeField] private float fadeAmount = 0.001f;
     #endregion
 
     void Start()
     {
-        tutorialManager = GameObject.Find("TutorialUI").GetComponent<Tutorial>();
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        pauseMenu = GameObject.Find("PauseUI").GetComponent<PauseMenu>();
+        gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Thickness", 0.02f);
+        lotusParticles = GetComponentInChildren<VisualEffect>();
+
         remove = false;
-        fadeTimer = 2.0f;
-        endLevel = false;
+
+        shroomVines = GameObject.Find("ShroomVineWall");
     }
 
     void Update()
     {
+        // Show the outline if in range
+        if (inRange)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 1);
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 0);
+        }
+
         // Check if interactable is triggered
         if (controlTriggered)
         {
             // Interact and set variables
             Interact();
             interacting = true;
+            StartCoroutine(FadeVines());
+            StartCoroutine(FadeLotus());
 
             // If the inteaction has finished, reset the variables
             if (finishedInteracting)
@@ -47,37 +60,6 @@ public class TutorialAnguishLotus : Interactable
             // If the control is not triggered, set interacting to false
             interacting = false;
         }
-
-        // If endlevel
-        if(endLevel)
-        {
-            // Start the fade timer
-            if(!pauseMenu.Paused)
-            {
-                playerMovement.MoveInput = Vector2.zero;
-                pauseMenu.Paused = true;
-                tutorialManager.ShowingDemoEndText = true;
-            }
-
-            if (fadeEffect.GetComponent<SpriteRenderer>().color.a < .6f)
-            {
-                fadeEffect.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, (Time.deltaTime * .5f));
-            }
-            else if (tutorialManager.ShowingDemoEndText)
-            {
-                tutorialManager.ShowingDemoEndText = false;
-            }
-
-            fadeTimer -= Time.deltaTime;
-
-            // Once the fade timer hits 0, finish interacting
-            // and go to title screen
-            if (fadeTimer <= 0)
-            {
-                finishedInteracting = true;
-            }
-        }
-
     }
 
     /// <summary>
@@ -85,23 +67,84 @@ public class TutorialAnguishLotus : Interactable
     /// </summary>
     public override void Interact()
     {
-        // Fade the Tutorial Text
-        tutorialManager.ShowingLotusText = false;
+        // Lock the player
+        disableEvent.Lock();
 
-        // End the level
-        endLevel = true;
-    }
-
-    /// <summary>
-    /// Redirect Player to Title Screen
-    /// </summary>
-
-    public void OnClickTitle()
-    {
-        // Load Title Screen after interacting with the Lotus
-        if (finishedInteracting)
+        // Play the vine flee sound
+        if (!playedSound)
         {
-            SceneManager.LoadScene("Title Screen");
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.VineDecompose, transform.position);
+            playedSound = true;
         }
     }
+
+    private IEnumerator FadeLotus()
+    {
+        // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
+        while (GetComponent<SpriteRenderer>().color.a > 0)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - fadeAmount);
+            active = false;
+            lotusParticles.enabled = false;
+            yield return null;
+        }
+    }
+
+    private IEnumerator FadeVines()
+    {
+        //Shit too fast changing to fadeAmount
+        //shroomVines.GetComponent<DecomposableVine>().DecomposeTime
+
+        while (shroomVines.GetComponent<SpriteRenderer>().color.a > 0)
+        {
+            shroomVines.GetComponent<SpriteRenderer>().color = new Color(shroomVines.GetComponent<SpriteRenderer>().color.r,
+            shroomVines.GetComponent<SpriteRenderer>().color.g,
+            shroomVines.GetComponent<SpriteRenderer>().color.b, 
+            shroomVines.GetComponent<SpriteRenderer>().color.a - fadeAmount);
+
+            yield return null;
+        }
+        if (shroomVines.GetComponent<SpriteRenderer>().color.a <= 0)
+        {
+            shroomVines.GetComponent<DecomposableVine>().Active = false;
+            shroomVines.SetActive(false);
+            finishedInteracting = true;
+            disableEvent.Unlock();
+        }
+    }
+
+    #region DATA HANDLING
+    public void LoadData(GameData data)
+    {
+        // Get the data for all the notes that have been collected
+        string currentLevel = SceneManager.GetActiveScene().name;
+
+        // Try to get the value of the interactable
+        data.levelData[currentLevel].assetsActive.TryGetValue(id, out active);
+
+        // Check if the note has been added
+        if (!active)
+        {
+            // Remove the note
+            remove = true;
+        }
+        // Set if the gameobject is active
+        gameObject.SetActive(active);
+    }
+
+    public void SaveData(GameData data)
+    {
+        string currentLevel = SceneManager.GetActiveScene().name;
+
+        // Check to see if data has the id of the note
+        if (data.levelData[currentLevel].assetsActive.ContainsKey(id))
+        {
+            // If so, remove it
+            data.levelData[currentLevel].assetsActive.Remove(id);
+        }
+
+        // Add the id and the current bool to make sure everything is up to date
+        data.levelData[currentLevel].assetsActive.Add(id, active);
+    }
+    #endregion
 }
