@@ -54,7 +54,7 @@ public class BouncingEffect : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!mushroomEvent.IsTouchingShroom && collision.gameObject.tag == "Mushroom")
+        if (!mushroomEvent.IsTouchingShroom && collision.gameObject.CompareTag("Mushroom"))
         {
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
@@ -72,6 +72,7 @@ public class BouncingEffect : MonoBehaviour
                 mushroomEvent.SetTouchingShroom(true);
                 mushroomEvent.TouchingShroom();
                 movementEvent.SetIsGrounded(false);
+                movementEvent.SetIsBouncing(true);
                 shroomToBounce.Bounce();
             }
 
@@ -122,7 +123,7 @@ public class BouncingEffect : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         // Check if the collider is a mushroom
-        if (collision.gameObject.tag.Equals("Mushroom"))
+        if (collision.gameObject.CompareTag("Mushroom"))
         {
             // If exiting, set touchingShroom to false
             mushroomEvent.SetTouchingShroom(false);
