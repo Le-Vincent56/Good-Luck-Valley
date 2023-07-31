@@ -41,6 +41,7 @@ public class GameData
     public bool isGrounded;
     public bool isJumping;
     public bool isFalling;
+    public bool showFastFall;
     #endregion
 
     #region LEVEL
@@ -58,6 +59,7 @@ public class GameData
     public bool firstThrow;
     public bool firstBounce;
     public bool firstFull;
+    public bool showQuickBounce;
     #endregion
 
     #region JOURNAL
@@ -76,6 +78,7 @@ public class GameData
         #region GENERAL
         playtimeTotal = 0;
         playtimeString = "0:00:00";
+        showFastFall = true;
         #endregion
 
         #region LEVEL
@@ -90,6 +93,7 @@ public class GameData
         firstThrow = true;
         firstBounce = true;
         firstFull = false;
+        showQuickBounce = true;
         #endregion
 
         #region JOURNAL

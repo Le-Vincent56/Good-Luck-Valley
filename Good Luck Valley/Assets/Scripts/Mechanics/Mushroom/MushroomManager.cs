@@ -74,6 +74,7 @@ public class MushroomManager : MonoBehaviour, IData
     private bool firstThrow;
     private bool firstBounce;
     private bool firstFull;
+    private bool showQuickBounceMessage;
     [SerializeField] private Vector3 wallShroomPosDifference;
     #endregion
 
@@ -456,7 +457,6 @@ public class MushroomManager : MonoBehaviour, IData
             if (context.started && movementEvent.GetMushroomPosition().x != -1000)
             {
                 mushroomEvent.HideWallBounceMessage();
-                Debug.Log("Mushroom Pos: " + movementEvent.GetMushroomPosition());
                 // Player is no longer touching the wall
                 movementEvent.SetIsTouchingWall(false);
 
@@ -609,6 +609,12 @@ public class MushroomManager : MonoBehaviour, IData
     {
         if (context.started && !throwLocked && throwUnlocked)
         {
+            if (mushroomEvent.GetTouchingQuickBounceMessage())
+            {
+                mushroomEvent.HideQuickBounceMessage();
+                showQuickBounceMessage = false;
+            }
+
             if (mushroomList.Count >= mushroomLimit)
             {
                 // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
@@ -845,10 +851,12 @@ public class MushroomManager : MonoBehaviour, IData
         firstBounce = data.firstBounce;
         firstFull = data.firstFull;
         throwUnlocked = data.throwUnlocked;
+        showQuickBounceMessage = data.showQuickBounce;
         mushroomEvent.SetFirstThrow(firstThrow);
         mushroomEvent.SetFirstBounce(firstBounce);
         mushroomEvent.SetFirstFull(firstFull);
         mushroomEvent.SetThrowUnlocked(throwUnlocked);
+        mushroomEvent.SetShowingQuickBounceMessage(showQuickBounceMessage);
     }
 
     public void SaveData(GameData data)
@@ -857,6 +865,7 @@ public class MushroomManager : MonoBehaviour, IData
         data.firstBounce = firstBounce;
         data.firstFull = firstFull;
         data.throwUnlocked = throwUnlocked;
+        data.showQuickBounce = showQuickBounceMessage;
     }
     #endregion
 }

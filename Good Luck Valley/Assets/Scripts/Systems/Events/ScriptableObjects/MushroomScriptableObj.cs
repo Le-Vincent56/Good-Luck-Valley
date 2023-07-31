@@ -14,7 +14,8 @@ public class MushroomScriptableObj : ScriptableObject
     [SerializeField] private bool firstThrow;
     [SerializeField] private bool firstBounce;
     [SerializeField] private bool showingMaxMessage;
-    [SerializeField] private bool touchgingFastFall;
+    [SerializeField] private bool showQuickBounceMessage;
+    [SerializeField] private bool touchingQuickBounce;
     [SerializeField] Vector3 bounceForce;
 
     #region EVENTS
@@ -32,10 +33,10 @@ public class MushroomScriptableObj : ScriptableObject
     public UnityEvent hideBounceMessageEvent;
     public UnityEvent showMaxMessageEvent;
     public UnityEvent hideMaxMessageEvent;
-    public UnityEvent showFastFallMessageEvent;
-    public UnityEvent hideFastFallMessageEvent;
     public UnityEvent showWallBounceMessageEvent;
     public UnityEvent hideWallBounceMessageEvent;
+    public UnityEvent showQuickBounceMessageEvent;
+    public UnityEvent hideQuickBounceMessageEvent;
     #endregion
     #endregion
 
@@ -101,16 +102,6 @@ public class MushroomScriptableObj : ScriptableObject
             hideMaxMessageEvent = new UnityEvent();
         }
 
-        if (showFastFallMessageEvent == null)
-        {
-            showFastFallMessageEvent = new UnityEvent();
-        }
-
-        if (hideFastFallMessageEvent == null)
-        {
-            hideFastFallMessageEvent = new UnityEvent();
-        }
-
         if (showWallBounceMessageEvent == null)
         {
             showWallBounceMessageEvent = new UnityEvent();
@@ -119,6 +110,16 @@ public class MushroomScriptableObj : ScriptableObject
         if (hideWallBounceMessageEvent == null)
         {
             hideWallBounceMessageEvent = new UnityEvent();
+        }
+
+        if (showQuickBounceMessageEvent == null)
+        {
+            showQuickBounceMessageEvent = new UnityEvent();
+        }
+
+        if (hideQuickBounceMessageEvent == null)
+        {
+            hideQuickBounceMessageEvent = new UnityEvent();
         }
         #endregion
     }
@@ -186,6 +187,16 @@ public class MushroomScriptableObj : ScriptableObject
         this.firstFull = firstFull;
     }
 
+    public void SetTouchingQuickBounceMessage(bool showingQuickBounce)
+    {
+        touchingQuickBounce = showingQuickBounce;
+    }
+
+    public void SetShowingQuickBounceMessage(bool showQuickBounce)
+    {
+        showQuickBounceMessage = showQuickBounce;
+    }
+
     /// <summary>
     /// Get whether the player is throwing or not
     /// </summary>
@@ -238,6 +249,16 @@ public class MushroomScriptableObj : ScriptableObject
     public bool GetShowingMaxMessage()
     {
         return showingMaxMessage;
+    }
+
+    public bool GetTouchingQuickBounceMessage()
+    {
+        return touchingQuickBounce;
+    }
+
+    public bool GetShowingQuickBounceMessage()
+    {
+        return showQuickBounceMessage;
     }
 
     public Vector3 GetBounceForce()
@@ -347,17 +368,6 @@ public class MushroomScriptableObj : ScriptableObject
         hideMaxMessageEvent.Invoke();
     }
 
-    public void ShowFastFallMessage()
-    {
-        showFastFallMessageEvent.Invoke();
-    }
-
-    public void HideFastFallMessage()
-    {
-        //showFastFall = false;
-        hideFastFallMessageEvent.Invoke();
-    }
-
     public void ShowWallBounceMessage()
     {
         showWallBounceMessageEvent.Invoke();
@@ -366,6 +376,17 @@ public class MushroomScriptableObj : ScriptableObject
     public void HideWallBounceMessage()
     {
         hideWallBounceMessageEvent.Invoke();
+    }
+    public void ShowQuickBounceMessage()
+    {
+        showQuickBounceMessage = true;
+        showQuickBounceMessageEvent.Invoke();
+    }
+
+    public void HideQuickBounceMessage()
+    {
+        showQuickBounceMessage = false; 
+        hideQuickBounceMessageEvent.Invoke();
     }
 
     /// <summary>

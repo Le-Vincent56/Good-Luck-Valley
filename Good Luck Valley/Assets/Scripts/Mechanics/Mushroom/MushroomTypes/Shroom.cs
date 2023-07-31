@@ -126,10 +126,8 @@ public abstract class Shroom : MonoBehaviour
         //      mushroom.transform.position is the mushroom's position,
         //          casted to a vector 2 so it can be subtracted from the contact point
         ContactPoint2D contactPoint = contacts[0];
-        Debug.Log("Contacts: " + contacts.Length);
         for (int i = 0; i < contacts.Length; i++)
         {
-            Debug.Log("Contact Point " + contacts[i]);
             if (contacts[i].rigidbody.CompareTag("Collidable"))
             {
                 contactPoint = contacts[i];
