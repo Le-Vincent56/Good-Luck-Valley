@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Linq;
+using TMPro;
 
 public class Journal : MonoBehaviour, IData
 {
@@ -12,6 +13,7 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private JournalScriptableObj journalEvent;
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private Text journalTutorialMessage;
     private Canvas journalUI;
     private Button pauseJournalButton;
     #endregion
@@ -20,10 +22,11 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private List<Note> notes;
     [SerializeField] private bool menuOpen = false;
     [SerializeField] private bool hasJournal = false;
-    [SerializeField] private bool hasOpened = false;
+    [SerializeField] private bool hasOpenedOnce = false;
     [SerializeField] private bool openedFromKey = false;
     [SerializeField] private float journalCloseBuffer = 0.25f;
     [SerializeField] private bool canClose = false;
+    [SerializeField] private bool showTutorialMessage = false;
     #endregion
 
     #region PROPERTIES
@@ -50,6 +53,17 @@ public class Journal : MonoBehaviour, IData
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
 
+        if (!journalEvent.GetTutorialMessage())
+        {
+            journalTutorialMessage.enabled = false;
+            //journalTutorialMessage.GetComponent<Shadow>().enabled = false;
+        }
+        else
+        {
+            journalTutorialMessage.enabled = true;
+            //.GetComponent<Shadow>().enabled = true;
+        }
+
         // Set the journal menu to be invisible at first
         journalUI.enabled = false;
     }
@@ -57,13 +71,19 @@ public class Journal : MonoBehaviour, IData
     // Update is called once per frame
     void Update()
     {
-        if(!hasJournal)
+        if (!journalEvent.GetHasJournal())
         {
+            hasJournal = false;
             pauseJournalButton.interactable = false;
-        } else
+            Color jColor = pauseJournalButton.GetComponent<Image>().color;
+            pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 0.3f);
+        } 
+        else
         {
-            pauseJournalButton.targetGraphic.color = pauseJournalButton.colors.selectedColor;
+            hasJournal = true;
             pauseJournalButton.interactable = true;
+            Color jColor = pauseJournalButton.GetComponent<Image>().color;
+            pauseJournalButton.GetComponent<Image>().color = new Color(jColor.r, jColor.g, jColor.b, 1f);
         }
 
         // If the close buffer is set to above 0,
@@ -73,6 +93,8 @@ public class Journal : MonoBehaviour, IData
             journalCloseBuffer -= Time.deltaTime;
             journalEvent.SetCloseBuffer(journalCloseBuffer);
         }
+
+        CheckJournalTutorial();
     }
 
     /// <summary>
@@ -96,9 +118,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
-            if (!hasOpened)
+            if (!hasOpenedOnce)
             {
-                hasOpened = true;
+                hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
             }
 
@@ -109,6 +131,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.SetJournalOpen(menuOpen);
             journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
+
+            // Play the open journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalOpen, transform.position);
         }
     }
 
@@ -135,6 +160,9 @@ public class Journal : MonoBehaviour, IData
 
             // Remove entries to prepare for sorting
             journalEvent.ClearJournal();
+
+            // Play the close journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalClose, transform.position);
         }
     }
 
@@ -152,9 +180,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.RefreshJournal(this);
 
             // Update so that it is no longer the first time opening
-            if (!hasOpened)
+            if (!hasOpenedOnce)
             {
-                hasOpened = true;
+                hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
             }
 
@@ -165,6 +193,9 @@ public class Journal : MonoBehaviour, IData
             journalEvent.SetJournalOpen(menuOpen);
             journalEvent.SetCanClose(canClose);
             journalEvent.SetCloseBuffer(journalCloseBuffer);
+
+            // Play the open journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalOpen, transform.position);
         }
     }
 
@@ -190,6 +221,9 @@ public class Journal : MonoBehaviour, IData
 
             // Remove entries to prepare for sorting
             journalEvent.ClearJournal();
+
+            // Play the close journal sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalClose, transform.position);
         }
     }
 
@@ -207,6 +241,20 @@ public class Journal : MonoBehaviour, IData
     public void EnableJournalOpen()
     {
         journalEvent.SetCanOpen(true);
+    }
+
+    /// <summary>
+    /// Check if the journal tutorial needs to be enabled or disabled
+    /// </summary>
+    public void CheckJournalTutorial()
+    {
+        if (!journalEvent.GetTutorialMessage())
+        {
+            journalTutorialMessage.enabled = false;
+        } else
+        {
+            journalTutorialMessage.enabled = true;
+        }
     }
 
     #region EVENT FUNCTIONS
@@ -234,6 +282,15 @@ public class Journal : MonoBehaviour, IData
 
         // Set if the player has the journal according to data
         hasJournal = data.hasJournal;
+        journalEvent.SetHasJournal(hasJournal);
+
+        // Set if the player has opened the journal for the first time
+        hasOpenedOnce = data.hasOpenedJournalOnce;
+        journalEvent.SetOpenedOnce(hasOpenedOnce);
+
+        // Set if the tutorial message needs to be shown
+        showTutorialMessage = data.showJournalTutorial;
+        journalEvent.SetTutorialMessage(showTutorialMessage);
     }
 
     public void SaveData(GameData data)
@@ -253,6 +310,12 @@ public class Journal : MonoBehaviour, IData
 
         // Save if the player has the journal or not
         data.hasJournal = hasJournal;
+
+        // Save if the player has opened the journal or not
+        data.hasOpenedJournalOnce = hasOpenedOnce;
+
+        // Save if the tutorial message needs to be shown
+        data.showJournalTutorial = showTutorialMessage;
     }
     #endregion
 }

@@ -9,6 +9,7 @@ public class WallShroom : Shroom
     #region FIELDS
     [SerializeField] private float angleToSubtract;
     private Vector3 showForce;
+    
     #endregion
 
     private void Awake()
@@ -53,8 +54,6 @@ public class WallShroom : Shroom
     /// </summary>
     public override void Bounce()
     {
-        Debug.Log("Bounce");
-
         // Calculate the force to apply
         Quaternion rotation = Quaternion.AngleAxis(rotateAngle - angleToSubtract, Vector3.forward);
         Vector3 direction = rotation * Vector2.up;
@@ -65,11 +64,16 @@ public class WallShroom : Shroom
             direction.y *= -1;
         }
 
+        if (flipRotation)
+        {
+            direction.x *= -1;
+        }
+
         Vector3 forceToApply = direction * bounceForce;
         showForce = forceToApply;
 
         // Disable input
-        disableEvent.SetInputCooldown(0.05f);
+        disableEvent.SetInputCooldown(0.15f);
         disableEvent.StopInput();
 
         // Apply bounce
@@ -78,6 +82,7 @@ public class WallShroom : Shroom
             bouncing = true;
         }
 
+        movementEvent.SetIsBounceAnimating(true);
         movementEvent.Bounce(forceToApply, ForceMode2D.Impulse);
     }
 
@@ -103,6 +108,7 @@ public class WallShroom : Shroom
                 }
 
                 // Rotate and freeze the shroom
+                Debug.Log("Rotate and Freeze is called");
                 RotateAndFreeze();
             }
         }

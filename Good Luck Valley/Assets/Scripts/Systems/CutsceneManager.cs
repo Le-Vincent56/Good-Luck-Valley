@@ -37,6 +37,11 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void PlayEnterCutscene()
     {
+        disableEvent.SetDisableParallax(true);
+
+        // Set playing cutscene to true
+        cutsceneEvent.SetPlayingCutscene(true);
+
         // Lock the player
         disableEvent.DisableInput();
 
@@ -50,11 +55,16 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void EndEnterCutscene()
     {
+        disableEvent.SetDisableParallax(false);
+
         // Save the game
         DataManager.Instance.SaveGame();
 
         // Enable input
         disableEvent.EnableInput();
+
+        // Set playing cutscene to false
+        cutsceneEvent.SetPlayingCutscene(false);
     }
 
     /// <summary>
@@ -62,13 +72,13 @@ public class CutsceneManager : MonoBehaviour
     /// </summary>
     private void PlayLeaveCutscene()
     {
-        Debug.Log("Playing leave cutscene");
+        disableEvent.SetDisableParallax(true);
 
         // Save the game
         DataManager.Instance.SaveGame();
 
-        // Lock the player
-        disableEvent.DisableInput();
+        // Set playing cutscene to true
+        cutsceneEvent.SetPlayingCutscene(true);
 
         // Set the player director asset and play it
         playerDirector.playableAsset = cutsceneEvent.GetLeaveCutscene();

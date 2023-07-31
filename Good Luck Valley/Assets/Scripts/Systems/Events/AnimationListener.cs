@@ -19,6 +19,7 @@ public class AnimationListener : MonoBehaviour
     private Animator playerAnim;
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     #endregion
 
     #region FIELDS
@@ -32,6 +33,7 @@ public class AnimationListener : MonoBehaviour
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isThrowing;
     [SerializeField] private bool runThrow_R;
+    [SerializeField] private bool playedThrowSound = false;
 
     private const string PLAYER_IDLE = "Player_Idle";
     private const string PLAYER_RUN = "Player_Run";
@@ -62,7 +64,7 @@ public class AnimationListener : MonoBehaviour
         // Check for running/idle animations
         if(isGrounded & !isThrowing && !isBouncing)
         {
-            if (Mathf.Abs(movementVector.x) >= 0.1)
+            if (Mathf.Abs(movementVector.x) >= 0.1 && !disableEvent.GetPlayerLocked())
             {
                 ChangeAnimationState(PLAYER_RUN);
 
@@ -132,7 +134,17 @@ public class AnimationListener : MonoBehaviour
                     // Otherwise, throw in place
                     ChangeAnimationState(PLAYER_THROW);
                 }
+
+                // Play the throw sound
+                if(!playedThrowSound)
+                {
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ShroomThrow, transform.position);
+                    playedThrowSound = true;
+                }
             }
+        } else
+        {
+            playedThrowSound = false;
         }
     }
 

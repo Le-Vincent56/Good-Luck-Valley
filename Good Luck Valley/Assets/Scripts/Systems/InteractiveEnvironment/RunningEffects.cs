@@ -5,15 +5,15 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.VFX;
 
+public enum TileType
+{
+    Grass,
+    Dirt,
+    None
+}
+
 public class RunningEffects : MonoBehaviour
 {
-    enum TileType
-    { 
-        Grass,
-        Dirt,
-        None
-    }
-
     #region REFERENCES
     private PlayerMovement player;
     private Rigidbody2D playerRB;
@@ -29,6 +29,8 @@ public class RunningEffects : MonoBehaviour
     #region FIELDS
     private bool createDustOnFall;
     [SerializeField] private float lowestSpeedForParticle;
+    private bool jumpSoundPlayed = false;
+    private bool landSoundPlayed = false;
     #endregion
 
     #region PROPERTIES
@@ -45,13 +47,15 @@ public class RunningEffects : MonoBehaviour
     private void OnEnable()
     {
         movementEvent.landEvent.AddListener(CheckLandParticle);
-        movementEvent.jumpEvent.AddListener(PlayLandingEffect);
+        movementEvent.landEvent.AddListener(PlayLandingEffect);
+        movementEvent.jumpEvent.AddListener(PlayJumpingEffect);
     }
 
     private void OnDisable()
     {
         movementEvent.landEvent.RemoveListener(CheckLandParticle);
-        movementEvent.jumpEvent.RemoveListener(PlayLandingEffect);
+        movementEvent.landEvent.RemoveListener(PlayLandingEffect);
+        movementEvent.jumpEvent.RemoveListener(PlayJumpingEffect);
     }
 
     // Update is called once per frame
@@ -61,6 +65,10 @@ public class RunningEffects : MonoBehaviour
         if (player.IsGrounded == false)
         {
             createDustOnFall = true;
+            landSoundPlayed = false;
+        } else
+        {
+            jumpSoundPlayed = false;
         }
     }
 
@@ -74,17 +82,14 @@ public class RunningEffects : MonoBehaviour
         {
             if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_d"))
             {
-                Debug.Log("hi");
                 return TileType.Dirt;
             }
             else if (tilemap.GetTile(tilemap.WorldToCell(groundCheckHardpoint.transform.position)).name.Contains("_g"))
             {
-                Debug.Log("what");
                 return TileType.Grass;
             }
             else
             {
-                Debug.Log("_+_+_+_+_");
                 return TileType.None;
             }
         }
@@ -115,6 +120,7 @@ public class RunningEffects : MonoBehaviour
         if (Mathf.Abs(playerRB.velocity.x) > lowestSpeedForParticle && player.IsGrounded)
         {
             TileType type = CheckTileMap();
+            movementEvent.SetTileType(type);
             switch (type)
             {
                 case TileType.Grass:
@@ -134,25 +140,65 @@ public class RunningEffects : MonoBehaviour
     /// <summary>
     /// Checks which particle to play when player lands, if we want different effects for jump and land
     /// </summary>
-    //private void CheckJumpParticle()
-    //{
-    //}
-
     private void PlayLandingEffect()
     {
-        TileType type = CheckTileMap();
-        switch (type)
+        if(!landSoundPlayed)
         {
-            case TileType.Grass:
-                landLeavesParticles.Play();
-                break;
+            // Check the tile map to see what TileType the player is on
+            TileType type = CheckTileMap();
+            movementEvent.SetTileType(type);
 
-            case TileType.Dirt:
-                landDustParticles.Play();
-                break;
+            // Play the corresponding sound according to the TileType
+            switch (type)
+            {
+                case TileType.Grass:
+                    landLeavesParticles.Play();
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerLandGrass, transform.position);
+                    landSoundPlayed = true;
+                    break;
 
-            case TileType.None:
-                break;
+                case TileType.Dirt:
+                    landDustParticles.Play();
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerLandDirt, transform.position);
+                    landSoundPlayed = true;
+                    break;
+
+                case TileType.None:
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checks which particle to play when player jumps, if we want different effects for jump and land
+    /// </summary>
+    private void PlayJumpingEffect()
+    {
+        if(!jumpSoundPlayed)
+        {
+            // Check the tile map to see what TileType the player is on
+            TileType type = CheckTileMap();
+            movementEvent.SetTileType(type);
+
+            // Play the corresponding sound according to the TileType
+            switch (type)
+            {
+                case TileType.Grass:
+                    landLeavesParticles.Play();
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerLandGrass, transform.position);
+                    jumpSoundPlayed = true;
+                    break;
+
+                case TileType.Dirt:
+                    landDustParticles.Play();
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerLandDirt, transform.position);
+                    jumpSoundPlayed = true;
+
+                    break;
+
+                case TileType.None:
+                    break;
+            }
         }
     }
 }

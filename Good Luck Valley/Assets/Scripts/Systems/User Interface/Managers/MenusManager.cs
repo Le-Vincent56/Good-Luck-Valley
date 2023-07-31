@@ -53,6 +53,7 @@ public class MenusManager : MonoBehaviour
     private bool navScenes;
     private bool fadingIn;
     private bool fadingOut;
+    private GameObject menuParent;
     #endregion
 
     #region PROPERTIES
@@ -150,8 +151,9 @@ public class MenusManager : MonoBehaviour
             // Selected: 808080
             // Disabled: A6A6A6
 
-            // Default screen nav button, currently set to be accessibility panel
+            // Default screen nav button, currently set to be audio panel
             navButtons[0].GetComponent<Button>().interactable = false;
+            menuParent = navButtons[0].transform.parent.gameObject;
 
             // Allow on value changed events to trigger again
             disableCalls = false;
@@ -245,7 +247,6 @@ public class MenusManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("SCENE LOADED");
 
         // Get the current scene
         currentScene = SceneManager.GetActiveScene().buildIndex;
@@ -415,7 +416,6 @@ public class MenusManager : MonoBehaviour
             case 7:
             case 8:
             case 9:
-                Debug.Log("Level: " + DataManager.Instance.Level);
                 SceneManager.LoadScene(DataManager.Instance.Level);
                 break;
         }
@@ -545,6 +545,7 @@ public class MenusManager : MonoBehaviour
     {
         if (settingsSaved)
         {
+
             if (currentScene <= 4)
             StartCoroutine(FadeOut());
             sceneLoadNum = previousScene;
@@ -561,29 +562,111 @@ public class MenusManager : MonoBehaviour
     }
 
     #region FADING
+    /// <summary>
+    /// Fades in the menu screens
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeIn()
     {
-        while (canvasGroup.alpha < 1)
+        // The menu panels in the scene (only used for the settings scene)
+        List<GameObject> menuPanels = new List<GameObject>();
+
+        // This is done in order to remove the the effect of the settings panels overlapping each other when the menu as a whole is fading out
+        // Checks if the current scene is the settings scene
+        if (currentScene == 3)
         {
-            Debug.Log("fading in");
-            canvasGroup.alpha += 0.01f;
-            yield return null;
+            // Loops through all the gameObject with the tag MenuPanel
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+            {
+                // Adds them to the menuPanels list
+                menuPanels.Add(g);
+
+                // Sets them to inactive
+                g.SetActive(false);
+
+                // Checks if this menu is the menu being viewed by the user
+                if (g.transform.parent.gameObject == menuParent)
+                {
+                    // If so, sets it to active
+                    g.SetActive(true);
+                }
+            }
+        }
+
+        // checks if the canvas group isn't null
+        if (canvasGroup != null)
+        {
+            // Loops while its alpha is less than one
+            while (canvasGroup.alpha < 1)
+            {
+                // Increases its alpha
+                canvasGroup.alpha += 0.1f;
+                yield return null;
+            }
+        }
+
+        // Checks if the current scene is the settings scene
+        if (currentScene == 3)
+        {
+            // Sets all the menu panels to active
+            foreach (GameObject g in menuPanels)
+            {
+                g.SetActive(true);
+            }
         }
     }
 
+    /// <summary>
+    /// Fades out the menu screens
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeOut()
     {
-        while (canvasGroup.alpha > 0)
+        // Checks if the scene is settings
+        if (currentScene == 3)
         {
-            canvasGroup.alpha -= 0.01f;
-            yield return null;
+            // Loops through all the menu panels in the scene
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+            {
+                // Sets them to inactive
+                g.SetActive(false);
+
+                // Checks if this menu is the menu being viewed by the user
+                if (g.transform.parent.gameObject == menuParent)
+                {
+                    // If so, sets it to active
+                    g.SetActive(true);
+                }
+            }
         }
-        navScenes = true;
+
+        // Checks if the canvas group isn't null
+        if (canvasGroup != null)
+        {
+            // Loops while the alpha is greater than 0
+            while (canvasGroup.alpha > 0)
+            {
+                // Decreases the alpha
+                canvasGroup.alpha -= 0.1f;
+                yield return null;
+            }
+            // Sets navScenes to true because this happens right before we switch scenes
+            navScenes = true;
+        }
+
+        // Checks if the current scene is the settings scene
+        //if (currentScene == 3)
+        //{
+        //    // Sets all menu panels to active
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("MenuPanel"))
+        //    {
+        //        g.SetActive(true);
+        //    }
+        //}
     }
 
     public void CheckFade(int sceneToLoad)
     {
-        Debug.Log(settingsSaved);
         if (settingsSaved)
         {
             sceneLoadNum = sceneToLoad;
@@ -666,12 +749,17 @@ public class MenusManager : MonoBehaviour
 
     public void SetButton(int button)
     {
-        checkButtons = true;
-        for (int i = 0; i < navButtons.Length; i++)
+        if (!disableCalls)
         {
-            navButtons[i].GetComponent<Button>().interactable = true;
+            Debug.Log("Setting button");
+            checkButtons = true;
+            for (int i = 0; i < navButtons.Length; i++)
+            {
+                navButtons[i].GetComponent<Button>().interactable = true;
+            }
+            navButtons[button].GetComponent<Button>().interactable = false;
+            menuParent = navButtons[button].transform.parent.gameObject;
         }
-        navButtons[button].GetComponent<Button>().interactable = false;
     }
 
     public void AdjustSlider(int index)

@@ -165,6 +165,9 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// </summary>
     public void SaveProfile()
     {
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
         if (!selectedSaveSlot.HasData)
         {
             // If the current profile ID does not equal the soft profile ID, set it to the soft profile ID
@@ -248,6 +251,9 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// </summary>
     public void DeleteSave()
     {
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
         // Activate the confirmation menu
         deleteConfirmationMenu.ActivateMenu(
                 "Are you sure you want to delete this save?",
@@ -282,6 +288,9 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// </summary>
     public void Back()
     {
+        // Play sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
         // Deactivate the canvas
         gameObject.GetComponent<Canvas>().enabled = false;
 
@@ -367,7 +376,11 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         // Play animation while waiting
         playAnimation = true;
         StartCoroutine(SavingAnimation());
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(1.66730f);
+
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SaveManual, transform.position);
+
+        yield return new WaitForSecondsRealtime(1.3327f);
     }
 
     /// <summary>

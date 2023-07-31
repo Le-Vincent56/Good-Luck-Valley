@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -35,6 +36,7 @@ public abstract class Shroom : MonoBehaviour
     [SerializeField] protected float bounceForce;
     [SerializeField] protected bool onCooldown = false;
     protected float cooldown = 0.1f;
+    protected bool flipRotation;
     #endregion
 
     #region PROPERTIES
@@ -52,6 +54,7 @@ public abstract class Shroom : MonoBehaviour
     public float SpawnedLifeTime { get { return spawnedLifeTime; } set { spawnedLifeTime = value; } }
     public GameObject RegularMushroom { get { return regShroom; } set { regShroom = value; } }
     public GameObject WallMushroom { get { return wallShroom; } set { wallShroom = value; } }
+    public bool FlipRotation {  get { return flipRotation; } set {  flipRotation = value; } }
     #endregion
 
     public void Start()
@@ -64,6 +67,11 @@ public abstract class Shroom : MonoBehaviour
     /// </summary>
     public void UpdateShroomCounter()
     {
+        if (durationTimer <= 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
         // Decreases time from the timer
         durationTimer -= Time.deltaTime;
 
@@ -170,23 +178,31 @@ public abstract class Shroom : MonoBehaviour
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         GetComponent<Shroom>().HasRotated = true;
 
-        GameObject shroom = null;
+        GameObject shroom;
 
         // Get shroom type and instantiate shrooms
-        switch(shroomType)
+        switch (shroomType)
         {
             case ShroomType.Regular:
                 shroom = Instantiate(regShroom, transform.position, rotation);
                 break;
 
             case ShroomType.Wall:
-                shroom = Instantiate(wallShroom, transform.position, rotation);
+                Vector3 diff = new Vector3(0.1f, 0, 0);
+                if (contactPoint.point.x < transform.position.x)
+                {
+                    diff *= -1;
+                }
+                shroom = Instantiate(wallShroom, transform.position + diff, rotation);
                 break;
 
             default:
                 shroom = Instantiate(regShroom, transform.position, rotation); 
                 break;
         }
+
+        // Play the shroom sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ShroomPlant, transform.position);
 
         shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         shroom.GetComponent<Shroom>().HasRotated = true;
@@ -195,6 +211,10 @@ public abstract class Shroom : MonoBehaviour
 
         // Set the MushroomInfo angle to the calculated angle
         shroom.GetComponent<Shroom>().RotateAngle = angle;
+        //if (angle >= 0)
+        //{
+        //    shroom.GetComponent<Shroom>().flipRotation = true;
+        //}
         hasRotated = true;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,6 +14,7 @@ public class JournalScriptableObj : ScriptableObject
     [SerializeField] private bool canOpen = true;
     [SerializeField] private bool canClose = true;
     [SerializeField] private float journalCloseBuffer = 0.25f;
+    [SerializeField] private bool enableTutorialMessage = true;
 
     #region EVENTS
     [System.NonSerialized]
@@ -95,6 +97,24 @@ public class JournalScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Sets the tutorial message enabled value
+    /// </summary>
+    /// <param name="enableTutorialMessage">Whether or not to show the tutorial message</param>
+    public void SetTutorialMessage(bool enableTutorialMessage)
+    {
+        this.enableTutorialMessage = enableTutorialMessage;
+    }
+
+    /// <summary>
+    /// gets the tutorial message enabled value
+    /// </summary>
+    /// <returns>Whether to show the tutorial message</returns>
+    public bool GetTutorialMessage()
+    {
+        return enableTutorialMessage;
+    }
+
+    /// <summary>
     /// Get whether the player has the Journal
     /// </summary>
     /// <returns>Whether the player has the Journal</returns>
@@ -172,5 +192,19 @@ public class JournalScriptableObj : ScriptableObject
     public void ClearJournal()
     {
         clearJournalEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        hasJournal = false;
+        journalOpen = false;
+        openedOnce = false;
+        canOpen = true;
+        canClose = true;
+        journalCloseBuffer = 0.25f;
+        enableTutorialMessage = true;
     }
 }

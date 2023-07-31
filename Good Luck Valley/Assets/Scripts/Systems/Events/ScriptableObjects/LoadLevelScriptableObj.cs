@@ -10,10 +10,12 @@ public class LoadLevelScriptableObj : ScriptableObject
     #region FIELDS
     [SerializeField] private bool activeTriggers = false;
     [SerializeField] private bool isLoading = false;
+    [SerializeField] private bool loadingThroughCutscene = false;
     [SerializeField] private bool insideLoadTrigger = false;
 
     #region EVENTS
     public UnityEvent startLoad;
+    public UnityEvent<float> startMusicLoad;
     public UnityEvent endLoad;
     #endregion
     #endregion
@@ -29,6 +31,11 @@ public class LoadLevelScriptableObj : ScriptableObject
         if (endLoad == null)
         {
             endLoad = new UnityEvent();
+        }
+
+        if(startMusicLoad == null)
+        {
+            startMusicLoad = new UnityEvent<float>();
         }
         #endregion
     }
@@ -61,6 +68,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether a player is loading through a cutscene or not
+    /// </summary>
+    /// <param name="loadingThroughCutscene">Whether a player is loading through a cutscene or not</param>
+    public void SetLoadingThroughCutscene(bool loadingThroughCutscene)
+    {
+        this.loadingThroughCutscene = loadingThroughCutscene;
+    }
+
+    /// <summary>
     /// Get whether loading triggers are active or not
     /// </summary>
     /// <returns>Whether loading triggers are active or not</returns>
@@ -88,6 +104,15 @@ public class LoadLevelScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Get whether the player is loading through a cutscene or not
+    /// </summary>
+    /// <returns>Whether the player is loading through a cutscene or not</returns>
+    public bool GetLoadingThroughCutscene()
+    {
+        return loadingThroughCutscene;
+    }
+
+    /// <summary>
     /// Trigger all events relating to loading a level
     /// </summary>
     public void StartLoad()
@@ -97,11 +122,31 @@ public class LoadLevelScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Trigger all events relating to updating music through loading
+    /// </summary>
+    /// <param name="progressLevel">The level to progress to</param>
+    public void StartMusicLoad(float progressLevel)
+    {
+        startMusicLoad.Invoke(progressLevel);
+    }
+
+    /// <summary>
     /// Trigger all events relating to ending the loading process of a level
     /// </summary>
     public void EndLoad()
     {
         isLoading = false;
         endLoad.Invoke();
+    }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        activeTriggers = false;
+        isLoading = false;
+        loadingThroughCutscene = false;
+        insideLoadTrigger = false;
     }
 }

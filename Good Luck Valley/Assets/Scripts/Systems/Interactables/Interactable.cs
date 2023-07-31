@@ -16,9 +16,11 @@ public abstract class Interactable : MonoBehaviour
     }
 
     protected bool interacting = false;
-    protected bool inRange = false;
+    [SerializeField] protected bool inRange = false;
+    [SerializeField] protected bool overridesRangeDetection;
     protected bool controlTriggered = false;
     protected bool finishedInteracting = false;
+    protected bool playedSound = false;
     [SerializeField] protected bool remove = false;
     [SerializeField] protected bool active = true;
     #endregion
@@ -27,17 +29,28 @@ public abstract class Interactable : MonoBehaviour
     public bool InRange { get { return inRange; } set { inRange = value; } }
     public bool ControlTriggered { get { return controlTriggered; } set { controlTriggered = value; } }
     public bool Remove { get { return remove; } set { remove = value; } }
+    public bool OverridesRangeDetection { get { return overridesRangeDetection; } }
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        playedSound = false;
         remove = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Show the outline if in range
+        if(inRange)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 1);
+        } else
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 0);
+        }
+
         // Check if interactable is triggered
         if (controlTriggered)
         {

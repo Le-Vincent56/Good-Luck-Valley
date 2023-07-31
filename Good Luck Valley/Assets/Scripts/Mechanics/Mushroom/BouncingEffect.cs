@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -19,7 +20,8 @@ public class BouncingEffect : MonoBehaviour
     [SerializeField] private bool onCooldown = false;
     [SerializeField] float bounceClampMin = 0.4f;
     [SerializeField] float bounceClampMax = 0.6f;
-    
+    [SerializeField] private Vector3 showForce;
+    [SerializeField] private float rotateAngle;
     #endregion
 
     #region PROPERTIES
@@ -32,19 +34,53 @@ public class BouncingEffect : MonoBehaviour
     /// <param name="collision">The Collision2D triggering the collision</param>
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!mushroomEvent.IsTouchingShroom)
+        if (collision.gameObject.name == "WallJump")
         {
+            ContactPoint2D[] contacts = collision.contacts;
+
+            Vector2 lowestPoint = contacts[0].point;
+
+            for (int i = 0; i < contacts.Length; i++) 
+            { 
+                if (contacts[i].point.y < lowestPoint.y)
+                {
+                    lowestPoint = contacts[i].point;
+                }
+            }
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(lowestPoint);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!mushroomEvent.IsTouchingShroom && collision.gameObject.CompareTag("Mushroom"))
+        {
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             Shroom shroomToBounce = collision.gameObject.GetComponent<Shroom>();
+
+            // Check to see if there is a shroom component
             if (shroomToBounce != null)
             {
-                shroomToBounce.Bounce();
-            }
+                // Remove tutorial message
+                if (mushroomEvent.GetFirstBounce())
+                {
+                    mushroomEvent.HideBounceMessage();
+                }
 
-            if (collision.gameObject.tag.Equals("Mushroom"))
-            {
                 // Set touching shroom to true if colliding with the mushroom
                 mushroomEvent.SetTouchingShroom(true);
                 mushroomEvent.TouchingShroom();
+                movementEvent.SetIsGrounded(false);
+                movementEvent.SetIsBouncing(true);
+                shroomToBounce.Bounce();
+            }
+
+            // Trigger shroom bounce animation, if it exists
+            Animator shroomAnimator = collision.gameObject.GetComponent<Animator>();
+            if(shroomAnimator != null)
+            {
+                shroomAnimator.SetTrigger("Bouncing");
             }
         }
     }
@@ -55,8 +91,39 @@ public class BouncingEffect : MonoBehaviour
     /// <param name="collision">The Collision2D checking for an exit</param>
     void OnCollisionExit2D(Collision2D collision)
     {
+        if (collision.gameObject.name == "WallJump")
+        {
+            movementEvent.SetIsTouchingWall(false);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "WallJump")
+        {
+            ContactPoint2D[] contacts = collision.contacts;
+
+            Vector2 lowestPoint = contacts[0].point;
+
+            for (int i = 0; i < contacts.Length; i++)
+            {
+                if (contacts[i].point.y < lowestPoint.y)
+                {
+                    lowestPoint = contacts[i].point;
+                }
+            }
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetMushroomPosition(lowestPoint);
+            movementEvent.SetWallCollisionPoint(contacts[0].point);
+            //mushroomEvent.SetTouchingShroom(true);
+            //mushroomEvent.TouchingShroom();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
         // Check if the collider is a mushroom
-        if(collision.gameObject.tag.Equals("Mushroom"))
+        if (collision.gameObject.CompareTag("Mushroom"))
         {
             // If exiting, set touchingShroom to false
             mushroomEvent.SetTouchingShroom(false);

@@ -9,6 +9,15 @@ using UnityEngine.InputSystem;
 public class DataManager : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
+    [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
+    [SerializeField] private SaveMenuScriptableObj saveMenuEvent;
+    [SerializeField] private JournalScriptableObj journalEvent;
+    [SerializeField] private CameraScriptableObj cameraEvent;
     [SerializeField] private GameData gameData;
     private SettingsData settingsData;
     [SerializeField] private List<IData> dataObjects;
@@ -124,6 +133,9 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
+        // Reset scriptable objects
+        ResetScriptableObjs();
+
         // Gets rebinds so that starting a new game doesn't mess up keybinds
         string rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))
@@ -197,7 +209,6 @@ public class DataManager : MonoBehaviour
         // Start a new game if the data is null and we're configured to initialize data for debugging purposes
         if(gameData == null && initializeDataIfNull)
         {
-            Debug.Log("New game");
             NewGame();
         }
 
@@ -295,6 +306,22 @@ public class DataManager : MonoBehaviour
     {
         // Return if settingsData is null or not
         return settingsData != null;
+    }
+
+    /// <summary>
+    /// Reset scriptable objects
+    /// </summary>
+    public void ResetScriptableObjs()
+    {
+        movementEvent.ResetObj();
+        mushroomEvent.ResetObj();
+        disableEvent.ResetObj();
+        cutsceneEvent.ResetObj();
+        loadLevelEvent.ResetObj();
+        pauseEvent.ResetObj();
+        saveMenuEvent.ResetObj();
+        journalEvent.ResetObj();
+        cameraEvent.ResetObj();
     }
 
     /// <summary>

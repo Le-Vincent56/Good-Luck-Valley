@@ -9,15 +9,19 @@ using UnityEngine.Windows;
 using FMOD.Studio;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
+using UnityEditor.Rendering;
+
+public enum PlayerState
+{
+    Idle,
+    Running,
+    Jumping,
+    Falling,
+    Bouncing
+}
 
 public class PlayerMovement : MonoBehaviour, IData
 {
-    enum TileType
-    {
-        Grass,
-        Dirt
-    }
-
     #region REFERENCES
     [SerializeField] private PlayerData data;
     [SerializeField] private MovementScriptableObj movementEvent;
@@ -27,21 +31,27 @@ public class PlayerMovement : MonoBehaviour, IData
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private LevelDataObj levelDataObj;
+    [SerializeField] private PlayerInput playerInput;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject playerLight;
 	[SerializeField] private Rigidbody2D rb;
 	private BoxCollider2D playerCollider;
 	private CapsuleCollider2D capsuleCollider;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer;
 	[SerializeField] private PhysicsMaterial2D noFriction;
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
 	private Settings settings;
     private VisualEffect dust;
     private VisualEffect grass;
+    [SerializeField] private GameObject wallShroomPrefab;
     #endregion
 
     #region FIELDS
+    [Header("General")]
+    [SerializeField] private PlayerState currentState;
+    [SerializeField] private PlayerState previousState;
     [SerializeField] bool debug = false;
     [SerializeField] bool isJumping;
     [SerializeField] private bool isGrounded;
@@ -57,7 +67,7 @@ public class PlayerMovement : MonoBehaviour, IData
 	private bool isJumpFalling;
     private bool isJumpAnimFalling;
 	private bool isFacingRight;
-    private bool landed;
+    [SerializeField] private bool landed;
     private float lastOnGroundTime;
     private float lastPressedJumpTime;
     private Vector2 playerPosition;
@@ -68,13 +78,25 @@ public class PlayerMovement : MonoBehaviour, IData
     //  feel free to fuck with it this is just the only way I could figure it out
     private bool createDustOnFall;
 
+    #region WALLS
+    [Header("Walls")]
+    [SerializeField] private bool debugWall;
+    [SerializeField] private float wallStickForce;
+    [SerializeField] private bool previousWallState;
+    [SerializeField] private float wallStickTimerMax;
+    [SerializeField] private float wallStickTimer = -1f;
+    #endregion
+
     #region SLOPES
+    [Header("Slopes")]
     [SerializeField] bool checkForSlopes = false;
     [SerializeField] bool isOnSlope;
     [SerializeField] bool canWalkOnSlope;
     [SerializeField] float slopeCheckDistance;
     [SerializeField] float slopeForceMagnitude = 5f;
     [SerializeField] float maxSlopeAngle;
+    [SerializeField] private float currentSlopeDownAngle;
+    [SerializeField] private float currentSlopeSideAngle;
     [SerializeField] private Vector2 moveInput;
     private Vector2 capsuleColliderSize;
 	private Vector2 slopeNormal;
@@ -82,9 +104,10 @@ public class PlayerMovement : MonoBehaviour, IData
     private float slopeSideAngle;
 	private float slopeDownAngle;
 	private float slopeNormalPerpAngle;
-	#endregion
+    #endregion
 
-	#region BOUNCING
+    #region BOUNCING
+    [Header("Bouncing")]
 	[SerializeField] private bool bouncing = false;
     [SerializeField] private bool touchingShroom = false;
     [SerializeField] private float bounceBuffer = 0.1f;
@@ -102,19 +125,22 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void Awake()
 	{
+        playerInput = GetComponent<PlayerInput>();
 		RB = GetComponent<Rigidbody2D>();
 		spriteRenderer = GameObject.Find("PlayerSprite").GetComponent<SpriteRenderer>();
 		playerCollider = GetComponent<BoxCollider2D>();
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 		devTools = GameObject.Find("Dev Tools").GetComponent<DevTools>();
 		settings = GameObject.Find("MenusManager").GetComponent<Settings>();
-	}
+    }
 
     private void OnEnable()
     {
         movementEvent.bounceEvent.AddListener(ApplyBounce);
         movementEvent.landEvent.AddListener(Land);
         movementEvent.resetTurn.AddListener(ResetTurn);
+        movementEvent.applyMovementDirection.AddListener(SetMovementDirection);
+        movementEvent.setTurnDirection.AddListener(SetTurnDirection);
         mushroomEvent.touchingShroomEvent.AddListener(TouchingShroom);
         pauseEvent.pauseEvent.AddListener(LockMovement);
         pauseEvent.unpauseEvent.AddListener(UnlockMovement);
@@ -135,6 +161,8 @@ public class PlayerMovement : MonoBehaviour, IData
         movementEvent.bounceEvent.RemoveListener(ApplyBounce);
         movementEvent.landEvent.RemoveListener(Land);
         movementEvent.resetTurn.RemoveListener(ResetTurn);
+        movementEvent.applyMovementDirection.RemoveListener(SetMovementDirection);
+        movementEvent.setTurnDirection.RemoveListener(SetTurnDirection);
         mushroomEvent.touchingShroomEvent.RemoveListener(TouchingShroom);
         pauseEvent.pauseEvent.RemoveListener(LockMovement);
         pauseEvent.unpauseEvent.RemoveListener(UnlockMovement);
@@ -157,24 +185,24 @@ public class PlayerMovement : MonoBehaviour, IData
 		playerPosition = transform.position;
 		playerLight = GameObject.Find("PlayerLight");
 		capsuleColliderSize = capsuleCollider.size;
-	}
+        wallStickTimer = -1f;
+    }
 
     private void Update()
 	{
-        //Debug.Log("Jumping?: " + isJumping);
-        //Debug.Log("Falling?: " + isJumpFalling);
-        //Debug.Log("Landed?: " + landed);
-        //Debug.Log("Grounded?: " + isGrounded);
-        
         // Set playerPosition to the current position and calculate the distance from the previous position
         playerPosition = transform.position;
         distanceFromLastPosition = playerPosition - previousPlayerPosition;
 
 		// Check if the player is moving using RB.velocity
-        isMoving = false;
         if (RB.velocity != Vector2.zero)
         {
             isMoving = true;
+        } else
+        {
+            isMoving = false;
+            currentState = PlayerState.Idle;
+            movementEvent.SetCurrentState(currentState);
         }
 
 		// Set the playerLight's position to the player's position
@@ -183,7 +211,6 @@ public class PlayerMovement : MonoBehaviour, IData
 		// Update timers
         #region TIMERS
         lastOnGroundTime -= Time.deltaTime;
-
         lastPressedJumpTime -= Time.deltaTime;
 
         // If the player is falling, update the fallingBuffer
@@ -196,6 +223,11 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             bounceBuffer -= Time.deltaTime;
         }
+
+        if(wallStickTimer > 0)
+        {
+            wallStickTimer -= Time.deltaTime;
+        }
         #endregion
 
         // Check for Collisions
@@ -204,21 +236,34 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			RaycastHit2D boxCheckGround = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.1f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.down, 0.1f, groundLayer);
 
-            if (boxCheckGround  && !touchingShroom && !isJumping) // Checks if set box overlaps with ground while not touching the shroom
+            if (boxCheckGround && !touchingShroom && !isJumping) // Checks if set box overlaps with ground while not touching the shroom
             {
                 // If bouncing before and the bounce buffer has ended, end bouncing
                 if (bouncing && bounceBuffer <= 0)
                 {
+                    disableEvent.EnableInput();
                     bouncing = false;
                     movementEvent.SetIsBounceAnimating(false);
                 }
 
                 // Ground player
                 isGrounded = true;
-                movementEvent.Land();
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
+            }
+        }
+
+        // Check to see if a wall is being touched
+        CheckForWall();
+
+        // Check for is the player is on a wall
+        if (movementEvent.GetIsTouchingWall())
+        {
+            // If bouncing before and the bounce buffer has ended, end bouncing
+            if (bouncing && bounceBuffer <= 0)
+            {
+                movementEvent.SetIsBounceAnimating(false);
             }
         }
         #endregion
@@ -231,6 +276,10 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumping = false;
 
             isJumpFalling = true;
+
+            currentState = PlayerState.Falling;
+            movementEvent.SetCurrentState(currentState);
+
             movementEvent.Fall();
         }
 
@@ -255,6 +304,10 @@ public class PlayerMovement : MonoBehaviour, IData
 			isJumpCut = false;
 
             isJumpFalling = true;
+
+            currentState = PlayerState.Falling;
+            movementEvent.SetCurrentState(currentState);
+
             movementEvent.Fall();
         }
 
@@ -304,6 +357,8 @@ public class PlayerMovement : MonoBehaviour, IData
             isJumping = true;
             isJumpCut = false;
             isJumpFalling = false;
+            currentState = PlayerState.Jumping;
+            movementEvent.SetCurrentState(currentState);
             Jump();
         }
         #endregion
@@ -311,13 +366,16 @@ public class PlayerMovement : MonoBehaviour, IData
 		// Land Animation Checks
         #region LAND ANIMATION CHECKS
         // If the player has been on the ground for longer than 0 seconds, they have landed
-        if (landedTimer > 0 && isGrounded && !bouncing)
+        if (landedTimer > 0 && isGrounded && !bouncing && !isJumping && (previousState == PlayerState.Falling))
         {
             // Update timer
             landedTimer -= Time.deltaTime;
 
             // Set landed to true
             landed = true;
+
+            // Trigger landing events
+            movementEvent.Land();
         }
         else
         {
@@ -328,7 +386,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		if(!isGrounded && RB.velocity.y < 0)
 		{
 			// If not grounded and has a negative velocity, reset landed timer
-			landedTimer = 0.2f;
+			landedTimer = 0.01f;
 		}
         #endregion
 
@@ -338,39 +396,46 @@ public class PlayerMovement : MonoBehaviour, IData
         {
             // Check for slope gravity first
             if (isOnSlope && !isLocked && !isJumping && !touchingShroom && canWalkOnSlope)
-			{
-				// Check for movement input
-				if(moveInput.x == 0.0f)
-				{
-					// If not moving, set to 0 so the player can stop on the hill
+            {
+                // Check for movement input
+                if (moveInput.x == 0.0f)
+                {
+                    // If not moving, set to 0 so the player can stop on the hill
                     SetGravityScale(0);
-                } else if(isGrounded && canWalkOnSlope)
-				{
-					// If moving, apply normal gravity
-					SetGravityScale(data.gravityScale);
-				}
-			}
+                } else if (isGrounded && canWalkOnSlope)
+                {
+                    // If moving, apply normal gravity
+                    SetGravityScale(data.gravityScale);
+                }
+            }
+            else if (RB.velocity.y < 0 && movementEvent.GetIsTouchingWall()) // If sliding down a wall
+            {
+                // Lower gravity if sliding on a wall
+                SetGravityScale(data.gravityScale * data.wallSlideGravityMultDown);
+
+                // Caps maximum slide speed
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxWallSlideSpeed));
+            }
             else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling
 			{
 				// Higher gravity if we've released the jump input or are falling
-
 				// Much higher gravity if holding down
 				SetGravityScale(data.gravityScale * data.fastFallGravityMult);
 
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
 			}
-			else if (isJumpCut)
+			else if (isJumpCut) // If jump cutting
 			{
 				// Higher gravity if jump button released
 				SetGravityScale(data.gravityScale * data.jumpCutGravityMult);
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
 			}
-			else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold)
+			else if ((isJumping || isJumpFalling) && Mathf.Abs(RB.velocity.y) < data.jumpHangTimeThreshold) // If jump hanging
 			{
 				SetGravityScale(data.gravityScale * data.jumpHangGravityMult);
 			}
-			else if (RB.velocity.y < 0)
+			else if (RB.velocity.y < 0) // If regular falling
 			{
 				// Higher gravity if falling
 				SetGravityScale(data.gravityScale * data.fallGravityMult);
@@ -388,11 +453,17 @@ public class PlayerMovement : MonoBehaviour, IData
             // If bouncing upwards, using bounceGravity
             if (RB.velocity.y > 0)
             {
-                // Higher gravity if falling
-                SetGravityScale(data.gravityScale * data.bounceGravityMult);
+                if(movementEvent.GetIsTouchingWall()) // Check if touching a wall
+                {
+                    SetGravityScale(data.gravityScale * data.wallSlideGravityMultBounceUp);
+                } else
+                {
+                    // Higher gravity if falling
+                    SetGravityScale(data.gravityScale * data.bounceGravityMult);
 
-                // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
+                    // Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+                    RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFallSpeed));
+                }
 			}
 			else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling from bounce
 			{
@@ -413,6 +484,18 @@ public class PlayerMovement : MonoBehaviour, IData
         }
         #endregion
 
+        // Sets grounded to false if you are bouncing 
+        if (bouncing)
+        {
+            isGrounded = false;
+        }
+
+        // Check for the first frame for when the player is not touching a wall
+        if (previousWallState && (previousWallState != movementEvent.GetIsTouchingWall()))
+        {
+            wallStickTimer = wallStickTimerMax;
+        }
+
         movementEvent.SetIsGrounded(isGrounded);
         movementEvent.SetIsJumping(isJumping);
         movementEvent.SetIsFalling(isJumpAnimFalling);
@@ -421,6 +504,11 @@ public class PlayerMovement : MonoBehaviour, IData
 
         // Update previousPlayerPosition for future calculations
         previousPlayerPosition = playerPosition;
+
+        // Update previous state
+        previousState = currentState;
+        movementEvent.SetPreviousState(previousState);
+        previousWallState = movementEvent.GetIsTouchingWall();
     }
 
 	private void FixedUpdate()
@@ -428,6 +516,7 @@ public class PlayerMovement : MonoBehaviour, IData
 		// If the player isn't locked
 		if (!isLocked)
 		{
+            // Check for slopes
 			if(checkForSlopes)
 			{
                 // Handle slopes
@@ -440,18 +529,53 @@ public class PlayerMovement : MonoBehaviour, IData
                 Run(0.5f);
                 movementEvent.SetVectors(rb.velocity, moveInput);
                 movementEvent.Move();
+
+                // Set current state to running if the player is moving while grounded
+                if(isGrounded)
+                {
+                    currentState = PlayerState.Running;
+                    movementEvent.SetCurrentState(currentState);
+                }
+
+                // Check direction to face based on vector
+                if (moveInput.x != 0 && movementEvent.GetCanTurn() && !movementEvent.GetIsTouchingWall())
+                {
+                    // Check directions to face
+                    CheckDirectionToFace(moveInput.x > 0);
+                }
+
+                // If the player is not in the load trigger, set the levelpos type to default
+                if (!loadLevelEvent.GetInLoadTrigger())
+                {
+                    levelDataObj.SetLevelPos(SceneManager.GetActiveScene().name, LEVELPOS.DEFAULT);
+                }
+
                 StopCoroutine(MovementCooldown());
-            } else
+            } else if(!cutsceneEvent.GetPlayingCutscene()) // Only apply the movement cooldown when playing the game and not in a cutscene
             {
                 StartCoroutine(MovementCooldown());
             }
 
-            // If the player is not in the load trigger, set the levelpos type to default
-            if(!loadLevelEvent.GetInLoadTrigger())
+            // Check if the player is touching the wall
+            if (movementEvent.GetIsTouchingWall())
             {
-                levelDataObj.SetLevelPos(SceneManager.GetActiveScene().name, LEVELPOS.DEFAULT);
+                if(!isGrounded)
+                {
+                    TurnToWall();
+                }
+
+                // Apply wall force
+                ApplyWallForce();
+
+                // Trigger other wall-related events
+                movementEvent.Wall();
             }
-		}
+            else if (wallStickTimer > 0) // Check if the wall stick timer is running
+            {
+                // Apply wall force
+                ApplyWallForce();
+            }
+        }
 		else
 		{
 			// Reset velocity to 0
@@ -669,8 +793,8 @@ public class PlayerMovement : MonoBehaviour, IData
         #endregion
 
         #region Barrier Checks
-        // If the slope angle is less than the max slope that the player can climb, then allow them to walk on it
-        if (Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle)
+        // If the slope angle is less than the max slope that the player can climb, then allow them to walk on it, as long as they're grounded
+        if (Mathf.Abs(slopeDownAngle) < maxSlopeAngle || slopeSideAngle < maxSlopeAngle && isGrounded)
         {
             canWalkOnSlope = true;
         }
@@ -679,6 +803,10 @@ public class PlayerMovement : MonoBehaviour, IData
             // Otherwise, do not allow them to walk on it
             canWalkOnSlope = false;
         }
+
+        currentSlopeDownAngle = Mathf.Abs(slopeDownAngle);
+        currentSlopeSideAngle = slopeSideAngle;
+
         #endregion
 
         // If the player is grounded, is on a slope, is able to walk on the slope, and is not jumping, and is not bouncing, then apply the slope force
@@ -719,6 +847,42 @@ public class PlayerMovement : MonoBehaviour, IData
     }
 
     /// <summary>
+    /// Add forces to player movement to be stickier towards walls
+    /// </summary>
+    private void ApplyWallForce()
+    {
+        // Get the vector from the center of the playerp position to the wall
+        Vector2 checkPos = playerCollider.bounds.center;
+        Vector2 wallDir = new Vector2(movementEvent.GetWallCollisionPoint().x, checkPos.y);
+
+        // Calculate the stick vector
+        Vector2 stickVector = wallDir - checkPos;
+        Vector2 stickForce = stickVector.normalized * wallStickForce;
+
+        // Add the force
+        RB.AddForce(stickForce, ForceMode2D.Force);
+
+        // Draw rays for debugging
+        if (debug)
+        {
+            Debug.DrawRay(transform.position, stickForce, Color.magenta);
+        }
+    }
+
+    private void TurnToWall()
+    {
+        // Get the vector from the center of the playerp position to the wall
+        Vector2 checkPos = playerCollider.bounds.center;
+        Vector2 wallDir = new Vector2(movementEvent.GetWallCollisionPoint().x, checkPos.y);
+
+        // Calculate the stick vector
+        Vector2 stickVector = wallDir - checkPos;
+
+        // Turn the opposite way
+        Turn((int)-stickVector.normalized.x);
+    }
+
+    /// <summary>
     /// Turn the Player to face the direction they are moving in
     /// </summary>
     public void Turn()
@@ -730,6 +894,42 @@ public class PlayerMovement : MonoBehaviour, IData
 
         isFacingRight = !isFacingRight;
 	}
+
+    /// <summary>
+    /// Turn the player to face a certain direction
+    /// </summary>
+    /// <param name="direction">The direction to face, -1 for left, 1 for right</param>
+    public void Turn(int direction)
+    {
+        // Get the localScale of the player
+        Vector3 scale = transform.localScale;
+
+        // Change scale depending on parameters
+        switch(direction)
+        {
+            case -1:
+                // If the scale is positive, turn it negative
+                if(scale.x > 0)
+                {
+                    scale.x *= -1f;
+                }
+                isFacingRight = false;
+                break;
+
+            case 1:
+                // Turn the scale positive
+                scale.x = Mathf.Abs(scale.x);
+                isFacingRight = true;
+                break;
+
+            // Fallthrough case
+            default:
+                break;
+        }
+
+        // Apply turn
+        transform.localScale = scale;
+    }
 
     /// <summary>
     /// Reset the way the player is looking
@@ -756,27 +956,27 @@ public class PlayerMovement : MonoBehaviour, IData
 		lastPressedJumpTime = 0;
 		lastOnGroundTime = 0;
 
-		#region Perform Jump
-		// If the player is grounded and moving upwards, force velocity to 0
-		// so jumps stay consistent
-		if(isGrounded && RB.velocity.y > 0)
-		{
-			RB.velocity -= Vector2.up * rb.velocity.y;
-		}
+        #region Perform Jump
+        // If the player is grounded and moving upwards, force velocity to 0
+        // so jumps stay consistent
+        if (isGrounded && RB.velocity.y > 0)
+        {
+            RB.velocity -= Vector2.up * rb.velocity.y;
+        }
 
         // We increase the force applied if we are falling
         // This means we'll always feel like we jump the same amount
         float force = data.jumpForce;
-		if (RB.velocity.y < 0)
+        if (RB.velocity.y < 0)
         {
-			force -= RB.velocity.y;
-		}
+            force -= RB.velocity.y;
+        }
 
-		// Add the force to the Player's RigidBody
-		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        // Add the force to the Player's RigidBody
+        RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         createDustOnFall = true;
-		#endregion
-	}
+        #endregion
+    }
     #endregion
 
     // CHECK METHODS
@@ -792,6 +992,20 @@ public class PlayerMovement : MonoBehaviour, IData
 			Turn();
 		}
 	}
+
+    public void CheckForWall()
+    {
+        RaycastHit2D wallCheckRight = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.left, 0.25f, wallLayer);
+        RaycastHit2D wallCheckLeft = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x + 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.right, 0.25f, wallLayer);
+
+        if(wallCheckRight || wallCheckLeft)
+        {
+            movementEvent.SetIsTouchingWall(true);
+        } else
+        {
+            movementEvent.SetIsTouchingWall(false);
+        }
+    }
 
 	/// <summary>
 	/// Check if the Player can Jump
@@ -871,13 +1085,6 @@ public class PlayerMovement : MonoBehaviour, IData
         {
 			// Set the move input to the value returned by context
 			moveInput = context.ReadValue<Vector2>();
-			
-			// Check direction to face based on vector
-			if (moveInput.x != 0)
-			{
-				// Check directions to face
-                CheckDirectionToFace(moveInput.x > 0);
-			}
 		}
 	}
 
@@ -901,7 +1108,7 @@ public class PlayerMovement : MonoBehaviour, IData
 				OnJumpUpInput();
 			}
 		}
-	}
+    }
 	#endregion
 
     // EVENT FUNCTIONS
@@ -914,16 +1121,23 @@ public class PlayerMovement : MonoBehaviour, IData
         bouncing = true;
         bounceBuffer = 0.1f;
         landedTimer = 0.2f;
+        currentState = PlayerState.Bouncing;
+        movementEvent.SetCurrentState(currentState);
 
         // Check if jumping - if there's a simultaneous jump,
         // reduce the bounce amount so that the player doesn't launch into the air
         // more than they are supposed to
-        if(isJumping && jumpBuffer > 0)
+        if (isJumping && jumpBuffer > 0 && !movementEvent.GetIsTouchingWall())
         {
             bounceForce /= data.jumpForce;
         }
 
+        // Add forces
+        //mushroomEvent.SetBounceForce(bounceForce);
         RB.AddForce(bounceForce, forceType);
+
+        // Play the shroom sound
+        AudioManager.Instance.PlayRandomizedOneShot(FMODEvents.Instance.ShroomBounces, transform.position);
     }
 
 	/// <summary>
@@ -948,6 +1162,7 @@ public class PlayerMovement : MonoBehaviour, IData
     private void LockMovement()
 	{
         moveInput = Vector2.zero;
+        movementEvent.SetCanTurn(false);
         isLocked = true;
 	}
 
@@ -957,6 +1172,12 @@ public class PlayerMovement : MonoBehaviour, IData
     private void UnlockMovement()
     {
         isLocked = false;
+
+        if (!playerInput.inputIsActive)
+        {
+            playerInput.ActivateInput();
+        }
+        movementEvent.SetCanTurn(true);
     }
 
     /// <summary>
@@ -974,6 +1195,8 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void DisableInput()
     {
+        playerInput.DeactivateInput();
+        movementEvent.SetCanTurn(false);
         canInput = false;
         canInputHard = false;
     }
@@ -983,8 +1206,48 @@ public class PlayerMovement : MonoBehaviour, IData
     /// </summary>
     private void EnableInput()
     {
+        playerInput.ActivateInput();
+        movementEvent.SetCanTurn(true);
         canInput = true;
         canInputHard = true;
+    }
+
+    /// <summary>
+    /// Set the player movement direction
+    /// </summary>
+    /// <param name="movementDirection">The movement direction</param>
+    private void SetMovementDirection(Vector2 movementDirection)
+    {
+        RB.velocity = movementDirection;
+    }
+
+    /// <summary>
+    /// Set in which direction the player is facing
+    /// </summary>
+    /// <param name="directionToface">The direction to face, 1 for right, -1 for left</param>
+    private void SetTurnDirection(int directionToFace)
+    {
+        switch(directionToFace)
+        {
+            // If directionToFace is 1, set the player facing right
+            case 1:
+                Vector3 scaleRight = transform.localScale;
+                scaleRight.x = Mathf.Abs(scaleRight.x);
+                transform.localScale = scaleRight;
+
+                isFacingRight = true;
+                break;
+
+            // If directionToFace is -1, set the player facing left
+            case -1:
+                Vector3 scaleLeft = transform.localScale;
+                scaleLeft.x = Mathf.Abs(scaleLeft.x);
+                scaleLeft.x = -scaleLeft.x;
+                transform.localScale = scaleLeft;
+
+                isFacingRight = false;
+                break;
+        }
     }
 
     private void Land()
@@ -1029,5 +1292,5 @@ public class PlayerMovement : MonoBehaviour, IData
         movementEvent.SaveData(data);
         levelDataObj.SaveData(data);
 	}
-	#endregion
+    #endregion
 }

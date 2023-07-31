@@ -46,14 +46,24 @@ public class GameData
     public string currentLevelName;
     #endregion
 
+    #region MUSIC
+    public ForestLevel currentForestLevel;
+    public float forestMusicProgression;
+    #endregion
+
     #region SHROOM
     public bool throwUnlocked;
+    public bool firstThrow;
+    public bool firstBounce;
+    public bool firstFull;
     #endregion
 
     #region JOURNAL
     public int numNotesCollected;
     public List<NoteData> notes;
     public bool hasJournal;
+    public bool hasOpenedJournalOnce;
+    public bool showJournalTutorial;
     #endregion
     #endregion
 
@@ -74,26 +84,29 @@ public class GameData
 
         #region SHROOM
         throwUnlocked = false;
+        firstThrow = true;
+        firstBounce = true;
+        firstFull = false;
         #endregion
 
         #region JOURNAL
         numNotesCollected = 0;
         notes = new List<NoteData>();
-        hasJournal = true;
+        hasJournal = false;
+        hasOpenedJournalOnce = false;
+        showJournalTutorial = true;
         #endregion
     }
 
     public void InitializePrologue()
     {
         levelData["Prologue"] = new LevelData();
-        levelData["Prologue"].levelPos = LEVELPOS.ENTER;
+        levelData["Prologue"].levelPos = LEVELPOS.DEFAULT;
         levelData["Prologue"].playerPosition = new Vector3(-27.46f, 7.85f, 0f);
 
         #region ASSETS
         // Spore vines
-        levelData["Prologue"].assetsActive.Add("d36a4464-bcf2-4133-933e-edcc3f1c12e8", true);
-        levelData["Prologue"].assetsActive.Add("cfcb25a9-c90c-4001-8b02-f3709a9e417d", true);
-        levelData["Prologue"].assetsActive.Add("94f7a370-3732-44b5-8ef7-966b10c051e3", true);
+        levelData["Prologue"].assetsActive.Add("7d6b9b97-f377-4119-a443-468aeb2e7104", true);
 
         // Spore
         levelData["Prologue"].assetsActive.Add("62d1a4a9-3861-42b1-b0aa-06684d32d1f2", true);
@@ -126,6 +139,9 @@ public class GameData
 
         // Lotus
         levelData["Level 1"].assetsActive.Add("dd57ac64-ca88-4a0e-b33b-c9fd6faccb49", true);
+
+        // Vine Wall
+        levelData["Level 1"].assetsActive.Add("c2827f9d-736d-425c-8f2d-1627e43195bd", true);
         #endregion
     }
 }

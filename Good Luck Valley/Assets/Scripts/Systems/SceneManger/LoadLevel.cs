@@ -17,13 +17,14 @@ public class LoadLevel : MonoBehaviour
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
+    [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private LevelDataObj levelDataObj;
+    [SerializeField] private DisableScriptableObj disableEvent;
     private GameObject player;
     public Animator transition;
     #endregion
 
     #region FIELDS
-    [SerializeField] private bool loadingThroughCutscene = false;
     [SerializeField] private bool useLevelData = false;
     public float transitionTime = 1f;
     #endregion
@@ -49,7 +50,6 @@ public class LoadLevel : MonoBehaviour
         DataManager.Instance.SaveGame();
 
         StartCoroutine(LoadingLevel(SceneManager.GetActiveScene().buildIndex - 1));
-
     }
 
     /// <summary>
@@ -77,23 +77,43 @@ public class LoadLevel : MonoBehaviour
     /// </summary>
     public void StartLoading()
     {
+        // Disable the HUD while loading
+        disableEvent.DisableHUD();
+
+        // Prevent the player from pausing
+        pauseEvent.SetCanPause(false);
+        pauseEvent.SetPauseMenuOpen(false);
+        pauseEvent.SetPaused(false);
+
         // Play the respective cutscenes depending on whether the player is entering, returning, or just loading in
         switch (levelDataObj.levelPosData[SceneManager.GetActiveScene().name].levelPos)
         {
             case LEVELPOS.ENTER:
-                // Reset player turn
-                movementEvent.ResetTurn();
+                // Set the enter cutscene
+                cutsceneEvent.SetEnterCutscene(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].enterCutscene);
 
-                loadingThroughCutscene = true;
+                // Stop any footstep noises
+                movementEvent.StopCutsceneFootstepEvent();
+
+                // Start the cutscene
                 cutsceneEvent.StartEnterCutscene();
+
+                // Start cutscene footstep noises
+                movementEvent.StartCutsceneFootstepEvent();
                 break;
 
             case LEVELPOS.RETURN:
-                // Reset player turn
-                movementEvent.ResetTurn();
+                // Set the return cutscene
+                cutsceneEvent.SetEnterCutscene(levelDataObj.levelPosData[SceneManager.GetActiveScene().name].returnCutscene);
 
-                loadingThroughCutscene = true;
+                // Stop any footstep noises
+                movementEvent.StopCutsceneFootstepEvent();
+
+                // Start the cutscene
                 cutsceneEvent.StartEnterCutscene();
+
+                // Start cutscene footstep noises
+                movementEvent.StartCutsceneFootstepEvent();
                 break;
 
             case LEVELPOS.DEFAULT:
@@ -113,8 +133,9 @@ public class LoadLevel : MonoBehaviour
     public void EndLoading()
     {
         // If loading through a cutscene, return so there's no overlap
-        if(loadingThroughCutscene)
+        if(loadLevelEvent.GetLoadingThroughCutscene())
         {
+            loadLevelEvent.SetLoadingThroughCutscene(false);
             return;
         }
 
@@ -124,6 +145,9 @@ public class LoadLevel : MonoBehaviour
         // Save the game
         DataManager.Instance.SaveGame();
 
+        // Reset movement obj
+        movementEvent.ResetObj();
+
         // Check to see if the lotus cutscene needs to be played
         PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();
         if(camDirector != null)
@@ -131,11 +155,22 @@ public class LoadLevel : MonoBehaviour
             if(camDirector.enabled)
             {
                 cutsceneEvent.StartLotusCutscene();
+            } else
+            {
+                // Enable the HUD is a cutscene doesn't start
+                disableEvent.EnableHUD();
             }
+        } else
+        {
+            // Enable the HUD if a director doesn't exist
+            disableEvent.EnableHUD();
         }
 
         // Set load triggers to be active
         loadLevelEvent.SetTriggersActive(true);
+
+        // Allow the player to pause
+        pauseEvent.SetCanPause(true);
     }
 
     /// <summary>
@@ -146,6 +181,16 @@ public class LoadLevel : MonoBehaviour
         // Trigger end load event
         loadLevelEvent.EndLoad();
 
+        // Save the game
+        DataManager.Instance.SaveGame();
+
+        // Reset movement obj
+        movementEvent.ResetObj();
+
+        // Set the movement to 0 so there's no animation bugs
+        movementEvent.SetMovementDirection(new Vector2(0, movementEvent.GetMovementVector().y));
+        movementEvent.ApplyMovementDirection();
+
         // Check to see if the lotus cutscene needs to be played
         PlayableDirector camDirector = GameObject.Find("Main Camera").GetComponent<PlayableDirector>();
         if (camDirector != null)
@@ -153,16 +198,30 @@ public class LoadLevel : MonoBehaviour
             if (camDirector.enabled)
             {
                 cutsceneEvent.StartLotusCutscene();
+            } else
+            {
+                // Enable the HUD is a cutscene doesn't start
+                disableEvent.EnableHUD();
             }
+        } else
+        {
+            // Enable the HUD if a director doesn't exist
+            disableEvent.EnableHUD();
         }
 
         // End the enter cutscene
         cutsceneEvent.EndEnterCutscene();
 
+        // Stop the cutscene footstep event
+        movementEvent.StopCutsceneFootstepEvent();
+
         // Set to false in case of future problems
-        loadingThroughCutscene = false;
+        loadLevelEvent.SetLoadingThroughCutscene(false);
 
         // Set load triggers to be active
         loadLevelEvent.SetTriggersActive(true);
+
+        // Allow the player to pause
+        pauseEvent.SetCanPause(true);
     }
 }

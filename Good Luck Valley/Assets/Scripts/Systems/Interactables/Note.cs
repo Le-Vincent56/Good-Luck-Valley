@@ -18,6 +18,8 @@ public class Note : Interactable, IData
     [SerializeField] private string contentsTitle;
     [SerializeField] private int journalIndex = 0;
     [SerializeField] private bool noteAdded = false;
+    [SerializeField] private bool progressesMusic;
+    [SerializeField] private float progressLevel;
     #endregion
 
     #region PROPERTIES
@@ -58,15 +60,61 @@ public class Note : Interactable, IData
     public override void Interact()
     {
         // Add the note to the journal and trigger notification and sound effect
-        if(!noteAdded)
+        if (!noteAdded)
         {
+            // Set the object to invisible
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+            // Add it to the journla
             journalEvent.AddNote(this);
             noteAdded = true;
+
+            StartCoroutine(ProcessNote());
+        }
+    }
+
+    private IEnumerator ProcessNote()
+    {
+        // Add the note to update music - only in level one
+        if (AudioManager.Instance.CurrentArea == MusicArea.FOREST && AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN && progressesMusic)
+        {
+            yield return StartCoroutine(UpdateMusicLayer());
+        }
+
+        // Check if the player has the journal and if the note is the Journal Binding
+        if (!journalEvent.GetHasJournal() && journalIndex == 0)
+        {
+            journalEvent.SetHasJournal(true);
         }
 
         // Finish interacting
         finishedInteracting = true;
         remove = true;
+
+        // Play the note pickup sound
+        if (!playedSound)
+        {
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NotePickup, transform.position);
+            playedSound = true;
+        }
+    }
+
+    private IEnumerator UpdateMusicLayer()
+    {
+        while(AudioManager.Instance.CurrentForestProgression <= progressLevel)
+        {
+            // Set the FMOD parameters
+            AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
+
+            if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
+            {
+                // Round out the number
+                AudioManager.Instance.SetForestProgress(Mathf.Floor(AudioManager.Instance.CurrentForestProgression));
+            }
+
+            // Allow other code to run
+            yield return null;
+        }
     }
 
     #region DATA HANDLING

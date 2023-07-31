@@ -9,6 +9,7 @@ using FMOD.Studio;
 public class DevTools : MonoBehaviour
 {
     #region REFERENCES
+    [SerializeField] private MushroomScriptableObj mushroomEvent;
     [SerializeField] private MushroomManager mushMan;
     [SerializeField] private PlayerMovement playerMove;
     private Text devText;
@@ -16,6 +17,8 @@ public class DevTools : MonoBehaviour
     private Text instantThrowText;
     private Text infiniteShroomText;
     private Text shroomDurationText;
+    private Text shroomBounceText;
+    private Text playerVelocityText;
     private Settings settings;
     private GameObject textHolder;
     #endregion
@@ -59,6 +62,9 @@ public class DevTools : MonoBehaviour
         instantThrowText = textHolder.transform.GetChild(2).GetComponentInChildren<Text>();
         infiniteShroomText = textHolder.transform.GetChild(3).GetComponentInChildren<Text>();
         shroomDurationText = textHolder.transform.GetChild(4).GetComponentInChildren<Text>();
+        shroomBounceText = textHolder.transform.GetChild(5).GetComponentInChildren<Text>();
+        playerVelocityText = textHolder.transform.GetChild(6).GetComponentInChildren<Text>();
+
 
         // Checks if dev tools are enabled
         if (devToolsEnabled)
@@ -134,6 +140,9 @@ public class DevTools : MonoBehaviour
             {
                 shroomDurationText.text = "Press F4 to disable/enable shroom timers: Enabled";
             }
+
+            shroomBounceText.text = "Shroom Bounce Force: " + mushroomEvent.GetBounceForce();
+            playerVelocityText.text = "Player Velocity: " + playerMove.gameObject.GetComponent<Rigidbody2D>().velocity;
         } 
         else
         {
@@ -143,6 +152,8 @@ public class DevTools : MonoBehaviour
             infiniteShroomText.text = "";
             instantThrowText.text = "";
             noClipText.text = "";
+            shroomBounceText.text = "";
+            playerVelocityText.text = "";
         }
 
         if (devToolsEnabled)
@@ -265,8 +276,8 @@ public class DevTools : MonoBehaviour
             if (scene + direction < SceneManager.sceneCount && scene + direction > 6)
             {
             }
-            AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
-            AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            //AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            //AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
             Debug.Log("Going to level: " + SceneManager.GetActiveScene().buildIndex + direction);
             SceneManager.LoadScene(scene + direction);
         }

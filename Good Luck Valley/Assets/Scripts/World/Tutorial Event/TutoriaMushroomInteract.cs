@@ -32,6 +32,4 @@ public class TutoriaMushroomInteract : MonoBehaviour
             tutorialManager.ShowingMushroomInteractText = true;
         }
     }
-
-
 }

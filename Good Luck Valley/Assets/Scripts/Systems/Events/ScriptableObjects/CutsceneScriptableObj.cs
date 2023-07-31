@@ -11,6 +11,7 @@ public class CutsceneScriptableObj : ScriptableObject
     [SerializeField] private PlayableAsset leaveCutscene;
     [SerializeField] private PlayableAsset enterCutscene;
     [SerializeField] private bool enterCutsceneActive = false;
+    [SerializeField] private bool playingCutscene = false;
 
     #region EVENTS
     [System.NonSerialized]
@@ -77,6 +78,15 @@ public class CutsceneScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set whether a cutscene is playing or not
+    /// </summary>
+    /// <param name="playingCutscene">Whether a cutscene is playing or not</param>
+    public void SetPlayingCutscene(bool playingCutscene)
+    {
+        this.playingCutscene = playingCutscene;
+    }
+
+    /// <summary>
     /// Get the leave cutscene
     /// </summary>
     /// <returns>The leave cutscene</returns>
@@ -92,6 +102,20 @@ public class CutsceneScriptableObj : ScriptableObject
     public PlayableAsset GetEnterCutscene()
     {
         return enterCutscene;
+    }
+
+    public bool GetEnterCutsceneActive()
+    {
+        return enterCutsceneActive;
+    }
+
+    /// <summary>
+    /// Get whether a cutscene is playing or not
+    /// </summary>
+    /// <returns>Whether a cutcene is playing or not</returns>
+    public bool GetPlayingCutscene()
+    {
+        return playingCutscene;
     }
 
     /// <summary>
@@ -144,5 +168,17 @@ public class CutsceneScriptableObj : ScriptableObject
     {
         enterCutsceneActive = false;
         endEnterCutscene.Invoke();
+    }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        playingCutscene = false;
+        leaveCutscene = null;
+        enterCutscene = null;
+        enterCutsceneActive = false;
+        playingCutscene = false;
     }
 }

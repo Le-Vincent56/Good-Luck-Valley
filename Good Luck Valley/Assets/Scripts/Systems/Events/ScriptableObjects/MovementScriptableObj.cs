@@ -7,14 +7,21 @@ using UnityEngine.Events;
 public class MovementScriptableObj : ScriptableObject, IData
 {
     #region FIELDS
+    [SerializeField] private PlayerState currentState;
+    [SerializeField] private PlayerState prevState;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isFalling;
     [SerializeField] private bool isLanding;
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isBounceAnimating;
+    [SerializeField] private bool isTouchingWall;
+    [SerializeField] private bool canTurn;
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
+    [SerializeField] private Vector3 mushroomPosition;
+    [SerializeField] private Vector2 wallCollisionPoint;
+    [SerializeField] private TileType movementTileType;
 
     #region EVENTS
     [System.NonSerialized]
@@ -22,10 +29,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     public UnityEvent jumpEvent;
     public UnityEvent fallEvent;
     public UnityEvent landEvent;
+    public UnityEvent wallEvent;
     public UnityEvent<Vector3, ForceMode2D> bounceEvent;
     public UnityEvent bounceAnimationEvent;
-    public UnityEvent<float, float, bool> footstepEvent;
+    public UnityEvent<float, float, bool, TileType> footstepEvent;
+    public UnityEvent<float, bool, TileType> startFootstepEventCutscene;
+    public UnityEvent<float, bool, TileType> stopFootstepEventCutscene;
+    public UnityEvent<int> setTurnDirection;
     public UnityEvent resetTurn;
+    public UnityEvent<Vector2> applyMovementDirection;
     #endregion
     #endregion
 
@@ -53,6 +65,11 @@ public class MovementScriptableObj : ScriptableObject, IData
             landEvent = new UnityEvent();
         }
 
+        if (wallEvent == null)
+        {
+            wallEvent = new UnityEvent();
+        }
+
         if (bounceEvent == null)
         {
             bounceEvent = new UnityEvent<Vector3, ForceMode2D>();
@@ -65,12 +82,32 @@ public class MovementScriptableObj : ScriptableObject, IData
 
         if (footstepEvent == null)
         {
-            footstepEvent = new UnityEvent<float, float, bool>();
+            footstepEvent = new UnityEvent<float, float, bool, TileType>();
+        }
+
+        if(startFootstepEventCutscene == null)
+        {
+            startFootstepEventCutscene = new UnityEvent<float, bool, TileType>();
+        }
+
+        if (stopFootstepEventCutscene == null)
+        {
+            stopFootstepEventCutscene = new UnityEvent<float, bool, TileType>();
+        }
+
+        if (setTurnDirection == null)
+        {
+            setTurnDirection = new UnityEvent<int>();
         }
 
         if(resetTurn == null)
         {
             resetTurn = new UnityEvent();
+        }
+
+        if(applyMovementDirection == null)
+        {
+            applyMovementDirection = new UnityEvent<Vector2>();
         }
         #endregion
     }
@@ -82,6 +119,25 @@ public class MovementScriptableObj : ScriptableObject, IData
         isFalling = false;
         isLanding = false;
         isBouncing = false;
+        isTouchingWall = false;
+    }
+
+    /// <summary>
+    /// Set the current movement state of the player
+    /// </summary>
+    /// <param name="currentState">The current movement state of the player</param>
+    public void SetCurrentState(PlayerState currentState)
+    {
+        this.currentState = currentState;
+    }
+
+    /// <summary>
+    /// Set the previous movement state of the player
+    /// </summary>
+    /// <param name="prevState">The previous movement state of the player</param>
+    public void SetPreviousState(PlayerState prevState)
+    {
+        this.prevState = prevState;
     }
 
     /// <summary>
@@ -139,6 +195,92 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set whether the player is touching wall jump wall
+    /// </summary>
+    /// <param name="isTouchingWall">Whether the player is touching wall</param>
+    public void SetIsTouchingWall(bool isTouchingWall)
+    {
+        this.isTouchingWall = isTouchingWall;
+    }
+
+    /// <summary>
+    /// Set whether the player is allowed to turn or not
+    /// </summary>
+    /// <param name="canTurn">Whether the player is allowed to turn or not</param>
+    public void SetCanTurn(bool canTurn)
+    {
+        this.canTurn = canTurn;
+    }
+
+    /// <summary>
+    /// Set the mushrom position
+    /// </summary>
+    /// <param name="position">The mushroom position</param>
+    public void SetMushroomPosition(Vector3 mushroomPosition)
+    {
+        this.mushroomPosition = mushroomPosition;
+    }
+
+    /// <summary>
+    /// Set the collision point between the player and the wall
+    /// </summary>
+    /// <param name="wallCollisionPoint"></param>
+    public void SetWallCollisionPoint(Vector2 wallCollisionPoint)
+    {
+        this.wallCollisionPoint = wallCollisionPoint;
+    }
+
+    /// <summary>
+    /// Set the movement direction of the player
+    /// </summary>
+    /// <param name="movementDirection">The movement direction of the player</param>
+    public void SetMovementDirection(Vector2 movementDirection)
+    {
+        this.movementDirection = movementDirection;
+    }
+
+    /// <summary>
+    /// Set the current tile type the player is moving on
+    /// </summary>
+    /// <param name="tileType"></param>
+    public void SetTileType(TileType tileType)
+    {
+        movementTileType = tileType;
+    }
+
+    /// <summary>
+    /// Get the current movement state of the player
+    /// </summary>
+    /// <returns>The current movement state of the player</returns>
+    public PlayerState GetCurrentState()
+    {
+        return currentState;
+    }
+
+    /// <summary>
+    /// Get the previous movement state of the player
+    /// </summary>
+    /// <returns>The previous movement state of the player</returns>
+    public PlayerState GetPreviousState()
+    {
+        return prevState;
+    }
+
+    public Vector3 GetMushroomPosition()
+    {
+        return mushroomPosition;
+    }
+
+    /// <summary>
+    /// Get whether the player is touching wall jump wall
+    /// </summary>
+    /// <returns> Whether the player is touching wall or not</returns>
+    public bool GetIsTouchingWall()
+    {
+        return isTouchingWall;
+    }
+
+    /// <summary>
     /// Get whether the player is grounded or not
     /// </summary>
     /// <returns>Whether the player is grounded or not</returns>
@@ -183,6 +325,10 @@ public class MovementScriptableObj : ScriptableObject, IData
         return isBouncing;
     }
 
+    /// <summary>
+    /// Get whether the player is animating a bounce or not
+    /// </summary>
+    /// <returns>Whether the player is animating a bounce or not</returns>
     public bool GetIsBounceAnimating()
     {
         return isBounceAnimating;
@@ -197,6 +343,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     {
         this.movementDirection = movementDirection;
         this.inputDirection = inputDirection;
+    }
+
+    /// <summary>
+    /// Get whether or not the player is allowed to turn or not
+    /// </summary>
+    /// <returns>Whether or not the player is allowed to turn or not</returns>
+    public bool GetCanTurn()
+    {
+        return canTurn;
     }
 
     /// <summary>
@@ -218,12 +373,43 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Get the collision point between the player and the wall
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 GetWallCollisionPoint()
+    {
+        return wallCollisionPoint;
+    }
+
+    /// <summary>
+    /// Get the current tile type the player is moving on
+    /// </summary>
+    /// <returns>The current tile type the player is moving on</returns>
+    public TileType GetTileType()
+    {
+        return movementTileType;
+    }
+
+    /// <summary>
     /// Trigger movement-related events
     /// </summary>
     public void Move()
     {
         moveEvent.Invoke();
-        footstepEvent.Invoke(inputDirection.x, movementDirection.x, isGrounded);
+        footstepEvent.Invoke(inputDirection.x, movementDirection.x, isGrounded, movementTileType);
+    }
+
+    /// <summary>
+    /// Trigger any events related to the starting the footstep cutscene event
+    /// </summary>
+    public void StartCutsceneFootstepEvent()
+    {
+        startFootstepEventCutscene.Invoke(movementDirection.x, isGrounded, movementTileType);
+    }
+
+    public void StopCutsceneFootstepEvent()
+    {
+        stopFootstepEventCutscene.Invoke(movementDirection.x, isGrounded, movementTileType);
     }
 
     /// <summary>
@@ -251,6 +437,14 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Trigger wall-related events
+    /// </summary>
+    public void Wall()
+    {
+        wallEvent.Invoke();
+    }
+
+    /// <summary>
     /// Trigger bounce-related events
     /// </summary>
     public void Bounce(Vector3 forceToApply, ForceMode2D forceType)
@@ -260,11 +454,45 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set the player's turn direction
+    /// </summary>
+    /// <param name="direction">The turn direction, 1 for right, -1 for left</param>
+    public void SetTurnDirection(int direction)
+    {
+        setTurnDirection.Invoke(direction);
+    }
+
+    /// <summary>
     /// Trigger events relating to resetting the player turn direction
     /// </summary>
     public void ResetTurn()
     {
         resetTurn.Invoke();
+    }
+
+    /// <summary>
+    /// Apply movement direction to the player
+    /// </summary>
+    public void ApplyMovementDirection()
+    {
+        applyMovementDirection.Invoke(movementDirection);
+    }
+
+    /// <summary>
+    /// Reset object variables
+    /// </summary>
+    public void ResetObj()
+    {
+        isGrounded = false;
+        isJumping = false;
+        isFalling = false;
+        isLanding = false;
+        isBouncing = false;
+        isBounceAnimating = false;
+        canTurn = true;
+        isTouchingWall = false;
+        movementDirection = Vector3.zero;
+        inputDirection = Vector3.zero;
     }
 
     #region DATA HANDLING

@@ -4,38 +4,43 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class TutorialAnguishLotus : Interactable, IData
 {
     #region REFERENCES
     [SerializeField] private PauseScriptableObj pauseEvent;
     [SerializeField] private DisableScriptableObj disableEvent;
-    private Tutorial tutorialManager;
-    private PlayerMovement playerMovement;
+    private VisualEffect lotusParticles;
     #endregion
 
     #region FIELDS
-    private bool endLevel = false;
-    private DecomposableVine[] shroomWalls;
-    [SerializeField] private float fadeAmount = 0.02f;
+    private GameObject shroomVines;
+    [SerializeField] private float fadeAmount = 0.001f;
     #endregion
 
     void Start()
     {
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Thickness", 0.02f);
+        lotusParticles = GetComponentInChildren<VisualEffect>();
+
         remove = false;
-        endLevel = false;
 
-        shroomWalls = new DecomposableVine[3];
-
-        for (int i = 0; i < 3; i++)
-        {
-            shroomWalls[i] = GameObject.Find("Wall" + i).GetComponent<DecomposableVine>();
-        }
+        shroomVines = GameObject.Find("ShroomVineWall");
     }
 
     void Update()
     {
+        // Show the outline if in range
+        if (inRange)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 1);
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Active", 0);
+        }
+
         // Check if interactable is triggered
         if (controlTriggered)
         {
@@ -64,6 +69,13 @@ public class TutorialAnguishLotus : Interactable, IData
     {
         // Lock the player
         disableEvent.Lock();
+
+        // Play the vine flee sound
+        if (!playedSound)
+        {
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.VineDecompose, transform.position);
+            playedSound = true;
+        }
     }
 
     private IEnumerator FadeLotus()
@@ -73,34 +85,32 @@ public class TutorialAnguishLotus : Interactable, IData
         {
             GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, GetComponent<SpriteRenderer>().color.a - fadeAmount);
             active = false;
+            lotusParticles.enabled = false;
             yield return null;
         }
     }
 
     private IEnumerator FadeVines()
     {
-        foreach (DecomposableVine g in shroomWalls)
+        //Shit too fast changing to fadeAmount
+        //shroomVines.GetComponent<DecomposableVine>().DecomposeTime
+
+        while (shroomVines.GetComponent<SpriteRenderer>().color.a > 0)
         {
-            while(g.GetComponent<SpriteRenderer>().color.a > 0)
-            {
-                g.GetComponent<SpriteRenderer>().color = new Color(g.GetComponent<SpriteRenderer>().color.r, 
-                    g.GetComponent<SpriteRenderer>().color.g, 
-                    g.GetComponent<SpriteRenderer>().color.b, g.GetComponent<SpriteRenderer>().color.a - g.DecomposeTime);
-            }
+            shroomVines.GetComponent<SpriteRenderer>().color = new Color(shroomVines.GetComponent<SpriteRenderer>().color.r,
+            shroomVines.GetComponent<SpriteRenderer>().color.g,
+            shroomVines.GetComponent<SpriteRenderer>().color.b, 
+            shroomVines.GetComponent<SpriteRenderer>().color.a - fadeAmount);
+
+            yield return null;
         }
-        if (shroomWalls[shroomWalls.Length - 1].GetComponent<SpriteRenderer>().color.a <= 0)
+        if (shroomVines.GetComponent<SpriteRenderer>().color.a <= 0)
         {
-            foreach (DecomposableVine g in shroomWalls)
-            {
-                // Set the vine to inactive
-                g.Active = false;
-                g.gameObject.SetActive(false);
-            }
+            shroomVines.GetComponent<DecomposableVine>().Active = false;
+            shroomVines.SetActive(false);
             finishedInteracting = true;
             disableEvent.Unlock();
         }
-
-        yield return null;
     }
 
     #region DATA HANDLING
@@ -118,7 +128,6 @@ public class TutorialAnguishLotus : Interactable, IData
             // Remove the note
             remove = true;
         }
-        Debug.Log("Lotus active: " + active);
         // Set if the gameobject is active
         gameObject.SetActive(active);
     }

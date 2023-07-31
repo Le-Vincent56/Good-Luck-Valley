@@ -1,38 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Parallax : MonoBehaviour
 {
     #region REFERENCES
-    private GameObject mainCam;
+    [SerializeField] private CameraScriptableObj cameraEvent;
+    [SerializeField] private MovementScriptableObj movementEvent;
+    [SerializeField] private DisableScriptableObj disableEvent;
     #endregion
 
     #region FIELDS
-    [SerializeField] private float parallaxScrolling;
-    private float startPosition;
+    [SerializeField] private float parallaxSpeed;
+    [Header("-1 = left scrolling parallax | 1 = right scrolling parallax")]
+    [Range(-1f, 1f)]
+    [SerializeField] private int direction;
+    [Header("0: no parallax | 1: parallax speed = anari speed")]
+    [Range(0f, 1f)]
+    [SerializeField] private float parallaxMultiplyValue;
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        mainCam = GameObject.Find("Main Camera");
-        startPosition = transform.position.x;
-        parallaxScrolling /= 10f;
+        cameraEvent.moveEvent.AddListener(UpdateParallax);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        float distance = (mainCam.transform.position.x * parallaxScrolling);
+        cameraEvent.moveEvent.RemoveListener(UpdateParallax);
+    }
 
-        if (distance == 0)
+    private void UpdateParallax()
+    {
+        // Set the parallax scrolling
+        parallaxSpeed = (movementEvent.GetMovementVector().x * parallaxMultiplyValue * direction);
+
+        if (disableEvent.GetDisableParallax() == false)
         {
-            transform.position = new Vector3(mainCam.transform.position.x, transform.position.y, transform.position.z);
-        }
-        else
-        {
-            transform.position = new Vector3(startPosition - distance, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + (parallaxSpeed * Time.deltaTime), transform.position.y, transform.position.z);
         }
     }
 }
