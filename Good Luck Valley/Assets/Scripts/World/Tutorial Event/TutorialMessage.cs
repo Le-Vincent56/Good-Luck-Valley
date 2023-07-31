@@ -58,11 +58,19 @@ public class TutorialMessage : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Show();
+        if (textValue.Contains("fast fall"))
+        {
+            manager.ShowingFastFall = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         Hide();
+        if (textValue.Contains("fast fall"))
+        {
+            manager.ShowingFastFall = false;
+        }
     }
 
     public void Show()

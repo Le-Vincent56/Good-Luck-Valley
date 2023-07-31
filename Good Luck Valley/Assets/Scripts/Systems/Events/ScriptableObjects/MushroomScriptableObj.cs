@@ -14,7 +14,7 @@ public class MushroomScriptableObj : ScriptableObject
     [SerializeField] private bool firstThrow;
     [SerializeField] private bool firstBounce;
     [SerializeField] private bool showingMaxMessage;
-    [SerializeField] private bool touchgingFastFall;
+    [SerializeField] private bool hidingFastFall;
     [SerializeField] Vector3 bounceForce;
 
     #region EVENTS
@@ -240,6 +240,11 @@ public class MushroomScriptableObj : ScriptableObject
         return showingMaxMessage;
     }
 
+    public bool GetHidingFastFallMessage()
+    {
+        return hidingFastFall;
+    }
+
     public Vector3 GetBounceForce()
     {
         return bounceForce;
@@ -349,12 +354,13 @@ public class MushroomScriptableObj : ScriptableObject
 
     public void ShowFastFallMessage()
     {
+        hidingFastFall = false;
         showFastFallMessageEvent.Invoke();
     }
 
     public void HideFastFallMessage()
     {
-        //showFastFall = false;
+        hidingFastFall = true;
         hideFastFallMessageEvent.Invoke();
     }
 

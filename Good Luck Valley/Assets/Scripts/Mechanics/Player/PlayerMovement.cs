@@ -425,9 +425,9 @@ public class PlayerMovement : MonoBehaviour, IData
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
 
-                //if (mushroomEvent.)
+                // Check if we need to hide fast fall message
                 mushroomEvent.HideFastFallMessage();
-			}
+            }
 			else if (isJumpCut) // If jump cutting
 			{
 				// Higher gravity if jump button released
@@ -475,7 +475,10 @@ public class PlayerMovement : MonoBehaviour, IData
 
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
-			} 
+
+                // Check if we need to hide fast fall message
+                mushroomEvent.HideFastFallMessage();
+            } 
             else if(RB.velocity.y < 0 && movementEvent.GetIsTouchingWall())
             {
                 // Lower gravity if sliding on a wall
