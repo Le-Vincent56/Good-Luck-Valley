@@ -18,6 +18,7 @@ public class Note : Interactable, IData
     [SerializeField] private string contentsTitle;
     [SerializeField] private int journalIndex = 0;
     [SerializeField] private bool noteAdded = false;
+    [SerializeField] private bool alreadyRead = false;
     [SerializeField] private bool progressesMusic;
     [SerializeField] private float progressLevel;
     #endregion
@@ -29,9 +30,10 @@ public class Note : Interactable, IData
     public string ContentsTitle { get { return contentsTitle; } set { contentsTitle = value; } }
     public int JournalIndex { get { return journalIndex; } }
     public bool NoteAdded { get { return noteAdded; } }
+    public bool AlreadyRead { get { return alreadyRead; } set { alreadyRead = value; } }
     #endregion
 
-    public Note(string id, string noteTitle, string textValue, string contentsTitle, int journalIndex, bool noteAdded)
+    public Note(string id, string noteTitle, string textValue, string contentsTitle, int journalIndex, bool noteAdded, bool alreadyRead)
     {
         this.id = id;
         this.noteTitle = noteTitle;
@@ -39,6 +41,7 @@ public class Note : Interactable, IData
         this.contentsTitle = contentsTitle;
         this.journalIndex = journalIndex;
         this.noteAdded = noteAdded;
+        this.alreadyRead = alreadyRead;
         remove = true;
     }
 

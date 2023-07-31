@@ -354,7 +354,7 @@ public class MushroomScriptableObj : ScriptableObject
 
     public void HideFastFallMessage()
     {
-        showFastFall = false;
+        //showFastFall = false;
         hideFastFallMessageEvent.Invoke();
     }
 

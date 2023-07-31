@@ -12,6 +12,7 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private Text panelText;
     private Text entryName;
     private Note associatedNote;
+    private Journal journal;
     #endregion
 
     #region PROPERTIES
@@ -24,6 +25,7 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         panelTextTitle = GameObject.Find("EntryTextTitle").GetComponent<Text>();
         panelText = GameObject.Find("EntryText").GetComponent<Text>();
         entryName = GetComponentInChildren<Text>();
+        journal = GameObject.Find("JournalUI").GetComponent<Journal>();
     }
 
     /// <summary>
@@ -34,6 +36,16 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // Set note title, note value, and play journal entry sound
         panelTextTitle.text = associatedNote.NoteTitle;
         panelText.text = associatedNote.TextValue;
+
+        // Update if the note has been read
+        //foreach (Note note in journal.Notes)
+        //{
+        //    if(note.NoteTitle == associatedNote.NoteTitle)
+        //    {
+        //        note.AlreadyRead = true;
+        //    } 
+        //}
+        associatedNote.AlreadyRead = true;
 
         // Play the journal entry selection sound
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.JournalEntrySelected, transform.position);
@@ -54,6 +66,13 @@ public class EntryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData)
     {
-        entryName.color = new Color32(0x57, 0x57, 0x57, 0xFF); // dark gray
+        if(associatedNote.AlreadyRead)
+        {
+            entryName.color = new Color32(0x57, 0x57, 0x57, 0xFF); // dark gray
+        } else
+        {
+            entryName.color = Color.white;
+        }
+        
     }
 }

@@ -65,6 +65,16 @@ public class EntryScrollview : MonoBehaviour
                 GameObject instance = Instantiate(entryPrefab, contentTransform);
                 instance.GetComponent<RectTransform>().sizeDelta = new Vector2(20f, 80f);
                 instance.GetComponentInChildren<Text>().text = note.ContentsTitle;
+
+                // If the note hasn't been read, highlight it
+                if(!note.AlreadyRead)
+                {
+                    instance.GetComponentInChildren<Text>().color = Color.white;
+                } else
+                {
+                    instance.GetComponentInChildren<Text>().color = new Color32(0x57, 0x57, 0x57, 0xFF);
+                }
+
                 instance.GetComponentInChildren<EntryButton>().Note = note;
                 entries.Add(instance);
             }
