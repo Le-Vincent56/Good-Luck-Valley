@@ -450,6 +450,8 @@ public class MushroomManager : MonoBehaviour, IData
     public void OnCheckWallShroom(InputAction.CallbackContext context) 
     {
         // Check if the player is touching a wall
+        Debug.Log("is touching wall?: " + movementEvent.GetIsTouchingWall());
+        Debug.Log("is grounded?: " + movementEvent.GetIsGrounded());
         if (movementEvent.GetIsTouchingWall() && !movementEvent.GetIsGrounded())
         {
             // Only call when the button is pressed, not on release as well
