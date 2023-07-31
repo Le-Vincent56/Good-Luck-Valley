@@ -424,6 +424,8 @@ public class PlayerMovement : MonoBehaviour, IData
 
 				// Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
+
+                mushroomEvent.HideFastFallMessage();
 			}
 			else if (isJumpCut) // If jump cutting
 			{
