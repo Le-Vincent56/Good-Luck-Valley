@@ -180,7 +180,6 @@ public class LotusPick : Interactable, IData
         }
 
         disableEvent.Unlock();
-        finishedInteracting = true;
         vineWall.GetComponent<DecomposableVine>().Active = false;
         vineWall.SetActive(false);
         pauseEvent.SetPaused(false);
@@ -241,10 +240,8 @@ public class LotusPick : Interactable, IData
         // Start the fading coroutines
         StartCoroutine(FadeVines());
         StartCoroutine(FadeLotus());
-        StartCoroutine(UndampenSound());
 
-        // Return
-        yield break;
+        yield return StartCoroutine(UndampenSound());
     }
 
     private IEnumerator PlayLotusSounds()
@@ -263,6 +260,8 @@ public class LotusPick : Interactable, IData
     {
         while(AudioManager.Instance.GetDampen() > 0)
         {
+            Debug.Log("Undampening (" + AudioManager.Instance.GetDampen() + ")");
+
             // Let other code run
             yield return null;
 
@@ -272,13 +271,16 @@ public class LotusPick : Interactable, IData
 
         PLAYBACK_STATE playbackStatePulse;
         AudioManager.Instance.LotusPulseEventInstance.getPlaybackState(out playbackStatePulse);
+        Debug.Log("Getting pulse: " + playbackStatePulse.ToString());
         if (!playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
         {
-            // If so, start it
+            Debug.Log("Stopping pulse");
+            // If so, stop it
             AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
-        }
 
-        yield return null;
+            // Finish interacting
+            finishedInteracting = true;
+        }
     }
 
     #region DATA HANDLING
