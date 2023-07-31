@@ -289,6 +289,7 @@ public class Journal : MonoBehaviour, IData
     {
         notes.Add(noteToAdd);
         newestNote = noteToAdd;
+        journalEvent.SetNotesCollected(notes.Count);
     }
     #endregion
 
@@ -319,6 +320,9 @@ public class Journal : MonoBehaviour, IData
         // Set if the tutorial message needs to be shown
         showTutorialMessage = data.showJournalTutorial;
         journalEvent.SetTutorialMessage(showTutorialMessage);
+
+        // Set how many notes have been collected
+        journalEvent.SetNotesCollected(data.numNotesCollected);
     }
 
     public void SaveData(GameData data)

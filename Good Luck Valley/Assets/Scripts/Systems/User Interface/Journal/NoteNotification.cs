@@ -145,6 +145,7 @@ public class NoteNotification : MonoBehaviour
         fadeOutTimer = 1.0f;
 
         // Set text
+        entryAddedText.text = "Pick Up (" + journalEvent.GetNotesCollected() + "/" + journalEvent.GetTotalNotes() + ")";
         noteTitle.text = currentNote.NoteTitle;
 
         // Reset booleans
