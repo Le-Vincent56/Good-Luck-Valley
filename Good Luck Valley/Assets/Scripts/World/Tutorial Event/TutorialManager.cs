@@ -30,10 +30,12 @@ public class TutorialManager : MonoBehaviour
     private bool updateMessages;
     private bool showThrowMessageTriggered = false;
     private bool waitingToShow = false;
+    private bool showingFastFall;
     #endregion
 
     #region PROPERTIES
     public bool UpdateMessages { get { return updateMessages; } set {  updateMessages = value; } }
+    public bool ShowingFastFall { get { return showingFastFall; } set { showingFastFall = value; } }
     #endregion
 
     private void OnEnable()
@@ -184,7 +186,7 @@ public class TutorialManager : MonoBehaviour
 
     public void HideFastFallMessage()
     {
-        if (fastFallPrompt != null)
+        if (fastFallPrompt != null && showingFastFall)
         {
             fastFallPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
             fastFallPrompt.GetComponent<TutorialMessage>().Hide();
