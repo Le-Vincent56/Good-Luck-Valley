@@ -94,6 +94,7 @@ public class BouncingEffect : MonoBehaviour
         if (collision.gameObject.name == "WallJump")
         {
             movementEvent.SetIsTouchingWall(false);
+            movementEvent.SetMushroomPosition(new Vector3(-1000, -1000, -1000));
         }
     }
 

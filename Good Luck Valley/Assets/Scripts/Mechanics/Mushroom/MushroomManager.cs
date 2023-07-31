@@ -40,7 +40,6 @@ public class MushroomManager : MonoBehaviour, IData
     [SerializeField] private GameObject testObject;
     private ShroomCounter shroomCounter;
     private Tutorial tutorialEvent;
-        
     #endregion
 
     #region FIELDS
@@ -75,6 +74,7 @@ public class MushroomManager : MonoBehaviour, IData
     private bool firstThrow;
     private bool firstBounce;
     private bool firstFull;
+    [SerializeField] private Vector3 wallShroomPosDifference;
     #endregion
 
     #region PROPERTIES
@@ -450,13 +450,12 @@ public class MushroomManager : MonoBehaviour, IData
     public void OnCheckWallShroom(InputAction.CallbackContext context) 
     {
         // Check if the player is touching a wall
-        Debug.Log("is touching wall?: " + movementEvent.GetIsTouchingWall());
-        Debug.Log("is grounded?: " + movementEvent.GetIsGrounded());
         if (movementEvent.GetIsTouchingWall() && !movementEvent.GetIsGrounded())
         {
             // Only call when the button is pressed, not on release as well
-            if (context.started)
+            if (context.started && movementEvent.GetMushroomPosition().x != -1000)
             {
+                Debug.Log("Mushroom Pos: " + movementEvent.GetMushroomPosition());
                 // Player is no longer touching the wall
                 movementEvent.SetIsTouchingWall(false);
 
@@ -467,7 +466,7 @@ public class MushroomManager : MonoBehaviour, IData
 
                     if (mushroomLimit == 3)
                     {
-                        shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
+                        shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);    
                         mInfo.ResetCounter();
                     }
 
@@ -477,7 +476,7 @@ public class MushroomManager : MonoBehaviour, IData
 
                 // Set the default rotation for left side collision
                 float rotation = -90;
-                Vector3 difference = new Vector3(0.02f, 0, 0);
+                Vector3 difference = wallShroomPosDifference;
 
                 // Check if the wall is to the right of the player
                 if (movementEvent.GetMushroomPosition().x > playerRB.transform.position.x)
@@ -523,6 +522,8 @@ public class MushroomManager : MonoBehaviour, IData
                     // Flip the rotation
                     shroom.GetComponent<Shroom>().FlipRotation = false;
                 }
+
+                movementEvent.SetMushroomPosition(new Vector3(-1000, -1000, -1000));
             }
         }
     }
