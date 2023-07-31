@@ -266,7 +266,7 @@ public class LotusPick : Interactable, IData
             yield return null;
 
             // Undampen the music
-            AudioManager.Instance.DampenMusic(AudioManager.Instance.GetDampen() - Time.deltaTime);
+            AudioManager.Instance.DampenMusic(AudioManager.Instance.GetDampen() - (Time.deltaTime * 3));
         }
 
         PLAYBACK_STATE playbackStatePulse;
