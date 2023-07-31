@@ -12,8 +12,9 @@ public struct NoteData
     public string contentTitle;
     public int journalIndex;
     public bool noteAdded;
+    public bool alreadyRead;
 
-    public NoteData(string id, string noteTitle, string textValue, string contentTitle, int journalIndex, bool noteAdded)
+    public NoteData(string id, string noteTitle, string textValue, string contentTitle, int journalIndex, bool noteAdded, bool alreadyRead)
     {
         this.id = id;
         this.noteTitle = noteTitle;
@@ -21,6 +22,7 @@ public struct NoteData
         this.contentTitle = contentTitle;
         this.journalIndex = journalIndex;
         this.noteAdded = noteAdded;
+        this.alreadyRead = alreadyRead;
     }
 }
 
@@ -61,6 +63,7 @@ public class GameData
     #region JOURNAL
     public int numNotesCollected;
     public List<NoteData> notes;
+    public NoteData newestNote;
     public bool hasJournal;
     public bool hasOpenedJournalOnce;
     public bool showJournalTutorial;
