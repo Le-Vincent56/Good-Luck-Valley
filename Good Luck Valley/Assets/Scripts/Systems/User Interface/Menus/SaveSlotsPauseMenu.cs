@@ -26,7 +26,6 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     [SerializeField] private float savingTextUpdateTimer = 2.4f;
     private bool menuOpen = false;
     private bool saving = false;
-    private bool playAnimation = false;
 
     private const string MENU_IDLE = "Menu_Idle";
     private const string MENU_SAVE = "Menu_Save";
@@ -386,9 +385,10 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     private IEnumerator FadeInProgressUI()
     {
         // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
-        while(savingProgressPanel.color.a < 0.67)
+        while(savingProgressPanel.color.a < 0.67 && saveAnimationImage.color.a < 1)
         {
             savingProgressPanel.color = new Color(savingProgressPanel.color.r, savingProgressPanel.color.g, savingProgressPanel.color.b, savingProgressPanel.color.a + (Time.unscaledDeltaTime * 2));
+            saveAnimationImage.color = new Color(saveAnimationImage.color.r, saveAnimationImage.color.g, saveAnimationImage.color.b, saveAnimationImage.color.a + (Time.unscaledDeltaTime * 2));
             yield return null;
         }
     }
@@ -400,11 +400,12 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     private IEnumerator FadeOutProgressUI()
     {
         // While alpha values are over the desired numbers, decrease them by an unscaled delta time (because we are paused)
-        while (savingProgressPanel.color.a > 0)
+        while (savingProgressPanel.color.a > 0 && saveAnimationImage.color.a > 0)
         {
             savingProgressPanel.color = new Color(savingProgressPanel.color.r, savingProgressPanel.color.g, savingProgressPanel.color.b, savingProgressPanel.color.a - (Time.unscaledDeltaTime * 2));
+            saveAnimationImage.color = new Color(saveAnimationImage.color.r, saveAnimationImage.color.g, saveAnimationImage.color.b, saveAnimationImage.color.a - (Time.unscaledDeltaTime * 2));
 
-            if(savingProgressPanel.color.a <= 0)
+            if (savingProgressPanel.color.a <= 0 && saveAnimationImage.color.a <= 0)
             {
                 // Disable the UI elements once they are gone
                 saveAnimationController.Play(MENU_IDLE);
