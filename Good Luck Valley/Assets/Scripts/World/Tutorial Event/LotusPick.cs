@@ -178,21 +178,21 @@ public class LotusPick : Interactable, IData
 
             yield return null;
         }
-
-        disableEvent.Unlock();
         vineWall.GetComponent<DecomposableVine>().Active = false;
         vineWall.SetActive(false);
-        pauseEvent.SetPaused(false);
 
         GameObject endScreen = GameObject.Find("Demo Ending Text");
         if (endScreen != null)
         {
             finishedInteracting = false;
-            pauseEvent.SetPaused(true);
-            disableEvent.Lock();
-            StartCoroutine(FadeEndScreen(endScreen));
             endScreen.GetComponentInChildren<Button>().interactable = true;
-            yield return null;
+            yield return StartCoroutine(FadeEndScreen(endScreen));
+        }
+        else
+        {
+            disableEvent.Unlock();
+            pauseEvent.SetPaused(false);
+            finishedInteracting = true;
         }
     }
 
@@ -226,6 +226,7 @@ public class LotusPick : Interactable, IData
             }
             yield return null;
         }
+        Debug.Log("Fade End Screen Finish");
         finishedInteracting = true;
     } 
 
@@ -279,7 +280,8 @@ public class LotusPick : Interactable, IData
             AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
 
             // Finish interacting
-            finishedInteracting = true;
+            Debug.Log("Undampen Sound Finish");
+            //finishedInteracting = true;
         }
     }
 

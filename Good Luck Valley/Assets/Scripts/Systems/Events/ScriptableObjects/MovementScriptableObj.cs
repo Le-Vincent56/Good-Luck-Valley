@@ -533,7 +533,6 @@ public class MovementScriptableObj : ScriptableObject, IData
         isBounceAnimating = false;
         canTurn = true;
         isTouchingWall = false;
-        showingFastFall = true; 
         movementDirection = Vector3.zero;
         inputDirection = Vector3.zero;
     }
