@@ -413,8 +413,6 @@ public class SaveSlotsPauseMenu : MonoBehaviour
             }
         }
 
-        
-
         yield return null;
     }
 }
