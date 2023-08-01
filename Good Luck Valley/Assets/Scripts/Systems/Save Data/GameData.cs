@@ -60,6 +60,7 @@ public class GameData
     public bool firstBounce;
     public bool firstFull;
     public bool showQuickBounce;
+    public bool firstWallBounce;
     #endregion
 
     #region JOURNAL
@@ -94,6 +95,7 @@ public class GameData
         firstBounce = true;
         firstFull = false;
         showQuickBounce = true;
+        firstWallBounce = true;
         #endregion
 
         #region JOURNAL

@@ -57,7 +57,7 @@ public class GeneralShroom : Shroom
         // Decreases time from the timer
         durationTimer -= Time.deltaTime;
 
-        if (durationTimer <= (particleTime * 0.5) && playShroomParticle)
+        if (durationTimer <= (particleTime * 0.5) && playShroomParticle && shroomParticles != null)
         {
             shroomParticles.Play();
             playShroomParticle = false;

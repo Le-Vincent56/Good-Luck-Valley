@@ -33,7 +33,6 @@ public class TutorialManager : MonoBehaviour
     private bool waitingToShow = false;
     private bool showingFastFall;
     private bool showingWallBounce;
-    private bool touchingQuickBounce;
     #endregion
 
     #region PROPERTIES
@@ -93,6 +92,12 @@ public class TutorialManager : MonoBehaviour
         {
             Debug.Log("Hiding Quick Bounce");
             HideQuickBounceMessage();
+        }
+
+        if (mushroomEvent.GetFirstWallBounce() == false)
+        {
+            Debug.Log("hiding wall jump");
+            HideWallBounceMessage();
         }
     }
 
@@ -206,7 +211,7 @@ public class TutorialManager : MonoBehaviour
 
     public void HideFastFallMessage()
     {
-        if (fastFallPrompt != null && showingFastFall == false)
+        if (fastFallPrompt != null)
         {
             fastFallPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
             fastFallPrompt.GetComponent<TutorialMessage>().Hide();
@@ -227,7 +232,7 @@ public class TutorialManager : MonoBehaviour
         if (wallBouncePrompt != null)
         {
             wallBouncePrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
-            wallBouncePrompt.GetComponent<TutorialMessage>().Show();
+            wallBouncePrompt.GetComponent<TutorialMessage>().Hide();
         }
     }
 
@@ -250,8 +255,12 @@ public class TutorialManager : MonoBehaviour
 
     public void UpdateQuickBounce(bool showingQuickBounce)
     {
-        this.touchingQuickBounce = showingQuickBounce;
         mushroomEvent.SetTouchingQuickBounceMessage(showingQuickBounce);
+    }
+
+    public void UpdateFastFall(bool touchingFastFall)
+    {
+        movementEvent.SetTouchingFastFall(touchingFastFall);
     }
 
     public void ShowOverPlayer(GameObject UIObject)

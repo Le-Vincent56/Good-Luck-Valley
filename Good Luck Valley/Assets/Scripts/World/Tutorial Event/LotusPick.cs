@@ -24,6 +24,8 @@ public class LotusPick : Interactable, IData
     [SerializeField] private float playerDistance;
     [SerializeField] private float maxSoundDistance;
     [SerializeField] private float soundPercentage;
+    [SerializeField] private bool lotusFinished;
+    [SerializeField] private bool soundUnDampened;
     #endregion
 
     void Start()
@@ -63,7 +65,7 @@ public class LotusPick : Interactable, IData
             interacting = true;
 
             // If the inteaction has finished, reset the variables
-            if (finishedInteracting)
+            if (lotusFinished && soundUnDampened)
             {
                 controlTriggered = false;
 
@@ -213,7 +215,7 @@ public class LotusPick : Interactable, IData
             yield return null;
         }
         Debug.Log("Fade End Screen Finish");
-        finishedInteracting = true;
+        lotusFinished = true;
     } 
 
     private IEnumerator PlayPickSound()

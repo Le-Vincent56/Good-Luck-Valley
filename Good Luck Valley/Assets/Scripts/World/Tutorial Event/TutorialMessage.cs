@@ -60,7 +60,7 @@ public class TutorialMessage : MonoBehaviour
         Show();
         if (textValue.Contains("fast fall"))
         {
-            manager.ShowingFastFall = true;
+            manager.UpdateFastFall(true);
         }
         if (textValue.Contains("quick bounce"))
         {
@@ -73,7 +73,7 @@ public class TutorialMessage : MonoBehaviour
         Hide();
         if (textValue.Contains("fast fall"))
         {
-            manager.ShowingFastFall = false;
+            manager.UpdateFastFall(false);
         }
         if (textValue.Contains("quick bounce"))
         {

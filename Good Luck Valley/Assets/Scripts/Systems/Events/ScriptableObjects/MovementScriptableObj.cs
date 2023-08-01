@@ -23,6 +23,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private Vector2 wallCollisionPoint;
     [SerializeField] private TileType movementTileType;
     [SerializeField] private bool showingFastFall;
+    [SerializeField] private bool touchingFastFall;
 
     #region EVENTS
     [System.NonSerialized]
@@ -53,7 +54,7 @@ public class MovementScriptableObj : ScriptableObject, IData
             moveEvent = new UnityEvent();
         }
 
-        if(jumpEvent == null)
+        if (jumpEvent == null)
         {
             jumpEvent = new UnityEvent();
         }
@@ -88,7 +89,7 @@ public class MovementScriptableObj : ScriptableObject, IData
             footstepEvent = new UnityEvent<float, float, bool, TileType>();
         }
 
-        if(startFootstepEventCutscene == null)
+        if (startFootstepEventCutscene == null)
         {
             startFootstepEventCutscene = new UnityEvent<float, bool, TileType>();
         }
@@ -103,12 +104,12 @@ public class MovementScriptableObj : ScriptableObject, IData
             setTurnDirection = new UnityEvent<int>();
         }
 
-        if(resetTurn == null)
+        if (resetTurn == null)
         {
             resetTurn = new UnityEvent();
         }
 
-        if(applyMovementDirection == null)
+        if (applyMovementDirection == null)
         {
             applyMovementDirection = new UnityEvent<Vector2>();
         }
@@ -271,6 +272,11 @@ public class MovementScriptableObj : ScriptableObject, IData
         this.showingFastFall = showingFastFall;
     }
 
+    public void SetTouchingFastFall(bool touchingFastFall)
+    {
+        this.touchingFastFall = touchingFastFall;
+    }
+
     /// <summary>
     /// Get the current movement state of the player
     /// </summary>
@@ -420,6 +426,11 @@ public class MovementScriptableObj : ScriptableObject, IData
     public bool GetShowingFastFall()
     {
         return showingFastFall;
+    }
+
+    public bool GetTouchingFastFall()
+    {
+        return touchingFastFall;
     }
 
     /// <summary>
