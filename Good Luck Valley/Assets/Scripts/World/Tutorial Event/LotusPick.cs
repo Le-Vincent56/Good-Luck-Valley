@@ -180,20 +180,6 @@ public class LotusPick : Interactable, IData
         }
         vineWall.GetComponent<DecomposableVine>().Active = false;
         vineWall.SetActive(false);
-
-        GameObject endScreen = GameObject.Find("Demo Ending Text");
-        if (endScreen != null)
-        {
-            finishedInteracting = false;
-            endScreen.GetComponentInChildren<Button>().interactable = true;
-            yield return StartCoroutine(FadeEndScreen(endScreen));
-        }
-        else
-        {
-            disableEvent.Unlock();
-            pauseEvent.SetPaused(false);
-            finishedInteracting = true;
-        }
     }
 
     private IEnumerator FadeLotus()
@@ -243,6 +229,20 @@ public class LotusPick : Interactable, IData
         StartCoroutine(FadeLotus());
 
         yield return StartCoroutine(UndampenSound());
+
+        GameObject endScreen = GameObject.Find("Demo Ending Text");
+        if (endScreen != null)
+        {
+            finishedInteracting = false;
+            endScreen.GetComponentInChildren<Button>().interactable = true;
+            yield return StartCoroutine(FadeEndScreen(endScreen));
+        }
+        else
+        {
+            disableEvent.Unlock();
+            pauseEvent.SetPaused(false);
+            finishedInteracting = true;
+        }
     }
 
     private IEnumerator PlayLotusSounds()
@@ -281,7 +281,6 @@ public class LotusPick : Interactable, IData
 
             // Finish interacting
             Debug.Log("Undampen Sound Finish");
-            //finishedInteracting = true;
         }
     }
 

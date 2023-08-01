@@ -29,6 +29,7 @@ public class AudioManager : MonoBehaviour, IData
 
     [Header("Areas")]
     [SerializeField] private MusicArea currentArea;
+    [SerializeField] private MusicArea lastArea;
 
     [Header("Forest")]
     [SerializeField] private ForestLevel currentForestLevel;
@@ -123,7 +124,7 @@ public class AudioManager : MonoBehaviour, IData
     /// </summary>
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        switch(SceneManager.GetActiveScene().name)
+        switch (SceneManager.GetActiveScene().name)
         {
             case "Title Screen":
                 // Set the music area
@@ -168,6 +169,12 @@ public class AudioManager : MonoBehaviour, IData
                 break;
         }
 
+        // Stop all music if changing places to prevent overlap
+        if (currentArea != lastArea)
+        {
+            musicBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
+
         switch(currentArea)
         {
             case MusicArea.MAIN_MENU:
@@ -195,6 +202,15 @@ public class AudioManager : MonoBehaviour, IData
                 StartCoroutine(CheckWindSounds());
                 break;
         }
+
+        // Start the music if music had been stopped
+        if (currentArea != lastArea)
+        {
+            musicEventInstance.start();
+        }
+
+        // Set lastArea to currentArea
+        lastArea = currentArea;
     }
 
     /// <summary>
