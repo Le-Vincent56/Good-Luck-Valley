@@ -61,8 +61,8 @@ public class GameData
     #endregion
 
     #region JOURNAL
+    public int totalNotes;
     public int numNotesCollected;
-    public List<NoteData> notes;
     public NoteData newestNote;
     public bool hasJournal;
     public bool hasOpenedJournalOnce;
@@ -93,8 +93,8 @@ public class GameData
         #endregion
 
         #region JOURNAL
+        totalNotes = 7;
         numNotesCollected = 0;
-        notes = new List<NoteData>();
         hasJournal = false;
         hasOpenedJournalOnce = false;
         showJournalTutorial = true;
@@ -120,6 +120,10 @@ public class GameData
         // Lotuses
         levelData["Prologue"].assetsActive.Add("3b83efc7-7f42-4edf-ba58-78df7032e497", true);
         levelData["Prologue"].assetsActive.Add("130aa8b9-595d-47f2-96bb-54818ee26ef9", true);
+
+        // Notes
+        levelData["Prologue"].totalNotes = 0;
+        levelData["Prologue"].currentNotes = 0;
         #endregion
     }
 
@@ -145,6 +149,10 @@ public class GameData
 
         // Vine Wall
         levelData["Level 1"].assetsActive.Add("c2827f9d-736d-425c-8f2d-1627e43195bd", true);
+
+        // Notes
+        levelData["Level 1"].totalNotes = 7;
+        levelData["Level 1"].currentNotes = 0;
         #endregion
     }
 }
