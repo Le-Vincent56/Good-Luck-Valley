@@ -13,8 +13,8 @@ public class MushroomScriptableObj : ScriptableObject
     [SerializeField] private bool firstFull;
     [SerializeField] private bool firstThrow;
     [SerializeField] private bool firstBounce;
+    [SerializeField] private bool firstWallBounce;
     [SerializeField] private bool showingMaxMessage;
-    [SerializeField] private bool hidingFastFall;
     [SerializeField] private bool showQuickBounceMessage;
     [SerializeField] private bool touchingQuickBounce;
     [SerializeField] Vector3 bounceForce;
@@ -171,6 +171,15 @@ public class MushroomScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Sets whether the player has done their first wall bounce or not
+    /// </summary>
+    /// <param name="firstWallBounce"> Whether they have done the first wall bounce</param>
+    public void SetFirstWallBounce(bool firstWallBounce)
+    {
+        this.firstWallBounce = firstWallBounce;
+    }
+
+    /// <summary>
     /// Set whether the player has not yet bounced for the first time or not
     /// </summary>
     /// <param name="firstBounce">whether the player has not yet bounced for the first time or not</param>
@@ -252,21 +261,37 @@ public class MushroomScriptableObj : ScriptableObject
         return showingMaxMessage;
     }
 
-    public bool GetHidingFastFallMessage()
+    /// <summary>
+    /// Getws whether the player has done a wall bounce or not
+    /// </summary>
+    /// <returns>Whether a wall bonuce has been completed</returns>
+    public bool GetFirstWallBounce()
     {
-        return hidingFastFall;
+        return firstWallBounce;
     }
 
+    /// <summary>
+    /// Gets whether the player is touching the trigger for the quick bounce message
+    /// </summary>
+    /// <returns>Whether the player is touching the trigger or not</returns>
     public bool GetTouchingQuickBounceMessage()
     {
         return touchingQuickBounce;
     }
 
+    /// <summary>
+    /// Gets whether the quick bounce message is being shown
+    /// </summary>
+    /// <returns>Whether the quick bounce tutorial message is being shown</returns>
     public bool GetShowingQuickBounceMessage()
     {
         return showQuickBounceMessage;
     }
 
+    /// <summary>
+    /// Gets the bounceforce vector
+    /// </summary>
+    /// <returns>The bounce force velocity vector</returns>
     public Vector3 GetBounceForce()
     {
         return bounceForce;
@@ -374,23 +399,35 @@ public class MushroomScriptableObj : ScriptableObject
         hideMaxMessageEvent.Invoke();
     }
 
+    /// <summary>
+    /// Triggers events related to showing the wall bounce message
+    /// </summary>
     public void ShowWallBounceMessage()
     {
-        hidingFastFall = false;
         showWallBounceMessageEvent.Invoke();
     }
 
+    /// <summary>
+    /// Triggers events related to hiding the wall bounce message
+    /// </summary>
     public void HideWallBounceMessage()
     {
-        hidingFastFall = true;
+        firstWallBounce = false;
         hideWallBounceMessageEvent.Invoke();
     }
+
+    /// <summary>
+    /// Triggers events related to showing the quick bounce message
+    /// </summary>
     public void ShowQuickBounceMessage()
     {
         showQuickBounceMessage = true;
         showQuickBounceMessageEvent.Invoke();
     }
 
+    /// <summary>
+    /// Triggers events related to hiding the quick bounce message
+    /// </summary>
     public void HideQuickBounceMessage()
     {
         showQuickBounceMessage = false; 

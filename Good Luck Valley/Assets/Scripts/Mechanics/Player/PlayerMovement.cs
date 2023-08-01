@@ -426,7 +426,7 @@ public class PlayerMovement : MonoBehaviour, IData
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
 
                 // Check if we need to hide fast fall message
-                if (movementEvent.GetShowingFastFall())
+                if (movementEvent.GetShowingFastFall() && movementEvent.GetTouchingFastFall())
                 {
                     movementEvent.HideFastFallMessage();
                 }
@@ -480,7 +480,10 @@ public class PlayerMovement : MonoBehaviour, IData
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxFastFallSpeed));
 
                 // Check if we need to hide fast fall message
-                movementEvent.HideFastFallMessage();
+                if (movementEvent.GetShowingFastFall() && movementEvent.GetTouchingFastFall())
+                {
+                    movementEvent.HideFastFallMessage();
+                }
             } 
             else if(RB.velocity.y < 0 && movementEvent.GetIsTouchingWall())
             {

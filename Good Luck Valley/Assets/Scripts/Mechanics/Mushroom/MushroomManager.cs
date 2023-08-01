@@ -74,6 +74,7 @@ public class MushroomManager : MonoBehaviour, IData
     private bool firstThrow;
     private bool firstBounce;
     private bool firstFull;
+    private bool firstWallBounce;
     private bool showQuickBounceMessage;
     [SerializeField] private Vector3 wallShroomPosDifference;
     #endregion
@@ -456,7 +457,12 @@ public class MushroomManager : MonoBehaviour, IData
             // Only call when the button is pressed, not on release as well
             if (context.started && movementEvent.GetMushroomPosition().x != -1000)
             {
-                mushroomEvent.HideWallBounceMessage();
+                if (mushroomEvent.GetFirstWallBounce())
+                {
+                    firstWallBounce = false;
+                    mushroomEvent.SetFirstWallBounce(false);
+                    mushroomEvent.HideWallBounceMessage();
+                }
                 // Player is no longer touching the wall
                 movementEvent.SetIsTouchingWall(false);
 
@@ -850,6 +856,7 @@ public class MushroomManager : MonoBehaviour, IData
         firstThrow = data.firstThrow;
         firstBounce = data.firstBounce;
         firstFull = data.firstFull;
+        firstWallBounce = data.firstWallBounce;
         throwUnlocked = data.throwUnlocked;
         showQuickBounceMessage = data.showQuickBounce;
         mushroomEvent.SetFirstThrow(firstThrow);
@@ -857,6 +864,7 @@ public class MushroomManager : MonoBehaviour, IData
         mushroomEvent.SetFirstFull(firstFull);
         mushroomEvent.SetThrowUnlocked(throwUnlocked);
         mushroomEvent.SetShowingQuickBounceMessage(showQuickBounceMessage);
+        mushroomEvent.SetFirstWallBounce(firstWallBounce);
     }
 
     public void SaveData(GameData data)
@@ -866,6 +874,7 @@ public class MushroomManager : MonoBehaviour, IData
         data.firstFull = firstFull;
         data.throwUnlocked = throwUnlocked;
         data.showQuickBounce = showQuickBounceMessage;
+        data.firstWallBounce = firstWallBounce;
     }
     #endregion
 }
