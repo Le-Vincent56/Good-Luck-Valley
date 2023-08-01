@@ -455,6 +455,7 @@ public class MushroomManager : MonoBehaviour, IData
             // Only call when the button is pressed, not on release as well
             if (context.started && movementEvent.GetMushroomPosition().x != -1000)
             {
+                mushroomEvent.HideWallBounceMessage();
                 Debug.Log("Mushroom Pos: " + movementEvent.GetMushroomPosition());
                 // Player is no longer touching the wall
                 movementEvent.SetIsTouchingWall(false);

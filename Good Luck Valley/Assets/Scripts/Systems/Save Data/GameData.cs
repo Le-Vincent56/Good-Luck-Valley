@@ -131,7 +131,7 @@ public class GameData
 
         #region ASSETS
         // Notes
-        levelData["Level 1"].notesCollected.Add("70958600-3752-40de-94a1-545b7409b81b", false);
+        levelData["Level 1"].notesCollected.Add("aecf6275-285b-43de-9998-08665fc9c8d6", false);
         levelData["Level 1"].notesCollected.Add("6f1373e1-ac5f-45f5-825a-fe053b549b38", false);
         levelData["Level 1"].notesCollected.Add("3ccfd056-3a6d-4c19-ae95-636382b4d5c7", false);
         levelData["Level 1"].notesCollected.Add("816acec3-2d35-4019-bdd1-d73ff1902243", false);

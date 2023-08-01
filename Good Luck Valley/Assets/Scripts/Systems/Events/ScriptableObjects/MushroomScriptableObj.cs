@@ -14,6 +14,7 @@ public class MushroomScriptableObj : ScriptableObject
     [SerializeField] private bool firstThrow;
     [SerializeField] private bool firstBounce;
     [SerializeField] private bool showingMaxMessage;
+    [SerializeField] private bool hidingFastFall;
     [SerializeField] Vector3 bounceForce;
 
     #region EVENTS
@@ -31,11 +32,15 @@ public class MushroomScriptableObj : ScriptableObject
     public UnityEvent hideBounceMessageEvent;
     public UnityEvent showMaxMessageEvent;
     public UnityEvent hideMaxMessageEvent;
+    public UnityEvent showFastFallMessageEvent;
+    public UnityEvent hideFastFallMessageEvent;
+    public UnityEvent showWallBounceMessageEvent;
+    public UnityEvent hideWallBounceMessageEvent;
     #endregion
     #endregion
 
     #region PROPERTIES
-    public bool IsTouchingShroom { get {  return touchingShroom; } } 
+    public bool IsTouchingShroom { get { return touchingShroom; } }
     #endregion
 
     private void OnEnable()
@@ -46,7 +51,7 @@ public class MushroomScriptableObj : ScriptableObject
             touchingShroomEvent = new UnityEvent<bool>();
         }
 
-        if(checkThrowAnimationEvent == null)
+        if (checkThrowAnimationEvent == null)
         {
             checkThrowAnimationEvent = new UnityEvent();
         }
@@ -56,12 +61,12 @@ public class MushroomScriptableObj : ScriptableObject
             setThrowAnimationEvent = new UnityEvent();
         }
 
-        if(endThrowEvent == null)
+        if (endThrowEvent == null)
         {
             endThrowEvent = new UnityEvent();
         }
 
-        if(clearShroomsEvent == null)
+        if (clearShroomsEvent == null)
         {
             clearShroomsEvent = new UnityEvent();
         }
@@ -94,6 +99,26 @@ public class MushroomScriptableObj : ScriptableObject
         if (hideMaxMessageEvent == null)
         {
             hideMaxMessageEvent = new UnityEvent();
+        }
+
+        if (showFastFallMessageEvent == null)
+        {
+            showFastFallMessageEvent = new UnityEvent();
+        }
+
+        if (hideFastFallMessageEvent == null)
+        {
+            hideFastFallMessageEvent = new UnityEvent();
+        }
+
+        if (showWallBounceMessageEvent == null)
+        {
+            showWallBounceMessageEvent = new UnityEvent();
+        }
+
+        if (hideWallBounceMessageEvent == null)
+        {
+            hideWallBounceMessageEvent = new UnityEvent();
         }
         #endregion
     }
@@ -215,6 +240,11 @@ public class MushroomScriptableObj : ScriptableObject
         return showingMaxMessage;
     }
 
+    public bool GetHidingFastFallMessage()
+    {
+        return hidingFastFall;
+    }
+
     public Vector3 GetBounceForce()
     {
         return bounceForce;
@@ -320,6 +350,28 @@ public class MushroomScriptableObj : ScriptableObject
     {
         showingMaxMessage = false;
         hideMaxMessageEvent.Invoke();
+    }
+
+    public void ShowFastFallMessage()
+    {
+        hidingFastFall = false;
+        showFastFallMessageEvent.Invoke();
+    }
+
+    public void HideFastFallMessage()
+    {
+        hidingFastFall = true;
+        hideFastFallMessageEvent.Invoke();
+    }
+
+    public void ShowWallBounceMessage()
+    {
+        showWallBounceMessageEvent.Invoke();
+    }
+
+    public void HideWallBounceMessage()
+    {
+        hideWallBounceMessageEvent.Invoke();
     }
 
     /// <summary>
