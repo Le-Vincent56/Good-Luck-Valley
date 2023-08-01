@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Linq;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Journal : MonoBehaviour, IData
 {
@@ -130,7 +131,7 @@ public class Journal : MonoBehaviour, IData
             }
 
             // Set the newest note, if it exists
-            if(newestNote != null)
+            if(!journalEvent.GetTutorialMessage() && newestNote != null)
             {
                 panelTextTitle.text = newestNote.NoteTitle;
                 panelText.text = newestNote.TextValue;
@@ -300,7 +301,7 @@ public class Journal : MonoBehaviour, IData
         notes.Clear();
 
         // Add notes according to their note data
-        foreach(NoteData noteData in data.notes)
+        foreach(NoteData noteData in data.levelData[SceneManager.GetActiveScene().name].notes)
         {
             notes.Add(new Note(noteData.id, noteData.noteTitle, noteData.textValue, noteData.contentTitle, noteData.journalIndex, noteData.noteAdded, noteData.alreadyRead));
         }
@@ -321,23 +322,21 @@ public class Journal : MonoBehaviour, IData
         showTutorialMessage = data.showJournalTutorial;
         journalEvent.SetTutorialMessage(showTutorialMessage);
 
-        // Set how many notes have been collected
-        journalEvent.SetNotesCollected(data.numNotesCollected);
+        // Set the amount of notes collected for this scene
+        journalEvent.SetTotalNotes(data.levelData[SceneManager.GetActiveScene().name].totalNotes);
+        journalEvent.SetNotesCollected(data.levelData[SceneManager.GetActiveScene().name].currentNotes);
     }
 
     public void SaveData(GameData data)
     {
-        // Set the amount of notes collected
-        data.numNotesCollected = notes.Count;
-
         // Clear the notes in data
-        data.notes.Clear();
+        data.levelData[SceneManager.GetActiveScene().name].notes.Clear();
 
         // Save each note
         foreach (Note note in notes)
         {
             NoteData savedNote = new NoteData(note.ID, note.NoteTitle, note.TextValue, note.ContentsTitle, note.JournalIndex, note.NoteAdded, note.AlreadyRead);
-            data.notes.Add(savedNote);
+            data.levelData[SceneManager.GetActiveScene().name].notes.Add(savedNote);
         }
 
         // Save the newest note
@@ -351,6 +350,16 @@ public class Journal : MonoBehaviour, IData
 
         // Save if the tutorial message needs to be shown
         data.showJournalTutorial = showTutorialMessage;
+
+        // Set the amount of notes collected for this scene
+        data.levelData[SceneManager.GetActiveScene().name].currentNotes = notes.Count;
+
+        // Add up all the scenes for the total
+        data.numNotesCollected = 0;
+        foreach (KeyValuePair<string, LevelData> levelData in data.levelData)
+        {
+            data.numNotesCollected += levelData.Value.currentNotes;
+        }
     }
     #endregion
 }

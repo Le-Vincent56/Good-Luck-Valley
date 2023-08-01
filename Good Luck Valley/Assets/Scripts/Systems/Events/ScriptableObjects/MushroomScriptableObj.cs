@@ -14,6 +14,7 @@ public class MushroomScriptableObj : ScriptableObject
     [SerializeField] private bool firstThrow;
     [SerializeField] private bool firstBounce;
     [SerializeField] private bool showingMaxMessage;
+    [SerializeField] private bool hidingFastFall;
     [SerializeField] private bool showQuickBounceMessage;
     [SerializeField] private bool touchingQuickBounce;
     [SerializeField] Vector3 bounceForce;
@@ -251,6 +252,11 @@ public class MushroomScriptableObj : ScriptableObject
         return showingMaxMessage;
     }
 
+    public bool GetHidingFastFallMessage()
+    {
+        return hidingFastFall;
+    }
+
     public bool GetTouchingQuickBounceMessage()
     {
         return touchingQuickBounce;
@@ -370,11 +376,13 @@ public class MushroomScriptableObj : ScriptableObject
 
     public void ShowWallBounceMessage()
     {
+        hidingFastFall = false;
         showWallBounceMessageEvent.Invoke();
     }
 
     public void HideWallBounceMessage()
     {
+        hidingFastFall = true;
         hideWallBounceMessageEvent.Invoke();
     }
     public void ShowQuickBounceMessage()
