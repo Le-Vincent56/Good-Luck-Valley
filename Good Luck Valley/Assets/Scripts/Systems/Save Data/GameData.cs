@@ -51,7 +51,7 @@ public class GameData
 
     #region MUSIC
     public ForestLevel currentForestLevel;
-    public float forestMusicProgression;
+    public SerializableDictionary<string, float> forestLayers;
     #endregion
 
     #region SHROOM
@@ -87,6 +87,10 @@ public class GameData
         InitializePrologue();
         InitializeLevelOne();
         currentLevelName = "Prologue";
+        #endregion
+
+        #region MUSIC
+        forestLayers = new SerializableDictionary<string, float>();
         #endregion
 
         #region SHROOM

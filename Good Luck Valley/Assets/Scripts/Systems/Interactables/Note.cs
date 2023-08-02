@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Note : Interactable, IData
 {
@@ -13,12 +14,16 @@ public class Note : Interactable, IData
     #endregion
 
     #region FIELDS
+    
     [SerializeField] private string noteTitle;
     [SerializeField] private string textValue;
     [SerializeField] private string contentsTitle;
     [SerializeField] private int journalIndex = 0;
     [SerializeField] private bool noteAdded = false;
     [SerializeField] private bool alreadyRead = false;
+
+    [Header("Music")]
+    [SerializeField] private ForestLayer forestLayer;
     [SerializeField] private bool progressesMusic;
     [SerializeField] private float progressLevel;
     [SerializeField] private const float maxProgressDifference = 28.0f;
@@ -105,37 +110,41 @@ public class Note : Interactable, IData
 
     private IEnumerator UpdateMusicLayer()
     {
-        while (AudioManager.Instance.CurrentForestProgression <= progressLevel)
+        // Create a list to store keys to be modified
+        List<string> keysToModify = new List<string>();
+        foreach (KeyValuePair<string, float> layer in AudioManager.Instance.ForestLayers)
         {
-            // Calculate the scaling increment
-            float progressDifference = Mathf.Abs(progressLevel - AudioManager.Instance.CurrentForestProgression);
-
-            // Check how large the progress difference is, and, if need be, scale the fade-in time
-            if(progressDifference > 1)
+            if (layer.Key != forestLayer.ToString())
             {
-                float scalingFactor = Mathf.Clamp01(1f - (progressDifference / maxProgressDifference));
-
-                float baseIncrement = (Time.deltaTime);
-                float scaledIncrement = baseIncrement * (1f + scalingFactor); // Increase increment as scalingFactor increases
-                Debug.Log("Scaling Factor: " + (1f + scalingFactor));
-
-                // Set the FMOD parameters
-                AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + scaledIncrement);
-            } else
-            {
-                // Set the FMOD parameters
-                AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
+                keysToModify.Add(layer.Key);
             }
+        }
 
-            if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
+        // Loop until layer is in fully
+        while (AudioManager.Instance.ForestLayers[forestLayer.ToString()] <= 1)
+        {
+            // Fade-in the intended layer
+            AudioManager.Instance.SetForestLayer(forestLayer.ToString(), AudioManager.Instance.ForestLayers[forestLayer.ToString()] + (Time.deltaTime / 4f));
+
+            // Modify the dictionary outside the loop
+            foreach (string key in keysToModify)
             {
-                // Round out the number
-                AudioManager.Instance.SetForestProgress(Mathf.Floor(AudioManager.Instance.CurrentForestProgression));
+                // Fade-out all other layers
+                if (key != forestLayer.ToString() && AudioManager.Instance.ForestLayers[key] >= 0)
+                {
+                    AudioManager.Instance.SetForestLayer(key, AudioManager.Instance.ForestLayers[key] - (Time.deltaTime / 4f));
+                }
             }
-
-            // Allow other code to run
             yield return null;
         }
+
+        // Round them to a perfect integer for volume clarity
+        foreach (string key in keysToModify)
+        {
+            AudioManager.Instance.SetForestLayer(key, Mathf.Round(AudioManager.Instance.ForestLayers[key]));
+        }
+
+        yield return null;
     }
 
     #region DATA HANDLING
