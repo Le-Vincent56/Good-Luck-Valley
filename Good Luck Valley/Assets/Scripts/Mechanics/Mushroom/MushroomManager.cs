@@ -614,7 +614,7 @@ public class MushroomManager : MonoBehaviour, IData
 
     public void OnQuickBounce(InputAction.CallbackContext context)
     {
-        if (context.started && !throwLocked && throwUnlocked)
+        if (context.started && !throwLocked && throwUnlocked && movementEvent.GetIsGrounded())
         {
             if (mushroomEvent.GetTouchingQuickBounceMessage())
             {
