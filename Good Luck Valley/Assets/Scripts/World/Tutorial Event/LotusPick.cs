@@ -93,9 +93,9 @@ public class LotusPick : Interactable, IData
         disableEvent.Lock();
 
         // Progress music
-        if(AudioManager.Instance.CurrentForestProgression < progressLevel && progressesMusic)
+        if(progressesMusic)
         {
-            AudioManager.Instance.SetForestProgress(progressLevel);
+            AudioManager.Instance.SetForestLayer("FOREST_END", 1f);
         }
 
         // Start the lotus pick by playing the sound

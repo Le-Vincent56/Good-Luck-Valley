@@ -28,7 +28,7 @@ public class TransitionTrigger : MonoBehaviour
     [SerializeField] private bool transition;
     [SerializeField] private float timeBeforeTransitionTrigger = 1f;
     [SerializeField] private bool progressesMusic;
-    [SerializeField] private float progressLevel;
+    [SerializeField] private ForestLayer forestLayer;
     #endregion
 
     private void Awake()
@@ -69,7 +69,7 @@ public class TransitionTrigger : MonoBehaviour
             // Trigger any music loading
             if (progressesMusic)
             {
-                loadLevelEvent.StartMusicLoad(progressLevel);
+                loadLevelEvent.StartForestMusicLoad(forestLayer);
             }
 
             // Set variables
