@@ -21,6 +21,7 @@ public class Note : Interactable, IData
     [SerializeField] private bool alreadyRead = false;
     [SerializeField] private bool progressesMusic;
     [SerializeField] private float progressLevel;
+    [SerializeField] private const float maxProgressDifference = 28.0f;
     #endregion
 
     #region PROPERTIES
@@ -104,10 +105,27 @@ public class Note : Interactable, IData
 
     private IEnumerator UpdateMusicLayer()
     {
-        while(AudioManager.Instance.CurrentForestProgression <= progressLevel)
+        while (AudioManager.Instance.CurrentForestProgression <= progressLevel)
         {
-            // Set the FMOD parameters
-            AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
+            // Calculate the scaling increment
+            float progressDifference = Mathf.Abs(progressLevel - AudioManager.Instance.CurrentForestProgression);
+
+            // Check how large the progress difference is, and, if need be, scale the fade-in time
+            if(progressDifference > 1)
+            {
+                float scalingFactor = Mathf.Clamp01(1f - (progressDifference / maxProgressDifference));
+
+                float baseIncrement = (Time.deltaTime);
+                float scaledIncrement = baseIncrement * (1f + scalingFactor); // Increase increment as scalingFactor increases
+                Debug.Log("Scaling Factor: " + (1f + scalingFactor));
+
+                // Set the FMOD parameters
+                AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + scaledIncrement);
+            } else
+            {
+                // Set the FMOD parameters
+                AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
+            }
 
             if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
             {

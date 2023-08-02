@@ -17,7 +17,8 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     private SaveSlot[] saveSlots;
     private SaveSlot selectedSaveSlot;
     private Image savingProgressPanel;
-    private Text savingProgressText;
+    private Image saveAnimationImage;
+    private Animator saveAnimationController;
     #endregion
 
     #region FIELDS
@@ -25,7 +26,9 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     [SerializeField] private float savingTextUpdateTimer = 2.4f;
     private bool menuOpen = false;
     private bool saving = false;
-    private bool playAnimation = false;
+
+    private const string MENU_IDLE = "Menu_Idle";
+    private const string MENU_SAVE = "Menu_Save";
     #endregion
 
     #region PROPERTIES
@@ -44,7 +47,8 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         backButton = GameObject.Find("Save Back Button").GetComponent<Button>();
 
         savingProgressPanel = GameObject.Find("Saving Progress Panel").GetComponent<Image>();
-        savingProgressText = GameObject.Find("Saving Progress Text").GetComponent<Text>();
+        saveAnimationImage = GameObject.Find("Saving Progress Animation").GetComponent<Image>();
+        saveAnimationController = GameObject.Find("Saving Progress Animation").GetComponent<Animator>();
 
         saveButton.interactable = false;
         deleteButton.interactable = false;
@@ -184,9 +188,8 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
             // Show saving in progress UI elements and set saving text update timer
             savingProgressPanel.enabled = true;
-            savingProgressText.enabled = true;
-            savingProgressText.text = "Saving";
-            savingTextUpdateTimer = 2.4f;
+            saveAnimationImage.enabled = true;
+            saveAnimationController.Play(MENU_SAVE);
 
             // Set a delay for saving before re-activating the menu to allow time for the new save to appear
             saving = true;
@@ -226,9 +229,8 @@ public class SaveSlotsPauseMenu : MonoBehaviour
 
                 // Show saving in progress UI elements and set saving text update timer
                 savingProgressPanel.enabled = true;
-                savingProgressText.enabled = true;
-                savingProgressText.text = "Saving";
-                savingTextUpdateTimer = 2.4f;
+                saveAnimationImage.enabled = true;
+                saveAnimationController.Play(MENU_SAVE);
 
                 // Set a delay for saving before re-activating the menu to allow time for the new save to appear
                 saving = true;
@@ -348,10 +350,6 @@ public class SaveSlotsPauseMenu : MonoBehaviour
         // Start the timer for saving
         yield return StartCoroutine(SaveTimer());
 
-        // Stop animation
-        playAnimation = false;
-        StopCoroutine(SavingAnimation());
-
         // Fade out UI elements
         yield return StartCoroutine(FadeOutProgressUI());
 
@@ -373,57 +371,11 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SaveTimer()
     {
-        // Play animation while waiting
-        playAnimation = true;
-        StartCoroutine(SavingAnimation());
         yield return new WaitForSecondsRealtime(1.66730f);
 
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SaveManual, transform.position);
 
         yield return new WaitForSecondsRealtime(1.3327f);
-    }
-
-    /// <summary>
-    /// Play the saving animation
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator SavingAnimation()
-    {
-        // Check if it should be playing the animation, if so, enter a loop
-        while(playAnimation)
-        {
-            // Yield so that other code can run
-            yield return null;
-
-            // Update savingProgressText based on timer
-            if (savingTextUpdateTimer > 0)
-            {
-                if (savingTextUpdateTimer <= 2.4f && savingTextUpdateTimer > 1.8f)
-                {
-                    savingProgressText.text = "Saving";
-                }
-                else if (savingTextUpdateTimer <= 1.8f && savingTextUpdateTimer > 1.2f)
-                {
-                    savingProgressText.text = "Saving.";
-                }
-                else if (savingTextUpdateTimer <= 1.2f && savingTextUpdateTimer > 0.6f)
-                {
-                    savingProgressText.text = "Saving..";
-                }
-                else if (savingTextUpdateTimer <= 0.6f)
-                {
-                    savingProgressText.text = "Saving...";
-                }
-            }
-            else if (savingTextUpdateTimer <= 0)
-            {
-                // Reset timer once it hits 0
-                savingTextUpdateTimer = 2.4f;
-            }
-
-            // Subtract by unscaledDeltaTime (game is paused, so deltaTime won't work because it is scaled)
-            savingTextUpdateTimer -= Time.unscaledDeltaTime;
-        }
     }
 
     /// <summary>
@@ -433,10 +385,10 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     private IEnumerator FadeInProgressUI()
     {
         // While alpha values are under the desired numbers, increase them by an unscaled delta time (because we are paused)
-        while(savingProgressPanel.color.a < 0.67 && savingProgressText.color.a < 1)
+        while(savingProgressPanel.color.a < 0.67 && saveAnimationImage.color.a < 1)
         {
             savingProgressPanel.color = new Color(savingProgressPanel.color.r, savingProgressPanel.color.g, savingProgressPanel.color.b, savingProgressPanel.color.a + (Time.unscaledDeltaTime * 2));
-            savingProgressText.color = new Color(savingProgressText.color.r, savingProgressText.color.g, savingProgressText.color.b, savingProgressText.color.a + (Time.unscaledDeltaTime * 3f));
+            saveAnimationImage.color = new Color(saveAnimationImage.color.r, saveAnimationImage.color.g, saveAnimationImage.color.b, saveAnimationImage.color.a + (Time.unscaledDeltaTime * 2));
             yield return null;
         }
     }
@@ -448,15 +400,19 @@ public class SaveSlotsPauseMenu : MonoBehaviour
     private IEnumerator FadeOutProgressUI()
     {
         // While alpha values are over the desired numbers, decrease them by an unscaled delta time (because we are paused)
-        while (savingProgressPanel.color.a > 0 && savingProgressText.color.a > 0)
+        while (savingProgressPanel.color.a > 0 && saveAnimationImage.color.a > 0)
         {
             savingProgressPanel.color = new Color(savingProgressPanel.color.r, savingProgressPanel.color.g, savingProgressPanel.color.b, savingProgressPanel.color.a - (Time.unscaledDeltaTime * 2));
-            savingProgressText.color = new Color(savingProgressText.color.r, savingProgressText.color.g, savingProgressText.color.b, savingProgressText.color.a - (Time.unscaledDeltaTime * 3f));
-        }
+            saveAnimationImage.color = new Color(saveAnimationImage.color.r, saveAnimationImage.color.g, saveAnimationImage.color.b, saveAnimationImage.color.a - (Time.unscaledDeltaTime * 2));
 
-        // Disable the UI elements once they are gone
-        savingProgressPanel.enabled = false;
-        savingProgressText.enabled = false;
+            if (savingProgressPanel.color.a <= 0 && saveAnimationImage.color.a <= 0)
+            {
+                // Disable the UI elements once they are gone
+                saveAnimationController.Play(MENU_IDLE);
+                saveAnimationImage.enabled = false;
+                savingProgressPanel.enabled = false;
+            }
+        }
 
         yield return null;
     }
