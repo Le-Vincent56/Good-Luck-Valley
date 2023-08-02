@@ -204,12 +204,12 @@ public class AudioListener : MonoBehaviour
     {
         if(AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN)
         {
-            while(AudioManager.Instance.CurrentForestProgression < progressLevel)
+            while(AudioManager.Instance.CurrentForestProgression <= progressLevel)
             {
                 // Update forest progression
                 AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
 
-                if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
+                if (AudioManager.Instance.CurrentForestProgression > progressLevel)
                 {
                     // Round out the number
                     AudioManager.Instance.SetForestProgress(Mathf.Floor(AudioManager.Instance.CurrentForestProgression));
