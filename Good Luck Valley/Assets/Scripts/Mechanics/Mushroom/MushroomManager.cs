@@ -494,6 +494,7 @@ public class MushroomManager : MonoBehaviour, IData
                 }
                 // Create the shroom that bounces the player
                 GameObject shroom = Instantiate(spore, movementEvent.GetMushroomPosition() + difference, Quaternion.identity);
+                shroom.GetComponent<Shroom>().Rotation = rotation;
 
 
                 mushroomList.Add(shroom);
@@ -515,7 +516,7 @@ public class MushroomManager : MonoBehaviour, IData
                 }
 
                 // Rotate the mushroom using the given rotation
-                shroom.transform.Rotate(new Vector3(0, 0, rotation));
+                //shroom.transform.Rotate(new Vector3(0, 0, rotation));
 
                 // Check if the rotation is greater than 0 (right side collision)
                 if (rotation >= 0)

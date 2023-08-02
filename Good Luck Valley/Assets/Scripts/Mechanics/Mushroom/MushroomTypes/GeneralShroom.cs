@@ -17,6 +17,7 @@ public class GeneralShroom : Shroom
 
     private void Awake()
     {
+        Debug.Log("Make Reg Shroom");   
         mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         shroomCounter = GameObject.Find("MushroomCountUI").GetComponent<ShroomCounter>();
         shroomParticles = GetComponent<ParticleSystem>();
@@ -169,7 +170,14 @@ public class GeneralShroom : Shroom
                 }
 
                 // Rotate and freeze the shroom
-                RotateAndFreeze();
+                if (shroomType == ShroomType.Wall)
+                {
+                    RotateAndFreeze(rotation);
+                }
+                else
+                {
+                    RotateAndFreeze();
+                }
             }
             else if (collision.collider is BoxCollider2D)
             {
