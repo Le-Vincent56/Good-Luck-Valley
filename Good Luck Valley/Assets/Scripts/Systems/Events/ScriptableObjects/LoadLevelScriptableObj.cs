@@ -15,7 +15,7 @@ public class LoadLevelScriptableObj : ScriptableObject
 
     #region EVENTS
     public UnityEvent startLoad;
-    public UnityEvent<float> startMusicLoad;
+    public UnityEvent<ForestLayer> startForestMusicLoad;
     public UnityEvent endLoad;
     #endregion
     #endregion
@@ -33,9 +33,9 @@ public class LoadLevelScriptableObj : ScriptableObject
             endLoad = new UnityEvent();
         }
 
-        if(startMusicLoad == null)
+        if(startForestMusicLoad == null)
         {
-            startMusicLoad = new UnityEvent<float>();
+            startForestMusicLoad = new UnityEvent<ForestLayer>();
         }
         #endregion
     }
@@ -125,9 +125,9 @@ public class LoadLevelScriptableObj : ScriptableObject
     /// Trigger all events relating to updating music through loading
     /// </summary>
     /// <param name="progressLevel">The level to progress to</param>
-    public void StartMusicLoad(float progressLevel)
+    public void StartForestMusicLoad(ForestLayer forestLayer)
     {
-        startMusicLoad.Invoke(progressLevel);
+        startForestMusicLoad.Invoke(forestLayer);
     }
 
     /// <summary>

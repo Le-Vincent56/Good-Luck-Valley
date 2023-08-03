@@ -58,11 +58,27 @@ public class TutorialMessage : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Show();
+        if (textValue.Contains("fast fall"))
+        {
+            manager.UpdateFastFall(true);
+        }
+        if (textValue.Contains("quick bounce"))
+        {
+            manager.UpdateQuickBounce(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         Hide();
+        if (textValue.Contains("fast fall"))
+        {
+            manager.UpdateFastFall(false);
+        }
+        if (textValue.Contains("quick bounce"))
+        {
+            manager.UpdateQuickBounce(false);
+        }
     }
 
     public void Show()

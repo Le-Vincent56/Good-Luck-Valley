@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Note : Interactable, IData
 {
@@ -13,13 +14,19 @@ public class Note : Interactable, IData
     #endregion
 
     #region FIELDS
+    
     [SerializeField] private string noteTitle;
     [SerializeField] private string textValue;
     [SerializeField] private string contentsTitle;
     [SerializeField] private int journalIndex = 0;
     [SerializeField] private bool noteAdded = false;
+    [SerializeField] private bool alreadyRead = false;
+
+    [Header("Music")]
+    [SerializeField] private ForestLayer forestLayer;
     [SerializeField] private bool progressesMusic;
     [SerializeField] private float progressLevel;
+    [SerializeField] private const float maxProgressDifference = 28.0f;
     #endregion
 
     #region PROPERTIES
@@ -29,9 +36,10 @@ public class Note : Interactable, IData
     public string ContentsTitle { get { return contentsTitle; } set { contentsTitle = value; } }
     public int JournalIndex { get { return journalIndex; } }
     public bool NoteAdded { get { return noteAdded; } }
+    public bool AlreadyRead { get { return alreadyRead; } set { alreadyRead = value; } }
     #endregion
 
-    public Note(string id, string noteTitle, string textValue, string contentsTitle, int journalIndex, bool noteAdded)
+    public Note(string id, string noteTitle, string textValue, string contentsTitle, int journalIndex, bool noteAdded, bool alreadyRead)
     {
         this.id = id;
         this.noteTitle = noteTitle;
@@ -39,6 +47,7 @@ public class Note : Interactable, IData
         this.contentsTitle = contentsTitle;
         this.journalIndex = journalIndex;
         this.noteAdded = noteAdded;
+        this.alreadyRead = alreadyRead;
         remove = true;
     }
 
@@ -101,20 +110,41 @@ public class Note : Interactable, IData
 
     private IEnumerator UpdateMusicLayer()
     {
-        while(AudioManager.Instance.CurrentForestProgression <= progressLevel)
+        // Create a list to store keys to be modified
+        List<string> keysToModify = new List<string>();
+        foreach (KeyValuePair<string, float> layer in AudioManager.Instance.ForestLayers)
         {
-            // Set the FMOD parameters
-            AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
-
-            if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
+            if (layer.Key != forestLayer.ToString())
             {
-                // Round out the number
-                AudioManager.Instance.SetForestProgress(Mathf.Floor(AudioManager.Instance.CurrentForestProgression));
+                keysToModify.Add(layer.Key);
             }
+        }
 
-            // Allow other code to run
+        // Loop until layer is in fully
+        while (AudioManager.Instance.ForestLayers[forestLayer.ToString()] <= 1)
+        {
+            // Fade-in the intended layer
+            AudioManager.Instance.SetForestLayer(forestLayer.ToString(), AudioManager.Instance.ForestLayers[forestLayer.ToString()] + (Time.deltaTime / 4f));
+
+            // Modify the dictionary outside the loop
+            foreach (string key in keysToModify)
+            {
+                // Fade-out all other layers
+                if (key != forestLayer.ToString() && AudioManager.Instance.ForestLayers[key] >= 0)
+                {
+                    AudioManager.Instance.SetForestLayer(key, AudioManager.Instance.ForestLayers[key] - (Time.deltaTime / 4f));
+                }
+            }
             yield return null;
         }
+
+        // Round them to a perfect integer for volume clarity
+        foreach (string key in keysToModify)
+        {
+            AudioManager.Instance.SetForestLayer(key, Mathf.Round(AudioManager.Instance.ForestLayers[key]));
+        }
+
+        yield return null;
     }
 
     #region DATA HANDLING

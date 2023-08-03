@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Linq;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Journal : MonoBehaviour, IData
 {
@@ -16,6 +17,8 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private Text journalTutorialMessage;
     private Canvas journalUI;
     private Button pauseJournalButton;
+    private Text panelTextTitle;
+    private Text panelText;
     #endregion
 
     #region FIELDS
@@ -27,6 +30,7 @@ public class Journal : MonoBehaviour, IData
     [SerializeField] private float journalCloseBuffer = 0.25f;
     [SerializeField] private bool canClose = false;
     [SerializeField] private bool showTutorialMessage = false;
+    [SerializeField] private Note newestNote;
     #endregion
 
     #region PROPERTIES
@@ -52,6 +56,8 @@ public class Journal : MonoBehaviour, IData
     {
         journalUI = GameObject.Find("JournalUI").GetComponent<Canvas>();
         pauseJournalButton = GameObject.Find("Journal Button").GetComponent<Button>();
+        panelTextTitle = GameObject.Find("EntryTextTitle").GetComponent<Text>();
+        panelText = GameObject.Find("EntryText").GetComponent<Text>();
 
         if (!journalEvent.GetTutorialMessage())
         {
@@ -124,6 +130,14 @@ public class Journal : MonoBehaviour, IData
                 journalEvent.SetOpenedOnce(true);
             }
 
+            // Set the newest note, if it exists
+            if(!journalEvent.GetTutorialMessage() && newestNote != null)
+            {
+                panelTextTitle.text = newestNote.NoteTitle;
+                panelText.text = newestNote.TextValue;
+                newestNote.AlreadyRead = true;
+            }
+
             // Enable the journal UI and set menuOpen to true
             journalUI.enabled = true;
             menuOpen = true;
@@ -184,6 +198,14 @@ public class Journal : MonoBehaviour, IData
             {
                 hasOpenedOnce = true;
                 journalEvent.SetOpenedOnce(true);
+            }
+
+            // Set the newest note, if it exists, and if the tutorial message is not showing
+            if (!journalEvent.GetTutorialMessage() && newestNote != null)
+            {
+                panelTextTitle.text = newestNote.NoteTitle;
+                panelText.text = newestNote.TextValue;
+                newestNote.AlreadyRead = true;
             }
 
             journalUI.enabled = true;
@@ -248,6 +270,8 @@ public class Journal : MonoBehaviour, IData
     /// </summary>
     public void CheckJournalTutorial()
     {
+        showTutorialMessage = journalEvent.GetTutorialMessage();
+
         if (!journalEvent.GetTutorialMessage())
         {
             journalTutorialMessage.enabled = false;
@@ -265,6 +289,8 @@ public class Journal : MonoBehaviour, IData
     public void AddNote(Note noteToAdd)
     {
         notes.Add(noteToAdd);
+        newestNote = noteToAdd;
+        journalEvent.SetNotesCollected(notes.Count);
     }
     #endregion
 
@@ -275,10 +301,14 @@ public class Journal : MonoBehaviour, IData
         notes.Clear();
 
         // Add notes according to their note data
-        foreach(NoteData noteData in data.notes)
+        foreach(NoteData noteData in data.levelData[SceneManager.GetActiveScene().name].notes)
         {
-            notes.Add(new Note(noteData.id, noteData.noteTitle, noteData.textValue, noteData.contentTitle, noteData.journalIndex, noteData.noteAdded));
+            notes.Add(new Note(noteData.id, noteData.noteTitle, noteData.textValue, noteData.contentTitle, noteData.journalIndex, noteData.noteAdded, noteData.alreadyRead));
         }
+        
+        // Set the newest note
+        newestNote = new Note(data.newestNote.id, data.newestNote.noteTitle, data.newestNote.textValue, data.newestNote.contentTitle, 
+            data.newestNote.journalIndex, data.newestNote.noteAdded, data.newestNote.alreadyRead);
 
         // Set if the player has the journal according to data
         hasJournal = data.hasJournal;
@@ -291,22 +321,26 @@ public class Journal : MonoBehaviour, IData
         // Set if the tutorial message needs to be shown
         showTutorialMessage = data.showJournalTutorial;
         journalEvent.SetTutorialMessage(showTutorialMessage);
+
+        // Set the amount of notes collected for this scene
+        journalEvent.SetTotalNotes(data.levelData[SceneManager.GetActiveScene().name].totalNotes);
+        journalEvent.SetNotesCollected(data.levelData[SceneManager.GetActiveScene().name].currentNotes);
     }
 
     public void SaveData(GameData data)
     {
-        // Set the amount of notes collected
-        data.numNotesCollected = notes.Count;
+        // Clear the notes in data
+        data.levelData[SceneManager.GetActiveScene().name].notes.Clear();
 
         // Save each note
         foreach (Note note in notes)
         {
-            NoteData savedNote = new NoteData(note.ID, note.NoteTitle, note.TextValue, note.ContentsTitle, note.JournalIndex, note.NoteAdded);
-            if (!data.notes.Contains(savedNote))
-            {
-                data.notes.Add(savedNote);
-            }
+            NoteData savedNote = new NoteData(note.ID, note.NoteTitle, note.TextValue, note.ContentsTitle, note.JournalIndex, note.NoteAdded, note.AlreadyRead);
+            data.levelData[SceneManager.GetActiveScene().name].notes.Add(savedNote);
         }
+
+        // Save the newest note
+        data.newestNote = new NoteData(newestNote.ID, newestNote.NoteTitle, newestNote.TextValue, newestNote.ContentsTitle, newestNote.JournalIndex, newestNote.NoteAdded, newestNote.AlreadyRead);
 
         // Save if the player has the journal or not
         data.hasJournal = hasJournal;
@@ -316,6 +350,16 @@ public class Journal : MonoBehaviour, IData
 
         // Save if the tutorial message needs to be shown
         data.showJournalTutorial = showTutorialMessage;
+
+        // Set the amount of notes collected for this scene
+        data.levelData[SceneManager.GetActiveScene().name].currentNotes = notes.Count;
+
+        // Add up all the scenes for the total
+        data.numNotesCollected = 0;
+        foreach (KeyValuePair<string, LevelData> levelData in data.levelData)
+        {
+            data.numNotesCollected += levelData.Value.currentNotes;
+        }
     }
     #endregion
 }

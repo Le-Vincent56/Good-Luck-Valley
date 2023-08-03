@@ -57928,6 +57928,10 @@ MonoBehaviour:
   mushroomBouncePrompt: {fileID: 1648248921}
   mushroomLimitPrompt: {fileID: 1978874591}
   movementPrompt: {fileID: 1688928000}
+  journalPrompt: {fileID: 0}
+  fastFallPrompt: {fileID: 0}
+  wallBouncePrompt: {fileID: 0}
+  quickBouncePrompt: {fileID: 0}
   cutsceneEvent: {fileID: 11400000, guid: 876f3bec107b97a4095b015d6d365fb3, type: 2}
   journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
   mushroomEvent: {fileID: 11400000, guid: 7d92506008c604d4b940160fec1a21e2, type: 2}
@@ -62587,7 +62591,7 @@ MonoBehaviour:
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxSpeed: 0
   direction: 1
-  parallaxMultiplyValue: 0.05
+  parallaxMultiplyValue: 0.01
 --- !u!1 &901628765
 GameObject:
   m_ObjectHideFlags: 0
@@ -65159,7 +65163,7 @@ MonoBehaviour:
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxSpeed: 0
   direction: -1
-  parallaxMultiplyValue: 0.025
+  parallaxMultiplyValue: 0.0025
 --- !u!1 &1057308219
 GameObject:
   m_ObjectHideFlags: 0
@@ -66293,7 +66297,7 @@ MonoBehaviour:
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxSpeed: 0
   direction: 1
-  parallaxMultiplyValue: 0.1
+  parallaxMultiplyValue: 0.05
 --- !u!1 &1132150235
 GameObject:
   m_ObjectHideFlags: 0
@@ -72894,7 +72898,7 @@ MonoBehaviour:
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   parallaxSpeed: 0
   direction: 1
-  parallaxMultiplyValue: 0.025
+  parallaxMultiplyValue: 0.0025
 --- !u!1 &1742656040
 GameObject:
   m_ObjectHideFlags: 0
@@ -73696,6 +73700,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2574768656343715280, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768656343715280, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2574768656675993626, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -73706,6 +73718,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768656706457289, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768656812440197, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768656852188856, guid: 4788b279466473a499dc4b001838241a, type: 3}
@@ -73770,11 +73786,11 @@ PrefabInstance:
       objectReference: {fileID: 203086902}
     - target: {fileID: 2574768658167404321, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000061035156
+      value: 0.00012207031
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658167404321, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 319.65997
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2574768658375161902, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -73802,7 +73818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6311059653850345991, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6680292651872343806, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -73812,6 +73828,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 203086902}
+    - target: {fileID: 6934267980235091095, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6934267980617897372, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Name
       value: UI
@@ -80631,6 +80651,10 @@ PrefabInstance:
     - target: {fileID: 7913569917195735956, guid: 3fa1310c5dcf4a0418ed41e96d236082, type: 3}
       propertyPath: transition
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7913569917195735956, guid: 3fa1310c5dcf4a0418ed41e96d236082, type: 3}
+      propertyPath: forestLayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7913569917195735956, guid: 3fa1310c5dcf4a0418ed41e96d236082, type: 3}
       propertyPath: levelLoader

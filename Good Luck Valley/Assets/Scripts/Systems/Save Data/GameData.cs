@@ -12,8 +12,9 @@ public struct NoteData
     public string contentTitle;
     public int journalIndex;
     public bool noteAdded;
+    public bool alreadyRead;
 
-    public NoteData(string id, string noteTitle, string textValue, string contentTitle, int journalIndex, bool noteAdded)
+    public NoteData(string id, string noteTitle, string textValue, string contentTitle, int journalIndex, bool noteAdded, bool alreadyRead)
     {
         this.id = id;
         this.noteTitle = noteTitle;
@@ -21,6 +22,7 @@ public struct NoteData
         this.contentTitle = contentTitle;
         this.journalIndex = journalIndex;
         this.noteAdded = noteAdded;
+        this.alreadyRead = alreadyRead;
     }
 }
 
@@ -39,6 +41,7 @@ public class GameData
     public bool isGrounded;
     public bool isJumping;
     public bool isFalling;
+    public bool showFastFall;
     #endregion
 
     #region LEVEL
@@ -48,7 +51,7 @@ public class GameData
 
     #region MUSIC
     public ForestLevel currentForestLevel;
-    public float forestMusicProgression;
+    public SerializableDictionary<string, float> forestLayers;
     #endregion
 
     #region SHROOM
@@ -56,11 +59,14 @@ public class GameData
     public bool firstThrow;
     public bool firstBounce;
     public bool firstFull;
+    public bool showQuickBounce;
+    public bool firstWallBounce;
     #endregion
 
     #region JOURNAL
+    public int totalNotes;
     public int numNotesCollected;
-    public List<NoteData> notes;
+    public NoteData newestNote;
     public bool hasJournal;
     public bool hasOpenedJournalOnce;
     public bool showJournalTutorial;
@@ -73,6 +79,7 @@ public class GameData
         #region GENERAL
         playtimeTotal = 0;
         playtimeString = "0:00:00";
+        showFastFall = true;
         #endregion
 
         #region LEVEL
@@ -82,16 +89,22 @@ public class GameData
         currentLevelName = "Prologue";
         #endregion
 
+        #region MUSIC
+        forestLayers = new SerializableDictionary<string, float>();
+        #endregion
+
         #region SHROOM
         throwUnlocked = false;
         firstThrow = true;
         firstBounce = true;
         firstFull = false;
+        showQuickBounce = true;
+        firstWallBounce = true;
         #endregion
 
         #region JOURNAL
+        totalNotes = 7;
         numNotesCollected = 0;
-        notes = new List<NoteData>();
         hasJournal = false;
         hasOpenedJournalOnce = false;
         showJournalTutorial = true;
@@ -117,6 +130,10 @@ public class GameData
         // Lotuses
         levelData["Prologue"].assetsActive.Add("3b83efc7-7f42-4edf-ba58-78df7032e497", true);
         levelData["Prologue"].assetsActive.Add("130aa8b9-595d-47f2-96bb-54818ee26ef9", true);
+
+        // Notes
+        levelData["Prologue"].totalNotes = 0;
+        levelData["Prologue"].currentNotes = 0;
         #endregion
     }
 
@@ -128,7 +145,7 @@ public class GameData
 
         #region ASSETS
         // Notes
-        levelData["Level 1"].notesCollected.Add("70958600-3752-40de-94a1-545b7409b81b", false);
+        levelData["Level 1"].notesCollected.Add("aecf6275-285b-43de-9998-08665fc9c8d6", false);
         levelData["Level 1"].notesCollected.Add("6f1373e1-ac5f-45f5-825a-fe053b549b38", false);
         levelData["Level 1"].notesCollected.Add("3ccfd056-3a6d-4c19-ae95-636382b4d5c7", false);
         levelData["Level 1"].notesCollected.Add("816acec3-2d35-4019-bdd1-d73ff1902243", false);
@@ -142,6 +159,10 @@ public class GameData
 
         // Vine Wall
         levelData["Level 1"].assetsActive.Add("c2827f9d-736d-425c-8f2d-1627e43195bd", true);
+
+        // Notes
+        levelData["Level 1"].totalNotes = 7;
+        levelData["Level 1"].currentNotes = 0;
         #endregion
     }
 }

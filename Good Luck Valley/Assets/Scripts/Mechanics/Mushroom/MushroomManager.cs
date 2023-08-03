@@ -40,7 +40,6 @@ public class MushroomManager : MonoBehaviour, IData
     [SerializeField] private GameObject testObject;
     private ShroomCounter shroomCounter;
     private Tutorial tutorialEvent;
-        
     #endregion
 
     #region FIELDS
@@ -75,6 +74,9 @@ public class MushroomManager : MonoBehaviour, IData
     private bool firstThrow;
     private bool firstBounce;
     private bool firstFull;
+    private bool firstWallBounce;
+    private bool showQuickBounceMessage;
+    [SerializeField] private Vector3 wallShroomPosDifference;
     #endregion
 
     #region PROPERTIES
@@ -453,8 +455,14 @@ public class MushroomManager : MonoBehaviour, IData
         if (movementEvent.GetIsTouchingWall() && !movementEvent.GetIsGrounded())
         {
             // Only call when the button is pressed, not on release as well
-            if (context.started)
+            if (context.started && movementEvent.GetMushroomPosition().x != -1000)
             {
+                if (mushroomEvent.GetFirstWallBounce())
+                {
+                    firstWallBounce = false;
+                    mushroomEvent.SetFirstWallBounce(false);
+                    mushroomEvent.HideWallBounceMessage();
+                }
                 // Player is no longer touching the wall
                 movementEvent.SetIsTouchingWall(false);
 
@@ -465,7 +473,7 @@ public class MushroomManager : MonoBehaviour, IData
 
                     if (mushroomLimit == 3)
                     {
-                        shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);
+                        shroomCounter.ShroomIconQueue.Add(mInfo.ShroomIcon);    
                         mInfo.ResetCounter();
                     }
 
@@ -475,7 +483,7 @@ public class MushroomManager : MonoBehaviour, IData
 
                 // Set the default rotation for left side collision
                 float rotation = -90;
-                Vector3 difference = new Vector3(0.02f, 0, 0);
+                Vector3 difference = wallShroomPosDifference;
 
                 // Check if the wall is to the right of the player
                 if (movementEvent.GetMushroomPosition().x > playerRB.transform.position.x)
@@ -486,6 +494,7 @@ public class MushroomManager : MonoBehaviour, IData
                 }
                 // Create the shroom that bounces the player
                 GameObject shroom = Instantiate(spore, movementEvent.GetMushroomPosition() + difference, Quaternion.identity);
+                shroom.GetComponent<Shroom>().Rotation = rotation;
 
 
                 mushroomList.Add(shroom);
@@ -507,7 +516,7 @@ public class MushroomManager : MonoBehaviour, IData
                 }
 
                 // Rotate the mushroom using the given rotation
-                shroom.transform.Rotate(new Vector3(0, 0, rotation));
+                //shroom.transform.Rotate(new Vector3(0, 0, rotation));
 
                 // Check if the rotation is greater than 0 (right side collision)
                 if (rotation >= 0)
@@ -521,6 +530,8 @@ public class MushroomManager : MonoBehaviour, IData
                     // Flip the rotation
                     shroom.GetComponent<Shroom>().FlipRotation = false;
                 }
+
+                movementEvent.SetMushroomPosition(new Vector3(-1000, -1000, -1000));
             }
         }
     }
@@ -603,8 +614,14 @@ public class MushroomManager : MonoBehaviour, IData
 
     public void OnQuickBounce(InputAction.CallbackContext context)
     {
-        if (context.started && !throwLocked && throwUnlocked)
+        if (context.started && !throwLocked && throwUnlocked && movementEvent.GetIsGrounded())
         {
+            if (mushroomEvent.GetTouchingQuickBounceMessage())
+            {
+                mushroomEvent.HideQuickBounceMessage();
+                showQuickBounceMessage = false;
+            }
+
             if (mushroomList.Count >= mushroomLimit)
             {
                 // If not, ThrowMushroom is called and the first shroom thrown is destroyed and removed from mushroomList
@@ -840,11 +857,15 @@ public class MushroomManager : MonoBehaviour, IData
         firstThrow = data.firstThrow;
         firstBounce = data.firstBounce;
         firstFull = data.firstFull;
+        firstWallBounce = data.firstWallBounce;
         throwUnlocked = data.throwUnlocked;
+        showQuickBounceMessage = data.showQuickBounce;
         mushroomEvent.SetFirstThrow(firstThrow);
         mushroomEvent.SetFirstBounce(firstBounce);
         mushroomEvent.SetFirstFull(firstFull);
         mushroomEvent.SetThrowUnlocked(throwUnlocked);
+        mushroomEvent.SetShowingQuickBounceMessage(showQuickBounceMessage);
+        mushroomEvent.SetFirstWallBounce(firstWallBounce);
     }
 
     public void SaveData(GameData data)
@@ -853,6 +874,8 @@ public class MushroomManager : MonoBehaviour, IData
         data.firstBounce = firstBounce;
         data.firstFull = firstFull;
         data.throwUnlocked = throwUnlocked;
+        data.showQuickBounce = showQuickBounceMessage;
+        data.firstWallBounce = firstWallBounce;
     }
     #endregion
 }

@@ -11,7 +11,7 @@ public abstract class Shroom : MonoBehaviour
     #region REFERENCES
     protected MushroomManager mushMan;
     protected ShroomCounter shroomCounter;
-    [SerializeField] GameObject shroomIcon;
+    [SerializeField] protected GameObject shroomIcon;
     [SerializeField] protected GameObject regShroom;
     [SerializeField] protected GameObject wallShroom;
     #endregion
@@ -37,6 +37,7 @@ public abstract class Shroom : MonoBehaviour
     [SerializeField] protected bool onCooldown = false;
     protected float cooldown = 0.1f;
     protected bool flipRotation;
+    protected float rotation;
     #endregion
 
     #region PROPERTIES
@@ -55,6 +56,7 @@ public abstract class Shroom : MonoBehaviour
     public GameObject RegularMushroom { get { return regShroom; } set { regShroom = value; } }
     public GameObject WallMushroom { get { return wallShroom; } set { wallShroom = value; } }
     public bool FlipRotation {  get { return flipRotation; } set {  flipRotation = value; } }
+    public float Rotation { get { return rotation; } set { rotation = value; } }
     #endregion
 
     public void Start()
@@ -65,47 +67,7 @@ public abstract class Shroom : MonoBehaviour
     /// <summary>
     /// Updates shroom counter's filling and timer
     /// </summary>
-    public void UpdateShroomCounter()
-    {
-        if (durationTimer <= 0)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        // Decreases time from the timer
-        durationTimer -= Time.deltaTime;
-
-        if (durationTimer <= (particleTime * 0.5) && playShroomParticle)
-        {
-            shroomParticles.Play();
-            playShroomParticle = false;
-        }
-
-
-        // The percent that should be reducted from the opacity each frame
-        //float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
-        if (durationTimer <= .1f)
-        {
-            float percentOpacity = Time.deltaTime / .1f;
-
-            // Adjust opacity of mushroom and intensity of light based on percentOpacity
-            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
-            GetComponentInChildren<Light2D>().intensity -= percentOpacity;
-        }
-
-        if (mushMan.MushroomLimit == 3)
-        {
-            if (mushMan.ThrowUnlocked)
-            {
-                shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
-            }
-
-            if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
-            {
-                shroomIcon.GetComponent<ParticleSystem>().Play();
-            }
-        }
-    }
+    public abstract void UpdateShroomCounter();
 
     protected void SetCooldown()
     {
@@ -156,8 +118,10 @@ public abstract class Shroom : MonoBehaviour
     /// </summary>
     public void RotateAndFreeze()
     {
+        Debug.Log("Regular Rotate and Freeze");
         // Saves the colliders of the platforms the shroom is coming into contact with intos an array
-        ContactPoint2D[] contacts = new ContactPoint2D[10];
+        ContactPoint2D[] contactsTemp = new ContactPoint2D[10];
+        ContactPoint2D[] contacts = new ContactPoint2D[GetComponent<CircleCollider2D>().GetContacts(contactsTemp)];
         GetComponent<CircleCollider2D>().GetContacts(contacts);
 
         // The direction vector that the mushroom needs to point towards,
@@ -165,6 +129,13 @@ public abstract class Shroom : MonoBehaviour
         //      mushroom.transform.position is the mushroom's position,
         //          casted to a vector 2 so it can be subtracted from the contact point
         ContactPoint2D contactPoint = contacts[0];
+        for (int i = 0; i < contacts.Length; i++)
+        {
+            if (contacts[i].rigidbody.CompareTag("Collidable"))
+            {
+                contactPoint = contacts[i];
+            }
+        }
         Vector2 direction = contactPoint.normal;
 
         // The angle that the shroom is going to rotate at
@@ -215,6 +186,81 @@ public abstract class Shroom : MonoBehaviour
         //{
         //    shroom.GetComponent<Shroom>().flipRotation = true;
         //}
+        hasRotated = true;
+    }
+
+    /// <summary>
+    /// Rotates and Freezes the mushroom using a override rotation, use this if you want to manually set the rotation
+    /// </summary>
+    public void RotateAndFreeze(float overrideRotation)
+    {
+        Debug.Log("Override Rotate and Freeze");
+        // Saves the colliders of the platforms the shroom is coming into contact with intos an array
+        ContactPoint2D[] contactsTemp = new ContactPoint2D[10];
+        ContactPoint2D[] contacts = new ContactPoint2D[GetComponent<CircleCollider2D>().GetContacts(contactsTemp)];
+        GetComponent<CircleCollider2D>().GetContacts(contacts);
+
+        // The direction vector that the mushroom needs to point towards,
+        //      contacts[0].point is the point the shroom is touching the platform at
+        //      mushroom.transform.position is the mushroom's position,
+        //          casted to a vector 2 so it can be subtracted from the contact point
+        ContactPoint2D contactPoint = contacts[0];
+        for (int i = 0; i < contacts.Length; i++)
+        {
+            if (contacts[i].rigidbody.CompareTag("Collidable"))
+            {
+                contactPoint = contacts[i];
+            }
+        }
+        //Vector2 direction = contactPoint.normal;
+
+        // The angle that the shroom is going to rotate at
+        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // The quaternion that will rotate the shroom
+        Quaternion rotation = Quaternion.AngleAxis(overrideRotation, Vector3.forward);
+        transform.rotation = rotation;
+
+        // Freezes shroom movement and rotation, and sets hasRotated to true
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        GetComponent<Shroom>().HasRotated = true;
+
+        GameObject shroom;
+
+        // Get shroom type and instantiate shrooms
+        switch (shroomType)
+        {
+            case ShroomType.Regular:
+                shroom = Instantiate(regShroom, transform.position, rotation);
+                break;  
+
+            case ShroomType.Wall:
+                Vector3 diff = new Vector3(0.1f, 0, 0);
+                if (contactPoint.point.x < transform.position.x)
+                {
+                    diff *= -1;
+                }
+                shroom = Instantiate(wallShroom, transform.position + diff, rotation);
+
+                // Adjusts angle for the wall shroom specifically
+                overrideRotation = (overrideRotation * -1) - 90;
+                break;
+
+            default:
+                shroom = Instantiate(regShroom, transform.position, rotation);
+                break;
+        }
+
+        // Play the shroom sound
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ShroomPlant, transform.position);
+
+        shroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        shroom.GetComponent<Shroom>().HasRotated = true;
+        shroom.GetComponent<Shroom>().ShroomIcon = shroomIcon;
+        mushMan.ChangeShroomIndexes[mushMan.MushroomList.IndexOf(gameObject)] = shroom;
+
+        // Set the MushroomInfo angle to the calculated angle
+        shroom.GetComponent<Shroom>().RotateAngle = overrideRotation;
         hasRotated = true;
     }
 }

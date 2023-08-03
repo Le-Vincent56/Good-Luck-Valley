@@ -148,6 +148,8 @@ public class ThrowUI : MonoBehaviour
         // Creates hit info variable for storing information about raycast hit
         RaycastHit2D hitInfo;
 
+        RaycastHit2D wallHitInfo;
+
         // Create new array for storing the new points we will draw with
         Vector3[] newPoints = null;
 
@@ -156,10 +158,13 @@ public class ThrowUI : MonoBehaviour
         {
             // Create a mask to sort for only 'ground' tiles (collidable)
             LayerMask mask = LayerMask.GetMask("Ground");
+            LayerMask wallMask = LayerMask.GetMask("Wall");
 
             // Sets hit info to the return value of the linecast method,
             //   using the current point on the line and the next point as the locations to check between
             hitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mask);
+
+            wallHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], wallMask);
 
             // If hit info isnt null, we create the new points
             if (hitInfo)
@@ -178,6 +183,30 @@ public class ThrowUI : MonoBehaviour
 
                 // Sets the last position in the new array to be the location the hit occured
                 newPoints[i] = hitInfo.point;
+
+                // Collided is true
+                collided = true;
+                // Breaks out of the array
+                break;
+            }
+
+            // If hit info isnt null, we create the new points
+            if (wallHitInfo)
+            {
+                //Debug.Log(hitInfo.point);
+                //Debug.Log(playerPos);
+                // Initializes new points array to be the current iteratin number + 2
+                newPoints = new Vector3[i + 2];
+
+                // Loops through each point in the new points array
+                for (int k = 0; k < newPoints.Length; k++)
+                {
+                    // Sets the values in the new points array to match the values in the prev points array
+                    newPoints[k] = lineRendererStartingPoints[k];
+                }
+
+                // Sets the last position in the new array to be the location the hit occured
+                newPoints[i] = wallHitInfo.point;
 
                 // Collided is true
                 collided = true;

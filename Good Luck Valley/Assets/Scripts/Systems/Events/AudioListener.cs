@@ -25,7 +25,7 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.AddListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.AddListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.AddListener(StopFootstepsCutscene);
-        loadLevelEvent.startMusicLoad.AddListener(UpdateForestMusicProgress);
+        loadLevelEvent.startForestMusicLoad.AddListener(UpdateForestMusicProgress);
     }
 
     private void OnDisable()
@@ -34,7 +34,7 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.RemoveListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.RemoveListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.RemoveListener(StopFootstepsCutscene);
-        loadLevelEvent.startMusicLoad.RemoveListener(UpdateForestMusicProgress);
+        loadLevelEvent.startForestMusicLoad.RemoveListener(UpdateForestMusicProgress);
     }
 
     private void Start()
@@ -168,9 +168,9 @@ public class AudioListener : MonoBehaviour
     /// Update Forest Progress to 0
     /// </summary>
     /// <param name="progressLevel">The level to progress to</param>
-    public void UpdateForestMusicProgress(float progressLevel)
+    public void UpdateForestMusicProgress(ForestLayer forestLayer)
     {
-        StartCoroutine(UpdateForestMusicProgressEnum(progressLevel));
+        StartCoroutine(UpdateForestMusicProgressEnum(forestLayer));
     }
 
     /// <summary>
@@ -200,24 +200,45 @@ public class AudioListener : MonoBehaviour
     /// </summary>
     /// <param name="progressLevel">The level to progress to</param>
     /// <returns></returns>
-    private IEnumerator UpdateForestMusicProgressEnum(float progressLevel)
+    private IEnumerator UpdateForestMusicProgressEnum(ForestLayer forestLayer)
     {
         if(AudioManager.Instance.CurrentForestLevel == ForestLevel.MAIN)
         {
-            while(AudioManager.Instance.CurrentForestProgression < progressLevel)
+            // Create a list to store keys to be modified
+            List<string> keysToModify = new List<string>();
+            foreach (KeyValuePair<string, float> layer in AudioManager.Instance.ForestLayers)
             {
-                // Update forest progression
-                AudioManager.Instance.SetForestProgress(AudioManager.Instance.CurrentForestProgression + (Time.deltaTime / 4f));
-
-                if (AudioManager.Instance.CurrentForestProgression >= progressLevel)
+                if (layer.Key != forestLayer.ToString())
                 {
-                    // Round out the number
-                    AudioManager.Instance.SetForestProgress(Mathf.Floor(AudioManager.Instance.CurrentForestProgression));
+                    keysToModify.Add(layer.Key);
                 }
+            }
 
-                // Allow other code to run
+            // Loop until layer is in fully
+            while (AudioManager.Instance.ForestLayers[forestLayer.ToString()] <= 1)
+            {
+                // Fade-in the intended layer
+                AudioManager.Instance.SetForestLayer(forestLayer.ToString(), AudioManager.Instance.ForestLayers[forestLayer.ToString()] + (Time.deltaTime / 4f));
+
+                // Modify the dictionary outside the loop
+                foreach (string key in keysToModify)
+                {
+                    // Fade-out all other layers
+                    if (key != forestLayer.ToString() && AudioManager.Instance.ForestLayers[key] >= 0)
+                    {
+                        AudioManager.Instance.SetForestLayer(key, AudioManager.Instance.ForestLayers[key] - (Time.deltaTime / 4f));
+                    }
+                }
                 yield return null;
             }
+
+            // Round them to a perfect integer for volume clarity
+            foreach(string key in keysToModify)
+            {
+                AudioManager.Instance.SetForestLayer(key, Mathf.Round(AudioManager.Instance.ForestLayers[key]));
+            }
+
+            yield return null;
         }
     }
 }

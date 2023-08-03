@@ -16,7 +16,10 @@ public class LevelData
     #endregion
 
     #region NOTES
+    public List<NoteData> notes;
     public SerializableDictionary<string, bool> notesCollected;
+    public int totalNotes;
+    public int currentNotes;
     #endregion
 
     #region ENVIRONMENT
@@ -33,6 +36,7 @@ public class LevelData
         playCutscene = true;
         notesCollected = new SerializableDictionary<string, bool>();
         assetsActive = new SerializableDictionary<string, bool>();
+        notes = new List<NoteData>();
     }
 
     public LevelData(Vector3 playerPosition)
@@ -41,5 +45,6 @@ public class LevelData
         playCutscene = true;
         notesCollected = new SerializableDictionary<string, bool>();
         assetsActive = new SerializableDictionary<string, bool>();
+        notes = new List<NoteData>();
     }
 }

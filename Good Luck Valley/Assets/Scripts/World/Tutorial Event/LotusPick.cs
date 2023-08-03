@@ -24,6 +24,8 @@ public class LotusPick : Interactable, IData
     [SerializeField] private float playerDistance;
     [SerializeField] private float maxSoundDistance;
     [SerializeField] private float soundPercentage;
+    [SerializeField] private bool lotusFinished;
+    [SerializeField] private bool soundUnDampened;
     #endregion
 
     void Start()
@@ -63,7 +65,7 @@ public class LotusPick : Interactable, IData
             interacting = true;
 
             // If the inteaction has finished, reset the variables
-            if (finishedInteracting)
+            if (lotusFinished && soundUnDampened)
             {
                 controlTriggered = false;
 
@@ -91,9 +93,9 @@ public class LotusPick : Interactable, IData
         disableEvent.Lock();
 
         // Progress music
-        if(AudioManager.Instance.CurrentForestProgression < progressLevel && progressesMusic)
+        if(progressesMusic)
         {
-            AudioManager.Instance.SetForestProgress(progressLevel);
+            AudioManager.Instance.SetForestLayer("FOREST_END", 1f);
         }
 
         // Start the lotus pick by playing the sound
@@ -178,23 +180,8 @@ public class LotusPick : Interactable, IData
 
             yield return null;
         }
-
-        disableEvent.Unlock();
-        finishedInteracting = true;
         vineWall.GetComponent<DecomposableVine>().Active = false;
         vineWall.SetActive(false);
-        pauseEvent.SetPaused(false);
-
-        GameObject endScreen = GameObject.Find("Demo Ending Text");
-        if (endScreen != null)
-        {
-            finishedInteracting = false;
-            pauseEvent.SetPaused(true);
-            disableEvent.Lock();
-            StartCoroutine(FadeEndScreen(endScreen));
-            endScreen.GetComponentInChildren<Button>().interactable = true;
-            yield return null;
-        }
     }
 
     private IEnumerator FadeLotus()
@@ -227,7 +214,8 @@ public class LotusPick : Interactable, IData
             }
             yield return null;
         }
-        finishedInteracting = true;
+        Debug.Log("Fade End Screen Finish");
+        lotusFinished = true;
     } 
 
     private IEnumerator PlayPickSound()
@@ -241,10 +229,22 @@ public class LotusPick : Interactable, IData
         // Start the fading coroutines
         StartCoroutine(FadeVines());
         StartCoroutine(FadeLotus());
-        StartCoroutine(UndampenSound());
 
-        // Return
-        yield break;
+        yield return StartCoroutine(UndampenSound());
+
+        GameObject endScreen = GameObject.Find("Demo Ending Text");
+        if (endScreen != null)
+        {
+            finishedInteracting = false;
+            endScreen.GetComponentInChildren<Button>().interactable = true;
+            yield return StartCoroutine(FadeEndScreen(endScreen));
+        }
+        else
+        {
+            disableEvent.Unlock();
+            pauseEvent.SetPaused(false);
+            finishedInteracting = true;
+        }
     }
 
     private IEnumerator PlayLotusSounds()
@@ -263,22 +263,27 @@ public class LotusPick : Interactable, IData
     {
         while(AudioManager.Instance.GetDampen() > 0)
         {
+            Debug.Log("Undampening (" + AudioManager.Instance.GetDampen() + ")");
+
             // Let other code run
             yield return null;
 
             // Undampen the music
-            AudioManager.Instance.DampenMusic(AudioManager.Instance.GetDampen() - Time.deltaTime);
+            AudioManager.Instance.DampenMusic(AudioManager.Instance.GetDampen() - (Time.deltaTime * 3));
         }
 
         PLAYBACK_STATE playbackStatePulse;
         AudioManager.Instance.LotusPulseEventInstance.getPlaybackState(out playbackStatePulse);
+        Debug.Log("Getting pulse: " + playbackStatePulse.ToString());
         if (!playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
         {
-            // If so, start it
+            Debug.Log("Stopping pulse");
+            // If so, stop it
             AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
-        }
 
-        yield return null;
+            // Finish interacting
+            Debug.Log("Undampen Sound Finish");
+        }
     }
 
     #region DATA HANDLING

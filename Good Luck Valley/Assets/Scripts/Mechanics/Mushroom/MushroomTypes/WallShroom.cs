@@ -14,6 +14,7 @@ public class WallShroom : Shroom
 
     private void Awake()
     {
+        Debug.Log("Make Wall Shroom");
         mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         shroomCounter = GameObject.Find("MushroomCountUI").GetComponent<ShroomCounter>();
         shroomParticles = GetComponent<ParticleSystem>();
@@ -47,6 +48,48 @@ public class WallShroom : Shroom
         }
 
         Debug.DrawRay(transform.position, showForce);
+    }
+
+    public override void UpdateShroomCounter()
+    {
+        if (durationTimer <= 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        // Decreases time from the timer
+        durationTimer -= Time.deltaTime;
+
+        if (durationTimer <= (particleTime * 0.5) && playShroomParticle)
+        {
+            shroomParticles.Play();
+            playShroomParticle = false;
+        }
+
+
+        // The percent that should be reducted from the opacity each frame
+        //float percentOpacity = Time.deltaTime / mushMan.ShroomDuration;
+        if (durationTimer <= .1f)
+        {
+            float percentOpacity = Time.deltaTime / .1f;
+
+            // Adjust opacity of mushroom and intensity of light based on percentOpacity
+            GetComponent<SpriteRenderer>().color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, GetComponent<SpriteRenderer>().color.a - percentOpacity);
+            GetComponentInChildren<Light2D>().intensity -= percentOpacity;
+        }
+
+        if (mushMan.MushroomLimit == 3)
+        {
+            if (mushMan.ThrowUnlocked)
+            {
+                shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
+            }
+
+            if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+            {
+                shroomIcon.GetComponent<ParticleSystem>().Play();
+            }
+        }
     }
 
     /// <summary>
@@ -109,7 +152,7 @@ public class WallShroom : Shroom
 
                 // Rotate and freeze the shroom
                 Debug.Log("Rotate and Freeze is called");
-                RotateAndFreeze();
+                RotateAndFreeze(rotation);
             }
         }
     }

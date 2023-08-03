@@ -15,6 +15,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject mushroomBouncePrompt;
     [SerializeField] private GameObject mushroomLimitPrompt;
     [SerializeField] private GameObject movementPrompt;
+    [SerializeField] private GameObject journalPrompt;
+    [SerializeField] private GameObject fastFallPrompt;
+    [SerializeField] private GameObject wallBouncePrompt;
+    [SerializeField] private GameObject quickBouncePrompt;
     [SerializeField] private CutsceneScriptableObj cutsceneEvent;
     [SerializeField] private JournalScriptableObj journalEvent;
     [SerializeField] private MushroomScriptableObj mushroomEvent;
@@ -27,10 +31,14 @@ public class TutorialManager : MonoBehaviour
     private bool updateMessages;
     private bool showThrowMessageTriggered = false;
     private bool waitingToShow = false;
+    private bool showingFastFall;
+    private bool showingWallBounce;
     #endregion
 
     #region PROPERTIES
     public bool UpdateMessages { get { return updateMessages; } set {  updateMessages = value; } }
+    public bool ShowingFastFall { get { return showingFastFall; } set { showingFastFall = value; } }
+    public bool ShowingWallBounce { get { return showingWallBounce; } set { showingWallBounce = value; } }
     #endregion
 
     private void OnEnable()
@@ -42,6 +50,12 @@ public class TutorialManager : MonoBehaviour
         mushroomEvent.hideBounceMessageEvent.AddListener(HideMushBouceMessage);
         mushroomEvent.showMaxMessageEvent.AddListener(ShowMushMaxMessage);
         mushroomEvent.hideMaxMessageEvent.AddListener(HideMushMaxMessage);
+        mushroomEvent.showWallBounceMessageEvent.AddListener(ShowWallBounceMessage);
+        mushroomEvent.hideWallBounceMessageEvent.AddListener(HideWallBounceMessage);
+        mushroomEvent.showQuickBounceMessageEvent.AddListener(ShowQuickBounceMessage);
+        mushroomEvent.hideQuickBounceMessageEvent.AddListener(HideQuickBounceMessage);
+        movementEvent.showFastFallMessageEvent.AddListener(ShowFastFallMessage);
+        movementEvent.hideFastFallMessageEvent.AddListener(HideFastFallMessage);
     }
 
     private void OnDisable()
@@ -53,6 +67,12 @@ public class TutorialManager : MonoBehaviour
         mushroomEvent.hideBounceMessageEvent.RemoveListener(HideMushBouceMessage);
         mushroomEvent.showMaxMessageEvent.RemoveListener(ShowMushMaxMessage);
         mushroomEvent.hideMaxMessageEvent.RemoveListener(HideMushMaxMessage);
+        mushroomEvent.showWallBounceMessageEvent.RemoveListener(ShowWallBounceMessage);
+        mushroomEvent.hideWallBounceMessageEvent.RemoveListener(HideWallBounceMessage);
+        mushroomEvent.showQuickBounceMessageEvent.RemoveListener(ShowQuickBounceMessage);
+        mushroomEvent.hideQuickBounceMessageEvent.RemoveListener(HideQuickBounceMessage);
+        movementEvent.showFastFallMessageEvent.RemoveListener(ShowFastFallMessage);
+        movementEvent.hideFastFallMessageEvent.RemoveListener(HideFastFallMessage);
     }
 
     private void Start()
@@ -61,6 +81,21 @@ public class TutorialManager : MonoBehaviour
         {
             movementPrompt.SetActive(false);
         }
+
+        if (movementEvent.GetShowingFastFall() == false)
+        {
+            HideFastFallMessage();
+        }
+
+        if (mushroomEvent.GetShowingQuickBounceMessage() == false)
+        {
+            HideQuickBounceMessage();
+        }
+
+        if (mushroomEvent.GetFirstWallBounce() == false)
+        {
+            HideWallBounceMessage();
+        }
     }
 
     private void Update()
@@ -68,14 +103,14 @@ public class TutorialManager : MonoBehaviour
         if (interactableObject.Remove == true || interactableObject.gameObject.activeSelf == false)
         {
             interactPrompt.RemoveMessage = true;
-            StartCoroutine(interactPrompt.FadeOut());
+            interactPrompt.GetComponent<TutorialMessage>().Hide();
         }
 
-        if (interactPrompt.gameObject.activeSelf == false)
+        if (interactPrompt.gameObject.activeSelf == false && interactableObject.Remove == true)
         {
             interactPrompt2.SetActive(true);
 
-            if(!showThrowMessageTriggered)
+            if(!showThrowMessageTriggered) 
             {
                 showThrowMessageTriggered = true;
                 mushroomEvent.ShowThrowMessage();
@@ -161,6 +196,68 @@ public class TutorialManager : MonoBehaviour
             mushroomLimitPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
             mushroomLimitPrompt.GetComponent<TutorialMessage>().Hide();
         }
+    }
+
+    public void ShowFastFallMessage()
+    {
+        if (fastFallPrompt != null)
+        {
+            fastFallPrompt.GetComponent<TutorialMessage>().Show();
+        }
+    }
+
+    public void HideFastFallMessage()
+    {
+        if (fastFallPrompt != null)
+        {
+            fastFallPrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
+            fastFallPrompt.GetComponent<TutorialMessage>().Hide();
+            movementEvent.SetShowingFastFall(false);
+        }
+    }
+
+    public void ShowWallBounceMessage()
+    {
+        if (wallBouncePrompt != null)
+        {
+            wallBouncePrompt.GetComponent<TutorialMessage>().Show();
+        }
+    }
+
+    public void HideWallBounceMessage()
+    {
+        if (wallBouncePrompt != null)
+        {
+            wallBouncePrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
+            wallBouncePrompt.GetComponent<TutorialMessage>().Hide();
+        }
+    }
+
+    public void ShowQuickBounceMessage()
+    {
+        if (quickBouncePrompt != null)
+        {
+            quickBouncePrompt.GetComponent<TutorialMessage>().Show();
+        }
+    }
+
+    public void HideQuickBounceMessage()
+    {
+        if (quickBouncePrompt != null)
+        {
+            quickBouncePrompt.GetComponent<TutorialMessage>().RemoveMessage = true;
+            quickBouncePrompt.GetComponent<TutorialMessage>().Hide();
+        }
+    }
+
+    public void UpdateQuickBounce(bool showingQuickBounce)
+    {
+        mushroomEvent.SetTouchingQuickBounceMessage(showingQuickBounce);
+    }
+
+    public void UpdateFastFall(bool touchingFastFall)
+    {
+        movementEvent.SetTouchingFastFall(touchingFastFall);
     }
 
     public void ShowOverPlayer(GameObject UIObject)

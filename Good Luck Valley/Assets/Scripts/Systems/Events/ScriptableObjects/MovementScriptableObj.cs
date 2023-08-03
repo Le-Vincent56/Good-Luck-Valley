@@ -22,6 +22,8 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private Vector3 mushroomPosition;
     [SerializeField] private Vector2 wallCollisionPoint;
     [SerializeField] private TileType movementTileType;
+    [SerializeField] private bool showingFastFall;
+    [SerializeField] private bool touchingFastFall;
 
     #region EVENTS
     [System.NonSerialized]
@@ -38,6 +40,8 @@ public class MovementScriptableObj : ScriptableObject, IData
     public UnityEvent<int> setTurnDirection;
     public UnityEvent resetTurn;
     public UnityEvent<Vector2> applyMovementDirection;
+    public UnityEvent showFastFallMessageEvent;
+    public UnityEvent hideFastFallMessageEvent;
     #endregion
     #endregion
 
@@ -50,7 +54,7 @@ public class MovementScriptableObj : ScriptableObject, IData
             moveEvent = new UnityEvent();
         }
 
-        if(jumpEvent == null)
+        if (jumpEvent == null)
         {
             jumpEvent = new UnityEvent();
         }
@@ -85,7 +89,7 @@ public class MovementScriptableObj : ScriptableObject, IData
             footstepEvent = new UnityEvent<float, float, bool, TileType>();
         }
 
-        if(startFootstepEventCutscene == null)
+        if (startFootstepEventCutscene == null)
         {
             startFootstepEventCutscene = new UnityEvent<float, bool, TileType>();
         }
@@ -100,14 +104,24 @@ public class MovementScriptableObj : ScriptableObject, IData
             setTurnDirection = new UnityEvent<int>();
         }
 
-        if(resetTurn == null)
+        if (resetTurn == null)
         {
             resetTurn = new UnityEvent();
         }
 
-        if(applyMovementDirection == null)
+        if (applyMovementDirection == null)
         {
             applyMovementDirection = new UnityEvent<Vector2>();
+        }
+
+        if (showFastFallMessageEvent == null)
+        {
+            showFastFallMessageEvent = new UnityEvent();
+        }
+
+        if (hideFastFallMessageEvent == null)
+        {
+            hideFastFallMessageEvent = new UnityEvent();
         }
         #endregion
     }
@@ -246,6 +260,21 @@ public class MovementScriptableObj : ScriptableObject, IData
     public void SetTileType(TileType tileType)
     {
         movementTileType = tileType;
+    }
+
+    /// <summary>
+    /// Sets whether we should show the fast fall
+    /// </summary>
+    /// <param name="showingFastFall">Whether to show fast fall or not</param>
+    public void SetShowingFastFall(bool showingFastFall)
+    {
+        Debug.Log("Setting show fast fall to: " + showingFastFall);
+        this.showingFastFall = showingFastFall;
+    }
+
+    public void SetTouchingFastFall(bool touchingFastFall)
+    {
+        this.touchingFastFall = touchingFastFall;
     }
 
     /// <summary>
@@ -391,6 +420,20 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Gets whether we are showing fast fall message or not for tutorial
+    /// </summary>
+    /// <returns></returns>
+    public bool GetShowingFastFall()
+    {
+        return showingFastFall;
+    }
+
+    public bool GetTouchingFastFall()
+    {
+        return touchingFastFall;
+    }
+
+    /// <summary>
     /// Trigger movement-related events
     /// </summary>
     public void Move()
@@ -478,6 +521,16 @@ public class MovementScriptableObj : ScriptableObject, IData
         applyMovementDirection.Invoke(movementDirection);
     }
 
+    public void ShowFastFallMessage()
+    {
+        showFastFallMessageEvent.Invoke();
+    }
+
+    public void HideFastFallMessage()
+    {
+        hideFastFallMessageEvent.Invoke();
+    }
+
     /// <summary>
     /// Reset object variables
     /// </summary>
@@ -495,12 +548,13 @@ public class MovementScriptableObj : ScriptableObject, IData
         inputDirection = Vector3.zero;
     }
 
-    #region DATA HANDLING
+    #region DATA HANDLING 
     public void LoadData(GameData data)
     {
         isGrounded = data.isGrounded;
         isJumping = data.isJumping;
         isFalling = data.isFalling;
+        showingFastFall = data.showFastFall;
 
         isBounceAnimating = false;
     }
@@ -510,6 +564,7 @@ public class MovementScriptableObj : ScriptableObject, IData
         data.isGrounded = isGrounded;
         data.isJumping = isJumping;
         data.isFalling = isFalling;
+        data.showFastFall = showingFastFall;
     }
     #endregion
 }

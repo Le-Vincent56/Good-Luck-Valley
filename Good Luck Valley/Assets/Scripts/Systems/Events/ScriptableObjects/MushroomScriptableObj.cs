@@ -13,7 +13,10 @@ public class MushroomScriptableObj : ScriptableObject
     [SerializeField] private bool firstFull;
     [SerializeField] private bool firstThrow;
     [SerializeField] private bool firstBounce;
+    [SerializeField] private bool firstWallBounce;
     [SerializeField] private bool showingMaxMessage;
+    [SerializeField] private bool showQuickBounceMessage;
+    [SerializeField] private bool touchingQuickBounce;
     [SerializeField] Vector3 bounceForce;
 
     #region EVENTS
@@ -31,11 +34,15 @@ public class MushroomScriptableObj : ScriptableObject
     public UnityEvent hideBounceMessageEvent;
     public UnityEvent showMaxMessageEvent;
     public UnityEvent hideMaxMessageEvent;
+    public UnityEvent showWallBounceMessageEvent;
+    public UnityEvent hideWallBounceMessageEvent;
+    public UnityEvent showQuickBounceMessageEvent;
+    public UnityEvent hideQuickBounceMessageEvent;
     #endregion
     #endregion
 
     #region PROPERTIES
-    public bool IsTouchingShroom { get {  return touchingShroom; } } 
+    public bool IsTouchingShroom { get { return touchingShroom; } }
     #endregion
 
     private void OnEnable()
@@ -46,7 +53,7 @@ public class MushroomScriptableObj : ScriptableObject
             touchingShroomEvent = new UnityEvent<bool>();
         }
 
-        if(checkThrowAnimationEvent == null)
+        if (checkThrowAnimationEvent == null)
         {
             checkThrowAnimationEvent = new UnityEvent();
         }
@@ -56,12 +63,12 @@ public class MushroomScriptableObj : ScriptableObject
             setThrowAnimationEvent = new UnityEvent();
         }
 
-        if(endThrowEvent == null)
+        if (endThrowEvent == null)
         {
             endThrowEvent = new UnityEvent();
         }
 
-        if(clearShroomsEvent == null)
+        if (clearShroomsEvent == null)
         {
             clearShroomsEvent = new UnityEvent();
         }
@@ -94,6 +101,26 @@ public class MushroomScriptableObj : ScriptableObject
         if (hideMaxMessageEvent == null)
         {
             hideMaxMessageEvent = new UnityEvent();
+        }
+
+        if (showWallBounceMessageEvent == null)
+        {
+            showWallBounceMessageEvent = new UnityEvent();
+        }
+
+        if (hideWallBounceMessageEvent == null)
+        {
+            hideWallBounceMessageEvent = new UnityEvent();
+        }
+
+        if (showQuickBounceMessageEvent == null)
+        {
+            showQuickBounceMessageEvent = new UnityEvent();
+        }
+
+        if (hideQuickBounceMessageEvent == null)
+        {
+            hideQuickBounceMessageEvent = new UnityEvent();
         }
         #endregion
     }
@@ -144,6 +171,15 @@ public class MushroomScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Sets whether the player has done their first wall bounce or not
+    /// </summary>
+    /// <param name="firstWallBounce"> Whether they have done the first wall bounce</param>
+    public void SetFirstWallBounce(bool firstWallBounce)
+    {
+        this.firstWallBounce = firstWallBounce;
+    }
+
+    /// <summary>
     /// Set whether the player has not yet bounced for the first time or not
     /// </summary>
     /// <param name="firstBounce">whether the player has not yet bounced for the first time or not</param>
@@ -159,6 +195,16 @@ public class MushroomScriptableObj : ScriptableObject
     public void SetFirstFull(bool firstFull)
     {
         this.firstFull = firstFull;
+    }
+
+    public void SetTouchingQuickBounceMessage(bool showingQuickBounce)
+    {
+        touchingQuickBounce = showingQuickBounce;
+    }
+
+    public void SetShowingQuickBounceMessage(bool showQuickBounce)
+    {
+        showQuickBounceMessage = showQuickBounce;
     }
 
     /// <summary>
@@ -215,6 +261,37 @@ public class MushroomScriptableObj : ScriptableObject
         return showingMaxMessage;
     }
 
+    /// <summary>
+    /// Getws whether the player has done a wall bounce or not
+    /// </summary>
+    /// <returns>Whether a wall bonuce has been completed</returns>
+    public bool GetFirstWallBounce()
+    {
+        return firstWallBounce;
+    }
+
+    /// <summary>
+    /// Gets whether the player is touching the trigger for the quick bounce message
+    /// </summary>
+    /// <returns>Whether the player is touching the trigger or not</returns>
+    public bool GetTouchingQuickBounceMessage()
+    {
+        return touchingQuickBounce;
+    }
+
+    /// <summary>
+    /// Gets whether the quick bounce message is being shown
+    /// </summary>
+    /// <returns>Whether the quick bounce tutorial message is being shown</returns>
+    public bool GetShowingQuickBounceMessage()
+    {
+        return showQuickBounceMessage;
+    }
+
+    /// <summary>
+    /// Gets the bounceforce vector
+    /// </summary>
+    /// <returns>The bounce force velocity vector</returns>
     public Vector3 GetBounceForce()
     {
         return bounceForce;
@@ -320,6 +397,41 @@ public class MushroomScriptableObj : ScriptableObject
     {
         showingMaxMessage = false;
         hideMaxMessageEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Triggers events related to showing the wall bounce message
+    /// </summary>
+    public void ShowWallBounceMessage()
+    {
+        showWallBounceMessageEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Triggers events related to hiding the wall bounce message
+    /// </summary>
+    public void HideWallBounceMessage()
+    {
+        firstWallBounce = false;
+        hideWallBounceMessageEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Triggers events related to showing the quick bounce message
+    /// </summary>
+    public void ShowQuickBounceMessage()
+    {
+        showQuickBounceMessage = true;
+        showQuickBounceMessageEvent.Invoke();
+    }
+
+    /// <summary>
+    /// Triggers events related to hiding the quick bounce message
+    /// </summary>
+    public void HideQuickBounceMessage()
+    {
+        showQuickBounceMessage = false; 
+        hideQuickBounceMessageEvent.Invoke();
     }
 
     /// <summary>

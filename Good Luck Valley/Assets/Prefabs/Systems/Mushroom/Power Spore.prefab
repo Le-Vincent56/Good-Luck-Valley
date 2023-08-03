@@ -122,7 +122,6 @@ GameObject:
   - component: {fileID: 4690782783730924585}
   - component: {fileID: 7095113421997529326}
   - component: {fileID: 6828716675941706663}
-  - component: {fileID: 1394259478}
   - component: {fileID: 1394259479}
   m_Layer: 0
   m_Name: Power Spore
@@ -186,7 +185,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1877699497
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9855ccfad7fa8e14aa9330ee471f46dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -212,21 +211,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 62d1a4a9-3861-42b1-b0aa-06684d32d1f2
+  inRange: 0
+  overridesRangeDetection: 0
   remove: 0
   active: 1
   mushroomEvent: {fileID: 11400000, guid: 7d92506008c604d4b940160fec1a21e2, type: 2}
---- !u!114 &1394259478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8794336768382984971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 729c343b09200d947871a845f0cb34cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1394259479
 BoxCollider2D:
   m_ObjectHideFlags: 0

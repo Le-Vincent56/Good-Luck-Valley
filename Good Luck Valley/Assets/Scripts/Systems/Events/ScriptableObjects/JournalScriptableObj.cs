@@ -15,6 +15,8 @@ public class JournalScriptableObj : ScriptableObject
     [SerializeField] private bool canClose = true;
     [SerializeField] private float journalCloseBuffer = 0.25f;
     [SerializeField] private bool enableTutorialMessage = true;
+    [SerializeField] private float totalNotes;
+    [SerializeField] private float notesCollected;
 
     #region EVENTS
     [System.NonSerialized]
@@ -106,6 +108,24 @@ public class JournalScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Set how many notes there are in total
+    /// </summary>
+    /// <param name="totalNotes">How many notes there are in total</param>
+    public void SetTotalNotes(float totalNotes)
+    {
+        this.totalNotes = totalNotes;
+    }
+
+    /// <summary>
+    /// SEt how many notes the player has collected
+    /// </summary>
+    /// <param name="notesCollected">How many notes the player has collected</param>
+    public void SetNotesCollected(float notesCollected)
+    {
+        this.notesCollected = notesCollected;
+    }
+
+    /// <summary>
     /// gets the tutorial message enabled value
     /// </summary>
     /// <returns>Whether to show the tutorial message</returns>
@@ -169,6 +189,24 @@ public class JournalScriptableObj : ScriptableObject
     }
 
     /// <summary>
+    /// Get how many notes there are in total
+    /// </summary>
+    /// <returns>How many notes there are in total</returns>
+    public float GetTotalNotes()
+    {
+        return totalNotes;
+    }
+
+    /// <summary>
+    /// Get how many notes the player has collected
+    /// </summary>
+    /// <returns>How many notes the player has collected</returns>
+    public float GetNotesCollected()
+    {
+        return notesCollected;
+    }
+
+    /// <summary>
     /// Trigger any events that relate to a Note being added to the Journal
     /// </summary>
     /// <param name="noteToAdd"></param>
@@ -206,5 +244,6 @@ public class JournalScriptableObj : ScriptableObject
         canClose = true;
         journalCloseBuffer = 0.25f;
         enableTutorialMessage = true;
+        notesCollected = 0;
     }
 }

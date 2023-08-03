@@ -95,7 +95,7 @@ public class GameCursor : MonoBehaviour
         }
 
         // Draw cursor
-        transform.position = cursorPosition;
+        transform.position = cursorPosition;    
     }
 
     /// <summary>
