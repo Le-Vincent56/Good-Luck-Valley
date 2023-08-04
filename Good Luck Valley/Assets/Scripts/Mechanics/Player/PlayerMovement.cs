@@ -408,14 +408,6 @@ public class PlayerMovement : MonoBehaviour, IData
                     SetGravityScale(data.gravityScale);
                 }
             }
-            else if (RB.velocity.y < 0 && movementEvent.GetIsTouchingWall()) // If sliding down a wall
-            {
-                // Lower gravity if sliding on a wall
-                SetGravityScale(data.gravityScale * data.wallSlideGravityMultDown);
-
-                // Caps maximum slide speed
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxWallSlideSpeed));
-            }
             else if (RB.velocity.y < 0 && moveInput.y < 0) // If fast falling
 			{
 				// Higher gravity if we've released the jump input or are falling
@@ -441,7 +433,16 @@ public class PlayerMovement : MonoBehaviour, IData
 			{
 				SetGravityScale(data.gravityScale * data.jumpHangGravityMult);
 			}
-			else if (RB.velocity.y < 0) // If regular falling
+            else if (RB.velocity.y < 0 && movementEvent.GetIsTouchingWall()) // If sliding down a wall
+            {
+                Debug.Log("Downward Wall Grav");
+                // Lower gravity if sliding on a wall
+                SetGravityScale(data.gravityScale * data.wallSlideGravityMultDown);
+
+                // Caps maximum slide speed
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -data.maxWallSlideSpeed));
+            }
+            else if (RB.velocity.y < 0) // If regular falling
 			{
 				// Higher gravity if falling
 				SetGravityScale(data.gravityScale * data.fallGravityMult);
@@ -461,6 +462,7 @@ public class PlayerMovement : MonoBehaviour, IData
             {
                 if(movementEvent.GetIsTouchingWall()) // Check if touching a wall
                 {
+                    Debug.Log("Upward Wall Grav");
                     SetGravityScale(data.gravityScale * data.wallSlideGravityMultBounceUp);
                 } else
                 {
@@ -487,6 +489,7 @@ public class PlayerMovement : MonoBehaviour, IData
             } 
             else if(RB.velocity.y < 0 && movementEvent.GetIsTouchingWall())
             {
+                Debug.Log("Boucne Upward Wall Grav");
                 // Lower gravity if sliding on a wall
                 SetGravityScale(data.gravityScale * data.wallSlideGravityMultDown);
 
