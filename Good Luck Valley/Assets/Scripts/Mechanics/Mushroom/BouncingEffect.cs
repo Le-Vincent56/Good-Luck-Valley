@@ -65,6 +65,59 @@ public class BouncingEffect : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the shroom position and whether we are touching a wall 
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Checks if the game object is a walljump object
+        if (collision.gameObject.name == "WallJump")
+        {
+            // Gets the contact points
+            ContactPoint2D[] contacts = collision.contacts;
+
+            // Gets an initial lowest point 
+            Vector2 lowestPoint = contacts[0].point;
+
+            // Loops through the contacts length
+            for (int i = 0; i < contacts.Length; i++)
+            {
+                // Checks if the contact point is less than the current lowest point
+                if (contacts[i].point.y < lowestPoint.y)
+                {
+                    // Sets the lowest point to the current contact point
+                    lowestPoint = contacts[i].point;
+                }
+            }
+
+            if (lowestPoint.y < transform.position.y)
+            {
+                // Sets touching wall to true and assigns the mushroom position to the lowest point and the wall collision point
+                movementEvent.SetIsTouchingWall(true);
+                movementEvent.SetMushroomPosition(lowestPoint);
+                movementEvent.SetWallCollisionPoint(contacts[0].point);
+                //mushroomEvent.SetTouchingShroom(true);
+                //mushroomEvent.TouchingShroom();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checks for when the object is not touching the Mushroom
+    /// </summary>
+    /// <param name="collision">The Collision2D checking for an exit</param>
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        // Check if the collision is a walljump object
+        if (collision.gameObject.name == "WallJump")
+        {
+            // Sets touching wall to false and the mushroom position to off screen
+            movementEvent.SetIsTouchingWall(false);
+            movementEvent.SetMushroomPosition(new Vector3(-1000, -1000, -1000));
+        }
+    }
+
+    /// <summary>
     /// Cgec
     /// </summary>
     /// <param name="collision"></param>
@@ -100,59 +153,6 @@ public class BouncingEffect : MonoBehaviour
             if(shroomAnimator != null)
             {
                 shroomAnimator.SetTrigger("Bouncing");
-            }
-        }
-    }
-
-    /// <summary>
-    /// Checks for when the object is not touching the Mushroom
-    /// </summary>
-    /// <param name="collision">The Collision2D checking for an exit</param>
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        // Check if the collision is a walljump object
-        if (collision.gameObject.name == "WallJump")
-        {
-            // Sets touching wall to false and the mushroom position to off screen
-            movementEvent.SetIsTouchingWall(false);
-            movementEvent.SetMushroomPosition(new Vector3(-1000, -1000, -1000));
-        }
-    }
-
-    /// <summary>
-    /// Updates the shroom position and whether we are touching a wall 
-    /// </summary>
-    /// <param name="collision"></param>
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        // Checks if the game object is a walljump object
-        if (collision.gameObject.name == "WallJump")
-        {
-            // Gets the contact points
-            ContactPoint2D[] contacts = collision.contacts;
-
-            // Gets an initial lowest point 
-            Vector2 lowestPoint = contacts[0].point;
-
-            // Loops through the contacts length
-            for (int i = 0; i < contacts.Length; i++)
-            {
-                // Checks if the contact point is less than the current lowest point
-                if (contacts[i].point.y < lowestPoint.y)
-                {
-                    // Sets the lowest point to the current contact point
-                    lowestPoint = contacts[i].point;
-                }
-            }
-
-            if (lowestPoint.y < transform.position.y)
-            {
-                // Sets touching wall to true and assigns the mushroom position to the lowest point and the wall collision point
-                movementEvent.SetIsTouchingWall(true);
-                movementEvent.SetMushroomPosition(lowestPoint);
-                movementEvent.SetWallCollisionPoint(contacts[0].point);
-                //mushroomEvent.SetTouchingShroom(true);
-                //mushroomEvent.TouchingShroom();
             }
         }
     }
