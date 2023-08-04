@@ -123,11 +123,13 @@ public class AnimationListener : MonoBehaviour
         {
             if(movementEvent.GetWallSide() == P_WALLCHECK.RIGHT)
             {
+                Debug.Log("Setting animation right");
                 ChangeAnimationState(PLAYER_WALL_SLIDE_R);
             }
             
             if(movementEvent.GetWallSide() == P_WALLCHECK.LEFT)
             {
+                Debug.Log("Setting animation left");
                 ChangeAnimationState(PLAYER_WALL_SLIDE_L);
             }
         }

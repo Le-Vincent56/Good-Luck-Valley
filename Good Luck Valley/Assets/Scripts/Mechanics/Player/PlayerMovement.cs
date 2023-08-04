@@ -1019,24 +1019,28 @@ public class PlayerMovement : MonoBehaviour, IData
 
     public void CheckForWall()
     {
+
         RaycastHit2D wallCheckLeft = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.left, 0.25f, wallLayer);
         RaycastHit2D wallCheckRight = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x + 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.right, 0.25f, wallLayer);
 
         if(wallCheckRight)
         {
-            movementEvent.SetIsTouchingWall(true);
+            //movementEvent.SetIsTouchingWall(true);
+            Debug.Log("Wall Check Right");
             movementEvent.SetWallSide(P_WALLCHECK.RIGHT);
         }
         
         if(wallCheckLeft)
         {
-            movementEvent.SetIsTouchingWall(true);
+            //movementEvent.SetIsTouchingWall(true);
+            Debug.Log("Wall Check Left");
             movementEvent.SetWallSide(P_WALLCHECK.LEFT);
         }
 
         if(!wallCheckLeft && !wallCheckRight)
         {
-            movementEvent.SetIsTouchingWall(false);
+            //movementEvent.SetIsTouchingWall(false);
+            Debug.Log("Wall Check None");
             movementEvent.SetWallSide(P_WALLCHECK.NONE);
         }
     }
