@@ -16,6 +16,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isBounceAnimating;
     [SerializeField] private bool isTouchingWall;
+    [SerializeField] private P_WALLCHECK wallSide;
     [SerializeField] private bool canTurn;
     [SerializeField] private Vector2 movementDirection;
     [SerializeField] private Vector2 inputDirection;
@@ -218,6 +219,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set what side the player is detecting a wall on
+    /// </summary>
+    /// <param name="wallSide">The side the player is detecting a wall</param>
+    public void SetWallSide(P_WALLCHECK wallSide)
+    {
+        this.wallSide = wallSide;
+    }
+
+    /// <summary>
     /// Set whether the player is allowed to turn or not
     /// </summary>
     /// <param name="canTurn">Whether the player is allowed to turn or not</param>
@@ -361,6 +371,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     public bool GetIsBounceAnimating()
     {
         return isBounceAnimating;
+    }
+
+    /// <summary>
+    /// Get which side the player is detecting a wall on
+    /// </summary>
+    /// <returns>Which side the player is detecting a wall on</returns>
+    public P_WALLCHECK GetWallSide()
+    {
+        return wallSide;
     }
 
     /// <summary>
@@ -544,6 +563,7 @@ public class MovementScriptableObj : ScriptableObject, IData
         isBounceAnimating = false;
         canTurn = true;
         isTouchingWall = false;
+        wallSide = P_WALLCHECK.NONE;
         movementDirection = Vector3.zero;
         inputDirection = Vector3.zero;
     }
