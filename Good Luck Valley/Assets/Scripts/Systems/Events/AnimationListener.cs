@@ -113,20 +113,18 @@ public class AnimationListener : MonoBehaviour
         }
 
         // Check for falling animation
-        if (isFalling && !isBouncing && !isGrounded && !isOnWall)
+        if (isFalling && !isBouncing && !isGrounded && !isOnWall && !movementEvent.GetIsOnSlope())
         {
             ChangeAnimationState(PLAYER_FALL);
         }
 
         // Check for wall sliding animations
-        if(!isGrounded && isOnWall)
+        if (!isGrounded && isOnWall && !movementEvent.GetIsOnSlope());
         {
             if(movementEvent.GetWallSide() == P_WALLCHECK.RIGHT)
             {
                 ChangeAnimationState(PLAYER_WALL_SLIDE_R);
-            }
-            
-            if(movementEvent.GetWallSide() == P_WALLCHECK.LEFT)
+            } else if(movementEvent.GetWallSide() == P_WALLCHECK.LEFT)
             {
                 ChangeAnimationState(PLAYER_WALL_SLIDE_L);
             }

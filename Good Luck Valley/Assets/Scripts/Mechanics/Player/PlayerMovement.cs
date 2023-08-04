@@ -81,6 +81,7 @@ public class PlayerMovement : MonoBehaviour, IData
     #region WALLS
     [Header("Walls")]
     [SerializeField] private bool debugWall;
+    [SerializeField] private float wallOffsetDist = 0.5f;
     [SerializeField] private float wallStickForce;
     [SerializeField] private bool previousWallState;
     [SerializeField] private float wallStickTimerMax;
@@ -435,7 +436,6 @@ public class PlayerMovement : MonoBehaviour, IData
 			}
             else if (RB.velocity.y < 0 && movementEvent.GetIsTouchingWall()) // If sliding down a wall
             {
-                Debug.Log("Downward Wall Grav");
                 // Lower gravity if sliding on a wall
                 SetGravityScale(data.gravityScale * data.wallSlideGravityMultDown);
 
@@ -462,7 +462,6 @@ public class PlayerMovement : MonoBehaviour, IData
             {
                 if(movementEvent.GetIsTouchingWall()) // Check if touching a wall
                 {
-                    Debug.Log("Upward Wall Grav");
                     SetGravityScale(data.gravityScale * data.wallSlideGravityMultBounceUp);
                 } else
                 {
@@ -489,7 +488,6 @@ public class PlayerMovement : MonoBehaviour, IData
             } 
             else if(RB.velocity.y < 0 && movementEvent.GetIsTouchingWall())
             {
-                Debug.Log("Boucne Upward Wall Grav");
                 // Lower gravity if sliding on a wall
                 SetGravityScale(data.gravityScale * data.wallSlideGravityMultDown);
 
@@ -841,11 +839,14 @@ public class PlayerMovement : MonoBehaviour, IData
 
             // Draw for debugging
             Debug.DrawRay(checkPos, slopeForce, Color.white);
+
+            movementEvent.SetIsOnSlope(true);
         }
         else
         {
             // If not on a slope, apply the identity Quaternion to get the player back to normal rotation
             spriteRenderer.gameObject.transform.rotation = Quaternion.identity;
+            movementEvent.SetIsOnSlope(false);
         }
 
         // Set frictions based on still input so that the player doesn't move - not sure if this actually does anything as the gravity
@@ -1019,19 +1020,28 @@ public class PlayerMovement : MonoBehaviour, IData
 
     public void CheckForWall()
     {
-        RaycastHit2D wallCheckLeft = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.left, 0.25f, wallLayer);
-        RaycastHit2D wallCheckRight = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x + 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.right, 0.25f, wallLayer);
+        // Calculate left and right offsets based on half the size of the player's collider
+        float xOffset = playerCollider.size.x * wallOffsetDist;
+        float yOffset = playerCollider.size.y * 0.5f - (playerCollider.offset.y * 0.25f);
+        Vector2 castStartPosition = (Vector2)playerCollider.bounds.center - new Vector2(0, yOffset) + new Vector2(0, (playerCollider.size.y * 0.5f) - (playerCollider.offset.y * 0.25f));
 
-        if(wallCheckRight)
+        RaycastHit2D wallCheckLeft = Physics2D.BoxCast(castStartPosition - new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y), 0, Vector2.down, 1.0f, wallLayer);
+        RaycastHit2D wallCheckRight = Physics2D.BoxCast(castStartPosition + new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y), 0, Vector2.down, 1.0f, wallLayer);
+
+        if (wallCheckRight)
         {
+            Debug.Log("Detecting Right");
             movementEvent.SetIsTouchingWall(true);
             movementEvent.SetWallSide(P_WALLCHECK.RIGHT);
+            SetTurnDirection(1);
         }
         
         if(wallCheckLeft)
         {
+            Debug.Log("Detecting Left");
             movementEvent.SetIsTouchingWall(true);
             movementEvent.SetWallSide(P_WALLCHECK.LEFT);
+            SetTurnDirection(1);
         }
 
         if(!wallCheckLeft && !wallCheckRight)
@@ -1327,4 +1337,25 @@ public class PlayerMovement : MonoBehaviour, IData
         levelDataObj.SaveData(data);
 	}
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        if(playerCollider == null)
+        {
+            playerCollider = GetComponent<BoxCollider2D>();
+        }
+
+        // Calculate left and right offsets based on half the size of the player's collider
+        float xOffset = playerCollider.size.x * wallOffsetDist;
+        float yOffset = playerCollider.size.y * 0.5f - (playerCollider.offset.y * 0.25f);
+        Vector2 castStartPosition = (Vector2)playerCollider.bounds.center - new Vector2(0, yOffset) + new Vector2(0, (playerCollider.size.y * 0.5f) - (playerCollider.offset.y * 0.25f));
+
+        // Draw the box cast to the left
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(castStartPosition - new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y));
+
+        // Draw the box cast to the right
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(castStartPosition + new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y));
+    }
 }
