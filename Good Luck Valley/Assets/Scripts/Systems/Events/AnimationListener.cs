@@ -73,7 +73,7 @@ public class AnimationListener : MonoBehaviour
         isThrowing = mushroomEvent.GetThrowing();
         
         // Check for running/idle animations
-        if(isGrounded & !isThrowing && !isBouncing && !isOnWall)
+        if(isGrounded & !isThrowing && !isBouncing)
         {
             if (Mathf.Abs(movementVector.x) >= 0.1 && !disableEvent.GetPlayerLocked())
             {
