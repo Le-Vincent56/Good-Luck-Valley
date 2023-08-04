@@ -83,6 +83,7 @@ public class AudioManager : MonoBehaviour, IData
 
     #region PROPERTIES
     public static AudioManager Instance { get; private set; }
+    public List<EventInstance> EventInstances { get { return eventInstances; } }
     public EventInstance MusicEventInstance { get { return musicEventInstance; } }
     public EventInstance AmbienceEventInstance { get { return ambienceEventInstance; } }
 
@@ -173,6 +174,12 @@ public class AudioManager : MonoBehaviour, IData
                 if (currentForestLevel != ForestLevel.MAIN)
                 {
                     SetForestLevel(ForestLevel.MAIN);
+                }
+
+                // Set each music parameter
+                foreach (KeyValuePair<string, float> layer in forestLayers)
+                {
+                    musicEventInstance.setParameterByName(layer.Key, layer.Value);
                 }
                 break;
         }
@@ -353,8 +360,18 @@ public class AudioManager : MonoBehaviour, IData
     public EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
-        eventInstances.Add(eventInstance);
-        return eventInstance;
+
+        // If the list doesn't contain the event instance, add it
+        if (!eventInstances.Contains(eventInstance))
+        {
+            eventInstances.Add(eventInstance);
+            return eventInstance;
+        } else
+        {
+            // If it already exists, give them the current event instance instead of creating a new one
+            return eventInstances[eventInstances.IndexOf(eventInstance)];
+        }
+        
     }
 
     /// <summary>
