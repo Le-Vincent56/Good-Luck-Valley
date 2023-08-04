@@ -14,6 +14,7 @@ public class WallShroom : Shroom
 
     private void Awake()
     {
+        Debug.Log("Make Wall Shroom");
         mushMan = GameObject.Find("Mushroom Manager").GetComponent<MushroomManager>();
         shroomCounter = GameObject.Find("MushroomCountUI").GetComponent<ShroomCounter>();
         shroomParticles = GetComponent<ParticleSystem>();
@@ -151,7 +152,7 @@ public class WallShroom : Shroom
 
                 // Rotate and freeze the shroom
                 Debug.Log("Rotate and Freeze is called");
-                RotateAndFreeze();
+                RotateAndFreeze(rotation);
             }
         }
     }

@@ -84,19 +84,16 @@ public class TutorialManager : MonoBehaviour
 
         if (movementEvent.GetShowingFastFall() == false)
         {
-            Debug.Log("hiding fast fall");
             HideFastFallMessage();
         }
 
         if (mushroomEvent.GetShowingQuickBounceMessage() == false)
         {
-            Debug.Log("Hiding Quick Bounce");
             HideQuickBounceMessage();
         }
 
         if (mushroomEvent.GetFirstWallBounce() == false)
         {
-            Debug.Log("hiding wall jump");
             HideWallBounceMessage();
         }
     }
