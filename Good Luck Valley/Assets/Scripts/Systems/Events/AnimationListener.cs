@@ -73,7 +73,7 @@ public class AnimationListener : MonoBehaviour
         isThrowing = mushroomEvent.GetThrowing();
         
         // Check for running/idle animations
-        if(isGrounded & !isThrowing && !isBouncing && !isOnWall)
+        if(isGrounded & !isThrowing && !isBouncing)
         {
             if (Mathf.Abs(movementVector.x) >= 0.1 && !disableEvent.GetPlayerLocked())
             {
@@ -124,7 +124,9 @@ public class AnimationListener : MonoBehaviour
             if(movementEvent.GetWallSide() == P_WALLCHECK.RIGHT)
             {
                 ChangeAnimationState(PLAYER_WALL_SLIDE_R);
-            } else if(movementEvent.GetWallSide() == P_WALLCHECK.LEFT)
+            }
+            
+            if(movementEvent.GetWallSide() == P_WALLCHECK.LEFT)
             {
                 ChangeAnimationState(PLAYER_WALL_SLIDE_L);
             }
