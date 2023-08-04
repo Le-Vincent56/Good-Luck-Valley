@@ -584,14 +584,15 @@ public class PlayerMovement : MonoBehaviour, IData
             {
                 if(!isGrounded)
                 {
+                    // Turn towards the wall
                     TurnToWall();
+
+                    // Trigger other wall-related events
+                    movementEvent.Wall();
                 }
 
                 // Apply wall force
                 ApplyWallForce();
-
-                // Trigger other wall-related events
-                movementEvent.Wall();
             }
             else if (wallStickTimer > 0) // Check if the wall stick timer is running
             {
