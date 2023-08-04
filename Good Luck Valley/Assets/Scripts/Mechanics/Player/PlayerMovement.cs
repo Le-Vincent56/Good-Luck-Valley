@@ -585,7 +585,7 @@ public class PlayerMovement : MonoBehaviour, IData
                 if(!isGrounded)
                 {
                     // Turn towards the wall
-                    TurnToWall();
+                    // TurnToWall();
 
                     // Trigger other wall-related events
                     movementEvent.Wall();
@@ -1022,12 +1022,18 @@ public class PlayerMovement : MonoBehaviour, IData
         RaycastHit2D wallCheckRight = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x - 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.left, 0.25f, wallLayer);
         RaycastHit2D wallCheckLeft = Physics2D.BoxCast(GameObject.Find("PlayerSprite").GetComponent<BoxCollider2D>().bounds.center, new Vector3(playerCollider.bounds.size.x + 0.35f, playerCollider.bounds.size.y, playerCollider.bounds.size.z), 0f, Vector2.right, 0.25f, wallLayer);
 
-        if(wallCheckRight || wallCheckLeft)
+        if(wallCheckRight)
         {
             movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetWallSide(P_WALLCHECK.RIGHT);
+        } else if(wallCheckLeft)
+        {
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetWallSide(P_WALLCHECK.LEFT);
         } else
         {
             movementEvent.SetIsTouchingWall(false);
+            movementEvent.SetWallSide(P_WALLCHECK.NONE);
         }
     }
 
