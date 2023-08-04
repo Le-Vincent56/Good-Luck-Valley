@@ -13,6 +13,13 @@ public enum PLAYERANIM
     THROW = 1
 }
 
+public enum P_WALLCHECK
+{
+    NONE,
+    LEFT,
+    RIGHT
+}
+
 public class AnimationListener : MonoBehaviour
 {
     #region REFERENCES
@@ -45,7 +52,8 @@ public class AnimationListener : MonoBehaviour
     private const string PLAYER_THROW = "Player_Throw";
     private const string PLAYER_THROW_R = "Player_Run_Throw_R";
     private const string PLAYER_THROW_L = "Player_Run_Throw_L";
-    private const string PLAYER_WALL_SLIDE = "Player_Wall_Slide";
+    private const string PLAYER_WALL_SLIDE_R = "Player_Wall_Slide_R";
+    private const string PLAYER_WALL_SLIDE_L = "Player_Wall_Slide_L";
     #endregion
 
     private void Start()
@@ -113,7 +121,13 @@ public class AnimationListener : MonoBehaviour
         // Check for wall sliding animations
         if(!isGrounded && isOnWall)
         {
-            ChangeAnimationState(PLAYER_WALL_SLIDE);
+            if(movementEvent.GetWallSide() == P_WALLCHECK.RIGHT)
+            {
+                ChangeAnimationState(PLAYER_WALL_SLIDE_R);
+            } else if(movementEvent.GetWallSide() == P_WALLCHECK.LEFT)
+            {
+                ChangeAnimationState(PLAYER_WALL_SLIDE_L);
+            }
         }
 
         // Check for throwing animation
