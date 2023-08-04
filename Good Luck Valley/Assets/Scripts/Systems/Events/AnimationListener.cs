@@ -29,6 +29,7 @@ public class AnimationListener : MonoBehaviour
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isFalling;
+    [SerializeField] private bool isOnWall;
     [SerializeField] private bool landed;
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isThrowing;
@@ -44,6 +45,7 @@ public class AnimationListener : MonoBehaviour
     private const string PLAYER_THROW = "Player_Throw";
     private const string PLAYER_THROW_R = "Player_Run_Throw_R";
     private const string PLAYER_THROW_L = "Player_Run_Throw_L";
+    private const string PLAYER_WALL_SLIDE = "Player_Wall_Slide";
     #endregion
 
     private void Start()
@@ -57,12 +59,13 @@ public class AnimationListener : MonoBehaviour
         isJumping = movementEvent.GetIsJumping();
         isGrounded = movementEvent.GetIsGrounded();
         isFalling = movementEvent.GetIsFalling();
+        isOnWall = movementEvent.GetIsTouchingWall();
         landed = movementEvent.GetIsLanding();
         isBouncing = movementEvent.GetIsBounceAnimating();
         isThrowing = mushroomEvent.GetThrowing();
         
         // Check for running/idle animations
-        if(isGrounded & !isThrowing && !isBouncing)
+        if(isGrounded & !isThrowing && !isBouncing && !isOnWall)
         {
             if (Mathf.Abs(movementVector.x) >= 0.1 && !disableEvent.GetPlayerLocked())
             {
@@ -90,25 +93,31 @@ public class AnimationListener : MonoBehaviour
         }
 
         // Check for jumping animation
-        if(isJumping && !isGrounded)
+        if(isJumping && !isGrounded && !isOnWall)
         {
             ChangeAnimationState(PLAYER_JUMP);
         }
 
         // Check for bouncing animation
-        if (isBouncing && !isThrowing && !isJumping)
+        if (isBouncing && !isThrowing && !isJumping && !isOnWall)
         {
             ChangeAnimationState(PLAYER_BOUNCE);
         }
 
         // Check for falling animation
-        if (isFalling && !isBouncing && !isGrounded)
+        if (isFalling && !isBouncing && !isGrounded && !isOnWall)
         {
             ChangeAnimationState(PLAYER_FALL);
         }
 
+        // Check for wall sliding animations
+        if(!isGrounded && isOnWall)
+        {
+            ChangeAnimationState(PLAYER_WALL_SLIDE);
+        }
+
         // Check for throwing animation
-        if (isThrowing)
+        if (isThrowing && !isOnWall)
         {
             // End throw animation if in the middle of bouncing, jumping, or falling
             if(isBouncing || isJumping || isFalling)

@@ -26,6 +26,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference PlayerLandGrass { get; private set; }
     [field: SerializeField] public EventReference PlayerFootstepsDirt { get; private set; }
     [field: SerializeField] public EventReference PlayerLandDirt { get; private set; }
+    [field: SerializeField] public EventReference PlayerFall { get; private set; }
     [field: SerializeField] public List<EventReference> ShroomBounces { get; private set; }
     [field: SerializeField] public EventReference ShroomPlant { get; private set; }
     [field: SerializeField] public EventReference ShroomThrow { get; private set; }

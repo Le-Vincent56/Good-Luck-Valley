@@ -12,6 +12,7 @@ public class AudioListener : MonoBehaviour
     [SerializeField] private LoadLevelScriptableObj loadLevelEvent;
     private EventInstance playerFootstepsGrass;
     private EventInstance playerFootstepsDirt;
+    private EventInstance playerFall;
     private EventInstance bushRustles;
     [SerializeField] private bool usePlayerSFX = true;
     [SerializeField] private float stepTimerMax;
@@ -25,6 +26,8 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.AddListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.AddListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.AddListener(StopFootstepsCutscene);
+        movementEvent.fallEvent.AddListener(PlayFall);
+        movementEvent.landEvent.AddListener(StopFall);
         loadLevelEvent.startForestMusicLoad.AddListener(UpdateForestMusicProgress);
     }
 
@@ -34,6 +37,8 @@ public class AudioListener : MonoBehaviour
         movementEvent.footstepEvent.RemoveListener(PlayFootstepsRun);
         movementEvent.startFootstepEventCutscene.RemoveListener(PlayFootstepsCutscene);
         movementEvent.stopFootstepEventCutscene.RemoveListener(StopFootstepsCutscene);
+        movementEvent.fallEvent.RemoveListener(PlayFall);
+        movementEvent.landEvent.RemoveListener(StopFall);
         loadLevelEvent.startForestMusicLoad.RemoveListener(UpdateForestMusicProgress);
     }
 
@@ -41,6 +46,7 @@ public class AudioListener : MonoBehaviour
     {
         playerFootstepsGrass = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootstepsGrass);
         playerFootstepsDirt = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFootstepsDirt);
+        playerFall = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.PlayerFall);
         stepTimer = stepTimerMax;
     }
 
@@ -161,6 +167,36 @@ public class AudioListener : MonoBehaviour
 
             default:
                 break;
+        }
+    }
+
+    /// <summary>
+    /// Play fall sound
+    /// </summary>
+    private void PlayFall()
+    {
+        // Check if the player fall has stopped or is already playing
+        PLAYBACK_STATE playbackStateFall;
+        playerFall.getPlaybackState(out playbackStateFall);
+        if (playbackStateFall.Equals(PLAYBACK_STATE.STOPPED) && !playbackStateFall.Equals(PLAYBACK_STATE.PLAYING))
+        {
+            // If so, start it
+            playerFall.start();
+        }
+    }
+
+    /// <summary>
+    /// Stop the fall sound
+    /// </summary>
+    private void StopFall()
+    {
+        // Check if the player fall is playing
+        PLAYBACK_STATE playbackStateFall;
+        playerFall.getPlaybackState(out playbackStateFall);
+        if (!playbackStateFall.Equals(PLAYBACK_STATE.STOPPED))
+        {
+            // If so, stop it
+            playerFall.stop(STOP_MODE.ALLOWFADEOUT);
         }
     }
 
