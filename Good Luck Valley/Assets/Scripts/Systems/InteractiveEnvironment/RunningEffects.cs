@@ -22,8 +22,10 @@ public class RunningEffects : MonoBehaviour
     [SerializeField] private VisualEffect dustParticles;
     [SerializeField] private VisualEffect landLeavesParticles;
     [SerializeField] private VisualEffect landDustParticles;
+    [SerializeField] private VisualEffect wallSlideDustParticles;
     [SerializeField] private MovementScriptableObj movementEvent;
     [SerializeField] private GameObject groundCheckHardpoint;
+    [SerializeField] private GameObject wallSlideHardpoint;
     #endregion
 
     #region FIELDS
@@ -49,6 +51,7 @@ public class RunningEffects : MonoBehaviour
         movementEvent.landEvent.AddListener(CheckLandParticle);
         movementEvent.landEvent.AddListener(PlayLandingEffect);
         movementEvent.jumpEvent.AddListener(PlayJumpingEffect);
+        movementEvent.wallEvent.AddListener(PlayWallSlideEffect);
     }
 
     private void OnDisable()
@@ -56,6 +59,7 @@ public class RunningEffects : MonoBehaviour
         movementEvent.landEvent.RemoveListener(CheckLandParticle);
         movementEvent.landEvent.RemoveListener(PlayLandingEffect);
         movementEvent.jumpEvent.RemoveListener(PlayJumpingEffect);
+        movementEvent.wallEvent.RemoveListener(PlayWallSlideEffect);
     }
 
     // Update is called once per frame
@@ -200,5 +204,14 @@ public class RunningEffects : MonoBehaviour
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// Plays the wall sliding effect
+    /// </summary>
+    private void PlayWallSlideEffect()
+    {
+        wallSlideDustParticles.transform.position = new Vector3(movementEvent.GetWallCollisionPoint().x, wallSlideHardpoint.transform.position.y, 0);
+        wallSlideDustParticles.Play();
     }
 }
