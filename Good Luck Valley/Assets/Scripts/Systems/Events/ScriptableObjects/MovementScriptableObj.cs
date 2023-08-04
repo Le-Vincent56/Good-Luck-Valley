@@ -16,6 +16,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private bool isBouncing;
     [SerializeField] private bool isBounceAnimating;
     [SerializeField] private bool isTouchingWall;
+    [SerializeField] private bool isOnSlope;
     [SerializeField] private P_WALLCHECK wallSide;
     [SerializeField] private bool canTurn;
     [SerializeField] private Vector2 movementDirection;
@@ -219,6 +220,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     }
 
     /// <summary>
+    /// Set whether the player is on a slope or not
+    /// </summary>
+    /// <param name="isOnSlope">Whether the player is on a slope or not</param>
+    public void SetIsOnSlope(bool isOnSlope)
+    {
+        this.isOnSlope = isOnSlope;
+    }
+
+    /// <summary>
     /// Set what side the player is detecting a wall on
     /// </summary>
     /// <param name="wallSide">The side the player is detecting a wall</param>
@@ -362,6 +372,15 @@ public class MovementScriptableObj : ScriptableObject, IData
     public bool GetBouncing()
     {
         return isBouncing;
+    }
+
+    /// <summary>
+    /// Get whether the player is on a slope or not
+    /// </summary>
+    /// <returns>Whether the player is on a slope or not</returns>
+    public bool GetIsOnSlope()
+    {
+        return isOnSlope;
     }
 
     /// <summary>

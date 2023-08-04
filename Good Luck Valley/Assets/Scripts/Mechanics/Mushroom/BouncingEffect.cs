@@ -93,6 +93,7 @@ public class BouncingEffect : MonoBehaviour
             if (lowestPoint.y < transform.position.y)
             {
                 // Sets touching wall to true and assigns the mushroom position to the lowest point and the wall collision point
+                movementEvent.SetIsTouchingWall(true);
                 movementEvent.SetMushroomPosition(lowestPoint);
                 movementEvent.SetWallCollisionPoint(contacts[0].point);
             }
