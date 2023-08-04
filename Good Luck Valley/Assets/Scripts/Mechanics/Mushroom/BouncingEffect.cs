@@ -53,10 +53,14 @@ public class BouncingEffect : MonoBehaviour
                     lowestPoint = contacts[i].point;
                 }
             }
-            // Sets touching wall to true and assigns the mushroom position to the lowest point
-            movementEvent.SetIsTouchingWall(true);
-            movementEvent.SetMushroomPosition(lowestPoint);
-            movementEvent.SetWallCollisionPoint(contacts[0].point);
+
+            if (lowestPoint.y < transform.position.y)
+            {
+                // Sets touching wall to true and assigns the mushroom position to the lowest point
+                movementEvent.SetIsTouchingWall(true);
+                movementEvent.SetMushroomPosition(lowestPoint);
+                movementEvent.SetWallCollisionPoint(contacts[0].point);
+            }
         }
     }
 
@@ -141,12 +145,15 @@ public class BouncingEffect : MonoBehaviour
                 }
             }
 
-            // Sets touching wall to true and assigns the mushroom position to the lowest point and the wall collision point
-            movementEvent.SetIsTouchingWall(true);
-            movementEvent.SetMushroomPosition(lowestPoint);
-            movementEvent.SetWallCollisionPoint(contacts[0].point);
-            //mushroomEvent.SetTouchingShroom(true);
-            //mushroomEvent.TouchingShroom();
+            if (lowestPoint.y < transform.position.y)
+            {
+                // Sets touching wall to true and assigns the mushroom position to the lowest point and the wall collision point
+                movementEvent.SetIsTouchingWall(true);
+                movementEvent.SetMushroomPosition(lowestPoint);
+                movementEvent.SetWallCollisionPoint(contacts[0].point);
+                //mushroomEvent.SetTouchingShroom(true);
+                //mushroomEvent.TouchingShroom();
+            }
         }
     }
 
