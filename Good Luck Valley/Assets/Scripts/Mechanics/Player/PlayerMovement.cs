@@ -80,6 +80,9 @@ public class PlayerMovement : MonoBehaviour, IData
 
     #region WALLS
     [Header("Walls")]
+    [SerializeField] private Transform leftWallBox;
+    [SerializeField] private Transform rightWallBox;
+    [SerializeField] private Vector2 wallCheckSize = new Vector2(0.5f, 1f);
     [SerializeField] private bool debugWall;
     [SerializeField] private float wallOffsetDist = 0.5f;
     [SerializeField] private float wallStickForce;
@@ -580,17 +583,14 @@ public class PlayerMovement : MonoBehaviour, IData
             // Check if the player is touching the wall
             if (movementEvent.GetIsTouchingWall())
             {
-                if(!isGrounded)
+                if(!isGrounded && !isOnSlope)
                 {
-                    // Turn towards the wall
-                    // TurnToWall();
-
                     // Trigger other wall-related events
                     movementEvent.Wall();
-                }
 
-                // Apply wall force
-                ApplyWallForce();
+                    // Apply wall force
+                    ApplyWallForce();
+                }
             }
             else if (wallStickTimer > 0) // Check if the wall stick timer is running
             {
@@ -1020,31 +1020,36 @@ public class PlayerMovement : MonoBehaviour, IData
 
     public void CheckForWall()
     {
-        // Calculate left and right offsets based on half the size of the player's collider
-        float xOffset = playerCollider.size.x * wallOffsetDist;
-        float yOffset = playerCollider.size.y * 0.5f - (playerCollider.offset.y * 0.25f);
-        Vector2 castStartPosition = (Vector2)playerCollider.bounds.center - new Vector2(0, yOffset) + new Vector2(0, (playerCollider.size.y * 0.5f) - (playerCollider.offset.y * 0.25f));
-
-        RaycastHit2D wallCheckLeft = Physics2D.BoxCast(castStartPosition - new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y), 0, Vector2.down, 1.0f, wallLayer);
-        RaycastHit2D wallCheckRight = Physics2D.BoxCast(castStartPosition + new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y), 0, Vector2.down, 1.0f, wallLayer);
-
-        if (wallCheckRight)
+        // Check right wall box
+        if (Physics2D.OverlapBox(rightWallBox.position, wallCheckSize, 0, wallLayer))
         {
-            Debug.Log("Detecting Right");
+            // Set parameters
             movementEvent.SetIsTouchingWall(true);
             movementEvent.SetWallSide(P_WALLCHECK.RIGHT);
-            SetTurnDirection(1);
-        }
-        
-        if(wallCheckLeft)
-        {
-            Debug.Log("Detecting Left");
-            movementEvent.SetIsTouchingWall(true);
-            movementEvent.SetWallSide(P_WALLCHECK.LEFT);
-            SetTurnDirection(1);
+
+            // If not bouncing, then set the turn direciton - bouncing changes direction instead
+            if(!bouncing)
+            {
+                SetTurnDirection(1);
+            }
         }
 
-        if(!wallCheckLeft && !wallCheckRight)
+        // Check left wall box
+        if (Physics2D.OverlapBox(leftWallBox.position, wallCheckSize, 0, wallLayer))
+        {
+            // Set parameters
+            movementEvent.SetIsTouchingWall(true);
+            movementEvent.SetWallSide(P_WALLCHECK.LEFT);
+
+            // If not bouncing, then set the turn direction - bouncing changes direction instead
+            if (!bouncing)
+            {
+                SetTurnDirection(1);
+            }
+        }
+
+        // If neither boxes overlap with a wall layer, set parameters to default for not touching a wall
+        if(!Physics2D.OverlapBox(leftWallBox.position, wallCheckSize, 0, wallLayer) && !Physics2D.OverlapBox(rightWallBox.position, wallCheckSize, 0, wallLayer))
         {
             movementEvent.SetIsTouchingWall(false);
             movementEvent.SetWallSide(P_WALLCHECK.NONE);
@@ -1174,6 +1179,13 @@ public class PlayerMovement : MonoBehaviour, IData
         if (isJumping && jumpBuffer > 0 && !movementEvent.GetIsTouchingWall())
         {
             bounceForce /= data.jumpForce;
+        }
+
+        // Face away from the wall
+        if(movementEvent.GetIsTouchingWall())
+        {
+            Debug.Log("Turning from Wall");
+            TurnToWall();
         }
 
         // Add forces
@@ -1340,22 +1352,11 @@ public class PlayerMovement : MonoBehaviour, IData
 
     private void OnDrawGizmos()
     {
-        if(playerCollider == null)
+        if(debugWall)
         {
-            playerCollider = GetComponent<BoxCollider2D>();
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(leftWallBox.position, wallCheckSize);
+            Gizmos.DrawWireCube(rightWallBox.position, wallCheckSize);
         }
-
-        // Calculate left and right offsets based on half the size of the player's collider
-        float xOffset = playerCollider.size.x * wallOffsetDist;
-        float yOffset = playerCollider.size.y * 0.5f - (playerCollider.offset.y * 0.25f);
-        Vector2 castStartPosition = (Vector2)playerCollider.bounds.center - new Vector2(0, yOffset) + new Vector2(0, (playerCollider.size.y * 0.5f) - (playerCollider.offset.y * 0.25f));
-
-        // Draw the box cast to the left
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(castStartPosition - new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y));
-
-        // Draw the box cast to the right
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(castStartPosition + new Vector2(xOffset, 0), new Vector2(playerCollider.size.x, (playerCollider.size.y * 2) + playerCollider.offset.y));
     }
 }
