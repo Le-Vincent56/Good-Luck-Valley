@@ -861,7 +861,7 @@ public class MenusManager : MonoBehaviour
     /// <summary>
     /// Adjusts a sound input field
     /// </summary>
-    /// <param name="index"></param>
+    /// <param name="index"> The index of the input field to update</param>
     public void AdjustSoundInputField(int index)
     {
         // Checks if the text inputs and sliders array isnt empty

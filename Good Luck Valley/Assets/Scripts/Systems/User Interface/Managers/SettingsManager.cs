@@ -525,6 +525,10 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adjusts a sound input field
+    /// </summary>
+    /// <param name="index"> The index of the input field to update</param>
     public void AdjustSoundInputField(int index)
     {
         if (textInputs.Length > 0 && sliders.Length > 0)
