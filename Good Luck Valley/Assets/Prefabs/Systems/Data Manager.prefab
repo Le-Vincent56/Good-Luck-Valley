@@ -53,6 +53,8 @@ MonoBehaviour:
   saveMenuEvent: {fileID: 11400000, guid: 8a34f94eb82f5e64ab5f165b22be6a88, type: 2}
   journalEvent: {fileID: 11400000, guid: eea226913c8e85b49bdd6a1acaedfd57, type: 2}
   cameraEvent: {fileID: 11400000, guid: 0bc748ce84aed6e4aa191158dd0bd0e2, type: 2}
+  UIEvent: {fileID: 11400000, guid: 6960bf0dd61d4e2489519548cff99d08, type: 2}
+  settingsEvent: {fileID: 11400000, guid: b51cc8a0bfdf1cd4aa8f0be8943a2075, type: 2}
   gameData:
     lastUpdated: 0
     playtimeTotal: 0
@@ -60,6 +62,7 @@ MonoBehaviour:
     isGrounded: 0
     isJumping: 0
     isFalling: 0
+    showFastFall: 1
     levelData:
       keys:
       - Prologue
@@ -68,9 +71,12 @@ MonoBehaviour:
       - levelPos: 1
         playerPosition: {x: -27.46, y: 7.85, z: 0}
         playCutscene: 1
+        notes: []
         notesCollected:
           keys: []
           values: 
+        totalNotes: 0
+        currentNotes: 0
         assetsActive:
           keys:
           - d36a4464-bcf2-4133-933e-edcc3f1c12e8
@@ -84,6 +90,7 @@ MonoBehaviour:
       - levelPos: 1
         playerPosition: {x: -39.82, y: 6.31, z: 0}
         playCutscene: 1
+        notes: []
         notesCollected:
           keys:
           - 70958600-3752-40de-94a1-545b7409b81b
@@ -95,16 +102,36 @@ MonoBehaviour:
           - 4152cb73-9f26-473e-9e24-2dfccdb51401
           - 48bd0adf-8c03-4261-b6ff-d9824eaf9750
           values: 0000000000000000
+        totalNotes: 0
+        currentNotes: 0
         assetsActive:
           keys:
           - dd57ac64-ca88-4a0e-b33b-c9fd6faccb49
           values: 01
     currentLevelName: Prologue
+    currentForestLevel: 0
+    forestLayers:
+      keys: []
+      values: []
     throwUnlocked: 0
+    firstThrow: 1
+    firstBounce: 1
+    firstFull: 0
+    showQuickBounce: 1
+    firstWallBounce: 1
+    totalNotes: 7
     numNotesCollected: 0
-    notes: []
+    newestNote:
+      id: 
+      noteTitle: 
+      textValue: 
+      contentTitle: 
+      journalIndex: 0
+      noteAdded: 0
+      alreadyRead: 0
     hasJournal: 1
     hasOpenedJournalOnce: 0
+    showJournalTutorial: 1
   actions: {fileID: -944628639613478452, guid: 4832bb4af7bdd7547b345e2e4fd4c2bd, type: 3}
   fileName: PlayerSave.json
   settingsFileName: SettingsSave.json

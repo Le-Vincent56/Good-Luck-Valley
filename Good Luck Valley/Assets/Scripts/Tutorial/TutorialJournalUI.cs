@@ -1,4 +1,4 @@
-using HiveMind.Core;
+using HiveMind.Movement;
 using HiveMind.Events;
 using HiveMind.Menus;
 using HiveMind.NoteJournal;

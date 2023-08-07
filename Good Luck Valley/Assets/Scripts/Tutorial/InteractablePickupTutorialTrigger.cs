@@ -1,7 +1,6 @@
-using HiveMind.Core;
+using HiveMind.Movement;
 using HiveMind.Events;
-using System.Collections;
-using System.Collections.Generic;
+using HiveMind.Core;
 using UnityEngine;
 
 namespace HiveMind.Tutorial
