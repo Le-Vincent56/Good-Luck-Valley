@@ -140,7 +140,7 @@ namespace HiveMind.Mushroom
         {
             if (!hasRotated)
             {
-                if (collision.collider is CompositeCollider2D)
+                if (collision.collider is CompositeCollider2D && collision.collider.name != "WallJump")
                 {
                     // Set shroom type
                     IShroomeable shroomeableTile = collision.gameObject.GetComponent<IShroomeable>();
@@ -155,6 +155,7 @@ namespace HiveMind.Mushroom
 
                     // Rotate and freeze the shroom
                     Debug.Log("Rotate and Freeze is called");
+                    Debug.Log("rotation: " + rotation);
                     RotateAndFreeze(rotation);
                 }
             }
