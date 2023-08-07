@@ -179,7 +179,6 @@ namespace HiveMind.Mushroom
                     // Rotate and freeze the shroom
                     if (shroomType == ShroomType.Wall)
                     {
-                        Debug.Log("rotation: " + rotation);
                         RotateAndFreeze(rotation);
                     }
                     else
