@@ -59,6 +59,7 @@ public class ShroomCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Gets references to shroom icon components
         shroomIcon1 = GameObject.Find("Shroom Icon 1");
         shroomIcon2 = GameObject.Find("Shroom Icon 2");
         shroomIcon3 = GameObject.Find("Shroom Icon 3");

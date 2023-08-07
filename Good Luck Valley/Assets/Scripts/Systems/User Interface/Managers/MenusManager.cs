@@ -392,6 +392,9 @@ public class MenusManager : MonoBehaviour
         SceneManager.LoadScene("Credits");
     }
 
+    /// <summary>
+    /// Navigates to the scene set through sceneLoadNum
+    /// </summary>
     public void NavigateToScene()
     {
         previousScene = currentScene;
@@ -541,6 +544,9 @@ public class MenusManager : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Goes back to the previous menu
+    /// </summary>
     public void Back()
     {
         if (settingsSaved)
@@ -556,6 +562,10 @@ public class MenusManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Selects a save
+    /// </summary>
+    /// <param name="saveNum"></param>
     public void SelectSave(int saveNum)
     {
         selectedSave = saveNum;
@@ -665,6 +675,10 @@ public class MenusManager : MonoBehaviour
         //}
     }
 
+    /// <summary>
+    /// Checks whether we should fade or not
+    /// </summary>
+    /// <param name="sceneToLoad"></param>
     public void CheckFade(int sceneToLoad)
     {
         if (settingsSaved)
@@ -676,6 +690,10 @@ public class MenusManager : MonoBehaviour
     #endregion
 
     #region GAME BUTTON INPUT
+
+    /// <summary>
+    /// New game button clicked
+    /// </summary>
     public void OnNewGameClicked()
     {
         // Disable all other buttons to prevent accidental clicking
@@ -691,6 +709,9 @@ public class MenusManager : MonoBehaviour
         CheckFade(6);
     }
 
+    /// <summary>
+    /// Continue button clicked
+    /// </summary>
     public void OnContinueClicked()
     {
         // Disable all other buttons to prevent accidental clicking
@@ -705,87 +726,152 @@ public class MenusManager : MonoBehaviour
     #endregion
 
     #region SETTINGS INPUTS
+    /// <summary>
+    /// Changes the resolution when the player selects a different resolution from the dropdown menu
+    /// </summary>
     public void ChangeResolution()
     {
+        // Checks if we have disabled button calls
         if (!disableCalls)
         {
+            // The resolution value stored in the dropdown menu 
             string[] resolution;
+
+            // Fills the resolution array by splitting the rex valus by 'x' 
+            //  This is because we label them as 1920x1080 for the user,
+            //  but we need to get the individual values of 1920 and 1080 out of the string by splitting
             resolution = resDropdown.options[resDropdown.value].text.Split('x');
+
+            // An array for storing the int parsed variables of the res strings
             int[] resolutionValues = new int[resolution.Length];
+
+            // Attempts to parse the resolution strings into ints
             int.TryParse(resolution[0], out resolutionValues[0]);
             int.TryParse(resolution[1], out resolutionValues[1]);
 
+            // Saves the values into the resValues variable
             resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
+
+            // Sets settings saved to false since a setting has been changed
             settingsSaved = false;
         }
     }    
 
+    /// <summary>
+    /// Updates the fullscreen setting
+    /// </summary>
     public void SetFullscreen() 
     {
+        // Checks if we have disabled button calls
         if (!disableCalls)
         {
+            // Sets whether it the game is fullscreen using the toggle
             isFullscreen = fullscreenToggle.isOn;
+
+            // Sets settings saved to false since a setting has been changed
             settingsSaved = false;
         }
     }
 
+    /// <summary>
+    /// Updates the brightness setting
+    /// </summary>
+    /// <param name="type"> Whether the interface is a text box or a slider</param>
     public void ChangeBrightness(int type)
     {
+        // Checks if we have disabled button calls
         if (!disableCalls)
         {
+            // CHecks the given type
             switch (type)
             {
+                // If the input type is a text input field
                 case 0:
+                    // textInputs[5] is the reference to the brightness input field
+                    // Parses the value in the input field into the brightness variable
                     brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
                     break;
 
+                // If the input type is a slider
                 case 1:
+                    // Saves the slider value into the brightness variable
                     brightness = sliders[5].value;
                     break;
             }
+
+            // Sets settings saved to false since a setting has been changed
             settingsSaved = false;
         }
     }
 
+    /// <summary>
+    /// Sets the highlighted menu button to the given button index
+    /// </summary>
+    /// <param name="button"> The button index that should be highlighted</param>
     public void SetButton(int button)
     {
+        // Checks if we have disabled button calls
         if (!disableCalls)
         {
-            Debug.Log("Setting button");
+            // Sets check buttons to true so that the buttons are actually updated
             checkButtons = true;
+
+            // Loops through the navButtons array
             for (int i = 0; i < navButtons.Length; i++)
             {
+                // Sets each button to interactable
                 navButtons[i].GetComponent<Button>().interactable = true;
             }
+            // Sets the button at the given index to non interactable
             navButtons[button].GetComponent<Button>().interactable = false;
+
+            // Sets the menu parent to be the given button, which will put that button's respective menu above the others
             menuParent = navButtons[button].transform.parent.gameObject;
         }
     }
 
+    /// <summary>
+    /// Adjuts a slider based on the text input value
+    /// </summary>
+    /// <param name="index"> The index of the slider/textInput pair we are changing </param>
     public void AdjustSlider(int index)
     {
+        // Checks if the text inputs and sliders arrays are not empty and that the value in the textInput can be parsed into an int
         if (textInputs.Length > 0 && sliders.Length > 0 && int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
         {
+            // Changes the value of the slider 
             sliders[index].value = result;
         }
     }
 
+    /// <summary>
+    /// Adjusts an input field based on the slider value
+    /// </summary>
+    /// <param name="index"> The index of the slider/textInput pair we are changing </param>
     public void AdjustInputField(int index)
     {
+        // If the text inputs and sliders arrays arent empty
         if (textInputs.Length > 0 && sliders.Length > 0)
         {
+            // Sets the textInput text value to the slider's value
             textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
         }
     }
 
+    /// <summary>
+    /// Adjusts a sound input field
+    /// </summary>
+    /// <param name="index"></param>
     public void AdjustSoundInputField(int index)
     {
+        // Checks if the text inputs and sliders array isnt empty
         if (textInputs.Length > 0 && sliders.Length > 0)
         {
+            // Sets the text value to the sliders value
             textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
         }
 
-        // Set live changes so they can hear the music
+        // Set live changes so they can hear the music :D
         switch(index)
         {
             case 0:
@@ -806,26 +892,44 @@ public class MenusManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggles an accessibility tool
+    /// </summary>
+    /// <param name="index"> The index of the accessibility tool to toggle</param>
     public void ToggleAccessibilityTool(int index)
     {
+        // Checks if we have disabled button calls
         if (!disableCalls)
         {
+            // Sets the accessibility tool at the given index to be the opposite of itself
             accessibilityTools[index] = !accessibilityTools[index];
+
+            // Sets settings saved to false since a setting has been changed
             settingsSaved = false;
         }
     }
 
+    /// <summary>
+    /// Updates whether the subtitles are on based on the subtitles toggle input
+    /// </summary>
     public void ToggleSubtitles()
     {
+        // Checks if we have disabled button calls
         if (!disableCalls)
         {
+            // Updates the subtitlesEnabled value based on the subtitles toggle 
             subtitlesEnabled = subtitlesToggle.isOn;
+
+            // Sets settings saved to false since a setting has been changed
             settingsSaved = false;
         }
     }
     #endregion
 
     #region APPLYING SETTINGS HELPER METHODS
+    /// <summary>
+    /// Updates the accessibility settings in the settings to the ones changed in the menu
+    /// </summary>
     private void ApplyAccessibility()
     {
         settings.ThrowIndicatorShown = accessibilityTools[0];
@@ -835,6 +939,9 @@ public class MenusManager : MonoBehaviour
         settings.NoClipOn = accessibilityTools[4];
     }
 
+    /// <summary>
+    /// Updates the display settings in the settings to the ones changed in the menu
+    /// </summary>
     private void ApplyDisplay()
     {
         settings.Brightness = brightness;
@@ -854,6 +961,9 @@ public class MenusManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    ///  Updates the audio settings in the settings to the ones changed in the menu
+    /// </summary>
     private void ApplyAudio()
     {
         settings.MasterVolume = sliders[0].value;

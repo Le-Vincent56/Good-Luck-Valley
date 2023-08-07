@@ -75,15 +75,20 @@ public class GeneralShroom : Shroom
             GetComponentInChildren<Light2D>().intensity -= percentOpacity;
         }
 
+        // Checks if infinite shrooms is disabled
         if (mushMan.MushroomLimit == 3)
         {
+            // Checks if the throw has been unlocked
             if (mushMan.ThrowUnlocked)
             {
+                // Increases the fill amount
                 shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
             }
 
+            // Checks if the fill is full
             if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
             {
+                // Plays the icon particle effect
                 shroomIcon.GetComponent<ParticleSystem>().Play();
             }
         }
@@ -153,8 +158,10 @@ public class GeneralShroom : Shroom
     /// <param name="collision">The context of the collider</param>
     public override void OnCollisionEnter2D(Collision2D collision)
     {
+        // Checks if the shroom hasnt already rotated
         if (!hasRotated)
         {
+            // Checks if the collider is a composite collider (tilemap)
             if (collision.collider is CompositeCollider2D)
             {
                 // Set shroom type
@@ -178,6 +185,7 @@ public class GeneralShroom : Shroom
                     RotateAndFreeze();
                 }
             }
+            // Checks if the sollider is a box collider (decomposable tile or weighted platform)
             else if (collision.collider is BoxCollider2D)
             {
                 // Check if the tile is decomposable
