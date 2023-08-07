@@ -211,7 +211,10 @@ public class RunningEffects : MonoBehaviour
     /// </summary>
     private void PlayWallSlideEffect()
     {
-        wallSlideDustParticles.transform.position = new Vector3(movementEvent.GetWallCollisionPoint().x, wallSlideHardpoint.transform.position.y, 0);
-        wallSlideDustParticles.Play();
+        if (movementEvent.GetIsTouchingWall())
+        {
+            wallSlideDustParticles.transform.position = new Vector3(movementEvent.GetWallCollisionPoint().x, wallSlideHardpoint.transform.position.y, 0);
+            wallSlideDustParticles.Play();
+        }
     }
 }

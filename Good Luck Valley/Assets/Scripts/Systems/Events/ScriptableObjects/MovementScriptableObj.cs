@@ -26,6 +26,7 @@ public class MovementScriptableObj : ScriptableObject, IData
     [SerializeField] private TileType movementTileType;
     [SerializeField] private bool showingFastFall;
     [SerializeField] private bool touchingFastFall;
+    [SerializeField] private bool switchedWall;
 
     #region EVENTS
     [System.NonSerialized]
@@ -292,9 +293,22 @@ public class MovementScriptableObj : ScriptableObject, IData
         this.showingFastFall = showingFastFall;
     }
 
+    /// <summary>
+    /// Sets whether the player is touching the fast fall message collider or not
+    /// </summary>
+    /// <param name="touchingFastFall"> whether the player is touching the fast fall message collider or not </param>
     public void SetTouchingFastFall(bool touchingFastFall)
     {
         this.touchingFastFall = touchingFastFall;
+    }
+
+    /// <summary>
+    /// Sets whether the player has switched to a different wall or not
+    /// </summary>
+    /// <param name="switchedWall">Whether the player has switched walls</param>
+    public void SetSwitchedWall(bool switchedWall)
+    {
+        this.switchedWall = switchedWall;
     }
 
     /// <summary>
@@ -466,9 +480,22 @@ public class MovementScriptableObj : ScriptableObject, IData
         return showingFastFall;
     }
 
+    /// <summary>
+    /// Gets whether the player is touching the fast fall message collider
+    /// </summary>
+    /// <returns>whether the player is touching the fast fall message collider</returns>
     public bool GetTouchingFastFall()
     {
         return touchingFastFall;
+    }
+
+    /// <summary>
+    /// Gets whether the player has switched wall jump walls or not
+    /// </summary>
+    /// <param name="switchedWall"> whether the player has switched wall jump walls or not</param>
+    public bool GetSwitchedWall()
+    {
+        return switchedWall;
     }
 
     /// <summary>

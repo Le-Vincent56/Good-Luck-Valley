@@ -43,8 +43,6 @@ public class PlayerMovement : MonoBehaviour, IData
 	[SerializeField] private PhysicsMaterial2D fullFriction;
 	private DevTools devTools;
 	private Settings settings;
-    private VisualEffect dust;
-    private VisualEffect grass;
     [SerializeField] private GameObject wallShroomPrefab;
     #endregion
 
