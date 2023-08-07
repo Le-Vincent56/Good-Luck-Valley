@@ -186,7 +186,7 @@ namespace HiveMind.Mushroom
                         RotateAndFreeze();
                     }
                 }
-                // Checks if the sollider is a box collider (decomposable tile or weighted platform)
+                // Checks if the collider is a box collider (decomposable tile or weighted platform)
                 else if (collision.collider is BoxCollider2D)
                 {
                     // Check if the tile is decomposable

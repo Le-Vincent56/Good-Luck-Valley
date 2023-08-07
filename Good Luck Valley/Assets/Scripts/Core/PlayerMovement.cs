@@ -1189,7 +1189,6 @@ namespace HiveMind.Core
             // Face away from the wall
             if (movementEvent.GetIsTouchingWall())
             {
-                Debug.Log("Turning from Wall");
                 TurnToWall();
             }
 
