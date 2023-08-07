@@ -60,6 +60,7 @@ namespace HiveMind.UI
         // Start is called before the first frame update
         void Start()
         {
+            // Gets references to shroom icon components
             shroomIcon1 = GameObject.Find("Shroom Icon 1");
             shroomIcon2 = GameObject.Find("Shroom Icon 2");
             shroomIcon3 = GameObject.Find("Shroom Icon 3");
@@ -82,11 +83,11 @@ namespace HiveMind.UI
             shroomFill3 = GameObject.Find("ShroomFill 3").GetComponent<Image>();
 
             shroomIconList = new List<GameObject>()
-        {
-            shroomIcon3,
-            shroomIcon2,
-            shroomIcon1
-        };
+            {
+                shroomIcon3,
+                shroomIcon2,
+                shroomIcon1
+            };
 
             if (SceneManager.GetActiveScene().buildIndex >= 6)
             {

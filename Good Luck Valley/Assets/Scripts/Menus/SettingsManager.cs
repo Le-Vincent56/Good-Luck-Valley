@@ -220,24 +220,32 @@ namespace HiveMind.Menus
             // Play sound
             AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
 
+            // If we should open the confirmation box
             if (checkQuit)
             {
+                // Checks which confirmation box we are opening
                 switch (confirmCheckNum)
                 {
                     case 0:
+                        // Checks if the other confirmation box isn't active or is null
                         if (confirmationCheck2.activeSelf == false || confirmationCheck2 == null)
                         {
+                            // Sets this confirmation box to active
                             confirmationCheck.SetActive(true);
                         }
                         break;
 
                     case 1:
+                        // Checks if the other confirmation box isn't active or is null
                         if (confirmationCheck.activeSelf == false || confirmationCheck == null)
                         {
+                            // Sets this confirmation box to active
                             confirmationCheck2.SetActive(true);
                         }
                         break;
                 }
+
+                // We should not open a confirmation box next time
                 checkQuit = false;
             }
         }
@@ -348,9 +356,13 @@ namespace HiveMind.Menus
         /// <param name="confirmCheckNum"> The number associated with the confirmation check box that is being cancelled (input in inspector)</param>
         public void Cancel(int confirmCheckNum)
         {
+            // Only true if a confirmation box is open
             if (!checkQuit)
             {
+                // Sets check quit to true so we know to open a confirmation box next time
                 checkQuit = true;
+
+                // Disables the correspoonding confirmation box
                 if (confirmCheckNum == 1)
                 {
                     confirmationCheck.SetActive(false);
@@ -367,29 +379,53 @@ namespace HiveMind.Menus
         #endregion
 
         #region SETTINGS INPUTS
+
+        /// <summary>
+        /// Changes the resolution when the player selects a different resolution from the dropdown menu
+        /// </summary>
         public void ChangeResolution()
         {
             if (!disableCalls)
             {
+                // The resolution value stored in the dropdown menu 
                 string[] resolution;
+
+                // Fills the resolution array by splitting the rex valus by 'x' 
+                //  This is because we label them as 1920x1080 for the user,
+                //  but we need to get the individual values of 1920 and 1080 out of the string by splitting
                 resolution = resDropdown.options[resDropdown.value].text.Split('x');
+
+                // An array for storing the int parsed variables of the res strings
                 int[] resolutionValues = new int[resolution.Length];
+
+                // Attempts to parse the resolution strings into ints
                 int.TryParse(resolution[0], out resolutionValues[0]);
                 int.TryParse(resolution[1], out resolutionValues[1]);
 
+                // Saves the values into the resValues variable
                 resValues = new Vector2(resolutionValues[0], resolutionValues[1]);
+
+                // Sets settings saved to false since a setting has been changed
                 settingsSaved = false;
 
                 // Play sound
                 AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
             }
         }
+
+        /// <summary>
+        /// Updates the fullscreen setting
+        /// </summary>
 
         public void SetFullscreen()
         {
+            // Checks if we have disabled button calls
             if (!disableCalls)
             {
+                // Sets whether it the game is fullscreen using the toggle
                 isFullscreen = fullscreenToggle.isOn;
+
+                // Sets settings saved to false since a setting has been changed
                 settingsSaved = false;
 
                 // Play sound
@@ -397,54 +433,95 @@ namespace HiveMind.Menus
             }
         }
 
+        /// <summary>
+        /// Updates the brightness setting
+        /// </summary>
+        /// <param name="type"> Whether the interface is a text box or a slider</param>
         public void ChangeBrightness(int type)
         {
+            // Checks if we have disabled button calls
             if (!disableCalls)
             {
+                // CHecks the given type
                 switch (type)
                 {
+                    // If the input type is a text input field
                     case 0:
+                        // textInputs[5] is the reference to the brightness input field
+                        // Parses the value in the input field into the brightness variable
                         brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
                         break;
 
+                    // If the input type is a slider
                     case 1:
+                        // Saves the slider value into the brightness variable
                         brightness = sliders[5].value;
                         break;
                 }
+
+                // Sets settings saved to false since a setting has been changed
                 settingsSaved = false;
             }
         }
 
+        /// <summary>
+        /// Sets the highlighted menu button to the given button index
+        /// </summary>
+        /// <param name="button"> The button index that should be highlighted</param>
         public void SetButton(int button)
         {
-            checkButtons = true;
-            for (int i = 0; i < navButtons.Length; i++)
+            // Checks if we have disabled button calls
+            if (!disableCalls)
             {
-                navButtons[i].GetComponent<Button>().interactable = true;
-            }
-            navButtons[button].GetComponent<Button>().interactable = false;
+                // Sets check buttons to true so that the buttons are actually updated
+                checkButtons = true;
 
-            // Play sound
-            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UITab, transform.position);
+                // Loops through the navButtons array
+                for (int i = 0; i < navButtons.Length; i++)
+                {
+                    // Sets each button to interactable
+                    navButtons[i].GetComponent<Button>().interactable = true;
+                }
+                // Sets the button at the given index to non interactable
+                navButtons[button].GetComponent<Button>().interactable = false;
+
+                // Play sound
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UITab, transform.position);
+            }
         }
 
+        /// <summary>
+        /// Adjuts a slider based on the text input value
+        /// </summary>
+        /// <param name="index"> The index of the slider/textInput pair we are changing </param>
         public void AdjustSlider(int index)
         {
+            // If text inputs isnt null and we havent disabled calls
             if (!disableCalls && textInputs != null)
             {
+                // Checks if text inputs and sliders arent empty and that we can parse the value int he given text inputs field
                 if (textInputs.Length > 0 && sliders.Length > 0 && int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
                 {
+                    // Changes the value at the given index
                     sliders[index].value = result;
                 }
             }
         }
 
+        /// <summary>
+        /// Adjusts an input field based on the slider value
+        /// </summary>
+        /// <param name="index"> The index of the slider/textInput pair we are changing </param>
+
         public void AdjustInputField(int index)
         {
+            // If sliders isnt null and we havent disabled calls
             if (!disableCalls && sliders != null)
             {
+                // Checks if text inputs and sliders arent empty
                 if (textInputs.Length > 0 && sliders.Length > 0)
                 {
+                    // Changes the value at the given index
                     textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
                 }
             }
