@@ -57,9 +57,9 @@ public class BouncingEffect : MonoBehaviour
             if (lowestPoint.y < transform.position.y)
             {
                 // Sets touching wall to true and assigns the mushroom position to the lowest point
-                movementEvent.SetIsTouchingWall(true);
                 movementEvent.SetMushroomPosition(lowestPoint);
                 movementEvent.SetWallCollisionPoint(contacts[0].point);
+                movementEvent.SetIsTouchingWall(true);
             }
         }
     }
@@ -93,9 +93,9 @@ public class BouncingEffect : MonoBehaviour
             if (lowestPoint.y < transform.position.y)
             {
                 // Sets touching wall to true and assigns the mushroom position to the lowest point and the wall collision point
-                movementEvent.SetIsTouchingWall(true);
                 movementEvent.SetMushroomPosition(lowestPoint);
                 movementEvent.SetWallCollisionPoint(contacts[0].point);
+                movementEvent.SetIsTouchingWall(true);
             }
         }
     }
@@ -110,8 +110,9 @@ public class BouncingEffect : MonoBehaviour
         if (collision.gameObject.name == "WallJump")
         {
             // Sets touching wall to false and the mushroom position to off screen
-            movementEvent.SetIsTouchingWall(false);
             movementEvent.SetMushroomPosition(new Vector3(-1000, -1000, -1000));
+            movementEvent.SetWallCollisionPoint(new Vector3(-1000, -1000, -1000));
+            movementEvent.SetIsTouchingWall(false);
         }
     }
 
