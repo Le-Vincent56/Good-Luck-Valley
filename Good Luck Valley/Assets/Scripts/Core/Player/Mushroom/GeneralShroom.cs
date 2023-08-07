@@ -178,6 +178,7 @@ namespace HiveMind.Mushroom
                     // Rotate and freeze the shroom
                     if (shroomType == ShroomType.Wall)
                     {
+                        Debug.Log("rotation: " + rotation);
                         RotateAndFreeze(rotation);
                     }
                     else
@@ -185,17 +186,17 @@ namespace HiveMind.Mushroom
                         RotateAndFreeze();
                     }
                 }
-                //// Checks if the sollider is a box collider (decomposable tile or weighted platform)
-                //else if (collision.collider is BoxCollider2D)
-                //{
-                //    // Check if the tile is decomposable
-                //    if (collision.collider.tag == "Decomposable")
-                //    {
-                //        // Set the tile to decomposed
-                //        if (collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed == false)
-                //        {
-                //            collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed = true;
-                //        }
+                // Checks if the collider is a box collider (decomposable tile or weighted platform)
+                else if (collision.collider is BoxCollider2D)
+                {
+                    // Check if the tile is decomposable
+                    if (collision.collider.tag == "Decomposable")
+                    {
+                        // Set the tile to decomposed
+                        if (collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed == false)
+                        {
+                            collision.gameObject.GetComponent<DecompasableTile>().IsDecomposed = true;
+                        }
 
                 //        // Rotate and freeze the shroom
                 //        RotateAndFreeze();

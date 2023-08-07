@@ -260,6 +260,7 @@ namespace HiveMind.Mushroom
             // Adds a force to the shroom at the end of the mushroom list and freezes its rotation
             mushroomList[mushroomList.Count - 1].GetComponent<Rigidbody2D>().AddForce(forceDirection.normalized * throwMultiplier, ForceMode2D.Impulse);
             mushroomList[mushroomList.Count - 1].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            mushroomList[mushroomList.Count - 1].GetComponent<Shroom>().Rotation = -1;
 
             // Check if infinite shrooms is off
             if (mushroomLimit == 3)

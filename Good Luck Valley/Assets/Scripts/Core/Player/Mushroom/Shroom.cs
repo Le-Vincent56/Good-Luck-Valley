@@ -209,6 +209,27 @@ namespace HiveMind.Mushroom
                 }
             }
             //Vector2 direction = contactPoint.normal;
+            Vector3 diff = new Vector3(0.1f, 0, 0);
+            if (contactPoint.point.x < transform.position.x)
+            {
+                diff *= -1;
+            }
+
+            // If we have manually set the override rotation to -1 (in throwMushroom)
+            if (overrideRotation == -1)
+            {
+                // Check if the wall is to the left
+                if (diff.x < 0)
+                {
+                    // Set the rotation to be -90
+                    overrideRotation = -90;
+                }
+                else
+                {
+                    // Set the rotation to be -90
+                    overrideRotation = 90;
+                }
+            }
 
             // The angle that the shroom is going to rotate at
             //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -231,14 +252,13 @@ namespace HiveMind.Mushroom
                     break;
 
                 case ShroomType.Wall:
-                    Vector3 diff = new Vector3(0.1f, 0, 0);
-                    if (contactPoint.point.x < transform.position.x)
-                    {
-                        diff *= -1;
-                    }
                     shroom = Instantiate(wallShroom, transform.position + diff, rotation);
 
                     // Adjusts angle for the wall shroom specifically
+                    if (overrideRotation == -1)
+                    {
+                        Debug.Log("HUHH");
+                    }
                     overrideRotation = (overrideRotation * -1) - 90;
                     break;
 
