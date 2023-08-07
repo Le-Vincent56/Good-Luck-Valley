@@ -118,7 +118,6 @@ public abstract class Shroom : MonoBehaviour
     /// </summary>
     public void RotateAndFreeze()
     {
-        Debug.Log("Regular Rotate and Freeze");
         // Saves the colliders of the platforms the shroom is coming into contact with intos an array
         ContactPoint2D[] contactsTemp = new ContactPoint2D[10];
         ContactPoint2D[] contacts = new ContactPoint2D[GetComponent<CircleCollider2D>().GetContacts(contactsTemp)];
@@ -194,7 +193,6 @@ public abstract class Shroom : MonoBehaviour
     /// </summary>
     public void RotateAndFreeze(float overrideRotation)
     {
-        Debug.Log("Override Rotate and Freeze");
         // Saves the colliders of the platforms the shroom is coming into contact with intos an array
         ContactPoint2D[] contactsTemp = new ContactPoint2D[10];
         ContactPoint2D[] contacts = new ContactPoint2D[GetComponent<CircleCollider2D>().GetContacts(contactsTemp)];
