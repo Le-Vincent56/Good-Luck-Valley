@@ -34,6 +34,9 @@ namespace HiveMind.LevelLoad
         /// </summary>
         public void LoadNextLevel()
         {
+            // Save the level before loading
+            DataManager.Instance.SaveGame();
+
             StartCoroutine(LoadingLevel(SceneManager.GetActiveScene().buildIndex + 1));
         }
 
