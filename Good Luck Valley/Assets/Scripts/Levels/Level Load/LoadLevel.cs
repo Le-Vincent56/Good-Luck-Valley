@@ -76,6 +76,9 @@ namespace HiveMind.LevelLoad
         /// </summary>
         public void StartLoading()
         {
+            // Save the game in case of mid-load exiting
+            DataManager.Instance.SaveGame();
+
             // Disable the HUD while loading
             disableEvent.DisableHUD();
 

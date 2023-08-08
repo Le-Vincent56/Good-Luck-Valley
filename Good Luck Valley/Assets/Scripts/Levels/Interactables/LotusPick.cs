@@ -270,8 +270,6 @@ namespace HiveMind.Interactables
         {
             while (AudioManager.Instance.GetDampen() > 0)
             {
-                Debug.Log("Undampening (" + AudioManager.Instance.GetDampen() + ")");
-
                 // Let other code run
                 yield return null;
 
@@ -284,12 +282,8 @@ namespace HiveMind.Interactables
             Debug.Log("Getting pulse: " + playbackStatePulse.ToString());
             if (!playbackStatePulse.Equals(PLAYBACK_STATE.STOPPED))
             {
-                Debug.Log("Stopping pulse");
                 // If so, stop it
                 AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
-
-                // Finish interacting
-                Debug.Log("Undampen Sound Finish");
             }
         }
 
