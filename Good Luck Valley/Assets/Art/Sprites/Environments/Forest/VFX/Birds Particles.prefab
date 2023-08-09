@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5746438926490260731}
-  m_LocalRotation: {x: -0, y: -0, z: -0.040701736, w: 0.9991714}
+  m_LocalRotation: {x: 0, y: 0, z: -0.040698607, w: 0.9991715}
   m_LocalPosition: {x: 21.829, y: -12.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -51,7 +51,16 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 2
+        m_Name: RandomLifetimeA
+        m_Overridden: 1
+      - m_Value: 3
+        m_Name: RandomLifetimeB
+        m_Overridden: 1
+      - m_Value: 8
+        m_Name: SpawnRate
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -155,5 +164,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   birdsParticle: {fileID: 5746438926490260678}
   birdDefaultAngle: {x: 0, y: 0, z: 0}
-  birdFlapAngle: {x: 0, y: 0, z: 0}
-  birdDuration: 2
+  birdFlapAngle: {x: 180, y: 0, z: -90}
+  birdDuration: 1
