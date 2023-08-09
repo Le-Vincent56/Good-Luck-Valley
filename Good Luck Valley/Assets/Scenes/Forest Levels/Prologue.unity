@@ -70126,6 +70126,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1478362559 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6260242308882577169, guid: 4788b279466473a499dc4b001838241a, type: 3}
+  m_PrefabInstance: {fileID: 1794716511}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87a03cdd0532f043bd14b77220359d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1478782325
 GameObject:
   m_ObjectHideFlags: 0
@@ -73772,6 +73783,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2574768657504759204, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1478362559}
+    - target: {fileID: 2574768657504759204, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574768657504759204, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HiveMind.Menus.SettingsManager, GoodLuckValley.UI
+      objectReference: {fileID: 0}
     - target: {fileID: 2574768657647596105, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -73790,11 +73813,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657802811097, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HiveMind.Menus.SettingsManager, Assembly-CSharp
+      value: HiveMind.Menus.SettingsManager, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657802811097, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: HiveMind.Menus.PauseMenu, Assembly-CSharp
+      value: HiveMind.Menus.PauseMenu, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 2574768657819380113, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -73854,11 +73877,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4968851345553380421, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HiveMind.Menus.SaveSlotsPauseMenu, Assembly-CSharp
+      value: HiveMind.Menus.SaveSlotsPauseMenu, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 4968851345553380421, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: HiveMind.Menus.SaveSlot, Assembly-CSharp
+      value: HiveMind.Menus.SaveSlot, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 5017601955900602716, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -73878,11 +73901,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330085140556798924, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HiveMind.Menus.SaveSlotsPauseMenu, Assembly-CSharp
+      value: HiveMind.Menus.SaveSlotsPauseMenu, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 6330085140556798924, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: HiveMind.Menus.SaveSlot, Assembly-CSharp
+      value: HiveMind.Menus.SaveSlot, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 6680292651872343806, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_UpdateBindingUIEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -73890,11 +73913,11 @@ PrefabInstance:
       objectReference: {fileID: 537902709}
     - target: {fileID: 6868913000966454737, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HiveMind.Menus.SaveSlotsPauseMenu, Assembly-CSharp
+      value: HiveMind.Menus.SaveSlotsPauseMenu, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 6868913000966454737, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: HiveMind.Menus.SaveSlot, Assembly-CSharp
+      value: HiveMind.Menus.SaveSlot, GoodLuckValley.UI
       objectReference: {fileID: 0}
     - target: {fileID: 6934267979955361441, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera

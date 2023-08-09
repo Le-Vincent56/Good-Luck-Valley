@@ -109,9 +109,11 @@ namespace HiveMind.Menus
             }
         }
 
+        /// <summary>
+        /// Closes the in-game settings menu
+        /// </summary>
         public void CloseSettings()
         {
-            Debug.Log("Close Settings");
             pauseUI.enabled = true;
             settingsUI.enabled = false;
             paused = true;
