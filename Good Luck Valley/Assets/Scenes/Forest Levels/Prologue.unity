@@ -79145,6 +79145,8 @@ GameObject:
   - component: {fileID: 2098515296}
   - component: {fileID: 2098515298}
   - component: {fileID: 2098515297}
+  - component: {fileID: 2098515299}
+  - component: {fileID: 2098515300}
   m_Layer: 0
   m_Name: Birds
   m_TagString: Untagged
@@ -79227,7 +79229,10 @@ VisualEffect:
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 1, y: 5, z: 0}
+        m_Name: RandomVelocityA
+        m_Overridden: 0
     m_Vector4f:
       m_Array: []
     m_Uint:
@@ -79244,6 +79249,45 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!61 &2098515299
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098515295}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.0707376, y: 0.40838766}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.8086557, y: 4.5997934}
+  m_EdgeRadius: 0
+--- !u!114 &2098515300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098515295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d7200b9bd662e4fbc6e7937e9de2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  birdsParticle: {fileID: 2098515298}
 --- !u!1 &2101885060
 GameObject:
   m_ObjectHideFlags: 0
