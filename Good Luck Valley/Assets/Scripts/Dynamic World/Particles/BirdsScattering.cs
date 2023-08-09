@@ -14,7 +14,6 @@ public class BirdsScattering : MonoBehaviour
 
     #region FIELDS
     private bool birdsPlayed = false;
-    private bool birdsPlaying = false;
     #endregion
 
     #region PROPERTIES
@@ -29,9 +28,22 @@ public class BirdsScattering : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !birdsPlayed)
         {
+            birdsParticle.enabled = true;
             birdsParticle.Play();
-            birdsPlaying = true;
+            StartCoroutine(BirdsTimer());
             birdsPlayed = true;
         }
+    }
+
+    private IEnumerator BirdsTimer()
+    {
+        float elapsedTime = 0f;
+        int durationID = Shader.PropertyToID("RandomLifetimeB");
+        while (elapsedTime < birdsParticle.GetFloat(durationID))
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        birdsParticle.Stop();
     }
 }
