@@ -23,17 +23,17 @@ namespace HiveMind.Menus
         #endregion
 
         #region FIELDS
-        private bool checkQuit;
+        [SerializeField] private bool checkQuit;
         [SerializeField] static int previousScene;
         [SerializeField] static int currentScene;
-        private static bool checkButtons;
-        private static bool disableCalls;
-        private static bool[] accessibilityTools;
-        private static bool isFullscreen = true;
-        private static float brightness;
-        private static Vector2 resValues;
-        private static bool subtitlesEnabled;
-        private static bool settingsSaved;
+        [SerializeField] private bool checkButtons;
+        [SerializeField] private bool disableCalls;
+        [SerializeField] private bool[] accessibilityTools;
+        [SerializeField] private bool isFullscreen = true;
+        [SerializeField] private float brightness;
+        [SerializeField] private Vector2 resValues;
+        [SerializeField] private bool subtitlesEnabled;
+        [SerializeField] private bool settingsSaved;
         #endregion
 
         #region PROPERTIES
@@ -137,6 +137,7 @@ namespace HiveMind.Menus
                 // Check if we should update the navigation buttons visuals
                 if (checkButtons)
                 {
+                    Debug.Log("Changing buttons");
                     // Loop through navButtons 
                     for (int i = 0; i < navButtons.Length; i++)
                     {
@@ -275,6 +276,7 @@ namespace HiveMind.Menus
 
         public void Back(PauseMenu pause)
         {
+            Debug.Log("Back Called");
             if (settingsSaved)
             {
                 // Close settings screen
@@ -310,6 +312,7 @@ namespace HiveMind.Menus
         /// <param name="confirmCheckNum"> The number associated with the confirmation check box that is being called (input in inspector)</param>
         public void ConfirmationCheck(int confirmCheckNum)
         {
+            Debug.Log("Check Quit: " + checkQuit);
             if (checkQuit)
             {
                 //if (previousScene == 1)
@@ -332,21 +335,6 @@ namespace HiveMind.Menus
                 }
                 // Disable check quit so that the next time the function is called it uses the else statement
                 checkQuit = false;
-            }
-            // Only happens if the user presses 'yes' on the confirmation box
-            else
-            {
-                // Switch statement based on current scene
-                switch (currentScene)
-                {
-                    // If the scene is the title screen then the confirmation box should close the game
-                    case 1:
-                        Application.Quit(); // Closes application
-                        break;
-
-                    case 5:
-                        break;
-                }
             }
         }
 
@@ -470,6 +458,7 @@ namespace HiveMind.Menus
         /// <param name="button"> The button index that should be highlighted</param>
         public void SetButton(int button)
         {
+            Debug.Log("setting new button");
             // Checks if we have disabled button calls
             if (!disableCalls)
             {
