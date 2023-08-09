@@ -558,8 +558,8 @@ namespace HiveMind.Movement
                         CheckDirectionToFace(moveInput.x > 0);
                     }
 
-                    // If the player is not in the load trigger, set the levelpos type to default
-                    if (!loadLevelEvent.GetInLoadTrigger())
+                    // If the player is not in the load trigger and the game is not currently loading, set the levelpos type to default
+                    if (!loadLevelEvent.GetInLoadTrigger() && !loadLevelEvent.GetIsLoading())
                     {
                         levelDataObj.SetLevelPos(SceneManager.GetActiveScene().name, LEVELPOS.DEFAULT);
                     }
