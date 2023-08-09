@@ -12,6 +12,7 @@ public class BirdsScattering : MonoBehaviour
     [SerializeField] private VisualEffect birdsParticle;
     [SerializeField] Vector3 birdDefaultAngle;
     [SerializeField] Vector3 birdFlapAngle;
+    [SerializeField] float birdDuration;
     #endregion
 
     #region FIELDS
@@ -25,6 +26,11 @@ public class BirdsScattering : MonoBehaviour
     {
         birdsPlayed = false;
         birdDefaultAngle = birdsParticle.GetVector3(Shader.PropertyToID("BirdAngle"));
+        if (birdDuration == 0)
+        {
+            int durationID = Shader.PropertyToID("RandomLifetimeB");
+            birdDuration = birdsParticle.GetFloat(durationID);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,23 +47,23 @@ public class BirdsScattering : MonoBehaviour
     private IEnumerator BirdsTimer()
     {
         float elapsedTime = 0f;
-        int counter = 0;
-        int durationID = Shader.PropertyToID("RandomLifetimeB");
-        Vector3 birdAngle = birdsParticle.GetVector3(Shader.PropertyToID("BirdAngle"));
-        while (elapsedTime < birdsParticle.GetFloat(durationID))
+        // Vector3 birdAngle = birdsParticle.GetVector3(Shader.PropertyToID("BirdAngle"));
+        // int counter = 0;
+        while (elapsedTime < birdDuration)
         {
-            if (birdAngle == birdDefaultAngle && counter == 3)
-            {
-                Debug.Log("changing to flap: " + birdFlapAngle);
-                birdAngle = birdFlapAngle;
-            }
-            else if (birdAngle == birdFlapAngle && counter == 6)
-            {
-                Debug.Log("changing to default: " + birdDefaultAngle);
-                birdAngle = birdDefaultAngle;
-                counter = 0;
-            }
-            counter++;
+            // Testing out making birds flap, required?
+            //if (birdAngle == birdDefaultAngle && counter == 3)
+            //{
+            //    Debug.Log("changing to flap: " + birdFlapAngle);
+            //    birdAngle = birdFlapAngle;
+            //}
+            //else if (birdAngle == birdFlapAngle && counter == 6)
+            //{
+            //    Debug.Log("changing to default: " + birdDefaultAngle);
+            //    birdAngle = birdDefaultAngle;
+            //    counter = 0;
+            //}
+            //counter++;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
