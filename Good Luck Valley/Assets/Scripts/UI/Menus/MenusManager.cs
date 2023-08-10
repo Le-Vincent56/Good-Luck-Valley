@@ -1021,6 +1021,7 @@ namespace HiveMind.Menus
         /// </summary>
         private void ResetSettings()
         {
+            Debug.Log("Reset Settings");
             // Makes it so that on-change functions dont happen
             // when changing toggle values
             disableCalls = true;
