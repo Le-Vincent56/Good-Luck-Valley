@@ -197,6 +197,11 @@ namespace HiveMind.Interactables
                         colorToSet.b = vignette.color.value.b * (1f - soundPercentage);
                     }
 
+                    if(currentColor.a < vignette.color.value.a)
+                    {
+                        colorToSet.a = vignette.color.value.a * (1f - soundPercentage);
+                    }
+
                     postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(1f - soundPercentage, postProcessingEvent.GetVignetteDefaultSmoothness(), vignette.smoothness.value));
                     postProcessingEvent.SetVignetteColor(colorToSet);
                     postProcessingEvent.SetVignetteIntensity(currentIntensity);
@@ -351,13 +356,14 @@ namespace HiveMind.Interactables
                 || postProcessingEvent.GetVignetteSmoothness() > postProcessingEvent.GetVignetteDefaultSmoothness()
                 || postProcessingEvent.GetVignetteColor().r > postProcessingEvent.GetVignetteDefaultColor().r
                 || postProcessingEvent.GetVignetteColor().g > postProcessingEvent.GetVignetteDefaultColor().g
-                || postProcessingEvent.GetVignetteColor().b > postProcessingEvent.GetVignetteDefaultColor().b)
+                || postProcessingEvent.GetVignetteColor().b > postProcessingEvent.GetVignetteDefaultColor().b
+                || postProcessingEvent.GetVignetteColor().a > postProcessingEvent.GetVignetteDefaultColor().a)
             {
                 yield return null;
 
                 float currentIntensity = postProcessingEvent.GetVignetteIntensity() - (Time.deltaTime * 3f);
                 Color currentColor = postProcessingEvent.GetVignetteColor();
-                Color colorToSet = new Color(currentColor.r - (Time.deltaTime * 3f), currentColor.g - (Time.deltaTime * 3f), currentColor.b - (Time.deltaTime * 3f));
+                Color colorToSet = new Color(currentColor.r - (Time.deltaTime * 3f), currentColor.g - (Time.deltaTime * 3f), currentColor.b - (Time.deltaTime * 3f), currentColor.a - (Time.deltaTime * 3f));
                 postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(postProcessingEvent.GetVignetteSmoothness() - (Time.deltaTime * 3f), 0.2f, 1.0f));
                 postProcessingEvent.SetVignetteColor(colorToSet);
                 postProcessingEvent.SetVignetteIntensity(Mathf.Clamp(currentIntensity, 0f, 1f));
