@@ -16,7 +16,7 @@ namespace HiveMind.Events
         [SerializeField] private float vignetteDefaultIntensity;
         [SerializeField] private float vignetteIntensity;
         [SerializeField] private float vignetteDefaultSmoothness;
-        [SerializeField] private float vignetteSmoothess;
+        [SerializeField] private float vignetteSmoothness;
         [SerializeField] private bool vignetteDefaultRounded;
         [SerializeField] private bool vignetteRounded;
 
@@ -108,9 +108,9 @@ namespace HiveMind.Events
         /// Set the current vignette smoothness
         /// </summary>
         /// <param name="vignetteSmoothess">The vignette smoothness to set</param>
-        public void SetVignetteSmoothness(float vignetteSmoothess)
+        public void SetVignetteSmoothness(float vignetteSmoothness)
         {
-            this.vignetteSmoothess = Mathf.Clamp(vignetteSmoothess, 0.0f, 1.0f);
+            this.vignetteSmoothness = Mathf.Clamp(vignetteSmoothness, 0.0f, 1.0f);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace HiveMind.Events
         /// <returns>The current smoothness of the vignette</returns>
         public float GetVignetteSmoothness()
         {
-            return vignetteSmoothess;
+            return vignetteSmoothness;
         }
 
         /// <summary>

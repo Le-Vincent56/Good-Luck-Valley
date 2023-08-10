@@ -110,7 +110,8 @@ namespace HiveMind.Core
                 currentIntensity = vignette.intensity.value;
 
                 // Set smoothness
-                currentSmoothness = postProcessingEvent.GetVignetteSmoothness();
+                vignette.smoothness.value = postProcessingEvent.GetVignetteSmoothness();
+                currentSmoothness = vignette.smoothness.value;
 
                 // Set rounded
                 vignette.rounded.value = rounded;
