@@ -434,6 +434,9 @@ namespace HiveMind.Menus
         {
             if (checkQuit)
             {
+                // Play the UI button sound
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
                 //if (previousScene == 1)
                 //{
                 //    Debug.Log("Loading Save");
@@ -768,6 +771,9 @@ namespace HiveMind.Menus
             // Checks if we have disabled button calls
             if (!disableCalls)
             {
+                // Play the UI button sound
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
+
                 // Sets whether it the game is fullscreen using the toggle
                 isFullscreen = fullscreenToggle.isOn;
 
@@ -1099,5 +1105,14 @@ namespace HiveMind.Menus
             }
         }
         #endregion
+
+        /// <summary>
+        /// Plays the button sound
+        /// </summary>
+        public void PlayButtonSound()
+        {
+            // Play the UI button sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+        }
     }
 }
