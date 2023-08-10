@@ -60,6 +60,9 @@ namespace HiveMind.Menus
         /// <param name="saveSlot">The save slot being clicked</param>
         public void OnSaveSlotClicked(SaveSlot saveSlot)
         {
+            // Play the UI sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
             // Check if there was a previously selected save slot
             if (selectedSaveSlot != null)
             {
@@ -125,6 +128,9 @@ namespace HiveMind.Menus
         /// </summary>
         public void StartSave()
         {
+            // Play the UI button sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
             if (!selectedSaveSlot.HasData)
             {
                 // Create a new game, which will initialize our data to a clean slate
@@ -166,6 +172,9 @@ namespace HiveMind.Menus
         /// </summary>
         public void DeleteSave()
         {
+            // Play the UI button sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
             // Activate the confirmation menu
             deleteConfirmationMenu.ActivateMenu(
                     "Are you sure you want to delete this save?",

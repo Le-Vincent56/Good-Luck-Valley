@@ -549,6 +549,9 @@ namespace HiveMind.Menus
         /// </summary>
         public void Back()
         {
+            // Play the UI button sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
             if (settingsSaved)
             {
 
@@ -813,6 +816,9 @@ namespace HiveMind.Menus
             // Checks if we have disabled button calls
             if (!disableCalls)
             {
+                // Play the UI button sound
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UITab, transform.position);
+
                 // Sets check buttons to true so that the buttons are actually updated
                 checkButtons = true;
 
@@ -901,6 +907,9 @@ namespace HiveMind.Menus
             // Checks if we have disabled button calls
             if (!disableCalls)
             {
+                // Play the UI button sound
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
+
                 // Sets the accessibility tool at the given index to be the opposite of itself
                 accessibilityTools[index] = !accessibilityTools[index];
 
@@ -981,6 +990,9 @@ namespace HiveMind.Menus
         /// </summary>
         public void ApplySettings()
         {
+            // Play the UI button sound
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
             // Bool in Settings.cs that lets it know if it should update the
             //  game state based on enabled settings
             settings.UpdateSettings();
