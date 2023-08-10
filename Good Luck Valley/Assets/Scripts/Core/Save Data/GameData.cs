@@ -1,5 +1,6 @@
 using HiveMind.Audio;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace HiveMind.SaveData
 {
@@ -35,6 +36,10 @@ namespace HiveMind.SaveData
         #region GENERAL
         public float playtimeTotal;
         public string playtimeString;
+        #endregion
+
+        #region POST-PROCESSING
+        public VolumeProfile volumeProfile;
         #endregion
 
         #region PLAYER
