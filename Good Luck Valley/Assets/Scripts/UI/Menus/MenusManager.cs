@@ -131,6 +131,13 @@ namespace HiveMind.Menus
                 fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
                 subtitlesToggle = GameObject.Find("SubtitlesToggle").GetComponent<Toggle>();
 
+                // Get references to all sliders and text inputs
+                for (int i = 0; i < 6; i++)
+                {
+                    textInputs[i] = GameObject.Find("TextInput" + i);
+                    sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+                }
+
                 // Call load functions to assign local variables and ensure UI match values
                 LoadAudio();
 
@@ -298,12 +305,7 @@ namespace HiveMind.Menus
         #region VALUE ASSIGNING/LOADING HELPER METHODS
         private void LoadAudio()
         {
-            // Get references to all sliders and text inputs
-            for (int i = 0; i < 6; i++)
-            {
-                textInputs[i] = GameObject.Find("TextInput" + i);
-                sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
-            }
+            Debug.Log("Audio Values: master; " + settings.MasterVolume + ". music; " + settings.MusicVolume + ". sfx; " + settings.SFXVolume + ". ambient; " + settings.AmbientVolume);
 
             // Assign values for AUDIO settings input fields using values from settings
             textInputs[0].GetComponent<TMP_InputField>().text = settings.MasterVolume.ToString();
@@ -316,7 +318,7 @@ namespace HiveMind.Menus
             sliders[0].value = settings.MasterVolume;
             sliders[1].value = settings.MusicVolume;
             sliders[2].value = settings.SFXVolume;
-            sliders[3].value = settings.AmbientVolume;
+            sliders[3].value = settings.AmbientVolume; 
             sliders[4].value = settings.VoicesVolume;
         }
 
@@ -845,11 +847,14 @@ namespace HiveMind.Menus
         /// <param name="index"> The index of the slider/textInput pair we are changing </param>
         public void AdjustSlider(int index)
         {
-            // Checks if the text inputs and sliders arrays are not empty and that the value in the textInput can be parsed into an int
-            if (textInputs.Length > 0 && sliders.Length > 0 && int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
+            if (!disableCalls)
             {
-                // Changes the value of the slider 
-                sliders[index].value = result;
+                // Checks if the text inputs and sliders arrays are not empty and that the value in the textInput can be parsed into an int
+                if (textInputs.Length > 0 && sliders.Length > 0 && int.TryParse(textInputs[index].GetComponent<TMP_InputField>().text, out int result))
+                {
+                    // Changes the value of the slider 
+                    sliders[index].value = result;
+                }
             }
         }
 
@@ -859,11 +864,14 @@ namespace HiveMind.Menus
         /// <param name="index"> The index of the slider/textInput pair we are changing </param>
         public void AdjustInputField(int index)
         {
-            // If the text inputs and sliders arrays arent empty
-            if (textInputs.Length > 0 && sliders.Length > 0)
+            if (!disableCalls)
             {
-                // Sets the textInput text value to the slider's value
-                textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+                // If the text inputs and sliders arrays arent empty
+                if (textInputs.Length > 0 && sliders.Length > 0)
+                {
+                    // Sets the textInput text value to the slider's value
+                    textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+                }
             }
         }
 
@@ -873,31 +881,46 @@ namespace HiveMind.Menus
         /// <param name="index"></param>
         public void AdjustSoundInputField(int index)
         {
-            // Checks if the text inputs and sliders array isnt empty
-            if (textInputs.Length > 0 && sliders.Length > 0)
+            if (!disableCalls)
             {
-                // Sets the text value to the sliders value
-                textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
-            }
+                // Checks if the text inputs and sliders array isnt empty
+                if (textInputs.Length > 0 && sliders.Length > 0)
+                {
+                    // Sets the text value to the sliders value
+                    textInputs[index].GetComponent<TMP_InputField>().text = sliders[index].value.ToString();
+                }
 
-            // Set live changes so they can hear the music :D
-            switch (index)
-            {
-                case 0:
-                    AudioManager.Instance.SetMasterVolume(sliders[index].value / 100f);
-                    break;
+                // Set live changes so they can hear the music :D
+                switch (index)
+                {
+                    case 0:
+                        AudioManager.Instance.SetMasterVolume(sliders[index].value / 100f);
 
-                case 1:
-                    AudioManager.Instance.SetMusicVolume(sliders[index].value / 100f);
-                    break;
+                        UpdateAudioSettings();
+                        break;
 
-                case 2:
-                    AudioManager.Instance.SetSFXVolume(sliders[index].value / 100f);
-                    break;
+                    case 1:
+                        AudioManager.Instance.SetMusicVolume(sliders[index].value / 100f);
 
-                case 3:
-                    AudioManager.Instance.SetAmbienceVolume(sliders[index].value / 100f);
-                    break;
+                        UpdateAudioSettings();
+                        break;
+
+                    case 2:
+                        AudioManager.Instance.SetSFXVolume(sliders[index].value / 100f);
+
+                        UpdateAudioSettings();
+                        break;
+
+                    case 3:
+                        AudioManager.Instance.SetAmbienceVolume(sliders[index].value / 100f);
+
+                        UpdateAudioSettings();
+                        break;
+
+                    default:
+                        Debug.LogWarning("Audio index was out of bounds");
+                        break;
+                }
             }
         }
 
@@ -983,6 +1006,7 @@ namespace HiveMind.Menus
             settings.SFXVolume = sliders[2].value;
             settings.AmbientVolume = sliders[3].value;
             settings.VoicesVolume = sliders[4].value;
+            Debug.Log("Audio Values: master; " + settings.MasterVolume + ". music; " + settings.MusicVolume + ". sfx; " + settings.SFXVolume + ". ambient; " + settings.AmbientVolume);
         }
         #endregion
 
@@ -1015,6 +1039,16 @@ namespace HiveMind.Menus
             // Disables confirmation check
             settingsSaved = true;
         }
+
+        /// <summary>
+        /// Updates the audio settings
+        /// </summary>
+        public void UpdateAudioSettings()
+        {
+            ApplyAudio();
+            DataManager.Instance.SaveSettings();
+        }
+            
 
         /// <summary>
         /// Resets settings to their default values
