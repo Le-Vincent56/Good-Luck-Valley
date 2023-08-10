@@ -58406,6 +58406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 577657422}
+  - component: {fileID: 577657423}
   m_Layer: 0
   m_Name: Post Processing
   m_TagString: Untagged
@@ -58429,6 +58430,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &577657423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577657421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6b3f93c67107d4895da4154e3fb87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  postProcessingEvent: {fileID: 11400000, guid: 80d520e5d4693bd479e241df40c2c594, type: 2}
+  volumeProfile: {fileID: 11400000, guid: fad36f29b55a7a746b27f9abf1a771c7, type: 2}
+  loadedProfile: {fileID: 0}
+  baseProfile: {fileID: 11400000, guid: f8223a6c5172bf14f994dbff9c286598, type: 2}
+  vignette: {fileID: 0}
+  baseVignette: {fileID: 0}
+  currentColor: {r: 0, g: 0, b: 0, a: 0}
+  currentCenter: {x: 0, y: 0}
+  currentIntensity: 0
+  currentSmoothness: 0
+  currentRounded: 0
 --- !u!1001 &582858221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67668,7 +67692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1907502018104928409, guid: b5b043dbbb687894e933b93128453478, type: 3}
       propertyPath: m_SortingLayer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1907502018104928409, guid: b5b043dbbb687894e933b93128453478, type: 3}
       propertyPath: m_SortingLayerID
@@ -74067,6 +74091,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6934267981277640121, guid: 4788b279466473a499dc4b001838241a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -46.46501
+      objectReference: {fileID: 0}
     - target: {fileID: 6934267981321558900, guid: 4788b279466473a499dc4b001838241a, type: 3}
       propertyPath: m_Camera
       value: 
@@ -78058,7 +78086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3504526322146999676, guid: bc9a43f35f3c375458181387457a6730, type: 3}
       propertyPath: m_SortingLayer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3504526322146999676, guid: bc9a43f35f3c375458181387457a6730, type: 3}
       propertyPath: m_SortingLayerID

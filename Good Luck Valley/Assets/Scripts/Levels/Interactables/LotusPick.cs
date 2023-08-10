@@ -18,6 +18,7 @@ namespace HiveMind.Interactables
         #region REFERENCES
         [SerializeField] private PauseScriptableObj pauseEvent;
         [SerializeField] private DisableScriptableObj disableEvent;
+        [SerializeField] private PostProcessingScriptableObj postProcessingEvent;
         [SerializeField] GameObject vineWall;
         private VisualEffect lotusParticles;
         #endregion
@@ -25,13 +26,22 @@ namespace HiveMind.Interactables
         #region FIELDS
         [SerializeField] private float interactRange;
         [SerializeField] private float fadeAmount;
-        [SerializeField] private bool progressesMusic;
         [SerializeField] private float progressLevel;
         [SerializeField] private float playerDistance;
+        [SerializeField] private bool lotusFinished;
+
+        [Header("Sound")]
+        [SerializeField] private bool progressesMusic;
         [SerializeField] private float maxSoundDistance;
         [SerializeField] private float soundPercentage;
-        [SerializeField] private bool lotusFinished;
         [SerializeField] private bool soundUnDampened;
+
+        [Header("Lotus Vignette")]
+        [SerializeField] private Color lotusVignetteColor = new Color(68f, 42f, 48f);
+
+        [Range(0.181f, 1f)]
+        [SerializeField] private float maxVignetteIntensity = 0.520f;
+        
         #endregion
 
         void Start()
@@ -44,6 +54,15 @@ namespace HiveMind.Interactables
             {
                 fadeAmount = 0.01f;
             }
+
+            // Get the radius of the CircleCollider2D
+            float colliderRadius = GetComponent<CircleCollider2D>().radius;
+
+            // Calculate the vector from the object's position to the center of the collider
+            Vector2 centerToPosition = (Vector2)transform.position; // - GetComponent<CircleCollider2D>().offset;
+
+            // Calculate the distance to the edge of the collider
+            maxSoundDistance = Mathf.Abs(centerToPosition.magnitude - colliderRadius);
         }
 
         void Update()
@@ -113,8 +132,8 @@ namespace HiveMind.Interactables
         {
             if (collision.gameObject.tag == "Player" && active)
             {
-                // Calculate the maximum distance of the collider
-                maxSoundDistance = CalculateDistance(collision);
+                // Check distance between lotus and player
+                playerDistance = CalculateDistance(collision);
 
                 // Start the lotus sound
                 PLAYBACK_STATE playbackStatePulse;
@@ -152,6 +171,31 @@ namespace HiveMind.Interactables
 
                 // Dampen other sounds to really hone in on the effect
                 AudioManager.Instance.DampenMusic(Mathf.Clamp(1f - soundPercentage, 0f, 1f));
+
+                // Change the vignette
+                float currentIntensity = Mathf.Clamp(1f - soundPercentage, 0f, maxVignetteIntensity);
+                Color currentColor = postProcessingEvent.GetVignetteColor();
+
+                Color colorToSet = currentColor;
+                if(currentColor.r < lotusVignetteColor.r)
+                {
+                    colorToSet.r = lotusVignetteColor.r * (1f - soundPercentage);
+                }
+
+                if(currentColor.g < lotusVignetteColor.g)
+                {
+                    colorToSet.g = lotusVignetteColor.g * (1f - soundPercentage);
+                }
+
+                if(currentColor.b < lotusVignetteColor.b)
+                {
+                    colorToSet.b = lotusVignetteColor.b * (1f - soundPercentage);
+                }
+
+                postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(1f - soundPercentage, 0.2f, 1.0f));
+                postProcessingEvent.SetVignetteColor(colorToSet);
+                postProcessingEvent.SetVignetteIntensity(currentIntensity);
+                postProcessingEvent.ChangeVignette(colorToSet, transform.position, currentIntensity, true);
             }
         }
 
@@ -166,6 +210,9 @@ namespace HiveMind.Interactables
                     // If so, start it
                     AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
                 }
+
+                // Reset the vignette
+                postProcessingEvent.ResetVignette();
             }
         }
 
@@ -268,6 +315,10 @@ namespace HiveMind.Interactables
 
         private IEnumerator UndampenSound()
         {
+            // Remove the vignette
+            StartCoroutine(RemoveVignette());
+
+            // Undampen the sound while it is dampened
             while (AudioManager.Instance.GetDampen() > 0)
             {
                 // Let other code run
@@ -277,6 +328,7 @@ namespace HiveMind.Interactables
                 AudioManager.Instance.DampenMusic(AudioManager.Instance.GetDampen() - (Time.deltaTime * 3));
             }
 
+            // Check if pulse is still playing
             PLAYBACK_STATE playbackStatePulse;
             AudioManager.Instance.LotusPulseEventInstance.getPlaybackState(out playbackStatePulse);
             Debug.Log("Getting pulse: " + playbackStatePulse.ToString());
@@ -284,6 +336,27 @@ namespace HiveMind.Interactables
             {
                 // If so, stop it
                 AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
+            }
+        }
+
+        private IEnumerator RemoveVignette()
+        {
+            while(postProcessingEvent.GetVignetteIntensity() > 0f
+                || postProcessingEvent.GetVignetteSmoothness() > postProcessingEvent.GetVignetteDefaultSmoothness()
+                || postProcessingEvent.GetVignetteColor().r > postProcessingEvent.GetVignetteDefaultColor().r
+                || postProcessingEvent.GetVignetteColor().g > postProcessingEvent.GetVignetteDefaultColor().g
+                || postProcessingEvent.GetVignetteColor().b > postProcessingEvent.GetVignetteDefaultColor().b)
+            {
+                yield return null;
+
+                float currentIntensity = postProcessingEvent.GetVignetteIntensity() - (Time.deltaTime * 3f);
+                Color currentColor = postProcessingEvent.GetVignetteColor();
+                Color colorToSet = new Color(currentColor.r - (Time.deltaTime * 3f), currentColor.g - (Time.deltaTime * 3f), currentColor.b - (Time.deltaTime * 3f));
+                postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(postProcessingEvent.GetVignetteSmoothness() - (Time.deltaTime * 3f), 0.2f, 1.0f));
+                postProcessingEvent.SetVignetteColor(colorToSet);
+                postProcessingEvent.SetVignetteIntensity(Mathf.Clamp(currentIntensity, 0f, 1f));
+
+                postProcessingEvent.ChangeVignette(colorToSet, transform.position, currentIntensity, true);
             }
         }
 

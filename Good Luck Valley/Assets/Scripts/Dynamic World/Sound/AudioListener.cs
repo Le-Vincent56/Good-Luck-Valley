@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using HiveMind.Events;
 using HiveMind.Audio;
+using UnityEngine.SceneManagement;
 
 namespace HiveMind.Sound
 {
@@ -25,6 +26,8 @@ namespace HiveMind.Sound
 
         private void OnEnable()
         {
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+
             //EventManager.StartListening("Footsteps", PlayFootsteps);
             movementEvent.footstepEvent.AddListener(PlayFootstepsRun);
             movementEvent.startFootstepEventCutscene.AddListener(PlayFootstepsCutscene);
@@ -36,6 +39,8 @@ namespace HiveMind.Sound
 
         private void OnDisable()
         {
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+
             //EventManager.StopListening("Footsteps", PlayFootsteps);
             movementEvent.footstepEvent.RemoveListener(PlayFootstepsRun);
             movementEvent.startFootstepEventCutscene.RemoveListener(PlayFootstepsCutscene);
@@ -43,6 +48,14 @@ namespace HiveMind.Sound
             movementEvent.fallEvent.RemoveListener(PlayFall);
             movementEvent.landEvent.RemoveListener(StopFall);
             loadLevelEvent.startForestMusicLoad.RemoveListener(UpdateForestMusicProgress);
+        }
+
+        private void OnSceneUnloaded(Scene scene)
+        {
+            // Stop player sounds
+            playerFootstepsGrass.stop(STOP_MODE.IMMEDIATE);
+            playerFootstepsDirt.stop(STOP_MODE.IMMEDIATE);
+            playerFall.stop(STOP_MODE.IMMEDIATE);
         }
 
         private void Start()

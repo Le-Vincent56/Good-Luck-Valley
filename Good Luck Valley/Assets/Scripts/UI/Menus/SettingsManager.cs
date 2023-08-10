@@ -358,10 +358,11 @@ namespace HiveMind.Menus
                 else if (confirmCheckNum == 2)
                 {
                     confirmationCheck2.SetActive(false);
-                }
 
-                // Play sound
-                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+                    // Play sound
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+                    Debug.Log("Sound Played");
+                }
             }
         }
         #endregion

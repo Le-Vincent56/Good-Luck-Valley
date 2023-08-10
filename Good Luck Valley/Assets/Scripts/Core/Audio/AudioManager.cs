@@ -195,6 +195,9 @@ namespace HiveMind.Audio
             switch (currentArea)
             {
                 case MusicArea.MAIN_MENU:
+                    // Undampen the music
+                    DampenMusic(0f);
+
                     // Stop all coroutines - ambient sounds
                     StopAllCoroutines();
 
