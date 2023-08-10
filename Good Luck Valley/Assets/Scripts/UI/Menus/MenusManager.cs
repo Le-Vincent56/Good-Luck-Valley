@@ -529,17 +529,14 @@ namespace HiveMind.Menus
         /// <param name="confirmCheckNum"> The number associated with the confirmation check box that is being cancelled (input in inspector)</param>
         public void Cancel(int confirmCheckNum)
         {
-            if (!checkQuit)
+            checkQuit = true;
+            if (confirmCheckNum == 1)
             {
-                checkQuit = true;
-                if (confirmCheckNum == 1)
-                {
-                    confirmationCheck.SetActive(false);
-                }
-                else if (confirmCheckNum == 2)
-                {
-                    deleteConfirmation.SetActive(false);
-                }
+                confirmationCheck.SetActive(false);
+            }
+            else if (confirmCheckNum == 2)
+            {
+                deleteConfirmation.SetActive(false);
             }
         }
         #endregion

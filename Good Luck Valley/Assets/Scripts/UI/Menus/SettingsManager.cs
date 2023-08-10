@@ -154,7 +154,6 @@ namespace HiveMind.Menus
                     checkButtons = false;
                 }
             }
-
         }
 
         #region ASSIGNING REFERENCES HELPERS
@@ -299,6 +298,7 @@ namespace HiveMind.Menus
             }
             else
             {
+                checkQuit = true;
                 ConfirmationCheck(1);
             }
 
