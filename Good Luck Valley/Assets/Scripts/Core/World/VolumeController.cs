@@ -55,6 +55,7 @@ namespace HiveMind.Core
 
             if (loadedProfile != null)
             {
+                // Set the volume profile to the loaded profile
                 volumeProfile = loadedProfile;
 
                 // Update the current vignette
@@ -68,14 +69,11 @@ namespace HiveMind.Core
                 }
             } else
             {
-                // Update the current vignette
-                if (volumeProfile.TryGet(out vignette))
+                // Retrieve the vignette
+                if(volumeProfile.TryGet(out vignette))
                 {
-                    currentColor = vignette.color.value;
-                    currentCenter = vignette.center.value;
-                    currentIntensity = vignette.intensity.value;
-                    currentSmoothness = vignette.smoothness.value;
-                    currentRounded = vignette.rounded.value;
+                    // Reset the current vignette
+                    ResetVignette();
                 }
             }
 
@@ -98,24 +96,24 @@ namespace HiveMind.Core
             if (vignette != null)
             {
                 // Set color
-                vignette.color.Override(color);
+                vignette.color.value = color;
                 currentColor = vignette.color.value;
 
                 // Center the vignette around the target position
                 Vector3 targetScreenPos = Camera.main.WorldToScreenPoint(targetPosition);
                 Vector2 normalizedScreenPos = new Vector2(targetScreenPos.x / Screen.width, targetScreenPos.y / Screen.height);
-                vignette.center.Override(normalizedScreenPos);
+                vignette.center.value = normalizedScreenPos;
                 currentCenter = vignette.center.value;
 
                 // Set intensity
-                vignette.intensity.Override(Mathf.Clamp(intensity, 0.00f, 1.00f));
+                vignette.intensity.value = Mathf.Clamp(intensity, 0.00f, 1.00f);
                 currentIntensity = vignette.intensity.value;
 
                 // Set smoothness
                 currentSmoothness = postProcessingEvent.GetVignetteSmoothness();
 
                 // Set rounded
-                vignette.rounded.Override(rounded);
+                vignette.rounded.value = rounded;
                 currentRounded = vignette.rounded.value;
             }
         }
@@ -126,27 +124,27 @@ namespace HiveMind.Core
         public void ResetVignette()
         {
             // Reset color
-            vignette.color.Override(baseVignette.color.value);
+            vignette.color.value = baseVignette.color.value;
             currentColor = vignette.color.value;
             postProcessingEvent.SetVignetteColor(currentColor);
 
             // Reset center
-            vignette.center.Override(baseVignette.center.value);
+            vignette.center.value = baseVignette.center.value;
             currentCenter = vignette.center.value;
             postProcessingEvent.SetVignetteCenter(currentCenter);
 
             // Reset intensity
-            vignette.intensity.Override(baseVignette.intensity.value);
+            vignette.intensity.value = baseVignette.intensity.value;
             currentIntensity = vignette.intensity.value;
             postProcessingEvent.SetVignetteIntensity(currentIntensity);
 
             // Reset smoothness
-            vignette.smoothness.Override(baseVignette.smoothness.value);
+            vignette.smoothness.value = baseVignette.smoothness.value;
             currentSmoothness = vignette.smoothness.value;
             postProcessingEvent.SetVignetteSmoothness(currentSmoothness);
 
             // Reset rounded
-            vignette.rounded.Override(baseVignette.rounded.value);
+            vignette.rounded.value = baseVignette.rounded.value;
             currentRounded = vignette.rounded.value;
             postProcessingEvent.SetVignetteRounded(currentRounded);
         }
