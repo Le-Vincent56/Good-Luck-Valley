@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using UnityEngine.VFX;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace HiveMind.Interactables
 {
@@ -37,7 +39,7 @@ namespace HiveMind.Interactables
         [SerializeField] private bool soundUnDampened;
 
         [Header("Lotus Vignette")]
-        [SerializeField] private Color lotusVignetteColor = new Color(68f, 42f, 48f);
+        [SerializeField] private VolumeProfile lotusProfile;
 
         [Range(0.181f, 1f)]
         [SerializeField] private float maxVignetteIntensity = 0.520f;
@@ -173,29 +175,38 @@ namespace HiveMind.Interactables
                 AudioManager.Instance.DampenMusic(Mathf.Clamp(1f - soundPercentage, 0f, 1f));
 
                 // Change the vignette
-                float currentIntensity = Mathf.Clamp(1f - soundPercentage, 0f, maxVignetteIntensity);
-                Color currentColor = postProcessingEvent.GetVignetteColor();
-
-                Color colorToSet = currentColor;
-                if(currentColor.r < lotusVignetteColor.r)
+                Vignette vignette;
+                if(lotusProfile.TryGet(out vignette))
                 {
-                    colorToSet.r = lotusVignetteColor.r * (1f - soundPercentage);
-                }
+                    float currentIntensity = Mathf.Clamp(1f - soundPercentage, postProcessingEvent.GetVignetteDefaultIntensity(), vignette.intensity.value);
+                    Color currentColor = postProcessingEvent.GetVignetteColor();
+                    Color colorToSet = currentColor;
 
-                if(currentColor.g < lotusVignetteColor.g)
-                {
-                    colorToSet.g = lotusVignetteColor.g * (1f - soundPercentage);
-                }
+                    if (currentColor.r < vignette.color.value.r)
+                    {
+                        colorToSet.r = vignette.color.value.r * (1f - soundPercentage);
+                    }
 
-                if(currentColor.b < lotusVignetteColor.b)
-                {
-                    colorToSet.b = lotusVignetteColor.b * (1f - soundPercentage);
-                }
+                    if (currentColor.g < vignette.color.value.g)
+                    {
+                        colorToSet.g = vignette.color.value.g * (1f - soundPercentage);
+                    }
 
-                postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(1f - soundPercentage, 0.2f, 1.0f));
-                postProcessingEvent.SetVignetteColor(colorToSet);
-                postProcessingEvent.SetVignetteIntensity(currentIntensity);
-                postProcessingEvent.ChangeVignette(colorToSet, transform.position, currentIntensity, true);
+                    if (currentColor.b < vignette.color.value.b)
+                    {
+                        colorToSet.b = vignette.color.value.b * (1f - soundPercentage);
+                    }
+
+                    if(currentColor.a < vignette.color.value.a)
+                    {
+                        colorToSet.a = vignette.color.value.a * (1f - soundPercentage);
+                    }
+
+                    postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(1f - soundPercentage, postProcessingEvent.GetVignetteDefaultSmoothness(), vignette.smoothness.value));
+                    postProcessingEvent.SetVignetteColor(colorToSet);
+                    postProcessingEvent.SetVignetteIntensity(currentIntensity);
+                    postProcessingEvent.ChangeVignette(colorToSet, collision.gameObject.transform.position, currentIntensity, true);
+                }
             }
         }
 
@@ -341,17 +352,18 @@ namespace HiveMind.Interactables
 
         private IEnumerator RemoveVignette()
         {
-            while(postProcessingEvent.GetVignetteIntensity() > 0f
+            while (postProcessingEvent.GetVignetteIntensity() > postProcessingEvent.GetVignetteDefaultIntensity()
                 || postProcessingEvent.GetVignetteSmoothness() > postProcessingEvent.GetVignetteDefaultSmoothness()
                 || postProcessingEvent.GetVignetteColor().r > postProcessingEvent.GetVignetteDefaultColor().r
                 || postProcessingEvent.GetVignetteColor().g > postProcessingEvent.GetVignetteDefaultColor().g
-                || postProcessingEvent.GetVignetteColor().b > postProcessingEvent.GetVignetteDefaultColor().b)
+                || postProcessingEvent.GetVignetteColor().b > postProcessingEvent.GetVignetteDefaultColor().b
+                || postProcessingEvent.GetVignetteColor().a > postProcessingEvent.GetVignetteDefaultColor().a)
             {
                 yield return null;
 
                 float currentIntensity = postProcessingEvent.GetVignetteIntensity() - (Time.deltaTime * 3f);
                 Color currentColor = postProcessingEvent.GetVignetteColor();
-                Color colorToSet = new Color(currentColor.r - (Time.deltaTime * 3f), currentColor.g - (Time.deltaTime * 3f), currentColor.b - (Time.deltaTime * 3f));
+                Color colorToSet = new Color(currentColor.r - (Time.deltaTime * 3f), currentColor.g - (Time.deltaTime * 3f), currentColor.b - (Time.deltaTime * 3f), currentColor.a - (Time.deltaTime * 3f));
                 postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(postProcessingEvent.GetVignetteSmoothness() - (Time.deltaTime * 3f), 0.2f, 1.0f));
                 postProcessingEvent.SetVignetteColor(colorToSet);
                 postProcessingEvent.SetVignetteIntensity(Mathf.Clamp(currentIntensity, 0f, 1f));
