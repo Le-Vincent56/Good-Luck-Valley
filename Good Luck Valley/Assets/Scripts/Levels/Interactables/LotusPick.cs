@@ -61,10 +61,7 @@ namespace HiveMind.Interactables
             float colliderRadius = GetComponent<CircleCollider2D>().radius;
 
             // Calculate the vector from the object's position to the center of the collider
-            Vector2 centerToPosition = (Vector2)transform.position; // - GetComponent<CircleCollider2D>().offset;
-
-            // Calculate the distance to the edge of the collider
-            maxSoundDistance = Mathf.Abs(centerToPosition.magnitude - colliderRadius);
+            maxSoundDistance = GetComponent<CircleCollider2D>().bounds.extents.x;
         }
 
         void Update()
