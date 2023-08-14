@@ -982,7 +982,7 @@ namespace HiveMind.Menus
             settings.Brightness = brightness;
             if (resValues.x != 12 && resValues.y != 34)
             {
-                Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen);
+                Screen.SetResolution((int)resValues.x, (int)resValues.y, settings.IsFullscreen);
             }
             else
             {
