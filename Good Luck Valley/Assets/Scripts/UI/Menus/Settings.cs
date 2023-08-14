@@ -157,6 +157,76 @@ namespace HiveMind.Menus
         }
         #endregion
 
+        #region UPDATING SETTINGS
+        public void UpdateSettings()
+        {
+            if (menusMan != null && menusMan.CurrentScene > 5)
+            {
+                #region ACCESSIBILITY SETTINGS
+                if (noClipOn)
+                {
+                    ActivateNoClip();
+                }
+                else
+                {
+                    DeactivateNoClip();
+                }
+
+                if (instantThrowOn)
+                {
+                    ActivateInstantShroom();
+                }
+                else
+                {
+                    DeactivateInstantShroom();
+                }
+
+                if (infiniteShroomsOn)
+                {
+                    ActivateInfiniteShrooms();
+                }
+                else
+                {
+                    DeactivateInfiniteShrooms();
+                }
+
+                if (shroomDurationOn)
+                {
+                    ActivateShroomTimers();
+                }
+                else
+                {
+                    DeactivateShroomTimers();
+                }
+
+                if (throwIndicatorShown)
+                {
+                    EnableThrowLine();
+                }
+                else
+                {
+                    DisableThrowLine();
+                }
+                #endregion
+
+                #region DISPLAY SETTINGS
+                float transparencyValue = 1 - (brightness / 100);
+                brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
+                #endregion
+            }
+
+            #region SOUND SETTINGS
+            //if (AudioManager.Instance)
+            //{
+            //    AudioManager.Instance.SetMasterVolume(masterVolume / 100);
+            //    AudioManager.Instance.SetMusicVolume(musicVolume / 100);
+            //    AudioManager.Instance.SetAmbienceVolume(ambientVolume / 100);
+            //    AudioManager.Instance.SetSFXVolume(SFXVolume / 100);
+            //}
+            #endregion
+        }
+        #endregion
+
         // DATA HANDLING
         #region DATA HANDLING
         public void LoadData(SettingsData data)
@@ -232,76 +302,6 @@ namespace HiveMind.Menus
             #endregion
 
             UpdateSettings();
-        }
-        #endregion
-
-        #region UPDATING SETTINGS
-        public void UpdateSettings()
-        {
-            if (menusMan != null && menusMan.CurrentScene > 5)
-            {
-                #region ACCESSIBILITY SETTINGS
-                if (noClipOn)
-                {
-                    ActivateNoClip();
-                }
-                else
-                {
-                    DeactivateNoClip();
-                }
-
-                if (instantThrowOn)
-                {
-                    ActivateInstantShroom();
-                }
-                else
-                {
-                    DeactivateInstantShroom();
-                }
-
-                if (infiniteShroomsOn)
-                {
-                    ActivateInfiniteShrooms();
-                }
-                else
-                {
-                    DeactivateInfiniteShrooms();
-                }
-
-                if (shroomDurationOn)
-                {
-                    ActivateShroomTimers();
-                }
-                else
-                {
-                    DeactivateShroomTimers();
-                }
-
-                if (throwIndicatorShown)
-                {
-                    EnableThrowLine();
-                }
-                else
-                {
-                    DisableThrowLine();
-                }
-                #endregion
-
-                #region DISPLAY SETTINGS
-                float transparencyValue = 1 - (brightness / 100);
-                brightnessSquare.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, transparencyValue);
-                #endregion
-            }
-
-            #region SOUND SETTINGS
-            if (AudioManager.Instance)
-            {
-                AudioManager.Instance.SetMasterVolume(masterVolume / 100);
-                AudioManager.Instance.SetMusicVolume(musicVolume / 100);
-                AudioManager.Instance.SetAmbienceVolume(ambientVolume / 100);
-                AudioManager.Instance.SetSFXVolume(SFXVolume / 100);
-            }
-            #endregion
         }
         #endregion
     }

@@ -166,7 +166,7 @@ namespace HiveMind.SaveData
             levelData["Level 1"].assetsActive.Add("c2827f9d-736d-425c-8f2d-1627e43195bd", true);
 
             // Notes
-            levelData["Level 1"].totalNotes = 7;
+            levelData["Level 1"].totalNotes = 8;
             levelData["Level 1"].currentNotes = 0;
             #endregion
         }
