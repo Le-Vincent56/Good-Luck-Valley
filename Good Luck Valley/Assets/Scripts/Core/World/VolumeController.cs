@@ -54,7 +54,7 @@ namespace HiveMind.Core
 
         private void OnEnable()
         {
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             postProcessingEvent.changeVignette.AddListener(ChangeVignette);
             postProcessingEvent.changeAberration.AddListener(ChangeAberration);
@@ -280,6 +280,7 @@ namespace HiveMind.Core
 
         public void ChangeFilmGrain(float intensity, float response)
         {
+            Debug.LogWarning("Changing film grain");
             // Set intensity
             filmGrain.intensity.value = intensity;
             currentFilmGrainIntensity = filmGrain.intensity.value;
@@ -346,6 +347,8 @@ namespace HiveMind.Core
 
         public void ResetFilmGrain()
         {
+            Debug.LogWarning("Resetting film grain");
+
             // Reset intensity
             filmGrain.intensity.value = baseFilmGrain.intensity.value;
             currentFilmGrainIntensity = filmGrain.intensity.value;
