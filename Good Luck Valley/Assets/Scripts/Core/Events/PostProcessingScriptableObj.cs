@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 
 namespace HiveMind.Events
 {
@@ -9,6 +10,7 @@ namespace HiveMind.Events
     public class PostProcessingScriptableObj : ScriptableObject
     {
         #region FIELDS
+        #region VIGNETTE
         [SerializeField] private Color vignetteDefaultColor;
         [SerializeField] private Color vignetteColor;
         [SerializeField] private Vector2 vignetteDefaultCenter;
@@ -19,10 +21,34 @@ namespace HiveMind.Events
         [SerializeField] private float vignetteSmoothness;
         [SerializeField] private bool vignetteDefaultRounded;
         [SerializeField] private bool vignetteRounded;
+        #endregion
+
+        #region CHROMATIC ABERRATION
+        [SerializeField] private float aberrationDefaultIntensity;
+        [SerializeField] private float aberrationIntensity;
+        #endregion
+
+        #region COLOR CURVES
+        [SerializeField] private TextureCurve defaultCurve;
+        [SerializeField] private TextureCurve curve;
+        #endregion
+
+        #region FILM GRAIN
+        [SerializeField] private float defaultFilmGrainIntensity;
+        [SerializeField] private float filmGrainIntensity;
+        [SerializeField] private float defaultFilmGrainResponse;
+        [SerializeField] private float filmGrainResponse;
+        #endregion
 
         #region EVENTS
         public UnityEvent<Color, Vector2, float, bool> changeVignette;
+        public UnityEvent<float> changeAberration;
+        public UnityEvent<TextureCurve> changeColorCurves;
+        public UnityEvent<float, float> changeFilmGrain;
         public UnityEvent resetVignette;
+        public UnityEvent resetAberration;
+        public UnityEvent resetColorCurves;
+        public UnityEvent resetFilmGrain;
         #endregion
         #endregion
 
@@ -34,13 +60,44 @@ namespace HiveMind.Events
                 changeVignette = new UnityEvent<Color, Vector2, float, bool>();
             }
 
-            if(resetVignette == null)
+            if (changeAberration == null)
+            {
+                changeAberration = new UnityEvent<float>();
+            }
+
+            if(changeColorCurves == null)
+            {
+                changeColorCurves = new UnityEvent<TextureCurve>();
+            }
+
+            if(changeFilmGrain == null)
+            {
+                changeFilmGrain = new UnityEvent<float, float>();
+            }
+
+            if (resetVignette == null)
             {
                 resetVignette = new UnityEvent();
+            }
+
+            if(resetAberration == null)
+            {
+                resetAberration = new UnityEvent();
+            }
+
+            if(resetColorCurves == null)
+            {
+                resetColorCurves = new UnityEvent();
+            }
+
+            if(resetFilmGrain == null)
+            {
+                resetFilmGrain = new UnityEvent();
             }
             #endregion
         }
 
+        #region SET - VIGNETTE
         /// <summary>
         /// Set the default color of the vignette
         /// </summary>
@@ -130,7 +187,87 @@ namespace HiveMind.Events
         {
             this.vignetteRounded = vignetteRounded;
         }
+        #endregion
 
+        #region SET - CHROMATIC ABERRATION
+        /// <summary>
+        /// Set the default intensity of the chromatic aberration
+        /// </summary>
+        /// <param name="aberrationDefaultIntensity">The default intensity of the chromatic aberration</param>
+        public void SetAberrationDefaultIntensity(float aberrationDefaultIntensity)
+        {
+            this.aberrationDefaultIntensity = aberrationDefaultIntensity;
+        }
+
+        /// <summary>
+        /// Set the current intensity of the chromatic aberration
+        /// </summary>
+        /// <param name="aberrationIntensity">The current intensity of the chromatic aberration</param>
+        public void SetAberrationIntensity(float aberrationIntensity)
+        {
+            this.aberrationIntensity = Mathf.Clamp(aberrationIntensity, 0.0f, 1.0f);
+        }
+        #endregion
+
+        #region SET - COLOR CURVES
+        /// <summary>
+        /// Set the default curve of the color curve
+        /// </summary>
+        /// <param name="defaultCurve">The default curve of the color curve</param>
+        public void SetDefaultColorCurve(TextureCurve defaultCurve)
+        {
+            this.defaultCurve = defaultCurve;
+        }
+
+        /// <summary>
+        /// Set the current curve of the color curve
+        /// </summary>
+        /// <param name="curve">he current curve of the color curve</param>
+        public void SetColorCurve(TextureCurve curve)
+        {
+            this.curve = curve;
+        }
+
+        #region SET - FILM GRAIN
+        /// <summary>
+        /// Set the default intensity fo the film grain
+        /// </summary>
+        /// <param name="defaultFilmGrainIntensity">The default intensity fo the film grain</param>
+        public void SetDefaultFilmGrainIntensity(float defaultFilmGrainIntensity)
+        {
+            this.defaultFilmGrainIntensity = defaultFilmGrainIntensity;
+        }
+
+        /// <summary>
+        /// Set the current intensity of the film grain
+        /// </summary>
+        /// <param name="filmGrainIntensity">The current intensity of the film grain</param>
+        public void SetFilmGrainIntensity(float filmGrainIntensity)
+        {
+            this.filmGrainIntensity = filmGrainIntensity;
+        }
+
+        /// <summary>
+        /// Set the default film grain response
+        /// </summary>
+        /// <param name="defaultFilmGrainResponse">The default film grain response</param>
+        public void SetDefaultFilmGrainResponse(float defaultFilmGrainResponse)
+        {
+            this.defaultFilmGrainResponse = defaultFilmGrainResponse;
+        }
+
+        /// <summary>
+        /// Set the current film grain response
+        /// </summary>
+        /// <param name="filmGrainResponse">The current film grain response</param>
+        public void SetFilmGrainResponse(float filmGrainResponse)
+        {
+            this.filmGrainResponse = filmGrainResponse;
+        }
+        #endregion
+        #endregion
+
+        #region GET - VIGNETTE
         /// <summary>
         /// Get the default color of the vignette
         /// </summary>
@@ -220,6 +357,85 @@ namespace HiveMind.Events
         {
             return vignetteRounded;
         }
+        #endregion
+
+        #region GET - CHROMATIC ABERRATION
+        /// <summary>
+        /// Get the default intensity of the chromatic aberration
+        /// </summary>
+        /// <returns>The default intensity of the chromatic aberration</returns>
+        public float GetAberrationDefaultIntensity()
+        {
+            return aberrationDefaultIntensity;
+        }
+
+        /// <summary>
+        /// Get the current intensity of the chromatic aberration
+        /// </summary>
+        /// <returns>The current intensity of the chromatic aberration</returns>
+        public float GetAberrationIntensity()
+        {
+            return aberrationIntensity;
+        }
+        #endregion
+
+        #region GET - COLOR CURVES
+        /// <summary>
+        /// Set the default curve of the color curve
+        /// </summary>
+        /// <returns>The default curve of the color curve</returns>
+        public TextureCurve GetDefaultColorCurve()
+        {
+            return defaultCurve;
+        }
+
+        /// <summary>
+        /// Set the current curve of the color curve
+        /// </summary>
+        /// <returns>The current curve of the color curve</returns>
+        public TextureCurve GetColorCurve()
+        {
+            return curve;
+        }
+        #endregion
+
+        #region GET - FILM GRAIN
+        /// <summary>
+        /// Get the default intensity of the film grain
+        /// </summary>
+        /// <returns>The default intensity of the film grain</returns>
+        public float GetDefaultFilmGrainIntensity()
+        {
+            return defaultFilmGrainIntensity;
+        }
+
+        /// <summary>
+        /// Get the current intensity of the film grain
+        /// </summary>
+        /// <returns>The current intensity of the film grain</returns>
+        public float GetFilmGrainIntensity()
+        {
+            return filmGrainIntensity;
+        }
+
+        /// <summary>
+        /// Get the default response of the film grain
+        /// </summary>
+        /// <returns>The default response of the film grain</returns>
+        public float GetDefaultFilmGrainResponse()
+        {
+            return defaultFilmGrainResponse;
+        }
+
+        /// <summary>
+        /// Get the current response of the film grain
+        /// </summary>
+        /// <returns>The current response of the film grain</returns>
+        public float GetFilmGrainResponse()
+        {
+            return filmGrainResponse;
+        }
+        #endregion
 
         /// <summary>
         /// Center the vignette around a position
@@ -233,11 +449,63 @@ namespace HiveMind.Events
         }
 
         /// <summary>
+        /// Change the chromatic aberration values of the profile
+        /// </summary>
+        /// <param name="intensity">The intensity to change to</param>
+        public void ChangeAberration(float intensity)
+        {
+            changeAberration.Invoke(intensity);
+        }
+
+        /// <summary>
+        /// Change the color curve values of the profile
+        /// </summary>
+        /// <param name="colorCurve">The color curve to change to</param>
+        public void ChangeColorCurves(TextureCurve colorCurve)
+        {
+            changeColorCurves.Invoke(colorCurve);
+        }
+
+        /// <summary>
+        /// Change the film grain of the profile
+        /// </summary>
+        /// <param name="intensity">The intensity of the film grain</param>
+        /// <param name="response">The response of the film grain</param>
+        public void ChangeFilmGrain(float intensity, float response)
+        {
+            changeFilmGrain.Invoke(intensity, response);
+        }
+
+        /// <summary>
         /// Reset the values of the vignette
         /// </summary>
         public void ResetVignette()
         {
             resetVignette.Invoke();
+        }
+
+        /// <summary>
+        /// Reset the values of the chromatic aberration
+        /// </summary>
+        public void ResetAberration()
+        {
+            resetAberration.Invoke();
+        }
+
+        /// <summary>
+        /// Reset the values of the color curves
+        /// </summary>
+        public void ResetColorCurve()
+        {
+            resetColorCurves.Invoke();
+        }
+
+        /// <summary>
+        /// Reset the values of the film grain
+        /// </summary>
+        public void ResetFilmGrain()
+        {
+            resetFilmGrain.Invoke();
         }
     }
 }
