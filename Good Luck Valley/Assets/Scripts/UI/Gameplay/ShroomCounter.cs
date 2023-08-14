@@ -112,29 +112,29 @@ namespace HiveMind.UI
             // Clears the queue
             if (!shroomIconList.Contains(shroomIcon1))
             {
-                shroomIcon1.GetComponent<ParticleSystem>().Play();
+                //shroomIcon1.GetComponent<ParticleSystem>().Play();
             }
 
             if (!shroomIconList.Contains(shroomIcon2))
             {
-                shroomIcon2.GetComponent<ParticleSystem>().Play();
+                //shroomIcon2.GetComponent<ParticleSystem>().Play();
             }
 
             if (!shroomIconList.Contains(shroomIcon3))
             {
-                shroomIcon3.GetComponent<ParticleSystem>().Play();
+                //shroomIcon3.GetComponent<ParticleSystem>().Play();
             }
 
             shroomIconList.Clear();
             shroomIconList.Add(shroomIcon3);
             // Enqueues the first shroom icon and resets its color values
-            shroomIcon3.GetComponent<Image>().fillAmount = 1;
+            shroomIcon3.GetComponent<Image>().fillAmount = 0;
             shroomIconList.Add(shroomIcon2);
             // Enqueues the first shroom icon and resets its color values
-            shroomIcon2.GetComponent<Image>().fillAmount = 1;
+            shroomIcon2.GetComponent<Image>().fillAmount = 0;
             shroomIconList.Add(shroomIcon1);
             // Enqueues the first shroom icon and resets its color values
-            shroomIcon1.GetComponent<Image>().fillAmount = 1;
+            shroomIcon1.GetComponent<Image>().fillAmount = 0;
         }
 
         /// <summary>
@@ -161,18 +161,18 @@ namespace HiveMind.UI
             // Check if the player has unlocked the throw ability
             if (mushroomEvent.GetThrowUnlocked())
             {
-                shroomOutline1.color = new Color(originalR, originalG, originalB, 1);
-                shroomOutline2.color = new Color(originalR, originalG, originalB, 1);
-                shroomOutline3.color = new Color(originalR, originalG, originalB, 1);
-                shroomFill1.color = new Color(originalR, originalG, originalB, 0.3882353f);
-                shroomFill2.color = new Color(originalR, originalG, originalB, 0.3882353f);
-                shroomFill3.color = new Color(originalR, originalG, originalB, 0.3882353f);
-                shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
-                shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
-                shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 1);
-                shroomIcon1.GetComponent<Image>().fillAmount = 1;
-                shroomIcon2.GetComponent<Image>().fillAmount = 1;
-                shroomIcon3.GetComponent<Image>().fillAmount = 1;
+                shroomOutline1.color = new Color(originalR, originalG, originalB, 0);
+                shroomOutline2.color = new Color(originalR, originalG, originalB, 0);
+                shroomOutline3.color = new Color(originalR, originalG, originalB, 0);
+                shroomFill1.color = new Color(originalR, originalG, originalB, 0);
+                shroomFill2.color = new Color(originalR, originalG, originalB, 0);
+                shroomFill3.color = new Color(originalR, originalG, originalB, 0);
+                shroomIcon1.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
+                shroomIcon2.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
+                shroomIcon3.GetComponent<Image>().color = new Color(originalR, originalG, originalB, 0);
+                shroomIcon1.GetComponent<Image>().fillAmount = 0;
+                shroomIcon2.GetComponent<Image>().fillAmount = 0;
+                shroomIcon3.GetComponent<Image>().fillAmount = 0;
                 displayCounter = false;
             }
         }

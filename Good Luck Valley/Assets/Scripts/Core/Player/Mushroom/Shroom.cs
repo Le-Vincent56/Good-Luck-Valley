@@ -88,8 +88,11 @@ namespace HiveMind.Mushroom
         /// <param name="shroomIcon"></param>
         public void ResetCounter()
         {
-            ShroomIcon.GetComponent<Image>().fillAmount = 1;
-            ShroomIcon.GetComponent<ParticleSystem>().Play();
+            if (ShroomIcon != null)
+            {
+                ShroomIcon.GetComponent<Image>().fillAmount = 0;
+                //ShroomIcon.GetComponent<ParticleSystem>().Play();
+            }
         }
 
         /// <summary>
@@ -98,7 +101,10 @@ namespace HiveMind.Mushroom
         /// <param name="shroomIcon"></param>
         public void StartCounter()
         {
-            ShroomIcon.GetComponent<Image>().fillAmount = 0;
+            if (ShroomIcon != null)
+            {
+                ShroomIcon.GetComponent<Image>().fillAmount = 0;
+            }
         }
 
         /// <summary>

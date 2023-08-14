@@ -34,6 +34,8 @@ namespace HiveMind.Interactables
         [SerializeField] private bool lotusFinished;
         [SerializeField] private float maxEffectDistance;
         [SerializeField] private float distancePercentage;
+        private Dictionary<string, bool> resolveCompletions;
+        [SerializeField] private bool resolved = false;
 
         [Header("Sound")]
         [SerializeField] private bool progressesMusic;
@@ -60,6 +62,15 @@ namespace HiveMind.Interactables
 
             // Calculate the distance to the edge of the collider
             maxEffectDistance = GetComponent<CircleCollider2D>().bounds.extents.x;
+
+            resolveCompletions = new Dictionary<string, bool>()
+            {
+                {"Vines", false },
+                {"Lotus", false },
+                {"Effects", false }
+            };
+
+            resolved = false;
         }
 
         void Update()
@@ -87,7 +98,7 @@ namespace HiveMind.Interactables
                 interacting = true;
 
                 // If the inteaction has finished, reset the variables
-                if (lotusFinished && soundUnDampened)
+                if (finishedInteracting && lotusFinished && soundUnDampened)
                 {
                     controlTriggered = false;
 
@@ -289,6 +300,46 @@ namespace HiveMind.Interactables
             return Vector3.Distance(playerCenter, lotusCenter);
         }
 
+        private IEnumerator Resolve()
+        {
+            StartCoroutine(FadeVines());
+            StartCoroutine(FadeLotus());
+            StartCoroutine(UndampenSound());
+
+            while(resolved == false)
+            {
+                // Check vines
+                if (resolveCompletions["Vines"] != true)
+                {
+                    resolved = false;
+                } else
+                {
+                    resolved = true;
+                }
+                // Check lotus
+                if (resolveCompletions["Lotus"] != true)
+                {
+                    resolved = false;
+                }
+                else
+                {
+                    resolved = true;
+                }
+
+                // Check effects
+                if (resolveCompletions["Effects"] != true)
+                {
+                    resolved = false;
+                }
+                else
+                {
+                    resolved = true;
+                }
+
+                yield return null;
+            }
+        }
+
         private IEnumerator FadeVines()
         {
             pauseEvent.SetPaused(true);
@@ -300,8 +351,11 @@ namespace HiveMind.Interactables
 
                 yield return null;
             }
+
             vineWall.GetComponent<DecomposableVine>().Active = false;
             vineWall.SetActive(false);
+            resolveCompletions["Vines"] = true;
+
         }
 
         private IEnumerator FadeLotus()
@@ -314,9 +368,7 @@ namespace HiveMind.Interactables
             }
 
             // Set active to false
-            active = false;
-            lotusParticles.enabled = false;
-            yield return null;
+            resolveCompletions["Lotus"] = true;
         }
 
         private IEnumerator FadeEndScreen(GameObject endScreen)
@@ -347,10 +399,7 @@ namespace HiveMind.Interactables
             yield return new WaitForSeconds(2.5f);
 
             // Start the fading coroutines
-            StartCoroutine(FadeVines());
-            StartCoroutine(FadeLotus());
-
-            yield return StartCoroutine(UndampenSound());
+            yield return StartCoroutine(Resolve());
 
             GameObject endScreen = GameObject.Find("Demo Ending Text");
             if (endScreen != null)
@@ -361,9 +410,11 @@ namespace HiveMind.Interactables
             }
             else
             {
+                active = false;
+                lotusParticles.enabled = false;
+                finishedInteracting = true;
                 disableEvent.Unlock();
                 pauseEvent.SetPaused(false);
-                finishedInteracting = true;
             }
         }
 
@@ -406,6 +457,8 @@ namespace HiveMind.Interactables
                 // If so, stop it
                 AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
             }
+
+            resolveCompletions["Effects"] = true;
         }
 
         /// <summary>
@@ -450,6 +503,7 @@ namespace HiveMind.Interactables
                 // Allow other code to run
                 yield return null;
 
+                Debug.Log("remove aberataions");
                 // Subtract intensity
                 float currentIntensity = postProcessingEvent.GetAberrationIntensity() - (Time.deltaTime *3f);
                 postProcessingEvent.SetAberrationIntensity(Mathf.Clamp(currentIntensity, 0f, 1f));

@@ -233,7 +233,7 @@ namespace HiveMind.Mushroom
             foreach (GameObject m in mushroomList)
             {
                 // Check if the duration timer is less than or equal to 0
-                if (m.GetComponent<Shroom>().DurationTimer <= 0)
+                if (m.GetComponent<Shroom>().ShroomIcon != null && m.GetComponent<Shroom>().DurationTimer <= 0)
                 {
                     // If so, pushes the shroom to the remove indexes stack
                     removeShroomIndexes.Push(mushroomList.IndexOf(m));
@@ -297,7 +297,7 @@ namespace HiveMind.Mushroom
             foreach (GameObject shroomIcon in UIEvent.GetShroomCounter())
             {
                 // Checks if the current shroom icon's x position is greater than the current right most x pos
-                if (shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
+                if (shroomIcon != null && shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
                 {
                     // If so, sets the right most x pos to the current shroom icon's x pos
                     rightMostXPos = shroomIcon.GetComponent<RectTransform>().position.x;
