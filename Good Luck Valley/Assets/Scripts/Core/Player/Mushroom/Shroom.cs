@@ -36,6 +36,7 @@ namespace HiveMind.Mushroom
         protected float cooldown = 0.1f;
         protected bool flipRotation;
         protected float rotation;
+        [SerializeField] protected Vector2 wallShroomDiff;
         #endregion
 
         #region PROPERTIES
@@ -162,7 +163,7 @@ namespace HiveMind.Mushroom
                     break;
 
                 case ShroomType.Wall:
-                    Vector3 diff = new Vector3(0.1f, 0, 0);
+                    Vector3 diff = wallShroomDiff;
                     if (contactPoint.point.x < transform.position.x)
                     {
                         diff *= -1;
@@ -215,7 +216,7 @@ namespace HiveMind.Mushroom
                 }
             }
             //Vector2 direction = contactPoint.normal;
-            Vector3 diff = new Vector3(0.1f, 0, 0);
+            Vector3 diff = wallShroomDiff;
             if (contactPoint.point.x < transform.position.x)
             {
                 diff *= -1;

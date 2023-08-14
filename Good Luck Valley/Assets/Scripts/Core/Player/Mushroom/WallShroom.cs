@@ -11,7 +11,6 @@ namespace HiveMind.Mushroom
         #region FIELDS
         [SerializeField] private float angleToSubtract;
         private Vector3 showForce;
-
         #endregion
 
         private void Awake()
