@@ -61,7 +61,7 @@ namespace HiveMind.Mushroom
 
             if (durationTimer <= (particleTime * 0.5) && playShroomParticle)
             {
-                //shroomParticles.Play();
+                shroomParticles.Play();
                 playShroomParticle = false;
             }
 
@@ -86,7 +86,7 @@ namespace HiveMind.Mushroom
 
                 if (shroomIcon != null && shroomIcon.GetComponent<Image>().fillAmount >= 1f)
                 {
-                    shroomIcon.GetComponent<ParticleSystem>().Play();
+                    //shroomIcon.GetComponent<ParticleSystem>().Play();
                 }
             }
         }

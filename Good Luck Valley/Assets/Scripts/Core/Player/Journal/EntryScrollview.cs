@@ -71,7 +71,7 @@ namespace HiveMind.NoteJournal
                     // If the note hasn't been read, highlight it
                     if (!note.AlreadyRead)
                     {
-                        instance.GetComponentInChildren<Text>().color = Color.white;
+                        instance.GetComponentInChildren<Text>().color = new Color(0.489231f, 0.6509434f, 0.5190202f);
                     }
                     else
                     {
