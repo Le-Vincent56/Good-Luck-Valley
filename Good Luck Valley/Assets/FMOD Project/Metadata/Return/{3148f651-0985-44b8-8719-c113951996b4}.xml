@@ -5,7 +5,7 @@
 			<value>2</value>
 		</property>
 		<property name="name">
-			<value>Reverb</value>
+			<value>Underwater Reverb</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{20be6017-d7cd-4836-8078-1346368394e0}</destination>
@@ -25,8 +25,23 @@
 	</object>
 	<object class="MixerBusPanner" id="{6fb5fc57-a2fb-4775-90c6-0252d49c2ef6}" />
 	<object class="SFXReverbEffect" id="{577976a6-45e8-47dd-8d46-c757412838d2}">
+		<property name="earlyDelay">
+			<value>7</value>
+		</property>
+		<property name="lateDelay">
+			<value>11</value>
+		</property>
+		<property name="HFDecayRatio">
+			<value>10</value>
+		</property>
+		<property name="highCut">
+			<value>500</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>92</value>
+		</property>
 		<property name="wetLevel">
-			<value>0</value>
+			<value>7</value>
 		</property>
 		<property name="dryLevel">
 			<value>-80</value>

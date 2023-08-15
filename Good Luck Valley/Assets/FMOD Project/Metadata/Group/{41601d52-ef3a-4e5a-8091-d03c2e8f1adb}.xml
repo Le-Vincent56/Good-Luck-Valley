@@ -19,9 +19,54 @@
 	</object>
 	<object class="MixerBusEffectChain" id="{f68ddad5-07f4-4690-8ad5-21bd50574458}">
 		<relationship name="effects">
+			<destination>{bd91a9e3-c8bb-4bce-a3c6-777910814fbd}</destination>
 			<destination>{b8acc0d6-7dc5-478b-85d3-2d80cd1d324d}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{664fce58-98d1-4a86-859e-a528f725fb75}" />
+	<object class="MixerSend" id="{bd91a9e3-c8bb-4bce-a3c6-777910814fbd}">
+		<property name="inputFormat">
+			<value>1</value>
+		</property>
+		<relationship name="automators">
+			<destination>{94cea22b-e306-458c-a181-b1dfa35ab7d6}</destination>
+		</relationship>
+		<relationship name="mixerReturn">
+			<destination>{3148f651-0985-44b8-8719-c113951996b4}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusFader" id="{b8acc0d6-7dc5-478b-85d3-2d80cd1d324d}" />
+	<object class="Automator" id="{94cea22b-e306-458c-a181-b1dfa35ab7d6}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>level</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{67fc11a2-3c7b-4053-a03c-02f3a7c903cf}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationCurve" id="{67fc11a2-3c7b-4053-a03c-02f3a7c903cf}">
+		<relationship name="parameter">
+			<destination>{39894f6f-2bcb-4512-adb3-8806c986d86a}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{2e584677-d0af-4b52-9c9d-b512f80b851f}</destination>
+			<destination>{d7349187-6a0b-48e5-9efd-81f4452b3328}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationPoint" id="{2e584677-d0af-4b52-9c9d-b512f80b851f}">
+		<property name="position">
+			<value>0.0014124293785310734</value>
+		</property>
+		<property name="value">
+			<value>-80</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{d7349187-6a0b-48e5-9efd-81f4452b3328}">
+		<property name="position">
+			<value>1</value>
+		</property>
+		<property name="value">
+			<value>10</value>
+		</property>
+	</object>
 </objects>

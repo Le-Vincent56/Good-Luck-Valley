@@ -47,6 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentArea: 0
+  lastArea: 0
+  currentForestLevel: 0
+  forestLayers:
+    keys: []
+    values: []
   playingCricketNoise: 0
   cricketAmbientCooldown: -1
   minCricketWait: 0.1
@@ -77,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   cutsceneEvent: {fileID: 11400000, guid: 876f3bec107b97a4095b015d6d365fb3, type: 2}
+  loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
   usePlayerSFX: 1
   stepTimerMax: 0
   stepTimer: 0
@@ -307,6 +313,13 @@ MonoBehaviour:
       Data3: 1842361753
       Data4: -525667816
     Path: event:/SFX/Player/Player Footsteps/PlayerLandDirt
+  <PlayerFall>k__BackingField:
+    Guid:
+      Data1: -1404795738
+      Data2: 1309875730
+      Data3: -734417787
+      Data4: 534356806
+    Path: event:/SFX/Player/PlayerFall
   <ShroomBounces>k__BackingField:
   - Guid:
       Data1: 611293733
@@ -393,13 +406,27 @@ MonoBehaviour:
       Data3: 876740019
       Data4: 2039253221
     Path: event:/SFX/Environment/Forest/Bush Rustles/BushRustle4
-  <VineFlee>k__BackingField:
+  <VineDecompose>k__BackingField:
     Guid:
       Data1: -1900902081
       Data2: 1113281311
       Data3: 2010683297
       Data4: 2050166946
-    Path: event:/SFX/Environment/VineFlee
+    Path: event:/SFX/Environment/VineDecompose
+  <LotusPick>k__BackingField:
+    Guid:
+      Data1: -273130303
+      Data2: 1115742217
+      Data3: -299029070
+      Data4: 1082551747
+    Path: event:/SFX/Environment/LotusPick
+  <LotusPulse>k__BackingField:
+    Guid:
+      Data1: -638530805
+      Data2: 1136840358
+      Data3: 802445211
+      Data4: -1150421892
+    Path: event:/SFX/Environment/LotusPulse
   <GameMusic>k__BackingField:
     Guid:
       Data1: 316562866

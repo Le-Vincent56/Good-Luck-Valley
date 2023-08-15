@@ -15,6 +15,13 @@ MonoBehaviour:
   touchingShroom: 0
   throwUnlocked: 1
   throwing: 0
+  firstFull: 1
+  firstThrow: 0
+  firstBounce: 0
+  firstWallBounce: 0
+  showingMaxMessage: 0
+  showQuickBounceMessage: 0
+  touchingQuickBounce: 0
   bounceForce: {x: 0, y: 0, z: 0}
   touchingShroomEvent:
     m_PersistentCalls:
@@ -26,5 +33,41 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   setThrowAnimationEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  endThrowEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  clearShroomsEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  showThrowMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideThrowMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  showBounceMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideBounceMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  showMaxMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideMaxMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  showWallBounceMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideWallBounceMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  showQuickBounceMessageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideQuickBounceMessageEvent:
     m_PersistentCalls:
       m_Calls: []
