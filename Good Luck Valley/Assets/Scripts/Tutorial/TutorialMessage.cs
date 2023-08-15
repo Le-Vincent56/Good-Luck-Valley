@@ -20,7 +20,7 @@ namespace HiveMind.Tutorial
         [SerializeField] private int[] controlIndexes;
         private string[] controlChars;
         string[] textValueSplit;
-        private bool removeMessage;
+        [SerializeField] private bool removeMessage;
         private bool active;
         #endregion
 

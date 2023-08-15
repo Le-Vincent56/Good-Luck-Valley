@@ -107,12 +107,14 @@ namespace HiveMind.Tutorial
                 interactPrompt.GetComponent<TutorialMessage>().Hide();
             }
 
-            if (interactPrompt.gameObject.activeSelf == false && interactableObject.Remove == true)
+            if (interactPrompt.RemoveMessage == true && interactableObject.Remove == true)
             {
+                Debug.Log("Interact Prompt Disabled, interactable object remove == true");
                 interactPrompt2.SetActive(true);
 
                 if (!showThrowMessageTriggered)
                 {
+                    Debug.Log("Show Message Throw trigger");
                     showThrowMessageTriggered = true;
                     mushroomEvent.ShowThrowMessage();
                 }
@@ -141,8 +143,10 @@ namespace HiveMind.Tutorial
         public void ShowMushThrowMessage()
         {
             // Show the prompt
+            Debug.Log("Mush Throw Called");
             if (mushroomEvent.GetFirstThrow() && mushroomThrowPrompt != null)
             {
+                Debug.Log("Mush Throw");
                 ShowOverPlayer(mushroomThrowPrompt);
                 mushroomThrowPrompt.GetComponent<TutorialMessage>().Show();
             }

@@ -371,6 +371,7 @@ namespace HiveMind.Events
         /// </summary>
         public void ShowThrowMessage()
         {
+            Debug.Log("Invoking Throw");
             showThrowMessageEvent.Invoke();
         }
 

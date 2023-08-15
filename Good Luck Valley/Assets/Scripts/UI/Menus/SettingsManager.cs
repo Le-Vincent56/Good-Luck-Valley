@@ -1,5 +1,6 @@
 using HiveMind.Audio;
 using HiveMind.SaveData;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ namespace HiveMind.Menus
         private GameObject confirmationCheck2;
         private static GameObject[] navButtons;
         private static GameObject[] textInputs;
+        private static Toggle[] toggles;
         private static Slider[] sliders;
         private static Dropdown resDropdown;
         private static Toggle fullscreenToggle;
@@ -34,6 +36,8 @@ namespace HiveMind.Menus
         [SerializeField] private Vector2 resValues;
         [SerializeField] private bool subtitlesEnabled;
         [SerializeField] private bool settingsSaved;
+        private List<GameObject> settingObjects;
+        private int unsavedSettings;
         #endregion
 
         #region PROPERTIES
@@ -48,9 +52,11 @@ namespace HiveMind.Menus
             navButtons = new GameObject[4];
             sliders = new Slider[6];
             textInputs = new GameObject[6];
+            toggles = new Toggle[5];
 
             // Intiialize array for holding values of accessibility tool toggles
             accessibilityTools = new bool[5];
+            settingObjects = new List<GameObject>();
         }
 
 
@@ -94,14 +100,20 @@ namespace HiveMind.Menus
 
             // Get references to singular input fields
             resDropdown = GameObject.Find("Dropdown").GetComponent<Dropdown>();
+            settingObjects.Add(resDropdown.gameObject);
             fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
+            settingObjects.Add(fullscreenToggle.gameObject);
             subtitlesToggle = GameObject.Find("SubtitlesToggle").GetComponent<Toggle>();
+            settingObjects.Add(subtitlesToggle.gameObject);
 
             // Get references to all sliders and text inputs
             for (int i = 0; i < 6; i++)
             {
                 textInputs[i] = GameObject.Find("TextInput" + i);
                 sliders[i] = GameObject.Find("Slider" + i).GetComponent<Slider>();
+
+                //settingObjects.Add(textInputs[i]);
+                //settingObjects.Add(sliders[i].gameObject);
             }
 
             // Assign proper values from settings
@@ -166,12 +178,26 @@ namespace HiveMind.Menus
             textInputs[3].GetComponent<TMP_InputField>().text = settings.AmbientVolume.ToString();
             textInputs[4].GetComponent<TMP_InputField>().text = settings.VoicesVolume.ToString();
 
+            // Save values in setting object script
+            //textInputs[0].GetComponent<SaveableSetting>().InitializeValues(textInputs[0].GetComponent<TMP_InputField>().text);
+            //textInputs[1].GetComponent<SaveableSetting>().InitializeValues(textInputs[1].GetComponent<TMP_InputField>().text);
+            //textInputs[2].GetComponent<SaveableSetting>().InitializeValues(textInputs[2].GetComponent<TMP_InputField>().text);
+            //textInputs[3].GetComponent<SaveableSetting>().InitializeValues(textInputs[3].GetComponent<TMP_InputField>().text);
+            //textInputs[4].GetComponent<SaveableSetting>().InitializeValues(textInputs[4].GetComponent<TMP_InputField>().text);
+
             // Assign values for AUDIO settings sliders using values from settings
             sliders[0].value = settings.MasterVolume;
             sliders[1].value = settings.MusicVolume;
             sliders[2].value = settings.SFXVolume;
             sliders[3].value = settings.AmbientVolume;
             sliders[4].value = settings.VoicesVolume;
+
+            // Save values in setting object script
+            //sliders[0].GetComponent<SaveableSetting>().InitializeValues(sliders[0].value.ToString());
+            //sliders[1].GetComponent<SaveableSetting>().InitializeValues(sliders[1].value.ToString());
+            //sliders[2].GetComponent<SaveableSetting>().InitializeValues(sliders[2].value.ToString());
+            //sliders[3].GetComponent<SaveableSetting>().InitializeValues(sliders[3].value.ToString());
+            //sliders[4].GetComponent<SaveableSetting>().InitializeValues(sliders[4].value.ToString());
         }
 
         private void LoadDisplay()
@@ -184,6 +210,12 @@ namespace HiveMind.Menus
             subtitlesToggle.isOn = settings.SubtitlesEnabled;
             sliders[5].value = settings.Brightness;
             textInputs[5].GetComponent<TMP_InputField>().text = settings.Brightness.ToString();
+
+            // Save values in setting object script
+            resDropdown.GetComponent<SaveableSetting>().InitializeValues(resDropdown.value.ToString());
+            fullscreenToggle.GetComponent<SaveableSetting>().InitializeValues(fullscreenToggle.isOn.ToString());
+            sliders[5].GetComponent<SaveableSetting>().InitializeValues(sliders[5].value.ToString());
+            textInputs[5].GetComponent<SaveableSetting>().InitializeValues(textInputs[5].GetComponent<TMP_InputField>().text);
         }
 
         private void LoadAccessibility()
@@ -198,7 +230,10 @@ namespace HiveMind.Menus
             // Iterate through accessibility toggles and assign values based on accessibilityTools
             for (int i = 0; i < 5; i++)
             {
-                GameObject.Find("Toggle" + i).GetComponent<Toggle>().isOn = accessibilityTools[i];
+                toggles[i] = GameObject.Find("Toggle" + i).GetComponent<Toggle>();
+                toggles[i].GetComponent<Toggle>().isOn = accessibilityTools[i];
+                settingObjects.Add(toggles[i].gameObject);
+                toggles[i].GetComponent<SaveableSetting>().InitializeValues(accessibilityTools[i].ToString());
             }
         }
 
@@ -255,6 +290,12 @@ namespace HiveMind.Menus
             // Sets settingsSaved to true so that we can exit
             //  without the confirmation box appearing
             settingsSaved = true;
+            unsavedSettings = 0;
+
+            foreach(GameObject g in settingObjects)
+            { 
+                g.GetComponent<SaveableSetting>().OverWriteOriginal();
+            }
         }
 
         public void ConfirmResetSettings()
@@ -399,6 +440,32 @@ namespace HiveMind.Menus
 
                 // Play sound
                 AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
+
+                // Ref to saveable setting script
+                SaveableSetting setting = resDropdown.GetComponent<SaveableSetting>();
+
+                if (setting.UnsaveCheck == false)
+                {
+                    unsavedSettings++;
+                    setting.UnsaveCheck = true;
+                }
+
+                // Updates the current value in the script
+                setting.UpdateCurrent(resDropdown.options[resDropdown.value].text);
+
+                // Checks if the new value is the original value, if so, we have reverted to default so no net change is made and settings 
+                Debug.Log("unsaved #: " + unsavedSettings);
+                if (setting.CheckValue())
+                {
+                    unsavedSettings--;
+                    setting.UnsaveCheck = false;
+
+                    if (unsavedSettings < 1)
+                    {
+                        Debug.Log("settings Saved");
+                        settingsSaved = true;
+                    }
+                }
             }
         }
 
@@ -419,6 +486,32 @@ namespace HiveMind.Menus
 
                 // Play sound
                 AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
+
+                // Ref to saveable setting script
+                SaveableSetting setting = fullscreenToggle.GetComponent<SaveableSetting>();
+
+                if (setting.UnsaveCheck == false)
+                {
+                    unsavedSettings++;
+                    setting.UnsaveCheck = true;
+                }
+
+                // Updates the current value in the script
+                setting.UpdateCurrent(isFullscreen.ToString());
+
+                // Checks if the new value is the original value, if so, we have reverted to default so no net change is made and settings 
+                Debug.Log("unsaved #: " + unsavedSettings);
+                if (setting.CheckValue())
+                {
+                    unsavedSettings--;
+                    setting.UnsaveCheck = false;
+
+                    if (unsavedSettings < 1)
+                    {
+                        Debug.Log("settings Saved");
+                        settingsSaved = true;
+                    }
+                }
             }
         }
 
@@ -431,11 +524,18 @@ namespace HiveMind.Menus
             // Checks if we have disabled button calls
             if (!disableCalls)
             {
+                SaveableSetting setting = null;
                 // CHecks the given type
                 switch (type)
                 {
                     // If the input type is a text input field
                     case 0:
+                        // Reference to saveable setting
+                        setting = textInputs[5].GetComponent<SaveableSetting>();
+
+                        // Updates the current value in the script
+                        setting.UpdateCurrent(resDropdown.options[resDropdown.value].text);
+
                         // textInputs[5] is the reference to the brightness input field
                         // Parses the value in the input field into the brightness variable
                         brightness = int.Parse(textInputs[5].GetComponent<TMP_InputField>().text);
@@ -443,6 +543,12 @@ namespace HiveMind.Menus
 
                     // If the input type is a slider
                     case 1:
+                        // Reference to saveable setting
+                        setting = sliders[5].GetComponent<SaveableSetting>();
+
+                        // Updates the current value in the script
+                        setting.UpdateCurrent(resDropdown.options[resDropdown.value].text);
+
                         // Saves the slider value into the brightness variable
                         brightness = sliders[5].value;
                         break;
@@ -450,6 +556,26 @@ namespace HiveMind.Menus
 
                 // Sets settings saved to false since a setting has been changed
                 settingsSaved = false;
+
+                if (setting.UnsaveCheck == false)
+                {
+                    unsavedSettings++;
+                    setting.UnsaveCheck = true;
+                }
+
+                // Checks if the new value is the original value, if so, we have reverted to default so no net change is made and settings 
+                Debug.Log("unsaved #: " + unsavedSettings);
+                if (setting.CheckValue())
+                {
+                    unsavedSettings--;
+                    setting.UnsaveCheck = false;
+
+                    if (unsavedSettings < 1)
+                    {
+                        Debug.Log("settings Saved");
+                        settingsSaved = true;
+                    }
+                }
             }
         }
 
@@ -557,6 +683,32 @@ namespace HiveMind.Menus
             {
                 accessibilityTools[index] = !accessibilityTools[index];
                 settingsSaved = false;
+
+                // Ref to saveable setting script
+                SaveableSetting setting = toggles[index].GetComponent<SaveableSetting>();
+
+                // Updates the current value in the script
+                setting.UpdateCurrent(toggles[index].isOn.ToString());
+
+                if (setting.UnsaveCheck == false)
+                {
+                    unsavedSettings++;
+                    setting.UnsaveCheck = true;
+                }
+
+                // Checks if the new value is the original value, if so, we have reverted to default so no net change is made and settings 
+                Debug.Log("unsaved #: " + unsavedSettings);
+                if (setting.CheckValue())
+                {
+                    unsavedSettings--;
+                    setting.UnsaveCheck = false;
+
+                    if (unsavedSettings < 1)
+                    {
+                        Debug.Log("settings Saved");
+                        settingsSaved = true;
+                    }
+                }
 
                 // Play sound
                 AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UICheckmark, transform.position);
@@ -697,6 +849,11 @@ namespace HiveMind.Menus
 
             // Play sound
             AudioManager.Instance.PlayOneShot(FMODEvents.Instance.UIButton, transform.position);
+
+            foreach (GameObject g in settingObjects)
+            {
+                g.GetComponent<SaveableSetting>().OverWriteOriginal();
+            }
         }
 
         /// <summary>
