@@ -74,6 +74,7 @@ namespace HiveMind.Mushroom
         private bool firstWallBounce;
         private bool showQuickBounceMessage;
         [SerializeField] private Vector3 wallShroomPosDifference;
+        [SerializeField] private Vector3 quickBounceShroomDiff;
         #endregion
 
         #region PROPERTIES
@@ -691,7 +692,7 @@ namespace HiveMind.Mushroom
                 }
 
                 // Small difference for spawning the mushroom below the player
-                Vector3 difference = new Vector3(0, playerRB.GetComponent<BoxCollider2D>().size.y, 0);
+                Vector3 difference = quickBounceShroomDiff;
 
                 // Create the shroom that bounces the player
                 GameObject shroom = Instantiate(spore, playerRB.transform.position - difference, Quaternion.identity);

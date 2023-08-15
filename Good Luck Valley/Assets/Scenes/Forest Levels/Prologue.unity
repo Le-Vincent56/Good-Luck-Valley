@@ -1383,6 +1383,7 @@ MonoBehaviour:
   textValue: Press "E" to interact.
   fadeAmount: 0.01
   controlIndexes: 06000000
+  removeMessage: 0
 --- !u!114 &119488679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58737,6 +58738,7 @@ MonoBehaviour:
   textValue: Hold "Left-Click" to aim your cursor. Release to throw a mushroom.
   fadeAmount: 0.01
   controlIndexes: 03000000
+  removeMessage: 0
 --- !u!114 &590330989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71984,6 +71986,7 @@ MonoBehaviour:
   textValue: Jump on a mushroom to go higher.
   fadeAmount: 0.01
   controlIndexes: 
+  removeMessage: 0
 --- !u!114 &1648248927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72335,6 +72338,7 @@ MonoBehaviour:
   textValue: Use "A" and "D" to move. Press "Space Bar" to jump.
   fadeAmount: 0.01
   controlIndexes: fdfffffffcffffff01000000
+  removeMessage: 0
 --- !u!114 &1688928006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73170,6 +73174,10 @@ PrefabInstance:
       propertyPath: movementEvent
       value: 
       objectReference: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
+    - target: {fileID: 1600626957341592152, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
+      propertyPath: quickBounceShroomDiff.y
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2601493969986879182, guid: 9de28768751218f4c87cead0408b73e8, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -77303,6 +77311,7 @@ MonoBehaviour:
     last thrown mushroom and "Q" to recall all mushrooms.
   fadeAmount: 0.01
   controlIndexes: 0900000007000000
+  removeMessage: 0
 --- !u!114 &1978874597
 MonoBehaviour:
   m_ObjectHideFlags: 0
