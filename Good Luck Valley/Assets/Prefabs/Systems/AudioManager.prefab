@@ -47,8 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentArea: 0
+  lastArea: 0
   currentForestLevel: 0
-  forestMusicProgression: -2
+  forestLayers:
+    keys: []
+    values: []
   playingCricketNoise: 0
   cricketAmbientCooldown: -1
   minCricketWait: 0.1
@@ -310,6 +313,13 @@ MonoBehaviour:
       Data3: 1842361753
       Data4: -525667816
     Path: event:/SFX/Player/Player Footsteps/PlayerLandDirt
+  <PlayerFall>k__BackingField:
+    Guid:
+      Data1: -1404795738
+      Data2: 1309875730
+      Data3: -734417787
+      Data4: 534356806
+    Path: event:/SFX/Player/PlayerFall
   <ShroomBounces>k__BackingField:
   - Guid:
       Data1: 611293733

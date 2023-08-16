@@ -186,7 +186,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2071743045
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fb25a544cccd73948be2e8c06ef03f60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -238,14 +238,19 @@ MonoBehaviour:
   active: 1
   pauseEvent: {fileID: 11400000, guid: d9294628e0915de4d8dc90a39ab7f026, type: 2}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
+  postProcessingEvent: {fileID: 11400000, guid: 80d520e5d4693bd479e241df40c2c594, type: 2}
   vineWall: {fileID: 0}
   interactRange: 0
   fadeAmount: 0
-  progressesMusic: 1
   progressLevel: 7
   playerDistance: 0
+  lotusFinished: 0
+  progressesMusic: 1
   maxSoundDistance: 0
   soundPercentage: 0
+  soundUnDampened: 0
+  lotusProfile: {fileID: 11400000, guid: 07ace155e2c6a7f44bd4d9c6e1a6e192, type: 2}
+  maxVignetteIntensity: 0.52
 --- !u!58 &210753220984827302
 CircleCollider2D:
   m_ObjectHideFlags: 0

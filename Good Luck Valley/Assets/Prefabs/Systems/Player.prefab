@@ -153,6 +153,7 @@ MonoBehaviour:
   isJumping: 0
   isGrounded: 0
   isFalling: 0
+  isOnWall: 0
   landed: 0
   isBouncing: 0
   isThrowing: 0
@@ -380,6 +381,68 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &926621645905517613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7256056269484545400}
+  m_Layer: 0
+  m_Name: RightWallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7256056269484545400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926621645905517613}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.253, y: -0.18, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7203912908089909877}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3916998862666726526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3867705293786634432}
+  m_Layer: 0
+  m_Name: WallSlideHardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3867705293786634432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916998862666726526}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.01100073, y: 0.30451176, z: 1}
+  m_LocalScale: {x: 1, y: 0.21495703, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7203912908089909877}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6766758022529013043
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,6 +523,9 @@ Transform:
   - {fileID: 2094488899}
   - {fileID: 7010166960010827994}
   - {fileID: 3814634761264654631}
+  - {fileID: 3867705293786634432}
+  - {fileID: 7244131394690541002}
+  - {fileID: 7256056269484545400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -535,12 +601,16 @@ MonoBehaviour:
   pauseEvent: {fileID: 11400000, guid: d9294628e0915de4d8dc90a39ab7f026, type: 2}
   loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
   levelDataObj: {fileID: 11400000, guid: 4d5eb77cbbaa9e6428755227d4c5ee91, type: 2}
+  settingsEvent: {fileID: 11400000, guid: b51cc8a0bfdf1cd4aa8f0be8943a2075, type: 2}
   playerInput: {fileID: 0}
   playerLight: {fileID: 0}
   rb: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
   noFriction: {fileID: 6200000, guid: ee68d7080b1df0f48a666e6baaefce7a, type: 2}
   fullFriction: {fileID: 6200000, guid: 6894e38ac52caa2439abde465f69c027, type: 2}
   wallShroomPrefab: {fileID: 2826449021895497117, guid: aaf160548af4c654aaec6f6e39b72538, type: 3}
@@ -557,6 +627,11 @@ MonoBehaviour:
   inputCooldown: 0.05
   jumpBuffer: 0
   landed: 0
+  leftWallBox: {fileID: 7244131394690541002}
+  rightWallBox: {fileID: 7256056269484545400}
+  wallCheckSize: {x: 0.5, y: 1}
+  debugWall: 0
+  wallOffsetDist: 0.75
   wallStickForce: 10
   previousWallState: 0
   wallStickTimerMax: 0.2
@@ -1027,8 +1102,10 @@ MonoBehaviour:
   dustParticles: {fileID: 1324947139}
   landLeavesParticles: {fileID: 7352382603728157341}
   landDustParticles: {fileID: 461840233086944339}
+  wallSlideDustParticles: {fileID: 0}
   movementEvent: {fileID: 11400000, guid: 1a80fd0007d61ea43aa3044a19c24827, type: 2}
   groundCheckHardpoint: {fileID: 9091228867239698347}
+  wallSlideHardpoint: {fileID: 0}
   lowestSpeedForParticle: 0.01
 --- !u!320 &1310835849
 PlayableDirector:
@@ -1113,6 +1190,37 @@ MonoBehaviour:
   playerDirector: {fileID: 0}
   disableEvent: {fileID: 11400000, guid: fb3f99733dc207b428cb8afaa3ec5ac7, type: 2}
   loadLevelEvent: {fileID: 11400000, guid: d3d8b60034d9e244e966718ae5c00504, type: 2}
+--- !u!1 &8131096027459865489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7244131394690541002}
+  m_Layer: 0
+  m_Name: LeftWallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7244131394690541002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8131096027459865489}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.282, y: -0.18, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7203912908089909877}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9091228867239698347
 GameObject:
   m_ObjectHideFlags: 0
