@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 2574768656295084067}
   - component: {fileID: 2574768656295084064}
   - component: {fileID: 8918341366920843266}
+  - component: {fileID: 192841951993462786}
   m_Layer: 5
   m_Name: Dropdown
   m_TagString: Untagged
@@ -680,6 +681,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 0
+--- !u!114 &192841951993462786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768656295084070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768656296114937
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,6 +963,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2574768656334409437}
   - component: {fileID: 2574768656334409436}
+  - component: {fileID: 9133533854055959629}
   m_Layer: 5
   m_Name: Toggle4
   m_TagString: Untagged
@@ -1038,6 +1052,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &9133533854055959629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768656334407970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768656371065787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,6 +1462,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2574768656472268206}
   - component: {fileID: 2574768656472268201}
+  - component: {fileID: 3758190717589252171}
   m_Layer: 5
   m_Name: FullscreenToggle
   m_TagString: Untagged
@@ -1524,6 +1551,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
+--- !u!114 &3758190717589252171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768656472268207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768656482615274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,6 +1573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2574768656482615269}
   - component: {fileID: 2574768656482615268}
+  - component: {fileID: 306417226234876985}
   m_Layer: 5
   m_Name: Slider5
   m_TagString: Untagged
@@ -1639,6 +1679,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &306417226234876985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768656482615274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768656506160887
 GameObject:
   m_ObjectHideFlags: 0
@@ -2221,12 +2273,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 89129477, guid: a3a4d4eb34c3a0246823910f5bbaafe6, type: 3}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: HiveMind.Menus.SettingsManager, GoodLuckValley.UI
         m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: HiveMind.Menus.PauseMenu, GoodLuckValley.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4464,6 +4516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2574768656995559045}
   - component: {fileID: 2574768656995559044}
+  - component: {fileID: 2411183110067366242}
   m_Layer: 5
   m_Name: Toggle0
   m_TagString: Untagged
@@ -4552,6 +4605,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
+--- !u!114 &2411183110067366242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768656995559050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768657006482213
 GameObject:
   m_ObjectHideFlags: 0
@@ -9153,6 +9218,7 @@ GameObject:
   - component: {fileID: 2574768657640948180}
   - component: {fileID: 2574768657640948181}
   - component: {fileID: 2574768657640948186}
+  - component: {fileID: 375301766008653965}
   m_Layer: 5
   m_Name: TextInput5
   m_TagString: Untagged
@@ -9358,6 +9424,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 0
+--- !u!114 &375301766008653965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768657640948184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768657650800948
 GameObject:
   m_ObjectHideFlags: 0
@@ -10332,7 +10410,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2574768657736040087}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -11341,6 +11419,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2574768658033053987}
   - component: {fileID: 2574768658033053986}
+  - component: {fileID: 932542666363893728}
   m_Layer: 5
   m_Name: Toggle3
   m_TagString: Untagged
@@ -11429,6 +11508,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &932542666363893728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768658033053984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768658042923719
 GameObject:
   m_ObjectHideFlags: 0
@@ -11970,6 +12061,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2574768658119819606}
   - component: {fileID: 2574768658119819601}
+  - component: {fileID: 3333740915679993829}
   m_Layer: 5
   m_Name: Toggle1
   m_TagString: Untagged
@@ -12058,6 +12150,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
+--- !u!114 &3333740915679993829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768658119819607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768658163572842
 GameObject:
   m_ObjectHideFlags: 0
@@ -13646,6 +13750,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2574768658401037673}
   - component: {fileID: 2574768658401037672}
+  - component: {fileID: 1884962459039372544}
   m_Layer: 5
   m_Name: Toggle2
   m_TagString: Untagged
@@ -13734,6 +13839,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
+--- !u!114 &1884962459039372544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574768658401037678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68774794f108445459d83f683af24537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2574768658417907826
 GameObject:
   m_ObjectHideFlags: 0
@@ -14129,7 +14246,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 977519429774218982}
   m_HandleRect: {fileID: 4842930543655250432}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

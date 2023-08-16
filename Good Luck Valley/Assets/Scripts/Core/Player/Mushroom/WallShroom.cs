@@ -11,7 +11,6 @@ namespace HiveMind.Mushroom
         #region FIELDS
         [SerializeField] private float angleToSubtract;
         private Vector3 showForce;
-
         #endregion
 
         private void Awake()
@@ -80,14 +79,14 @@ namespace HiveMind.Mushroom
 
             if (mushMan.MushroomLimit == 3)
             {
-                if (mushMan.ThrowUnlocked)
+                if (shroomIcon != null && mushMan.ThrowUnlocked)
                 {
                     shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
                 }
 
-                if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+                if (shroomIcon != null && shroomIcon.GetComponent<Image>().fillAmount >= 1f)
                 {
-                    shroomIcon.GetComponent<ParticleSystem>().Play();
+                    //shroomIcon.GetComponent<ParticleSystem>().Play();
                 }
             }
         }

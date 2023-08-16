@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using UnityEngine.VFX;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
 
 namespace HiveMind.Interactables
 {
@@ -31,11 +32,13 @@ namespace HiveMind.Interactables
         [SerializeField] private float progressLevel;
         [SerializeField] private float playerDistance;
         [SerializeField] private bool lotusFinished;
+        [SerializeField] private float maxEffectDistance;
+        [SerializeField] private float distancePercentage;
+        private Dictionary<string, bool> resolveCompletions;
+        [SerializeField] private bool resolved = false;
 
         [Header("Sound")]
         [SerializeField] private bool progressesMusic;
-        [SerializeField] private float maxSoundDistance;
-        [SerializeField] private float soundPercentage;
         [SerializeField] private bool soundUnDampened;
 
         [Header("Lotus Vignette")]
@@ -57,11 +60,17 @@ namespace HiveMind.Interactables
                 fadeAmount = 0.01f;
             }
 
-            // Get the radius of the CircleCollider2D
-            float colliderRadius = GetComponent<CircleCollider2D>().radius;
+            // Calculate the distance to the edge of the collider
+            maxEffectDistance = GetComponent<CircleCollider2D>().bounds.extents.x;
 
-            // Calculate the vector from the object's position to the center of the collider
-            maxSoundDistance = GetComponent<CircleCollider2D>().bounds.extents.x;
+            resolveCompletions = new Dictionary<string, bool>()
+            {
+                {"Vines", false },
+                {"Lotus", false },
+                {"Effects", false }
+            };
+
+            resolved = false;
         }
 
         void Update()
@@ -89,7 +98,7 @@ namespace HiveMind.Interactables
                 interacting = true;
 
                 // If the inteaction has finished, reset the variables
-                if (lotusFinished && soundUnDampened)
+                if (finishedInteracting && lotusFinished && soundUnDampened)
                 {
                     controlTriggered = false;
 
@@ -162,48 +171,105 @@ namespace HiveMind.Interactables
                 {
                     inRange = false;
                 }
-                // Calculate the sound percentage for the pulse
-                soundPercentage = playerDistance / maxSoundDistance;
+                // Calculate the distance percentage for the pulse
+                distancePercentage = playerDistance / maxEffectDistance;
 
                 // Set the distance parameter for adaptive sound
-                AudioManager.Instance.LotusPulseEventInstance.setParameterByName("LotusDistance", soundPercentage);
+                AudioManager.Instance.LotusPulseEventInstance.setParameterByName("LotusDistance", distancePercentage);
 
                 // Dampen other sounds to really hone in on the effect
-                AudioManager.Instance.DampenMusic(Mathf.Clamp(1f - soundPercentage, 0f, 1f));
+                AudioManager.Instance.DampenMusic(Mathf.Clamp(1f - distancePercentage, 0f, 1f));
 
+                #region CHANGE THE VOLUME PROFILE
                 // Change the vignette
                 Vignette vignette;
                 if(lotusProfile.TryGet(out vignette))
                 {
-                    float currentIntensity = Mathf.Clamp(1f - soundPercentage, postProcessingEvent.GetVignetteDefaultIntensity(), vignette.intensity.value);
+                    float currentIntensity = Mathf.Clamp(1f - distancePercentage, postProcessingEvent.GetVignetteDefaultIntensity(), vignette.intensity.value);
                     Color currentColor = postProcessingEvent.GetVignetteColor();
                     Color colorToSet = currentColor;
 
                     if (currentColor.r < vignette.color.value.r)
                     {
-                        colorToSet.r = vignette.color.value.r * (1f - soundPercentage);
+                        colorToSet.r = vignette.color.value.r * (1f - distancePercentage);
                     }
 
                     if (currentColor.g < vignette.color.value.g)
                     {
-                        colorToSet.g = vignette.color.value.g * (1f - soundPercentage);
+                        colorToSet.g = vignette.color.value.g * (1f - distancePercentage);
                     }
 
                     if (currentColor.b < vignette.color.value.b)
                     {
-                        colorToSet.b = vignette.color.value.b * (1f - soundPercentage);
+                        colorToSet.b = vignette.color.value.b * (1f - distancePercentage);
                     }
 
                     if(currentColor.a < vignette.color.value.a)
                     {
-                        colorToSet.a = vignette.color.value.a * (1f - soundPercentage);
+                        colorToSet.a = vignette.color.value.a * (1f - distancePercentage);
                     }
 
-                    postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(1f - soundPercentage, postProcessingEvent.GetVignetteDefaultSmoothness(), vignette.smoothness.value));
+                    postProcessingEvent.SetVignetteSmoothness(Mathf.Clamp(1f - distancePercentage, postProcessingEvent.GetVignetteDefaultSmoothness(), vignette.smoothness.value));
                     postProcessingEvent.SetVignetteColor(colorToSet);
                     postProcessingEvent.SetVignetteIntensity(currentIntensity);
                     postProcessingEvent.ChangeVignette(colorToSet, collision.gameObject.transform.position, currentIntensity, true);
                 }
+
+                // Change chromatic abberation
+                ChromaticAberration chromaticAberration;
+                if(lotusProfile.TryGet(out chromaticAberration))
+                {
+                    float currentIntensity = Mathf.Clamp(1f - distancePercentage, postProcessingEvent.GetAberrationDefaultIntensity(), chromaticAberration.intensity.value);
+                    postProcessingEvent.ChangeAberration(currentIntensity);
+                }
+
+                // Change color curves
+                ColorCurves colorCurves;
+                if(lotusProfile.TryGet(out colorCurves))
+                {
+                    // Interpolate between the keyframes of the two Color Curves
+                    TextureCurve initialCurve = postProcessingEvent.GetDefaultColorCurve();
+                    TextureCurve newCurve = colorCurves.hueVsSat.value;
+
+                    // Create a list of keyframes
+                    List<Keyframe> interpolatedKeyframes = new List<Keyframe>();
+
+                    // Interpolate the values within the Hue Vs Saturation curve
+                    for (int i = 0; i < 256; i++)
+                    {
+                        // Convert the hue angle to a circular value
+                        float normalizedHue = i / 255.0f;
+
+                        float initialSaturation = initialCurve.Evaluate(normalizedHue);
+                        float newSaturation = newCurve.Evaluate(normalizedHue);
+
+                        // Interpolate the saturation values
+                        float interpolatedSaturation = Mathf.Lerp(initialSaturation, newSaturation, 1f - distancePercentage);
+
+                        // Create a keyframe with the interpolated values
+                        Keyframe keyframe = new Keyframe(i, interpolatedSaturation);
+                        interpolatedKeyframes.Add(keyframe);
+                    }
+
+                    // Create a new texture curve based on the interpolated keyframes
+                    TextureCurve interpolatedCurve = new TextureCurve(interpolatedKeyframes.ToArray(), 0f, false, new Vector2(0.0f, 1.0f));
+
+                    // Apply the modified TextureCurve to the initial profile's Hue Vs Saturation curve
+                    postProcessingEvent.ChangeColorCurves(interpolatedCurve);
+                }
+
+                // Change film grain
+                FilmGrain filmGrain;
+                if(lotusProfile.TryGet(out filmGrain))
+                {
+                    float currentIntensity = Mathf.Clamp(1f - distancePercentage, postProcessingEvent.GetDefaultFilmGrainIntensity(), filmGrain.intensity.value);
+                    float currentResponse = Mathf.Clamp(1f - distancePercentage, postProcessingEvent.GetDefaultFilmGrainResponse(), filmGrain.response.value);
+
+                    postProcessingEvent.SetFilmGrainIntensity(currentIntensity);
+                    postProcessingEvent.SetFilmGrainResponse(currentResponse);
+                    postProcessingEvent.ChangeFilmGrain(currentIntensity, currentResponse);
+                }
+                #endregion
             }
         }
 
@@ -219,8 +285,11 @@ namespace HiveMind.Interactables
                     AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
                 }
 
-                // Reset the vignette
+                // Reset the volume profile
                 postProcessingEvent.ResetVignette();
+                postProcessingEvent.ResetAberration();
+                postProcessingEvent.ResetColorCurve();
+                postProcessingEvent.ResetFilmGrain();
             }
         }
 
@@ -229,6 +298,46 @@ namespace HiveMind.Interactables
             Vector3 lotusCenter = transform.position;
             Vector3 playerCenter = other.gameObject.transform.position;
             return Vector3.Distance(playerCenter, lotusCenter);
+        }
+
+        private IEnumerator Resolve()
+        {
+            StartCoroutine(FadeVines());
+            StartCoroutine(FadeLotus());
+            StartCoroutine(UndampenSound());
+
+            while(resolved == false)
+            {
+                // Check vines
+                if (resolveCompletions["Vines"] != true)
+                {
+                    resolved = false;
+                } else
+                {
+                    resolved = true;
+                }
+                // Check lotus
+                if (resolveCompletions["Lotus"] != true)
+                {
+                    resolved = false;
+                }
+                else
+                {
+                    resolved = true;
+                }
+
+                // Check effects
+                if (resolveCompletions["Effects"] != true)
+                {
+                    resolved = false;
+                }
+                else
+                {
+                    resolved = true;
+                }
+
+                yield return null;
+            }
         }
 
         private IEnumerator FadeVines()
@@ -242,8 +351,11 @@ namespace HiveMind.Interactables
 
                 yield return null;
             }
+
             vineWall.GetComponent<DecomposableVine>().Active = false;
             vineWall.SetActive(false);
+            resolveCompletions["Vines"] = true;
+
         }
 
         private IEnumerator FadeLotus()
@@ -256,9 +368,7 @@ namespace HiveMind.Interactables
             }
 
             // Set active to false
-            active = false;
-            lotusParticles.enabled = false;
-            yield return null;
+            resolveCompletions["Lotus"] = true;
         }
 
         private IEnumerator FadeEndScreen(GameObject endScreen)
@@ -289,10 +399,7 @@ namespace HiveMind.Interactables
             yield return new WaitForSeconds(2.5f);
 
             // Start the fading coroutines
-            StartCoroutine(FadeVines());
-            StartCoroutine(FadeLotus());
-
-            yield return StartCoroutine(UndampenSound());
+            yield return StartCoroutine(Resolve());
 
             GameObject endScreen = GameObject.Find("Demo Ending Text");
             if (endScreen != null)
@@ -303,9 +410,11 @@ namespace HiveMind.Interactables
             }
             else
             {
+                active = false;
+                lotusParticles.enabled = false;
+                finishedInteracting = true;
                 disableEvent.Unlock();
                 pauseEvent.SetPaused(false);
-                finishedInteracting = true;
             }
         }
 
@@ -325,6 +434,9 @@ namespace HiveMind.Interactables
         {
             // Remove the vignette
             StartCoroutine(RemoveVignette());
+            StartCoroutine(RemoveAberration());
+            StartCoroutine(RemoveCurve());
+            StartCoroutine(RemoveFilmGrain());
 
             // Undampen the sound while it is dampened
             while (AudioManager.Instance.GetDampen() > 0)
@@ -345,10 +457,17 @@ namespace HiveMind.Interactables
                 // If so, stop it
                 AudioManager.Instance.LotusPulseEventInstance.stop(STOP_MODE.IMMEDIATE);
             }
+
+            resolveCompletions["Effects"] = true;
         }
 
+        /// <summary>
+        /// Remove the vignette changes
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator RemoveVignette()
         {
+            // Check if the vignette is not set to defaults
             while (postProcessingEvent.GetVignetteIntensity() > postProcessingEvent.GetVignetteDefaultIntensity()
                 || postProcessingEvent.GetVignetteSmoothness() > postProcessingEvent.GetVignetteDefaultSmoothness()
                 || postProcessingEvent.GetVignetteColor().r > postProcessingEvent.GetVignetteDefaultColor().r
@@ -356,8 +475,10 @@ namespace HiveMind.Interactables
                 || postProcessingEvent.GetVignetteColor().b > postProcessingEvent.GetVignetteDefaultColor().b
                 || postProcessingEvent.GetVignetteColor().a > postProcessingEvent.GetVignetteDefaultColor().a)
             {
+                // Allow other code to run
                 yield return null;
 
+                // If not set to defaults, work towards getting it back to defaults
                 float currentIntensity = postProcessingEvent.GetVignetteIntensity() - (Time.deltaTime * 3f);
                 Color currentColor = postProcessingEvent.GetVignetteColor();
                 Color colorToSet = new Color(currentColor.r - (Time.deltaTime * 3f), currentColor.g - (Time.deltaTime * 3f), currentColor.b - (Time.deltaTime * 3f), currentColor.a - (Time.deltaTime * 3f));
@@ -365,7 +486,101 @@ namespace HiveMind.Interactables
                 postProcessingEvent.SetVignetteColor(colorToSet);
                 postProcessingEvent.SetVignetteIntensity(Mathf.Clamp(currentIntensity, 0f, 1f));
 
+                // Change the vignette
                 postProcessingEvent.ChangeVignette(colorToSet, transform.position, currentIntensity, true);
+            }
+        }
+
+        /// <summary>
+        /// Remove the chromatic abberation changes
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator RemoveAberration()
+        {
+            // Check if the aberration intensity is not set to default
+            while(postProcessingEvent.GetAberrationIntensity() > postProcessingEvent.GetAberrationDefaultIntensity())
+            {
+                // Allow other code to run
+                yield return null;
+
+                Debug.Log("remove aberataions");
+                // Subtract intensity
+                float currentIntensity = postProcessingEvent.GetAberrationIntensity() - (Time.deltaTime *3f);
+                postProcessingEvent.SetAberrationIntensity(Mathf.Clamp(currentIntensity, 0f, 1f));
+
+                // Change the abberation
+                postProcessingEvent.ChangeAberration(currentIntensity);
+            }
+        }
+
+        /// <summary>
+        /// Remove the color curve changes
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator RemoveCurve()
+        {
+            // Check if the color curve is not set to default
+            while(postProcessingEvent.GetColorCurve() != postProcessingEvent.GetDefaultColorCurve())
+            {
+                // Allow other code to run
+                yield return null;
+
+                // Edit color curves
+                // Interpolate between the keyframes of the two Color Curves
+                TextureCurve initialCurve = postProcessingEvent.GetColorCurve();
+                TextureCurve newCurve = postProcessingEvent.GetDefaultColorCurve();
+
+                // Create a list of keyframes
+                List<Keyframe> interpolatedKeyframes = new List<Keyframe>();
+
+                // Interpolate the values within the Hue Vs Saturation curve
+                for (int i = 0; i < 256; i++)
+                {
+                    // Convert the hue angle to a normalized value between 0 and 1
+                    float normalizedHue = i / 255.0f;
+
+                    float initialSaturation = initialCurve.Evaluate(normalizedHue);
+                    float newSaturation = newCurve.Evaluate(normalizedHue);
+
+                    // Interpolate the saturation values
+                    float interpolatedSaturation = Mathf.Lerp(initialSaturation, newSaturation, 1f - distancePercentage);
+
+                    // Create a keyframe with the interpolated values
+                    Keyframe keyframe = new Keyframe(i, interpolatedSaturation);
+                    interpolatedKeyframes.Add(keyframe);
+                }
+
+                // Create a new texture curve based on the interpolated keyframes
+                TextureCurve interpolatedCurve = new TextureCurve(interpolatedKeyframes.ToArray(), 0f, false, new Vector2(0.0f, 1.0f));
+
+                // Change the color curve
+                postProcessingEvent.SetColorCurve(interpolatedCurve);
+                postProcessingEvent.ChangeColorCurves(interpolatedCurve);
+            }
+        }
+
+        /// <summary>
+        /// Remove the film grain changes
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator RemoveFilmGrain()
+        {
+            while(postProcessingEvent.GetFilmGrainIntensity() > postProcessingEvent.GetDefaultFilmGrainIntensity()
+                || postProcessingEvent.GetFilmGrainResponse() > postProcessingEvent.GetDefaultFilmGrainResponse())
+            {
+                // Allow other code to run
+                yield return null;
+
+                // Subtract intensity
+                float currentIntensity = postProcessingEvent.GetFilmGrainIntensity() - (Time.deltaTime * 3f);
+                postProcessingEvent.SetFilmGrainIntensity(Mathf.Clamp(currentIntensity, 0f, 1f));
+
+                // Subtract response
+                float currentResponse = postProcessingEvent.GetFilmGrainResponse() - (Time.deltaTime * 3f);
+                postProcessingEvent.SetFilmGrainResponse(Mathf.Clamp(currentResponse, 0f, 1f));
+
+                // Change the abberation
+                postProcessingEvent.ChangeFilmGrain(currentIntensity, currentResponse);
             }
         }
 

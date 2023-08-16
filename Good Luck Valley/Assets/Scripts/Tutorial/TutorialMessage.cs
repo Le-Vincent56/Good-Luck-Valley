@@ -20,7 +20,8 @@ namespace HiveMind.Tutorial
         [SerializeField] private int[] controlIndexes;
         private string[] controlChars;
         string[] textValueSplit;
-        private bool removeMessage;
+        [SerializeField] private bool removeMessage;
+        private bool active;
         #endregion
 
         #region PROPERTIES
@@ -128,7 +129,6 @@ namespace HiveMind.Tutorial
                 if (messageText.color.a < 0 && removeMessage)
                 {
                     // If so, set it to inactive
-                    gameObject.SetActive(false);
                 }
 
                 yield return null;

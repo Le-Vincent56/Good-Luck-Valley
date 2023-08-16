@@ -59,7 +59,7 @@ namespace HiveMind.Mushroom
 
             if (durationTimer <= (particleTime * 0.5) && playShroomParticle && shroomParticles != null)
             {
-                shroomParticles.Play();
+               shroomParticles.Play();
                 playShroomParticle = false;
             }
 
@@ -79,17 +79,17 @@ namespace HiveMind.Mushroom
             if (mushMan.MushroomLimit == 3)
             {
                 // Checks if the throw has been unlocked
-                if (mushMan.ThrowUnlocked)
+                if (mushMan.ThrowUnlocked && shroomIcon != null)
                 {
                     // Increases the fill amount
                     shroomIcon.GetComponent<Image>().fillAmount += (Time.deltaTime / mushMan.ShroomDuration);
                 }
 
                 // Checks if the fill is full
-                if (shroomIcon.GetComponent<Image>().fillAmount >= 1f)
+                if (shroomIcon != null && shroomIcon.GetComponent<Image>().fillAmount >= 1f)
                 {
                     // Plays the icon particle effect
-                    shroomIcon.GetComponent<ParticleSystem>().Play();
+                    //shroomIcon.GetComponent<ParticleSystem>().Play();
                 }
             }
         }

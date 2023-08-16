@@ -74,6 +74,7 @@ namespace HiveMind.Mushroom
         private bool firstWallBounce;
         private bool showQuickBounceMessage;
         [SerializeField] private Vector3 wallShroomPosDifference;
+        [SerializeField] private Vector3 quickBounceShroomDiff;
         #endregion
 
         #region PROPERTIES
@@ -233,7 +234,7 @@ namespace HiveMind.Mushroom
             foreach (GameObject m in mushroomList)
             {
                 // Check if the duration timer is less than or equal to 0
-                if (m.GetComponent<Shroom>().DurationTimer <= 0)
+                if (m.GetComponent<Shroom>().ShroomIcon != null && m.GetComponent<Shroom>().DurationTimer <= 0)
                 {
                     // If so, pushes the shroom to the remove indexes stack
                     removeShroomIndexes.Push(mushroomList.IndexOf(m));
@@ -297,7 +298,7 @@ namespace HiveMind.Mushroom
             foreach (GameObject shroomIcon in UIEvent.GetShroomCounter())
             {
                 // Checks if the current shroom icon's x position is greater than the current right most x pos
-                if (shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
+                if (shroomIcon != null && shroomIcon.GetComponent<RectTransform>().position.x > rightMostXPos)
                 {
                     // If so, sets the right most x pos to the current shroom icon's x pos
                     rightMostXPos = shroomIcon.GetComponent<RectTransform>().position.x;
@@ -691,7 +692,7 @@ namespace HiveMind.Mushroom
                 }
 
                 // Small difference for spawning the mushroom below the player
-                Vector3 difference = new Vector3(0, playerRB.GetComponent<BoxCollider2D>().size.y, 0);
+                Vector3 difference = quickBounceShroomDiff;
 
                 // Create the shroom that bounces the player
                 GameObject shroom = Instantiate(spore, playerRB.transform.position - difference, Quaternion.identity);

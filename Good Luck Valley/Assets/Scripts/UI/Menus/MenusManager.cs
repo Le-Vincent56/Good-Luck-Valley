@@ -982,13 +982,12 @@ namespace HiveMind.Menus
             settings.Brightness = brightness;
             if (resValues.x != 12 && resValues.y != 34)
             {
-                Screen.SetResolution((int)resValues.x, (int)resValues.y, isFullscreen);
+                Screen.SetResolution((int)resValues.x, (int)resValues.y, fullscreenToggle.isOn);
             }
             else
             {
                 Screen.SetResolution(1920, 1080, true);
             }
-            Screen.fullScreen = isFullscreen;
             settings.SubtitlesEnabled = subtitlesEnabled;
             settings.ResOption = resDropdown.value;
             settings.IsFullscreen = fullscreenToggle.isOn;

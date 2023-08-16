@@ -99,36 +99,37 @@ namespace HiveMind.UI
             float x;
             float y;
 
-            if (movementEvent.GetCanTurn())
-            {
-                // Checks whether the player is facing right or left
-                switch (facingRight)
-                {
-                    case true:
-                        // If they are facing right the trajectory line cannot go past the left 
-                        //    side of the player 
-                        if (playerPos.x + launchForce.x < playerPos.x)
-                        {
-                            // Turns the player by calling playerMovement's Turn method
-                            player.GetComponent<PlayerMovement>().Turn();
-                        }
-                        // Sets starting position for line to match the location the shrooms are
-                        //      spawned from with the offset
-                        break;
+            // Turns the player if aiming behind them.
+            //if (movementEvent.GetCanTurn())
+            //{
+            //    // Checks whether the player is facing right or left
+            //    switch (facingRight)
+            //    {
+            //        case true:
+            //            // If they are facing right the trajectory line cannot go past the left 
+            //            //    side of the player 
+            //            if (playerPos.x + launchForce.x < playerPos.x)
+            //            {
+            //                // Turns the player by calling playerMovement's Turn method
+            //                player.GetComponent<PlayerMovement>().Turn();
+            //            }
+            //            // Sets starting position for line to match the location the shrooms are
+            //            //      spawned from with the offset
+            //            break;
 
-                    case false:
-                        // if the player is facing left the trajectory line cannot go past
-                        //      the right side of the player
-                        if (playerPos.x - launchForce.x < playerPos.x)
-                        {
-                            // sets launchforce to zero to 'stop' the renderer
-                            player.GetComponent<PlayerMovement>().Turn();
-                        }
-                        // sets starting position for line to match the location the shrooms are
-                        //      spawned from with the offseta
-                        break;
-                }
-            }
+            //        case false:
+            //            // if the player is facing left the trajectory line cannot go past
+            //            //      the right side of the player
+            //            if (playerPos.x - launchForce.x < playerPos.x)
+            //            {
+            //                // sets launchforce to zero to 'stop' the renderer
+            //                player.GetComponent<PlayerMovement>().Turn();
+            //            }
+            //            // sets starting position for line to match the location the shrooms are
+            //            //      spawned from with the offseta
+            //            break;
+            //    }
+            //}
 
 
             // Sets the position for the first segment using player position
