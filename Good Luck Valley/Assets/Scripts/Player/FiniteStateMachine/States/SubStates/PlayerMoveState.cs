@@ -42,10 +42,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             base.PhysicsUpdate();
 
             // Move the player
-            player.Run(0.5f);
-
-            // Turn the player
-            player.CheckDirectionToFace(player.InputHandler.NormInputX > 0);
+            player.Move(0.5f);
         }
     }
 }

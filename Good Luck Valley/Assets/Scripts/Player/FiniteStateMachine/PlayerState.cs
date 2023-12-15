@@ -12,6 +12,8 @@ namespace GoodLuckValley.Player.StateMachine
         protected PlayerStateMachine stateMachine;
         protected PlayerData playerData;
 
+        protected bool isAnimationFinished;
+
         protected float startTime;
 
         private string animationBoolName;
@@ -34,6 +36,7 @@ namespace GoodLuckValley.Player.StateMachine
             DoChecks();
 
             // Set the animation state
+            isAnimationFinished = false;
             player.Anim.SetBool(animationBoolName, true);
 
             // Set start time
@@ -75,5 +78,18 @@ namespace GoodLuckValley.Player.StateMachine
         {
 
         }
+
+        /// <summary>
+        /// Trigger something in the middle of an animation
+        /// </summary>
+        public virtual void AnimationTrigger()
+        {
+
+        }
+
+        /// <summary>
+        /// Check if the animation is finished
+        /// </summary>
+        public virtual void AnimationFinishTrigger() => isAnimationFinished = true;
     }
 }

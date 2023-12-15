@@ -10,5 +10,18 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
         }
 
+        public override void LogicUpdate()
+        {
+            base.LogicUpdate();
+
+            // Exit case - player is moving
+            if(xInput != 0)
+            {
+                stateMachine.ChangeState(player.MoveState);
+            } else if(isAnimationFinished) // Exit case - land animation finished
+            {
+                stateMachine.ChangeState(player.IdleState);
+            }
+        }
     }
 }

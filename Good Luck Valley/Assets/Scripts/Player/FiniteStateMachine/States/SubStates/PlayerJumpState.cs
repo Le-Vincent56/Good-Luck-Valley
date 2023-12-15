@@ -6,13 +6,8 @@ namespace GoodLuckValley.Player.StateMachine.States
 {
     public class PlayerJumpState : PlayerAbilityState
     {
-        private float lastOnGroundTime;
-        private float lastPressedJumpTime;
         private bool isJumping;
         private bool isJumpCut;
-        private bool isJumpFalling;
-
-        public float LastOnGroundTime { get { return lastOnGroundTime; } set { lastOnGroundTime = value; } }
 
         public PlayerJumpState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
             : base(player, stateMachine, playerData, animationaBoolName)
@@ -28,36 +23,38 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.Enter();
 
-            isJumping = true;
-            isJumpCut = false;
-            isJumpFalling = false;
+            if(!isJumping)
+            {
+                isJumping = true;
+                isJumpCut = false;
 
-            lastPressedJumpTime = 0;
+                player.InputHandler.LastPressedJumpTime = 0;
 
-            player.Jump();
+                Jump();
+            }
         }
 
         public override void Exit()
         {
             base.Exit();
-
-            
         }
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
 
-            lastOnGroundTime -= Time.deltaTime;
-            lastPressedJumpTime -= Time.deltaTime;
+            // Update timers
+            player.InputHandler.LastPressedJumpTime -= Time.deltaTime;
 
-            // Jump Checks
-            if (isJumping && player.RB.velocity.y < 0)
+            // Check for input changes - jump cut
+            if (player.InputHandler.TryJumpCut)
             {
-                isJumping = false;
-
-                // Trigger ability done
-                isAbilityDone = true;
+                // Check if the player is jumping and going upwards
+                if(isJumping && player.RB.velocity.y > 0)
+                {
+                    // If so, they can jump cut
+                    isJumpCut = true;
+                }
             }
 
             // Gravity alterations
@@ -67,20 +64,48 @@ namespace GoodLuckValley.Player.StateMachine.States
                 player.SetGravityScale(playerData.gravityScale * playerData.jumpCutGravityMult);
                 player.RB.velocity = new Vector2(player.RB.velocity.x, Mathf.Max(player.RB.velocity.y, -playerData.maxFallSpeed));
             }
-            else if ((isJumping || isJumpFalling) && Mathf.Abs(player.RB.velocity.y) < playerData.jumpHangTimeThreshold) // If jump hanging
+            else if (isJumping && Mathf.Abs(player.RB.velocity.y) < playerData.jumpHangTimeThreshold) // If jump hanging
             {
                 player.SetGravityScale(playerData.gravityScale * playerData.jumpHangGravityMult);
+            }
+
+            // Jump Checks
+            if (isJumping && player.RB.velocity.y < 0.01f)
+            {
+                // Set is jumping to false
+                isJumping = false;
+
+                // Set jump cut to false
+                isJumpCut = false;
+
+                // Reset the jump input variable
+                player.InputHandler.UseJumpInput();
+
+                // Trigger ability done
+                isAbilityDone = true;
             }
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
+
+            // Move the player in the air
+            player.Move(0.5f, true);
         }
 
-        public bool CheckCanJump()
+        /// <summary>
+        /// Add jumping force
+        /// </summary>
+        public void Jump()
         {
-            return lastOnGroundTime > 0 && !isJumping && player.isLocked;
+            float force = playerData.jumpForce;
+            if (player.RB.velocity.y < 0)
+            {
+                force -= player.RB.velocity.y;
+            }
+
+            player.RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         }
     }
 }

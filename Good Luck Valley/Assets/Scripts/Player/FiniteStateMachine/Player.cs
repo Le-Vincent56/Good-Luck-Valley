@@ -8,6 +8,7 @@ namespace GoodLuckValley.Player.StateMachine
     public class Player : MonoBehaviour
     {
         #region FIELDS
+        [SerializeField] string currentState;
         public PlayerStateMachine StateMachine { get; private set; }
         public PlayerIdleState IdleState { get; private set; }
         public PlayerMoveState MoveState { get; private set; }
@@ -58,6 +59,8 @@ namespace GoodLuckValley.Player.StateMachine
         {
             // Run the logic updates for the current state
             StateMachine.CurrentState.LogicUpdate();
+
+            currentState = StateMachine.CurrentState.ToString().Substring(48);
         }
 
         private void FixedUpdate()
@@ -77,11 +80,14 @@ namespace GoodLuckValley.Player.StateMachine
         }
         #endregion
 
+        private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
+        private void AnimationFinishedTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
+
         /// <summary>
         /// Allow the Player to Run
         /// </summary>
         /// <param name="lerpAmount">The amount to sooth movement by</param>
-        public void Run(float lerpAmount)
+        public void Move(float lerpAmount, bool inAir = false, bool bouncing = false)
         {
             // Calculate the direction we want to move in and our desired velocity
             float targetSpeed = InputHandler.NormInputX * playerData.runMaxSpeed;
@@ -91,7 +97,28 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Calculate accelRate
             float accelRate;
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? playerData.runAccelAmount * playerData.accelInAir : playerData.runDeccelAmount * playerData.deccelInAir;
+
+            // Set specific air accelerations and deccelerations for bouncing
+            if (bouncing)
+            {
+                playerData.accelInAir = 0.75f;
+                playerData.deccelInAir = 0f;
+            }
+            else
+            {
+                playerData.accelInAir = 0.75f;
+                playerData.deccelInAir = 0.75f;
+            }
+
+            // Set specific accelerations and deccelerations for moving in the air
+            if(inAir)
+            {
+                //accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? playerData.runAccelAmount : playerData.runDeccelAmount;
+                accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? playerData.runAccelAmount * playerData.accelInAir : playerData.runDeccelAmount * playerData.deccelInAir;
+            } else
+            {
+                accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? playerData.runAccelAmount : playerData.runDeccelAmount;
+            }
 
             // Calculate difference between current velocity and desired velocity
             float speedDif = targetSpeed - RB.velocity.x;
@@ -101,6 +128,9 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Convert this to a vector and apply to rigidbody
             RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+            // Turn the player
+            CheckDirectionToFace(InputHandler.NormInputX > 0);
         }
 
         /// <summary>
@@ -120,26 +150,13 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
-        /// Add jumping force
-        /// </summary>
-        public void Jump()
-        {
-            float force = playerData.jumpForce;
-            if (RB.velocity.y < 0)
-            {
-                force -= RB.velocity.y;
-            }
-
-            RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-        }
-
-        /// <summary>
         /// Set the gravity scale of the player
         /// </summary>
         /// <param name="scale"></param>
         public void SetGravityScale(float scale)
         {
             RB.gravityScale = scale;
+            Debug.Log("New Gravity Scale: " + RB.gravityScale);
         }
     }
 }

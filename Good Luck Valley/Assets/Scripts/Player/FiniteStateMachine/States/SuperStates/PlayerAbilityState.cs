@@ -40,7 +40,6 @@ namespace GoodLuckValley.Player.StateMachine.States
             // Check if the ability is done
             if(isAbilityDone)
             {
-                Debug.Log($"Grounded: {isGrounded}, Player Velocity: {player.RB.velocity.y}");
                 // Check if the player is grounded
                 if(isGrounded && player.RB.velocity.y < 0.01f)
                 {
