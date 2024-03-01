@@ -41,8 +41,6 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Set start time
             startTime = Time.time;
-
-            Debug.Log(animationBoolName);
         }
 
         /// <summary>

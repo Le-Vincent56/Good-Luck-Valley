@@ -8,6 +8,7 @@ namespace GoodLuckValley.Player.StateMachine
     public class Player : MonoBehaviour
     {
         #region FIELDS
+        [SerializeField] string previousState;
         [SerializeField] string currentState;
         public PlayerStateMachine StateMachine { get; private set; }
         public PlayerIdleState IdleState { get; private set; }
@@ -60,6 +61,9 @@ namespace GoodLuckValley.Player.StateMachine
             // Run the logic updates for the current state
             StateMachine.CurrentState.LogicUpdate();
 
+            // Check and set states
+            if(StateMachine.PreviousState != null)
+                previousState = StateMachine.PreviousState.ToString().Substring(48);
             currentState = StateMachine.CurrentState.ToString().Substring(48);
         }
 
@@ -156,7 +160,6 @@ namespace GoodLuckValley.Player.StateMachine
         public void SetGravityScale(float scale)
         {
             RB.gravityScale = scale;
-            Debug.Log("New Gravity Scale: " + RB.gravityScale);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace GoodLuckValley.Player.StateMachine
     {
         #region PROPERTIES
         public PlayerState CurrentState { get; private set; }
+        public PlayerState PreviousState { get; private set; }
         #endregion
 
         public void Initialize(PlayerState startingState)
@@ -19,6 +20,9 @@ namespace GoodLuckValley.Player.StateMachine
 
         public void ChangeState(PlayerState newState)
         {
+            // Set last state
+            PreviousState = CurrentState;
+
             // Exit the current state
             CurrentState.Exit();
 
