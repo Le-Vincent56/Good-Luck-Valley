@@ -29,11 +29,11 @@ namespace GoodLuckValley.Mushroom
         private void ThrowMushroom()
         {
             GameObject mushroom = Instantiate(spore, transform.position, Quaternion.identity);
-            Vector2 throwForce = forceDirection.normalized * throwMultiplier;
+            //Vector2 throwForce = forceDirection.normalized * throwMultiplier;
 
-            mushroom.GetComponent<Rigidbody2D>().AddForce(throwForce, ForceMode2D.Impulse);
-            mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-            mushroom.GetComponent<Shroom>().Rotation = -1;
+            //mushroom.GetComponent<Rigidbody2D>().AddForce(throwForce, ForceMode2D.Impulse);
+            //mushroom.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            //mushroom.GetComponent<Shroom>().Rotation = -1;
         }
     }
 }
