@@ -8,7 +8,7 @@ namespace GoodLuckValley.Player.StateMachine
     public class PlayerState
     {
         #region FIELDS
-        protected Player player;
+        protected PlayerController player;
         protected PlayerStateMachine stateMachine;
         protected PlayerData playerData;
 
@@ -19,16 +19,16 @@ namespace GoodLuckValley.Player.StateMachine
         private string animationBoolName;
         #endregion
 
-        public PlayerState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName)
+        public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
         {
             this.player = player;
             this.stateMachine = stateMachine;
             this.playerData = playerData;
-            this.animationBoolName = animationaBoolName;
+            this.animationBoolName = animationBoolName;
         }
 
         /// <summary>
-        /// Enter the player state
+        /// Enter the PlayerController state
         /// </summary>
         public virtual void Enter()
         {
@@ -44,7 +44,7 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
-        /// Exit the player state
+        /// Exit the PlayerController state
         /// </summary>
         public virtual void Exit()
         {
@@ -53,7 +53,7 @@ namespace GoodLuckValley.Player.StateMachine
         }
         
         /// <summary>
-        /// Update the player logic
+        /// Update the PlayerController logic
         /// </summary>
         public virtual void LogicUpdate()
         {
@@ -61,7 +61,7 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
-        /// Update the player physics
+        /// Update the PlayerController physics
         /// </summary>
         public virtual void PhysicsUpdate()
         {

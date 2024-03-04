@@ -8,10 +8,12 @@ namespace GoodLuckValley.Mushroom
     public class MushroomTracker : MonoBehaviour
     {
         #region REFERENCES
+        [Header("Events")]
         [SerializeField] private GameEvent onSendCountToLimit;
         #endregion
 
         #region FIELDS
+        [Header("Details")]
         [SerializeField] private List<GameObject> mushrooms;
         [SerializeField] private int limit;
         #endregion

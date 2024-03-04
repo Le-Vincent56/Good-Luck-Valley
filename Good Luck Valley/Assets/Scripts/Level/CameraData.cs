@@ -26,7 +26,7 @@ namespace GoodLuckValley.Level
         #region REFERENCES
         [Header("Events")]
         [SerializeField] private GameEvent onCameraMove;
-        [SerializeField] private GameEvent onUpdateCursorBounds;
+        [SerializeField] private GameEvent onUpdateScreenBounds;
 
         [SerializeField] private CinemachineVirtualCamera smartCam;
         #endregion
@@ -77,10 +77,16 @@ namespace GoodLuckValley.Level
                 currentBounds.Bottom = currentCMViewport.yMin - heightOffset;
                 currentBounds.Top = currentCMViewport.yMax - heightOffset;
 
+                // Raise events to update bounds
+                //  - Calls to: GameCursor.UpdateCursorBounds
+                onUpdateScreenBounds.Raise(this, currentBounds);
+
                 // Raise events on camera move
                 //  - Calls to: TODO: PARALLAX
                 onCameraMove.Raise(this, true);
             }
+
+            previousCMViewport = currentCMViewport;
         }
 
         /// <summary>
@@ -147,14 +153,6 @@ namespace GoodLuckValley.Level
                 camHeight);
 
             return viewportRect;
-        }
-
-        public void OnGetCursorBounds(Component sender, object data)
-        {
-            // Send the current bounds out
-            // Calls to:
-            //  - GameCursor.UpdateCursorBounds();
-            onUpdateCursorBounds.Raise(this, currentBounds);
         }
     }
 }

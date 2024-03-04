@@ -9,7 +9,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         protected bool isAbilityDone;
         private bool isGrounded;
 
-        public PlayerAbilityState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
+        public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
             : base(player, stateMachine, playerData, animationaBoolName)
         {
         }

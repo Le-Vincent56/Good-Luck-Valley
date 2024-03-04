@@ -1,3 +1,5 @@
+using GoodLuckValley.Events;
+using GoodLuckValley.UI;
 using GoodLuckValley.Player.StateMachine.States;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,8 +7,11 @@ using UnityEngine;
 
 namespace GoodLuckValley.Player.StateMachine
 {
-    public class Player : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
+        #region REFERENCES
+        #endregion
+
         #region FIELDS
         [SerializeField] string previousState;
         [SerializeField] string currentState;
@@ -154,12 +159,38 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
+        /// Turn the Player to face the direction they are moving in
+        /// </summary>
+        public void Turn()
+        {
+            // Stores scale and flips the player along the x axis, 
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+
+            isFacingRight = !isFacingRight;
+        }
+
+        /// <summary>
         /// Set the gravity scale of the player
         /// </summary>
         /// <param name="scale"></param>
         public void SetGravityScale(float scale)
         {
             RB.gravityScale = scale;
+        }
+
+        /// <summary>
+        /// Return data requested my MushroomThrow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void ReturnThrowData(Component sender, object data)
+        {
+            // Check if the sender is the correct type
+            if (sender is not ThrowLine) return;
+
+            ((ThrowLine)sender).SetFacingRight(isFacingRight);
         }
     }
 }

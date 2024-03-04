@@ -6,7 +6,7 @@ namespace GoodLuckValley.Player.StateMachine.States
 {
     public class PlayerIdleState : PlayerGroundedState
     {
-        public PlayerIdleState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
+        public PlayerIdleState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
             : base(player, stateMachine, playerData, animationaBoolName)
         {
         }

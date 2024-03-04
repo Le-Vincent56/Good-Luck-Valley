@@ -11,7 +11,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         private bool jumpInput;
         private bool isGrounded;
 
-        public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
+        public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
             : base(player, stateMachine, playerData, animationaBoolName)
         {
         }

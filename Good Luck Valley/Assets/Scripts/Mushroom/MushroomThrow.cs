@@ -20,21 +20,17 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onGetCountToLimit;
         [SerializeField] private GameEvent onRemoveFirstShroom;
         [SerializeField] private GameEvent onAddMushroom;
+        [SerializeField] private GameEvent onEnableThrowUI;
+        [SerializeField] private GameEvent onDisableThrowUI;
 
         [Header("Prefabs")]
         [SerializeField] private GameObject spore;
         #endregion
 
         #region FIELDS
-        private ThrowState throwState;
-        private bool canThrow;
-        private bool throwLineOn;
-        private float throwCooldown;
-        private float bounceCooldown;
-        private bool throwPrepared;
-        private bool throwUnlocked;
-        [SerializeField] bool throwing = false;
-        [SerializeField] float throwAnimTimer = 2f;
+        [SerializeField] private bool throwUnlocked;
+        [SerializeField] private bool canThrow;
+        [SerializeField] private ThrowState throwState;
         #endregion
 
         // Start is called before the first frame update
@@ -49,6 +45,11 @@ namespace GoodLuckValley.Mushroom
 
         }
 
+        /// <summary>
+        /// Handle throwing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void HandleThrow(Component sender, object data)
         {
             // Check if the data is the correct type
@@ -66,14 +67,24 @@ namespace GoodLuckValley.Mushroom
                 onRemoveFirstShroom.Raise(this, null);
             }
 
-            // Hide the UI line
-            //DeleteThrowLine();
+            // Reset throwing
+            if (throwState == ThrowState.Throwing)
+                throwState = ThrowState.NotThrowing;
+
+            // Disable throw UI
+            // Calls to:
+            //  - ThrowLine.HideLine()
+            onDisableThrowUI.Raise(this, false);
 
             // Add a mushroom to the list
             //  - Calls MushroomTracker.AddMushroom()
             onAddMushroom.Raise(this, spore);
         }
 
+        /// <summary>
+        /// Input handler for throwing
+        /// </summary>
+        /// <param name="context"></param>
         public void OnThrow(InputAction.CallbackContext context)
         {
             if (!throwUnlocked || !canThrow) return;
@@ -84,6 +95,11 @@ namespace GoodLuckValley.Mushroom
                 // If not throwing, set to throwing
                 if (throwState == ThrowState.NotThrowing)
                     throwState = ThrowState.Throwing;
+
+                // Enable throw UI
+                // Calls to:
+                //  - ThrowLine.ShowLine()
+                onEnableThrowUI.Raise(this, true);
             }
 
             // Throw on release

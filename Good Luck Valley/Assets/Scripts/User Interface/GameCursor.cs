@@ -1,23 +1,16 @@
-using GoodLuckValley.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using GoodLuckValley.Level;
-using UnityEngine.Rendering;
 
 namespace GoodLuckValley.UI
 {
     public class GameCursor : MonoBehaviour
     {
-        #region REFERENCES
-        [Header("Events")]
-        [SerializeField] private GameEvent onGetCursorBounds;
-        #endregion
-
         #region  FIELDS
-        private Vector2 cursorPosition;
-        private CameraData.ScreenBounds cursorBounds;
+        [SerializeField] private Vector2 cursorPosition;
+        [SerializeField] private CameraData.ScreenBounds cursorBounds;
         #endregion
 
         // Start is called before the first frame update
@@ -33,6 +26,10 @@ namespace GoodLuckValley.UI
         // Update is called once per frame
         void Update()
         {
+            // Reset cursor visibility if it's ever visible
+            if(Cursor.visible)
+                Cursor.visible = false;
+
             // Set desired cursor position
             cursorPosition = Camera.main.ScreenToWorldPoint(
                 new Vector2(
@@ -40,11 +37,6 @@ namespace GoodLuckValley.UI
                     Mouse.current.position.ReadValue().y
                 )
             );
-
-            // Get cursor bounds
-            // Calls to:
-            //  - CameraData.OnGetCursorBounds();
-            onGetCursorBounds.Raise(this, null);
 
             // Check cursor bounds based on the player
             CheckCursorBoundsPlayer();
@@ -82,6 +74,13 @@ namespace GoodLuckValley.UI
 
             // Cast and update data
             cursorBounds = (CameraData.ScreenBounds)data;
+        }
+
+        public void SetThrowData(Component sender, object data)
+        {
+            if (sender is not ThrowLine) return;
+
+            ((ThrowLine)sender).SetCursorPosition((Vector2)transform.position);
         }
     }
 }
