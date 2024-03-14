@@ -7,6 +7,18 @@ using UnityEngine.InputSystem;
 
 namespace GoodLuckValley.Mushroom
 {
+    public struct SporeData
+    {
+        public Vector2 LaunchForce;
+        public GameObject Spore;
+
+        public SporeData(Vector2 launchForce, GameObject spore)
+        {
+            LaunchForce = launchForce;
+            Spore = spore;
+        }
+    }
+
     public class MushroomThrow : MonoBehaviour
     {
         public enum ThrowState
@@ -20,6 +32,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onGetCountToLimit;
         [SerializeField] private GameEvent onRemoveFirstShroom;
         [SerializeField] private GameEvent onAddMushroom;
+        [SerializeField] private GameEvent onGetLaunchForce;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
 
@@ -28,6 +41,7 @@ namespace GoodLuckValley.Mushroom
         #endregion
 
         #region FIELDS
+        [SerializeField] private Vector2 launchForce;
         [SerializeField] private bool throwUnlocked;
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
@@ -43,6 +57,15 @@ namespace GoodLuckValley.Mushroom
         void Update()
         {
 
+        }
+
+        /// <summary>
+        /// Set the launch force for the throw
+        /// </summary>
+        /// <param name="launchForce"></param>
+        public void SetLaunchForce(Vector2 launchForce)
+        {
+            this.launchForce = launchForce;
         }
 
         /// <summary>
@@ -71,14 +94,22 @@ namespace GoodLuckValley.Mushroom
             if (throwState == ThrowState.Throwing)
                 throwState = ThrowState.NotThrowing;
 
+            // Get launch force
+            // Calls to:
+            // - ThrowLine.SetLaunchForce()
+            onGetLaunchForce.Raise(this, null);
+
             // Disable throw UI
             // Calls to:
             //  - ThrowLine.HideLine()
             onDisableThrowUI.Raise(this, false);
 
+            // Create spore throw data
+            SporeData sporeData = new SporeData(launchForce, spore);
+
             // Add a mushroom to the list
             //  - Calls MushroomTracker.AddMushroom()
-            onAddMushroom.Raise(this, spore);
+            onAddMushroom.Raise(this, sporeData);
         }
 
         /// <summary>

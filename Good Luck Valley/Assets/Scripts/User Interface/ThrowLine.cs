@@ -251,6 +251,14 @@ namespace GoodLuckValley.UI
             }
         }
 
+        public void GetLaunchForce(Component sender, object data)
+        {
+            // Check if the data is the correct type
+            if (sender is not MushroomThrow) return;
+
+            ((MushroomThrow)sender).SetLaunchForce(launchForce);
+        }
+
         public void ShowLine(Component sender, object data)
         {
             // Check if the data is the correct type

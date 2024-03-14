@@ -16,6 +16,7 @@ namespace GoodLuckValley.Mushroom
         /// Get the type of shroom that will spawn on the tile
         /// </summary>
         /// <returns>The type of shroom that will spawn on the tile</returns>
-        public abstract ShroomType GetType();
+        public ShroomType GetShroomType();
+        public float GetCollisionAngle(Collision2D collision);
     }
 }
