@@ -28,6 +28,7 @@ namespace GoodLuckValley.UI
 
         [Header("Vectors")]
         [SerializeField] private Vector2 cursorPosition;
+        [SerializeField] private Vector2 throwDirection;
         [SerializeField] private Vector2 launchForce;
         [SerializeField] private Vector2 playerPos;
         [SerializeField] private Vector2 offset;
@@ -87,7 +88,8 @@ namespace GoodLuckValley.UI
 
             // Set data
             playerPos = (Vector2)transform.position;
-            launchForce = (cursorPosition - playerPos).normalized * throwMultiplier;
+            throwDirection = (cursorPosition - playerPos).normalized;
+            launchForce = throwDirection * throwMultiplier;
 
             // Sets the position count to be the segment count
             lineRenderer.positionCount = segments;
@@ -251,12 +253,12 @@ namespace GoodLuckValley.UI
             }
         }
 
-        public void GetLaunchForce(Component sender, object data)
+        public void GetThrowDirection(Component sender, object data)
         {
             // Check if the data is the correct type
             if (sender is not MushroomThrow) return;
 
-            ((MushroomThrow)sender).SetLaunchForce(launchForce);
+            ((MushroomThrow)sender).SetThrowDirection(throwDirection);
         }
 
         public void ShowLine(Component sender, object data)

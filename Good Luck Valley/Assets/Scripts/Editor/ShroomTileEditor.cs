@@ -7,10 +7,17 @@ using GoodLuckValley.World.Tiles;
 [CustomEditor(typeof(ShroomTile))]
 public class ShroomTileEditor : Editor
 {
+    private bool expandedBounds = true;
     private bool expandedRotations = true;
 
     private SerializedProperty tileType;
     private SerializedProperty shroomType;
+    private SerializedProperty upDirection;
+
+    private SerializedProperty up;
+    private SerializedProperty right;
+    private SerializedProperty down;
+    private SerializedProperty left;
 
     private SerializedProperty triangleTop;
     private SerializedProperty triangleBottom;
@@ -25,6 +32,12 @@ public class ShroomTileEditor : Editor
     {
         tileType = serializedObject.FindProperty("tileType");
         shroomType = serializedObject.FindProperty("shroomType");
+        upDirection = serializedObject.FindProperty("upDirection");
+
+        up = serializedObject.FindProperty("up");
+        right = serializedObject.FindProperty("right");
+        down = serializedObject.FindProperty("down");
+        left = serializedObject.FindProperty("left");
 
         triangleTop = serializedObject.FindProperty("triangleTop");
         triangleBottom = serializedObject.FindProperty("triangleBottom");
@@ -42,12 +55,62 @@ public class ShroomTileEditor : Editor
         serializedObject.UpdateIfRequiredOrScript();
 
         // Build tile details
-        EditorGUILayout.LabelField("Tile Details", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Type Details", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(tileType, new GUIContent("Tile Type"));
         EditorGUILayout.PropertyField(shroomType, new GUIContent("Shroom Type"));
 
-        expandedRotations = EditorGUILayout.BeginFoldoutHeaderGroup(expandedRotations, new GUIContent("Rotations"));
+        EditorGUILayout.Space(10f);
 
+        EditorGUILayout.LabelField("Direction Details", EditorStyles.boldLabel);
+        if(tileType.intValue == 3)
+        {
+
+        } else if (tileType.intValue == 4)
+        {
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(upDirection, new GUIContent("Up Direction"));
+            if(EditorGUI.EndChangeCheck())
+            {
+                switch(upDirection.intValue)
+                {
+                    // Up
+                    case 0:
+                        up.vector2Value = new Vector2(0, 1);
+                        break;
+
+                    // Right
+                    case 1:
+                        up.vector2Value = new Vector2(1, 0);
+                        break;
+
+                    // Down
+                    case 2:
+                        up.vector2Value = new Vector2(0, -1);
+                        break;
+
+                    // Left
+                    case 3:
+                        up.vector2Value = new Vector2(-1, 0);
+                        break;
+                }
+
+                right.vector2Value = new Vector2(up.vector2Value.y, -up.vector2Value.x);
+                down.vector2Value = -up.vector2Value;
+                left.vector2Value = new Vector2(-up.vector2Value.y, up.vector2Value.x);
+            }
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.PropertyField(up, new GUIContent("Up Vector"));
+            EditorGUILayout.PropertyField(down, new GUIContent("Down Vector"));
+            EditorGUILayout.PropertyField(left, new GUIContent("Left Vector"));
+            EditorGUILayout.PropertyField(right, new GUIContent("Right Vector"));
+            EditorGUI.EndDisabledGroup();
+        }
+
+        EditorGUILayout.Space(10f);
+
+        // Draw rotations
+        expandedRotations = EditorGUILayout.BeginFoldoutHeaderGroup(expandedRotations, new GUIContent("Rotations"));
         if(expandedRotations)
         {
             if (tileType.intValue == 3)
@@ -64,7 +127,6 @@ public class ShroomTileEditor : Editor
                 EditorGUILayout.PropertyField(rectangleRight, new GUIContent("Right"));
             }
         }
-
         EditorGUILayout.EndFoldoutHeaderGroup();
 
         // Apply changes

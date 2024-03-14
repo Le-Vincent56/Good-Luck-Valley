@@ -1,3 +1,4 @@
+using GoodLuckValley.World.Tiles;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,6 @@ namespace GoodLuckValley.Mushroom
         /// </summary>
         /// <returns>The type of shroom that will spawn on the tile</returns>
         public ShroomType GetShroomType();
-        public float GetCollisionAngle(Collision2D collision);
+        public CollisionData GetCollisionAngle(Collider2D collider);
     }
 }

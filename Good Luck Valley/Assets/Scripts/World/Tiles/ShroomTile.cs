@@ -1,10 +1,31 @@
 using GoodLuckValley.Mushroom;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace GoodLuckValley.World.Tiles
 {
+    public struct CollisionData
+    {
+        public enum CollisionDirection
+        {
+            Up = 0,
+            Right = 1,
+            Down = 2,
+            Left = 3
+        }
+
+        public CollisionDirection Direction;
+        public float Rotation;
+
+        public CollisionData(CollisionDirection direction, float rotation)
+        {
+            this.Direction = direction;
+            this.Rotation = rotation;
+        }
+    }
+
     public class ShroomTile : MonoBehaviour, IShroomeable
     {
         public enum TileType
@@ -13,10 +34,23 @@ namespace GoodLuckValley.World.Tiles
             Rectangle = 4
         }
 
+        public enum UpDirection
+        {
+            Up = 0,
+            Right = 1,
+            Down = 2,
+            Left = 3
+        }
+
         #region FIELDS
         [SerializeField] private TileType tileType;
         [SerializeField] private ShroomType shroomType;
+        [SerializeField] private UpDirection upDirection;
 
+        [SerializeField] private Vector2 up;
+        [SerializeField] private Vector2 right;
+        [SerializeField] private Vector2 down;
+        [SerializeField] private Vector2 left;
 
         [SerializeField] private float triangleTop;
         [SerializeField] private float triangleBottom;
@@ -28,63 +62,54 @@ namespace GoodLuckValley.World.Tiles
         [SerializeField] private float rectangleRight;
         #endregion
 
+        private void Awake()
+        {
+
+        }
+
         public ShroomType GetShroomType()
         {
             return shroomType;
         }
 
-        public float GetCollisionAngle(Collision2D collision)
+        public CollisionData GetCollisionAngle(Collider2D collider)
         {
-            ContactPoint2D contact = collision.contacts[0];
-            Vector2 normal = contact.normal;
+            Vector2 collisionDirection = (collider.attachedRigidbody.position - (Vector2)transform.position).normalized;
 
-            // Calculate the angle between the collision normal and a reference direction
-            float angle = Vector2.SignedAngle(Vector2.up, normal);
+            float absX = Mathf.Abs(collisionDirection.x);
+            float absY = Mathf.Abs(collisionDirection.y);
 
-            switch(tileType)
+            CollisionData collisionData = new CollisionData(CollisionData.CollisionDirection.Up, 0f);
+
+            // If X is greater than Y, only deal with Y
+            if(absX > absY)
             {
-                case TileType.Triangle:
-                    // Collision happened on the top
-                    if(Mathf.Approximately(angle, 0.0f))
-                    {
-                        return triangleTop;
-                        // Collision happened on the side
-                    } else if(Mathf.Approximately(angle, 90.0f) ||  Mathf.Approximately(angle, -90.0f))
-                    {
-                        return triangleSide;
-                    } else
-                    {
-                        // Collision happened on the bottom
-                        return triangleBottom;
-                    }
-
-                case TileType.Rectangle:
-                    // Return angle based on collision side
-                    if (Mathf.Approximately(Mathf.Abs(angle), 90.0f))
-                    {
-                        // Collision happened on top or bottom
-                        if (normal.y > 0)
-                            return rectangleTop;
-                        else
-                            return rectangleBottom;
-                    }
-                    // Collision happened on the left or right
-                    else if (Mathf.Approximately(angle, 0.0f) || Mathf.Approximately(angle, 180.0f))
-                    {
-                        if (normal.x > 0)
-                            return rectangleRight;
-                        else
-                            return rectangleLeft;
-                    }
-                    else
-                    {
-                        // Return a default value
-                        return 0f;
-                    }
-
-                default:
-                    return 0f;
+                Vector2 directionVector = new Vector2(0, collisionDirection.y);
+                if(collisionDirection.y > 0)
+                {
+                    collisionData.Direction = CollisionData.CollisionDirection.Up;
+                    collisionData.Rotation = rectangleTop;
+                } else if(collisionDirection.y < 0)
+                {
+                    collisionData.Direction = CollisionData.CollisionDirection.Down;
+                    collisionData.Rotation = rectangleBottom;
+                }
+            } else if(absY > absX) // Otherwise only deal with X
+            {
+                Vector2 directionVector = new Vector2(collisionDirection.x, 0);
+                if (collisionDirection.x > 0)
+                {
+                    collisionData.Direction = CollisionData.CollisionDirection.Right;
+                    collisionData.Rotation = rectangleRight;
+                }
+                else if (collisionDirection.x < 0)
+                {
+                    collisionData.Direction = CollisionData.CollisionDirection.Left;
+                    collisionData.Rotation = rectangleLeft;
+                }
             }
+
+            return collisionData;
         }
     }
 }

@@ -30,20 +30,6 @@ namespace GoodLuckValley.Mushroom
 
         }
 
-        public void AddMushroom(Component sender, object data)
-        {
-            // Check if the correct data type was sent
-            if (data is not SporeData) return;
-
-            // Cast data
-            SporeData sporeData = (SporeData)data;
-
-            // Add the spore to the list
-            GameObject newSpore = Instantiate(sporeData.Spore, transform.position, Quaternion.identity);
-
-            newSpore.GetComponent<Rigidbody2D>().AddForce(sporeData.LaunchForce);
-        }
-
         public void CheckCountToLimit(Component sender, object data)
         {
             bool atOrOverLimit;

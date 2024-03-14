@@ -31,8 +31,7 @@ namespace GoodLuckValley.Mushroom
         [Header("Events")]
         [SerializeField] private GameEvent onGetCountToLimit;
         [SerializeField] private GameEvent onRemoveFirstShroom;
-        [SerializeField] private GameEvent onAddMushroom;
-        [SerializeField] private GameEvent onGetLaunchForce;
+        [SerializeField] private GameEvent onGetThrowDirection;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
 
@@ -41,7 +40,8 @@ namespace GoodLuckValley.Mushroom
         #endregion
 
         #region FIELDS
-        [SerializeField] private Vector2 launchForce;
+        [SerializeField] private Vector2 throwDirection;
+        [SerializeField] private float throwMultiplier;
         [SerializeField] private bool throwUnlocked;
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
@@ -63,9 +63,9 @@ namespace GoodLuckValley.Mushroom
         /// Set the launch force for the throw
         /// </summary>
         /// <param name="launchForce"></param>
-        public void SetLaunchForce(Vector2 launchForce)
+        public void SetThrowDirection(Vector2 throwDirection)
         {
-            this.launchForce = launchForce;
+            this.throwDirection = throwDirection;
         }
 
         /// <summary>
@@ -97,19 +97,18 @@ namespace GoodLuckValley.Mushroom
             // Get launch force
             // Calls to:
             // - ThrowLine.SetLaunchForce()
-            onGetLaunchForce.Raise(this, null);
+            onGetThrowDirection.Raise(this, null);
 
             // Disable throw UI
             // Calls to:
             //  - ThrowLine.HideLine()
             onDisableThrowUI.Raise(this, false);
 
-            // Create spore throw data
-            SporeData sporeData = new SporeData(launchForce, spore);
+            // Create a spore and apply force
+            GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
+            newSpore.GetComponent<Rigidbody2D>().AddForce(throwDirection * throwMultiplier);
 
-            // Add a mushroom to the list
-            //  - Calls MushroomTracker.AddMushroom()
-            onAddMushroom.Raise(this, sporeData);
+
         }
 
         /// <summary>
