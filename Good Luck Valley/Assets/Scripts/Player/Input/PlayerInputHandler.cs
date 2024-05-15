@@ -1,3 +1,4 @@
+using GoodLuckValley.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +8,33 @@ namespace GoodLuckValley.Player
 {
     public class PlayerInputHandler : MonoBehaviour
     {
+        public struct ContextData
+        {
+            public bool Started;
+            public bool Canceled;
+
+            public ContextData(bool started, bool canceled)
+            {
+                Started = started;
+                Canceled = canceled;
+            }
+        }
+        #region REFERENCES
+        [Header("Events")]
+        [SerializeField] private GameEvent onThrow;
+
+        [Header("Objects")]
         [SerializeField] private PlayerData playerData;
+        #endregion
+
+        #region FIELDS
         public Vector2 RawMovementInput { get; private set; }
         public int NormInputX { get; private set; }
         public int NormInputY { get; private set; }
         public bool JumpInput { get; private set; }
         public bool TryJumpCut { get; private set; }
         public float LastPressedJumpTime { get; set; }
+        #endregion
 
 
         public void OnMove(InputAction.CallbackContext context)
@@ -40,6 +61,17 @@ namespace GoodLuckValley.Player
                 // Attempt to jump cut
                 TryJumpCut = true;
             }
+        }
+
+        public void OnThrow(InputAction.CallbackContext context)
+        {
+            // Get the contexts
+            ContextData contextData = new ContextData(context.started, context.canceled);
+
+            // Raise the throw event
+            // Calls to:
+            //  - MushroomThrow.OnThrow();
+            onThrow.Raise(this, contextData);
         }
 
         public void UseJumpInput() => JumpInput = false;

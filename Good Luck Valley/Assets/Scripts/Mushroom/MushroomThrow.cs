@@ -1,4 +1,5 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -107,20 +108,21 @@ namespace GoodLuckValley.Mushroom
             // Create a spore and apply force
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
             newSpore.GetComponent<Rigidbody2D>().AddForce(throwDirection * throwMultiplier);
-
-
         }
 
-        /// <summary>
-        /// Input handler for throwing
-        /// </summary>
-        /// <param name="context"></param>
-        public void OnThrow(InputAction.CallbackContext context)
+        public void OnThrow(Component sender, object data)
         {
+            // Exit case - throw not unlocked, or the player cannot throw
             if (!throwUnlocked || !canThrow) return;
 
+            // Check if the data type is correct
+            if (data is not PlayerInputHandler.ContextData) return;
+
+            // Cast data
+            PlayerInputHandler.ContextData contextData = (PlayerInputHandler.ContextData)data;
+
             // Aim on hold press
-            if (context.started)
+            if(contextData.Started)
             {
                 // If not throwing, set to throwing
                 if (throwState == ThrowState.NotThrowing)
@@ -133,7 +135,7 @@ namespace GoodLuckValley.Mushroom
             }
 
             // Throw on release
-            if (context.canceled)
+            if(contextData.Canceled)
             {
                 // Check if can throw updated
                 if (!canThrow) return;

@@ -30,6 +30,11 @@ namespace GoodLuckValley.Mushroom
 
         }
 
+        /// <summary>
+        /// Check the current Mushroom list's count against the limit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void CheckCountToLimit(Component sender, object data)
         {
             bool atOrOverLimit;
@@ -45,6 +50,11 @@ namespace GoodLuckValley.Mushroom
             onSendCountToLimit.Raise(this, atOrOverLimit); 
         }
 
+        /// <summary>
+        /// Remove the first shroom in the Mushroom list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void RemoveFirstShroom(Component sender, object data)
         {
             // Destroy the first shroom object
@@ -52,6 +62,51 @@ namespace GoodLuckValley.Mushroom
 
             // Remove the first shroom from the list
             mushrooms.RemoveAt(0);
+        }
+
+        /// <summary>
+        /// Add a Mushroom to the Mushroom list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void AddMushroom(Component sender, object data)
+        {
+            // Check the correct data was sent
+            if (data is not GameObject) return;
+
+            // Cast the data
+            GameObject mushroom = (GameObject)data;
+
+            // Remove the first shroom if necessary
+            if(mushrooms.Count >= limit)
+            {
+                RemoveFirstShroom(this, null);
+            }
+
+            // Add the mushroom to the list
+            mushrooms.Add(mushroom);
+        }
+
+        /// <summary>
+        /// Remove a shroom from the Mushroom list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void RemoveShroom(Component sender, object data)
+        {
+            // Check the correct data was sent
+            if (data is not GameObject) return;
+
+            // Cast the data
+            GameObject mushroom = (GameObject)data;
+
+            // Get the index of the mushroom
+            int index = mushrooms.IndexOf(mushroom);
+
+            // Destroy the mushroom at that index
+            // and remove it from the list
+            Destroy(mushrooms[index]);
+            mushrooms.RemoveAt(index);
         }
     }
 }

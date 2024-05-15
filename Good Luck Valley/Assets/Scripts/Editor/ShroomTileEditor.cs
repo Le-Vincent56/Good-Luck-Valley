@@ -12,12 +12,17 @@ public class ShroomTileEditor : Editor
 
     private SerializedProperty tileType;
     private SerializedProperty shroomType;
-    private SerializedProperty upDirection;
 
-    private SerializedProperty up;
-    private SerializedProperty right;
-    private SerializedProperty down;
-    private SerializedProperty left;
+    private SerializedProperty contactBuffer;
+
+    private SerializedProperty center;
+    private SerializedProperty width;
+    private SerializedProperty height;
+
+    private SerializedProperty spawnUp;
+    private SerializedProperty spawnRight;
+    private SerializedProperty spawnDown;
+    private SerializedProperty spawnLeft;
 
     private SerializedProperty triangleTop;
     private SerializedProperty triangleBottom;
@@ -32,12 +37,17 @@ public class ShroomTileEditor : Editor
     {
         tileType = serializedObject.FindProperty("tileType");
         shroomType = serializedObject.FindProperty("shroomType");
-        upDirection = serializedObject.FindProperty("upDirection");
 
-        up = serializedObject.FindProperty("up");
-        right = serializedObject.FindProperty("right");
-        down = serializedObject.FindProperty("down");
-        left = serializedObject.FindProperty("left");
+        contactBuffer = serializedObject.FindProperty("contactBuffer");
+
+        center = serializedObject.FindProperty("center");
+        width = serializedObject.FindProperty("width");
+        height = serializedObject.FindProperty("height");
+
+        spawnUp = serializedObject.FindProperty("spawnUp");
+        spawnRight = serializedObject.FindProperty("spawnRight");
+        spawnDown = serializedObject.FindProperty("spawnDown");
+        spawnLeft = serializedObject.FindProperty("spawnLeft");
 
         triangleTop = serializedObject.FindProperty("triangleTop");
         triangleBottom = serializedObject.FindProperty("triangleBottom");
@@ -60,50 +70,22 @@ public class ShroomTileEditor : Editor
         EditorGUILayout.PropertyField(shroomType, new GUIContent("Shroom Type"));
 
         EditorGUILayout.Space(10f);
+        EditorGUILayout.PropertyField(contactBuffer, new GUIContent("Contact Buffer"));
 
-        EditorGUILayout.LabelField("Direction Details", EditorStyles.boldLabel);
         if(tileType.intValue == 3)
         {
-
+            EditorGUILayout.LabelField("Direction Details", EditorStyles.boldLabel);
         } else if (tileType.intValue == 4)
         {
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(upDirection, new GUIContent("Up Direction"));
-            if(EditorGUI.EndChangeCheck())
-            {
-                switch(upDirection.intValue)
-                {
-                    // Up
-                    case 0:
-                        up.vector2Value = new Vector2(0, 1);
-                        break;
-
-                    // Right
-                    case 1:
-                        up.vector2Value = new Vector2(1, 0);
-                        break;
-
-                    // Down
-                    case 2:
-                        up.vector2Value = new Vector2(0, -1);
-                        break;
-
-                    // Left
-                    case 3:
-                        up.vector2Value = new Vector2(-1, 0);
-                        break;
-                }
-
-                right.vector2Value = new Vector2(up.vector2Value.y, -up.vector2Value.x);
-                down.vector2Value = -up.vector2Value;
-                left.vector2Value = new Vector2(-up.vector2Value.y, up.vector2Value.x);
-            }
-
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.PropertyField(up, new GUIContent("Up Vector"));
-            EditorGUILayout.PropertyField(down, new GUIContent("Down Vector"));
-            EditorGUILayout.PropertyField(left, new GUIContent("Left Vector"));
-            EditorGUILayout.PropertyField(right, new GUIContent("Right Vector"));
+            EditorGUILayout.LabelField("Spawn Details", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(center, new GUIContent("Center Point"));
+            EditorGUILayout.PropertyField(width, new GUIContent("Width Extents"));
+            EditorGUILayout.PropertyField(height, new GUIContent("Height Extents"));
+            EditorGUILayout.PropertyField(spawnUp, new GUIContent("Spawn Up"));
+            EditorGUILayout.PropertyField(spawnRight, new GUIContent("Spawn Right"));
+            EditorGUILayout.PropertyField(spawnDown, new GUIContent("Spawn Down"));
+            EditorGUILayout.PropertyField(spawnLeft, new GUIContent("Spawn Left"));
             EditorGUI.EndDisabledGroup();
         }
 

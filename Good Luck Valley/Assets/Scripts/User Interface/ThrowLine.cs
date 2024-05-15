@@ -12,6 +12,8 @@ namespace GoodLuckValley.UI
         #region REFERENCES
         [Header("Events")]
         [SerializeField] private GameEvent onRequestThrowData;
+
+        [Header("Objects")]
         [SerializeField] private GameObject player;
         #endregion
 
@@ -84,6 +86,9 @@ namespace GoodLuckValley.UI
         public void PlotTrajectory()
         {
             // Get line data
+            // Calls to:
+            //   - PlayerController.ReturnThrowData()
+            //   - GameCursor.ReturnThrowData()
             onRequestThrowData.Raise(this, this);
 
             // Set data
@@ -253,6 +258,11 @@ namespace GoodLuckValley.UI
             }
         }
 
+        /// <summary>
+        /// Set the throw direction of the current line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void GetThrowDirection(Component sender, object data)
         {
             // Check if the data is the correct type
@@ -261,6 +271,11 @@ namespace GoodLuckValley.UI
             ((MushroomThrow)sender).SetThrowDirection(throwDirection);
         }
 
+        /// <summary>
+        /// Show the Throw UI Line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void ShowLine(Component sender, object data)
         {
             // Check if the data is the correct type
@@ -269,6 +284,11 @@ namespace GoodLuckValley.UI
             show = (bool)data;
         }
 
+        /// <summary>
+        /// Hide the Throw UI Line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void DisableLine(Component sender, object data)
         {
             if (data is not bool) return;

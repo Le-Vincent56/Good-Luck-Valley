@@ -18,11 +18,13 @@ namespace GoodLuckValley.World.Tiles
 
         public CollisionDirection Direction;
         public float Rotation;
+        public Vector2 SpawnPoint;
 
-        public CollisionData(CollisionDirection direction, float rotation)
+        public CollisionData(CollisionDirection direction, float rotation, Vector2 spawnPoint)
         {
-            this.Direction = direction;
-            this.Rotation = rotation;
+            Direction = direction;
+            Rotation = rotation;
+            SpawnPoint = spawnPoint;
         }
     }
 
@@ -34,23 +36,19 @@ namespace GoodLuckValley.World.Tiles
             Rectangle = 4
         }
 
-        public enum UpDirection
-        {
-            Up = 0,
-            Right = 1,
-            Down = 2,
-            Left = 3
-        }
-
         #region FIELDS
         [SerializeField] private TileType tileType;
         [SerializeField] private ShroomType shroomType;
-        [SerializeField] private UpDirection upDirection;
 
-        [SerializeField] private Vector2 up;
-        [SerializeField] private Vector2 right;
-        [SerializeField] private Vector2 down;
-        [SerializeField] private Vector2 left;
+        [SerializeField] private float contactBuffer = 0.2f;
+
+        [SerializeField] private Vector2 center;
+        [SerializeField] private float width;
+        [SerializeField] private float height;
+        [SerializeField] private float spawnUp;
+        [SerializeField] private float spawnRight;
+        [SerializeField] private float spawnDown;
+        [SerializeField] private float spawnLeft;
 
         [SerializeField] private float triangleTop;
         [SerializeField] private float triangleBottom;
@@ -64,7 +62,26 @@ namespace GoodLuckValley.World.Tiles
 
         private void Awake()
         {
+            if (tileType == TileType.Triangle)
+            {
 
+            }
+            else if (tileType == TileType.Rectangle)
+            {
+                // Get bounds
+                Bounds bounds = GetComponent<BoxCollider2D>().bounds;
+
+                // Set extents and center position
+                width = bounds.extents.x;
+                height = bounds.extents.y;
+                center = transform.position;
+
+                // Set spawn positions
+                spawnUp = center.y + height;
+                spawnRight = center.x + width;
+                spawnDown = center.y - height;
+                spawnLeft = center.x - width;
+            }
         }
 
         public ShroomType GetShroomType()
@@ -72,44 +89,67 @@ namespace GoodLuckValley.World.Tiles
             return shroomType;
         }
 
-        public CollisionData GetCollisionAngle(Collider2D collider)
+        public CollisionData GetCollisionAngle(Collider2D collider, Vector2 contactPoint)
         {
-            Vector2 collisionDirection = (collider.attachedRigidbody.position - (Vector2)transform.position).normalized;
+            // Create a collision data object
+            CollisionData collisionData = new CollisionData(CollisionData.CollisionDirection.Up, 0f, Vector2.zero);
 
-            float absX = Mathf.Abs(collisionDirection.x);
-            float absY = Mathf.Abs(collisionDirection.y);
+            // Check the direction of collision
+            collisionData.Direction = CheckCollisionDirection(contactPoint);
 
-            CollisionData collisionData = new CollisionData(CollisionData.CollisionDirection.Up, 0f);
-
-            // If X is greater than Y, only deal with Y
-            if(absX > absY)
+            switch (collisionData.Direction)
             {
-                Vector2 directionVector = new Vector2(0, collisionDirection.y);
-                if(collisionDirection.y > 0)
-                {
-                    collisionData.Direction = CollisionData.CollisionDirection.Up;
+                // Set Up data
+                case CollisionData.CollisionDirection.Up:
                     collisionData.Rotation = rectangleTop;
-                } else if(collisionDirection.y < 0)
-                {
-                    collisionData.Direction = CollisionData.CollisionDirection.Down;
-                    collisionData.Rotation = rectangleBottom;
-                }
-            } else if(absY > absX) // Otherwise only deal with X
-            {
-                Vector2 directionVector = new Vector2(collisionDirection.x, 0);
-                if (collisionDirection.x > 0)
-                {
-                    collisionData.Direction = CollisionData.CollisionDirection.Right;
+                    collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnUp);
+                    break;
+
+                // Set Right data
+                case CollisionData.CollisionDirection.Right:
                     collisionData.Rotation = rectangleRight;
-                }
-                else if (collisionDirection.x < 0)
-                {
-                    collisionData.Direction = CollisionData.CollisionDirection.Left;
+                    collisionData.SpawnPoint = new Vector2(spawnRight, contactPoint.y);
+                    break;
+
+                // Set Down data
+                case CollisionData.CollisionDirection.Down:
+                    collisionData.Rotation = rectangleBottom;
+                    collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnDown);
+                    break;
+
+                // Set Left data
+                case CollisionData.CollisionDirection.Left:
                     collisionData.Rotation = rectangleLeft;
-                }
+                    collisionData.SpawnPoint = new Vector2(spawnLeft, contactPoint.y);
+                    break;
             }
 
             return collisionData;
+        }
+
+        private CollisionData.CollisionDirection CheckCollisionDirection(Vector2 contactPoint)
+        {
+            // Check against bounds
+            if (contactPoint.y < spawnUp + contactBuffer && contactPoint.y > spawnUp - contactBuffer) // Check top bound
+            {
+                return CollisionData.CollisionDirection.Up;
+            }
+            else if (contactPoint.y < spawnDown + contactBuffer && contactPoint.y > spawnDown - contactBuffer) // Check bottom bound
+            {
+                return CollisionData.CollisionDirection.Down;
+            }
+            else if (contactPoint.x < spawnRight + contactBuffer && contactPoint.x > spawnRight - contactBuffer) // Check right bound
+            {
+                return CollisionData.CollisionDirection.Right;
+            }
+            else if (contactPoint.x < spawnLeft + contactBuffer && contactPoint.x > spawnLeft - contactBuffer) // Check left bound
+            {
+                return CollisionData.CollisionDirection.Left;
+            } else
+            {
+                // Default to up
+                return CollisionData.CollisionDirection.Up;
+            }
         }
     }
 }
