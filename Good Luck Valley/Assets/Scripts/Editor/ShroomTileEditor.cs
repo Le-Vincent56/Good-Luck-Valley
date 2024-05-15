@@ -19,19 +19,26 @@ public class ShroomTileEditor : Editor
     private SerializedProperty width;
     private SerializedProperty height;
 
+    // Triangle fields
+    private SerializedProperty diagDirection;
+    private SerializedProperty hypotenusePoints;
+    private SerializedProperty spawnHor;
+    private SerializedProperty spawnVer;
+
+    private SerializedProperty diagonalRot;
+    private SerializedProperty horizontalRot;
+    private SerializedProperty verticalRot;
+
+    // Rectangle fields
     private SerializedProperty spawnUp;
     private SerializedProperty spawnRight;
     private SerializedProperty spawnDown;
     private SerializedProperty spawnLeft;
 
-    private SerializedProperty triangleTop;
-    private SerializedProperty triangleBottom;
-    private SerializedProperty triangleSide;
-
-    private SerializedProperty rectangleTop;
-    private SerializedProperty rectangleBottom;
-    private SerializedProperty rectangleLeft;
-    private SerializedProperty rectangleRight;
+    private SerializedProperty topRot;
+    private SerializedProperty bottomRot;
+    private SerializedProperty leftRot;
+    private SerializedProperty rightRot;
 
     private void OnEnable()
     {
@@ -44,19 +51,24 @@ public class ShroomTileEditor : Editor
         width = serializedObject.FindProperty("width");
         height = serializedObject.FindProperty("height");
 
+        diagDirection = serializedObject.FindProperty("diagDirection");
+        hypotenusePoints = serializedObject.FindProperty("hypotenusePoints");
+        spawnHor = serializedObject.FindProperty("spawnHor");
+        spawnVer = serializedObject.FindProperty("spawnVer");
+
+        diagonalRot = serializedObject.FindProperty("diagonalRot");
+        horizontalRot = serializedObject.FindProperty("horizontalRot");
+        verticalRot = serializedObject.FindProperty("verticalRot");
+
         spawnUp = serializedObject.FindProperty("spawnUp");
         spawnRight = serializedObject.FindProperty("spawnRight");
         spawnDown = serializedObject.FindProperty("spawnDown");
         spawnLeft = serializedObject.FindProperty("spawnLeft");
 
-        triangleTop = serializedObject.FindProperty("triangleTop");
-        triangleBottom = serializedObject.FindProperty("triangleBottom");
-        triangleSide = serializedObject.FindProperty("triangleSide");
-
-        rectangleTop = serializedObject.FindProperty("rectangleTop");
-        rectangleBottom = serializedObject.FindProperty("rectangleBottom");
-        rectangleLeft = serializedObject.FindProperty("rectangleLeft");
-        rectangleRight = serializedObject.FindProperty("rectangleRight");
+        topRot = serializedObject.FindProperty("topRot");
+        bottomRot = serializedObject.FindProperty("bottomRot");
+        leftRot = serializedObject.FindProperty("leftRot");
+        rightRot = serializedObject.FindProperty("rightRot");
     }
 
     public override void OnInspectorGUI()
@@ -75,6 +87,17 @@ public class ShroomTileEditor : Editor
         if(tileType.intValue == 3)
         {
             EditorGUILayout.LabelField("Direction Details", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(diagDirection, new GUIContent("Diagonal Direction"));
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.LabelField("Spawn Details", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(center, new GUIContent("Center Point"));
+            EditorGUILayout.PropertyField(width, new GUIContent("Width Extents"));
+            EditorGUILayout.PropertyField(height, new GUIContent("Height Extents"));
+            EditorGUILayout.PropertyField(hypotenusePoints, new GUIContent("Hypotenuse Points"));
+            EditorGUILayout.PropertyField(spawnHor, new GUIContent("Horizontal Spawn"));
+            EditorGUILayout.PropertyField(spawnVer, new GUIContent("Vertical Spawn"));
+            EditorGUI.EndDisabledGroup();
         } else if (tileType.intValue == 4)
         {
             EditorGUI.BeginDisabledGroup(true);
@@ -82,10 +105,10 @@ public class ShroomTileEditor : Editor
             EditorGUILayout.PropertyField(center, new GUIContent("Center Point"));
             EditorGUILayout.PropertyField(width, new GUIContent("Width Extents"));
             EditorGUILayout.PropertyField(height, new GUIContent("Height Extents"));
-            EditorGUILayout.PropertyField(spawnUp, new GUIContent("Spawn Up"));
-            EditorGUILayout.PropertyField(spawnRight, new GUIContent("Spawn Right"));
-            EditorGUILayout.PropertyField(spawnDown, new GUIContent("Spawn Down"));
-            EditorGUILayout.PropertyField(spawnLeft, new GUIContent("Spawn Left"));
+            EditorGUILayout.PropertyField(spawnUp, new GUIContent("Up Spawn"));
+            EditorGUILayout.PropertyField(spawnRight, new GUIContent("Right Spawn"));
+            EditorGUILayout.PropertyField(spawnDown, new GUIContent("Down Spawn"));
+            EditorGUILayout.PropertyField(spawnLeft, new GUIContent("Left Spawn"));
             EditorGUI.EndDisabledGroup();
         }
 
@@ -97,16 +120,16 @@ public class ShroomTileEditor : Editor
         {
             if (tileType.intValue == 3)
             {
-                EditorGUILayout.PropertyField(triangleTop, new GUIContent("Top"));
-                EditorGUILayout.PropertyField(triangleBottom, new GUIContent("Bottom"));
-                EditorGUILayout.PropertyField(triangleSide, new GUIContent("Side"));
+                EditorGUILayout.PropertyField(diagonalRot, new GUIContent("Diagonal"));
+                EditorGUILayout.PropertyField(horizontalRot, new GUIContent("Horizontal"));
+                EditorGUILayout.PropertyField(verticalRot, new GUIContent("Vertical"));
             }
             else if (tileType.intValue == 4)
             {
-                EditorGUILayout.PropertyField(rectangleTop, new GUIContent("Top"));
-                EditorGUILayout.PropertyField(rectangleBottom, new GUIContent("Bottom"));
-                EditorGUILayout.PropertyField(rectangleLeft, new GUIContent("Left"));
-                EditorGUILayout.PropertyField(rectangleRight, new GUIContent("Right"));
+                EditorGUILayout.PropertyField(topRot, new GUIContent("Top"));
+                EditorGUILayout.PropertyField(bottomRot, new GUIContent("Bottom"));
+                EditorGUILayout.PropertyField(leftRot, new GUIContent("Left"));
+                EditorGUILayout.PropertyField(rightRot, new GUIContent("Right"));
             }
         }
         EditorGUILayout.EndFoldoutHeaderGroup();

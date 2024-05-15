@@ -1,7 +1,6 @@
 using GoodLuckValley.Mushroom;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace GoodLuckValley.World.Tiles
@@ -13,7 +12,11 @@ namespace GoodLuckValley.World.Tiles
             Up = 0,
             Right = 1,
             Down = 2,
-            Left = 3
+            Left = 3,
+            TopRightDiag = 4,
+            TopLeftDiag = 5,
+            BottomLeftDiag = 6,
+            BottomRightDiag = 7,
         }
 
         public CollisionDirection Direction;
@@ -36,6 +39,14 @@ namespace GoodLuckValley.World.Tiles
             Rectangle = 4
         }
 
+        public enum DiagDirection
+        {
+            TopRight = 0, // Rot-Z 0/360
+            TopLeft = 1, // Rot-Z 90/-270
+            BottomLeft = 2, // Rot-Z 180/-180
+            BottomRight = 3, // Rot-Z 270/-90
+        }
+
         #region FIELDS
         [SerializeField] private TileType tileType;
         [SerializeField] private ShroomType shroomType;
@@ -45,26 +56,158 @@ namespace GoodLuckValley.World.Tiles
         [SerializeField] private Vector2 center;
         [SerializeField] private float width;
         [SerializeField] private float height;
+
+        // Triangle fields
+        [SerializeField] private DiagDirection diagDirection;
+        [SerializeField] private List<Vector2> hypotenusePoints = new List<Vector2>();
+        [SerializeField] private float spawnHor;
+        [SerializeField] private float spawnVer;
+
+        [SerializeField] private float diagonalRot;
+        [SerializeField] private float horizontalRot;
+        [SerializeField] private float verticalRot;
+
+        private Vector2 closestPointTriangle;
+
+        // Rectangle fields
         [SerializeField] private float spawnUp;
         [SerializeField] private float spawnRight;
         [SerializeField] private float spawnDown;
         [SerializeField] private float spawnLeft;
 
-        [SerializeField] private float triangleTop;
-        [SerializeField] private float triangleBottom;
-        [SerializeField] private float triangleSide;
-
-        [SerializeField] private float rectangleTop;
-        [SerializeField] private float rectangleBottom;
-        [SerializeField] private float rectangleLeft;
-        [SerializeField] private float rectangleRight;
+        [SerializeField] private float topRot;
+        [SerializeField] private float bottomRot;
+        [SerializeField] private float leftRot;
+        [SerializeField] private float rightRot;
         #endregion
 
         private void Awake()
         {
             if (tileType == TileType.Triangle)
             {
+                Bounds bounds = GetComponent<PolygonCollider2D>().bounds;
 
+                width = bounds.extents.x;
+                height = bounds.extents.y;
+
+                // Set hypotenuse tolerance and list
+                float tolerance = 0.01f;
+                hypotenusePoints = new List<Vector2>();
+
+                // Establish bounds for hypotenuse point calculation
+                float xMin, xMax, yMin, yMax;
+
+                // Set spawn positions
+                switch (diagDirection)
+                {
+                    case DiagDirection.TopRight:
+                        // Set center
+                        center = new Vector2(transform.position.x - width, transform.position.y - height);
+
+                        // Set rigid spawn points
+                        spawnHor = center.y;
+                        spawnVer = center.x;
+
+                        // Set rotations
+                        diagonalRot = -45f;
+                        horizontalRot = 180f;
+                        verticalRot = 90f;
+
+                        // Set hypotenuse points
+                        xMin = center.x;
+                        xMax = center.x + (width * 2);
+                        yMin = center.y;
+                        yMax = center.y + (height * 2);
+
+                        for (float i = xMin, j = yMax; 
+                            i <= xMax && j >= yMin; 
+                            i += tolerance, j -= tolerance)
+                        {
+                            hypotenusePoints.Add(new Vector2(i, j));
+                        }
+                        break;
+
+                    case DiagDirection.TopLeft:
+                        // Set center
+                        center = new Vector2(transform.position.x + width, transform.position.y - height);
+
+                        // Set rigid spawn points
+                        spawnHor = center.y;
+                        spawnVer = center.x;
+
+                        // Set rotations
+                        diagonalRot = 45f;
+                        horizontalRot = 180f;
+                        verticalRot = -90f;
+
+                        // Set hypotenuse points
+                        xMin = center.x - (width * 2);
+                        xMax = center.x;
+                        yMin = center.y;
+                        yMax = center.y + (height * 2);
+
+                        for (float i = xMin, j = yMin; 
+                            i <= xMax && j <= yMax; 
+                            i += tolerance, j += tolerance)
+                        {
+                            hypotenusePoints.Add(new Vector2(i, j));
+                        }
+                        break;
+
+                    case DiagDirection.BottomRight:
+                        // Set center
+                        center = new Vector2(transform.position.x - width, transform.position.y + height);
+
+                        // Set rigid spawn points
+                        spawnHor = center.y;
+                        spawnVer = center.x;
+
+                        // Set rotations
+                        diagonalRot = -135f;
+                        horizontalRot = 0f;
+                        verticalRot = 90f;
+
+                        // Set hypotenuse points
+                        xMin = center.x;
+                        xMax = center.x + (width * 2);
+                        yMin = center.y - (height * 2);
+                        yMax = center.y;
+
+                        for (float i = xMin, j = yMin;
+                            i <= xMax && j <= yMax;
+                            i += tolerance, j += tolerance)
+                        {
+                            hypotenusePoints.Add(new Vector2(i, j));
+                        }
+                        break;
+
+                    case DiagDirection.BottomLeft:
+                        // Set center
+                        center = new Vector2(transform.position.x + width, transform.position.y + height);
+
+                        // Set rigid spawn points
+                        spawnHor = center.y;
+                        spawnVer = center.x;
+
+                        // Set rotations
+                        diagonalRot = 135f;
+                        horizontalRot = 0f;
+                        verticalRot = -90f;
+
+                        // Set hypotenuse points
+                        xMin = center.x - (width * 2);
+                        xMax = center.x;
+                        yMax = center.y;
+                        yMin = center.y - (height * 2);
+
+                        for (float i = xMin, j = yMax;
+                            i <= xMax && j >= yMin;
+                            i += tolerance, j -= tolerance)
+                        {
+                            hypotenusePoints.Add(new Vector2(i, j));
+                        }
+                        break;
+                }
             }
             else if (tileType == TileType.Rectangle)
             {
@@ -81,6 +224,12 @@ namespace GoodLuckValley.World.Tiles
                 spawnRight = center.x + width;
                 spawnDown = center.y - height;
                 spawnLeft = center.x - width;
+
+                // Set rotations
+                topRot = 0f;
+                bottomRot = 180f;
+                leftRot = 90f;
+                rightRot = -90f;
             }
         }
 
@@ -94,33 +243,144 @@ namespace GoodLuckValley.World.Tiles
             // Create a collision data object
             CollisionData collisionData = new CollisionData(CollisionData.CollisionDirection.Up, 0f, Vector2.zero);
 
-            // Check the direction of collision
             collisionData.Direction = CheckCollisionDirection(contactPoint);
 
-            switch (collisionData.Direction)
+            float closestDistance;
+
+            switch (tileType)
             {
-                // Set Up data
-                case CollisionData.CollisionDirection.Up:
-                    collisionData.Rotation = rectangleTop;
-                    collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnUp);
+                case TileType.Triangle:
+                    switch (collisionData.Direction)
+                    {
+                        case CollisionData.CollisionDirection.Up:
+                            collisionData.Rotation = horizontalRot;
+                            collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnHor);
+                            break;
+
+                        case CollisionData.CollisionDirection.Right:
+                            collisionData.Rotation = verticalRot;
+                            collisionData.SpawnPoint = new Vector2(spawnVer, contactPoint.y);
+                            break;
+
+                        case CollisionData.CollisionDirection.Down:
+                            collisionData.Rotation = horizontalRot;
+                            collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnHor);
+                            break;
+
+                        case CollisionData.CollisionDirection.Left:
+                            collisionData.Rotation = verticalRot;
+                            collisionData.SpawnPoint = new Vector2(spawnVer, contactPoint.y);
+                            break;
+
+                        case CollisionData.CollisionDirection.TopRightDiag:
+                            // Set the rotation
+                            collisionData.Rotation = diagonalRot;
+
+                            // Find the closest hypotenuse point
+                            closestDistance = 10f;
+                            foreach(Vector2 point in hypotenusePoints)
+                            {
+                                float distance = Vector2.Distance(point, contactPoint);
+                                if (distance < closestDistance)
+                                {
+                                    closestDistance = distance;
+                                    closestPointTriangle = point;
+                                }
+                            }
+
+                            // Set the spawn point to the closest hypotenuse point
+                            collisionData.SpawnPoint = closestPointTriangle;
+                            break;
+
+                        case CollisionData.CollisionDirection.TopLeftDiag:
+                            // Set the rotation
+                            collisionData.Rotation = diagonalRot;
+
+                            // Find the closest hypotenuse point
+                            closestDistance = 10f;
+                            foreach (Vector2 point in hypotenusePoints)
+                            {
+                                float distance = Vector2.Distance(point, contactPoint);
+                                if (distance < closestDistance)
+                                {
+                                    closestDistance = distance;
+                                    closestPointTriangle = point;
+                                }
+                            }
+
+                            // Set the spawn point to the closest hypotenuse point
+                            collisionData.SpawnPoint = closestPointTriangle;
+                            break;
+
+                        case CollisionData.CollisionDirection.BottomLeftDiag:
+                            // Set the rotation
+                            collisionData.Rotation = diagonalRot;
+
+                            // Find the closest hypotenuse point
+                            closestDistance = 10f;
+                            foreach (Vector2 point in hypotenusePoints)
+                            {
+                                float distance = Vector2.Distance(point, contactPoint);
+                                if (distance < closestDistance)
+                                {
+                                    closestDistance = distance;
+                                    closestPointTriangle = point;
+                                }
+                            }
+
+                            // Set the spawn point to the closest hypotenuse point
+                            collisionData.SpawnPoint = closestPointTriangle;
+                            break;
+
+                        case CollisionData.CollisionDirection.BottomRightDiag:
+                            // Set the rotation
+                            collisionData.Rotation = diagonalRot;
+
+                            // Find the closest hypotenuse point
+                            closestDistance = 10f;
+                            foreach (Vector2 point in hypotenusePoints)
+                            {
+                                float distance = Vector2.Distance(point, contactPoint);
+                                if (distance < closestDistance)
+                                {
+                                    closestDistance = distance;
+                                    closestPointTriangle = point;
+                                }
+                            }
+
+                            // Set the spawn point to the closest hypotenuse point
+                            collisionData.SpawnPoint = closestPointTriangle;
+                            break;
+                    }
                     break;
 
-                // Set Right data
-                case CollisionData.CollisionDirection.Right:
-                    collisionData.Rotation = rectangleRight;
-                    collisionData.SpawnPoint = new Vector2(spawnRight, contactPoint.y);
-                    break;
+                case TileType.Rectangle:
+                    switch (collisionData.Direction)
+                    {
+                        // Set Up data
+                        case CollisionData.CollisionDirection.Up:
+                            collisionData.Rotation = topRot;
+                            collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnUp);
+                            break;
 
-                // Set Down data
-                case CollisionData.CollisionDirection.Down:
-                    collisionData.Rotation = rectangleBottom;
-                    collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnDown);
-                    break;
+                        // Set Right data
+                        case CollisionData.CollisionDirection.Right:
+                            collisionData.Rotation = rightRot;
+                            collisionData.SpawnPoint = new Vector2(spawnRight, contactPoint.y);
+                            break;
 
-                // Set Left data
-                case CollisionData.CollisionDirection.Left:
-                    collisionData.Rotation = rectangleLeft;
-                    collisionData.SpawnPoint = new Vector2(spawnLeft, contactPoint.y);
+                        // Set Down data
+                        case CollisionData.CollisionDirection.Down:
+                            collisionData.Rotation = bottomRot;
+                            collisionData.SpawnPoint = new Vector2(contactPoint.x, spawnDown);
+                            break;
+
+                        // Set Left data
+                        case CollisionData.CollisionDirection.Left:
+                            collisionData.Rotation = leftRot;
+                            collisionData.SpawnPoint = new Vector2(spawnLeft, contactPoint.y);
+                            break;
+                    }
                     break;
             }
 
@@ -129,26 +389,136 @@ namespace GoodLuckValley.World.Tiles
 
         private CollisionData.CollisionDirection CheckCollisionDirection(Vector2 contactPoint)
         {
-            // Check against bounds
-            if (contactPoint.y < spawnUp + contactBuffer && contactPoint.y > spawnUp - contactBuffer) // Check top bound
+            switch (tileType)
             {
-                return CollisionData.CollisionDirection.Up;
+                case TileType.Triangle:
+
+                    switch (diagDirection)
+                    {
+                        case DiagDirection.TopRight:
+                            // Prioritize the diagonal
+                            foreach (Vector2 point in hypotenusePoints)
+                            {
+                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
+                                {
+                                    return CollisionData.CollisionDirection.TopRightDiag;
+                                }
+                            }
+
+                            // Check rigid collisions
+                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Down;
+                            } else if(contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Left;
+                            }
+                            break;
+
+                        case DiagDirection.TopLeft:
+                            // Prioritize the diagonal
+                            foreach (Vector2 point in hypotenusePoints)
+                            {
+                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
+                                {
+                                    return CollisionData.CollisionDirection.TopLeftDiag;
+                                }
+                            }
+
+                            // Check rigid collisions
+                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Down;
+                            }
+                            else if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Right;
+                            }
+                            break;
+
+                        case DiagDirection.BottomLeft:
+                            // Prioritize the diagonal
+                            foreach (Vector2 point in hypotenusePoints)
+                            {
+                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
+                                {
+                                    return CollisionData.CollisionDirection.BottomLeftDiag;
+                                }
+                            }
+
+                            // Check rigid collisions
+                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Up;
+                            }
+                            else if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Right;
+                            }
+                            break;
+
+                        case DiagDirection.BottomRight:
+                            // Prioritize the diagonal
+                            foreach (Vector2 point in hypotenusePoints)
+                            {
+                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
+                                {
+                                    return CollisionData.CollisionDirection.BottomRightDiag;
+                                }
+                            }
+
+                            // Check rigid collisions
+                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Up;
+                            }
+                            else if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
+                            {
+                                return CollisionData.CollisionDirection.Left;
+                            }
+                            break;
+                    }
+                    break;
+
+                case TileType.Rectangle:
+                    // Check against bounds
+                    if (contactPoint.y < spawnUp + contactBuffer && contactPoint.y > spawnUp - contactBuffer) // Check top bound
+                    {
+                        return CollisionData.CollisionDirection.Up;
+                    }
+                    else if (contactPoint.y < spawnDown + contactBuffer && contactPoint.y > spawnDown - contactBuffer) // Check bottom bound
+                    {
+                        return CollisionData.CollisionDirection.Down;
+                    }
+                    else if (contactPoint.x < spawnRight + contactBuffer && contactPoint.x > spawnRight - contactBuffer) // Check right bound
+                    {
+                        return CollisionData.CollisionDirection.Right;
+                    }
+                    else if (contactPoint.x < spawnLeft + contactBuffer && contactPoint.x > spawnLeft - contactBuffer) // Check left bound
+                    {
+                        return CollisionData.CollisionDirection.Left;
+                    }
+                    break;
             }
-            else if (contactPoint.y < spawnDown + contactBuffer && contactPoint.y > spawnDown - contactBuffer) // Check bottom bound
+
+            // Default to up
+            return CollisionData.CollisionDirection.Up;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if(tileType == TileType.Triangle)
             {
-                return CollisionData.CollisionDirection.Down;
-            }
-            else if (contactPoint.x < spawnRight + contactBuffer && contactPoint.x > spawnRight - contactBuffer) // Check right bound
-            {
-                return CollisionData.CollisionDirection.Right;
-            }
-            else if (contactPoint.x < spawnLeft + contactBuffer && contactPoint.x > spawnLeft - contactBuffer) // Check left bound
-            {
-                return CollisionData.CollisionDirection.Left;
-            } else
-            {
-                // Default to up
-                return CollisionData.CollisionDirection.Up;
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(center, 0.1f);
+
+                if(hypotenusePoints.Count > 0)
+                {
+                    foreach(Vector2 point in hypotenusePoints)
+                    {
+                        Gizmos.DrawSphere(point, 0.01f);
+                    }
+                }
             }
         }
     }

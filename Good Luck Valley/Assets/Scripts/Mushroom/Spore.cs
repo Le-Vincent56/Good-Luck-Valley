@@ -30,12 +30,14 @@ public class Spore : MonoBehaviour
     public void CreateShroom(Vector2 spawnPoint)
     {
         float shroomHeight = (regShroom.GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.035f;
+        float shroomHeightDiag = shroomHeight * (3f / 4f);
 
+        Debug.Log("Spawn Point: " + spawnPoint);
         // The quaternion that will rotate the shroom
         Quaternion rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
 
         // Displace the shroom depending on collision direction
-        switch(collisionDirection)
+        switch (collisionDirection)
         {
             case CollisionData.CollisionDirection.Up:
                 spawnPoint.y += shroomHeight;
@@ -51,6 +53,26 @@ public class Spore : MonoBehaviour
 
             case CollisionData.CollisionDirection.Left:
                 spawnPoint.x -= shroomHeight;
+                break;
+
+            case CollisionData.CollisionDirection.TopRightDiag:
+                spawnPoint.x += shroomHeightDiag;
+                spawnPoint.y += shroomHeightDiag;
+                break;
+
+            case CollisionData.CollisionDirection.TopLeftDiag:
+                spawnPoint.x -= shroomHeightDiag;
+                spawnPoint.y += shroomHeightDiag;
+                break;
+
+            case CollisionData.CollisionDirection.BottomLeftDiag:
+                spawnPoint.x -= shroomHeightDiag;
+                spawnPoint.y -= shroomHeightDiag;
+                break;
+
+            case CollisionData.CollisionDirection.BottomRightDiag:
+                spawnPoint.x += shroomHeightDiag;
+                spawnPoint.y -= shroomHeightDiag;
                 break;
         }
 
@@ -78,7 +100,7 @@ public class Spore : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collider)
     {
         // Exit case - not the correct collider type
-        if (collider is not BoxCollider2D) return;
+        if (collider is not BoxCollider2D && collider is not PolygonCollider2D) return;
         
         // Exit case - a spawn has already happened
         if (spawnConfirmed) return;
