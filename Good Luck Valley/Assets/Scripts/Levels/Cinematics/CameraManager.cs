@@ -39,7 +39,7 @@ namespace HivevMind.Cinematics
 
         private void OnEnable()
         {
-            cutsceneEvent.startLotusCutscene.AddListener(BeginLotusCutscene);
+            cutsceneEvent.startLotusCutscene.AddListener(BeginLotusCutscene)
         }
 
         private void OnDisable()
