@@ -1,0 +1,295 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using HiveMind.Movement;
+using HiveMind.Events;
+
+namespace HiveMind.Development
+{
+    public class DevTools : MonoBehaviour
+    {
+        #region REFERENCES
+        [SerializeField] private SettingsScriptableObj settingsEvent;
+        [SerializeField] private MushroomScriptableObj mushroomEvent;
+        [SerializeField] private PlayerMovement playerMove;
+        private Text devText;
+        private Text noClipText;
+        private Text instantThrowText;
+        private Text infiniteShroomText;
+        private Text shroomDurationText;
+        private Text shroomBounceText;
+        private Text playerVelocityText;
+        private GameObject textHolder;
+        #endregion
+
+        #region FIELDS
+        [SerializeField] bool devToolsEnabled;
+        [SerializeField] bool noClip;
+        [SerializeField] bool instantThrow;
+        [SerializeField] bool infiniteShrooms;
+        [SerializeField] bool disableShroomDuration;
+        private BoxCollider2D playerCollider;
+        private CapsuleCollider2D capsuleCollider;
+        #endregion
+
+        #region PROPERTIES
+        public bool NoClip { get { return noClip; } set { noClip = value; } }
+        public bool InstantThrow { get { return instantThrow; } set { instantThrow = value; } }
+        public bool InfiniteShrooms { get { return infiniteShrooms; } set { infiniteShrooms = value; } }
+        public bool DisableShroomDuration { get { return disableShroomDuration; } set { disableShroomDuration = value; } }
+        public bool DevToolsEnabled { get { return devToolsEnabled; } set { devToolsEnabled = value; } }
+        #endregion
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            playerMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
+            playerCollider = playerMove.GetComponentInParent<BoxCollider2D>();
+            capsuleCollider = playerMove.GetComponentInParent<CapsuleCollider2D>();
+
+            // Get the canvas contianing the text boxes
+            GameObject canvas = transform.GetComponentInChildren<Canvas>().gameObject;
+
+            // Get the empty object holding the text boxes
+            textHolder = canvas.transform.GetChild(0).gameObject;
+
+            // Get all the textboxes
+            devText = textHolder.transform.GetChild(0).GetComponent<Text>();
+            noClipText = textHolder.transform.GetChild(1).GetComponentInChildren<Text>();
+            instantThrowText = textHolder.transform.GetChild(2).GetComponentInChildren<Text>();
+            infiniteShroomText = textHolder.transform.GetChild(3).GetComponentInChildren<Text>();
+            shroomDurationText = textHolder.transform.GetChild(4).GetComponentInChildren<Text>();
+            shroomBounceText = textHolder.transform.GetChild(5).GetComponentInChildren<Text>();
+            playerVelocityText = textHolder.transform.GetChild(6).GetComponentInChildren<Text>();
+
+
+            // Checks if dev tools are enabled
+            if (devToolsEnabled)
+            {
+                // Default dev tools values
+                noClip = false;
+                instantThrow = false;
+                infiniteShrooms = true;
+                mushroomEvent.UnlockThrow();
+                disableShroomDuration = true;
+
+                settingsEvent.SetNoClipActive(false);
+                settingsEvent.SetInfiniteShroomsActive(true);
+                settingsEvent.SetInstantThrowActive(true);
+                settingsEvent.SetShroomTimersActive(false);
+                settingsEvent.SetThrowLineActive(true);
+            }
+            else
+            {
+                noClip = settingsEvent.GetNoClipActive();
+                instantThrow = settingsEvent.GetInstantThrowActive();
+                infiniteShrooms = settingsEvent.GetInfiniteShroomsActive();
+                disableShroomDuration = !settingsEvent.GetShroomTimersActive();
+                // mushMan.ThrowUnlocked = false;
+            }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (devToolsEnabled)
+            {
+                // Dev Tools text change
+                devText.text = "Dev Tools Enabled";
+                mushroomEvent.UnlockThrow();
+
+                // No Clip text change
+                if (noClip == true)
+                {
+                    noClipText.text = "Press F1 for no-clip: Enabled";
+                }
+                else if (noClip == false)
+                {
+                    noClipText.text = "Press F1 for no-clip: Disabled";
+                }
+
+                // Instant Throw text change
+                if (instantThrow)
+                {
+                    instantThrowText.text = "Press F2 for 'instant' shroom throw: Enabled";
+                }
+                else if (instantThrow == false)
+                {
+                    instantThrowText.text = "Press F2 for 'instant' shroom throw: Disabled";
+                }
+
+                // Infinite shrooms text change
+                if (infiniteShrooms)
+                {
+                    infiniteShroomText.text = "Press F3 for infinite shrooms: Enabled";
+                }
+                else if (infiniteShrooms == false)
+                {
+                    infiniteShroomText.text = "Press F3 for infinite shrooms: Disabled";
+                }
+
+                // Disable shroom timer text change
+                if (disableShroomDuration)
+                {
+                    shroomDurationText.text = "Press F4 to disable/enable shroom timers: Disabled";
+                }
+                else if (disableShroomDuration == false)
+                {
+                    shroomDurationText.text = "Press F4 to disable/enable shroom timers: Enabled";
+                }
+
+                shroomBounceText.text = "Shroom Bounce Force: " + mushroomEvent.GetBounceForce();
+                playerVelocityText.text = "Player Velocity: " + playerMove.gameObject.GetComponent<Rigidbody2D>().velocity;
+            }
+            else
+            {
+                // Dev Tools text change
+                devText.text = "";
+                shroomDurationText.text = "";
+                infiniteShroomText.text = "";
+                instantThrowText.text = "";
+                noClipText.text = "";
+                shroomBounceText.text = "";
+                playerVelocityText.text = "";
+            }
+
+            if (devToolsEnabled)
+            {
+                settingsEvent.SetThrowLineActive(true);
+                settingsEvent.UpdateShroomSettings();
+            }
+        }
+
+        /// <summary>
+        /// Turn on Dev Tools using a keybind
+        /// </summary>
+        #region INPUT HANDLERS
+        public void OnDevTools()
+        {
+            if (!devToolsEnabled)
+            {
+                devToolsEnabled = true;
+            }
+            else
+            {
+                devToolsEnabled = false;
+            }
+        }
+
+        public void OnActivateNoClip()
+        {
+            // Check if devTools is enabled
+            if (devToolsEnabled)
+            {
+                // Switch noClip on/off
+                noClip = !noClip;
+
+                // Switch collider's isTrigger bool
+                playerCollider.isTrigger = !playerCollider.isTrigger;
+                capsuleCollider.isTrigger = !capsuleCollider.isTrigger;
+
+                // Check if the rigid body is dynamic type, if it is then set it to static
+                if (playerMove.RB.bodyType == RigidbodyType2D.Dynamic)
+                {
+                    playerMove.RB.bodyType = RigidbodyType2D.Static;
+                }
+                // Otherwise set it to dynamic
+                else
+                {
+                    playerMove.RB.bodyType = RigidbodyType2D.Dynamic;
+                }
+            }
+        }
+
+        public void OnActivateInstantThrow()
+        {
+            // Check if the dev tools are enabled
+            if (devToolsEnabled)
+            {
+                // Switch instant throw on/off
+                instantThrow = !instantThrow;
+
+                // Check if it was set to enabled or disabled
+                if (instantThrow)
+                {
+                    // If enabled, set throw multiplier to 30 for fast/instant shroom
+                    settingsEvent.SetThrowMultiplier(30);
+                }
+                else if (instantThrow == false)
+                {
+                    // If disabled, set throw multiplier to 8, original value
+                    settingsEvent.SetThrowMultiplier(8);
+                }
+
+                // Update settings
+                settingsEvent.UpdateShroomSettings();
+            }
+        }
+
+        public void OnEnableInfiniteShrooms()
+        {
+            // Check if the dev tools are enabled
+            if (devToolsEnabled)
+            {
+                // Switch infinite shrooms on/off
+                infiniteShrooms = !infiniteShrooms;
+
+                // Check if it was set to enabled or disabled
+                if (infiniteShrooms)
+                {
+                    // If enabled, set shroom limit to max value, 'infinite'
+                    settingsEvent.SetShroomLimit(int.MaxValue);
+                }
+                else if (infiniteShrooms == false)
+                {
+                    // If disabled, set shroom limit to 3, original value
+                    settingsEvent.SetShroomLimit(3);
+                }
+
+                // Update settings
+                settingsEvent.UpdateShroomSettings();
+            }
+        }
+
+        public void OnDisableShroomDuration()
+        {
+            // Check if dev tools is enabled
+            if (devToolsEnabled)
+            {
+                // Switches shroom duration on/off
+                disableShroomDuration = !disableShroomDuration;
+
+                // Checks if shroom durations are enabled or disabled
+                if (disableShroomDuration)
+                {
+                    // If disabled, turns off shroom timers
+                    settingsEvent.SetShroomTimersActive(false);
+                }
+                else if (disableShroomDuration == false)
+                {
+                    // If enabled, turns on shroom timers
+                    settingsEvent.SetShroomTimersActive(true);
+                }
+
+                // Update settings
+                settingsEvent.UpdateShroomSettings();
+            }
+        }
+
+        public void SkipToLevel(int direction)
+        {
+            if (devToolsEnabled)
+            {
+                int scene = SceneManager.GetActiveScene().buildIndex;
+                if (scene + direction < SceneManager.sceneCount && scene + direction > 6)
+                {
+                }
+                //AudioManager.Instance.AmbienceEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+                //AudioManager.Instance.MusicEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+                Debug.Log("Going to level: " + SceneManager.GetActiveScene().buildIndex + direction);
+                SceneManager.LoadScene(scene + direction);
+            }
+        }
+        #endregion
+    }
+}
