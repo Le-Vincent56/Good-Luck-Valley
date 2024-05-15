@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 1524652141445064579}
   - component: {fileID: 1524652141445064577}
   - component: {fileID: 1524652141445064578}
+  - component: {fileID: 1012345712}
   - component: {fileID: 2062698207}
+  - component: {fileID: 2507549663104065300}
   m_Layer: 0
   m_Name: Mushroom
-  m_TagString: Untagged
+  m_TagString: Mushroom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,6 +109,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &1012345712
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524652141445064580}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.01, y: -0.035}
+  serializedVersion: 2
+  m_Radius: 0.44
 --- !u!114 &2062698207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,3 +141,15 @@ MonoBehaviour:
   durationTimer: 0
   bounceBuffer: 0
   onCooldown: 0
+--- !u!114 &2507549663104065300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524652141445064580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cebc9976244b77409c8a1064447ad36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

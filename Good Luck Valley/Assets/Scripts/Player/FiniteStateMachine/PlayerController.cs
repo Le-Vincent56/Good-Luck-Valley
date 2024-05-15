@@ -21,6 +21,7 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerJumpState JumpState { get; private set; }
         public PlayerInAirState InAirState { get; private set; }
         public PlayerLandState LandState { get; private set; }
+        public PlayerBounceState BounceState { get; private set; }
 
         public Rigidbody2D RB { get; private set; }
         public BoxCollider2D PlayerCollider { get; private set; }
@@ -47,6 +48,7 @@ namespace GoodLuckValley.Player.StateMachine
             JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
             InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
             LandState = new PlayerLandState(this, StateMachine, playerData, "land");
+            BounceState = new PlayerBounceState(this, StateMachine, playerData, "bounce");
         }
 
         private void Start()

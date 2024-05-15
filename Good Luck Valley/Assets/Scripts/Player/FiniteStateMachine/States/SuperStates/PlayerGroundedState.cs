@@ -10,6 +10,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         protected int xInput;
         private bool jumpInput;
         private bool isGrounded;
+        private bool isBouncing;
 
         public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
             : base(player, stateMachine, playerData, animationaBoolName)
@@ -47,13 +48,18 @@ namespace GoodLuckValley.Player.StateMachine.States
             xInput = player.InputHandler.NormInputX;
             jumpInput = player.InputHandler.JumpInput;
 
-            // Exit case - Jumping
-            if(jumpInput && lastOnGroundTime > 0 && player.InputHandler.LastPressedJumpTime > 0)
+            if(isBouncing) // Exit case - bouncing
+            {
+                stateMachine.ChangeState(player.BounceState);
+            }
+            else if (jumpInput && lastOnGroundTime > 0 && player.InputHandler.LastPressedJumpTime > 0) // Exit case - Jumping
             {
                 // Change states
                 stateMachine.ChangeState(player.JumpState);
-            } else if(!isGrounded) // Exit case - in the air
+            }
+            else if (!isGrounded) // Exit case - in the air
             {
+                
                 stateMachine.ChangeState(player.InAirState);
             }
         }

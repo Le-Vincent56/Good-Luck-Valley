@@ -84,6 +84,7 @@ public class Spore : MonoBehaviour
         {
             case ShroomType.Regular:
                 shroom = Instantiate(regShroom, spawnPoint, rotationQuat);
+                shroom.GetComponent<MushroomData>().InstantiateMushroomData(ShroomType.Regular);
                 break;
 
             case ShroomType.Wall:
@@ -91,6 +92,7 @@ public class Spore : MonoBehaviour
 
             default:
                 shroom = Instantiate(regShroom, spawnPoint, rotationQuat);
+                shroom.GetComponent<MushroomData>().InstantiateMushroomData(ShroomType.Regular);
                 break;
         }
 
