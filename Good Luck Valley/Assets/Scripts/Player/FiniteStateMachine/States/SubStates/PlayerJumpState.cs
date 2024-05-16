@@ -9,8 +9,8 @@ namespace GoodLuckValley.Player.StateMachine.States
         private bool isJumping;
         private bool isJumpCut;
 
-        public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
-            : base(player, stateMachine, playerData, animationaBoolName)
+        public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+            : base(player, stateMachine, playerData, animationBoolName)
         {
         }
 

@@ -638,6 +638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 485284898}
   - component: {fileID: 485284899}
+  - component: {fileID: 485284900}
   m_Layer: 0
   m_Name: Bounce
   m_TagString: Untagged
@@ -672,8 +673,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277c3fe5fb798ab4ea8b7c2180abeda5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onBounce: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
   canBounce: 0
-  bounceForce: 0
+  bounceForce: 10
+--- !u!114 &485284900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485284897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 65c64802b9259a744a83012eadb9e2e7, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 485284899}
+        m_TargetAssemblyTypeName: MushroomBounce, Assembly-CSharp
+        m_MethodName: Bounce
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &485397406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,9 +1565,10 @@ GameObject:
   - component: {fileID: 1373688173}
   - component: {fileID: 1373688165}
   - component: {fileID: 1373688169}
+  - component: {fileID: 1373688175}
   - component: {fileID: 1373688171}
   - component: {fileID: 1373688174}
-  - component: {fileID: 1373688175}
+  - component: {fileID: 1373688176}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1618,6 +1649,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e1b9c303-7756-4b03-85a0-a0f04456c62c
     m_ActionName: Player Controls/Throw[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1373688169}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnFastFall
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 84465b74-0a9b-411f-961e-8edc2e21d84c
+    m_ActionName: Player Controls/Fast Fall[/Keyboard/s]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -1838,7 +1885,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c08b024d7e5e74d96f383822094ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onShroomEnter: {fileID: 0}
+  onShroomEnter: {fileID: 11400000, guid: 65c64802b9259a744a83012eadb9e2e7, type: 2}
+--- !u!114 &1373688176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373688163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1373688171}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.StateMachine.PlayerController,
+          Assembly-CSharp
+        m_MethodName: StartBounce
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1480489452
 GameObject:
   m_ObjectHideFlags: 0

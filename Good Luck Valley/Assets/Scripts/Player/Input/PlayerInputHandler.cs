@@ -19,6 +19,7 @@ namespace GoodLuckValley.Player
                 Canceled = canceled;
             }
         }
+
         #region REFERENCES
         [Header("Events")]
         [SerializeField] private GameEvent onThrow;
@@ -34,9 +35,14 @@ namespace GoodLuckValley.Player
         public bool JumpInput { get; private set; }
         public bool TryJumpCut { get; private set; }
         public float LastPressedJumpTime { get; set; }
+        public bool FastFallInput { get; private set; }
         #endregion
 
 
+        /// <summary>
+        /// Handle Movement Input
+        /// </summary>
+        /// <param name="context"></param>
         public void OnMove(InputAction.CallbackContext context)
         {
             // Retrieve the raw vector
@@ -47,6 +53,10 @@ namespace GoodLuckValley.Player
             NormInputY = (int)(RawMovementInput * Vector2.right).normalized.y;
         }
 
+        /// <summary>
+        /// Handle Jump Input
+        /// </summary>
+        /// <param name="context"></param>
         public void OnJump(InputAction.CallbackContext context)
         {
             // Check if the jump button has been pressed
@@ -63,6 +73,10 @@ namespace GoodLuckValley.Player
             }
         }
 
+        /// <summary>
+        /// Handle Throw Input
+        /// </summary>
+        /// <param name="context"></param>
         public void OnThrow(InputAction.CallbackContext context)
         {
             // Get the contexts
@@ -74,6 +88,20 @@ namespace GoodLuckValley.Player
             onThrow.Raise(this, contextData);
         }
 
+        public void OnFastFall(InputAction.CallbackContext context)
+        {
+            if(context.started)
+            {
+                FastFallInput = true;
+            } else if(context.canceled)
+            {
+                FastFallInput = false;
+            }
+        }
+
+        /// <summary>
+        /// Reset the Jump Input
+        /// </summary>
         public void UseJumpInput() => JumpInput = false;
     }
 }

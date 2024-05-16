@@ -6,11 +6,14 @@ namespace GoodLuckValley.Player.StateMachine.States
 {
     public class PlayerInAirState : PlayerState
     {
+        #region FIELDS
         private bool isGrounded;
-        private int xInput;
+        private bool isBouncing;
+        private bool fastFallInput;
+        #endregion
 
-        public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
-            : base(player, stateMachine, playerData, animationaBoolName)
+        public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+            : base(player, stateMachine, playerData, animationBoolName)
         {
         }
 
@@ -19,6 +22,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             base.DoChecks();
 
             isGrounded = player.CheckIfGrounded();
+            isBouncing = player.CheckIfBouncing();
         }
 
         public override void Enter()
@@ -35,11 +39,24 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.LogicUpdate();
 
-            // Update x input 
-            xInput = player.InputHandler.NormInputX;
+            // Get the fast fall input
+            fastFallInput = player.InputHandler.FastFallInput;
 
-            // Exit case - player is grounded
-            if(isGrounded && player.RB.velocity.y < 0.01f)
+            // Check for fall vs. fast fall
+            if(fastFallInput)
+            {
+                stateMachine.ChangeState(player.FastFallState);
+            } else
+            {
+                stateMachine.ChangeState(player.FallState);
+            }
+
+
+            if (isBouncing) // Exit case - bouncing
+            {
+                stateMachine.ChangeState(player.BounceState);
+            }
+            else if (isGrounded) // Exit case - player is grounded
             {
                 stateMachine.ChangeState(player.LandState);
             }
@@ -49,14 +66,8 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.PhysicsUpdate();
 
-            if(!(isGrounded && player.RB.velocity.y < 0.01f))
-            {
-                player.Move(0.5f, true);
-
-                // Set animations
-                player.Anim.SetFloat("yVelocity", player.RB.velocity.y);
-                player.Anim.SetFloat("xVelocity", Mathf.Abs(player.RB.velocity.x));
-            }
+            // Move the player in the air
+            player.Move(0.5f, true);
         }
     }
 }

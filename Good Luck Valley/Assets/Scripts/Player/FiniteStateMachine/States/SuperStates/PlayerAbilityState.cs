@@ -9,8 +9,8 @@ namespace GoodLuckValley.Player.StateMachine.States
         protected bool isAbilityDone;
         private bool isGrounded;
 
-        public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationaBoolName) 
-            : base(player, stateMachine, playerData, animationaBoolName)
+        public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+            : base(player, stateMachine, playerData, animationBoolName)
         {
         }
 
@@ -41,14 +41,14 @@ namespace GoodLuckValley.Player.StateMachine.States
             if(isAbilityDone)
             {
                 // Check if the player is grounded
-                if(isGrounded && player.RB.velocity.y < 0.01f)
+                if(isGrounded && player.RB.velocity.y < 0.01f) // Exit case - the player is grounded
                 {
                     // If so, change to Idle
                     stateMachine.ChangeState(player.IdleState);
-                } else
+                } else if(!isGrounded && player.RB.velocity.y < 0.0f) // Exit case - the player is falling
                 {
-                    // If not, change to InAir
-                    stateMachine.ChangeState(player.InAirState);
+                    // Change to fall
+                    stateMachine.ChangeState(player.FallState);
                 }
             }
         }

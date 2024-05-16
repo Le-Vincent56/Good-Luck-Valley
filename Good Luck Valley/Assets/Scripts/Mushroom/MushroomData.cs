@@ -1,43 +1,53 @@
-using GoodLuckValley.Mushroom;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MushroomData : MonoBehaviour
+namespace GoodLuckValley.Mushroom
 {
-    #region FIELDS
-    [SerializeField] private ShroomType shroomType;
-    [SerializeField] private Vector2 bounceDirection;
-    [SerializeField] private float bounceForce;
-    #endregion
-
-    public void InstantiateMushroomData(ShroomType shroomType)
+    public class MushroomData : MonoBehaviour
     {
-        // Set data
-        this.shroomType = shroomType;
-        bounceDirection = transform.up.normalized;
+        #region FIELDS
+        [SerializeField] private ShroomType shroomType;
+        [SerializeField] private Vector2 bounceDirection;
+        [SerializeField] private float bounceForce;
+        #endregion
 
-        // Decide bounce force based on shroom type
-        switch (shroomType)
+        /// <summary>
+        /// Instantiate the data of the Mushroom
+        /// </summary>
+        /// <param name="shroomType"></param>
+        public void InstantiateMushroomData(ShroomType shroomType)
         {
-            case ShroomType.Regular:
-                bounceForce = 5f;
-                break;
+            // Set data
+            this.shroomType = shroomType;
+            bounceDirection = transform.up.normalized;
 
-            case ShroomType.Wall:
-                bounceForce = 5f;
-                break;
+            // Decide bounce force based on shroom type
+            switch (shroomType)
+            {
+                case ShroomType.Regular:
+                    bounceForce = 10f;
+                    break;
+
+                case ShroomType.Wall:
+                    bounceForce = 10f;
+                    break;
+            }
         }
-    }
 
-    public Vector2 GetBounceVector()
-    {
-        return bounceDirection * bounceForce;
-    }
+        /// <summary>
+        /// Get the Bounce Vector of the Mushroom
+        /// </summary>
+        /// <returns></returns>
+        public Vector2 GetBounceVector()
+        {
+            return bounceDirection * bounceForce;
+        }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, bounceDirection);
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(transform.position, bounceDirection);
+        }
     }
 }

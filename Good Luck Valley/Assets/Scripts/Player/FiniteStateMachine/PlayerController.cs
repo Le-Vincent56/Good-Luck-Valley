@@ -1,6 +1,7 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.UI;
 using GoodLuckValley.Player.StateMachine.States;
+using GoodLuckValley.Mushroom;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,8 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerIdleState IdleState { get; private set; }
         public PlayerMoveState MoveState { get; private set; }
         public PlayerJumpState JumpState { get; private set; }
+        public PlayerFallState FallState { get; private set; }
+        public PlayerFastFallState FastFallState { get; private set; }
         public PlayerInAirState InAirState { get; private set; }
         public PlayerLandState LandState { get; private set; }
         public PlayerBounceState BounceState { get; private set; }
@@ -36,6 +39,7 @@ namespace GoodLuckValley.Player.StateMachine
 
         public bool isLocked = false;
         private bool isFacingRight = true;
+        private bool isBouncing;
         #endregion
 
         private void Awake()
@@ -45,7 +49,9 @@ namespace GoodLuckValley.Player.StateMachine
 
             IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
             MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
-            JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
+            JumpState = new PlayerJumpState(this, StateMachine, playerData, "jump");
+            FallState = new PlayerFallState(this, StateMachine, playerData, "fall");
+            FastFallState = new PlayerFastFallState(this, StateMachine, playerData, "fastFall");
             InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
             LandState = new PlayerLandState(this, StateMachine, playerData, "land");
             BounceState = new PlayerBounceState(this, StateMachine, playerData, "bounce");
@@ -72,6 +78,13 @@ namespace GoodLuckValley.Player.StateMachine
             if(StateMachine.PreviousState != null)
                 previousState = StateMachine.PreviousState.ToString().Substring(48);
             currentState = StateMachine.CurrentState.ToString().Substring(48);
+
+            // Check to reset jump input
+            if(InputHandler.JumpInput && 
+                CheckState() != IdleState && CheckState() != MoveState && CheckState() != LandState)
+            {
+                InputHandler.UseJumpInput();
+            }
         }
 
         private void FixedUpdate()
@@ -82,20 +95,37 @@ namespace GoodLuckValley.Player.StateMachine
 
         #region CHECK FUNCTIONS
         /// <summary>
-        /// Check if the player is grounded
+        /// Check if the Player is grounded
         /// </summary>
         /// <returns>True if the player is grounded, false if not</returns>
         public bool CheckIfGrounded()
         {
             return Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.groundLayer);
         }
-        #endregion
-
-        private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
-        private void AnimationFinishedTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
         /// <summary>
-        /// Allow the Player to Run
+        /// Check if the Player is bouncing
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckIfBouncing()
+        {
+            return isBouncing;
+        }
+        #endregion
+
+        #region ANIMATION FUNCTIONS
+        private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
+        private void AnimationFinishedTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
+        #endregion
+
+        #region HELPER FUNCTIONS
+        private PlayerState CheckState()
+        {
+            return StateMachine.CurrentState;
+        }
+
+        /// <summary>
+        /// Allow the Player to run
         /// </summary>
         /// <param name="lerpAmount">The amount to sooth movement by</param>
         public void Move(float lerpAmount, bool inAir = false, bool bouncing = false)
@@ -174,16 +204,17 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
-        /// Set the gravity scale of the player
+        /// Set the gravity scale of the Player
         /// </summary>
         /// <param name="scale"></param>
         public void SetGravityScale(float scale)
         {
             RB.gravityScale = scale;
+            Debug.Log("Gravity Scale: " + RB.gravityScale);
         }
 
         /// <summary>
-        /// Return data requested my MushroomThrow
+        /// Return data requested by MushroomThrow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
@@ -193,6 +224,40 @@ namespace GoodLuckValley.Player.StateMachine
             if (sender is not ThrowLine) return;
 
             ((ThrowLine)sender).SetFacingRight(isFacingRight);
+        }
+
+        public void StartBounce(Component sender, object data)
+        {
+            // Check if the correct data was sent
+            if (data is not MushroomBounce.BounceData) return;
+            if (StateMachine.CurrentState is PlayerJumpState) return;
+
+            // Set bouncing to true
+            isBouncing = true;
+
+            // Cast data
+            MushroomBounce.BounceData bounceData = (MushroomBounce.BounceData)data;
+            
+            // Clear the velocity
+            RB.velocity = Vector2.zero;
+
+            // Add the force
+            RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
+        }
+
+        /// <summary>
+        /// End the bounce
+        /// </summary>
+        public void EndBounce()
+        {
+            isBouncing = false;
+        }
+        #endregion
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(groundCheck.position, playerData.groundRadius);
         }
     }
 }

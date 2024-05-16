@@ -55,9 +55,6 @@ public class PlayerData : ScriptableObject
 
     [Space(20)]
 
-    [Header("Bouncing")]
-    //public BouncingEffect bounceEffect;
-
     [Space(20)]
 
     [Header("Assists")]

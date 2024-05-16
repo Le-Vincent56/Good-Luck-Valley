@@ -11,6 +11,10 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerState PreviousState { get; private set; }
         #endregion
 
+        /// <summary>
+        /// Initialize the State Machine with a starting state
+        /// </summary>
+        /// <param name="startingState"></param>
         public void Initialize(PlayerState startingState)
         {
             // Set the starting state and enter it
@@ -18,6 +22,10 @@ namespace GoodLuckValley.Player.StateMachine
             CurrentState.Enter();
         }
 
+        /// <summary>
+        ///  Change the Current State of the Player
+        /// </summary>
+        /// <param name="newState"></param>
         public void ChangeState(PlayerState newState)
         {
             // Set last state

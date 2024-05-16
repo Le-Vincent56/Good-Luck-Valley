@@ -32,7 +32,6 @@ public class Spore : MonoBehaviour
         float shroomHeight = (regShroom.GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.035f;
         float shroomHeightDiag = shroomHeight * (3f / 4f);
 
-        Debug.Log("Spawn Point: " + spawnPoint);
         // The quaternion that will rotate the shroom
         Quaternion rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
 

@@ -3,53 +3,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MushroomBounce : MonoBehaviour
+namespace GoodLuckValley.Mushroom
 {
-    public struct BounceData
+    public class MushroomBounce : MonoBehaviour
     {
-        public Vector2 BounceVector;
-        public ForceMode2D ForceMode;
-
-        public BounceData(Vector2 bounceVector, ForceMode2D forceMode)
+        public struct BounceData
         {
-            BounceVector = bounceVector;
-            ForceMode = forceMode;
+            public Vector2 BounceVector;
+            public ForceMode2D ForceMode;
+
+            public BounceData(Vector2 bounceVector, ForceMode2D forceMode)
+            {
+                BounceVector = bounceVector;
+                ForceMode = forceMode;
+            }
         }
-    }
 
-    #region EVENTS
-    [SerializeField] private GameEvent onBounce;
-    #endregion
+        #region EVENTS
+        [Header("Events")]
+        [SerializeField] private GameEvent onBounce;
+        [Space(10f)]
+        #endregion
 
-    #region FIELDS
-    [SerializeField] private bool canBounce;
-    [SerializeField] private float bounceForce;
-    #endregion
+        #region FIELDS
+        [SerializeField] private bool canBounce;
+        [SerializeField] private float bounceForce;
+        #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+        /// <summary>
+        /// Collect the Mushroom's Bounce Data and send it to the Player to Bounce
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void Bounce(Component sender, object data)
+        {
+            // Check if the correct data type was sent
+            if (data is not MushroomData) return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+            // Cast the data
+            MushroomData mushroomData = (MushroomData)data;
 
-    public void Bounce(Component sender, object data)
-    {
-        // Check if the correct data type was sent
-        if (data is not GameObject) return;
+            // Create Bounce Data
+            BounceData bounceData = new BounceData(mushroomData.GetBounceVector(), ForceMode2D.Impulse);
 
-        // Cast the data
-        GameObject mushroom = (GameObject)data;
-
-        // Create Bounce Data
-        BounceData bounceData = new BounceData(mushroom.GetComponent<MushroomData>().GetBounceVector(), ForceMode2D.Impulse);
-
-        // Raise the bounce event
-        onBounce.Raise(this, bounceData);
+            // Raise the bounce event
+            // Calls to:
+            //  - PlayerController.StartBounce()
+            onBounce.Raise(this, bounceData);
+        }
     }
 }

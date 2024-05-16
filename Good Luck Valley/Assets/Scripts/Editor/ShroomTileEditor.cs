@@ -7,7 +7,6 @@ using GoodLuckValley.World.Tiles;
 [CustomEditor(typeof(ShroomTile))]
 public class ShroomTileEditor : Editor
 {
-    private bool expandedBounds = true;
     private bool expandedRotations = true;
 
     private SerializedProperty tileType;
