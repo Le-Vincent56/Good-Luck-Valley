@@ -4,6 +4,8 @@ using UnityEngine;
 using GoodLuckValley.Player.StateMachine;
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Events;
+using GoodLuckValley.World.Tiles;
+using static GoodLuckValley.World.Tiles.CollisionData;
 
 namespace GoodLuckValley.UI
 {
@@ -15,6 +17,7 @@ namespace GoodLuckValley.UI
 
         [Header("Objects")]
         [SerializeField] private GameObject player;
+        [SerializeField] private GameObject shroomIndicator;
         #endregion
 
         #region FIELDS
@@ -34,12 +37,16 @@ namespace GoodLuckValley.UI
         [SerializeField] private Vector2 launchForce;
         [SerializeField] private Vector2 playerPos;
         [SerializeField] private Vector2 offset;
+        [SerializeField] private Vector2 shroomIndicatorOffScreenPosition;
         #endregion
 
         // Start is called before the first frame update
         void Start()
         {
             player = GameObject.Find("Player");
+            shroomIndicator = GameObject.Find("Shroom Indicator");
+
+            shroomIndicator.transform.position = shroomIndicatorOffScreenPosition;
 
             // Width of the line
             width = 0.1f;
@@ -149,6 +156,9 @@ namespace GoodLuckValley.UI
             // Create new array for storing the new points we will draw with
             Vector3[] newPoints = null;
 
+            // Collision data
+            CollisionData collisionData = new CollisionData(CollisionDirection.Up, 0f, shroomIndicatorOffScreenPosition);
+
             // Loops for each point in the previous frame's array of points
             for (int i = 1; i < lineRendererStartingPoints.Length; i++)
             {
@@ -180,6 +190,11 @@ namespace GoodLuckValley.UI
 
                     // Collided is true
                     collided = true;
+
+                    // Gets collision data of shroom tile
+                    collisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(new CircleCollider2D(), hitInfo.point);
+
+
                     // Breaks out of the array
                     break;
                 }
@@ -202,6 +217,10 @@ namespace GoodLuckValley.UI
 
                     // Collided is true
                     collided = true;
+
+                    // Gets collision data of shroom tile
+                    collisionData = wallHitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(new CircleCollider2D(), wallHitInfo.point);
+
                     // Breaks out of the array
                     break;
                 }
@@ -213,10 +232,12 @@ namespace GoodLuckValley.UI
                 // Sets segments to be equal to the length of the new array so
                 //  the line is drawn properly when the top of the method is called
                 segments = newPoints.Length;
+
+                PlaceMushroomIndicator(collisionData);
             }
             else
             {
-                // Otherwise, segments is set back to its original value of 30
+                // Otherwise, segments is set back to its original value of 300
                 segments = 300;
             }
         }
@@ -229,6 +250,9 @@ namespace GoodLuckValley.UI
             if (!lineRenderer) return;
 
             lineRenderer.positionCount = 0;
+
+            // Moves shroom indicator off-screen
+            shroomIndicator.transform.position = shroomIndicatorOffScreenPosition;
 
             switch (facingRight)
             {
@@ -313,6 +337,68 @@ namespace GoodLuckValley.UI
         public void SetCursorPosition(Vector2 cursorPosition)
         {
             this.cursorPosition = cursorPosition;
+        }
+
+        /// <summary>
+        /// Places a mushroom indicator at the end of the aim line using the given 
+        ///     collision data from the collided tiled
+        /// </summary>
+        /// <param name="collisionData"> The collision data pulled from the collided tile </param>
+        private void PlaceMushroomIndicator(CollisionData collisionData)
+        {
+            // Height of the shroom for offsetting
+            float shroomHeight = 0.226875f;
+            float shroomHeightDiag = shroomHeight * (3f / 4f);
+
+            // Rotation of the shroom according to collision data
+            Quaternion rotationQuat = Quaternion.AngleAxis(collisionData.Rotation, Vector3.forward);
+            shroomIndicator.transform.rotation = rotationQuat;
+
+            // Moves shroom indicator to end of line position
+            Vector2 spawnPoint = collisionData.SpawnPoint;
+
+            // Displace the shroom depending on collision direction
+            switch (collisionData.Direction)
+            {
+                case CollisionDirection.Up:
+                    spawnPoint.y += shroomHeight;
+                    break;
+
+                case CollisionDirection.Right:
+                    spawnPoint.x += shroomHeight;
+                    break;
+
+                case CollisionDirection.Down:
+                    spawnPoint.y -= shroomHeight;
+                    break;
+
+                case CollisionDirection.Left:
+                    spawnPoint.x -= shroomHeight;
+                    break;
+
+                case CollisionDirection.TopRightDiag:
+                    spawnPoint.x += shroomHeightDiag;
+                    spawnPoint.y += shroomHeightDiag;
+                    break;
+
+                case CollisionDirection.TopLeftDiag:
+                    spawnPoint.x -= shroomHeightDiag;
+                    spawnPoint.y += shroomHeightDiag;
+                    break;
+
+                case CollisionDirection.BottomLeftDiag:
+                    spawnPoint.x -= shroomHeightDiag;
+                    spawnPoint.y -= shroomHeightDiag;
+                    break;
+
+                case CollisionDirection.BottomRightDiag:
+                    spawnPoint.x += shroomHeightDiag;
+                    spawnPoint.y -= shroomHeightDiag;
+                    break;
+            }
+            
+            // Set the shroom inidcator position
+            shroomIndicator.transform.position = spawnPoint;
         }
     }
 }
