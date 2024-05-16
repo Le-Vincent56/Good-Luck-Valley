@@ -23,6 +23,8 @@ namespace GoodLuckValley.Player
         #region REFERENCES
         [Header("Events")]
         [SerializeField] private GameEvent onThrow;
+        [SerializeField] private GameEvent onRecallLast;
+        [SerializeField] private GameEvent onRecallAll;
 
         [Header("Objects")]
         [SerializeField] private PlayerData playerData;
@@ -88,6 +90,10 @@ namespace GoodLuckValley.Player
             onThrow.Raise(this, contextData);
         }
 
+        /// <summary>
+        /// Handle Fast Fall Input
+        /// </summary>
+        /// <param name="context"></param>
         public void OnFastFall(InputAction.CallbackContext context)
         {
             if(context.started)
@@ -96,6 +102,34 @@ namespace GoodLuckValley.Player
             } else if(context.canceled)
             {
                 FastFallInput = false;
+            }
+        }
+
+        /// <summary>
+        /// Handle Recall Last Input
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnRecallLast(InputAction.CallbackContext context)
+        {
+            // Ensure a single button press
+            if (context.started)
+            {
+                // Raise the recall all event
+                // Calls to:
+                //  - MushroomTracker.RecallLast();
+                onRecallLast.Raise(this, null);
+            }
+        }
+
+        public void OnRecallAll(InputAction.CallbackContext context)
+        {
+            // Ensure a single button press
+            if(context.started)
+            {
+                // Raise the recall all event
+                // Calls to:
+                //  - MushroomTracker.RecallAll();
+                onRecallAll.Raise(this, null);
             }
         }
 

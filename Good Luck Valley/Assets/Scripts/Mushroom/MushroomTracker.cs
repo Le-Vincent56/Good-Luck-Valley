@@ -1,6 +1,7 @@
 using GoodLuckValley.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -107,6 +108,36 @@ namespace GoodLuckValley.Mushroom
             // and remove it from the list
             Destroy(mushrooms[index]);
             mushrooms.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Recall the most recently thrown Mushroom
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void RecallLast(Component sender, object data)
+        {
+            // Destroy the last mushroom and remove it from the list
+            Destroy(mushrooms[mushrooms.Count - 1]);
+            mushrooms.RemoveAt(mushrooms.Count - 1);
+        }
+
+        /// <summary>
+        /// Recall all thrown mushrooms
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void RecallAll(Component sender, object data)
+        {
+            // Iterate through the mushroom list
+            foreach(GameObject mushroom in mushrooms)
+            {
+                // Destroy the mushroom
+                if (mushroom != null) Destroy(mushroom);
+            }
+
+            // Clear the list
+            mushrooms.Clear();
         }
     }
 }

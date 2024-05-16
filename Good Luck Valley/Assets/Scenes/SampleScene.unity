@@ -303,6 +303,8 @@ GameObject:
   - component: {fileID: 96426445}
   - component: {fileID: 96426447}
   - component: {fileID: 96426448}
+  - component: {fileID: 96426450}
+  - component: {fileID: 96426449}
   m_Layer: 0
   m_Name: Tracker
   m_TagString: Untagged
@@ -415,6 +417,62 @@ MonoBehaviour:
       - m_Target: {fileID: 96426446}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomTracker, Assembly-CSharp
         m_MethodName: RemoveShroom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &96426449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96426443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 6690b17507b8acd43aa95affc461e97e, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 96426446}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomTracker, Assembly-CSharp
+        m_MethodName: RecallAll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &96426450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96426443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 90c2ad9b240fa204e965446344ead7dc, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 96426446}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomTracker, Assembly-CSharp
+        m_MethodName: RecallLast
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1754,6 +1812,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onThrow: {fileID: 11400000, guid: 67260566ed82f084c9dd406a898e1616, type: 2}
+  onRecallLast: {fileID: 0}
+  onRecallAll: {fileID: 0}
   playerData: {fileID: 11400000, guid: ea458ae986a135b4f9d9788cea33277b, type: 2}
 --- !u!50 &1373688170
 Rigidbody2D:

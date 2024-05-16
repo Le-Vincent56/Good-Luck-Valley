@@ -210,7 +210,6 @@ namespace GoodLuckValley.Player.StateMachine
         public void SetGravityScale(float scale)
         {
             RB.gravityScale = scale;
-            Debug.Log("Gravity Scale: " + RB.gravityScale);
         }
 
         /// <summary>
