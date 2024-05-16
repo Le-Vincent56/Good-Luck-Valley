@@ -1,34 +1,29 @@
-using GoodLuckValley.Player.StateMachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Player.StateMachine
+namespace GoodLuckValley.Mushroom.StateMachine
 {
-    public class PlayerState
+    public class MushroomState
     {
         #region FIELDS
-        protected PlayerController player;
-        protected PlayerStateMachine stateMachine;
-        protected PlayerData playerData;
+        protected MushroomController mushroom;
+        protected MushroomStateMachine stateMachine;
 
         protected bool isAnimationFinished;
-
         protected float startTime;
-
         private string animationBoolName;
         #endregion
 
-        public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
+        public MushroomState(MushroomController mushroom, MushroomStateMachine stateMachine, string animationBoolName)
         {
-            this.player = player;
+            this.mushroom = mushroom;
             this.stateMachine = stateMachine;
-            this.playerData = playerData;
             this.animationBoolName = animationBoolName;
         }
 
         /// <summary>
-        /// Enter the PlayerController state
+        /// Enter the State
         /// </summary>
         public virtual void Enter()
         {
@@ -37,23 +32,23 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Set the animation state
             isAnimationFinished = false;
-            player.Anim.SetBool(animationBoolName, true);
+            mushroom.Anim.SetBool(animationBoolName, true);
 
             // Set start time
             startTime = Time.time;
         }
 
         /// <summary>
-        /// Exit the PlayerController state
+        /// Exit the State
         /// </summary>
         public virtual void Exit()
         {
             // Leave the animation state
-            player.Anim.SetBool(animationBoolName, false);
+            mushroom.Anim.SetBool(animationBoolName, false);
         }
-        
+
         /// <summary>
-        /// Update the PlayerController logic
+        /// Update the State logic
         /// </summary>
         public virtual void LogicUpdate()
         {
@@ -61,7 +56,7 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
-        /// Update the PlayerController physics
+        /// Update the State physics
         /// </summary>
         public virtual void PhysicsUpdate()
         {
@@ -70,7 +65,7 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
-        /// Run certain checks
+        /// Run certain State checks
         /// </summary>
         public virtual void DoChecks()
         {

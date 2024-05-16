@@ -10,10 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1524652141445064579}
   - component: {fileID: 1524652141445064577}
+  - component: {fileID: -1162429649306423747}
   - component: {fileID: 1524652141445064578}
   - component: {fileID: 1012345712}
+  - component: {fileID: -8237601265746863083}
   - component: {fileID: 2062698207}
   - component: {fileID: 2507549663104065300}
+  - component: {fileID: 2037132587295186951}
   m_Layer: 0
   m_Name: Mushroom
   m_TagString: Mushroom
@@ -88,6 +91,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &-1162429649306423747
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524652141445064580}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9ed44181b2aea684bb64f48d82fd921e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!50 &1524652141445064578
 Rigidbody2D:
   serializedVersion: 4
@@ -125,6 +148,20 @@ CircleCollider2D:
   m_Offset: {x: 0.01, y: -0.035}
   serializedVersion: 2
   m_Radius: 0.44
+--- !u!114 &-8237601265746863083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524652141445064580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8f7222d590a274397172dc3d4bebdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previousState: 
+  currentState: 
 --- !u!114 &2062698207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,3 +193,32 @@ MonoBehaviour:
   shroomType: 0
   bounceDirection: {x: 0, y: 0}
   bounceForce: 0
+--- !u!114 &2037132587295186951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524652141445064580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -8237601265746863083}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.StateMachine.MushroomController,
+          Assembly-CSharp
+        m_MethodName: OnBounce
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

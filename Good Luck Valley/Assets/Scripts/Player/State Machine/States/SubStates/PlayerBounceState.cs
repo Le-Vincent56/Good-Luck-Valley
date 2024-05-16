@@ -22,9 +22,14 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.Enter();
 
+            // Enter the bounce
             if (!isBouncing)
             {
+                // Set bouncing
                 isBouncing = true;
+
+                // Set gravity multiplier
+                player.SetGravityScale(playerData.gravityScale);
             }
         }
 
@@ -37,7 +42,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.LogicUpdate();
 
-            // Jump Checks
+            // Bounce Checks
             if (isBouncing && player.RB.velocity.y < 0.01f)
             {
                 // Set bouncing to false

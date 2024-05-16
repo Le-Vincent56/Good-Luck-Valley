@@ -1723,6 +1723,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 84465b74-0a9b-411f-961e-8edc2e21d84c
     m_ActionName: Player Controls/Fast Fall[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1373688169}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnRecallLast
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c85732e6-7477-41a0-9618-26ccad311f76
+    m_ActionName: Player Controls/Recall Last[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1373688169}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnRecallAll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5e93ad46-46fa-43c7-89b7-60bbddead246
+    m_ActionName: Player Controls/Recall All[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -1812,8 +1844,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onThrow: {fileID: 11400000, guid: 67260566ed82f084c9dd406a898e1616, type: 2}
-  onRecallLast: {fileID: 0}
-  onRecallAll: {fileID: 0}
+  onRecallLast: {fileID: 11400000, guid: 90c2ad9b240fa204e965446344ead7dc, type: 2}
+  onRecallAll: {fileID: 11400000, guid: 6690b17507b8acd43aa95affc461e97e, type: 2}
   playerData: {fileID: 11400000, guid: ea458ae986a135b4f9d9788cea33277b, type: 2}
 --- !u!50 &1373688170
 Rigidbody2D:
@@ -1848,8 +1880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb07c92abe2ce4642a2fc9ab0e155f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousState: 
-  currentState: 
   playerData: {fileID: 11400000, guid: ea458ae986a135b4f9d9788cea33277b, type: 2}
   groundCheck: {fileID: 569284620}
   leftWallCheck: {fileID: 835130931}
@@ -1857,6 +1887,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  previousState: 
+  currentState: 
   isLocked: 0
 --- !u!95 &1373688172
 Animator:

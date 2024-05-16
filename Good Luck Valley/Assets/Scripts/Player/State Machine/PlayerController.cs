@@ -11,11 +11,27 @@ namespace GoodLuckValley.Player.StateMachine
     public class PlayerController : MonoBehaviour
     {
         #region REFERENCES
+        [SerializeField] private PlayerData playerData;
+        [SerializeField] private Transform groundCheck;
+        [SerializeField] private Transform leftWallCheck;
+        [SerializeField] private Transform rightWallCheck;
+        [SerializeField] private LayerMask groundLayer;
         #endregion
 
         #region FIELDS
         [SerializeField] string previousState;
         [SerializeField] string currentState;
+
+        public bool isLocked = false;
+        private bool isFacingRight = true;
+        private bool isBouncing = false;
+        #endregion
+
+        #region PROPERTIES
+        public Rigidbody2D RB { get; private set; }
+        public BoxCollider2D PlayerCollider { get; private set; }
+        public Animator Anim { get; private set; }
+        public PlayerInputHandler InputHandler { get; private set; }
         public PlayerStateMachine StateMachine { get; private set; }
         public PlayerIdleState IdleState { get; private set; }
         public PlayerMoveState MoveState { get; private set; }
@@ -25,21 +41,6 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerInAirState InAirState { get; private set; }
         public PlayerLandState LandState { get; private set; }
         public PlayerBounceState BounceState { get; private set; }
-
-        public Rigidbody2D RB { get; private set; }
-        public BoxCollider2D PlayerCollider { get; private set; }
-        public Animator Anim { get; private set; }
-        public PlayerInputHandler InputHandler { get; private set; }
-
-        [SerializeField] private PlayerData playerData;
-        [SerializeField] private Transform groundCheck;
-        [SerializeField] private Transform leftWallCheck;
-        [SerializeField] private Transform rightWallCheck;
-        [SerializeField] private LayerMask groundLayer;
-
-        public bool isLocked = false;
-        private bool isFacingRight = true;
-        private bool isBouncing;
         #endregion
 
         private void Awake()
