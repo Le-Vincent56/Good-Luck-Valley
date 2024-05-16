@@ -39,6 +39,12 @@ namespace GoodLuckValley.World.Tiles
             Rectangle = 4
         }
 
+        public enum PrioritySide
+        {
+            TopBottom = 0,
+            LeftRight = 1,
+        }
+
         public enum DiagDirection
         {
             TopRight = 0, // Rot-Z 0/360
@@ -50,14 +56,16 @@ namespace GoodLuckValley.World.Tiles
         #region FIELDS
         [SerializeField] private TileType tileType;
         [SerializeField] private ShroomType shroomType;
-
-        [SerializeField] private float contactBuffer = 0.2f;
+        [SerializeField] private PrioritySide prioritySide;
 
         [SerializeField] private Vector2 center;
         [SerializeField] private float width;
         [SerializeField] private float height;
 
         // Triangle fields
+        [SerializeField] private float diagContactBuffer = 0.2f;
+        [SerializeField] private float horContactBuffer = 0.15f;
+        [SerializeField] private float verContactBuffer = 0.15f;
         [SerializeField] private DiagDirection diagDirection;
         [SerializeField] private List<Vector2> hypotenusePoints = new List<Vector2>();
         [SerializeField] private float spawnHor;
@@ -70,6 +78,7 @@ namespace GoodLuckValley.World.Tiles
         private Vector2 closestPointTriangle;
 
         // Rectangle fields
+        [SerializeField] private float rectContactBuffer = 0.2f;
         [SerializeField] private float spawnUp;
         [SerializeField] private float spawnRight;
         [SerializeField] private float spawnDown;
@@ -396,113 +405,108 @@ namespace GoodLuckValley.World.Tiles
                     switch (diagDirection)
                     {
                         case DiagDirection.TopRight:
-                            // Prioritize the diagonal
-                            foreach (Vector2 point in hypotenusePoints)
-                            {
-                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
-                                {
-                                    return CollisionData.CollisionDirection.TopRightDiag;
-                                }
-                            }
-
-                            // Check rigid collisions
-                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Down;
-                            } else if(contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Left;
-                            }
-                            break;
+                            return CheckTriangleCollision(contactPoint, CollisionData.CollisionDirection.TopRightDiag, CollisionData.CollisionDirection.Down, CollisionData.CollisionDirection.Left);
 
                         case DiagDirection.TopLeft:
-                            // Prioritize the diagonal
-                            foreach (Vector2 point in hypotenusePoints)
-                            {
-                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
-                                {
-                                    return CollisionData.CollisionDirection.TopLeftDiag;
-                                }
-                            }
-
-                            // Check rigid collisions
-                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Down;
-                            }
-                            else if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Right;
-                            }
-                            break;
+                            return CheckTriangleCollision(contactPoint, CollisionData.CollisionDirection.TopLeftDiag, CollisionData.CollisionDirection.Down, CollisionData.CollisionDirection.Right);
 
                         case DiagDirection.BottomLeft:
-                            // Prioritize the diagonal
-                            foreach (Vector2 point in hypotenusePoints)
-                            {
-                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
-                                {
-                                    return CollisionData.CollisionDirection.BottomLeftDiag;
-                                }
-                            }
-
-                            // Check rigid collisions
-                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Up;
-                            }
-                            else if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Right;
-                            }
-                            break;
+                            return CheckTriangleCollision(contactPoint, CollisionData.CollisionDirection.BottomLeftDiag, CollisionData.CollisionDirection.Up, CollisionData.CollisionDirection.Right);
 
                         case DiagDirection.BottomRight:
-                            // Prioritize the diagonal
-                            foreach (Vector2 point in hypotenusePoints)
-                            {
-                                if (contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
-                                {
-                                    return CollisionData.CollisionDirection.BottomRightDiag;
-                                }
-                            }
-
-                            // Check rigid collisions
-                            if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Up;
-                            }
-                            else if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
-                            {
-                                return CollisionData.CollisionDirection.Left;
-                            }
-                            break;
+                            return CheckTriangleCollision(contactPoint, CollisionData.CollisionDirection.BottomRightDiag, CollisionData.CollisionDirection.Up, CollisionData.CollisionDirection.Left);
                     }
                     break;
 
                 case TileType.Rectangle:
-                    // Check against bounds
-                    if (contactPoint.y < spawnUp + contactBuffer && contactPoint.y > spawnUp - contactBuffer) // Check top bound
+                    // Check tile priority
+                    if(prioritySide == PrioritySide.TopBottom)
                     {
-                        return CollisionData.CollisionDirection.Up;
-                    }
-                    else if (contactPoint.y < spawnDown + contactBuffer && contactPoint.y > spawnDown - contactBuffer) // Check bottom bound
+                        // Check against bounds
+                        if (contactPoint.y < spawnUp + rectContactBuffer && contactPoint.y > spawnUp - rectContactBuffer) // Check top bound
+                        {
+                            return CollisionData.CollisionDirection.Up;
+                        }
+                        else if (contactPoint.y < spawnDown + rectContactBuffer && contactPoint.y > spawnDown - rectContactBuffer) // Check bottom bound
+                        {
+                            return CollisionData.CollisionDirection.Down;
+                        }
+                        else if (contactPoint.x < spawnRight + rectContactBuffer && contactPoint.x > spawnRight - rectContactBuffer) // Check right bound
+                        {
+                            return CollisionData.CollisionDirection.Right;
+                        }
+                        else if (contactPoint.x < spawnLeft + rectContactBuffer && contactPoint.x > spawnLeft - rectContactBuffer) // Check left bound
+                        {
+                            return CollisionData.CollisionDirection.Left;
+                        }
+                    } else if(prioritySide == PrioritySide.LeftRight)
                     {
-                        return CollisionData.CollisionDirection.Down;
+                        if (contactPoint.x < spawnRight + rectContactBuffer && contactPoint.x > spawnRight - rectContactBuffer) // Check right bound
+                        {
+                            return CollisionData.CollisionDirection.Right;
+                        }
+                        else if (contactPoint.x < spawnLeft + rectContactBuffer && contactPoint.x > spawnLeft - rectContactBuffer) // Check left bound
+                        {
+                            return CollisionData.CollisionDirection.Left;
+                        }
+                        else if (contactPoint.y < spawnUp + rectContactBuffer && contactPoint.y > spawnUp - rectContactBuffer) // Check top bound
+                        {
+                            return CollisionData.CollisionDirection.Up;
+                        }
+                        else if (contactPoint.y < spawnDown + rectContactBuffer && contactPoint.y > spawnDown - rectContactBuffer) // Check bottom bound
+                        {
+                            return CollisionData.CollisionDirection.Down;
+                        }
                     }
-                    else if (contactPoint.x < spawnRight + contactBuffer && contactPoint.x > spawnRight - contactBuffer) // Check right bound
-                    {
-                        return CollisionData.CollisionDirection.Right;
-                    }
-                    else if (contactPoint.x < spawnLeft + contactBuffer && contactPoint.x > spawnLeft - contactBuffer) // Check left bound
-                    {
-                        return CollisionData.CollisionDirection.Left;
-                    }
+                    
                     break;
             }
 
             // Default to up
             return CollisionData.CollisionDirection.Up;
+        }
+
+        private CollisionData.CollisionDirection CheckTriangleCollision(Vector2 contactPoint, 
+            CollisionData.CollisionDirection diagDirection, CollisionData.CollisionDirection horizontal, CollisionData.CollisionDirection vertical)
+        {
+            // Iterate through the hypotenuse points, prioritizing the diagonal
+            foreach (Vector2 point in hypotenusePoints)
+            {
+                if ((contactPoint.x < point.x + diagContactBuffer && contactPoint.x > point.x - diagContactBuffer)
+                    && (contactPoint.y < point.y + diagContactBuffer && contactPoint.y > point.y - diagContactBuffer))
+                {
+                    // Return the diagonal
+                    return diagDirection;
+                }
+            }
+
+            // Check which side to prioritize
+            if (prioritySide == PrioritySide.TopBottom)
+            {
+                // Prioritize the horizontals over the verticals
+                if (contactPoint.y < spawnHor + horContactBuffer && contactPoint.y > spawnHor - horContactBuffer)
+                {
+                    return horizontal;
+                }
+                else if (contactPoint.x < spawnVer + verContactBuffer && contactPoint.x > spawnVer - verContactBuffer)
+                {
+                    return vertical;
+                }
+            } else if(prioritySide == PrioritySide.LeftRight)
+            {
+                // Prioritize the verticals over the horizontals
+                if (contactPoint.x < spawnVer + verContactBuffer && contactPoint.x > spawnVer - verContactBuffer)
+                {
+                    return vertical;
+                }
+                else if (contactPoint.y < spawnHor + horContactBuffer && contactPoint.y > spawnHor - horContactBuffer)
+                {
+                    return horizontal;
+                }
+            }
+
+            // If no cases, pass horizontal
+            return horizontal;
         }
 
         private void OnDrawGizmos()

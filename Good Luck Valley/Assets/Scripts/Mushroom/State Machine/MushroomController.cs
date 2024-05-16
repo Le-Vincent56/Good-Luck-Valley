@@ -82,17 +82,6 @@ namespace GoodLuckValley.Mushroom.StateMachine
         {
             this.isBouncing = isBouncing;
         }
-
-        /// <summary>
-        /// Handle what happens when the Player bounces on the Mushroom
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public void OnBounce(Component sender, object data)
-        {
-            // Set isBouncing to true
-            isBouncing = true;
-        }
         #endregion
     }
 }

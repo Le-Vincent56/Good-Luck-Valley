@@ -11,13 +11,17 @@ namespace GoodLuckValley.UI
 {
     public class ThrowLine : MonoBehaviour
     {
-        #region REFERENCES
+        #region EVENTS
         [Header("Events")]
+        [SerializeField] private GameEvent onRequestPlayerController;
         [SerializeField] private GameEvent onRequestThrowData;
+        [SerializeField] private GameEvent onShowIndicator;
+        [SerializeField] private GameEvent onHideIndicator;
+        #endregion
 
+        #region REFERENCES
         [Header("Objects")]
-        [SerializeField] private GameObject player;
-        [SerializeField] private GameObject shroomIndicator;
+        [SerializeField] private PlayerController player;
         #endregion
 
         #region FIELDS
@@ -43,10 +47,8 @@ namespace GoodLuckValley.UI
         // Start is called before the first frame update
         void Start()
         {
-            player = GameObject.Find("Player");
-            shroomIndicator = GameObject.Find("Shroom Indicator");
-
-            shroomIndicator.transform.position = shroomIndicatorOffScreenPosition;
+            // Get the player controller
+            onRequestPlayerController.Raise(this, null);
 
             // Width of the line
             width = 0.1f;
@@ -233,7 +235,10 @@ namespace GoodLuckValley.UI
                 //  the line is drawn properly when the top of the method is called
                 segments = newPoints.Length;
 
-                PlaceMushroomIndicator(collisionData);
+                // Create the indicator at the collision
+                // Calls to:
+                //  - MushroomIndicator.ShowIndicator();
+                onShowIndicator.Raise(this, collisionData);
             }
             else
             {
@@ -251,18 +256,15 @@ namespace GoodLuckValley.UI
 
             lineRenderer.positionCount = 0;
 
-            // Moves shroom indicator off-screen
-            shroomIndicator.transform.position = shroomIndicatorOffScreenPosition;
-
             switch (facingRight)
             {
                 case true:
                     // If they are facing right the trajectory line cannot go past the left 
                     //    side of the player 
-                    if (player.GetComponent<Rigidbody2D>().velocity.x < 0 && playerPos.x - launchForce.x < playerPos.x)
+                    if (player.RB.velocity.x < 0 && playerPos.x - launchForce.x < playerPos.x)
                     {
                         // Turns the player by calling the player's Turn method
-                        player.GetComponent<PlayerController>().Turn();
+                        player.Turn();
                     }
                     // Sets starting position for line to match the location the shrooms are
                     //      spawned from with the offset
@@ -271,15 +273,20 @@ namespace GoodLuckValley.UI
                 case false:
                     // if the player is facing left the trajectory line cannot go past
                     //      the right side of the player
-                    if (player.GetComponent<Rigidbody2D>().velocity.x > 0 && playerPos.x + launchForce.x < playerPos.x)
+                    if (player.RB.velocity.x > 0 && playerPos.x + launchForce.x < playerPos.x)
                     {
                         // sets launchforce to zero to 'stop' the renderer
-                        player.GetComponent<PlayerController>().Turn();
+                        player.Turn();
                     }
                     // sets starting position for line to match the location the shrooms are
                     //      spawned from with the offsets
                     break;
             }
+
+            // Hide the indicator
+            // Calls to:
+            //  - MushroomIndicator.HideIndicator()
+            onHideIndicator.Raise(this, null);
         }
 
         /// <summary>
@@ -339,66 +346,9 @@ namespace GoodLuckValley.UI
             this.cursorPosition = cursorPosition;
         }
 
-        /// <summary>
-        /// Places a mushroom indicator at the end of the aim line using the given 
-        ///     collision data from the collided tiled
-        /// </summary>
-        /// <param name="collisionData"> The collision data pulled from the collided tile </param>
-        private void PlaceMushroomIndicator(CollisionData collisionData)
+        public void SetPlayerController(PlayerController playerController)
         {
-            // Height of the shroom for offsetting
-            float shroomHeight = 0.226875f;
-            float shroomHeightDiag = shroomHeight * (3f / 4f);
-
-            // Rotation of the shroom according to collision data
-            Quaternion rotationQuat = Quaternion.AngleAxis(collisionData.Rotation, Vector3.forward);
-            shroomIndicator.transform.rotation = rotationQuat;
-
-            // Moves shroom indicator to end of line position
-            Vector2 spawnPoint = collisionData.SpawnPoint;
-
-            // Displace the shroom depending on collision direction
-            switch (collisionData.Direction)
-            {
-                case CollisionDirection.Up:
-                    spawnPoint.y += shroomHeight;
-                    break;
-
-                case CollisionDirection.Right:
-                    spawnPoint.x += shroomHeight;
-                    break;
-
-                case CollisionDirection.Down:
-                    spawnPoint.y -= shroomHeight;
-                    break;
-
-                case CollisionDirection.Left:
-                    spawnPoint.x -= shroomHeight;
-                    break;
-
-                case CollisionDirection.TopRightDiag:
-                    spawnPoint.x += shroomHeightDiag;
-                    spawnPoint.y += shroomHeightDiag;
-                    break;
-
-                case CollisionDirection.TopLeftDiag:
-                    spawnPoint.x -= shroomHeightDiag;
-                    spawnPoint.y += shroomHeightDiag;
-                    break;
-
-                case CollisionDirection.BottomLeftDiag:
-                    spawnPoint.x -= shroomHeightDiag;
-                    spawnPoint.y -= shroomHeightDiag;
-                    break;
-
-                case CollisionDirection.BottomRightDiag:
-                    spawnPoint.x += shroomHeightDiag;
-                    spawnPoint.y -= shroomHeightDiag;
-                    break;
-            }
-            
-            // Set the shroom inidcator position
-            shroomIndicator.transform.position = spawnPoint;
+            this.player = playerController;
         }
     }
 }

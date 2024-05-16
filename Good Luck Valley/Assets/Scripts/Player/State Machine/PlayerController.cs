@@ -120,6 +120,20 @@ namespace GoodLuckValley.Player.StateMachine
         #endregion
 
         #region HELPER FUNCTIONS
+        /// <summary>
+        /// Send the PlayerController out as a reference
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void ReturnPlayerController(Component sender, object data)
+        {
+            if (sender is ThrowLine) ((ThrowLine)sender).SetPlayerController(this);
+        }
+
+        /// <summary>
+        /// Check the current State
+        /// </summary>
+        /// <returns></returns>
         private PlayerState CheckState()
         {
             return StateMachine.CurrentState;

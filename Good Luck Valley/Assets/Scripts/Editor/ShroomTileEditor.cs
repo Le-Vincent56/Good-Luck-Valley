@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using GoodLuckValley.World.Tiles;
+using UnityEngine.Rendering;
 
 [CustomEditor(typeof(ShroomTile))]
 public class ShroomTileEditor : Editor
@@ -11,14 +12,17 @@ public class ShroomTileEditor : Editor
 
     private SerializedProperty tileType;
     private SerializedProperty shroomType;
-
-    private SerializedProperty contactBuffer;
+    private SerializedProperty prioritySide;
 
     private SerializedProperty center;
     private SerializedProperty width;
     private SerializedProperty height;
 
     // Triangle fields
+    private SerializedProperty diagContactBuffer;
+    private SerializedProperty horContactBuffer;
+    private SerializedProperty verContactBuffer;
+
     private SerializedProperty diagDirection;
     private SerializedProperty hypotenusePoints;
     private SerializedProperty spawnHor;
@@ -29,6 +33,8 @@ public class ShroomTileEditor : Editor
     private SerializedProperty verticalRot;
 
     // Rectangle fields
+    private SerializedProperty rectContactBuffer;
+
     private SerializedProperty spawnUp;
     private SerializedProperty spawnRight;
     private SerializedProperty spawnDown;
@@ -43,12 +49,15 @@ public class ShroomTileEditor : Editor
     {
         tileType = serializedObject.FindProperty("tileType");
         shroomType = serializedObject.FindProperty("shroomType");
-
-        contactBuffer = serializedObject.FindProperty("contactBuffer");
+        prioritySide = serializedObject.FindProperty("prioritySide");
 
         center = serializedObject.FindProperty("center");
         width = serializedObject.FindProperty("width");
         height = serializedObject.FindProperty("height");
+
+        diagContactBuffer = serializedObject.FindProperty("diagContactBuffer");
+        horContactBuffer = serializedObject.FindProperty("horContactBuffer");
+        verContactBuffer = serializedObject.FindProperty("verContactBuffer");
 
         diagDirection = serializedObject.FindProperty("diagDirection");
         hypotenusePoints = serializedObject.FindProperty("hypotenusePoints");
@@ -58,6 +67,8 @@ public class ShroomTileEditor : Editor
         diagonalRot = serializedObject.FindProperty("diagonalRot");
         horizontalRot = serializedObject.FindProperty("horizontalRot");
         verticalRot = serializedObject.FindProperty("verticalRot");
+
+        rectContactBuffer = serializedObject.FindProperty("rectContactBuffer");
 
         spawnUp = serializedObject.FindProperty("spawnUp");
         spawnRight = serializedObject.FindProperty("spawnRight");
@@ -79,14 +90,20 @@ public class ShroomTileEditor : Editor
         EditorGUILayout.LabelField("Type Details", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(tileType, new GUIContent("Tile Type"));
         EditorGUILayout.PropertyField(shroomType, new GUIContent("Shroom Type"));
+        EditorGUILayout.PropertyField(prioritySide, new GUIContent("Prioritize"));
 
         EditorGUILayout.Space(10f);
-        EditorGUILayout.PropertyField(contactBuffer, new GUIContent("Contact Buffer"));
 
         if(tileType.intValue == 3)
         {
+            EditorGUILayout.PropertyField(diagContactBuffer, new GUIContent("Diagonal Contact Buffer"));
+            EditorGUILayout.PropertyField(horContactBuffer, new GUIContent("Horizontal Contact Buffer"));
+            EditorGUILayout.PropertyField(verContactBuffer, new GUIContent("Vertical Contact Buffer"));
+            EditorGUILayout.Space(10f);
+
             EditorGUILayout.LabelField("Direction Details", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(diagDirection, new GUIContent("Diagonal Direction"));
+            EditorGUILayout.Space(10f);
 
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.LabelField("Spawn Details", EditorStyles.boldLabel);
@@ -99,6 +116,9 @@ public class ShroomTileEditor : Editor
             EditorGUI.EndDisabledGroup();
         } else if (tileType.intValue == 4)
         {
+            EditorGUILayout.PropertyField(rectContactBuffer, new GUIContent("Contact Buffer"));
+            EditorGUILayout.Space(10f);
+
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.LabelField("Spawn Details", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(center, new GUIContent("Center Point"));
