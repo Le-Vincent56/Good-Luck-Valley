@@ -176,6 +176,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 0
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -186,6 +188,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 1
+  checkBot: 1
+  checkLeft: 1
+  checkRight: 1
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -524,6 +530,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 0
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -534,6 +542,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 0
+  checkBot: 1
+  checkLeft: 1
+  checkRight: 1
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -695,6 +707,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 1
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -705,6 +719,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 0
+  checkBot: 0
+  checkLeft: 1
+  checkRight: 0
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -1292,6 +1310,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 0
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -1302,6 +1322,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 1
+  checkBot: 1
+  checkLeft: 1
+  checkRight: 1
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -1494,6 +1518,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 0
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -1504,6 +1530,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 1
+  checkBot: 1
+  checkLeft: 0
+  checkRight: 1
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -1665,6 +1695,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 1
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -1675,6 +1707,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 0
+  checkBot: 0
+  checkLeft: 1
+  checkRight: 0
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -1952,6 +1988,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 0
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -1962,6 +2000,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 1
+  checkBot: 1
+  checkLeft: 1
+  checkRight: 1
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -2541,6 +2583,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 0
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -2551,6 +2595,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 0
+  checkBot: 0
+  checkLeft: 0
+  checkRight: 0
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -2619,6 +2667,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 1
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -2629,6 +2679,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 0
+  checkBot: 0
+  checkLeft: 1
+  checkRight: 0
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -2913,9 +2967,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -2989,7 +3041,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1575893930}
         m_TargetAssemblyTypeName: GoodLuckValley.UI.ThrowLine, Assembly-CSharp
-        m_MethodName: GetThrowDirection
+        m_MethodName: GetThrowPath
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3037,6 +3089,8 @@ MonoBehaviour:
   center: {x: 0, y: 0}
   width: 0
   height: 0
+  checkHor: 0
+  checkVer: 0
   diagContactBuffer: 0.2
   horContactBuffer: 0.15
   verContactBuffer: 0.15
@@ -3047,6 +3101,10 @@ MonoBehaviour:
   diagonalRot: 0
   horizontalRot: 0
   verticalRot: 0
+  checkTop: 1
+  checkBot: 1
+  checkLeft: 1
+  checkRight: 1
   rectContactBuffer: 0.2
   spawnUp: 0
   spawnRight: 0
@@ -3602,11 +3660,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onGetCountToLimit: {fileID: 11400000, guid: 165225ed67f2b7940a66ef97a52bb8fa, type: 2}
   onRemoveFirstShroom: {fileID: 11400000, guid: 5df1a868a6ba0554da8263d93a35b128, type: 2}
-  onGetThrowDirection: {fileID: 11400000, guid: 7302a3c64b60c1e43a9ac8c82a2287f8, type: 2}
+  onGetThrowPath: {fileID: 11400000, guid: 7302a3c64b60c1e43a9ac8c82a2287f8, type: 2}
   onEnableThrowUI: {fileID: 11400000, guid: cd34581456012724ebfe0bec4cdb144f, type: 2}
   onDisableThrowUI: {fileID: 11400000, guid: e0a7f9ab0fa9fcd48b31fdc7416c6637, type: 2}
   spore: {fileID: 1470045706857144608, guid: dec2852c561ebf04ab3e0da5b0c3bd06, type: 3}
   throwDirection: {x: 0, y: 0}
+  path: []
   throwMultiplier: 407.5
   throwUnlocked: 1
   canThrow: 1

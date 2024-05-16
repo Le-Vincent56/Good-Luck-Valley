@@ -32,7 +32,7 @@ namespace GoodLuckValley.Mushroom
         [Header("Events")]
         [SerializeField] private GameEvent onGetCountToLimit;
         [SerializeField] private GameEvent onRemoveFirstShroom;
-        [SerializeField] private GameEvent onGetThrowDirection;
+        [SerializeField] private GameEvent onGetThrowPath;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
 
@@ -42,6 +42,7 @@ namespace GoodLuckValley.Mushroom
 
         #region FIELDS
         [SerializeField] private Vector2 throwDirection;
+        [SerializeField] private List<Vector2> path;
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool throwUnlocked;
         [SerializeField] private bool canThrow;
@@ -61,12 +62,12 @@ namespace GoodLuckValley.Mushroom
         }
 
         /// <summary>
-        /// Set the launch force for the throw
+        /// Set the path for the spore
         /// </summary>
         /// <param name="launchForce"></param>
-        public void SetThrowDirection(Vector2 throwDirection)
+        public void SetPath(List<Vector2> path)
         {
-            this.throwDirection = throwDirection;
+            this.path = path;
         }
 
         /// <summary>
@@ -97,8 +98,8 @@ namespace GoodLuckValley.Mushroom
 
             // Get launch force
             // Calls to:
-            // - ThrowLine.SetLaunchForce()
-            onGetThrowDirection.Raise(this, null);
+            // - ThrowLine.GetThrowDirection()
+            onGetThrowPath.Raise(this, null);
 
             // Disable throw UI
             // Calls to:
@@ -107,7 +108,7 @@ namespace GoodLuckValley.Mushroom
 
             // Create a spore and apply force
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
-            newSpore.GetComponent<Rigidbody2D>().AddForce(throwDirection * throwMultiplier);
+            newSpore.GetComponent<Spore>().SetPath(path);
         }
 
         public void OnThrow(Component sender, object data)

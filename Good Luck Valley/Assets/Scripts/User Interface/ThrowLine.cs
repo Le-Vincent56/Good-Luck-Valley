@@ -290,16 +290,23 @@ namespace GoodLuckValley.UI
         }
 
         /// <summary>
-        /// Set the throw direction of the current line
+        /// Set the throw path of the current line
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public void GetThrowDirection(Component sender, object data)
+        public void GetThrowPath(Component sender, object data)
         {
             // Check if the data is the correct type
             if (sender is not MushroomThrow) return;
 
-            ((MushroomThrow)sender).SetThrowDirection(throwDirection);
+            List<Vector2> positions = new List<Vector2>();
+            for (int i = 0; i < lineRenderer.positionCount; i++)
+            {
+                positions.Add(lineRenderer.GetPosition(i));
+                Debug.Log(positions[i]);
+            }
+
+            ((MushroomThrow)sender).SetPath(positions);
         }
 
         /// <summary>

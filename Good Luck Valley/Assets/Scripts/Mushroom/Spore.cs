@@ -4,6 +4,7 @@ using GoodLuckValley.World.Tiles;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Spore : MonoBehaviour
 {
@@ -19,9 +20,66 @@ public class Spore : MonoBehaviour
     [SerializeField] private ShroomType shroomType;
     private CollisionData.CollisionDirection collisionDirection;
     private Vector2 contactPoint;
+    [SerializeField] private List<Vector2> path;
+    private int waypoint = 0;
+    [SerializeField] private float speed;
     private float rotation;
     private bool spawnConfirmed = false;
+
+    [Header("Physics")]
+    [SerializeField] private Vector2 velocity;
+    [SerializeField] private float initialUpwardVelocity = 10f;
+    [SerializeField] private float gravity = 9.8f;
+    [SerializeField] private float maxUpwardVelocity = 5f;
+    [SerializeField] private float drag = 0.1f;
     #endregion
+
+    private void Start()
+    {
+        velocity = Vector2.up * initialUpwardVelocity;
+    }
+
+    private void Update()
+    {
+        if(waypoint < path.Count)
+        {
+            // Get the current path point
+            Vector2 targetPosition = path[waypoint];
+
+            // Apply physics
+            ApplyPhysics(targetPosition);
+
+            // Move towards the target position
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+
+            // Set the next position
+            if((Vector2)transform.position == targetPosition)
+            {
+                waypoint++;
+            }
+        }
+    }
+
+    public void ApplyPhysics(Vector2 targetPosition)
+    {
+        // Get the direction of movemenbt
+        Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
+
+        // Apply upward velocity if moving upward
+        if (direction.y > 0)
+            velocity.y = initialUpwardVelocity;
+        else // Otherwise apply gravity
+            velocity.y -= gravity * Time.deltaTime;
+
+        // Apply drag
+        velocity.y *= 1f - drag * Time.deltaTime;
+
+        // Ensure velocity doesn't exceed the max velocity
+        velocity.y = Mathf.Clamp(velocity.y, -maxUpwardVelocity, initialUpwardVelocity);
+
+        // Move the spore
+        transform.position += (Vector3)velocity * Time.deltaTime;
+    }
 
     /// <summary>
     /// Create a mushroom
@@ -131,5 +189,10 @@ public class Spore : MonoBehaviour
 
         // Destroy the gameObject
         Destroy(gameObject);
+    }
+
+    public void SetPath(List<Vector2> path)
+    {
+        this.path = path;
     }
 }
