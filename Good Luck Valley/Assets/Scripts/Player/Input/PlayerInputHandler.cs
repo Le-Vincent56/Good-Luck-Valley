@@ -1,4 +1,5 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Mushroom;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,17 +21,21 @@ namespace GoodLuckValley.Player
             }
         }
 
-        #region REFERENCES
+        #region EVENTS
         [Header("Events")]
         [SerializeField] private GameEvent onThrow;
         [SerializeField] private GameEvent onRecallLast;
         [SerializeField] private GameEvent onRecallAll;
+        [SerializeField] private GameEvent onRequestWallData;
+        [SerializeField] private GameEvent onWallJumpInput;
+        #endregion
 
+        #region REFERENCES
         [Header("Objects")]
         [SerializeField] private PlayerData playerData;
         #endregion
 
-        #region FIELDS
+        #region PROPERTIES
         public Vector2 RawMovementInput { get; private set; }
         public int NormInputX { get; private set; }
         public int NormInputY { get; private set; }
@@ -38,6 +43,9 @@ namespace GoodLuckValley.Player
         public bool TryJumpCut { get; private set; }
         public float LastPressedJumpTime { get; set; }
         public bool FastFallInput { get; private set; }
+        public bool OnWall { get; set; }
+        public float WallDirection { get; set; }
+        public Vector2 WallCheckPos { get; set; }
         #endregion
 
 
@@ -61,17 +69,37 @@ namespace GoodLuckValley.Player
         /// <param name="context"></param>
         public void OnJump(InputAction.CallbackContext context)
         {
+            // Request wall data
+            onRequestWallData.Raise(this, null);
+
             // Check if the jump button has been pressed
             if(context.started)
             {
-                // Set jump variables
-                JumpInput = true;
-                TryJumpCut = false;
-                LastPressedJumpTime = playerData.jumpInputBufferTime;
+                // Check if on a wall
+                if(!OnWall)
+                {
+                    // Set jump variables
+                    JumpInput = true;
+                    TryJumpCut = false;
+                    LastPressedJumpTime = playerData.jumpInputBufferTime;
+                } else
+                {
+                    // Send wall data if on a wall
+                    MushroomWallJump.Data data = new MushroomWallJump.Data(true, WallCheckPos, WallDirection, playerData.wallRadius);
+                    onWallJumpInput.Raise(this, data);
+                }
             } else if(context.canceled) // Check if the jump button has been released
             {
-                // Attempt to jump cut
-                TryJumpCut = true;
+                // Check if on a wall
+                if(!OnWall)
+                {
+                    // Attempt to jump cut
+                    TryJumpCut = true;
+                }
+
+                // Always cancel wall data send
+                MushroomWallJump.Data data = new MushroomWallJump.Data(false, WallCheckPos, 0f, playerData.wallRadius);
+                onWallJumpInput.Raise(this, data);
             }
         }
 

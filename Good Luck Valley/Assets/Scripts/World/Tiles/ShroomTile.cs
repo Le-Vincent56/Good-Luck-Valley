@@ -251,13 +251,15 @@ namespace GoodLuckValley.World.Tiles
             // Create a collision data object
             CollisionData collisionData = new CollisionData(CollisionData.CollisionDirection.Up, 0f, Vector2.zero);
 
+            // Check the collision direction
             collisionData.Direction = CheckCollisionDirection(contactPoint);
-
-            float closestDistance;
 
             switch (tileType)
             {
                 case TileType.Triangle:
+                    // Establish the closest distance
+                    float closestDistance;
+
                     switch (collisionData.Direction)
                     {
                         case CollisionData.CollisionDirection.Up:

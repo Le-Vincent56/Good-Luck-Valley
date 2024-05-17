@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Mushroom.StateMachine
+namespace GoodLuckValley.Mushroom.StateMachine.States
 {
     public class RMIdleState : RegularMushroomState
     {

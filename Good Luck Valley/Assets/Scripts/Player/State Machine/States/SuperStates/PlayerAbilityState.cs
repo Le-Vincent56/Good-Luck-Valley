@@ -7,7 +7,8 @@ namespace GoodLuckValley.Player.StateMachine.States
     public class PlayerAbilityState : PlayerState
     {
         protected bool isAbilityDone;
-        private bool isGrounded;
+        protected bool isGrounded;
+        protected bool isOnWall;
 
         public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
@@ -19,6 +20,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             base.DoChecks();
 
             isGrounded = player.CheckIfGrounded();
+            isOnWall = player.CheckIfWalled();
         }
 
         public override void Enter()

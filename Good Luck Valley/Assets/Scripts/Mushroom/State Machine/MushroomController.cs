@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GoodLuckValley.Mushroom.StateMachine.States;
 
 namespace GoodLuckValley.Mushroom.StateMachine
 {
@@ -10,8 +11,9 @@ namespace GoodLuckValley.Mushroom.StateMachine
         #endregion
 
         #region FIELDS
-        [SerializeField] string previousState;
-        [SerializeField] string currentState;
+        [SerializeField] private ShroomType shroomType;
+        [SerializeField] private string previousState;
+        [SerializeField] private string currentState;
 
         private bool isBouncing = false;
         #endregion
@@ -21,14 +23,25 @@ namespace GoodLuckValley.Mushroom.StateMachine
         public MushroomStateMachine StateMachine { get; private set; }
         public RMIdleState RMIdleState { get; private set; }
         public RMBounceState RMBounceState { get; private set; }
+        public WMIdleState WMIdleState { get; private set; }
         #endregion
 
         private void Awake()
         {
             StateMachine = new MushroomStateMachine();
 
-            RMIdleState = new RMIdleState(this, StateMachine, "idle");
-            RMBounceState = new RMBounceState(this, StateMachine, "bounce");
+            // Initialize states based on shroom type
+            switch (shroomType)
+            {
+                case ShroomType.Regular:
+                    RMIdleState = new RMIdleState(this, StateMachine, "idle");
+                    RMBounceState = new RMBounceState(this, StateMachine, "bounce");
+                    break;
+
+                case ShroomType.Wall:
+                    WMIdleState = new WMIdleState(this, StateMachine, "idle");
+                    break;
+            }
         }
 
         // Start is called before the first frame update
@@ -36,7 +49,17 @@ namespace GoodLuckValley.Mushroom.StateMachine
         {
             Anim = GetComponent<Animator>();
 
-            StateMachine.Initialize(RMIdleState); // Eventually replace with grow
+            // Set initial shroom types
+            switch (shroomType)
+            {
+                case ShroomType.Regular:
+                    StateMachine.Initialize(RMIdleState); // Eventually replace with grow
+                    break;
+
+                case ShroomType.Wall:
+                    StateMachine.Initialize(WMIdleState); // Eventually replace with grow
+                    break;
+            }
         }
 
         // Update is called once per frame

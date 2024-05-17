@@ -13,9 +13,7 @@ namespace GoodLuckValley.Player.StateMachine
         #region REFERENCES
         [SerializeField] private PlayerData playerData;
         [SerializeField] private Transform groundCheck;
-        [SerializeField] private Transform leftWallCheck;
-        [SerializeField] private Transform rightWallCheck;
-        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private Transform wallCheck;
         #endregion
 
         #region FIELDS
@@ -25,6 +23,7 @@ namespace GoodLuckValley.Player.StateMachine
         public bool isLocked = false;
         private bool isFacingRight = true;
         private bool isBouncing = false;
+        private bool isWallJumping = false;
         #endregion
 
         #region PROPERTIES
@@ -41,6 +40,9 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerInAirState InAirState { get; private set; }
         public PlayerLandState LandState { get; private set; }
         public PlayerBounceState BounceState { get; private set; }
+        public PlayerWallSlideState WallSlideState { get; private set; }
+        public PlayerFastWallSlideState FastWallSlideState { get; private set; }
+        public PlayerWallJumpState WallJumpState { get; private set; }
         #endregion
 
         private void Awake()
@@ -56,6 +58,9 @@ namespace GoodLuckValley.Player.StateMachine
             InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
             LandState = new PlayerLandState(this, StateMachine, playerData, "land");
             BounceState = new PlayerBounceState(this, StateMachine, playerData, "bounce");
+            WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wall");
+            FastWallSlideState = new PlayerFastWallSlideState(this, StateMachine, playerData, "fastWall");
+            WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "wallJump");
         }
 
         private void Start()
@@ -112,6 +117,45 @@ namespace GoodLuckValley.Player.StateMachine
         {
             return isBouncing;
         }
+
+        /// <summary>
+        /// Check if the Player is against a wall
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckIfWalled()
+        {
+            return Physics2D.OverlapCircle(wallCheck.position, playerData.wallRadius, playerData.wallLayer);
+        }
+
+        /// <summary>
+        /// Check if the Player is wall jumping
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckIfWallJumping()
+        {
+            return isWallJumping;
+        }
+
+        /// <summary>
+        /// Get the X-direction from the Player to the Wall
+        /// </summary>
+        /// <returns></returns>
+        public float CheckWallDirection()
+        {
+            // Check if walled
+            if (CheckIfWalled())
+            {
+                // Get the wall being collided with
+                Collider2D wall = Physics2D.OverlapCircle(wallCheck.position, playerData.wallRadius, playerData.wallLayer);
+
+                // Get the direction to the wall
+                Vector2 dirToWall = (wall.transform.position - transform.position).normalized;
+
+                // Return the x direction
+                return (Mathf.Abs(dirToWall.x)) / dirToWall.x;
+            }
+            else return 0f;
+        }
         #endregion
 
         #region ANIMATION FUNCTIONS
@@ -120,16 +164,6 @@ namespace GoodLuckValley.Player.StateMachine
         #endregion
 
         #region HELPER FUNCTIONS
-        /// <summary>
-        /// Send the PlayerController out as a reference
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public void ReturnPlayerController(Component sender, object data)
-        {
-            if (sender is ThrowLine) ((ThrowLine)sender).SetPlayerController(this);
-        }
-
         /// <summary>
         /// Check the current State
         /// </summary>
@@ -228,6 +262,57 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         /// <summary>
+        /// End the bounce
+        /// </summary>
+        public void EndBounce()
+        {
+            isBouncing = false;
+        }
+
+        /// <summary>
+        /// End the Wall Jump
+        /// </summary>
+        public void EndWallJump()
+        {
+            isWallJumping = false;
+        }
+        #endregion
+
+        #region EVENT FUNCTIONS
+        /// <summary>
+        /// Send the PlayerController out as a reference
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void ReturnPlayerController(Component sender, object data)
+        {
+            if (sender is ThrowLine) ((ThrowLine)sender).SetPlayerController(this);
+        }
+
+        /// <summary>
+        /// Check if the Player is on a wall and send the results
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void ReturnWallData(Component sender, object data)
+        {
+            if(sender is PlayerInputHandler)
+            {
+                if (CheckState() is PlayerWallState)
+                {
+                    ((PlayerInputHandler)sender).OnWall = true;
+                    ((PlayerInputHandler)sender).WallDirection = CheckWallDirection();
+                    ((PlayerInputHandler)sender).WallCheckPos = wallCheck.position;
+                } else
+                {
+                    ((PlayerInputHandler)sender).OnWall = false;
+                    ((PlayerInputHandler)sender).WallDirection = 0f;
+                    ((PlayerInputHandler)sender).WallCheckPos = Vector2.zero;
+                }
+            }
+        }
+
+        /// <summary>
         /// Return data requested by MushroomThrow
         /// </summary>
         /// <param name="sender"></param>
@@ -251,7 +336,7 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Cast data
             MushroomBounce.BounceData bounceData = (MushroomBounce.BounceData)data;
-            
+
             // Clear the velocity
             RB.velocity = Vector2.zero;
 
@@ -259,12 +344,22 @@ namespace GoodLuckValley.Player.StateMachine
             RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
         }
 
-        /// <summary>
-        /// End the bounce
-        /// </summary>
-        public void EndBounce()
+        public void StartWallJump(Component sender, object data)
         {
-            isBouncing = false;
+            // Check the correct data was sent
+            if (data is not MushroomWallJump.BounceData) return;
+
+            // Set wall jumping to true
+            isWallJumping = true;
+
+            // Cast data
+            MushroomWallJump.BounceData bounceData = (MushroomWallJump.BounceData)data;
+
+            // Clear the velocity
+            RB.velocity = Vector2.zero;
+
+            // Add the force
+            RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
         }
         #endregion
 
@@ -272,6 +367,9 @@ namespace GoodLuckValley.Player.StateMachine
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(groundCheck.position, playerData.groundRadius);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(wallCheck.position, playerData.wallRadius);
         }
     }
 }

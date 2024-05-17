@@ -21,5 +21,13 @@ namespace GoodLuckValley.Player.StateMachine.States
             if (stateMachine.PreviousState is PlayerFastFallState) player.SetGravityScale(playerData.gravityScale * playerData.fallGravityMult);
             if (stateMachine.PreviousState is PlayerBounceState) player.SetGravityScale(playerData.gravityScale * playerData.fallFromBounceGravityMult);
         }
+
+        public override void LogicUpdate()
+        {
+            base.LogicUpdate();
+
+            // Clamp fall velocity
+            player.RB.velocity = new Vector2(player.RB.velocity.x, Mathf.Max(player.RB.velocity.y, -playerData.maxFallSpeed));
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         #region FIELDS
         private bool isGrounded;
         private bool isBouncing;
+        private bool isOnWall;
         private bool fastFallInput;
         #endregion
 
@@ -23,6 +24,7 @@ namespace GoodLuckValley.Player.StateMachine.States
 
             isGrounded = player.CheckIfGrounded();
             isBouncing = player.CheckIfBouncing();
+            isOnWall = player.CheckIfWalled();
         }
 
         public override void Enter()
@@ -42,11 +44,11 @@ namespace GoodLuckValley.Player.StateMachine.States
             // Get the fast fall input
             fastFallInput = player.InputHandler.FastFallInput;
 
-            // Check for fall vs. fast fall
-            if(fastFallInput)
+            // Check for fall vs. fast fall (and if the player is not already in that respective state)
+            if(fastFallInput && stateMachine.CurrentState is not PlayerFastFallState)
             {
                 stateMachine.ChangeState(player.FastFallState);
-            } else
+            } else if(stateMachine.CurrentState is not PlayerFallState)
             {
                 stateMachine.ChangeState(player.FallState);
             }
@@ -55,6 +57,10 @@ namespace GoodLuckValley.Player.StateMachine.States
             if (isBouncing) // Exit case - bouncing
             {
                 stateMachine.ChangeState(player.BounceState);
+            }
+            else if(!isGrounded && isOnWall) // Exit case - player is on a wall
+            {
+                stateMachine.ChangeState(player.WallSlideState);
             }
             else if (isGrounded) // Exit case - player is grounded
             {

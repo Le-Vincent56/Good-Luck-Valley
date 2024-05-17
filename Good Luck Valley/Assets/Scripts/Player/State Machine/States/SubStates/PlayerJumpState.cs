@@ -69,20 +69,19 @@ namespace GoodLuckValley.Player.StateMachine.States
                 player.SetGravityScale(playerData.gravityScale * playerData.jumpHangGravityMult);
             }
 
-            // Jump Checks
+            // Check if the jump has ended
             if (isJumping && player.RB.velocity.y < 0.01f)
             {
-                // Set is jumping to false
-                isJumping = false;
+                EndJump();
+            }
 
-                // Set jump cut to false
-                isJumpCut = false;
+            if (!isGrounded && isOnWall) // Exit case - end early if on wall
+            {
+                // End the jump
+                EndJump();
 
-                // Reset the jump input variable
-                player.InputHandler.UseJumpInput();
-
-                // Trigger ability done
-                isAbilityDone = true;
+                // Change to the wall slide state
+                stateMachine.ChangeState(player.WallSlideState);
             }
         }
 
@@ -106,6 +105,24 @@ namespace GoodLuckValley.Player.StateMachine.States
             }
 
             player.RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        }
+
+        /// <summary>
+        /// End the jump
+        /// </summary>
+        public void EndJump()
+        {
+            // Set is jumping to false
+            isJumping = false;
+
+            // Set jump cut to false
+            isJumpCut = false;
+
+            // Reset the jump input variable
+            player.InputHandler.UseJumpInput();
+
+            // Trigger ability done
+            isAbilityDone = true;
         }
     }
 }
