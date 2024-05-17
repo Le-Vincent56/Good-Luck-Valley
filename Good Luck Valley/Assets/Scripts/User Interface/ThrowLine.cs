@@ -29,6 +29,7 @@ namespace GoodLuckValley.UI
         private int segments;
         private LineRenderer lineRenderer = null;
         private Vector3[] lineRendererStartingPoints = null;
+        private CollisionData currentCollisionData;
 
         [Header("Details")]
         [SerializeField] private float throwMultiplier;
@@ -235,6 +236,9 @@ namespace GoodLuckValley.UI
                 //  the line is drawn properly when the top of the method is called
                 segments = newPoints.Length;
 
+                // Set collision data
+                currentCollisionData = collisionData;
+
                 // Create the indicator at the collision
                 // Calls to:
                 //  - MushroomIndicator.ShowIndicator();
@@ -289,24 +293,24 @@ namespace GoodLuckValley.UI
             onHideIndicator.Raise(this, null);
         }
 
+        public void GetLineDirection(Component sender, object data)
+        {
+            if (sender is not MushroomThrow) return;
+
+            ((MushroomThrow)sender).SetThrowDirection(throwDirection);
+        }
+
         /// <summary>
         /// Set the throw path of the current line
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public void GetThrowPath(Component sender, object data)
+        public void GetCollisionData(Component sender, object data)
         {
             // Check if the data is the correct type
             if (sender is not MushroomThrow) return;
 
-            List<Vector2> positions = new List<Vector2>();
-            for (int i = 0; i < lineRenderer.positionCount; i++)
-            {
-                positions.Add(lineRenderer.GetPosition(i));
-                Debug.Log(positions[i]);
-            }
-
-            ((MushroomThrow)sender).SetPath(positions);
+            ((MushroomThrow)sender).SetCollisionData(currentCollisionData);
         }
 
         /// <summary>

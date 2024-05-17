@@ -17,8 +17,7 @@ namespace GoodLuckValley.World.Tiles
             TopRightDiag = 4,
             TopLeftDiag = 5,
             BottomLeftDiag = 6,
-            BottomRightDiag = 7,
-            None = 8,
+            BottomRightDiag = 7
         }
 
         public CollisionDirection Direction;
@@ -60,17 +59,13 @@ namespace GoodLuckValley.World.Tiles
         [SerializeField] private ShroomType shroomType;
         [SerializeField] private PrioritySide prioritySide;
 
+        [SerializeField] private float contactBuffer = 0.01f;
+
         [SerializeField] private Vector2 center;
         [SerializeField] private float width;
         [SerializeField] private float height;
 
         // Triangle fields
-        [SerializeField] private bool checkHor = true;
-        [SerializeField] private bool checkVer = true;
-
-        [SerializeField] private float diagContactBuffer = 0.2f;
-        [SerializeField] private float horContactBuffer = 0.15f;
-        [SerializeField] private float verContactBuffer = 0.15f;
         [SerializeField] private DiagDirection diagDirection;
         [SerializeField] private List<Vector2> hypotenusePoints = new List<Vector2>();
         [SerializeField] private float spawnHor;
@@ -83,12 +78,6 @@ namespace GoodLuckValley.World.Tiles
         private Vector2 closestPointTriangle;
 
         // Rectangle fields
-        [SerializeField] private bool checkTop = true;
-        [SerializeField] private bool checkBot = true;
-        [SerializeField] private bool checkLeft = true;
-        [SerializeField] private bool checkRight = true;
-
-        [SerializeField] private float rectContactBuffer = 0.2f;
         [SerializeField] private float spawnUp;
         [SerializeField] private float spawnRight;
         [SerializeField] private float spawnDown;
@@ -433,37 +422,37 @@ namespace GoodLuckValley.World.Tiles
                     if(prioritySide == PrioritySide.TopBottom)
                     {
                         // Check against bounds
-                        if (checkTop && (contactPoint.y < spawnUp + rectContactBuffer && contactPoint.y > spawnUp - rectContactBuffer)) // Check top bound
+                        if (contactPoint.y < spawnUp + contactBuffer && contactPoint.y > spawnUp - contactBuffer) // Check top bound
                         {
                             return CollisionData.CollisionDirection.Up;
                         }
-                        else if (checkBot && (contactPoint.y < spawnDown + rectContactBuffer && contactPoint.y > spawnDown - rectContactBuffer)) // Check bottom bound
+                        else if (contactPoint.y < spawnDown + contactBuffer && contactPoint.y > spawnDown - contactBuffer) // Check bottom bound
                         {
                             return CollisionData.CollisionDirection.Down;
                         }
-                        else if (checkRight && (contactPoint.x < spawnRight + rectContactBuffer && contactPoint.x > spawnRight - rectContactBuffer)) // Check right bound
+                        else if (contactPoint.x < spawnRight + contactBuffer && contactPoint.x > spawnRight - contactBuffer) // Check right bound
                         {
                             return CollisionData.CollisionDirection.Right;
                         }
-                        else if (checkLeft && (contactPoint.x < spawnLeft + rectContactBuffer && contactPoint.x > spawnLeft - rectContactBuffer)) // Check left bound
+                        else if (contactPoint.x < spawnLeft + contactBuffer && contactPoint.x > spawnLeft - contactBuffer) // Check left bound
                         {
                             return CollisionData.CollisionDirection.Left;
                         }
                     } else if(prioritySide == PrioritySide.LeftRight)
                     {
-                        if (checkRight && (contactPoint.x < spawnRight + rectContactBuffer && contactPoint.x > spawnRight - rectContactBuffer)) // Check right bound
+                        if (contactPoint.x < spawnRight + contactBuffer && contactPoint.x > spawnRight - contactBuffer) // Check right bound
                         {
                             return CollisionData.CollisionDirection.Right;
                         }
-                        else if (checkLeft && (contactPoint.x < spawnLeft + rectContactBuffer && contactPoint.x > spawnLeft - rectContactBuffer)) // Check left bound
+                        else if (contactPoint.x < spawnLeft + contactBuffer && contactPoint.x > spawnLeft - contactBuffer) // Check left bound
                         {
                             return CollisionData.CollisionDirection.Left;
                         }
-                        else if (checkTop && (contactPoint.y < spawnUp + rectContactBuffer && contactPoint.y > spawnUp - rectContactBuffer)) // Check top bound
+                        else if (contactPoint.y < spawnUp + contactBuffer && contactPoint.y > spawnUp - contactBuffer) // Check top bound
                         {
                             return CollisionData.CollisionDirection.Up;
                         }
-                        else if (checkBot && (contactPoint.y < spawnDown + rectContactBuffer && contactPoint.y > spawnDown - rectContactBuffer)) // Check bottom bound
+                        else if (contactPoint.y < spawnDown + contactBuffer && contactPoint.y > spawnDown - contactBuffer) // Check bottom bound
                         {
                             return CollisionData.CollisionDirection.Down;
                         }
@@ -472,8 +461,8 @@ namespace GoodLuckValley.World.Tiles
                     break;
             }
 
-            // Default to none
-            return CollisionData.CollisionDirection.None;
+            // Default to up
+            return CollisionData.CollisionDirection.Up;
         }
 
         private CollisionData.CollisionDirection CheckTriangleCollision(Vector2 contactPoint, 
@@ -482,8 +471,8 @@ namespace GoodLuckValley.World.Tiles
             // Iterate through the hypotenuse points, prioritizing the diagonal
             foreach (Vector2 point in hypotenusePoints)
             {
-                if ((contactPoint.x < point.x + diagContactBuffer && contactPoint.x > point.x - diagContactBuffer)
-                    && (contactPoint.y < point.y + diagContactBuffer && contactPoint.y > point.y - diagContactBuffer))
+                if ((contactPoint.x < point.x + contactBuffer && contactPoint.x > point.x - contactBuffer)
+                    && (contactPoint.y < point.y + contactBuffer && contactPoint.y > point.y - contactBuffer))
                 {
                     // Return the diagonal
                     return diagDirection;
@@ -494,22 +483,22 @@ namespace GoodLuckValley.World.Tiles
             if (prioritySide == PrioritySide.TopBottom)
             {
                 // Prioritize the horizontals over the verticals
-                if (checkHor && (contactPoint.y < spawnHor + horContactBuffer && contactPoint.y > spawnHor - horContactBuffer))
+                if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
                 {
                     return horizontal;
                 }
-                else if (checkVer && (contactPoint.x < spawnVer + verContactBuffer && contactPoint.x > spawnVer - verContactBuffer))
+                else if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
                 {
                     return vertical;
                 }
             } else if(prioritySide == PrioritySide.LeftRight)
             {
                 // Prioritize the verticals over the horizontals
-                if (checkVer && (contactPoint.x < spawnVer + verContactBuffer && contactPoint.x > spawnVer - verContactBuffer))
+                if (contactPoint.x < spawnVer + contactBuffer && contactPoint.x > spawnVer - contactBuffer)
                 {
                     return vertical;
                 }
-                else if (checkHor && (contactPoint.y < spawnHor + horContactBuffer && contactPoint.y > spawnHor - horContactBuffer))
+                else if (contactPoint.y < spawnHor + contactBuffer && contactPoint.y > spawnHor - contactBuffer)
                 {
                     return horizontal;
                 }
@@ -528,34 +517,13 @@ namespace GoodLuckValley.World.Tiles
                 Gizmos.DrawWireSphere(center, 0.1f);
 
                 // Draw hypotenuse points
-                if(hypotenusePoints.Count > 0)
+                if (hypotenusePoints.Count > 0)
                 {
-                    foreach(Vector2 point in hypotenusePoints)
+                    foreach (Vector2 point in hypotenusePoints)
                     {
                         Gizmos.DrawSphere(point, 0.01f);
                     }
                 }
-
-                switch (diagDirection)
-                {
-                    case DiagDirection.TopRight:
-                        Gizmos.color = Color.yellow;
-                        Gizmos.DrawLine(new Vector2(center.x, spawnHor + horContactBuffer), new Vector2(center.x + (width * 2), spawnHor + verContactBuffer));
-                        Gizmos.DrawLine(new Vector2(center.x, spawnHor - horContactBuffer), new Vector2(center.x + (width * 2), spawnHor - verContactBuffer));
-
-                        Gizmos.color = Color.green;
-                        Gizmos.DrawLine(new Vector2(spawnVer + verContactBuffer, center.y), new Vector2(spawnVer + verContactBuffer, center.y + (height * 2)));
-                        Gizmos.DrawLine(new Vector2(spawnVer - verContactBuffer, center.y), new Vector2(spawnVer - verContactBuffer, center.y + (height * 2)));
-
-                        break;
-                    case DiagDirection.TopLeft:
-                        break;
-                    case DiagDirection.BottomLeft:
-                        break;
-                    case DiagDirection.BottomRight:
-                        break;
-                }
-                
             }
         }
     }

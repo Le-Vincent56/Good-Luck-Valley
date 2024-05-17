@@ -14,18 +14,13 @@ public class ShroomTileEditor : Editor
     private SerializedProperty shroomType;
     private SerializedProperty prioritySide;
 
+    private SerializedProperty contactBuffer;
+
     private SerializedProperty center;
     private SerializedProperty width;
     private SerializedProperty height;
 
     // Triangle fields
-    private SerializedProperty checkHor;
-    private SerializedProperty checkVer;
-
-    private SerializedProperty diagContactBuffer;
-    private SerializedProperty horContactBuffer;
-    private SerializedProperty verContactBuffer;
-
     private SerializedProperty diagDirection;
     private SerializedProperty hypotenusePoints;
     private SerializedProperty spawnHor;
@@ -36,13 +31,6 @@ public class ShroomTileEditor : Editor
     private SerializedProperty verticalRot;
 
     // Rectangle fields
-    private SerializedProperty checkTop;
-    private SerializedProperty checkBot;
-    private SerializedProperty checkRight;
-    private SerializedProperty checkLeft;
-
-    private SerializedProperty rectContactBuffer;
-
     private SerializedProperty spawnUp;
     private SerializedProperty spawnRight;
     private SerializedProperty spawnDown;
@@ -59,16 +47,11 @@ public class ShroomTileEditor : Editor
         shroomType = serializedObject.FindProperty("shroomType");
         prioritySide = serializedObject.FindProperty("prioritySide");
 
+        contactBuffer = serializedObject.FindProperty("contactBuffer");
+
         center = serializedObject.FindProperty("center");
         width = serializedObject.FindProperty("width");
         height = serializedObject.FindProperty("height");
-
-        checkHor = serializedObject.FindProperty("checkHor");
-        checkVer = serializedObject.FindProperty("checkLeft");
-
-        diagContactBuffer = serializedObject.FindProperty("diagContactBuffer");
-        horContactBuffer = serializedObject.FindProperty("horContactBuffer");
-        verContactBuffer = serializedObject.FindProperty("verContactBuffer");
 
         diagDirection = serializedObject.FindProperty("diagDirection");
         hypotenusePoints = serializedObject.FindProperty("hypotenusePoints");
@@ -78,13 +61,6 @@ public class ShroomTileEditor : Editor
         diagonalRot = serializedObject.FindProperty("diagonalRot");
         horizontalRot = serializedObject.FindProperty("horizontalRot");
         verticalRot = serializedObject.FindProperty("verticalRot");
-
-        checkTop = serializedObject.FindProperty("checkTop");
-        checkBot = serializedObject.FindProperty("checkBot");
-        checkRight = serializedObject.FindProperty("checkRight");
-        checkLeft = serializedObject.FindProperty("checkLeft");
-
-        rectContactBuffer = serializedObject.FindProperty("rectContactBuffer");
 
         spawnUp = serializedObject.FindProperty("spawnUp");
         spawnRight = serializedObject.FindProperty("spawnRight");
@@ -107,21 +83,11 @@ public class ShroomTileEditor : Editor
         EditorGUILayout.PropertyField(tileType, new GUIContent("Tile Type"));
         EditorGUILayout.PropertyField(shroomType, new GUIContent("Shroom Type"));
         EditorGUILayout.PropertyField(prioritySide, new GUIContent("Prioritize"));
-
+        EditorGUILayout.PropertyField(contactBuffer, new GUIContent("Contact Buffer"));
         EditorGUILayout.Space(10f);
 
         if(tileType.intValue == 3)
         {
-            EditorGUILayout.PropertyField(diagContactBuffer, new GUIContent("Diagonal Contact Buffer"));
-            EditorGUILayout.PropertyField(horContactBuffer, new GUIContent("Horizontal Contact Buffer"));
-            EditorGUILayout.PropertyField(verContactBuffer, new GUIContent("Vertical Contact Buffer"));
-            EditorGUILayout.Space(10f);
-
-            EditorGUILayout.LabelField("Collision Exclusions", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(checkHor, new GUIContent("Check Horizontal"));
-            EditorGUILayout.PropertyField(checkVer, new GUIContent("Check Vertical"));
-            EditorGUILayout.Space(10f);
-
             EditorGUILayout.LabelField("Direction Details", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(diagDirection, new GUIContent("Diagonal Direction"));
             EditorGUILayout.Space(10f);
@@ -137,16 +103,6 @@ public class ShroomTileEditor : Editor
             EditorGUI.EndDisabledGroup();
         } else if (tileType.intValue == 4)
         {
-            EditorGUILayout.LabelField("Collision Exclusions", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(checkTop, new GUIContent("Check Top"));
-            EditorGUILayout.PropertyField(checkBot, new GUIContent("Check Bot"));
-            EditorGUILayout.PropertyField(checkRight, new GUIContent("Check Right"));
-            EditorGUILayout.PropertyField(checkLeft, new GUIContent("Check Left"));
-            EditorGUILayout.Space(10f);
-
-            EditorGUILayout.PropertyField(rectContactBuffer, new GUIContent("Contact Buffer"));
-            EditorGUILayout.Space(10f);
-
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.LabelField("Spawn Details", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(center, new GUIContent("Center Point"));

@@ -1,5 +1,6 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Player;
+using GoodLuckValley.World.Tiles;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -32,7 +33,8 @@ namespace GoodLuckValley.Mushroom
         [Header("Events")]
         [SerializeField] private GameEvent onGetCountToLimit;
         [SerializeField] private GameEvent onRemoveFirstShroom;
-        [SerializeField] private GameEvent onGetThrowPath;
+        [SerializeField] private GameEvent onGetThrowDirection;
+        [SerializeField] private GameEvent onGetLineCollisionData;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
 
@@ -42,7 +44,7 @@ namespace GoodLuckValley.Mushroom
 
         #region FIELDS
         [SerializeField] private Vector2 throwDirection;
-        [SerializeField] private List<Vector2> path;
+        [SerializeField] private CollisionData collisionData;
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool throwUnlocked;
         [SerializeField] private bool canThrow;
@@ -62,12 +64,21 @@ namespace GoodLuckValley.Mushroom
         }
 
         /// <summary>
-        /// Set the path for the spore
+        /// Set the throw direction for the spore
         /// </summary>
-        /// <param name="launchForce"></param>
-        public void SetPath(List<Vector2> path)
+        /// <param name="throwDirection">The direction to throw the spore</param>
+        public void SetThrowDirection(Vector2 throwDirection)
         {
-            this.path = path;
+            this.throwDirection = throwDirection;
+        }
+
+        /// <summary>
+        /// Set the collision data for the spore
+        /// </summary>
+        /// <param name="data">The CollisionData for the spore for Mushroom spawning</param>
+        public void SetCollisionData(CollisionData data)
+        {
+            collisionData = data;
         }
 
         /// <summary>
@@ -96,19 +107,25 @@ namespace GoodLuckValley.Mushroom
             if (throwState == ThrowState.Throwing)
                 throwState = ThrowState.NotThrowing;
 
-            // Get launch force
+            // Get the throw direction
             // Calls to:
-            // - ThrowLine.GetThrowDirection()
-            onGetThrowPath.Raise(this, null);
+            //  - ThrowLine.GetThrowDirection();
+            onGetThrowDirection.Raise(this, null);
+
+            // Get line collision data
+            // Calls to:
+            // - ThrowLine.GetCollisionData();
+            onGetLineCollisionData.Raise(this, null);
 
             // Disable throw UI
             // Calls to:
-            //  - ThrowLine.HideLine()
+            //  - ThrowLine.HideLine();
             onDisableThrowUI.Raise(this, false);
 
-            // Create a spore and apply force
+            // Create a spore and set collision data
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
-            newSpore.GetComponent<Spore>().SetPath(path);
+            newSpore.GetComponent<Spore>().SetCollisionData(collisionData);
+            newSpore.GetComponent<Rigidbody2D>().AddForce(throwDirection * throwMultiplier);
         }
 
         public void OnThrow(Component sender, object data)
