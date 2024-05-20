@@ -7,6 +7,7 @@ namespace GoodLuckValley.Player.StateMachine.States
     public class PlayerInAirState : PlayerState
     {
         #region FIELDS
+        private float xInput;
         private bool isGrounded;
         private bool isBouncing;
         private bool isOnWall;
@@ -41,7 +42,8 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.LogicUpdate();
 
-            // Get the fast fall input
+            // Get input
+            xInput = player.InputHandler.NormInputX;
             fastFallInput = player.InputHandler.FastFallInput;
 
             // Check for fall vs. fast fall (and if the player is not already in that respective state)
@@ -52,7 +54,6 @@ namespace GoodLuckValley.Player.StateMachine.States
             {
                 stateMachine.ChangeState(player.FallState);
             }
-
 
             if (isBouncing) // Exit case - bouncing
             {
@@ -73,7 +74,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             base.PhysicsUpdate();
 
             // Move the player in the air
-            player.Move(0.5f, true);
+            player.Move(0.5f, true, false);
         }
     }
 }

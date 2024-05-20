@@ -30,6 +30,8 @@ namespace GoodLuckValley.Player.StateMachine.States
 
                 player.InputHandler.LastPressedJumpTime = 0;
 
+                player.SetGravityScale(playerData.gravityScale);
+
                 Jump();
             }
         }
@@ -90,7 +92,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             base.PhysicsUpdate();
 
             // Move the player in the air
-            player.Move(0.5f, true);
+            player.Move(0.5f, true, false);
         }
 
         /// <summary>

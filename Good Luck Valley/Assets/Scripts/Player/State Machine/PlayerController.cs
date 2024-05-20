@@ -5,6 +5,7 @@ using GoodLuckValley.Mushroom;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace GoodLuckValley.Player.StateMachine
 {
@@ -17,13 +18,19 @@ namespace GoodLuckValley.Player.StateMachine
         #endregion
 
         #region FIELDS
-        [SerializeField] string previousState;
-        [SerializeField] string currentState;
+        [SerializeField] private PhysicsMaterial2D noFriction;
+        [SerializeField] private string previousState;
+        [SerializeField] private string currentState;
+        private float wallCheckDist = 0.3f;
+
+        private (float x, float y) colliderSize;
+        private (Vector2 bottomLeft, Vector2 bottomRight, Vector2 middleLeft, Vector2 middleRight) raycastOrigins;
 
         public bool isLocked = false;
         private bool isFacingRight = true;
         private bool isBouncing = false;
         private bool isWallJumping = false;
+        private int lastMovementDirection;
         #endregion
 
         #region PROPERTIES
@@ -43,7 +50,6 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerWallSlideState WallSlideState { get; private set; }
         public PlayerFastWallSlideState FastWallSlideState { get; private set; }
         public PlayerWallJumpState WallJumpState { get; private set; }
-        public PlayerSlopeState SlopeState { get; private set; }
         #endregion
 
         private void Awake()
@@ -62,7 +68,6 @@ namespace GoodLuckValley.Player.StateMachine
             WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wall");
             FastWallSlideState = new PlayerFastWallSlideState(this, StateMachine, playerData, "fastWall");
             WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "wallJump");
-            SlopeState = new PlayerSlopeState(this, StateMachine, playerData, "slope");
         }
 
         private void Start()
@@ -72,6 +77,12 @@ namespace GoodLuckValley.Player.StateMachine
             PlayerCollider = GetComponent<BoxCollider2D>();
             Anim = GetComponent<Animator>();
             InputHandler = GetComponent<PlayerInputHandler>();
+
+            colliderSize.x = PlayerCollider.size.x / 2f;
+            colliderSize.y = PlayerCollider.size.y / 2f;
+
+            // Set raycast origins
+            UpdateRaycasts();
 
             // Enter the idle state
             StateMachine.Initialize(IdleState);
@@ -87,8 +98,14 @@ namespace GoodLuckValley.Player.StateMachine
                 previousState = StateMachine.PreviousState.ToString().Substring(48);
             currentState = StateMachine.CurrentState.ToString().Substring(48);
 
+            // Update raycasts
+            UpdateRaycasts();
+
+            // Set the last input handler
+            if(InputHandler.NormInputX != 0f) lastMovementDirection = InputHandler.NormInputX;
+
             // Check to reset jump input
-            if(InputHandler.JumpInput && 
+            if (InputHandler.JumpInput && 
                 CheckState() != IdleState && CheckState() != MoveState && CheckState() != LandState)
             {
                 InputHandler.UseJumpInput();
@@ -126,7 +143,7 @@ namespace GoodLuckValley.Player.StateMachine
         /// <returns></returns>
         public bool CheckIfWalled()
         {
-            return Physics2D.OverlapCircle(wallCheck.position, playerData.wallRadius, playerData.wallLayer);
+            return Physics2D.OverlapCircle(wallCheck.position, playerData.mushroomWallRadius, playerData.mushroomWallLayer);
         }
 
         /// <summary>
@@ -148,7 +165,7 @@ namespace GoodLuckValley.Player.StateMachine
             if (CheckIfWalled())
             {
                 // Get the wall being collided with
-                Collider2D wall = Physics2D.OverlapCircle(wallCheck.position, playerData.wallRadius, playerData.wallLayer);
+                Collider2D wall = Physics2D.OverlapCircle(wallCheck.position, playerData.mushroomWallRadius, playerData.mushroomWallLayer);
 
                 // Get the direction to the wall
                 Vector2 dirToWall = (wall.transform.position - transform.position).normalized;
@@ -217,6 +234,21 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Calculate force along x-axis to apply to the player
             float movement = speedDif * accelRate;
+
+            // Check if right against a wall
+            Vector2 rayOrigin = (lastMovementDirection == -1f) ? raycastOrigins.middleLeft : raycastOrigins.middleRight;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+
+            Debug.DrawRay(rayOrigin, Vector2.right * lastMovementDirection * wallCheckDist, Color.red);
+
+            // If not against a wall, add force - prevents the player from sticking
+            if (hit)
+            {
+                RB.sharedMaterial = noFriction;
+            } else
+            {
+                RB.sharedMaterial = null;
+            }
 
             // Convert this to a vector and apply to rigidbody
             RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
@@ -363,15 +395,45 @@ namespace GoodLuckValley.Player.StateMachine
             // Add the force
             RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
         }
+
+        public void UpdateRaycasts()
+        {
+            raycastOrigins.bottomLeft = new Vector2(
+                (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
+            );
+
+            raycastOrigins.bottomRight = new Vector2(
+                (PlayerCollider.transform.position.x + PlayerCollider.offset.x) + colliderSize.x,
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
+            );
+
+            raycastOrigins.middleLeft = new Vector2(
+                (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y)
+            );
+
+            raycastOrigins.middleRight = new Vector2(
+                (PlayerCollider.transform.position.x + PlayerCollider.offset.x) + colliderSize.x,
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y)
+            );
+        }
         #endregion
 
         private void OnDrawGizmos()
         {
+            // Draw ground check
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(groundCheck.position, playerData.groundRadius);
 
+            // Draw wall check
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(wallCheck.position, playerData.wallRadius);
+            Gizmos.DrawWireSphere(wallCheck.position, playerData.mushroomWallRadius);
+
+            // Draw slope check
+            //Gizmos.color = Color.red;
+            //Gizmos.DrawLine(raycastOrigins.bottomLeft, new Vector2(raycastOrigins.bottomLeft.x - slopeCheckDist, raycastOrigins.bottomLeft.y));
+            //Gizmos.DrawLine(raycastOrigins.bottomRight, new Vector2(raycastOrigins.bottomRight.x + slopeCheckDist, raycastOrigins.bottomRight.y));
         }
     }
 }

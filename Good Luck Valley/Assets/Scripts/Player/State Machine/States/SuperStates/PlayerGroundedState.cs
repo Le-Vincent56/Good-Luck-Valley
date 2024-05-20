@@ -10,7 +10,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         protected float lastOnGroundTime;
         protected int xInput;
         private bool jumpInput;
-        private bool isGrounded;
+        protected bool isGrounded;
         private bool isBouncing;
         private bool isOnWall;
         #endregion
@@ -53,7 +53,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             xInput = player.InputHandler.NormInputX;
             jumpInput = player.InputHandler.JumpInput;
 
-            if(!isGrounded) // Exit case is not grounded
+            if (!isGrounded) // Exit case is not grounded
             {
                 stateMachine.ChangeState(player.FallState);
             }

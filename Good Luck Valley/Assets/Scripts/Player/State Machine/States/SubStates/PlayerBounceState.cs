@@ -55,7 +55,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             base.PhysicsUpdate();
 
             // Move the player in the air
-            player.Move(0.5f, true);
+            player.Move(0.5f, true, true);
         }
 
         /// <summary>

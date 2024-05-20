@@ -11,21 +11,6 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
         }
 
-        public override void DoChecks()
-        {
-            base.DoChecks();
-        }
-
-        public override void Enter()
-        {
-            base.Enter();
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-        }
-
         public override void LogicUpdate()
         {
             base.LogicUpdate();
@@ -35,11 +20,6 @@ namespace GoodLuckValley.Player.StateMachine.States
             {
                 stateMachine.ChangeState(player.MoveState);
             }
-        }
-
-        public override void PhysicsUpdate()
-        {
-            base.PhysicsUpdate();
         }
     }
 }

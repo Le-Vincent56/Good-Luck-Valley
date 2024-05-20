@@ -85,7 +85,7 @@ namespace GoodLuckValley.Player
                 } else
                 {
                     // Send wall data if on a wall
-                    MushroomWallJump.Data data = new MushroomWallJump.Data(true, WallCheckPos, WallDirection, playerData.wallRadius);
+                    MushroomWallJump.Data data = new MushroomWallJump.Data(true, WallCheckPos, WallDirection, playerData.mushroomWallRadius);
                     onWallJumpInput.Raise(this, data);
                 }
             } else if(context.canceled) // Check if the jump button has been released
@@ -98,7 +98,7 @@ namespace GoodLuckValley.Player
                 }
 
                 // Always cancel wall data send
-                MushroomWallJump.Data data = new MushroomWallJump.Data(false, WallCheckPos, 0f, playerData.wallRadius);
+                MushroomWallJump.Data data = new MushroomWallJump.Data(false, WallCheckPos, 0f, playerData.mushroomWallRadius);
                 onWallJumpInput.Raise(this, data);
             }
         }

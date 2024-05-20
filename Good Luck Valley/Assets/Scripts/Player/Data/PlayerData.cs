@@ -73,8 +73,10 @@ public class PlayerData : ScriptableObject
     [Header("Layers")]
     public float groundRadius;
     public LayerMask groundLayer;
-    public float wallRadius;
+    public float mushroomWallRadius;
+    public LayerMask mushroomWallLayer;
     public LayerMask wallLayer;
+    public LayerMask slopeLayer;
 
     // Unity Callback, called when the inspector updates
     private void OnValidate()
