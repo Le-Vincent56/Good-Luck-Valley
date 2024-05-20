@@ -43,6 +43,7 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerWallSlideState WallSlideState { get; private set; }
         public PlayerFastWallSlideState FastWallSlideState { get; private set; }
         public PlayerWallJumpState WallJumpState { get; private set; }
+        public PlayerSlopeState SlopeState { get; private set; }
         #endregion
 
         private void Awake()
@@ -61,6 +62,7 @@ namespace GoodLuckValley.Player.StateMachine
             WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wall");
             FastWallSlideState = new PlayerFastWallSlideState(this, StateMachine, playerData, "fastWall");
             WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "wallJump");
+            SlopeState = new PlayerSlopeState(this, StateMachine, playerData, "slope");
         }
 
         private void Start()
