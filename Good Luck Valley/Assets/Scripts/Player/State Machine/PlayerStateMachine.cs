@@ -38,5 +38,14 @@ namespace GoodLuckValley.Player.StateMachine
             CurrentState = newState;
             CurrentState.Enter();
         }
+
+        /// <summary>
+        /// Change the Previous State of the Player (for Persistence purposes)
+        /// </summary>
+        /// <param name="previousState">The Previous State to set</param>
+        public void SetPreviousState(PlayerState previousState)
+        {
+            PreviousState = previousState;
+        }
     }
 }

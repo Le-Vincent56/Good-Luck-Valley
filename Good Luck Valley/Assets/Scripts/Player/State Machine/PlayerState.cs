@@ -1,10 +1,12 @@
 using GoodLuckValley.Player.StateMachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.StateMachine
 {
+    [Serializable]
     public class PlayerState
     {
         #region REFERENCES

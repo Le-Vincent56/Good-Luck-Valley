@@ -6,10 +6,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using GoodLuckValley.Persistence;
 
 namespace GoodLuckValley.Player.StateMachine
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IBind<PlayerSaveData>
     {
         #region REFERENCES
         [SerializeField] private PlayerData playerData;
@@ -18,6 +19,9 @@ namespace GoodLuckValley.Player.StateMachine
         #endregion
 
         #region FIELDS
+        [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
+        [SerializeField] PlayerSaveData data;
+
         [SerializeField] private PhysicsMaterial2D noFriction;
         [SerializeField] private string previousState;
         [SerializeField] private string currentState;
@@ -73,24 +77,24 @@ namespace GoodLuckValley.Player.StateMachine
             FastWallSlideState = new PlayerFastWallSlideState(this, StateMachine, playerData, "fastWall");
             WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "wallJump");
             SlopeState = new PlayerSlopeState(this, StateMachine, playerData, "slope");
-        }
 
-        private void Start()
-        {
             // Get components
             RB = GetComponent<Rigidbody2D>();
             PlayerCollider = GetComponent<BoxCollider2D>();
             Anim = GetComponent<Animator>();
             InputHandler = GetComponent<PlayerInputHandler>();
-
+        }
+        private void Start()
+        {
+            // Set collider size
             colliderSize.x = PlayerCollider.size.x / 2f;
             colliderSize.y = PlayerCollider.size.y / 2f;
 
             // Set raycast origins
             UpdateRaycasts();
 
-            // Enter the idle state
-            StateMachine.Initialize(IdleState);
+            // Enter the idle state if no other state has been loaded
+            if(StateMachine.CurrentState == null) StateMachine.Initialize(IdleState);
         }
 
         private void Update()
@@ -115,6 +119,9 @@ namespace GoodLuckValley.Player.StateMachine
             {
                 InputHandler.UseJumpInput();
             }
+
+            // Update save data
+            UpdateSaveData();
         }
 
         private void FixedUpdate()
@@ -571,6 +578,61 @@ namespace GoodLuckValley.Player.StateMachine
                 frontRaycast = raycastOrigins.bottomLeft;
                 backRaycast = raycastOrigins.bottomRight;
             }
+        }
+        #endregion
+
+        #region PERSISTENCE
+        public void UpdateSaveData()
+        {
+            // Save transform data
+            data.position = transform.position;
+            data.isFacingRight = isFacingRight;
+
+            // Save states
+            if(StateMachine.PreviousState != null) data.previousState = StateMachine.PreviousState.ToString().Substring(48);
+            if(StateMachine.CurrentState != null) data.currentState = StateMachine.CurrentState.ToString().Substring(48);
+        }
+
+        public void LoadStateData()
+        {
+            // Set previous state data
+            if (data.previousState == "IdleState") StateMachine.SetPreviousState(IdleState);
+            if (data.previousState == "MoveState") StateMachine.SetPreviousState(MoveState);
+            if (data.previousState == "JumpState") StateMachine.SetPreviousState(JumpState);
+            if (data.previousState == "FallState") StateMachine.SetPreviousState(FallState);
+            if (data.previousState == "FastFallState") StateMachine.SetPreviousState(FastFallState);
+            if (data.previousState == "LandState") StateMachine.SetPreviousState(LandState);
+            if (data.previousState == "BounceState") StateMachine.SetPreviousState(BounceState);
+            if (data.previousState == "WallSlideState") StateMachine.SetPreviousState(WallSlideState);
+            if (data.previousState == "FastWallSlideState") StateMachine.SetPreviousState(FastWallSlideState);
+            if (data.previousState == "WallJumpState") StateMachine.SetPreviousState(WallJumpState);
+            if (data.previousState == "SlopeState") StateMachine.SetPreviousState(SlopeState);
+
+            // Initialize current state data
+            if (data.currentState == "IdleState") StateMachine.Initialize(IdleState);
+            if (data.currentState == "MoveState") StateMachine.Initialize(MoveState);
+            if (data.currentState == "JumpState") StateMachine.Initialize(JumpState);
+            if (data.currentState == "FallState") StateMachine.Initialize(FallState);
+            if (data.currentState == "FastFallState") StateMachine.Initialize(FastFallState);
+            if (data.currentState == "LandState") StateMachine.Initialize(LandState);
+            if (data.currentState == "BounceState") StateMachine.Initialize(BounceState);
+            if (data.currentState == "WallSlideState") StateMachine.Initialize(WallSlideState);
+            if (data.currentState == "FastWallSlideState") StateMachine.Initialize(FastWallSlideState);
+            if (data.currentState == "WallJumpState") StateMachine.Initialize(WallJumpState);
+            if (data.currentState == "SlopeState") StateMachine.Initialize(SlopeState);
+        }
+
+        public void Bind(PlayerSaveData data)
+        {
+            this.data = data;
+            this.data.ID = ID;
+            
+            // Set transform data
+            transform.position = data.position;
+            CheckDirectionToFace(data.isFacingRight);
+
+            // Load State Data
+            LoadStateData();
         }
         #endregion
 
