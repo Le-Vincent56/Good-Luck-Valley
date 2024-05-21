@@ -25,6 +25,9 @@ namespace GoodLuckValley.Player.StateMachine
 
         private (float x, float y) colliderSize;
         private (Vector2 bottomLeft, Vector2 bottomRight, Vector2 middleLeft, Vector2 middleRight) raycastOrigins;
+        private Vector2 frontRaycast;
+        private Vector2 backRaycast;
+        private SlopeDirection slopeDirection;
 
         public bool isLocked = false;
         private bool isFacingRight = true;
@@ -50,6 +53,7 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerWallSlideState WallSlideState { get; private set; }
         public PlayerFastWallSlideState FastWallSlideState { get; private set; }
         public PlayerWallJumpState WallJumpState { get; private set; }
+        public PlayerSlopeState SlopeState { get; private set; }
         #endregion
 
         private void Awake()
@@ -68,6 +72,7 @@ namespace GoodLuckValley.Player.StateMachine
             WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wall");
             FastWallSlideState = new PlayerFastWallSlideState(this, StateMachine, playerData, "fastWall");
             WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "wallJump");
+            SlopeState = new PlayerSlopeState(this, StateMachine, playerData, "slope");
         }
 
         private void Start()
@@ -122,10 +127,43 @@ namespace GoodLuckValley.Player.StateMachine
         /// <summary>
         /// Check if the Player is grounded
         /// </summary>
-        /// <returns>True if the player is grounded, false if not</returns>
+        /// <returns>True if the Player is grounded, false if not</returns>
         public bool CheckIfGrounded()
         {
             return Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.groundLayer);
+        }
+
+        /// <summary>
+        /// Use Raycasts to check if the Player is grounded
+        /// </summary>
+        /// <returns>True if the Player is grounded, false if not</returns>
+        public bool CheckIfGroundedLine()
+        {
+            // Set the ray length
+            float rayLength = playerData.groundRadius * 2.5f;
+
+            // Send raycasts from both sides
+            RaycastHit2D frontGroundHit = Physics2D.Raycast(frontRaycast, Vector2.down, rayLength, playerData.groundLayer);
+            RaycastHit2D backGroundHit = Physics2D.Raycast(backRaycast, Vector2.down, rayLength, playerData.groundLayer);
+
+            // Return under specific slope directions
+            switch(slopeDirection)
+            {
+                case SlopeDirection.AscentFromGround:
+                    return false;
+
+                case SlopeDirection.DescentToGround:
+                    return false;
+            }
+
+            // Return if either hit
+            if (frontGroundHit || backGroundHit)
+            {
+                return true;
+            }
+
+            // Return false by default
+            return false;
         }
 
         /// <summary>
@@ -174,6 +212,99 @@ namespace GoodLuckValley.Player.StateMachine
                 return (Mathf.Abs(dirToWall.x)) / dirToWall.x;
             }
             else return 0f;
+        }
+
+        /// <summary>
+        /// Check if the Player is on a Slope
+        /// </summary>
+        /// <returns>True if on a Slope, false if not</returns>
+        public bool CheckIfOnSlope()
+        {
+            // Raycast to the ground from front and back
+            RaycastHit2D frontGroundHit = Physics2D.Raycast(frontRaycast, Vector2.down, playerData.slopeCheckDist, playerData.groundLayer);
+            RaycastHit2D backGroundHit = Physics2D.Raycast(backRaycast, Vector2.down, playerData.slopeCheckDist, playerData.groundLayer);
+
+            // Raycast to any slopes from front and back
+            RaycastHit2D frontSlopeHit = Physics2D.Raycast(frontRaycast, Vector2.down, playerData.slopeCheckDist, playerData.slopeLayer);
+            RaycastHit2D backSlopeHit = Physics2D.Raycast(backRaycast, Vector2.down, playerData.slopeCheckDist, playerData.slopeLayer);
+
+            // Check if there's a front slope hit and a back ground hit
+            if(frontSlopeHit && backGroundHit)
+            {
+                // Get the points of contact
+                Vector2 frontContact = frontSlopeHit.point;
+                Vector2 backContact = backGroundHit.point;
+
+                // If the slope point is higher than the ground, the
+                // player is ascending
+                if (frontContact.y > backContact.y)
+                {
+                    SlopeState.Direction = SlopeDirection.AscentFromGround;
+                    slopeDirection = SlopeState.Direction;
+                    SlopeState.Angle = Vector2.Angle(frontSlopeHit.normal, Vector2.up);
+                    SlopeState.ContactPoint = frontSlopeHit.point;
+                    return true;
+                }
+                else if (frontContact.y < backContact.y) // Otherwise, we are descending
+                {
+                    SlopeState.Direction = SlopeDirection.DescentFromGround;
+                    slopeDirection = SlopeState.Direction;
+                    SlopeState.Angle = Vector2.Angle(frontSlopeHit.normal, Vector2.up);
+                    SlopeState.ContactPoint = frontSlopeHit.point;
+                    return false;
+                }
+            }
+            else if(frontSlopeHit && backSlopeHit) // Check for a front slope hit and a back slope hit
+            {
+                // Get points of contact
+                Vector2 frontContact = frontSlopeHit.point;
+                Vector2 backContact = backSlopeHit.point;
+
+                // If the front point is higher than the back point, the player is ascending
+                if(frontContact.y > backContact.y)
+                {
+                    SlopeState.Direction = SlopeDirection.AscentOnSlope;
+                    slopeDirection = SlopeState.Direction;
+                    SlopeState.Angle = Vector2.Angle(frontSlopeHit.normal, Vector2.up);
+                    SlopeState.ContactPoint = frontSlopeHit.point;
+                    return true;
+                } else if(frontContact.y < backContact.y) // If the back point is higher, the player is descending
+                {
+                    SlopeState.Direction = SlopeDirection.DescentOnSlope;
+                    slopeDirection = SlopeState.Direction;
+                    SlopeState.Angle = Vector2.Angle(backSlopeHit.normal, Vector2.up);
+                    SlopeState.ContactPoint = backSlopeHit.point;
+                    return true;
+                }
+            } else if(backSlopeHit && frontGroundHit) // Check for a back slope hit and a front ground hit
+            {
+                // Get points of contact
+                Vector2 frontContact = frontGroundHit.point;
+                Vector2 backContact = backSlopeHit.point;
+
+                if(backContact.y > frontContact.y)  // If the slope point is higher than the ground point,
+                                                    // we are descending to the ground
+                {
+                    SlopeState.Direction = SlopeDirection.DescentToGround;
+                    slopeDirection = SlopeState.Direction;
+                    SlopeState.Angle = Vector2.Angle(backSlopeHit.normal, Vector2.up);
+                    SlopeState.ContactPoint = backSlopeHit.point;
+                    return true;
+                } else if(backContact.y < frontContact.y)   // If the slope point is lower than the ground point,
+                                                            // the player is ascending to the ground
+                {
+                    SlopeState.Direction = SlopeDirection.AscentToGround;
+                    slopeDirection = SlopeState.Direction;
+                    SlopeState.Angle = Vector2.Angle(backSlopeHit.normal, Vector2.up);
+                    SlopeState.ContactPoint = backSlopeHit.point;
+                    return false;
+                }
+            }
+
+            // If none of the cases are true, there's no slope
+            SlopeState.Direction = SlopeDirection.None;
+            slopeDirection = SlopeState.Direction;
+            return false;
         }
         #endregion
 
@@ -238,8 +369,6 @@ namespace GoodLuckValley.Player.StateMachine
             // Check if right against a wall
             Vector2 rayOrigin = (lastMovementDirection == -1f) ? raycastOrigins.middleLeft : raycastOrigins.middleRight;
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
-
-            Debug.DrawRay(rayOrigin, Vector2.right * lastMovementDirection * wallCheckDist, Color.red);
 
             // If not against a wall, add force - prevents the player from sticking
             if (hit)
@@ -359,6 +488,11 @@ namespace GoodLuckValley.Player.StateMachine
             ((ThrowLine)sender).SetFacingRight(isFacingRight);
         }
 
+        /// <summary>
+        /// Start a Mushroom Bounce
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void StartBounce(Component sender, object data)
         {
             // Check if the correct data was sent
@@ -378,6 +512,11 @@ namespace GoodLuckValley.Player.StateMachine
             RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
         }
 
+        /// <summary>
+        /// Start a Wall Jump
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void StartWallJump(Component sender, object data)
         {
             // Check the correct data was sent
@@ -396,6 +535,9 @@ namespace GoodLuckValley.Player.StateMachine
             RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
         }
 
+        /// <summary>
+        /// Update all raycasts
+        /// </summary>
         public void UpdateRaycasts()
         {
             raycastOrigins.bottomLeft = new Vector2(
@@ -417,6 +559,18 @@ namespace GoodLuckValley.Player.StateMachine
                 (PlayerCollider.transform.position.x + PlayerCollider.offset.x) + colliderSize.x,
                 (PlayerCollider.transform.position.y + PlayerCollider.offset.y)
             );
+
+            // Set directional raycasts
+            if(isFacingRight)
+            {
+                frontRaycast = raycastOrigins.bottomRight;
+                backRaycast = raycastOrigins.bottomLeft;
+            }
+            else
+            {
+                frontRaycast = raycastOrigins.bottomLeft;
+                backRaycast = raycastOrigins.bottomRight;
+            }
         }
         #endregion
 
@@ -430,10 +584,12 @@ namespace GoodLuckValley.Player.StateMachine
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(wallCheck.position, playerData.mushroomWallRadius);
 
-            // Draw slope check
-            //Gizmos.color = Color.red;
-            //Gizmos.DrawLine(raycastOrigins.bottomLeft, new Vector2(raycastOrigins.bottomLeft.x - slopeCheckDist, raycastOrigins.bottomLeft.y));
-            //Gizmos.DrawLine(raycastOrigins.bottomRight, new Vector2(raycastOrigins.bottomRight.x + slopeCheckDist, raycastOrigins.bottomRight.y));
+            // Draw slope checks
+            Gizmos.color = (isFacingRight) ? Color.red : Color.blue;
+            Gizmos.DrawLine(raycastOrigins.bottomLeft, new Vector2(raycastOrigins.bottomLeft.x, raycastOrigins.bottomLeft.y - playerData.slopeCheckDist));
+
+            Gizmos.color = (isFacingRight) ? Color.blue : Color.red;
+            Gizmos.DrawLine(raycastOrigins.bottomRight, new Vector2(raycastOrigins.bottomRight.x, raycastOrigins.bottomRight.y - playerData.slopeCheckDist));
         }
     }
 }

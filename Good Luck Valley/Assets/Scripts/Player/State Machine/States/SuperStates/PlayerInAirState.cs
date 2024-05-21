@@ -12,6 +12,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         private bool isBouncing;
         private bool isOnWall;
         private bool fastFallInput;
+        private bool isOnSlope;
         #endregion
 
         public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
@@ -26,6 +27,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             isGrounded = player.CheckIfGrounded();
             isBouncing = player.CheckIfBouncing();
             isOnWall = player.CheckIfWalled();
+            isOnSlope = player.CheckIfOnSlope();
         }
 
         public override void Enter()
@@ -55,6 +57,10 @@ namespace GoodLuckValley.Player.StateMachine.States
                 stateMachine.ChangeState(player.FallState);
             }
 
+            if(isOnSlope)
+            {
+                stateMachine.ChangeState(player.SlopeState);
+            }
             if (isBouncing) // Exit case - bouncing
             {
                 stateMachine.ChangeState(player.BounceState);

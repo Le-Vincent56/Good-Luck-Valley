@@ -30,8 +30,11 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.LogicUpdate();
 
-            // Exit case - player is idle
-            if(xInput == 0f)
+            if (isOnSlope) // Exit case - entered slope
+            {
+                stateMachine.ChangeState(player.SlopeState);
+            }
+            else if (xInput == 0f) // Exit case - player is idle
             {
                 stateMachine.ChangeState(player.IdleState);
             }

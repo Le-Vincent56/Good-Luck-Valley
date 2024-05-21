@@ -76,6 +76,7 @@ public class PlayerData : ScriptableObject
     public float mushroomWallRadius;
     public LayerMask mushroomWallLayer;
     public LayerMask wallLayer;
+    public float slopeCheckDist;
     public LayerMask slopeLayer;
 
     // Unity Callback, called when the inspector updates

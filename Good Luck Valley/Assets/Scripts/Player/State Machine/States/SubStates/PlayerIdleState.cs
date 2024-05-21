@@ -11,6 +11,18 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
         }
 
+        public override void Enter()
+        {
+            base.Enter();
+
+            // Set gravity to 0 and stop player movement
+            if(stateMachine.PreviousState is PlayerSlopeState)
+            {
+                player.SetGravityScale(0f);
+                player.RB.velocity = Vector2.zero;
+            }
+        }
+
         public override void LogicUpdate()
         {
             base.LogicUpdate();
