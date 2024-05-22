@@ -1,12 +1,26 @@
-using GoodLuckValley.Persistence;
-using GoodLuckValley.Player.StateMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Player
+namespace GoodLuckValley.Persistence
 {
+    [Serializable]
+    public class GameData
+    {
+        public long LastUpdated;
+        public string Name;
+        public string CurrentLevelName;
+        public SettingsData settingsData;
+        public PlayerSaveData playerSaveData;
+    }
+
+    [Serializable]
+    public class SettingsData
+    {
+
+    }
+
     [Serializable]
     public class PlayerSaveData : ISaveable
     {

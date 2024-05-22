@@ -53,7 +53,7 @@ namespace GoodLuckValley.UI.MainMenu
             this.stateMachine = stateMachine;
             this.uiObject = uiObject;
             FadeInOut = fadeInOut;
-            FadeDuration = 0.5f;
+            FadeDuration = 0.3f;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace GoodLuckValley.UI.MainMenu
         /// <returns></returns>
         public virtual async Task Hide() { if (FadeInOut) await FadeOut(); }
 
-        public void InstantiateUILists()
+        public virtual void InstantiateUILists()
         {
             // Store images and texts into lists
             List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();

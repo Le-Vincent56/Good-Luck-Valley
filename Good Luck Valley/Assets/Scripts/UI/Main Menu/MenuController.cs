@@ -46,14 +46,15 @@ namespace GoodLuckValley.UI.MainMenu
 
         private void Start()
         {
-            StateMachine.Initialize(InitialState);
-
             // Get save count to see if to use Play or Continue/enable Load Saves
-            if(SaveLoadSystem.Instance.GetSaveCount() != 0)
+            if (SaveLoadSystem.Instance.GetSaveCount() != 0)
             {
                 MainState.UIObject = screens[2];
                 MainState.InstantiateUILists();
             }
+
+            // Initialize the State Machine
+            StateMachine.Initialize(InitialState);
         }
 
         private void Update()
@@ -83,6 +84,16 @@ namespace GoodLuckValley.UI.MainMenu
         public void SetState(int state)
         {
             stateChange = state;
+        }
+
+        /// <summary>
+        /// Leave the Initial Menu State
+        /// </summary>
+        public void LeaveInitial()
+        {
+            // Only allow state change due to any key when in the initial state
+            if (StateMachine.CurrentState is not MenuInitialState) return;
+            stateChange = 1;
         }
     }
 }

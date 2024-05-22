@@ -10,14 +10,6 @@ using UnityEngine.SceneManagement;
 
 namespace GoodLuckValley.Persistence
 {
-    [Serializable] public class GameData
-    {
-        public long LastUpdated;
-        public string Name;
-        public string CurrentLevelName;
-        public PlayerSaveData playerSaveData;
-    }
-
     public interface ISaveable
     {
         SerializableGuid ID { get; set; }
@@ -36,7 +28,11 @@ namespace GoodLuckValley.Persistence
         Dictionary<string, GameData> saves;
         IDataService dataService;
         #endregion
-        
+
+        #region PROPERTIES
+        public Dictionary<string, GameData> Saves { get { return saves; } }
+        #endregion
+
         protected override void Awake()
         {
             // Initialize the Persistent Singleton
@@ -118,7 +114,7 @@ namespace GoodLuckValley.Persistence
             // Create a base GameData object
             selectedData = new GameData
             {
-                Name = "New Game",
+                Name = $"Save {Mathf.Clamp(GetSaveCount(), 1, 4)}",
                 CurrentLevelName = "SampleScene",
                 playerSaveData = new PlayerSaveData()
             };
