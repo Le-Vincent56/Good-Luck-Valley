@@ -44,6 +44,7 @@ namespace GoodLuckValley.UI.MainMenu
         #region PROPERTIES
         public bool FadeInOut { get; private set; }
         public float FadeDuration { get; private set; }
+        public GameObject UIObject { get { return uiObject; } set { uiObject = value; } }
         #endregion
 
         public MenuState(MenuController menu, MenuStateMachine stateMachine, bool fadeInOut, GameObject uiObject)
@@ -90,7 +91,7 @@ namespace GoodLuckValley.UI.MainMenu
         /// <returns></returns>
         public virtual async Task Hide() { if (FadeInOut) await FadeOut(); }
 
-        protected void InstantiateUILists()
+        public void InstantiateUILists()
         {
             // Store images and texts into lists
             List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();

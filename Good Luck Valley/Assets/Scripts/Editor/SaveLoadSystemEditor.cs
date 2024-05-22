@@ -12,7 +12,7 @@ namespace GoodLuckValley.Persistence.Editor
         {
             // Create an object to use within the inspector
             SaveLoadSystem saveLoadSystem = (SaveLoadSystem)target;
-            string gameName = saveLoadSystem.gameData.Name;
+            string gameName = saveLoadSystem.selectedData.Name;
 
             // Draw the default inspector
             DrawDefaultInspector();

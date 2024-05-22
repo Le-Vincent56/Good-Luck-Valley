@@ -21,8 +21,7 @@ namespace GoodLuckValley.UI.MainMenu
 
         public override async void Enter()
         {
-            // Store images and texts into lists
-            InstantiateUILists();
+            if (!uiObject.activeSelf) uiObject.SetActive(true);
 
             // Check whether or not to fade
             if (FadeInOut)
@@ -37,6 +36,8 @@ namespace GoodLuckValley.UI.MainMenu
         public override async void Exit()
         {
             await Hide();
+
+            uiObject.SetActive(false);
         }
     }
 }

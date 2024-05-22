@@ -1,3 +1,4 @@
+using GoodLuckValley.Persistence;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,11 +28,28 @@ namespace GoodLuckValley.UI.MainMenu
 
             // Set states
             InitialState = new MenuInitialState(this, StateMachine, true, screens[0]);
+            MainState = new MenuMainState(this, StateMachine, true, screens[1]);
+
+            // Set state data
+            InitialState.InstantiateUILists();
+            MainState.InstantiateUILists();
+
+            // Set each object to be false
+            for(int i = 1; i < screens.Count; i++)
+            {
+                screens[i].SetActive(false);
+            }
         }
 
         private void Start()
         {
             StateMachine.Initialize(InitialState);
+
+            // Get save count to see if to use Play or Continue/enable Load Saves
+            if(SaveLoadSystem.Instance.GetSaveCount() != 0)
+            {
+                MainState.UIObject = screens[2];
+            }
         }
 
         private void Update()

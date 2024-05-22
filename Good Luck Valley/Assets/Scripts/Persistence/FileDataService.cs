@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace GoodLuckValley.Persistence
@@ -76,11 +77,11 @@ namespace GoodLuckValley.Persistence
         public IEnumerable<string> ListSaves()
         {
             // Loop through all of the files in the directory
-            foreach(string path in Directory.EnumerateFiles(dataPath))
+            foreach (string path in Directory.EnumerateFiles(dataPath))
             {
                 // If the file extension is the same,return the file name without the extension
                 // as an IEnumerable
-                if(Path.GetExtension(path) == fileExtension)
+                if(Path.GetExtension(path) == $".{fileExtension}")
                 {
                     yield return Path.GetFileNameWithoutExtension(path);
                 }

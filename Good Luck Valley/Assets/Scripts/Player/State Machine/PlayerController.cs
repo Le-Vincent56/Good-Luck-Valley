@@ -633,6 +633,9 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Load State Data
             LoadStateData();
+
+            // Save
+            SaveLoadSystem.Instance.SaveGame();
         }
         #endregion
 

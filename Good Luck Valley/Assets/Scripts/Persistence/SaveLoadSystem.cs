@@ -12,6 +12,7 @@ namespace GoodLuckValley.Persistence
 {
     [Serializable] public class GameData
     {
+        public long LastUpdated;
         public string Name;
         public string CurrentLevelName;
         public PlayerSaveData playerSaveData;
@@ -31,7 +32,8 @@ namespace GoodLuckValley.Persistence
     public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
     {
         #region FIELDS
-        [SerializeField] public GameData gameData;
+        [SerializeField] public GameData selectedData;
+        Dictionary<string, GameData> saves;
         IDataService dataService;
         #endregion
         
@@ -42,6 +44,14 @@ namespace GoodLuckValley.Persistence
 
             // Initialize the data service
             dataService = new FileDataService(new JsonSerializer());
+
+            // Initialize the Saves dictionary
+            saves = new Dictionary<string, GameData>();
+            IEnumerable<string> savesEnum = ListSaves();
+            foreach(string save in savesEnum)
+            {
+                saves[save] = dataService.Load(save);
+            }
         }
 
         private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -53,7 +63,7 @@ namespace GoodLuckValley.Persistence
             if (scene.name == "Menu") return;
 
             // Bind player data
-            Bind<PlayerController, PlayerSaveData>(gameData.playerSaveData);
+            Bind<PlayerController, PlayerSaveData>(selectedData.playerSaveData);
         }
 
         private void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
@@ -106,12 +116,13 @@ namespace GoodLuckValley.Persistence
         public void NewGame()
         {
             // Create a base GameData object
-            gameData = new GameData
+            selectedData = new GameData
             {
                 Name = "New Game",
                 CurrentLevelName = "SampleScene",
+                playerSaveData = new PlayerSaveData()
             };
-            SceneManager.LoadScene(gameData.CurrentLevelName);
+            SceneManager.LoadScene(selectedData.CurrentLevelName);
         }
 
         /// <summary>
@@ -119,7 +130,11 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         public void SaveGame()
         {
-            dataService.Save(gameData);
+            // Set when the data was last updated
+            selectedData.LastUpdated = DateTime.Now.ToBinary();
+
+            // Save the data
+            dataService.Save(selectedData);
         }
 
         /// <summary>
@@ -129,15 +144,24 @@ namespace GoodLuckValley.Persistence
         public void LoadGame(string savename)
         {
             // Load the game data
-            gameData = dataService.Load(savename);
+            selectedData = dataService.Load(savename);
 
             // If no Current Level Name is given, default to a given scene
-            if(String.IsNullOrWhiteSpace(gameData.CurrentLevelName))
+            if(String.IsNullOrWhiteSpace(selectedData.CurrentLevelName))
             {
-                gameData.CurrentLevelName = "SampleScene";
+                selectedData.CurrentLevelName = "SampleScene";
             }
 
-            SceneManager.LoadScene(gameData.CurrentLevelName);
+            SceneManager.LoadScene(selectedData.CurrentLevelName);
+        }
+
+        /// <summary>
+        /// Continue the most recent game
+        /// </summary>
+        public void ContinueGame()
+        {
+            // Load the most recently updated save
+            LoadGame(GetMostRecentlyUpdatedSave());
         }
 
         /// <summary>
@@ -145,7 +169,7 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         public void ReloadGame()
         {
-            LoadGame(gameData.Name);
+            LoadGame(selectedData.Name);
         }
 
         /// <summary>
@@ -155,6 +179,61 @@ namespace GoodLuckValley.Persistence
         public void DeleteGame(string saveName)
         {
             dataService.Delete(saveName);
+        }
+
+        /// <summary>
+        /// Get a IEnumerable<string> of save file names
+        /// </summary>
+        /// <returns>An IEnumerable<string> of save file names</returns>
+        public IEnumerable<string> ListSaves()
+        {
+            return dataService.ListSaves();
+        }
+
+        /// <summary>
+        /// Get the number of current saves
+        /// </summary>
+        /// <returns>The number of current saves</returns>
+        public int GetSaveCount()
+        {
+            return dataService.ListSaves().Count();
+        }
+
+        /// <summary>
+        /// Get the most recently updated Save
+        /// </summary>
+        /// <returns>The name of the most recently updated Save</returns>
+        public string GetMostRecentlyUpdatedSave()
+        {
+            string mostRecentSaveName = null;
+
+            // Loop through every save
+            foreach(KeyValuePair<string, GameData> kvp in saves)
+            {
+                // Set data
+                string saveName = kvp.Key;
+                GameData gameData = kvp.Value;
+
+                // If there's no recent profile set, set one
+                if (mostRecentSaveName == null)
+                {
+                    mostRecentSaveName = saveName;
+                }
+                else
+                {
+                    // Compare the most recent and the selected data
+                    DateTime mostRecent = DateTime.FromBinary(saves[mostRecentSaveName].LastUpdated);
+                    DateTime newest = DateTime.FromBinary(selectedData.LastUpdated);
+
+                    // If newer, set this name as the most recent save
+                    if(newest > mostRecent)
+                    {
+                        mostRecentSaveName = saveName;
+                    }
+                }
+            }
+
+            return mostRecentSaveName;
         }
     }
 }
