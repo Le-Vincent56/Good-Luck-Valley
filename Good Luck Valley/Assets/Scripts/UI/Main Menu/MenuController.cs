@@ -26,7 +26,7 @@ namespace GoodLuckValley.UI.MainMenu
             StateMachine = new MenuStateMachine();
 
             // Set states
-            InitialState = new MenuInitialState(this, StateMachine, true);
+            InitialState = new MenuInitialState(this, StateMachine, true, screens[0]);
         }
 
         private void Start()
@@ -34,22 +34,15 @@ namespace GoodLuckValley.UI.MainMenu
             StateMachine.Initialize(InitialState);
         }
 
-        public void Show(int state)
+        private void Update()
         {
-            switch(state)
-            {
-                case 0:
-                    if(InitialState.FadeInOut)
-                    {
+            // Update the logic of the current state
+            StateMachine.CurrentState.LogicUpdate();
 
-                    }
-                    break;
-            }
-        }
-
-        public void Hide(int state)
-        {
-
+            // Check and set states
+            if (StateMachine.PreviousState != null)
+                previousState = StateMachine.PreviousState.ToString().Substring(27);
+            currentState = StateMachine.CurrentState.ToString().Substring(27);
         }
 
         /// <summary>

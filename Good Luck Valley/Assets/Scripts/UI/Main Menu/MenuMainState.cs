@@ -6,8 +6,8 @@ namespace GoodLuckValley.UI.MainMenu
 {
     public class MenuMainState : MenuState
     {
-        public MenuMainState(MenuController menu, MenuStateMachine stateMachine, bool fadeInOut) 
-            : base(menu, stateMachine, fadeInOut)
+        public MenuMainState(MenuController menu, MenuStateMachine stateMachine, bool fadeInOut, GameObject uiObject) 
+            : base(menu, stateMachine, fadeInOut, uiObject)
         {
         }
     }
