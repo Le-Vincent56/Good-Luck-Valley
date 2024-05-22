@@ -114,7 +114,7 @@ namespace GoodLuckValley.Persistence
             // Create a base GameData object
             selectedData = new GameData
             {
-                Name = $"Save {Mathf.Clamp(GetSaveCount(), 1, 4)}",
+                Name = $"Slot {Mathf.Clamp(GetSaveCount(), 1, 4)}",
                 CurrentLevelName = "SampleScene",
                 playerSaveData = new PlayerSaveData()
             };
