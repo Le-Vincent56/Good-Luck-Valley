@@ -28,6 +28,7 @@ namespace GoodLuckValley.UI.MainMenu
 
                 // Load Game
                 case 3:
+                    stateMachine.ChangeState(menu.LoadState);
                     break;
 
                 // Settings
