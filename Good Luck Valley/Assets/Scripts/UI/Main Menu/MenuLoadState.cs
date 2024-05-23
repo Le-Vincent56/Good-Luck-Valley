@@ -58,9 +58,42 @@ namespace GoodLuckValley.UI.MainMenu
         {
             await Hide();
 
+            // Set the selected slot to null
             loadController.SetSlot(null);
 
             uiObject.SetActive(false);
+        }
+
+        public override void InstantiateUILists()
+        {
+            // Store images and texts into lists
+            List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();
+            List<Text> texts = uiObject.GetComponentsInChildren<Text>().ToList();
+            List<Button> buttonsAll = uiObject.GetComponentsInChildren<Button>().ToList();
+
+            // Add ImageDatas
+            foreach (Image image in images)
+            {
+                imageDatas.Add(new ImageData(image));
+            }
+
+            // Add TextDatas
+            foreach (Text text in texts)
+            {
+                textDatas.Add(new TextData(text));
+            }
+
+            // Add the Start and Delete button to the dictionary
+            foreach (Button button in buttonsAll)
+            {
+                if (button.gameObject.name == "Start Button")
+                    buttons.Add("Start", button);
+                else if (button.gameObject.name == "Delete Button")
+                    buttons.Add("Delete", button);
+            }
+
+            // Add Save Slots
+            saveSlots = uiObject.GetComponentsInChildren<SaveSlot>().ToList();
         }
 
         /// <summary>
@@ -68,9 +101,13 @@ namespace GoodLuckValley.UI.MainMenu
         /// </summary>
         public void Reload()
         {
+            // Set slot data
             SetSlotData();
+
+            // Check Button interactability
             CheckButtons(false);
 
+            // Check if there are any saves
             if(SaveLoadSystem.Instance.GetSaveCount() == 0)
             {
                 // Update the main menu
@@ -87,10 +124,13 @@ namespace GoodLuckValley.UI.MainMenu
         /// </summary>
         public void SetSlotData()
         {
+            // Store all datas into a list
             List<GameData> saveDatas = SaveLoadSystem.Instance.Saves.Values.ToList();
 
+            // Check if any data was loadded
             if(saveDatas.Count > 0)
             {
+                // Loop through the Save Slots
                 for (int i = 0; i < saveSlots.Count; i++)
                 {
                     // Guard against if the number of save slots if higher than
@@ -126,10 +166,16 @@ namespace GoodLuckValley.UI.MainMenu
             }
         }
 
+        /// <summary>
+        /// Check Button interactability
+        /// </summary>
+        /// <param name="hasData">Whether or not the selected Save Slot has dataa</param>
         public void CheckButtons(bool hasData)
         {
+            // Check if any Save Slot is selected
             if(!loadController.GetIfSlotSelected())
             {
+                // If not, disable both buttons
                 buttons["Delete"].interactable = false;
                 buttons["Start"].interactable = false;
             } else
@@ -149,41 +195,13 @@ namespace GoodLuckValley.UI.MainMenu
             }
         }
 
-        public override void InstantiateUILists()
-        {
-            // Store images and texts into lists
-            List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();
-            List<Text> texts = uiObject.GetComponentsInChildren<Text>().ToList();
-            List<Button> buttonsAll = uiObject.GetComponentsInChildren<Button>().ToList();
-
-            // Add ImageDatas
-            foreach (Image image in images)
-            {
-                imageDatas.Add(new ImageData(image));
-            }
-
-            // Add TextDatas
-            foreach (Text text in texts)
-            {
-                textDatas.Add(new TextData(text));
-            }
-
-            // Add the Start and Delete button to the dictionary
-            foreach(Button button in buttonsAll)
-            {
-                if (button.gameObject.name == "Start Button")
-                    buttons.Add("Start", button);
-                else if (button.gameObject.name == "Delete Button")
-                    buttons.Add("Delete", button);
-            }
-
-            // Add Save Slots
-            saveSlots = uiObject.GetComponentsInChildren<SaveSlot>().ToList();
-        }
-
-
+        /// <summary>
+        /// Delete data within a Save Slot
+        /// </summary>
+        /// <param name="saveSlot">The Save Slot to delete data from</param>
         public void DeleteData(SaveSlot saveSlot)
         {
+            // Validate that the Save slot exists
             if(saveSlots.Contains(saveSlot))
             {
                 // Delete the save file
@@ -194,8 +212,13 @@ namespace GoodLuckValley.UI.MainMenu
             }
         }
 
+        /// <summary>
+        /// Load data wtihin a Save Slot
+        /// </summary>
+        /// <param name="saveSlot">The Save Slot to load data from</param>
        public void LoadData(SaveSlot saveSlot)
        {
+            // Validate that the Save Slot exists
             if(saveSlots.Contains(saveSlot))
             {
                 // Load the save file
@@ -203,10 +226,16 @@ namespace GoodLuckValley.UI.MainMenu
             }
        }
 
+       /// <summary>
+       /// Create a new game within a Save Slot
+       /// </summary>
+       /// <param name="saveSlot">The Save Slot to start a new game in</param>
        public void NewData(SaveSlot saveSlot)
         {
+            // Validate that the Save Slot exists
             if(saveSlots.Contains(saveSlot))
             {
+                // Start a new game
                 SaveLoadSystem.Instance.NewGame();
             }
         }

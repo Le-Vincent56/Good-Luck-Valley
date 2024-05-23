@@ -111,8 +111,6 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         public void NewGame()
         {
-            Debug.Log(GetSaveCount());
-
             // Create a base GameData object
             selectedData = new GameData
             {

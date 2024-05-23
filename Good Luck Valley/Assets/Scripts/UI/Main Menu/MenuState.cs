@@ -91,6 +91,9 @@ namespace GoodLuckValley.UI.MainMenu
         /// <returns></returns>
         public virtual async Task Hide() { if (FadeInOut) await FadeOut(); }
 
+        /// <summary>
+        /// Instantiate UI Lists
+        /// </summary>
         public virtual void InstantiateUILists()
         {
             // Store images and texts into lists

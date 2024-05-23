@@ -93,6 +93,9 @@ namespace GoodLuckValley.UI.MainMenu
             stateChange = 1;
         }
 
+        /// <summary>
+        /// Update the Main Menu UI according to save data
+        /// </summary>
         public void UpdateUIFromSaveData()
         {
             // Get save count

@@ -36,6 +36,9 @@ namespace GoodLuckValley.UI
             UpdateUI();
         }
 
+        /// <summary>
+        /// Update the Save Slot UI
+        /// </summary>
         public void UpdateUI()
         {
             bool validData = true;
@@ -73,6 +76,9 @@ namespace GoodLuckValley.UI
             }
         }
 
+        /// <summary>
+        /// Reset the Save Slot UI
+        /// </summary>
         public void ResetData()
         {
             dateText.text = "Date";

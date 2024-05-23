@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.MainMenu
@@ -31,20 +30,24 @@ namespace GoodLuckValley.UI.MainMenu
             // Add pop up menus to the dictionary
             foreach(ConfirmationPopupMenu popUpMenu in popUpMenus)
             {
-                if (popUpMenu.gameObject.name.Contains("New Game"))
-                    popUps.Add("New Game", popUpMenu);
-                else if (popUpMenu.gameObject.name.Contains("Delete"))
+                if (popUpMenu.gameObject.name.Contains("Delete"))
                     popUps.Add("Delete", popUpMenu);
             }
 
+            // Deactivate all confirmation pop up menus
             foreach(KeyValuePair<string, ConfirmationPopupMenu> kvp in popUps)
             {
                 kvp.Value.DeactivateMenu();
             }
 
+            // Set the selected Save Slot to null
             selectedSlot = null;
         }
 
+        /// <summary>
+        /// Check if there's a selected Save Slot
+        /// </summary>
+        /// <returns>True if Save Slot does not equal null, false is it does</returns>
         public bool GetIfSlotSelected()
         {
             // If there's no slot, return false
@@ -54,6 +57,10 @@ namespace GoodLuckValley.UI.MainMenu
             return true;
         }
 
+        /// <summary>
+        /// Set the selected Save Slot
+        /// </summary>
+        /// <param name="saveSlot">The Save Slot to select</param>
         public void SetSlot(SaveSlot saveSlot)
         {
             // Set the selected slot
@@ -77,6 +84,9 @@ namespace GoodLuckValley.UI.MainMenu
             }
         }
 
+        /// <summary>
+        /// Handle the Start Button
+        /// </summary>
         public void StartGame()
         {
             // If no slot is selected, return
@@ -91,6 +101,9 @@ namespace GoodLuckValley.UI.MainMenu
             }
         }
 
+        /// <summary>
+        /// Open the Delete Confirmation Menu
+        /// </summary>
         public void OpenDeleteConfirmation()
         {
             // Activate the delete confirmation menu
