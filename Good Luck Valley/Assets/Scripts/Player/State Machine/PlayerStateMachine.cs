@@ -37,8 +37,6 @@ namespace GoodLuckValley.Player.StateMachine
             // Set the new state and enter it
             CurrentState = newState;
             CurrentState.Enter();
-
-            Debug.Log("Entering State: " + CurrentState.ToString().Substring(48));
         }
 
         /// <summary>

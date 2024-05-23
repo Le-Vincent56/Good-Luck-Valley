@@ -512,11 +512,9 @@ namespace GoodLuckValley.Player.StateMachine
             // Set whether or not the shroom is rotated
             BounceState.Rotated = bounceData.Rotated;
 
-            // Clear the velocity
-            RB.velocity = Vector2.zero;
-
-            // Add the force
-            RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
+            // Set bounce variables
+            BounceState.BounceVector = bounceData.BounceVector;
+            BounceState.ForceMode = bounceData.ForceMode;
 
             // Set bouncing to true
             isBouncing = true;
