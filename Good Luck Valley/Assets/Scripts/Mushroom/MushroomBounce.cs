@@ -11,11 +11,13 @@ namespace GoodLuckValley.Mushroom
         {
             public Vector2 BounceVector;
             public ForceMode2D ForceMode;
+            public bool Rotated;
 
-            public BounceData(Vector2 bounceVector, ForceMode2D forceMode)
+            public BounceData(Vector2 bounceVector, ForceMode2D forceMode, bool rotated)
             {
                 BounceVector = bounceVector;
                 ForceMode = forceMode;
+                Rotated = rotated;
             }
         }
 
@@ -44,7 +46,11 @@ namespace GoodLuckValley.Mushroom
             MushroomData mushroomData = (MushroomData)data;
 
             // Create Bounce Data
-            BounceData bounceData = new BounceData(mushroomData.GetBounceVector(), ForceMode2D.Impulse);
+            BounceData bounceData = new BounceData(
+                mushroomData.GetBounceVector(), 
+                ForceMode2D.Impulse,
+                mushroomData.Rotated
+            );
 
             // Raise the bounce event
             // Calls to:

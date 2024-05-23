@@ -8,11 +8,18 @@ namespace GoodLuckValley.Player.StateMachine.States
     {
         #region FIELDS
         private bool isBouncing;
+        private float bounceBuffer;
+        private float bounceTimer;
+        #endregion
+
+        #region PROPERTIES
+        public bool Rotated { get; set; }
         #endregion
 
         public PlayerBounceState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
                 : base(player, stateMachine, playerData, animationBoolName)
         {
+            bounceBuffer = 0.5f;
         }
 
         public override void Enter()
@@ -24,6 +31,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             {
                 // Set bouncing
                 isBouncing = true;
+                bounceTimer = bounceBuffer;
 
                 // Set gravity multiplier
                 player.SetGravityScale(playerData.gravityScale);
@@ -34,9 +42,12 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.LogicUpdate();
 
+            Debug.Log(player.RB.velocity.y);
+
             // Check if the bounce is over
             if (isBouncing && player.RB.velocity.y < 0.01f)
             {
+                // End the jump
                 EndBounce();
             }
 
@@ -54,8 +65,11 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.PhysicsUpdate();
 
+            // If rotated, don't allow movement
+            if (Rotated) return;
+
             // Move the player in the air
-            player.Move(0.5f, true, true);
+            player.Move(0.5f, false, true);
         }
 
         /// <summary>
@@ -71,6 +85,8 @@ namespace GoodLuckValley.Player.StateMachine.States
 
             // Trigger ability done
             isAbilityDone = true;
+
+            Debug.Log("End Bounce");
         }
     }
 }
