@@ -1832,9 +1832,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoUnparentOnAwake: 1
-  gameData:
-    Name: New Game
-    CurrentLevelName: SampleScene
+  selectedData:
+    LastUpdated: 0
+    Name: 
+    CurrentLevelName: 
     playerSaveData:
       <ID>k__BackingField:
         Part1: 0
@@ -1842,6 +1843,7 @@ MonoBehaviour:
         Part3: 0
         Part4: 0
       position: {x: 22.64, y: 15.86, z: 0}
+      isFacingRight: 1
       previousState: 
       currentState: 
 --- !u!4 &1055608465
@@ -2022,6 +2024,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5e93ad46-46fa-43c7-89b7-60bbddead246
     m_ActionName: Player Controls/Recall All[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1373688169}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnQuickBounce
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e2d36caa-923d-48ce-af0f-868f7522b618
+    m_ActionName: Player Controls/Quick Bounce[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -2114,6 +2132,7 @@ MonoBehaviour:
   onRecallAll: {fileID: 11400000, guid: 6690b17507b8acd43aa95affc461e97e, type: 2}
   onRequestWallData: {fileID: 11400000, guid: 65c6999392d680846a177a6328100f67, type: 2}
   onWallJumpInput: {fileID: 11400000, guid: 3e7262a3ea9a3b940b78a066bf59e6a1, type: 2}
+  onQuickBounce: {fileID: 11400000, guid: e3b7c83e71eea3645b8dcb3a48fa13e4, type: 2}
   playerData: {fileID: 11400000, guid: ea458ae986a135b4f9d9788cea33277b, type: 2}
 --- !u!50 &1373688170
 Rigidbody2D:
@@ -2169,6 +2188,7 @@ MonoBehaviour:
       Part3: 0
       Part4: 0
     position: {x: 0, y: 0, z: 0}
+    isFacingRight: 1
     previousState: 
     currentState: 
   noFriction: {fileID: 6200000, guid: 404eec6c7d4556445972ebad413ae383, type: 2}

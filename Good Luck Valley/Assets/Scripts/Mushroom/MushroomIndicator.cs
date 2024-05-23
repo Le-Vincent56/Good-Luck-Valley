@@ -7,15 +7,8 @@ namespace GoodLuckValley.Mushroom
 {
     public class MushroomIndicator : MonoBehaviour
     {
-
-        #region EVENTS
-        #endregion
-
         #region REFERENCES
         private SpriteRenderer spriteRenderer;
-        #endregion
-
-        #region FIELDS
         #endregion
 
         // Start is called before the first frame update

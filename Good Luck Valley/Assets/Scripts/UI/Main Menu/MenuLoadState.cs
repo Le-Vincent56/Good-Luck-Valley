@@ -151,6 +151,7 @@ namespace GoodLuckValley.UI.MainMenu
                     else
                     {
                         // Update UI for empty slots
+                        saveSlots[i].ResetData();
                         saveSlots[i].UpdateUI();
                     }
                 }
