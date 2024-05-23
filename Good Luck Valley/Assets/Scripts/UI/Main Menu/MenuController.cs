@@ -1,6 +1,7 @@
 using GoodLuckValley.Persistence;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace GoodLuckValley.UI.MainMenu
@@ -29,8 +30,8 @@ namespace GoodLuckValley.UI.MainMenu
 
             // Set states
             InitialState = new MenuInitialState(this, StateMachine, true, screens[0]);
-            MainState = new MenuMainState(this, StateMachine, true, screens[1]);
-            LoadState = new MenuLoadState(this, StateMachine, true, screens[3]);
+            MainState = new MenuMainState(this, StateMachine, true, screens[1], screens[2]);
+            LoadState = new MenuLoadState(this, StateMachine, true, screens[3], GetComponentInChildren<LoadController>());
 
             // Set state data
             InitialState.InstantiateUILists();
@@ -46,12 +47,8 @@ namespace GoodLuckValley.UI.MainMenu
 
         private void Start()
         {
-            // Get save count to see if to use Play or Continue/enable Load Saves
-            if (SaveLoadSystem.Instance.GetSaveCount() != 0)
-            {
-                MainState.UIObject = screens[2];
-                MainState.InstantiateUILists();
-            }
+            // Update UI
+            UpdateUIFromSaveData();
 
             // Initialize the State Machine
             StateMachine.Initialize(InitialState);
@@ -94,6 +91,25 @@ namespace GoodLuckValley.UI.MainMenu
             // Only allow state change due to any key when in the initial state
             if (StateMachine.CurrentState is not MenuInitialState) return;
             stateChange = 1;
+        }
+
+        /// <summary>
+        /// Update the Main Menu UI according to save data
+        /// </summary>
+        public void UpdateUIFromSaveData()
+        {
+            // Get save count
+            if (SaveLoadSystem.Instance.GetSaveCount() != 0)
+            {
+                // Set Continue/Load Game
+                MainState.UsingAlt = true;
+                MainState.UpdateObject();
+            } else
+            {
+                // Set New Game
+                MainState.UsingAlt = false;
+                MainState.UpdateObject();
+            }
         }
     }
 }

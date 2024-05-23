@@ -12,6 +12,12 @@ namespace GoodLuckValley.UI
         [SerializeField] private Text nameText;
         [SerializeField] private Text levelText;
         [SerializeField] private Text emptyText;
+        [SerializeField] private bool isEmpty;
+
+        public string Date { get { return dateText.text; } }
+        public string Name { get { return nameText.text; } }
+        public string Level { get { return levelText.text; } }
+        public bool IsEmpty { get { return isEmpty; } }
         #endregion
 
         /// <summary>
@@ -30,6 +36,9 @@ namespace GoodLuckValley.UI
             UpdateUI();
         }
 
+        /// <summary>
+        /// Update the Save Slot UI
+        /// </summary>
         public void UpdateUI()
         {
             bool validData = true;
@@ -49,6 +58,8 @@ namespace GoodLuckValley.UI
 
                 // Set the emptyText to be inactive
                 emptyText.gameObject.SetActive(false);
+
+                isEmpty = false;
             }
             else
             {
@@ -60,7 +71,19 @@ namespace GoodLuckValley.UI
 
                 // Set the emptyText to be active
                 emptyText.gameObject.SetActive(true);
+
+                isEmpty = true;
             }
+        }
+
+        /// <summary>
+        /// Reset the Save Slot UI
+        /// </summary>
+        public void ResetData()
+        {
+            dateText.text = "Date";
+            nameText.text = "Save Slot";
+            levelText.text = "Level Name";
         }
     }
 }

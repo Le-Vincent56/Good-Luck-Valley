@@ -122,7 +122,7 @@ namespace GoodLuckValley.Mushroom
             contactPoint = hitInfo.point;
 
             // Create collision data
-            CollisionData collisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(new CircleCollider2D(), contactPoint);
+            CollisionData collisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(contactPoint);
 
             // Create the mushroom
             GameObject shroom = CreateShroom(collisionData);

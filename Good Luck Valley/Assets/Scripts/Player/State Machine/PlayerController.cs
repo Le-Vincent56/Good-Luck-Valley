@@ -506,17 +506,20 @@ namespace GoodLuckValley.Player.StateMachine
             if (data is not MushroomBounce.BounceData) return;
             if (StateMachine.CurrentState is PlayerJumpState) return;
 
-            // Set bouncing to true
-            isBouncing = true;
-
             // Cast data
             MushroomBounce.BounceData bounceData = (MushroomBounce.BounceData)data;
+
+            // Set whether or not the shroom is rotated
+            BounceState.Rotated = bounceData.Rotated;
 
             // Clear the velocity
             RB.velocity = Vector2.zero;
 
             // Add the force
             RB.AddForce(bounceData.BounceVector, bounceData.ForceMode);
+
+            // Set bouncing to true
+            isBouncing = true;
         }
 
         /// <summary>

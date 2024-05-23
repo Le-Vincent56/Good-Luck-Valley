@@ -14,6 +14,10 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private float rotation;
         #endregion
 
+        #region PROPERTIES
+        public bool Rotated { get; private set; }
+        #endregion
+
         /// <summary>
         /// Instantiate the data of the Mushroom
         /// </summary>
@@ -31,6 +35,13 @@ namespace GoodLuckValley.Mushroom
                     // Set bounce direction and force
                     bounceDirection = transform.up.normalized;
                     bounceForce = 10f;
+                    Rotated = false;
+
+                    if(Mathf.Abs((int)rotation) == 45)
+                    {
+                        bounceForce = 10f / Mathf.Sin(45f);
+                        Rotated = true;
+                    }
                     break;
 
                 case ShroomType.Wall:

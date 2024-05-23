@@ -29,12 +29,13 @@ namespace GoodLuckValley.UI
         private int segments;
         private LineRenderer lineRenderer = null;
         private Vector3[] lineRendererStartingPoints = null;
-        private CollisionData currentCollisionData;
+        private ShroomSpawnData currentSpawnData;
 
         [Header("Layer Masks")]
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private LayerMask wallLayer;
         [SerializeField] private LayerMask mushroomWallLayer;
+        [SerializeField] private LayerMask unshroomableLayer;
 
         [Header("Details")]
         [SerializeField] private float throwMultiplier;
@@ -159,12 +160,16 @@ namespace GoodLuckValley.UI
             RaycastHit2D groundHitInfo;
             RaycastHit2D wallHitInfo;
             RaycastHit2D shroomWallHitInfo;
+            RaycastHit2D unshroomableHitInfo;
 
             // Create new array for storing the new points we will draw with
             Vector3[] newPoints = null;
 
             // Collision data
-            CollisionData collisionData = new CollisionData(CollisionDirection.Up, 0f, Vector2.zero);
+            ShroomSpawnData spawnData = new ShroomSpawnData(
+                new CollisionData(CollisionDirection.Up, 0f, Vector2.zero), 
+                false
+            );
 
             // Loops for each point in the previous frame's array of points
             for (int i = 1; i < lineRendererStartingPoints.Length; i++)
@@ -174,23 +179,30 @@ namespace GoodLuckValley.UI
                 groundHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], groundLayer);
                 wallHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], wallLayer);
                 shroomWallHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mushroomWallLayer);
+                unshroomableHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], unshroomableLayer);
 
                 // Check hit infos
                 if (groundHitInfo)
                 {
-                    HandleRaycast(i, groundHitInfo, out newPoints, out collisionData, out collided);
+                    HandleRaycastValid(i, groundHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
 
                 if(wallHitInfo)
                 {
-                    HandleRaycast(i, wallHitInfo, out newPoints, out collisionData, out collided);
+                    HandleRaycastValid(i, wallHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
 
                 if (shroomWallHitInfo)
                 {
-                    HandleRaycast(i, shroomWallHitInfo, out newPoints, out collisionData, out collided);
+                    HandleRaycastValid(i, shroomWallHitInfo, out newPoints, out spawnData, out collided);
+                    break;
+                }
+
+                if (unshroomableHitInfo)
+                {
+                    HandleRaycastInvalid(i, unshroomableHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
             }
@@ -203,12 +215,12 @@ namespace GoodLuckValley.UI
                 segments = newPoints.Length;
 
                 // Set collision data
-                currentCollisionData = collisionData;
+                currentSpawnData = spawnData;
 
                 // Create the indicator at the collision
                 // Calls to:
                 //  - MushroomIndicator.ShowIndicator();
-                onShowIndicator.Raise(this, collisionData);
+                onShowIndicator.Raise(this, spawnData);
             }
             else
             {
@@ -225,7 +237,7 @@ namespace GoodLuckValley.UI
         /// <param name="newPoints"></param>
         /// <param name="collisionData"></param>
         /// <param name="collided"></param>
-        public void HandleRaycast(int count, RaycastHit2D hitInfo, out Vector3[] newPoints, out CollisionData collisionData, out bool collided)
+        public void HandleRaycastValid(int count, RaycastHit2D hitInfo, out Vector3[] newPoints, out ShroomSpawnData spawnData, out bool collided)
         {
             // Initializes new points array to be the current iteratin number + 2
             newPoints = new Vector3[count + 2];
@@ -243,8 +255,31 @@ namespace GoodLuckValley.UI
             // Collided is true
             collided = true;
 
-            // Gets collision data of shroom tile
-            collisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(new CircleCollider2D(), hitInfo.point);
+            // Set collision data
+            spawnData.CollisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(hitInfo.point);
+            spawnData.Valid = true;
+        }
+
+        public void HandleRaycastInvalid(int count, RaycastHit2D hitInfo, out Vector3[] newPoints, out ShroomSpawnData spawnData, out bool collided)
+        {
+            newPoints = new Vector3[count + 2];
+
+            // Loops through each point in the new points array
+            for (int k = 0; k < newPoints.Length; k++)
+            {
+                // Sets the values in the new points array to match the values in the prev points array
+                newPoints[k] = lineRendererStartingPoints[k];
+            }
+
+            // Sets the last position in the new array to be the location the hit occured
+            newPoints[count] = hitInfo.point;
+
+            // Collided is true
+            collided = true;
+
+            // Set collision data
+            spawnData.CollisionData = new CollisionData(CollisionDirection.None, 0f, hitInfo.point);
+            spawnData.Valid = false;
         }
 
         /// <summary>
@@ -301,12 +336,12 @@ namespace GoodLuckValley.UI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public void GetCollisionData(Component sender, object data)
+        public void GetSpawnData(Component sender, object data)
         {
             // Check if the data is the correct type
             if (sender is not MushroomThrow) return;
 
-            ((MushroomThrow)sender).SetCollisionData(currentCollisionData);
+            ((MushroomThrow)sender).SetSpawnData(currentSpawnData);
         }
 
         /// <summary>

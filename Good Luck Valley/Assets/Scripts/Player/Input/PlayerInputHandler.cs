@@ -28,6 +28,7 @@ namespace GoodLuckValley.Player
         [SerializeField] private GameEvent onRecallAll;
         [SerializeField] private GameEvent onRequestWallData;
         [SerializeField] private GameEvent onWallJumpInput;
+        [SerializeField] private GameEvent onQuickBounce;
         #endregion
 
         #region REFERENCES
@@ -50,7 +51,7 @@ namespace GoodLuckValley.Player
 
 
         /// <summary>
-        /// Handle Movement Input
+        /// Handle Movement input
         /// </summary>
         /// <param name="context"></param>
         public void OnMove(InputAction.CallbackContext context)
@@ -64,7 +65,7 @@ namespace GoodLuckValley.Player
         }
 
         /// <summary>
-        /// Handle Jump Input
+        /// Handle Jump input
         /// </summary>
         /// <param name="context"></param>
         public void OnJump(InputAction.CallbackContext context)
@@ -104,7 +105,7 @@ namespace GoodLuckValley.Player
         }
 
         /// <summary>
-        /// Handle Throw Input
+        /// Handle Throw input
         /// </summary>
         /// <param name="context"></param>
         public void OnThrow(InputAction.CallbackContext context)
@@ -119,7 +120,7 @@ namespace GoodLuckValley.Player
         }
 
         /// <summary>
-        /// Handle Fast Fall Input
+        /// Handle Fast Fall input
         /// </summary>
         /// <param name="context"></param>
         public void OnFastFall(InputAction.CallbackContext context)
@@ -134,7 +135,7 @@ namespace GoodLuckValley.Player
         }
 
         /// <summary>
-        /// Handle Recall Last Input
+        /// Handle Recall Last input
         /// </summary>
         /// <param name="context"></param>
         public void OnRecallLast(InputAction.CallbackContext context)
@@ -149,6 +150,10 @@ namespace GoodLuckValley.Player
             }
         }
 
+        /// <summary>
+        /// Handle Recall All input
+        /// </summary>
+        /// <param name="context"></param>
         public void OnRecallAll(InputAction.CallbackContext context)
         {
             // Ensure a single button press
@@ -158,6 +163,19 @@ namespace GoodLuckValley.Player
                 // Calls to:
                 //  - MushroomTracker.RecallAll();
                 onRecallAll.Raise(this, null);
+            }
+        }
+
+        /// <summary>
+        /// Handle Quick Bounce input
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnQuickBounce(InputAction.CallbackContext context)
+        {
+            // Ensure a single button press
+            if(context.started)
+            {
+                onQuickBounce.Raise(this, null);
             }
         }
 

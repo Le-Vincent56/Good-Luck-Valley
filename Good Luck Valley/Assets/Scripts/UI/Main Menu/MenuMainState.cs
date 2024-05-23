@@ -1,17 +1,34 @@
 using GoodLuckValley.Persistence;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.MainMenu
 {
     public class MenuMainState : MenuState
     {
-        public MenuMainState(MenuController menu, MenuStateMachine stateMachine, bool fadeInOut, GameObject uiObject) 
+        #region REFERENCES
+        private GameObject uiObjectAlt;
+        private GameObject currentObject;
+        #endregion
+
+        #region FIELDS
+        private List<ImageData> imageDatasAlt = new List<ImageData>();
+        private List<TextData> textDatasAlt = new List<TextData>();
+        #endregion
+
+        #region PROPERTIES
+        public bool UsingAlt { get; set; }
+        #endregion
+
+        public MenuMainState(MenuController menu, MenuStateMachine stateMachine, bool fadeInOut, GameObject uiObject, GameObject uiObjectAlt) 
             : base(menu, stateMachine, fadeInOut, uiObject)
         {
+            this.uiObjectAlt = uiObjectAlt;
         }
+
         public override void LogicUpdate()
         {
             switch(menu.CheckStateChange())
@@ -54,7 +71,7 @@ namespace GoodLuckValley.UI.MainMenu
 
         public override async void Enter()
         {
-            if (!uiObject.activeSelf) uiObject.SetActive(true);
+            if (!currentObject.activeSelf) currentObject.SetActive(true);
 
             // Check whether or not to fade
             if (FadeInOut)
@@ -70,7 +87,51 @@ namespace GoodLuckValley.UI.MainMenu
         {
             await Hide();
 
-            uiObject.SetActive(false);
+            currentObject.SetActive(false);
+        }
+
+        public override void InstantiateUILists()
+        {
+            // Store images and texts into lists
+            List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();
+            List<Text> texts = uiObject.GetComponentsInChildren<Text>().ToList();
+
+            // Add ImageDatas
+            foreach (Image image in images)
+            {
+                imageDatas.Add(new ImageData(image));
+            }
+
+            // Add TextDatas
+            foreach (Text text in texts)
+            {
+                textDatas.Add(new TextData(text));
+            }
+
+            // Store alt images and texts into lists
+            List<Image> imagesAlt = uiObjectAlt.GetComponentsInChildren<Image>().ToList();
+            List<Text> textsAlt = uiObjectAlt.GetComponentsInChildren<Text>().ToList();
+
+            // Add alt ImageDatas
+            foreach (Image image in images)
+            {
+                imageDatasAlt.Add(new ImageData(image));
+            }
+
+            // Add alt TextDatas
+            foreach (Text text in texts)
+            {
+                textDatasAlt.Add(new TextData(text));
+            }
+        }
+
+        public void UpdateObject()
+        {
+            // Check if using alt and set the current object
+            if (UsingAlt) 
+                currentObject = uiObjectAlt;
+            else
+                currentObject = uiObject;
         }
     }
 }
