@@ -14,6 +14,8 @@ namespace GoodLuckValley.Player.StateMachine.States
 
         #region PROPERTIES
         public bool Rotated { get; set; }
+        public Vector2 BounceVector { get; set; }
+        public ForceMode2D ForceMode { get; set; }
         #endregion
 
         public PlayerBounceState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
@@ -35,14 +37,18 @@ namespace GoodLuckValley.Player.StateMachine.States
 
                 // Set gravity multiplier
                 player.SetGravityScale(playerData.gravityScale);
+
+                // Clear the velocity
+                player.RB.velocity = Vector2.zero;
+
+                // Add the force
+                player.RB.AddForce(BounceVector, ForceMode);
             }
         }
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
-
-            Debug.Log(player.RB.velocity.y);
 
             // Check if the bounce is over
             if (isBouncing && player.RB.velocity.y < 0.01f)
