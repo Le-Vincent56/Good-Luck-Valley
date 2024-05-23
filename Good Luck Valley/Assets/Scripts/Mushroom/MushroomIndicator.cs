@@ -1,3 +1,4 @@
+using GoodLuckValley.UI;
 using GoodLuckValley.World.Tiles;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace GoodLuckValley.Mushroom
     {
         #region REFERENCES
         private SpriteRenderer spriteRenderer;
+        [SerializeField] private Sprite validSprite;
+        [SerializeField] private Sprite invalidSprite;
         #endregion
 
         // Start is called before the first frame update
@@ -30,10 +33,10 @@ namespace GoodLuckValley.Mushroom
         public void ShowIndicator(Component sender, object data)
         {
             // Return if not the correct data type
-            if (data is not CollisionData) return;
+            if (data is not ShroomSpawnData) return;
 
             // Cast the data
-            CollisionData collisionData = (CollisionData)data;
+            ShroomSpawnData spawnData = (ShroomSpawnData)data;
 
             // Show Indicator
             SetSpriteOpacity(1f);
@@ -43,14 +46,14 @@ namespace GoodLuckValley.Mushroom
             float shroomHeightDiag = shroomHeight * (3f / 4f);
 
             // Rotation of the shroom according to collision data
-            Quaternion rotationQuat = Quaternion.AngleAxis(collisionData.Rotation, Vector3.forward);
+            Quaternion rotationQuat = Quaternion.AngleAxis(spawnData.CollisionData.Rotation, Vector3.forward);
             transform.rotation = rotationQuat;
 
             // Moves shroom indicator to end of line position
-            Vector2 spawnPoint = collisionData.SpawnPoint;
+            Vector2 spawnPoint = spawnData.CollisionData.SpawnPoint;
 
             // Displace the shroom depending on collision direction
-            switch (collisionData.Direction)
+            switch (spawnData.CollisionData.Direction)
             {
                 case CollisionData.CollisionDirection.Up:
                     spawnPoint.y += shroomHeight;
@@ -87,6 +90,14 @@ namespace GoodLuckValley.Mushroom
                     spawnPoint.x += shroomHeightDiag;
                     spawnPoint.y -= shroomHeightDiag;
                     break;
+            }
+
+            if(spawnData.Valid)
+            {
+                spriteRenderer.sprite = validSprite;
+            } else
+            {
+                spriteRenderer.sprite = invalidSprite;
             }
 
             // Set the shroom inidcator position

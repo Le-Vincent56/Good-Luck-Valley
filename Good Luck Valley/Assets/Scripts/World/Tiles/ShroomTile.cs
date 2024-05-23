@@ -16,7 +16,8 @@ namespace GoodLuckValley.World.Tiles
             TopRightDiag = 4,
             TopLeftDiag = 5,
             BottomLeftDiag = 6,
-            BottomRightDiag = 7
+            BottomRightDiag = 7,
+            None = 8,
         }
 
         public CollisionDirection Direction;

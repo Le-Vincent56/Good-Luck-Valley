@@ -9,6 +9,18 @@ using UnityEngine.InputSystem;
 
 namespace GoodLuckValley.Mushroom
 {
+    public struct ShroomSpawnData
+    {
+        public CollisionData CollisionData;
+        public bool Valid;
+
+        public ShroomSpawnData(CollisionData collisionData, bool valid)
+        {
+            CollisionData = collisionData;
+            Valid = valid;
+        }
+    }
+
     public struct SporeData
     {
         public Vector2 LaunchForce;
@@ -34,7 +46,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onGetCountToLimit;
         [SerializeField] private GameEvent onRemoveFirstShroom;
         [SerializeField] private GameEvent onGetThrowDirection;
-        [SerializeField] private GameEvent onGetLineCollisionData;
+        [SerializeField] private GameEvent onGetSpawnData;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
 
@@ -44,7 +56,7 @@ namespace GoodLuckValley.Mushroom
 
         #region FIELDS
         [SerializeField] private Vector2 throwDirection;
-        [SerializeField] private CollisionData collisionData;
+        [SerializeField] private ShroomSpawnData spawnData;
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool throwUnlocked;
         [SerializeField] private bool canThrow;
@@ -73,12 +85,12 @@ namespace GoodLuckValley.Mushroom
         }
 
         /// <summary>
-        /// Set the collision data for the spore
+        /// Set the spawn data for the spore
         /// </summary>
-        /// <param name="data">The CollisionData for the spore for Mushroom spawning</param>
-        public void SetCollisionData(CollisionData data)
+        /// <param name="data">The ShroomSpawnData for the spore for Mushroom spawning</param>
+        public void SetSpawnData(ShroomSpawnData data)
         {
-            collisionData = data;
+            spawnData = data;
         }
 
         /// <summary>
@@ -90,6 +102,23 @@ namespace GoodLuckValley.Mushroom
         {
             // Check if the data is the correct type
             if (data is not bool) return;
+
+            // Get line collision data
+            // Calls to:
+            // - ThrowLine.GetSpawnData();
+            onGetSpawnData.Raise(this, null);
+
+            // Check if the spawn point is valid
+            if (!spawnData.Valid)
+            {
+                // Disable throw UI if not
+                // Calls to:
+                //  - ThrowLine.HideLine();
+                onDisableThrowUI.Raise(this, false);
+
+                // Exit early to prevent shroom throwing
+                return;
+            }
 
             // Cast data
             bool atOrOverLimit = (bool)data;
@@ -112,11 +141,6 @@ namespace GoodLuckValley.Mushroom
             //  - ThrowLine.GetThrowDirection();
             onGetThrowDirection.Raise(this, null);
 
-            // Get line collision data
-            // Calls to:
-            // - ThrowLine.GetCollisionData();
-            onGetLineCollisionData.Raise(this, null);
-
             // Disable throw UI
             // Calls to:
             //  - ThrowLine.HideLine();
@@ -124,7 +148,7 @@ namespace GoodLuckValley.Mushroom
 
             // Create a spore and set collision data
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
-            newSpore.GetComponent<Spore>().SetCollisionData(collisionData);
+            newSpore.GetComponent<Spore>().SetCollisionData(spawnData.CollisionData);
             newSpore.GetComponent<Rigidbody2D>().AddForce(throwDirection * throwMultiplier);
         }
 
