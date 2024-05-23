@@ -246,7 +246,7 @@ namespace GoodLuckValley.World.Tiles
             return shroomType;
         }
 
-        public CollisionData GetCollisionAngle(Collider2D collider, Vector2 contactPoint)
+        public CollisionData GetCollisionAngle(Vector2 contactPoint)
         {
             // Create a collision data object
             CollisionData collisionData = new CollisionData(CollisionData.CollisionDirection.Up, 0f, Vector2.zero);

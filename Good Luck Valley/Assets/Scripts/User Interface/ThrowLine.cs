@@ -256,7 +256,7 @@ namespace GoodLuckValley.UI
             collided = true;
 
             // Set collision data
-            spawnData.CollisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(new CircleCollider2D(), hitInfo.point);
+            spawnData.CollisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(hitInfo.point);
             spawnData.Valid = true;
         }
 

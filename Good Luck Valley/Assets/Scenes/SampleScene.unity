@@ -770,6 +770,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 58351849}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &395851940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 395851941}
+  - component: {fileID: 395851943}
+  - component: {fileID: 395851942}
+  m_Layer: 0
+  m_Name: Quick Bounce
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &395851941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395851940}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 462775636}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &395851942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395851940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: e3b7c83e71eea3645b8dcb3a48fa13e4, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 395851943}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomQuickBounce, Assembly-CSharp
+        m_MethodName: QuickBounce
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &395851943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395851940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964a37331512b154ab454279ee99e9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onAddMushroom: {fileID: 11400000, guid: d7c6448fb23ce9e4f80ec3ae16049dce, type: 2}
+  regShroom: {fileID: 1524652141445064580, guid: 6816453f6784c424798aa8c125a658c9, type: 3}
+  maxDistance: 5
+  shroomableLayer:
+    serializedVersion: 2
+    m_Bits: 264
 --- !u!4 &403557276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4983755233021603894, guid: 275cae8224a018345b706c54a22d3542, type: 3}
@@ -809,6 +888,7 @@ Transform:
   - {fileID: 1575893929}
   - {fileID: 1679528182}
   - {fileID: 485284898}
+  - {fileID: 395851941}
   - {fileID: 1617412917}
   m_Father: {fileID: 1373688168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
