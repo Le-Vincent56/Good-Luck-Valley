@@ -111,10 +111,12 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         public void NewGame()
         {
+            Debug.Log(GetSaveCount());
+
             // Create a base GameData object
             selectedData = new GameData
             {
-                Name = $"Slot {Mathf.Clamp(GetSaveCount(), 1, 4)}",
+                Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
                 CurrentLevelName = "SampleScene",
                 playerSaveData = new PlayerSaveData()
             };
@@ -137,10 +139,10 @@ namespace GoodLuckValley.Persistence
         /// Load a game
         /// </summary>
         /// <param name="savename">The name of the GameData to load</param>
-        public void LoadGame(string savename)
+        public void LoadGame(string saveName)
         {
             // Load the game data
-            selectedData = dataService.Load(savename);
+            selectedData = dataService.Load(saveName);
 
             // If no Current Level Name is given, default to a given scene
             if(String.IsNullOrWhiteSpace(selectedData.CurrentLevelName))
@@ -149,6 +151,16 @@ namespace GoodLuckValley.Persistence
             }
 
             SceneManager.LoadScene(selectedData.CurrentLevelName);
+        }
+
+
+        /// <summary>
+        /// Select a game
+        /// </summary>
+        /// <param name="saveName">The name of the GameData to select</param>
+        public void SelectGame(string saveName)
+        {
+            selectedData = dataService.Load(saveName);
         }
 
         /// <summary>
@@ -174,7 +186,11 @@ namespace GoodLuckValley.Persistence
         /// <param name="saveName">The name of the GameData to delete</param>
         public void DeleteGame(string saveName)
         {
+            // Delete the save file
             dataService.Delete(saveName);
+
+            // Remove the save from the dictionary
+            saves.Remove(saveName);
         }
 
         /// <summary>
