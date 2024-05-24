@@ -42,6 +42,9 @@ namespace GoodLuckValley.Player.StateMachine.States
 
             // Set gravity
             player.SetGravityScale(playerData.gravityScale);
+
+            // Set friction
+            player.SetPlayerFriction(player.GroundFriction);
         }
 
         public override void Exit()

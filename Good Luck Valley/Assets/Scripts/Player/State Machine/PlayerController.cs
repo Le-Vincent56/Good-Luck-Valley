@@ -26,6 +26,7 @@ namespace GoodLuckValley.Player.StateMachine
 
         #region FIELDS
         [SerializeField] private PhysicsMaterial2D noFriction;
+        [SerializeField] private PhysicsMaterial2D groundFriction;
         [SerializeField] private string previousState;
         [SerializeField] private string currentState;
         private float wallCheckDist = 0.3f;
@@ -63,6 +64,7 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerWallJumpState WallJumpState { get; private set; }
         public PlayerSlopeState SlopeState { get; private set; }
         public bool IsFacingRight { get { return isFacingRight; } set {  isFacingRight = value; } }
+        public PhysicsMaterial2D GroundFriction { get { return groundFriction; } }
         #endregion
 
         private void Awake()
@@ -397,10 +399,10 @@ namespace GoodLuckValley.Player.StateMachine
             // If not against a wall, add force - prevents the player from sticking
             if (upperWallHit || lowerWallHit || upperGroundHit || lowerGroundHit)
             {
-                RB.sharedMaterial = noFriction;
+                SetPlayerFriction(noFriction);;
             } else
             {
-                RB.sharedMaterial = null;
+                SetPlayerFriction(groundFriction);
             }
 
             // Convert this to a vector and apply to rigidbody
@@ -596,6 +598,15 @@ namespace GoodLuckValley.Player.StateMachine
                 frontRaycast = raycastOrigins.bottomLeft;
                 backRaycast = raycastOrigins.bottomRight;
             }
+        }
+
+        /// <summary>
+        /// Set the Player friction material
+        /// </summary>
+        /// <param name="material">The material to set</param>
+        public void SetPlayerFriction(PhysicsMaterial2D material)
+        {
+            RB.sharedMaterial = material;
         }
         #endregion
 
