@@ -375,10 +375,11 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Check if right against a wall
             Vector2 rayOrigin = (lastMovementDirection == -1f) ? raycastOrigins.middleLeft : raycastOrigins.middleRight;
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D wallhit = Physics2D.Raycast(rayOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D groundHit = Physics2D.Raycast(rayOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
 
             // If not against a wall, add force - prevents the player from sticking
-            if (hit)
+            if (wallhit || groundHit)
             {
                 RB.sharedMaterial = noFriction;
             } else

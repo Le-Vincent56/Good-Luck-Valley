@@ -8,22 +8,24 @@ namespace GoodLuckValley.Journal
 {
     public class NoteButton : MonoBehaviour
     {
-        #region FIELDS
-        public int index;
+        public string Title;
+        public int Index;
         public event Action<int> OnButtonPressed = delegate { };
-        #endregion
-
-        public void Initialize(int index)
-        {
-            this.index = index;
-        }
 
         private void Start()
         {
-            GetComponent<Button>().onClick.AddListener(() => OnButtonPressed(index));
+            GetComponent<Button>().onClick.AddListener(() => OnButtonPressed(Index));
         }
 
-        public void RegisterListener(Action<int> listener) => OnButtonPressed += listener;
-        public void DeregisterListener(Action<int> listener) => OnButtonPressed -= listener;
+        public void Initialize(string title, int index)
+        {
+            Title = title;
+            Index = index;
+        }
+
+        public void RegisterListener(Action<int> listener)
+        {
+            OnButtonPressed += listener;
+        }
     }
 }

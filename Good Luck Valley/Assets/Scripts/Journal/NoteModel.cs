@@ -7,14 +7,12 @@ namespace GoodLuckValley.Journal
 {
     public class NoteModel
     {
-        public readonly ObservableList<Tab> tabs = new ObservableList<Tab>();
         public readonly ObservableList<Note> notes = new ObservableList<Note>();
 
-        public void AddTab(Tab tab) => tabs.Add(tab);
-        public void AddNote(Note note) => notes.Add(note);
+        public void Add(Note note) => notes.Add(note);
     }
 
-    public class Note
+    public class  Note
     {
         public readonly NoteData data;
 
