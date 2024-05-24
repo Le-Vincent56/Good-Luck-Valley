@@ -138,7 +138,8 @@ namespace GoodLuckValley.Player.StateMachine
         public bool CheckIfGrounded()
         {
             return Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.groundLayer) ||
-                Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.wallLayer);
+                Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.wallLayer) ||
+                Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.mushroomWallLayer);
         }
 
         /// <summary>
