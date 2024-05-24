@@ -98,6 +98,8 @@ namespace GoodLuckValley.UI.MainMenu
         /// </summary>
         public void UpdateUIFromSaveData()
         {
+            Debug.Log(SaveLoadSystem.Instance.GetSaveCount());
+
             // Get save count
             if (SaveLoadSystem.Instance.GetSaveCount() != 0)
             {
