@@ -6,7 +6,12 @@ namespace GoodLuckValley.Journal
 {
     public class NoteView : MonoBehaviour
     {
-        
-        [SerializeField] public NoteButton[] notes;
+        private Dictionary<int, NoteData> noteEntries = new Dictionary<int, NoteData>();
+
+        public void Add(NoteData note)
+        {
+
+        }
     }
+
 }
