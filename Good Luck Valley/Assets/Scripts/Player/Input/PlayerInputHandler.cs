@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace GoodLuckValley.Player
+namespace GoodLuckValley.Player.Handlers
 {
     public class PlayerInputHandler : MonoBehaviour
     {
@@ -29,6 +29,7 @@ namespace GoodLuckValley.Player
         [SerializeField] private GameEvent onRequestWallData;
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onQuickBounce;
+        [SerializeField] private GameEvent onInteract;
         #endregion
 
         #region REFERENCES
@@ -176,6 +177,15 @@ namespace GoodLuckValley.Player
             if(context.started)
             {
                 onQuickBounce.Raise(this, null);
+            }
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            // Ensure a single button press
+            if(context.started)
+            {
+                onInteract.Raise(this, null);
             }
         }
 

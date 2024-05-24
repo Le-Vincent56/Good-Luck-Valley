@@ -6,20 +6,21 @@ using UnityEngine;
 
 namespace GoodLuckValley.Journal
 {
-    public class Note : MonoBehaviour, IInteractable
+    public class Note : Collectible
     {
         #region EVENTS
         [SerializeField] private GameEvent onAddNote;
         #endregion
 
         #region REFERENCES
-        [SerializeField] private NoteData data;
+        [SerializeField] private NoteData noteData;
         #endregion
 
-
-        public void Interact()
+        public override void Interact()
         {
-            data.Print();
+            base.Interact();
+
+            noteData.Print();
         }
     }
 }

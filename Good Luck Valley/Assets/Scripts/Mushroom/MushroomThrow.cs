@@ -1,5 +1,5 @@
 using GoodLuckValley.Events;
-using GoodLuckValley.Player;
+using GoodLuckValley.Player.Handlers;
 using GoodLuckValley.World.Tiles;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,6 +43,7 @@ namespace GoodLuckValley.Mushroom
 
         #region REFERENCES
         [Header("Events")]
+        [SerializeField] private GameEvent onRequestThrowUnlock;
         [SerializeField] private GameEvent onGetCountToLimit;
         [SerializeField] private GameEvent onRemoveFirstShroom;
         [SerializeField] private GameEvent onGetThrowDirection;
@@ -62,18 +63,6 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
         #endregion
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         /// <summary>
         /// Set the throw direction for the spore
@@ -154,6 +143,9 @@ namespace GoodLuckValley.Mushroom
 
         public void OnThrow(Component sender, object data)
         {
+            // Get throw unlocks
+            onRequestThrowUnlock.Raise(this, null);
+
             // Exit case - throw not unlocked, or the player cannot throw
             if (!throwUnlocked || !canThrow) return;
 
@@ -187,6 +179,15 @@ namespace GoodLuckValley.Mushroom
                 //  - MushroomTracker.CheckCountLimit()
                 onGetCountToLimit.Raise(this, null);
             }
+        }
+
+        /// <summary>
+        /// Set if the mushroom throw ability is unlocked
+        /// </summary>
+        /// <param name="throwUnlocked">Whether or not the mushroom throw is unlocked</param>
+        public void SetThrowUnlocked(bool throwUnlocked)
+        {
+            this.throwUnlocked = throwUnlocked;
         }
     }
 }

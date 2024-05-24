@@ -13,6 +13,8 @@ namespace GoodLuckValley.Persistence
         public string CurrentLevelName;
         public SettingsData settingsData;
         public PlayerSaveData playerSaveData;
+        public MushroomSaveData mushroomSaveData;
+        public List<CollectibleSaveData> collectibleSaveDatas;
     }
 
     [Serializable]
@@ -34,6 +36,32 @@ namespace GoodLuckValley.Persistence
         {
             position = new Vector3(22.64f, 15.86f, 0.0f);
             isFacingRight = true;
+        }
+    }
+
+    [Serializable]
+    public class MushroomSaveData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool unlockedThrow;
+        public bool unlockedWallJump;
+
+        public MushroomSaveData()
+        {
+            unlockedThrow = false;
+            unlockedWallJump = false;
+        }
+    }
+
+    [Serializable]
+    public class CollectibleSaveData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool collected;
+
+        public CollectibleSaveData()
+        {
+            collected = false;
         }
     }
 }

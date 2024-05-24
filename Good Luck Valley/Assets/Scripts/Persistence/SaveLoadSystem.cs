@@ -1,6 +1,9 @@
+using GoodLuckValley.Mushroom;
 using GoodLuckValley.Patterns;
 using GoodLuckValley.Player;
+using GoodLuckValley.Player.Handlers;
 using GoodLuckValley.Player.StateMachine;
+using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,7 +62,9 @@ namespace GoodLuckValley.Persistence
             if (scene.name == "Menu") return;
 
             // Bind player data
-            Bind<PlayerController, PlayerSaveData>(selectedData.playerSaveData);
+            Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
+            Bind<PowerController, MushroomSaveData>(selectedData.mushroomSaveData);
+            Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas);
         }
 
         private void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
@@ -116,7 +121,8 @@ namespace GoodLuckValley.Persistence
             {
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
                 CurrentLevelName = "SampleScene",
-                playerSaveData = new PlayerSaveData()
+                playerSaveData = new PlayerSaveData(),
+                collectibleSaveDatas = new List<CollectibleSaveData>()
             };
             SceneManager.LoadScene(selectedData.CurrentLevelName);
         }

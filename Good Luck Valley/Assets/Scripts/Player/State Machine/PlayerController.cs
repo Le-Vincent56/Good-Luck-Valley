@@ -2,6 +2,7 @@ using GoodLuckValley.Events;
 using GoodLuckValley.UI;
 using GoodLuckValley.Player.StateMachine.States;
 using GoodLuckValley.Mushroom;
+using GoodLuckValley.Player.Handlers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,18 +11,20 @@ using GoodLuckValley.Persistence;
 
 namespace GoodLuckValley.Player.StateMachine
 {
-    public class PlayerController : MonoBehaviour, IBind<PlayerSaveData>
+    public class PlayerController : MonoBehaviour
     {
+        #region EVENTS
+        [SerializeField] private GameEvent onRequestPowerUnlocks;
+        #endregion
+
         #region REFERENCES
         [SerializeField] private PlayerData playerData;
+        [SerializeField] private PlayerSaveHandler playerSaveHandler;
         [SerializeField] private Transform groundCheck;
         [SerializeField] private Transform wallCheck;
         #endregion
 
         #region FIELDS
-        [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
-        [SerializeField] PlayerSaveData data;
-
         [SerializeField] private PhysicsMaterial2D noFriction;
         [SerializeField] private string previousState;
         [SerializeField] private string currentState;
@@ -44,6 +47,7 @@ namespace GoodLuckValley.Player.StateMachine
         public Rigidbody2D RB { get; private set; }
         public BoxCollider2D PlayerCollider { get; private set; }
         public Animator Anim { get; private set; }
+        public PowerController Power { get; private set; }
         public PlayerInputHandler InputHandler { get; private set; }
         public PlayerStateMachine StateMachine { get; private set; }
         public PlayerIdleState IdleState { get; private set; }
@@ -58,6 +62,7 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerFastWallSlideState FastWallSlideState { get; private set; }
         public PlayerWallJumpState WallJumpState { get; private set; }
         public PlayerSlopeState SlopeState { get; private set; }
+        public bool IsFacingRight { get { return isFacingRight; } set {  isFacingRight = value; } }
         #endregion
 
         private void Awake()
@@ -82,6 +87,7 @@ namespace GoodLuckValley.Player.StateMachine
             RB = GetComponent<Rigidbody2D>();
             PlayerCollider = GetComponent<BoxCollider2D>();
             Anim = GetComponent<Animator>();
+            Power = GetComponentInChildren<PowerController>();
             InputHandler = GetComponent<PlayerInputHandler>();
         }
         private void Start()
@@ -119,9 +125,6 @@ namespace GoodLuckValley.Player.StateMachine
             {
                 InputHandler.UseJumpInput();
             }
-
-            // Update save data
-            UpdateSaveData();
         }
 
         private void FixedUpdate()
@@ -138,8 +141,16 @@ namespace GoodLuckValley.Player.StateMachine
         public bool CheckIfGrounded()
         {
             return Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.groundLayer) ||
-                Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.wallLayer) ||
-                Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.mushroomWallLayer);
+                Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.wallLayer);
+        }
+
+        /// <summary>
+        /// Check if the Player is on top of a Mushroom Wall
+        /// </summary>
+        /// <returns>True if the Player is on top of a Mushroom Wall, false if not</returns>
+        public bool CheckIfOnTopOfMushWall()
+        {
+            return Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.mushroomWallLayer);
         }
 
         /// <summary>
@@ -533,7 +544,7 @@ namespace GoodLuckValley.Player.StateMachine
         /// <param name="data"></param>
         public void StartWallJump(Component sender, object data)
         {
-            // Check the correct data was sent
+            // Check the correct data was sent or if the wall jump is unlocked
             if (data is not MushroomWallJump.BounceData) return;
 
             // Set wall jumping to true
@@ -585,64 +596,6 @@ namespace GoodLuckValley.Player.StateMachine
                 frontRaycast = raycastOrigins.bottomLeft;
                 backRaycast = raycastOrigins.bottomRight;
             }
-        }
-        #endregion
-
-        #region PERSISTENCE
-        public void UpdateSaveData()
-        {
-            // Save transform data
-            data.position = transform.position;
-            data.isFacingRight = isFacingRight;
-
-            // Save states
-            if(StateMachine.PreviousState != null) data.previousState = StateMachine.PreviousState.ToString().Substring(48);
-            if(StateMachine.CurrentState != null) data.currentState = StateMachine.CurrentState.ToString().Substring(48);
-        }
-
-        public void LoadStateData()
-        {
-            // Set previous state data
-            if (data.previousState == "IdleState") StateMachine.SetPreviousState(IdleState);
-            if (data.previousState == "MoveState") StateMachine.SetPreviousState(MoveState);
-            if (data.previousState == "JumpState") StateMachine.SetPreviousState(JumpState);
-            if (data.previousState == "FallState") StateMachine.SetPreviousState(FallState);
-            if (data.previousState == "FastFallState") StateMachine.SetPreviousState(FastFallState);
-            if (data.previousState == "LandState") StateMachine.SetPreviousState(LandState);
-            if (data.previousState == "BounceState") StateMachine.SetPreviousState(BounceState);
-            if (data.previousState == "WallSlideState") StateMachine.SetPreviousState(WallSlideState);
-            if (data.previousState == "FastWallSlideState") StateMachine.SetPreviousState(FastWallSlideState);
-            if (data.previousState == "WallJumpState") StateMachine.SetPreviousState(WallJumpState);
-            if (data.previousState == "SlopeState") StateMachine.SetPreviousState(SlopeState);
-
-            // Initialize current state data
-            if (data.currentState == "IdleState") StateMachine.Initialize(IdleState);
-            if (data.currentState == "MoveState") StateMachine.Initialize(MoveState);
-            if (data.currentState == "JumpState") StateMachine.Initialize(JumpState);
-            if (data.currentState == "FallState") StateMachine.Initialize(FallState);
-            if (data.currentState == "FastFallState") StateMachine.Initialize(FastFallState);
-            if (data.currentState == "LandState") StateMachine.Initialize(LandState);
-            if (data.currentState == "BounceState") StateMachine.Initialize(BounceState);
-            if (data.currentState == "WallSlideState") StateMachine.Initialize(WallSlideState);
-            if (data.currentState == "FastWallSlideState") StateMachine.Initialize(FastWallSlideState);
-            if (data.currentState == "WallJumpState") StateMachine.Initialize(WallJumpState);
-            if (data.currentState == "SlopeState") StateMachine.Initialize(SlopeState);
-        }
-
-        public void Bind(PlayerSaveData data)
-        {
-            this.data = data;
-            this.data.ID = ID;
-            
-            // Set transform data
-            transform.position = data.position;
-            CheckDirectionToFace(data.isFacingRight);
-
-            // Load State Data
-            LoadStateData();
-
-            // Save
-            SaveLoadSystem.Instance.SaveGame();
         }
         #endregion
 
