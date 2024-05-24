@@ -137,7 +137,8 @@ namespace GoodLuckValley.Player.StateMachine
         /// <returns>True if the Player is grounded, false if not</returns>
         public bool CheckIfGrounded()
         {
-            return Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.groundLayer);
+            return Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.groundLayer) ||
+                Physics2D.OverlapCircle(groundCheck.position, playerData.groundRadius, playerData.wallLayer);
         }
 
         /// <summary>
@@ -374,12 +375,15 @@ namespace GoodLuckValley.Player.StateMachine
             float movement = speedDif * accelRate;
 
             // Check if right against a wall
-            Vector2 rayOrigin = (lastMovementDirection == -1f) ? raycastOrigins.middleLeft : raycastOrigins.middleRight;
-            RaycastHit2D wallhit = Physics2D.Raycast(rayOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
-            RaycastHit2D groundHit = Physics2D.Raycast(rayOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
+            Vector2 upperOrigin = (lastMovementDirection == -1f) ? raycastOrigins.middleLeft : raycastOrigins.middleRight;
+            Vector2 bottomOrigin = (lastMovementDirection == -1f) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
+            RaycastHit2D upperWallHit = Physics2D.Raycast(upperOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D lowerWallHit = Physics2D.Raycast(bottomOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D upperGroundHit = Physics2D.Raycast(upperOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
+            RaycastHit2D lowerGroundHit = Physics2D.Raycast(bottomOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
 
             // If not against a wall, add force - prevents the player from sticking
-            if (wallhit || groundHit)
+            if (upperWallHit || lowerWallHit || upperGroundHit || lowerGroundHit)
             {
                 RB.sharedMaterial = noFriction;
             } else
