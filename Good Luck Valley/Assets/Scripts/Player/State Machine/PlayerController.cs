@@ -45,6 +45,7 @@ namespace GoodLuckValley.Player.StateMachine
 
         #region FIELDS
         [SerializeField] private PhysicsMaterial2D noFriction;
+        [SerializeField] private PhysicsMaterial2D groundFriction;
         [SerializeField] private string previousState;
         [SerializeField] private string currentState;
         private float wallCheckDist = 0.3f;
@@ -82,6 +83,7 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerWallJumpState WallJumpState { get; private set; }
         public PlayerSlopeState SlopeState { get; private set; }
         public bool IsFacingRight { get { return isFacingRight; } set {  isFacingRight = value; } }
+        public PhysicsMaterial2D GroundFriction { get { return groundFriction; } }
         public bool Paused { get; private set; }
         #endregion
 
@@ -424,10 +426,10 @@ namespace GoodLuckValley.Player.StateMachine
             if (topWallHit || midWallHit || botWallHit ||
                 topGroundHit || midGroundHit || botGroundHit)
             {
-                RB.sharedMaterial = noFriction;
+                SetPlayerFriction(noFriction);;
             } else
             {
-                RB.sharedMaterial = null;
+                SetPlayerFriction(null);
             }
 
             // Convert this to a vector and apply to rigidbody
@@ -643,6 +645,15 @@ namespace GoodLuckValley.Player.StateMachine
             // Set paused
             bool paused = (bool)data;
             this.Paused = paused;
+        }
+
+        /// <summary>
+        /// Set the Player friction material
+        /// </summary>
+        /// <param name="material">The material to set</param>
+        public void SetPlayerFriction(PhysicsMaterial2D material)
+        {
+            RB.sharedMaterial = material;
         }
         #endregion
 
