@@ -1657,6 +1657,15 @@ MonoBehaviour:
       isFacingRight: 1
       previousState: 
       currentState: 
+    mushroomSaveData:
+      <ID>k__BackingField:
+        Part1: 0
+        Part2: 0
+        Part3: 0
+        Part4: 0
+      unlockedThrow: 0
+      unlockedWallJump: 0
+    collectibleSaveDatas: []
 --- !u!4 &1055608465
 Transform:
   m_ObjectHideFlags: 0
@@ -2729,7 +2738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2129598731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3000,17 +3009,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2095266583975127196, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095266583975127196, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7253072140243419740, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
     - target: {fileID: 7770600246787331423, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.64
+      value: -1.97
       objectReference: {fileID: 0}
     - target: {fileID: 7770600246787331423, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.86
+      value: 11.72
       objectReference: {fileID: 0}
     - target: {fileID: 7770600246787331423, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3382,13 +3399,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3433416948278206013, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: onRequestUnlockedWallJump
+      value: 
+      objectReference: {fileID: 11400000, guid: d91b2ba83d80f1246946ca86a4f206e8, type: 2}
     - target: {fileID: 8986518155532680439, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.64
+      value: -1.97
       objectReference: {fileID: 0}
     - target: {fileID: 8986518155532680439, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.86
+      value: 11.72
       objectReference: {fileID: 0}
     - target: {fileID: 8986518155532680439, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
       propertyPath: m_LocalPosition.z

@@ -91,8 +91,6 @@ namespace GoodLuckValley.Player.StateMachine.States
 
             // Trigger ability done
             isAbilityDone = true;
-
-            Debug.Log("End Bounce");
         }
     }
 }

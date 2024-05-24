@@ -13,6 +13,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         protected bool isGrounded;
         private bool isBouncing;
         private bool isOnWall;
+        private bool isOnTopOfWall;
         protected bool isOnSlope;
         #endregion
 
@@ -28,6 +29,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             isGrounded = player.CheckIfGrounded() || player.CheckIfGroundedLine();
             isBouncing = player.CheckIfBouncing();
             isOnWall = player.CheckIfWalled();
+            isOnTopOfWall = player.CheckIfOnTopOfMushWall();
             isOnSlope = player.CheckIfOnSlope();
         }
 
@@ -55,7 +57,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             xInput = player.InputHandler.NormInputX;
             jumpInput = player.InputHandler.JumpInput;
 
-            if (!isGrounded && !isOnSlope) // Exit case is not grounded
+            if (!isGrounded && !isOnSlope && !isOnTopOfWall) // Exit case is not grounded
             {
                 stateMachine.ChangeState(player.FallState);
             }

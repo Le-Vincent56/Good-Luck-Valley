@@ -38,6 +38,7 @@ namespace GoodLuckValley.Mushroom
 
         #region EVENTS
         [Header("Events")]
+        [SerializeField] private GameEvent onRequestUnlockedWallJump;
         [SerializeField] private GameEvent onWallJump;
         [SerializeField] private GameEvent onAddWallMushroom;
         [Space(5f)]
@@ -51,6 +52,7 @@ namespace GoodLuckValley.Mushroom
 
         #region FIELDS
         [Header("Fields")]
+        [SerializeField] private bool unlockedWallJump;
         [SerializeField] private LayerMask mushroomWallLayer;
         private bool wallJumpInput;
         private float wallDirection;
@@ -101,10 +103,18 @@ namespace GoodLuckValley.Mushroom
             return shroom;
         }
 
+        /// <summary>
+        /// Get the wall direction of the wall jump and prepare the jump
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void GetWallDirection(Component sender, object data)
         {
-            // Check the correct data was sent
-            if (data is not Data) return;
+            // See if the wall jump is unlocked
+            onRequestUnlockedWallJump.Raise(this, null);
+
+            // Check the correct data was sent or if the wall jump is unlocked
+            if (data is not Data || !unlockedWallJump) return;
 
             // Cast the data
             Data wallData = (Data)data;
@@ -135,6 +145,15 @@ namespace GoodLuckValley.Mushroom
             // Calls to:
             //  - PlayerController.StartWallJump()
             onWallJump.Raise(this, bounceData);
+        }
+
+        /// <summary>
+        /// Set if the wall jump ability is unlocked
+        /// </summary>
+        /// <param name="unlockedWallJump">Whether or not the wall jump is unlocked</param>
+        public void SetWallJumpUnlocked(bool unlockedWallJump)
+        {
+            this.unlockedWallJump = unlockedWallJump;
         }
 
         private void OnDrawGizmos()

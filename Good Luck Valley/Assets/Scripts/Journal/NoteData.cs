@@ -21,7 +21,7 @@ namespace GoodLuckValley.Journal
 
         public void Print()
         {
-            Debug.Log($"Note ID: {ID}" +
+            Debug.Log($"Note ID: {ID}\n" +
                 $"Note Title: {Title}\n" +
                 $"Note Content: {Content}\n" +
                 $"Note Tab: {Tab}");
