@@ -30,11 +30,16 @@ namespace GoodLuckValley.Player.Handlers
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onQuickBounce;
         [SerializeField] private GameEvent onInteract;
+        [SerializeField] private GameEvent onPause;
         #endregion
 
         #region REFERENCES
         [Header("Objects")]
         [SerializeField] private PlayerData playerData;
+        #endregion
+
+        #region FIELDS
+        private bool paused;
         #endregion
 
         #region PROPERTIES
@@ -111,6 +116,9 @@ namespace GoodLuckValley.Player.Handlers
         /// <param name="context"></param>
         public void OnThrow(InputAction.CallbackContext context)
         {
+            // Return if paused
+            if (paused) return;
+
             // Get the contexts
             ContextData contextData = new ContextData(context.started, context.canceled);
 
@@ -126,7 +134,7 @@ namespace GoodLuckValley.Player.Handlers
         /// <param name="context"></param>
         public void OnFastFall(InputAction.CallbackContext context)
         {
-            if(context.started)
+            if (context.started)
             {
                 FastFallInput = true;
             } else if(context.canceled)
@@ -141,6 +149,9 @@ namespace GoodLuckValley.Player.Handlers
         /// <param name="context"></param>
         public void OnRecallLast(InputAction.CallbackContext context)
         {
+            // Return if paused
+            if (paused) return;
+
             // Ensure a single button press
             if (context.started)
             {
@@ -157,8 +168,11 @@ namespace GoodLuckValley.Player.Handlers
         /// <param name="context"></param>
         public void OnRecallAll(InputAction.CallbackContext context)
         {
+            // Return if paused
+            if (paused) return;
+
             // Ensure a single button press
-            if(context.started)
+            if (context.started)
             {
                 // Raise the recall all event
                 // Calls to:
@@ -173,19 +187,42 @@ namespace GoodLuckValley.Player.Handlers
         /// <param name="context"></param>
         public void OnQuickBounce(InputAction.CallbackContext context)
         {
+            // Return if paused
+            if (paused) return;
+
             // Ensure a single button press
-            if(context.started)
+            if (context.started)
             {
                 onQuickBounce.Raise(this, null);
             }
         }
 
+        /// <summary>
+        /// Handle Interact input
+        /// </summary>
+        /// <param name="context"></param>
         public void OnInteract(InputAction.CallbackContext context)
+        {
+            // Return if paused
+            if (paused) return;
+
+            // Ensure a single button press
+            if (context.started)
+            {
+                onInteract.Raise(this, null);
+            }
+        }
+
+        /// <summary>
+        /// Handle Pause input
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnPause(InputAction.CallbackContext context)
         {
             // Ensure a single button press
             if(context.started)
             {
-                onInteract.Raise(this, null);
+                onPause.Raise(this, null);
             }
         }
 
@@ -193,5 +230,15 @@ namespace GoodLuckValley.Player.Handlers
         /// Reset the Jump Input
         /// </summary>
         public void UseJumpInput() => JumpInput = false;
+
+        public void SetPaused(Component sender, object data)
+        {
+            // Check that the data is the correct type
+            if (data is not bool) return;
+
+            // Set paused
+            bool paused = (bool)data;
+            this.paused = paused;
+        }
     }
 }

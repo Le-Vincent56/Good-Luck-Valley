@@ -13,9 +13,28 @@ namespace GoodLuckValley.Player.StateMachine
 {
     public class PlayerController : MonoBehaviour
     {
-        #region EVENTS
-        [SerializeField] private GameEvent onRequestPowerUnlocks;
-        #endregion
+        public struct RaycastData
+        {
+            public Vector2 TopLeft;
+            public Vector2 TopRight;
+            public Vector2 MidLeft;
+            public Vector2 MidRight;
+            public Vector2 BotLeft;
+            public Vector2 BotRight;
+
+            public RaycastData(
+                Vector2 topLeft, Vector2 topRight, Vector2 midLeft, 
+                Vector2 midRight, Vector2 botLeft, Vector2 botRight
+            )
+            {
+                TopLeft = topLeft;
+                TopRight = topRight;
+                MidLeft = midLeft;
+                MidRight = midRight;
+                BotLeft = botLeft;
+                BotRight = botRight;
+            }
+        }
 
         #region REFERENCES
         [SerializeField] private PlayerData playerData;
@@ -31,7 +50,7 @@ namespace GoodLuckValley.Player.StateMachine
         private float wallCheckDist = 0.3f;
 
         private (float x, float y) colliderSize;
-        private (Vector2 bottomLeft, Vector2 bottomRight, Vector2 middleLeft, Vector2 middleRight) raycastOrigins;
+        private RaycastData raycastOrigins;
         private Vector2 frontRaycast;
         private Vector2 backRaycast;
         private SlopeDirection slopeDirection;
@@ -63,6 +82,7 @@ namespace GoodLuckValley.Player.StateMachine
         public PlayerWallJumpState WallJumpState { get; private set; }
         public PlayerSlopeState SlopeState { get; private set; }
         public bool IsFacingRight { get { return isFacingRight; } set {  isFacingRight = value; } }
+        public bool Paused { get; private set; }
         #endregion
 
         private void Awake()
@@ -89,6 +109,9 @@ namespace GoodLuckValley.Player.StateMachine
             Anim = GetComponent<Animator>();
             Power = GetComponentInChildren<PowerController>();
             InputHandler = GetComponent<PlayerInputHandler>();
+
+            // Initialize raycast data
+            raycastOrigins = new RaycastData(Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero);
         }
         private void Start()
         {
@@ -387,15 +410,19 @@ namespace GoodLuckValley.Player.StateMachine
             float movement = speedDif * accelRate;
 
             // Check if right against a wall
-            Vector2 upperOrigin = (lastMovementDirection == -1f) ? raycastOrigins.middleLeft : raycastOrigins.middleRight;
-            Vector2 bottomOrigin = (lastMovementDirection == -1f) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
-            RaycastHit2D upperWallHit = Physics2D.Raycast(upperOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
-            RaycastHit2D lowerWallHit = Physics2D.Raycast(bottomOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
-            RaycastHit2D upperGroundHit = Physics2D.Raycast(upperOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
-            RaycastHit2D lowerGroundHit = Physics2D.Raycast(bottomOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
+            Vector2 topOrigin = (lastMovementDirection == 1f) ? raycastOrigins.TopLeft : raycastOrigins.TopRight;
+            Vector2 midOrigin = (lastMovementDirection == -1f) ? raycastOrigins.MidLeft : raycastOrigins.MidRight;
+            Vector2 botOrigin = (lastMovementDirection == -1f) ? raycastOrigins.BotLeft : raycastOrigins.BotRight;
+            RaycastHit2D topWallHit = Physics2D.Raycast(topOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D midWallHit = Physics2D.Raycast(midOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D botWallHit = Physics2D.Raycast(botOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D topGroundHit = Physics2D.Raycast(topOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
+            RaycastHit2D midGroundHit = Physics2D.Raycast(midOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
+            RaycastHit2D botGroundHit = Physics2D.Raycast(botOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
 
             // If not against a wall, add force - prevents the player from sticking
-            if (upperWallHit || lowerWallHit || upperGroundHit || lowerGroundHit)
+            if (topWallHit || midWallHit || botWallHit ||
+                topGroundHit || midGroundHit || botGroundHit)
             {
                 RB.sharedMaterial = noFriction;
             } else
@@ -565,37 +592,57 @@ namespace GoodLuckValley.Player.StateMachine
         /// </summary>
         public void UpdateRaycasts()
         {
-            raycastOrigins.bottomLeft = new Vector2(
+            raycastOrigins.TopLeft = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + colliderSize.y
             );
 
-            raycastOrigins.bottomRight = new Vector2(
-                (PlayerCollider.transform.position.x + PlayerCollider.offset.x) + colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
+            raycastOrigins.TopRight = new Vector2(
+                (PlayerCollider.transform.position.x - PlayerCollider.offset.x) + colliderSize.x,
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + colliderSize.y
             );
 
-            raycastOrigins.middleLeft = new Vector2(
+            raycastOrigins.MidLeft = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
                 (PlayerCollider.transform.position.y + PlayerCollider.offset.y)
             );
 
-            raycastOrigins.middleRight = new Vector2(
+            raycastOrigins.MidRight = new Vector2(
                 (PlayerCollider.transform.position.x + PlayerCollider.offset.x) + colliderSize.x,
                 (PlayerCollider.transform.position.y + PlayerCollider.offset.y)
+            );
+
+            raycastOrigins.BotLeft = new Vector2(
+                (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
+            );
+
+            raycastOrigins.BotRight = new Vector2(
+                (PlayerCollider.transform.position.x + PlayerCollider.offset.x) + colliderSize.x,
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
             );
 
             // Set directional raycasts
             if(isFacingRight)
             {
-                frontRaycast = raycastOrigins.bottomRight;
-                backRaycast = raycastOrigins.bottomLeft;
+                frontRaycast = raycastOrigins.BotRight;
+                backRaycast = raycastOrigins.BotLeft;
             }
             else
             {
-                frontRaycast = raycastOrigins.bottomLeft;
-                backRaycast = raycastOrigins.bottomRight;
+                frontRaycast = raycastOrigins.BotLeft;
+                backRaycast = raycastOrigins.BotRight;
             }
+        }
+
+        public void SetPaused(Component sender, object data)
+        {
+            // Check that the data is the correct type
+            if (data is not bool) return;
+
+            // Set paused
+            bool paused = (bool)data;
+            this.Paused = paused;
         }
         #endregion
 
@@ -611,10 +658,10 @@ namespace GoodLuckValley.Player.StateMachine
 
             // Draw slope checks
             Gizmos.color = (isFacingRight) ? Color.red : Color.blue;
-            Gizmos.DrawLine(raycastOrigins.bottomLeft, new Vector2(raycastOrigins.bottomLeft.x, raycastOrigins.bottomLeft.y - playerData.slopeCheckDist));
+            Gizmos.DrawLine(raycastOrigins.BotLeft, new Vector2(raycastOrigins.BotLeft.x, raycastOrigins.BotLeft.y - playerData.slopeCheckDist));
 
             Gizmos.color = (isFacingRight) ? Color.blue : Color.red;
-            Gizmos.DrawLine(raycastOrigins.bottomRight, new Vector2(raycastOrigins.bottomRight.x, raycastOrigins.bottomRight.y - playerData.slopeCheckDist));
+            Gizmos.DrawLine(raycastOrigins.BotRight, new Vector2(raycastOrigins.BotRight.x, raycastOrigins.BotRight.y - playerData.slopeCheckDist));
         }
     }
 }

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 7317289102420008489}
   - component: {fileID: 2671570083596541879}
   - component: {fileID: 2666176424574443082}
+  - component: {fileID: 5276732519097499571}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -355,6 +356,23 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 99ca68e2-a76d-4c30-af35-95e3b4c7cc60
     m_ActionName: Player Controls/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8523122393742616255}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Handlers.PlayerInputHandler,
+          Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c6e9ca60-234a-4187-b343-4b22b5490504
+    m_ActionName: Player Controls/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -379,6 +397,7 @@ MonoBehaviour:
   onWallJumpInput: {fileID: 11400000, guid: 3e7262a3ea9a3b940b78a066bf59e6a1, type: 2}
   onQuickBounce: {fileID: 11400000, guid: e3b7c83e71eea3645b8dcb3a48fa13e4, type: 2}
   onInteract: {fileID: 11400000, guid: 267c26192f5d8ff49807ae17993fbeb8, type: 2}
+  onPause: {fileID: 11400000, guid: 3db613766c7d4054b9c3a1ef9b829620, type: 2}
   playerData: {fileID: 11400000, guid: ea458ae986a135b4f9d9788cea33277b, type: 2}
 --- !u!114 &557072470185712841
 MonoBehaviour:
@@ -434,7 +453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb07c92abe2ce4642a2fc9ab0e155f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onRequestPowerUnlocks: {fileID: 0}
   playerData: {fileID: 11400000, guid: ea458ae986a135b4f9d9788cea33277b, type: 2}
   playerSaveHandler: {fileID: 1059181518156183497}
   groundCheck: {fileID: 1563431277602686212}
@@ -579,6 +597,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.Player.StateMachine.PlayerController,
           Assembly-CSharp
         m_MethodName: StartWallJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5276732519097499571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87660909121500713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: be4bda848206b2244af167de81d4cff1, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8523122393742616255}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Handlers.PlayerInputHandler,
+          Assembly-CSharp
+        m_MethodName: SetPaused
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

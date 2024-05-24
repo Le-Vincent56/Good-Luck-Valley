@@ -34,7 +34,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             {
                 stateMachine.ChangeState(player.SlopeState);
             }
-            else if (xInput == 0f) // Exit case - player is idle
+            else if (xInput == 0f && !player.Paused) // Exit case - player is idle and not paused
             {
                 stateMachine.ChangeState(player.IdleState);
             }

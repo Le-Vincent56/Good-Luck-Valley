@@ -74,11 +74,6 @@ namespace GoodLuckValley.Player.StateMachine.States
                 stateMachine.ChangeState(player.JumpState);
             }
         }
-
-        public override void PhysicsUpdate()
-        {
-            base.PhysicsUpdate();
-        }
     }
 }
 

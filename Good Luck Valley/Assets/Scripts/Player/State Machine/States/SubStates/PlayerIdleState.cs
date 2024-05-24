@@ -27,8 +27,8 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.LogicUpdate();
 
-            // Exit case - player is moving
-            if(xInput != 0f)
+            // Exit case - player is moving and not paused
+            if(xInput != 0f && !player.Paused)
             {
                 stateMachine.ChangeState(player.MoveState);
             }
