@@ -422,6 +422,8 @@ namespace GoodLuckValley.Player.StateMachine
             RaycastHit2D midGroundHit = Physics2D.Raycast(midOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
             RaycastHit2D botGroundHit = Physics2D.Raycast(botOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
 
+            Debug.DrawRay(topOrigin, Vector2.right * lastMovementDirection * wallCheckDist);
+
             // If not against a wall, add force - prevents the player from sticking
             if (topWallHit || midWallHit || botWallHit ||
                 topGroundHit || midGroundHit || botGroundHit)
@@ -596,12 +598,12 @@ namespace GoodLuckValley.Player.StateMachine
         {
             raycastOrigins.TopLeft = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + colliderSize.y
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y/2f)
             );
 
             raycastOrigins.TopRight = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) + colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + colliderSize.y
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y/2f)
             );
 
             raycastOrigins.MidLeft = new Vector2(
