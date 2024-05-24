@@ -6,18 +6,25 @@ namespace GoodLuckValley.Journal
 {
     public enum Tab
     {
-        Index = 0,
-        Anari = 1,
-        Hana = 2,
-        Seiji = 3
+        Anari = 0,
+        Hana = 1,
+        Seiji = 2
     }
 
     [CreateAssetMenu(fileName = "Note Data")]
     public class NoteData : ScriptableObject
     {
         public int ID;          // Defines the placement in the journal
-        public string Name;     // Name of the note
+        public string Title;     // Name of the note
         public string Content;  // Text content of the note
         public Tab Tab;         // What tab it goes under
+
+        public void Print()
+        {
+            Debug.Log($"Note ID: {ID}" +
+                $"Note Title: {Title}\n" +
+                $"Note Content: {Content}\n" +
+                $"Note Tab: {Tab}");
+        }
     }
 }
