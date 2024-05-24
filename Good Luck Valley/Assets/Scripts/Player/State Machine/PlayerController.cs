@@ -402,7 +402,7 @@ namespace GoodLuckValley.Player.StateMachine
                 SetPlayerFriction(noFriction);;
             } else
             {
-                SetPlayerFriction(groundFriction);
+                SetPlayerFriction(null);
             }
 
             // Convert this to a vector and apply to rigidbody
