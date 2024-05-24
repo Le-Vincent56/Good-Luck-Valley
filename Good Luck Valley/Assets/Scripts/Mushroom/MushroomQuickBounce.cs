@@ -11,6 +11,7 @@ namespace GoodLuckValley.Mushroom
         #region EVENTS
         [Header("Events")]
         [SerializeField] private GameEvent onAddMushroom;
+        [SerializeField] private GameEvent onRequestThrowUnlock;
         #endregion
 
         #region REFERENCES
@@ -21,6 +22,7 @@ namespace GoodLuckValley.Mushroom
         [Header("Fields")]
         [SerializeField] private float maxDistance;
         [SerializeField] private LayerMask shroomableLayer;
+        private bool throwUnlocked;
         #endregion
 
         /// <summary>
@@ -30,6 +32,12 @@ namespace GoodLuckValley.Mushroom
         /// <param name="data"></param>
         public void QuickBounce(Component sender, object data)
         {
+            // Check to see if the throw is unlocked
+            onRequestThrowUnlock.Raise(this, null);
+
+            // If the throw is not unlocked, return
+            if (!throwUnlocked) return;
+
             // Raycast down and look for shroomable surfaces
             RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, maxDistance, shroomableLayer);
 
@@ -111,6 +119,15 @@ namespace GoodLuckValley.Mushroom
             // Calls to:
             //  - MushroomTracker.AddMushroom();
             onAddMushroom.Raise(this, shroom);
+        }
+
+        /// <summary>
+        /// Set if the Mushroom Throw is unlocked
+        /// </summary>
+        /// <param name="throwUnlocked">Whether or not the Mushroom Throw is unlocked</param>
+        public void SetThrowUnlocked(bool throwUnlocked)
+        {
+            this.throwUnlocked = throwUnlocked;
         }
     }
 }

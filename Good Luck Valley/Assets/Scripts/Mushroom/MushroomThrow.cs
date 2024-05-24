@@ -141,6 +141,11 @@ namespace GoodLuckValley.Mushroom
             newSpore.GetComponent<Rigidbody2D>().AddForce(throwDirection * throwMultiplier);
         }
 
+        /// <summary>
+        /// Handle Throw Input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void OnThrow(Component sender, object data)
         {
             // Get throw unlocks
@@ -182,7 +187,7 @@ namespace GoodLuckValley.Mushroom
         }
 
         /// <summary>
-        /// Set if the mushroom throw ability is unlocked
+        /// Set if the Mushroom Throw ability is unlocked
         /// </summary>
         /// <param name="throwUnlocked">Whether or not the mushroom throw is unlocked</param>
         public void SetThrowUnlocked(bool throwUnlocked)

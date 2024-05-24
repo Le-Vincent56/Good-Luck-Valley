@@ -122,6 +122,7 @@ namespace GoodLuckValley.Persistence
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
                 CurrentLevelName = "SampleScene",
                 playerSaveData = new PlayerSaveData(),
+                mushroomSaveData = new MushroomSaveData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
             };
             SceneManager.LoadScene(selectedData.CurrentLevelName);
