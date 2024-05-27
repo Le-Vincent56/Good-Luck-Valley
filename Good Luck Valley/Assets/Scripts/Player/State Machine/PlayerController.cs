@@ -412,7 +412,7 @@ namespace GoodLuckValley.Player.StateMachine
             float movement = speedDif * accelRate;
 
             // Check if right against a wall
-            Vector2 topOrigin = (lastMovementDirection == 1f) ? raycastOrigins.TopLeft : raycastOrigins.TopRight;
+            Vector2 topOrigin = (lastMovementDirection == -1f) ? raycastOrigins.TopLeft : raycastOrigins.TopRight;
             Vector2 midOrigin = (lastMovementDirection == -1f) ? raycastOrigins.MidLeft : raycastOrigins.MidRight;
             Vector2 botOrigin = (lastMovementDirection == -1f) ? raycastOrigins.BotLeft : raycastOrigins.BotRight;
             RaycastHit2D topWallHit = Physics2D.Raycast(topOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
@@ -423,6 +423,8 @@ namespace GoodLuckValley.Player.StateMachine
             RaycastHit2D botGroundHit = Physics2D.Raycast(botOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
 
             Debug.DrawRay(topOrigin, Vector2.right * lastMovementDirection * wallCheckDist);
+            Debug.DrawRay(midOrigin, Vector2.right * lastMovementDirection * wallCheckDist);
+            Debug.DrawRay(botOrigin, Vector2.right * lastMovementDirection * wallCheckDist);
 
             // If not against a wall, add force - prevents the player from sticking
             if (topWallHit || midWallHit || botWallHit ||
@@ -598,12 +600,12 @@ namespace GoodLuckValley.Player.StateMachine
         {
             raycastOrigins.TopLeft = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y/2f)
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y * (3f / 4f))
             );
 
             raycastOrigins.TopRight = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) + colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y/2f)
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y * (3f/4f))
             );
 
             raycastOrigins.MidLeft = new Vector2(
@@ -618,12 +620,12 @@ namespace GoodLuckValley.Player.StateMachine
 
             raycastOrigins.BotLeft = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
+                (PlayerCollider.transform.position.y) - colliderSize.y
             );
 
             raycastOrigins.BotRight = new Vector2(
                 (PlayerCollider.transform.position.x + PlayerCollider.offset.x) + colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) - colliderSize.y
+                (PlayerCollider.transform.position.y) - colliderSize.y
             );
 
             // Set directional raycasts
