@@ -83,13 +83,13 @@ namespace GoodLuckValley.UI.MainMenu
         /// Coroutine to show the UI Object
         /// </summary>
         /// <returns></returns>
-        public virtual async Task Show() { if (FadeInOut) await FadeIn(); }
+        protected virtual async Task Show(List<ImageData> images = null, List<TextData> texts = null, bool activateAll = true) { if (FadeInOut) await FadeIn(images, texts, activateAll); }
 
         /// <summary>
         /// Coroutine to hide the UI object
         /// </summary>
         /// <returns></returns>
-        public virtual async Task Hide() { if (FadeInOut) await FadeOut(); }
+        protected virtual async Task Hide(List<ImageData> images = null, List<TextData> texts = null, bool deactivateAll = true) { if (FadeInOut) await FadeOut(images, texts, deactivateAll); }
 
         /// <summary>
         /// Instantiate UI Lists
@@ -97,8 +97,8 @@ namespace GoodLuckValley.UI.MainMenu
         public virtual void InstantiateUILists()
         {
             // Store images and texts into lists
-            List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();
-            List<Text> texts = uiObject.GetComponentsInChildren<Text>().ToList();
+            List<Image> images = uiObject.GetComponentsInChildren<Image>(true).ToList();
+            List<Text> texts = uiObject.GetComponentsInChildren<Text>(true).ToList();
 
             // Add ImageDatas
             foreach (Image image in images)
@@ -110,6 +110,11 @@ namespace GoodLuckValley.UI.MainMenu
             foreach (Text text in texts)
             {
                 textDatas.Add(new TextData(text));
+            }
+
+            foreach(ImageData image in imageDatas)
+            {
+                Debug.Log(image.Image.color);
             }
         }
 
@@ -141,22 +146,41 @@ namespace GoodLuckValley.UI.MainMenu
         /// Fade in Images and Texts
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task FadeIn()
+        protected virtual async Task FadeIn(List<ImageData> images, List<TextData> texts, bool activateAll)
         {
             List<Task> imageTasks = new List<Task>();
             List<Task> textTasks = new List<Task>();
 
-            // Add each image fade-in as a task
-            foreach (ImageData imageData in imageDatas)
+            // Check whether or not to use the default elements
+            if (images == null || texts == null)
             {
-                imageTasks.Add(FadeInImage(imageData.Image, imageData.Color, FadeDuration));
+                // Add each image fade-in as a task
+                foreach (ImageData imageData in imageDatas)
+                {
+                    imageTasks.Add(FadeInImage(imageData.Image, imageData.Color, FadeDuration, activateAll));
+                }
+
+                // Add each text fade-in as a task
+                foreach (TextData textData in textDatas)
+                {
+                    textTasks.Add(FadeInText(textData.Text, textData.Color, FadeDuration, activateAll));
+                }
+            } else
+            {
+                // Add each image fade-in as a task
+                foreach (ImageData imageData in images)
+                {
+                    imageTasks.Add(FadeInImage(imageData.Image, imageData.Color, FadeDuration, activateAll));
+                }
+
+                // Add each text fade-in as a task
+                foreach (TextData textData in texts)
+                {
+                    textTasks.Add(FadeInText(textData.Text, textData.Color, FadeDuration, activateAll));
+                }
             }
 
-            // Add each text fade-in as a task
-            foreach (TextData textData in textDatas)
-            {
-                textTasks.Add(FadeInText(textData.Text, textData.Color, FadeDuration));
-            }
+            
 
             // Await until all tasks are finished
             await Task.WhenAll(imageTasks);
@@ -167,21 +191,38 @@ namespace GoodLuckValley.UI.MainMenu
         /// Fade out Images and Texts
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task FadeOut()
+        protected virtual async Task FadeOut(List<ImageData> images, List<TextData> texts, bool deactivateAll)
         {
             List<Task> imageTasks = new List<Task>();
             List<Task> textTasks = new List<Task>();
 
-            // Add each image fade-out as a task
-            foreach (ImageData imageData in imageDatas)
+            // Check whether or not to use the default elements
+            if(images == null || texts == null)
             {
-                imageTasks.Add(FadeOutImage(imageData.Image, imageData.Color, FadeDuration));
-            }
+                // Add each image fade-out as a task
+                foreach (ImageData imageData in imageDatas)
+                {
+                    imageTasks.Add(FadeOutImage(imageData.Image, imageData.Color, FadeDuration, deactivateAll));
+                }
 
-            // Add each text fade-out as a task
-            foreach (TextData textData in textDatas)
+                // Add each text fade-out as a task
+                foreach (TextData textData in textDatas)
+                {
+                    textTasks.Add(FadeOutText(textData.Text, textData.Color, FadeDuration, deactivateAll));
+                }
+            } else
             {
-                textTasks.Add(FadeOutText(textData.Text, textData.Color, FadeDuration));
+                // Add each image fade-out as a task
+                foreach (ImageData imageData in images)
+                {
+                    imageTasks.Add(FadeOutImage(imageData.Image, imageData.Color, FadeDuration, deactivateAll));
+                }
+
+                // Add each text fade-out as a task
+                foreach (TextData textData in texts)
+                {
+                    textTasks.Add(FadeOutText(textData.Text, textData.Color, FadeDuration, deactivateAll));
+                }
             }
 
             // Await until all tasks are finished
@@ -195,8 +236,10 @@ namespace GoodLuckValley.UI.MainMenu
         /// <param name="text">The Text object to fade in</param>
         /// <param name="duration">The duration of the fade</param>
         /// <returns></returns>
-        protected async Task FadeInText(Text text, Color textColor, float duration)
+        protected async Task FadeInText(Text text, Color textColor, float duration, bool activate)
         {
+            if(!text.gameObject.activeSelf && activate) text.gameObject.SetActive(true);
+
             // Set the elapsed time
             float elapsedTime = 0f;
 
@@ -230,7 +273,7 @@ namespace GoodLuckValley.UI.MainMenu
         /// <param name="text">The Text object to fade out</param>
         /// <param name="duration">The duration of the fade</param>
         /// <returns></returns>
-        protected async Task FadeOutText(Text text, Color textColor, float duration)
+        protected async Task FadeOutText(Text text, Color textColor, float duration, bool deactivate)
         {
             // Set the elapsed time
             float elapsedTime = 0f;
@@ -257,6 +300,9 @@ namespace GoodLuckValley.UI.MainMenu
             // Set the color to be fully visible
             color.a = 0f;
             text.color = color;
+
+            // De-activate the game object
+            if(deactivate) text.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -265,8 +311,10 @@ namespace GoodLuckValley.UI.MainMenu
         /// <param name="text">The Image object to fade in</param>
         /// <param name="duration">The duration of the fade</param>
         /// <returns></returns>
-        protected async Task FadeInImage(Image image, Color imageColor, float duration)
+        protected async Task FadeInImage(Image image, Color imageColor, float duration, bool activate)
         {
+            if (!image.gameObject.activeSelf && activate) image.gameObject.SetActive(true);
+
             // Set the elapsed time
             float elapsedTime = 0f;
 
@@ -300,7 +348,7 @@ namespace GoodLuckValley.UI.MainMenu
         /// <param name="text">The Image object to fade out</param>
         /// <param name="duration">The duration of the fade</param>
         /// <returns></returns>
-        protected async Task FadeOutImage(Image image, Color imageColor, float duration)
+        protected async Task FadeOutImage(Image image, Color imageColor, float duration, bool deactivate)
         {
             // Set the elapsed time
             float elapsedTime = 0f;
@@ -327,6 +375,9 @@ namespace GoodLuckValley.UI.MainMenu
             // Set the color to be fully visible
             color.a = 0f;
             image.color = color;
+
+            // De-activate the game object
+            if(deactivate) image.gameObject.SetActive(false);
         }
     }
 }

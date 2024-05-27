@@ -71,6 +71,9 @@ namespace GoodLuckValley.UI.MainMenu
 
         public override async void Enter()
         {
+            // Update the object
+            UpdateObject();
+
             if (!currentObject.activeSelf) currentObject.SetActive(true);
 
             // Check whether or not to fade
@@ -80,21 +83,40 @@ namespace GoodLuckValley.UI.MainMenu
                 MakeElementsInvisible();
             }
 
-            await Show();
+            // Check if using an alternative object
+            if(UsingAlt)
+            {
+                // Show the alternative
+                await Show(imageDatasAlt, textDatasAlt);
+            } else
+            {
+                // Show the default
+                await Show();
+            }
         }
 
         public override async void Exit()
         {
-            await Hide();
+            // Check if using an alternative object
+            if(UsingAlt)
+            {
+                // Hide the alternative
+                await Hide(imageDatasAlt, textDatasAlt);
+            } else
+            {
+                // Hide the default
+                await Hide();
+            }
 
+            // De-activate the current object
             currentObject.SetActive(false);
         }
 
         public override void InstantiateUILists()
         {
             // Store images and texts into lists
-            List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();
-            List<Text> texts = uiObject.GetComponentsInChildren<Text>().ToList();
+            List<Image> images = uiObject.GetComponentsInChildren<Image>(true).ToList();
+            List<Text> texts = uiObject.GetComponentsInChildren<Text>(true).ToList();
 
             // Add ImageDatas
             foreach (Image image in images)
@@ -113,13 +135,13 @@ namespace GoodLuckValley.UI.MainMenu
             List<Text> textsAlt = uiObjectAlt.GetComponentsInChildren<Text>().ToList();
 
             // Add alt ImageDatas
-            foreach (Image image in images)
+            foreach (Image image in imagesAlt)
             {
                 imageDatasAlt.Add(new ImageData(image));
             }
 
             // Add alt TextDatas
-            foreach (Text text in texts)
+            foreach (Text text in textsAlt)
             {
                 textDatasAlt.Add(new TextData(text));
             }
@@ -127,6 +149,7 @@ namespace GoodLuckValley.UI.MainMenu
 
         public void UpdateObject()
         {
+
             // Check if using alt and set the current object
             if (UsingAlt) 
                 currentObject = uiObjectAlt;

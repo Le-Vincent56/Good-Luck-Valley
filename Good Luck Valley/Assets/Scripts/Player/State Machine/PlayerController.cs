@@ -415,7 +415,13 @@ namespace GoodLuckValley.Player.StateMachine
             Vector2 topOrigin = (lastMovementDirection == -1f) ? raycastOrigins.TopLeft : raycastOrigins.TopRight;
             Vector2 midOrigin = (lastMovementDirection == -1f) ? raycastOrigins.MidLeft : raycastOrigins.MidRight;
             Vector2 botOrigin = (lastMovementDirection == -1f) ? raycastOrigins.BotLeft : raycastOrigins.BotRight;
+
+            // Adjust bot origin
+            botOrigin.y += PlayerCollider.offset.y;
+
+            // Raycast for collisions
             RaycastHit2D topWallHit = Physics2D.Raycast(topOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
+            RaycastHit2D topSlopeHit = Physics2D.Raycast(topOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.slopeLayer);
             RaycastHit2D midWallHit = Physics2D.Raycast(midOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
             RaycastHit2D botWallHit = Physics2D.Raycast(botOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.wallLayer);
             RaycastHit2D topGroundHit = Physics2D.Raycast(topOrigin, Vector2.right * lastMovementDirection, wallCheckDist, playerData.groundLayer);
@@ -430,8 +436,12 @@ namespace GoodLuckValley.Player.StateMachine
             if (topWallHit || midWallHit || botWallHit ||
                 topGroundHit || midGroundHit || botGroundHit)
             {
-                SetPlayerFriction(noFriction);;
-            } else
+                SetPlayerFriction(noFriction);
+            } else if(topSlopeHit) // Prevent the head from getting stuck on slopes as well
+            {
+                SetPlayerFriction(noFriction);
+            }
+            else
             {
                 SetPlayerFriction(null);
             }

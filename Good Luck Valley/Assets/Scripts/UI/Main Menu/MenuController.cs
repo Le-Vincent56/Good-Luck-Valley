@@ -25,6 +25,9 @@ namespace GoodLuckValley.UI.MainMenu
 
         private void Awake()
         {
+            // Set time scale to normal time
+            Time.timeScale = 1.0f;
+
             // Create a new state machine
             StateMachine = new MenuStateMachine();
 
@@ -98,8 +101,6 @@ namespace GoodLuckValley.UI.MainMenu
         /// </summary>
         public void UpdateUIFromSaveData()
         {
-            Debug.Log(SaveLoadSystem.Instance.GetSaveCount());
-
             // Get save count
             if (SaveLoadSystem.Instance.GetSaveCount() != 0)
             {

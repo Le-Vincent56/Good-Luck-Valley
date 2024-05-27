@@ -15,17 +15,24 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.Enter();
 
-            // Set gravity to 0 and stop player movement
-            if(stateMachine.PreviousState is PlayerSlopeState)
-            {
-                player.SetGravityScale(0f);
-                player.RB.velocity = Vector2.zero;
-            }
+            //// Set gravity to 0 and stop player movement
+            //if(stateMachine.PreviousState is PlayerSlopeState)
+            //{
+            //    player.SetGravityScale(0f);
+            //    player.RB.velocity = Vector2.zero;
+            //}
         }
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
+
+            // Has a chance of cancelling jump, so we need guard clauses
+            if(isOnSlope && (stateMachine.CurrentState is not PlayerJumpState && stateMachine.PreviousState is not PlayerJumpState))
+            {
+                player.SetGravityScale(0f);
+                player.RB.velocity = Vector2.zero;
+            }
 
             // Exit case - player is moving and not paused
             if(xInput != 0f && !player.Paused)

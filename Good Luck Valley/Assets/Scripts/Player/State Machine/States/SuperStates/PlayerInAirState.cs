@@ -25,7 +25,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         {
             base.DoChecks();
 
-            isGrounded = player.CheckIfGrounded();
+            isGrounded = player.CheckIfGrounded() || player.CheckIfGroundedLine();
             isBouncing = player.CheckIfBouncing();
             isOnWall = player.CheckIfWalled();
             isOnTopOfWall = player.CheckIfOnTopOfMushWall();

@@ -51,12 +51,12 @@ namespace GoodLuckValley.UI.MainMenu
                 MakeElementsInvisible();
             }
 
-            await Show();
+            await Show(imageDatas, textDatas, false);
         }
 
         public override async void Exit()
         {
-            await Hide();
+            await Hide(imageDatas, textDatas, false);
 
             // Set the selected slot to null
             loadController.SetSlot(null);
@@ -67,9 +67,9 @@ namespace GoodLuckValley.UI.MainMenu
         public override void InstantiateUILists()
         {
             // Store images and texts into lists
-            List<Image> images = uiObject.GetComponentsInChildren<Image>().ToList();
-            List<Text> texts = uiObject.GetComponentsInChildren<Text>().ToList();
-            List<Button> buttonsAll = uiObject.GetComponentsInChildren<Button>().ToList();
+            List<Image> images = uiObject.GetComponentsInChildren<Image>(true).ToList();
+            List<Text> texts = uiObject.GetComponentsInChildren<Text>(true).ToList();
+            List<Button> buttonsAll = uiObject.GetComponentsInChildren<Button>(true).ToList();
 
             // Add ImageDatas
             foreach (Image image in images)
@@ -93,7 +93,7 @@ namespace GoodLuckValley.UI.MainMenu
             }
 
             // Add Save Slots
-            saveSlots = uiObject.GetComponentsInChildren<SaveSlot>().ToList();
+            saveSlots = uiObject.GetComponentsInChildren<SaveSlot>(true).ToList();
         }
 
         /// <summary>

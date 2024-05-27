@@ -25,7 +25,7 @@ namespace GoodLuckValley.UI.MainMenu
         public void Start()
         {
             // Get a list of the pop up menus
-            List<ConfirmationPopupMenu> popUpMenus = GetComponentsInChildren<ConfirmationPopupMenu>().ToList();
+            List<ConfirmationPopupMenu> popUpMenus = GetComponentsInChildren<ConfirmationPopupMenu>(true).ToList();
 
             // Add pop up menus to the dictionary
             foreach(ConfirmationPopupMenu popUpMenu in popUpMenus)
@@ -118,6 +118,24 @@ namespace GoodLuckValley.UI.MainMenu
                 },
                 () => { } // Cancel
             );
+        }
+
+        /// <summary>
+        /// Go back to the Main Menu
+        /// </summary>
+        public void BackButton()
+        {
+            // Close all menus
+            foreach(KeyValuePair<string, ConfirmationPopupMenu> kvp in popUps)
+            {
+                if(kvp.Value.gameObject.activeSelf)
+                {
+                    kvp.Value.DeactivateMenu();
+                }
+            }
+
+            // Go back to the Main Menu
+            menuController.SetState(1);
         }
 
         /// <summary>

@@ -8,6 +8,8 @@ namespace GoodLuckValley.Player.StateMachine.States
     {
         private bool isJumping;
         private bool isJumpCut;
+        private float jumpTimer;
+        private float jumpBuffer;
 
         public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
@@ -33,6 +35,9 @@ namespace GoodLuckValley.Player.StateMachine.States
                 player.SetGravityScale(playerData.gravityScale);
 
                 Jump();
+
+                jumpTimer = 0.4f;
+                jumpBuffer = jumpTimer;
             }
         }
 
@@ -47,6 +52,7 @@ namespace GoodLuckValley.Player.StateMachine.States
 
             // Update timers
             player.InputHandler.LastPressedJumpTime -= Time.deltaTime;
+            jumpBuffer -= Time.deltaTime;
 
             // Check for input changes - jump cut
             if (player.InputHandler.TryJumpCut)
@@ -84,6 +90,14 @@ namespace GoodLuckValley.Player.StateMachine.States
 
                 // Change to the wall slide state
                 stateMachine.ChangeState(player.WallSlideState);
+            }
+            else if (isOnSlope && jumpBuffer <= 0f) // Exit case - end early if on a slope
+            {
+                // End the jump
+                EndJump();
+
+                // Change to the land state
+                stateMachine.ChangeState(player.LandState);
             }
         }
 
