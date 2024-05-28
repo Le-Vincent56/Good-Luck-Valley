@@ -45,48 +45,68 @@ namespace GoodLuckValley.Level
 
             // Set initial viewports
             currentMainViewport = CalcViewportRectMain();
-            previousCMViewport = CalcViewportRectCM();
-            currentCMViewport = previousCMViewport;
+            if(smartCam != null)
+            {
+                previousCMViewport = CalcViewportRectCM();
+                currentCMViewport = previousCMViewport;
 
-            // Initial bounds
-            currentBounds = new ScreenBounds(
-                currentCMViewport.xMin,
-                currentCMViewport.xMax,
-                currentCMViewport.yMin,
-                currentCMViewport.yMax
-            );
+                // Initial bounds
+                currentBounds = new ScreenBounds(
+                    currentCMViewport.xMin,
+                    currentCMViewport.xMax,
+                    currentCMViewport.yMin,
+                    currentCMViewport.yMax
+                );
+            }
+            else
+            {
+                // Set the initial bounds to the static camera
+                currentBounds = new ScreenBounds(
+                    currentMainViewport.xMin,
+                    currentMainViewport.xMax,
+                    currentMainViewport.yMin,
+                    currentMainViewport.yMax
+                );
+            }
+
+            // Update the bounds
+            onUpdateScreenBounds.Raise(this, currentBounds);
         }
 
         // Update is called once per frame
         void Update()
         {
-            // Update the current viewport
-            currentMainViewport = CalcViewportRectMain();
-            currentCMViewport = CalcViewportRectCM();
-
-            // Check if it is worth updating the viewports
-            if (DiffCMViewports())
+            // Only update if using Cinemachine, else the camera is stationary
+            if (smartCam != null)
             {
-                // Calculate width offset and set bounds
-                float widthOffset = currentCMViewport.x - currentMainViewport.x;
-                currentBounds.Left = currentCMViewport.xMin - widthOffset;
-                currentBounds.Right = currentCMViewport.xMax - widthOffset;
+                // Update the current viewport
+                currentMainViewport = CalcViewportRectMain();
+                currentCMViewport = CalcViewportRectCM();
 
-                // Calculate height offset and set bounds
-                float heightOffset = currentCMViewport.y - currentMainViewport.y;
-                currentBounds.Bottom = currentCMViewport.yMin - heightOffset;
-                currentBounds.Top = currentCMViewport.yMax - heightOffset;
+                // Check if it is worth updating the viewports
+                if (DiffCMViewports())
+                {
+                    // Calculate width offset and set bounds
+                    float widthOffset = currentCMViewport.x - currentMainViewport.x;
+                    currentBounds.Left = currentCMViewport.xMin - widthOffset;
+                    currentBounds.Right = currentCMViewport.xMax - widthOffset;
 
-                // Raise events to update bounds
-                //  - Calls to: GameCursor.UpdateCursorBounds
-                onUpdateScreenBounds.Raise(this, currentBounds);
+                    // Calculate height offset and set bounds
+                    float heightOffset = currentCMViewport.y - currentMainViewport.y;
+                    currentBounds.Bottom = currentCMViewport.yMin - heightOffset;
+                    currentBounds.Top = currentCMViewport.yMax - heightOffset;
 
-                // Raise events on camera move
-                //  - Calls to: TODO: PARALLAX
-                onCameraMove.Raise(this, true);
+                    // Raise events to update bounds
+                    //  - Calls to: GameCursor.UpdateCursorBounds
+                    onUpdateScreenBounds.Raise(this, currentBounds);
+
+                    // Raise events on camera move
+                    //  - Calls to: TODO: PARALLAX
+                    onCameraMove.Raise(this, true);
+                }
+
+                previousCMViewport = currentCMViewport;
             }
-
-            previousCMViewport = currentCMViewport;
         }
 
         /// <summary>

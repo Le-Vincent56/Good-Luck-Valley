@@ -45,6 +45,11 @@ namespace GoodLuckValley.UI
             transform.position = cursorPosition;
         }
 
+        /// <summary>
+        /// Enable/Disable cursor visibility
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void OnHandleCursorVisibility(Component sender, object data)
         {
             // Check if the correct data type
@@ -60,6 +65,9 @@ namespace GoodLuckValley.UI
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
 
+        /// <summary>
+        /// Clamp the cursor position within the screen bounds
+        /// </summary>
         private void CheckCursorBoundsPlayer()
         {
             // Clamp the cursor position into the bounds of the screen
@@ -67,6 +75,11 @@ namespace GoodLuckValley.UI
             cursorPosition.y = Mathf.Clamp(cursorPosition.y, cursorBounds.Bottom, cursorBounds.Top);
         }
 
+        /// <summary>
+        /// Update the bounds that the cursor is restricted to
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void UpdateCursorBounds(Component sender, object data)
         {
             // Make sure the correct data was sent
@@ -76,6 +89,11 @@ namespace GoodLuckValley.UI
             cursorBounds = (CameraData.ScreenBounds)data;
         }
 
+        /// <summary>
+        /// Incorporate cursor position into the throw position
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void SetThrowData(Component sender, object data)
         {
             if (sender is not ThrowLine) return;
