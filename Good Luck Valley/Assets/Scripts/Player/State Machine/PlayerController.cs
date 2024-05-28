@@ -639,12 +639,12 @@ namespace GoodLuckValley.Player.StateMachine
         {
             raycastOrigins.TopLeft = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) - colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y * (3f / 4f))
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y)
             );
 
             raycastOrigins.TopRight = new Vector2(
                 (PlayerCollider.transform.position.x - PlayerCollider.offset.x) + colliderSize.x,
-                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y * (3f/4f))
+                (PlayerCollider.transform.position.y + PlayerCollider.offset.y) + (colliderSize.y)
             );
 
             raycastOrigins.MidLeft = new Vector2(
