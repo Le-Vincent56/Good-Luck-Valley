@@ -111,11 +111,6 @@ namespace GoodLuckValley.UI.MainMenu
             {
                 textDatas.Add(new TextData(text));
             }
-
-            foreach(ImageData image in imageDatas)
-            {
-                Debug.Log(image.Image.color);
-            }
         }
 
         /// <summary>
