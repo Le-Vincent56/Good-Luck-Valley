@@ -6,7 +6,7 @@ namespace GoodLuckValley.Player.StateMachine.States
 {
     public class PlayerFastWallSlideState : PlayerWallState
     {
-        public PlayerFastWallSlideState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+        public PlayerFastWallSlideState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

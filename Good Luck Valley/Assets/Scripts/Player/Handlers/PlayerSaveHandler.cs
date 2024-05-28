@@ -11,7 +11,7 @@ namespace GoodLuckValley.Player.Handlers
     {
         #region REFERENCES
         [SerializeField] private PlayerSaveData data;
-        [SerializeField] private PlayerController player;
+        [SerializeField] private PlayerControllerOld player;
         #endregion
 
         #region PROPERTIES

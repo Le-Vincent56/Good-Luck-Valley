@@ -11,7 +11,7 @@ using GoodLuckValley.Persistence;
 
 namespace GoodLuckValley.Player.StateMachine
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerControllerOld : MonoBehaviour
     {
         public struct RaycastData
         {

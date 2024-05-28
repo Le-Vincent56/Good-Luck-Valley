@@ -17,7 +17,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         protected bool isOnSlope;
         #endregion
 
-        public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+        public PlayerGroundedState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

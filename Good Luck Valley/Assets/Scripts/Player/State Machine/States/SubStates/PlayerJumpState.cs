@@ -11,7 +11,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         private float jumpTimer;
         private float jumpBuffer;
 
-        public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+        public PlayerJumpState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

@@ -1,3 +1,4 @@
+using GoodLuckValley.Player.Control;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.StateMachine
@@ -12,10 +13,10 @@ namespace GoodLuckValley.Player.StateMachine
 
         protected const float crossFadeDuration = 0.1f;
 
-        protected BaseState(PlayerController player)
+        protected BaseState(PlayerController player, Animator animator)
         {
             this.player = player;
-            animator = player.GetComponent<Animator>();
+            this.animator = animator;
         }
 
         public virtual void FixedUpdate()

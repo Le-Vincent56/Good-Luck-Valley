@@ -10,7 +10,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         private bool isWallJumping;
         #endregion
 
-        public PlayerWallJumpState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+        public PlayerWallJumpState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

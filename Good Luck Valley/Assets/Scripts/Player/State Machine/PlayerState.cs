@@ -10,7 +10,7 @@ namespace GoodLuckValley.Player.StateMachine
     public class PlayerState
     {
         #region REFERENCES
-        protected PlayerController player;
+        protected PlayerControllerOld player;
         protected PlayerStateMachine stateMachine;
         protected PlayerData playerData;
         #endregion
@@ -21,7 +21,7 @@ namespace GoodLuckValley.Player.StateMachine
         private string animationBoolName;
         #endregion
 
-        public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
+        public PlayerState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
         {
             this.player = player;
             this.stateMachine = stateMachine;

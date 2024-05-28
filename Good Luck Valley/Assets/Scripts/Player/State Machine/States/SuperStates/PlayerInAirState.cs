@@ -16,7 +16,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         private bool isOnSlope;
         #endregion
 
-        public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+        public PlayerInAirState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

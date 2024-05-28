@@ -18,7 +18,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         public ForceMode2D ForceMode { get; set; }
         #endregion
 
-        public PlayerBounceState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
+        public PlayerBounceState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
                 : base(player, stateMachine, playerData, animationBoolName)
         {
             bounceBuffer = 0.5f;

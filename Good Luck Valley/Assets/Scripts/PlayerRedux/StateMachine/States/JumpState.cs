@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using GoodLuckValley.Player.Control;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.StateMachine
 {
     public class JumpState : BaseState
     {
-        public JumpState(PlayerController player) : base(player) { }
+        public JumpState(PlayerController player, Animator animator) : base(player, animator) { }
 
         public override void OnEnter()
         {

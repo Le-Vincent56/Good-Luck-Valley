@@ -17,7 +17,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         private bool isOnWall;
         #endregion
 
-        public PlayerWallState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+        public PlayerWallState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

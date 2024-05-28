@@ -7,7 +7,7 @@ namespace GoodLuckValley.Player.StateMachine.States
 {
     public class PlayerFallState : PlayerInAirState
     {
-        public PlayerFallState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
+        public PlayerFallState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName)
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

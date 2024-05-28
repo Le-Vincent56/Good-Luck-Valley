@@ -22,7 +22,7 @@ namespace GoodLuckValley.Player.StateMachine.States
         public float Angle { get; set; }
         public Vector2 ContactPoint { get; set; }
 
-        public PlayerSlopeState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
+        public PlayerSlopeState(PlayerControllerOld player, PlayerStateMachine stateMachine, PlayerData playerData, string animationBoolName) 
             : base(player, stateMachine, playerData, animationBoolName)
         {
         }

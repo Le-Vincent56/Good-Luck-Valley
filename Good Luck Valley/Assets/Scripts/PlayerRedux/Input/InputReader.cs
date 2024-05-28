@@ -10,52 +10,94 @@ namespace GoodLuckValley.Player.Input
     {
         public event UnityAction<Vector2> Move = delegate { };
         public event UnityAction<bool> Jump = delegate { };
-        public event UnityAction<bool, bool> Throw = delegate { };
         public event UnityAction<bool> FastFall = delegate { };
+        public event UnityAction<bool, bool> Throw = delegate { };
+        public event UnityAction<bool> QuickBounce = delegate { };
+        public event UnityAction<bool> RecallLast = delegate { };
+        public event UnityAction<bool> RecallAll = delegate { };
+        public event UnityAction<bool> Interact = delegate { };
+        public event UnityAction<bool> Pause = delegate { };
+
+        PlayerInputActions inputActions;
+        public Vector3 Direction => inputActions.PlayerControls.Move.ReadValue<Vector2>();
+
+        void OnEnable()
+        {
+            // Check if the input actions have been set
+            if(inputActions == null)
+            {
+                // If not, create a new one and set callbacks
+                inputActions = new PlayerInputActions();
+                inputActions.PlayerControls.SetCallbacks(this);
+            }
+
+            // Enable the input actions
+            inputActions.Enable();
+        }
 
         public void OnFastFall(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            if (context.started)
+            {
+                FastFall.Invoke(context.started);
+            }
+            else if (context.canceled)
+            {
+                FastFall.Invoke(context.started);
+            }
         }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            Interact.Invoke(context.started);
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            if(context.started)
+            {
+                Jump.Invoke(context.started);
+            } else if(context.canceled)
+            {
+                Jump.Invoke(context.started);
+            }
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            Move.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnPause(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            Pause.Invoke(context.started);
         }
 
         public void OnQuickBounce(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            QuickBounce.Invoke(context.started);
         }
 
         public void OnRecallAll(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            RecallAll.Invoke(context.started);
         }
 
         public void OnRecallLast(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            RecallLast.Invoke(context.started);
         }
 
         public void OnThrow(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            if(context.started)
+            {
+                Throw.Invoke(context.started, context.canceled);
+            } else if(context.canceled)
+            {
+                Throw.Invoke(context.started, context.canceled);
+            }
+            
         }
     }
 }

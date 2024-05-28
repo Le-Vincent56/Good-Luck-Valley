@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using GoodLuckValley.Player.Control;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.StateMachine
 {
     public class LocomotionState : BaseState
     {
-        public LocomotionState(PlayerController player) : base(player) { }
+        public LocomotionState(PlayerController player, Animator animator) : base(player, animator) { }
 
         public override void OnEnter()
         {
@@ -15,8 +14,7 @@ namespace GoodLuckValley.Player.StateMachine
 
         public override void FixedUpdate()
         {
-            // Call Player's jump logic and move logic
-            base.FixedUpdate();
+            //player.Move();
         }
     }
 }

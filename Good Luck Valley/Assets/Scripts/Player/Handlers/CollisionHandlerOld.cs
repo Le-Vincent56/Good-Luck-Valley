@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GoodLuckValley.Player.Handlers
 {
-    public class CollisionHandler : MonoBehaviour
+    public class CollisionHandlerOld : MonoBehaviour
     {
         #region EVENTS
         [Header("Events")]

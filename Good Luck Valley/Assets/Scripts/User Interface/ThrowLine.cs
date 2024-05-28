@@ -21,7 +21,7 @@ namespace GoodLuckValley.UI
 
         #region REFERENCES
         [Header("Objects")]
-        [SerializeField] private PlayerController player;
+        [SerializeField] private PlayerControllerOld player;
         #endregion
 
         #region FIELDS
@@ -388,7 +388,7 @@ namespace GoodLuckValley.UI
             this.cursorPosition = cursorPosition;
         }
 
-        public void SetPlayerController(PlayerController playerController)
+        public void SetPlayerController(PlayerControllerOld playerController)
         {
             this.player = playerController;
         }
