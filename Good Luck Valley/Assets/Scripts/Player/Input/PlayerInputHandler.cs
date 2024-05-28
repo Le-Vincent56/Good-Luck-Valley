@@ -21,6 +21,18 @@ namespace GoodLuckValley.Player.Handlers
             }
         }
 
+        public struct DevTools
+        {
+            public bool NoClip;
+            public bool EnabledShroom;
+
+            public DevTools(bool noClip, bool enabledShroom)
+            {
+                NoClip = noClip;
+                EnabledShroom = enabledShroom;
+            }
+        }
+
         #region EVENTS
         [Header("Events")]
         [SerializeField] private GameEvent onThrow;
@@ -31,6 +43,10 @@ namespace GoodLuckValley.Player.Handlers
         [SerializeField] private GameEvent onQuickBounce;
         [SerializeField] private GameEvent onInteract;
         [SerializeField] private GameEvent onPause;
+        [SerializeField] private GameEvent onDevTools;
+        [SerializeField] private GameEvent onNoClip;
+        [SerializeField] private GameEvent onToggleShroom;
+        [SerializeField] private GameEvent onUpdateDevToolsUI;
         #endregion
 
         #region REFERENCES
@@ -39,7 +55,10 @@ namespace GoodLuckValley.Player.Handlers
         #endregion
 
         #region FIELDS
-        private bool paused;
+        private bool paused = false;
+        private bool devTools = false;
+        private bool noClip = false;
+        private bool unlockMushroom = false;
         #endregion
 
         #region PROPERTIES
@@ -67,7 +86,7 @@ namespace GoodLuckValley.Player.Handlers
 
             // Normalize inputs for consistent controller speeds
             NormInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
-            NormInputY = (int)(RawMovementInput * Vector2.right).normalized.y;
+            NormInputY = (int)(RawMovementInput * Vector2.up).normalized.y;
         }
 
         /// <summary>
@@ -239,6 +258,39 @@ namespace GoodLuckValley.Player.Handlers
             // Set paused
             bool paused = (bool)data;
             this.paused = paused;
+        }
+
+        public void OnDevTools(InputAction.CallbackContext context)
+        {
+            if(context.started)
+            {
+                devTools = !devTools;
+                onDevTools.Raise(this, devTools);
+            }
+        }
+
+        public void OnNoClip(InputAction.CallbackContext context)
+        {
+            if (!devTools) return;
+
+            if(context.started)
+            {
+                noClip = !noClip;
+                onNoClip.Raise(this, noClip);
+                onUpdateDevToolsUI.Raise(this, new DevTools(noClip, unlockMushroom));
+            }
+        }
+
+        public void OnToggleShroom(InputAction.CallbackContext context)
+        {
+            if (!devTools) return;
+
+            if (context.started)
+            {
+                unlockMushroom = !unlockMushroom;
+                onToggleShroom.Raise(this, unlockMushroom);
+                onUpdateDevToolsUI.Raise(this, new DevTools(noClip, unlockMushroom));
+            }
         }
     }
 }

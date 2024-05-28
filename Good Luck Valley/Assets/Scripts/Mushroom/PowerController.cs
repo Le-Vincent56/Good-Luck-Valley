@@ -92,5 +92,15 @@ namespace GoodLuckValley.Mushroom
             // Update save data
             UpdateData();
         }
+
+        public void SetUnlockMushroom(Component sender, object data)
+        {
+            if (data is not bool) return;
+
+            bool unlock = (bool)data;
+
+            unlockedThrow = unlock;
+            unlockedWallJump = unlock;
+        }
     }
 }

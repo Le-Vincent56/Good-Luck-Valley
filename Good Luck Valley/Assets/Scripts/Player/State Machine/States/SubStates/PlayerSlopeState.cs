@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace GoodLuckValley.Player.StateMachine.States
 {
@@ -69,6 +70,20 @@ namespace GoodLuckValley.Player.StateMachine.States
 
         public void MoveOnSlope(float lerpAmount)
         {
+            if (player.CheckIfNoClip())
+            {
+                float xMovement = player.InputHandler.NormInputX * player.NoClipSpeed;
+                float yMovement = player.InputHandler.NormInputY * player.NoClipSpeed;
+
+                player.transform.position += Vector3.right * xMovement;
+                player.transform.position += Vector3.up * yMovement;
+
+                player.CheckDirectionToFace(player.InputHandler.NormInputX > 0);
+
+                return;
+
+            }
+
             // Calculate the direction we want to move in and our desired velocity
             float targetSpeed = player.InputHandler.NormInputX * playerData.runMaxSpeed;
 

@@ -27,7 +27,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             base.LogicUpdate();
 
             // Clamp fall velocity
-            player.RB.velocity = new Vector2(player.RB.velocity.x, Mathf.Max(player.RB.velocity.y, -playerData.maxFallSpeed));
+            if(!player.CheckIfNoClip()) player.RB.velocity = new Vector2(player.RB.velocity.x, Mathf.Max(player.RB.velocity.y, -playerData.maxFallSpeed));
         }
     }
 }

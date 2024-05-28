@@ -85,12 +85,39 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DevTools",
+                    "type": "Button",
+                    "id": "6b75abe9-889f-4a03-a42a-4ac28c2c7aef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "No Clip",
+                    "type": "Button",
+                    "id": "f0d28a6d-c480-4193-941b-87e4c4ca4ece",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Toggle Mushroom",
+                    "type": "Button",
+                    "id": "6424c686-eb71-4cec-8a43-46eee57026e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "2D Vector",
-                    "id": "5877c6ab-2c1c-4fd5-8a61-bbef42e4c7b3",
+                    "id": "850644e7-3d77-4daa-9911-710656e65db6",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -100,8 +127,19 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "up",
+                    "id": "92403563-9e76-4be2-876d-424fc77bb148",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "down",
-                    "id": "655e6809-3607-425f-84c7-521ade49bb3b",
+                    "id": "4df3e331-7b70-4b29-8630-4f41b96fc730",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -112,7 +150,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "0e5f1191-da84-4a34-991b-a88b116b1a84",
+                    "id": "923ec307-a3ba-4c8a-be1e-c9002f43e7c2",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -123,7 +161,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "41c87b6c-6bf0-439c-88b1-ef5badc44213",
+                    "id": "6bc0bcd5-474c-40ba-9342-8ce5648b3381",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -217,6 +255,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c190a19-3b45-490f-8e5b-468ade6300ba",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DevTools",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d9c6d07-36a3-4ae2-b739-f4f2e62d74d8",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "No Clip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a052f353-2577-4d62-94b1-31c4b740c487",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Mushroom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -71,11 +71,11 @@ namespace GoodLuckValley.Player.StateMachine.States
             {
                 stateMachine.ChangeState(player.WallSlideState);
             }
-            else if (isOnTopOfWall) // Exit case - on top of a wall
+            else if (isOnTopOfWall && !player.CheckIfNoClip()) // Exit case - on top of a wall
             {
                 stateMachine.ChangeState(player.LandState);
             }
-            else if (isGrounded) // Exit case - player is grounded
+            else if (isGrounded && !player.CheckIfNoClip()) // Exit case - player is grounded
             {
                 stateMachine.ChangeState(player.LandState);
             }

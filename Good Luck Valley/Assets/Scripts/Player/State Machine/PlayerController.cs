@@ -61,6 +61,9 @@ namespace GoodLuckValley.Player.StateMachine
         private bool isBouncing = false;
         private bool isWallJumping = false;
         private int lastMovementDirection;
+        private bool isDev = false;
+        private bool noClip = false;
+        private float noClipSpeed = 1f;
         #endregion
 
         #region PROPERTIES
@@ -85,6 +88,7 @@ namespace GoodLuckValley.Player.StateMachine
         public bool IsFacingRight { get { return isFacingRight; } set {  isFacingRight = value; } }
         public PhysicsMaterial2D GroundFriction { get { return groundFriction; } }
         public bool Paused { get; private set; }
+        public float NoClipSpeed { get { return noClipSpeed; } }
         #endregion
 
         private void Awake()
@@ -159,6 +163,16 @@ namespace GoodLuckValley.Player.StateMachine
         }
 
         #region CHECK FUNCTIONS
+        public bool CheckIfDev()
+        {
+            return isDev;
+        }
+
+        public bool CheckIfNoClip()
+        {
+            return noClip;
+        }
+
         /// <summary>
         /// Check if the Player is grounded
         /// </summary>
@@ -374,6 +388,21 @@ namespace GoodLuckValley.Player.StateMachine
         /// <param name="lerpAmount">The amount to sooth movement by</param>
         public void Move(float lerpAmount, bool inAir = false, bool bouncing = false)
         {
+            if(noClip)
+            {
+                float xMovement = InputHandler.NormInputX * noClipSpeed;
+                float yMovement = InputHandler.NormInputY * noClipSpeed;
+
+                transform.position += Vector3.right * xMovement;
+                transform.position += Vector3.up * yMovement;
+
+                CheckDirectionToFace(InputHandler.NormInputX > 0);
+
+                return;
+
+            }
+
+
             // Calculate the direction we want to move in and our desired velocity
             float targetSpeed = InputHandler.NormInputX * playerData.runMaxSpeed;
 
@@ -668,6 +697,30 @@ namespace GoodLuckValley.Player.StateMachine
         public void SetPlayerFriction(PhysicsMaterial2D material)
         {
             RB.sharedMaterial = material;
+        }
+
+        public void ToggleDevTools(Component sender, object data)
+        {
+            if (data is not bool) return;
+
+            // Set dev tools
+            bool devTools = (bool)data;
+            isDev = devTools;
+        }
+
+        public void ToggleNoClip(Component sender, object data)
+        {
+            if (data is not bool) return;
+
+            // Set noclip
+            bool noClip = (bool)data;
+            this.noClip = noClip;
+
+            // Disable collider
+            PlayerCollider.isTrigger = noClip;
+
+            // Set the Rigid body type
+            RB.bodyType = noClip ? RigidbodyType2D.Static : RigidbodyType2D.Dynamic;
         }
         #endregion
 

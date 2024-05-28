@@ -55036,6 +55036,7 @@ RectTransform:
   m_Children:
   - {fileID: 2085626778}
   - {fileID: 87063721}
+  - {fileID: 1041060838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -61701,6 +61702,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4646058849056595313, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
   m_PrefabInstance: {fileID: 798097146}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &805508104 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6877327489505880501, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+  m_PrefabInstance: {fileID: 1872677032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &805508109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 677031571434595261, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+  m_PrefabInstance: {fileID: 1872677032}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805508104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4226ac30fc6544d81cef94a2f6dfa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &805508110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805508104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 0a1599d4825ce1044acaa3c473b0b9e7, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 805508109}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.PowerController, Assembly-CSharp
+        m_MethodName: SetUnlockMushroom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &806146658
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63914,6 +63959,123 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4646058849056595313, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
   m_PrefabInstance: {fileID: 1040966293}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1041060837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1041060838}
+  - component: {fileID: 1041060839}
+  - component: {fileID: 1041060841}
+  - component: {fileID: 1041060840}
+  - component: {fileID: 1041060842}
+  m_Layer: 5
+  m_Name: Dev Tools Overlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1041060838
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041060837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1105646315}
+  m_Father: {fileID: 293260127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1041060839
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041060837}
+  m_CullTransparentMesh: 1
+--- !u!114 &1041060840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041060837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: e937a087340ddbc428af4f9642f3ef07, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1041060841}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.DevTools.DevToolsUI, Assembly-CSharp
+        m_MethodName: ToggleDevTools
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1041060841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041060837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1834ed12a5cf1b48beb08bf9c49e18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: {fileID: 1105646316}
+--- !u!114 &1041060842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041060837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 35f4aab88500fdb48bb146d7b660fc68, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1041060841}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.DevTools.DevToolsUI, Assembly-CSharp
+        m_MethodName: UpdateUI
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1045805516
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64468,6 +64630,85 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4646058849056595313, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
   m_PrefabInstance: {fileID: 1089638660}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1105646314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105646315}
+  - component: {fileID: 1105646317}
+  - component: {fileID: 1105646316}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1105646315
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105646314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1041060838}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.81923944, y: 0}
+  m_AnchorMax: {x: 1, y: 0.089240745}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1105646316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105646314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 45
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 60
+    m_Alignment: 8
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Dev Tools Enabled
+--- !u!222 &1105646317
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105646314}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1106811091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73702,6 +73943,118 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionId
+      value: 6b75abe9-889f-4a03-a42a-4ac28c2c7aef
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionId
+      value: f0d28a6d-c480-4193-941b-87e4c4ca4ece
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_ActionId
+      value: 6424c686-eb71-4cec-8a43-46eee57026e5
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionName
+      value: Player Controls/DevTools[/Keyboard/minus]
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionName
+      value: Player Controls/No Clip[/Keyboard/1]
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_ActionName
+      value: Player Controls/Toggle Mushroom[/Keyboard/2]
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1872677034}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1872677034}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1872677034}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDevTools
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnNoClip
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnToggleShroom
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GoodLuckValley.Player.Handlers.PlayerInputHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GoodLuckValley.Player.Handlers.PlayerInputHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GoodLuckValley.Player.Handlers.PlayerInputHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 399778580978142399, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4585694999404557370, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
       propertyPath: m_Size.x
       value: 0.4317836
@@ -73746,6 +74099,22 @@ PrefabInstance:
       propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8523122393742616255, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: onNoClip
+      value: 
+      objectReference: {fileID: 11400000, guid: 46d2cc73b30d34a42a01230bad5b478c, type: 2}
+    - target: {fileID: 8523122393742616255, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: onDevTools
+      value: 
+      objectReference: {fileID: 11400000, guid: e937a087340ddbc428af4f9642f3ef07, type: 2}
+    - target: {fileID: 8523122393742616255, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: onToggleShroom
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a1599d4825ce1044acaa3c473b0b9e7, type: 2}
+    - target: {fileID: 8523122393742616255, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      propertyPath: onUpdateDevToolsUI
+      value: 
+      objectReference: {fileID: 11400000, guid: 35f4aab88500fdb48bb146d7b660fc68, type: 2}
     - target: {fileID: 8986518155532680439, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.95
@@ -73809,19 +74178,102 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 87660909121500713, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1872677040}
+    - targetCorrespondingSourceObject: {fileID: 87660909121500713, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1872677041}
+    - targetCorrespondingSourceObject: {fileID: 6877327489505880501, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 805508110}
   m_SourcePrefab: {fileID: 100100000, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+--- !u!1 &1872677033 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 87660909121500713, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+  m_PrefabInstance: {fileID: 1872677032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1872677034 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8523122393742616255, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
+  m_PrefabInstance: {fileID: 1872677032}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872677033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f150195a2d3cdcd47acb702509495f38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1872677039 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8996800508523929119, guid: c54190387ae051c46a0eaba0d8804e38, type: 3}
   m_PrefabInstance: {fileID: 1872677032}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1872677033}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb07c92abe2ce4642a2fc9ab0e155f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1872677040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872677033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: e937a087340ddbc428af4f9642f3ef07, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1872677039}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.StateMachine.PlayerController,
+          Assembly-CSharp
+        m_MethodName: ToggleDevTools
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1872677041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872677033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 46d2cc73b30d34a42a01230bad5b478c, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1872677039}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.StateMachine.PlayerController,
+          Assembly-CSharp
+        m_MethodName: ToggleNoClip
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1881143152
 PrefabInstance:
   m_ObjectHideFlags: 0

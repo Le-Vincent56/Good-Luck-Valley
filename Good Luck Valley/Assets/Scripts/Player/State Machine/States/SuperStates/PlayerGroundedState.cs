@@ -59,7 +59,7 @@ namespace GoodLuckValley.Player.StateMachine.States
             // Read in the input from the input handler
             xInput = player.InputHandler.NormInputX;
             jumpInput = player.InputHandler.JumpInput;
-
+            
             if (!isGrounded && !isOnSlope && !isOnTopOfWall) // Exit case is not grounded
             {
                 stateMachine.ChangeState(player.FallState);
