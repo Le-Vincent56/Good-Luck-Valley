@@ -12,7 +12,7 @@ namespace GoodLuckValley.Player.StateMachine
         protected static readonly int LocomotionHash = Animator.StringToHash("Locomotion");
         protected static readonly int JumpHash = Animator.StringToHash("Jump");
         protected static readonly int WallSlideHash = Animator.StringToHash("Wall Slide");
-        protected static readonly int Fallhash = Animator.StringToHash("Fall");
+        protected static readonly int FallHash = Animator.StringToHash("Fall");
 
         protected const float crossFadeDuration = 0.1f;
 

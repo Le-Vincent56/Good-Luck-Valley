@@ -13,7 +13,16 @@ namespace GoodLuckValley.Player.StateMachine
 
         public override void OnEnter()
         {
-            animator.CrossFade()
+            animator.CrossFade(FallHash, crossFadeDuration);
+        }
+
+        public override void FixedUpdate()
+        {
+            // Calculate velocity
+            player.CalculateVelocity();
+
+            // Handle player movement
+            player.HandleMovement();
         }
     }
 }

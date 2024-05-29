@@ -70,7 +70,7 @@ namespace GoodLuckValley.Player.Control
             At(wallState, locomotionState, new FuncPredicate(() => !wallSliding && isGrounded));
             At(wallState, jumpState, new FuncPredicate(() => isJumping));
 
-            
+            // Any, go to fall
 
 
             stateMachine.SetState(idleState);
