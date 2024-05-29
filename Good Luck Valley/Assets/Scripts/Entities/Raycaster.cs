@@ -12,10 +12,11 @@ namespace GoodLuckValley.Entity
     public class Raycaster : MonoBehaviour
     {
         protected const float skinWidth = 0.015f;
+        protected const float distanceBetweenRays = 0.10f;
         protected BoxCollider2D entityCollider;
         protected RaycastOrigins origins;
-        [SerializeField] protected int horizontalRayCount = 4;
-        [SerializeField] protected int verticalRayCount = 4;
+        protected int horizontalRayCount;
+        protected int verticalRayCount;
         protected float horizontalRaySpacing;
         protected float verticalRaySpacing;
 
@@ -50,9 +51,13 @@ namespace GoodLuckValley.Entity
             Bounds bounds = entityCollider.bounds;
             bounds.Expand(skinWidth * -2f);
 
-            // Ensure two rays are set at all times
-            horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);
-            verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
+            // Calculate the width and height of the bounds
+            float boundsWidth = bounds.size.x;
+            float boundsHeight = bounds.size.y;
+
+            // Calculate the ray count
+            horizontalRayCount = Mathf.RoundToInt(boundsHeight / distanceBetweenRays);
+            verticalRayCount = Mathf.RoundToInt(boundsWidth / distanceBetweenRays);
 
             // Calculate the psacing between all raycasts
             horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
