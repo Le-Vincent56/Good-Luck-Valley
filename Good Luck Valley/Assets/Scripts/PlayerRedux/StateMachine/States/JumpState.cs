@@ -14,7 +14,14 @@ namespace GoodLuckValley.Player.StateMachine
 
         public override void FixedUpdate()
         {
-            // Call Player's jump logic and move logic
+            // Calculate velocity
+            player.CalculateVelocity();
+
+            // Calculate wall sliding
+            player.HandleWallSliding();
+
+            // Handle movement
+            player.HandleMovement();
         }
     }
 }

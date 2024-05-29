@@ -1,21 +1,28 @@
 using GoodLuckValley.Player.Control;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.StateMachine
 {
-    public class LocomotionState : BaseState
+    public class WallState : BaseState
     {
-        public LocomotionState(PlayerController player, Animator animator) : base(player, animator) { }
+        public WallState(PlayerController player, Animator animator) : base(player, animator)
+        {
+        }
 
         public override void OnEnter()
         {
-            animator.CrossFade(LocomotionHash, crossFadeDuration);
+            animator.CrossFade(WallSlideHash, crossFadeDuration);
         }
 
         public override void FixedUpdate()
         {
             // Calculate velocity
             player.CalculateVelocity();
+
+            // Calculate wall sliding
+            player.HandleWallSliding();
 
             // Handle movement
             player.HandleMovement();

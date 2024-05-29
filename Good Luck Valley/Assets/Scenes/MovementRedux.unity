@@ -448,6 +448,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4646058849056595314, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4646058849056595315, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
     m_RemovedGameObjects: []
@@ -599,6 +603,7 @@ MonoBehaviour:
   wallSlideSpeedMax: 3
   wallStickTime: 0.25
   timeToWallUnstick: 0
+  isGrounded: 0
 --- !u!61 &1173841816
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -660,6 +665,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 456
   maxSlopeAngle: 50
+  currentLayer: 0
 --- !u!1001 &1179791839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -854,6 +860,10 @@ PrefabInstance:
     - target: {fileID: 4646058849056595314, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
       propertyPath: m_Name
       value: Floor (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4646058849056595314, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4646058849056595315, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
