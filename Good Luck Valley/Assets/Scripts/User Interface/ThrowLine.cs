@@ -60,7 +60,7 @@ namespace GoodLuckValley.UI
             width = 0.1f;
 
             // Number of segments for the trajectory line
-            segments = 200;
+            segments = 10000;
 
             // Gets the LineRenderer component from the lineRenderer game object applied in inspector
             lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -68,7 +68,7 @@ namespace GoodLuckValley.UI
             // Sets the number of segmens in the lineRenderer using segments field
             lineRenderer.positionCount = segments;
 
-            lineRendererStartingPoints = new Vector3[segments];
+            lineRendererStartingPoints = new Vector3[segments + 1];
 
             // Sets the with in the lineRenderer using width field
 
@@ -172,7 +172,7 @@ namespace GoodLuckValley.UI
             );
 
             // Loops for each point in the previous frame's array of points
-            for (int i = 1; i < lineRendererStartingPoints.Length; i++)
+            for (int i = 1; i < lineRendererStartingPoints.Length -1; i++)
             {
                 // Sets hit info to the return value of the linecast method,
                 //   using the current point on the line and the next point as the locations to check between
