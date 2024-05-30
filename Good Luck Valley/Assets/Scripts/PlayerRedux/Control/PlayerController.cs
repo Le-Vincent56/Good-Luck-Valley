@@ -31,10 +31,15 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private float xVelSmoothing;
 
         [Header("Fields - Jump")]
+        [SerializeField] private bool isJumpCut;
         [SerializeField] private bool isJumping;
         [SerializeField] private float maxJumpHeight;
         [SerializeField] private float minJumpHeight;
         [SerializeField] private float timeToJumpApex;
+        [SerializeField] private float coyoteTime;
+        [SerializeField] private float lastOnGroundTime;
+        [SerializeField] private float jumpBufferTime;
+        [SerializeField] private float lastPressedJumpTime;
 
         [Header("Fields - Wall Slide")]
         [SerializeField] private bool wallSliding;
@@ -108,6 +113,9 @@ namespace GoodLuckValley.Player.Control
 
         private void Update()
         {
+            // Update timers
+            UpdateTimers();
+
             // Update the state machine
             stateMachine.Update();
         }
@@ -131,6 +139,15 @@ namespace GoodLuckValley.Player.Control
             transform.localScale = scale;
         }
 
+        public void UpdateTimers()
+        {
+            if(lastOnGroundTime > 0f)
+                lastOnGroundTime -= Time.deltaTime;
+
+            if(lastPressedJumpTime > 0f)
+                lastPressedJumpTime -= Time.deltaTime;
+        }
+
         public void CalculateVelocity()
         {
             // Get the target speed
@@ -150,16 +167,43 @@ namespace GoodLuckValley.Player.Control
                 // Set grounded to true
                 isGrounded = true;
 
-                // If the player was jumping, stop jumping
-                if (isJumping) isJumping = false;
+                // Set coyote time
+                lastOnGroundTime = coyoteTime;
+
+                if(lastPressedJumpTime > 0f)
+                {
+                    // Set jumping to true
+                    isJumping = true;
+
+                    // Reset last pressed jump time
+                    lastPressedJumpTime = 0f;
+
+                    // Execute the jump
+                    HandleJump();
+                }
             }
             else isGrounded = false;
+
+            if(collisionHandler.collisions.Below && velocity.y <= 0f)
+            {
+                if (isJumping)
+                    isJumping = false;
+
+                if (isJumpCut)
+                    isJumpCut = false;
+            }
 
             // Check if wall sliding
             if ((collisionHandler.collisions.Left || collisionHandler.collisions.Right) &&
                 !collisionHandler.collisions.Below && velocity.y < 0 &&
                 collisionHandler.collisions.Layer == CollisionHandler.CollisionLayer.MushroomWall)
             {
+                if (isJumping)
+                    isJumping = false;
+
+                if (isJumpCut)
+                    isJumpCut = false;
+
                 wallSliding = true;
             } else
             {
@@ -278,11 +322,6 @@ namespace GoodLuckValley.Player.Control
                     velocity.y = 0f;
                 }
             }
-            else if (!collisionHandler.collisions.Below)
-            {
-                // Set not grounded
-                isGrounded = false;
-            }
         }
 
         public void Move(Vector2 velocity, bool standingOnPlatform = false)
@@ -322,67 +361,97 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
-        public void OnJump(bool started)
+        private void HandleJump()
         {
-            // Check if the context was started
-            if(started)
+            // Check if grounded
+            if (collisionHandler.collisions.Below || lastOnGroundTime > 0 && !isJumpCut)
             {
-                // Set jumping to true
-                isJumping = true;
-
-                // Check if wall sliding
-                if (wallSliding)
+                // Check if sliding down a slope
+                if (collisionHandler.collisions.SlidingDownMaxSlope)
                 {
-                    // Check if pressing against the wall
-                    if (wallDirX == input.NormInputX )
+                    // Check if we are not jumping against a max slope
+                    if (input.NormInputX != -Mathf.Sign(collisionHandler.collisions.SlopeNormal.x))
                     {
-                        velocity.x = -wallDirX * wallJumpClimb.x;
-                        velocity.y = wallJumpClimb.y;
-                    }
-                    else if (input.NormInputX  == 0) // Check if not pressing at all
-                    {
-                        velocity.x = -wallDirX * wallJumpOff.x;
-                        velocity.y = wallJumpOff.y;
-                    }
-                    else // Check if pressing away from the wall
-                    {
-                        velocity.x = -wallDirX * wallJumpLeap.x;
-                        velocity.y = wallJumpLeap.y;
+                        velocity.y = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.y;
+                        velocity.x = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.x;
                     }
                 }
-
-                // Check if grounded
-                if (collisionHandler.collisions.Below)
+                else
                 {
-                    // Check if sliding down a slope
-                    if (collisionHandler.collisions.SlidingDownMaxSlope)
-                    {
-                        // Check if we are not jumping against a max slope
-                        if (input.NormInputX  != -Mathf.Sign(collisionHandler.collisions.SlopeNormal.x))
-                        {
-                            velocity.y = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.y;
-                            velocity.x = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.x;
-                        }
-                    }
-                    else
-                    {
-                        // Otherwise, jump like normal
-                        velocity.y = maxJumpVelocity;
-                    }
+                    // Otherwise, jump like normal
+                    velocity.y = maxJumpVelocity;
                 }
             }
 
-            // Check if the context was canceled
-            if(!started)
+            if(isJumpCut)
             {
                 // Cut velocity
                 if (velocity.y > minJumpVelocity)
                 {
                     velocity.y = minJumpVelocity;
                 }
+            }
+        }
 
-                // Set jumping to false
-                isJumping = false;
+        public void StartJump()
+        {
+            // Check if wall sliding
+            if (wallSliding)
+            {
+                // Check if pressing against the wall
+                if (wallDirX == input.NormInputX)
+                {
+                    velocity.x = -wallDirX * wallJumpClimb.x;
+                    velocity.y = wallJumpClimb.y;
+                }
+                else if (input.NormInputX == 0) // Check if not pressing at all
+                {
+                    velocity.x = -wallDirX * wallJumpOff.x;
+                    velocity.y = wallJumpOff.y;
+                }
+                else // Check if pressing away from the wall
+                {
+                    velocity.x = -wallDirX * wallJumpLeap.x;
+                    velocity.y = wallJumpLeap.y;
+                }
+            }
+
+            HandleJump();
+        }
+
+        public void OnJump(bool started)
+        {
+            // Check if the context was started
+            if(started)
+            {
+                if (!isJumping)
+                {
+                    // Set jumping to true
+                    isJumping = true;
+
+                    // Set jump cut to false
+                    isJumpCut = false;
+
+                    StartJump();
+                }
+                else if (isJumping)
+                {
+                    isJumpCut = false;
+
+                    // Set the last pressed jump time
+                    lastPressedJumpTime = jumpBufferTime;
+                }
+            }
+
+            
+
+            // Check if the context was canceled and that the input still applies
+            if(!started)
+            {
+                // Set jump cutting
+                isJumpCut = true;
+
+                HandleJump();
             }
         }
 
