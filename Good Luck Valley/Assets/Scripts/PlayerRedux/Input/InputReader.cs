@@ -20,6 +20,7 @@ namespace GoodLuckValley.Player.Input
 
         PlayerInputActions inputActions;
         public Vector3 Direction => inputActions.PlayerControls.Move.ReadValue<Vector2>();
+        public int NormInputX { get; private set; }
 
         void OnEnable()
         {
@@ -65,7 +66,10 @@ namespace GoodLuckValley.Player.Input
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            Move.Invoke(context.ReadValue<Vector2>());
+            Vector2 rawMovementInput = context.ReadValue<Vector2>();
+            Move.Invoke(rawMovementInput);
+
+            NormInputX = (int)(rawMovementInput * Vector2.right).normalized.x;
         }
 
         public void OnPause(InputAction.CallbackContext context)
