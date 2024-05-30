@@ -33,7 +33,7 @@ namespace GoodLuckValley.Player.Handlers
 
         #region REFERENCES
         [Header("Objects")]
-        [SerializeField] private PlayerData playerData;
+        [SerializeField] private PlayerDataOld playerData;
         #endregion
 
         #region FIELDS

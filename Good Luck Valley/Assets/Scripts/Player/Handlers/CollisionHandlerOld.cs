@@ -1,9 +1,7 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Mushroom;
-using GoodLuckValley.Mushroom.StateMachine;
+using GoodLuckValley.Mushroom.StateMachineOld;
 using GoodLuckValley.World.Interactables;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Handlers
@@ -31,7 +29,7 @@ namespace GoodLuckValley.Player.Handlers
             {
                 // Trigger a bounce
                 TriggerBounce(collision.gameObject.GetComponent<MushroomData>());
-                collision.gameObject.GetComponent<MushroomController>().SetIsBouncing(true);
+                collision.gameObject.GetComponent<MushroomControllerOld>().SetIsBouncing(true);
             }
 
             // Check for interactables

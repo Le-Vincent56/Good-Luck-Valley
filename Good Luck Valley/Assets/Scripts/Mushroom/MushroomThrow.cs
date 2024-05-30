@@ -1,5 +1,6 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Player.Handlers;
+using GoodLuckValley.Player.Input;
 using GoodLuckValley.World.Tiles;
 using System.Collections;
 using System.Collections.Generic;
@@ -155,10 +156,10 @@ namespace GoodLuckValley.Mushroom
             if (!throwUnlocked || !canThrow) return;
 
             // Check if the data type is correct
-            if (data is not PlayerInputHandler.ContextData) return;
+            if (data is not ContextData) return;
 
             // Cast data
-            PlayerInputHandler.ContextData contextData = (PlayerInputHandler.ContextData)data;
+            ContextData contextData = (ContextData)data;
 
             // Aim on hold press
             if(contextData.Started)

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Mushroom.StateMachine.States
+namespace GoodLuckValley.Mushroom.StateMachineOld.States
 {
     public class RMIdleState : RegularMushroomState
     {
-        public RMIdleState(MushroomController mushroom, MushroomStateMachine stateMachine, string animationBoolName) 
+        public RMIdleState(MushroomControllerOld mushroom, MushroomStateMachineOld stateMachine, string animationBoolName) 
             : base(mushroom, stateMachine, animationBoolName)
         {
         }

@@ -1,8 +1,5 @@
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Patterns;
-using GoodLuckValley.Player;
-using GoodLuckValley.Player.Handlers;
-using GoodLuckValley.Player.StateMachine;
 using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections;
@@ -62,7 +59,7 @@ namespace GoodLuckValley.Persistence
             if (scene.name == "Menu") return;
 
             // Bind player data
-            Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
+            //Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
             Bind<PowerController, MushroomSaveData>(selectedData.mushroomSaveData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas);
         }

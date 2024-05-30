@@ -10,13 +10,11 @@ namespace GoodLuckValley.Mushroom
         public struct BounceData
         {
             public Vector2 BounceVector;
-            public ForceMode2D ForceMode;
             public bool Rotated;
 
-            public BounceData(Vector2 bounceVector, ForceMode2D forceMode, bool rotated)
+            public BounceData(Vector2 bounceVector, bool rotated)
             {
                 BounceVector = bounceVector;
-                ForceMode = forceMode;
                 Rotated = rotated;
             }
         }
@@ -47,8 +45,7 @@ namespace GoodLuckValley.Mushroom
 
             // Create Bounce Data
             BounceData bounceData = new BounceData(
-                mushroomData.GetBounceVector(), 
-                ForceMode2D.Impulse,
+                mushroomData.GetBounceVector(),
                 mushroomData.Rotated
             );
 
