@@ -5,11 +5,15 @@ using GoodLuckValley.Patterns.StateMachine;
 using UnityEngine;
 using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
+using GoodLuckValley.Events;
 
 namespace GoodLuckValley.Player.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onWallJumpInput;
+
         [Header("References")]
         [SerializeField] private Animator animator;
         [SerializeField] private InputReader input;
@@ -123,9 +127,24 @@ namespace GoodLuckValley.Player.Control
             CheckDirectionToFace();
         }
 
+        /// <summary>
+        /// Add a transition from one State to another given a certain condition
+        /// </summary>
+        /// <param name="from">The State to define the transition from</param>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the Transition</param>
         private void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
+
+        /// <summary>
+        /// Add a transition from any State to another one given a certain condition
+        /// </summary>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the transition</param>
         private void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
+        /// <summary>
+        /// Check the direction for the player to face
+        /// </summary>
         private void CheckDirectionToFace()
         {
             Vector3 scale = transform.localScale;
@@ -133,6 +152,9 @@ namespace GoodLuckValley.Player.Control
             transform.localScale = scale;
         }
 
+        /// <summary>
+        /// Update movement timers
+        /// </summary>
         public void UpdateTimers()
         {
             if(lastOnGroundTime > 0f)
@@ -142,6 +164,9 @@ namespace GoodLuckValley.Player.Control
                 lastPressedJumpTime -= Time.deltaTime;
         }
 
+        /// <summary>
+        /// Calculate the initial velocity of movement before handling
+        /// </summary>
         public void CalculateVelocity()
         {
             // Get the target speed
@@ -160,6 +185,9 @@ namespace GoodLuckValley.Player.Control
             {
                 // Set grounded to true
                 isGrounded = true;
+
+                // Set bouncing to false
+                isBouncing = false;
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
@@ -210,6 +238,9 @@ namespace GoodLuckValley.Player.Control
                 HandleFalling();
         }
 
+        /// <summary>
+        /// Handle player falling
+        /// </summary>
         public void HandleFalling()
         {
             // Check if grounded
@@ -243,6 +274,9 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
+        /// <summary>
+        /// Handle the wall sliding of the player
+        /// </summary>
         public void HandleWallSliding()
         {
             // Get the direction of the wall
@@ -295,6 +329,9 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
+        /// <summary>
+        /// Handle the player movement
+        /// </summary>
         public void HandleMovement()
         {
             // Move
@@ -318,6 +355,11 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
+        /// <summary>
+        /// Move the player
+        /// </summary>
+        /// <param name="velocity"></param>
+        /// <param name="standingOnPlatform"></param>
         public void Move(Vector2 velocity, bool standingOnPlatform = false)
         {
             // Update raycasts
@@ -355,6 +397,10 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
+
+        /// <summary>
+        /// Handle the upward movement of the jump
+        /// </summary>
         private void HandleJump()
         {
             // Check if grounded
@@ -387,32 +433,34 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
+        /// <summary>
+        /// Begin the jump
+        /// </summary>
         public void StartJump()
         {
             // Check if wall sliding
-            if (wallSliding)
+            if(!wallSliding)
             {
-                // Check if pressing against the wall
-                if (wallDirX == input.NormInputX)
-                {
-                    velocity.x = -wallDirX * wallJumpClimb.x;
-                    velocity.y = wallJumpClimb.y;
-                }
-                else if (input.NormInputX == 0) // Check if not pressing at all
-                {
-                    velocity.x = -wallDirX * wallJumpOff.x;
-                    velocity.y = wallJumpOff.y;
-                }
-                else // Check if pressing away from the wall
-                {
-                    velocity.x = -wallDirX * wallJumpLeap.x;
-                    velocity.y = wallJumpLeap.y;
-                }
+                HandleJump();
+            }
+            else
+            {
             }
 
-            HandleJump();
+            // Check if wall sliding
+            if (wallSliding)
+            {
+                velocity.x = -wallDirX * wallJumpLeap.x;
+                velocity.y = wallJumpLeap.y;
+            }
+
+            
         }
 
+        /// <summary>
+        /// Handle jump input
+        /// </summary>
+        /// <param name="started"></param>
         public void OnJump(bool started)
         {
             // Check if the context was started
@@ -426,6 +474,7 @@ namespace GoodLuckValley.Player.Control
                     // Set jump cut to false
                     isJumpCut = false;
 
+                    // Start the jump
                     StartJump();
                 }
                 else if (isJumping)
@@ -436,8 +485,6 @@ namespace GoodLuckValley.Player.Control
                     lastPressedJumpTime = data.jumpBufferTime;
                 }
             }
-
-            
 
             // Check if the context was canceled and that the input still applies
             if(!started)
@@ -450,6 +497,10 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
+        /// <summary>
+        /// Handle fast fall input
+        /// </summary>
+        /// <param name="started"></param>
         public void OnFastFall(bool started)
         {
             if (started)
@@ -463,8 +514,17 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
+        /// <summary>
+        /// Set the player to bouncing
+        /// </summary>
+        /// <param name="isBouncing"></param>
         public void SetBouncing(bool isBouncing) => this.isBouncing = isBouncing; 
 
+        /// <summary>
+        /// Bounce the player
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void Bounce(Component sender, object data)
         {
             // Check if the data is the correct type

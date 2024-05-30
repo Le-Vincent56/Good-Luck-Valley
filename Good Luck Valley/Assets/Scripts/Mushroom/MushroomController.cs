@@ -1,4 +1,5 @@
 using GoodLuckValley.Entity;
+using GoodLuckValley.Events;
 using GoodLuckValley.Mushroom.States;
 using GoodLuckValley.Patterns.StateMachine;
 using UnityEngine;
@@ -7,9 +8,13 @@ namespace GoodLuckValley.Mushroom
 {
     public class MushroomController : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onShroomEnter;
+
         [Header("References")]
         [SerializeField] private Animator animator;
         [SerializeField] private CollisionHandler collisionHandler;
+        [SerializeField] private MushroomData data;
 
         [Header("Fields")]
         [SerializeField] private Vector2 velocity;
@@ -22,6 +27,7 @@ namespace GoodLuckValley.Mushroom
             // Get components
             animator = GetComponent<Animator>();
             collisionHandler = GetComponent<CollisionHandler>();
+            data = GetComponent<MushroomData>();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -30,7 +36,7 @@ namespace GoodLuckValley.Mushroom
 
             // Define strict transitions
             At(idleState, bounceState, new FuncPredicate(() => bounceEntity));
-            At(bounceState, idleState, new FuncPredicate(() => !bounceEntity && bounceState.Finished));
+            At(bounceState, idleState, new FuncPredicate(() => !bounceEntity));
 
             // Set the initial state
             stateMachine.SetState(idleState);
@@ -49,7 +55,6 @@ namespace GoodLuckValley.Mushroom
         }
 
         private void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
-        private void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
         public void CheckCollisions()
         {
@@ -59,6 +64,7 @@ namespace GoodLuckValley.Mushroom
             {
                 // Bounce the entity
                 bounceEntity = true;
+                onShroomEnter.Raise(this, data);
             }
         }
 
@@ -74,7 +80,7 @@ namespace GoodLuckValley.Mushroom
             collisionHandler.collisions.PrevVelocity = velocity;
 
             // Handle horizontal collisions
-            collisionHandler.HandleAllCollisionsForStatic();
+            collisionHandler.HandleAllCollisionsForStatic(ref velocity);
 
             // Handle platforms
             if (standingOnPlatform)

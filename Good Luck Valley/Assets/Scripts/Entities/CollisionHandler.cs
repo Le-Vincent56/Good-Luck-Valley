@@ -27,6 +27,8 @@ namespace GoodLuckValley.Entity
             public bool SlidingDownMaxSlope;
             public Vector2 SlopeNormal;
             public CollisionLayer Layer;
+            public Vector2 VerticalCollisionPoint;
+            public Vector2 HorizontalCollisionPoint;
 
             /// <summary>
             /// Reset the Collision Info
@@ -42,6 +44,8 @@ namespace GoodLuckValley.Entity
                 SlopeNormal = Vector2.zero;
                 SlidingDownMaxSlope = false;
                 Layer = CollisionLayer.Ground;
+                VerticalCollisionPoint = Vector2.zero;
+                HorizontalCollisionPoint = Vector2.zero;
             }
         }
 
@@ -72,8 +76,14 @@ namespace GoodLuckValley.Entity
         /// <param name="velocity">The current velocity</param>
         public void VerticalCollisions(ref Vector2 velocity)
         {
+            // Set direction and ray length
             float directionY = Mathf.Sign(velocity.y);
             float rayLength = Mathf.Abs(velocity.y) + skinWidth;
+
+            // Prepare to find the center-most collision point
+            bool centralRayHit = false;
+            Vector2 centralhitPoint = Vector2.zero;
+            List<Vector2> hitPoints = new List<Vector2>();
 
             for (int i = 0; i < verticalRayCount; i++)
             {
@@ -81,6 +91,7 @@ namespace GoodLuckValley.Entity
                 rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
                 RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
 
+                // Debug
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
 
@@ -97,6 +108,14 @@ namespace GoodLuckValley.Entity
                         velocity.x = velocity.y / Mathf.Tan(collisions.SlopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);
                     }
 
+                    hitPoints.Add(hit.point);
+
+                    if(i == centralVerticalRay)
+                    {
+                        centralRayHit = true;
+                        centralhitPoint = hit.point;
+                    }    
+
                     // Set collision info
                     collisions.Above = (directionY == 1);
                     collisions.Below = (directionY == -1);
@@ -104,6 +123,32 @@ namespace GoodLuckValley.Entity
                     currentLayer = collisions.Layer;
                 }
             }
+
+            // Check if the central ray was hit
+            if (centralRayHit)
+            {
+                collisions.VerticalCollisionPoint = centralhitPoint;
+            } else if (hitPoints.Count > 0)
+            {
+                // Set the max value for distance to compare
+                float closestDistance = float.MaxValue;
+
+                // Iterate through each point and find the closest distance to the center
+                foreach (Vector2 point in hitPoints)
+                {
+                    // Compare the distance
+                    float distance = Mathf.Abs(point.x - (origins.bottomLeft.x + (origins.topRight.x - origins.bottomLeft.x) / 2));
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        collisions.VerticalCollisionPoint = point;
+                    }
+                }
+            }
+
+            // Debug
+            if (debug)
+                Debug.DrawRay(collisions.VerticalCollisionPoint, Vector2.up * directionY, Color.white);
 
             // If climbing a slope, fire out a new ray in the future position
             // To check for a new slope
@@ -145,8 +190,13 @@ namespace GoodLuckValley.Entity
             float directionX = collisions.FacingDirection;
             float rayLength = Mathf.Abs(velocity.x) + skinWidth;
 
+            // Prepare to find the center-most collision point
+            bool centralRayHit = false;
+            Vector2 centralHitPoint = Vector2.zero;
+            List<Vector2> hitPoints = new List<Vector2>();
+
             // Control ray length according to x-velocity compared to skin width
-            if(Mathf.Abs(velocity.x) < skinWidth)
+            if (Mathf.Abs(velocity.x) < skinWidth)
                 rayLength = 2 * skinWidth;
 
             for (int i = 0; i < horizontalRayCount; i++)
@@ -155,17 +205,12 @@ namespace GoodLuckValley.Entity
                 rayOrigin += Vector2.up * (horizontalRaySpacing * i);
                 RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
 
+                // Debug
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
 
                 if (hit)
                 {
-                    // Skip ahead if the hit distance is 0
-                    if (hit.distance == 0)
-                    {
-                        continue;
-                    }
-
                     // Get the slope angle
                     float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
                     
@@ -216,6 +261,16 @@ namespace GoodLuckValley.Entity
                             velocity.y = Mathf.Tan(collisions.SlopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x);
                         }
 
+                        // Store the hitpoint
+                        hitPoints.Add(hit.point);
+
+                        // Check if this is the central ray
+                        if (i == centralHorizontalRay)
+                        {
+                            centralRayHit = true;
+                            centralHitPoint = hit.point;
+                        }
+
                         // Set collision info
                         collisions.Right = (directionX == 1);
                         collisions.Left = (directionX == -1);
@@ -224,17 +279,46 @@ namespace GoodLuckValley.Entity
                     }
                 }
             }
+
+            // Check if the central ray was hit
+            if(centralRayHit)
+            {
+                // If so, set it as the collision point
+                collisions.HorizontalCollisionPoint = centralHitPoint;
+            } else if(hitPoints.Count > 0)
+            {
+                // Set the max value for distance to compare
+                float closestDistance = float.MaxValue;
+                float centerY = (origins.bottomLeft.y + origins.topLeft.y) / 2;
+
+                // Iterate through each point and find the closest distance to the center
+                foreach (Vector2 point in hitPoints)
+                {
+                    // Compare the distance
+                    float distance = Mathf.Abs(point.y - centerY);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        collisions.HorizontalCollisionPoint = centralHitPoint;
+                    }
+                }
+            }
+
+            // Debug
+            if (debug)
+                Debug.DrawRay(collisions.HorizontalCollisionPoint, Vector2.right * directionX, Color.white);
         }
 
-        public void HandleAllCollisionsForStatic()
+        public void HandleAllCollisionsForStatic(ref Vector2 velocity)
         {
-            float rayLength = skinWidth;
+            float rayLengthX = Mathf.Abs(velocity.x) + skinWidth;
+            float rayLengthY = Mathf.Abs(velocity.y) + skinWidth;
 
             for (int i = 0; i < horizontalRayCount; i++)
             {
                 Vector2 rayOrigin = origins.bottomLeft;
                 rayOrigin += Vector2.up * (horizontalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.left, rayLength, collisionMask);
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.left, rayLengthX, collisionMask);
 
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.left, Color.red);
@@ -242,7 +326,7 @@ namespace GoodLuckValley.Entity
                 if (hit)
                 {
                     // Set the ray length equal to the hit distance
-                    rayLength = hit.distance;
+                    rayLengthX = hit.distance;
 
                     // Set collision info
                     collisions.Left = true;
@@ -255,7 +339,7 @@ namespace GoodLuckValley.Entity
             {
                 Vector2 rayOrigin = origins.bottomRight;
                 rayOrigin += Vector2.up * (horizontalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right, rayLength, collisionMask);
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right, rayLengthX, collisionMask);
 
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.right, Color.red);
@@ -263,7 +347,7 @@ namespace GoodLuckValley.Entity
                 if (hit)
                 {
                     // Set the ray length equal to the hit distance
-                    rayLength = hit.distance;
+                    rayLengthX = hit.distance;
 
                     // Set collision info
                     collisions.Right = true;
@@ -275,8 +359,8 @@ namespace GoodLuckValley.Entity
             for (int i = 0; i < verticalRayCount; i++)
             {
                 Vector2 rayOrigin = origins.topLeft;
-                rayOrigin += Vector2.right * (verticalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, collisionMask);
+                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLengthY, collisionMask);
 
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.up, Color.red);
@@ -284,7 +368,7 @@ namespace GoodLuckValley.Entity
                 if (hit)
                 {
                     // Set the ray length equal to the hit distance
-                    rayLength = hit.distance;
+                    rayLengthY = hit.distance;
 
                     // Set collision info
                     collisions.Above = true;
@@ -296,8 +380,8 @@ namespace GoodLuckValley.Entity
             for (int i = 0; i < verticalRayCount; i++)
             {
                 Vector2 rayOrigin = origins.bottomLeft;
-                rayOrigin += Vector2.right * (verticalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, collisionMask);
+                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLengthY, collisionMask);
 
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.down, Color.red);
@@ -305,7 +389,7 @@ namespace GoodLuckValley.Entity
                 if (hit)
                 {
                     // Set the ray length equal to the hit distance
-                    rayLength = hit.distance;
+                    rayLengthY = hit.distance;
 
                     // Set collision info
                     collisions.Below = true;
