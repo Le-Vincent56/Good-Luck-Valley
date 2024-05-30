@@ -21,6 +21,9 @@ namespace GoodLuckValley.Player.StateMachine
             // Calculate velocity
             player.CalculateVelocity();
 
+            // Calculate wall sliding
+            player.HandleWallSliding();
+
             // Handle player movement
             player.HandleMovement();
         }
