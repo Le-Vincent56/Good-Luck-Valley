@@ -1,12 +1,8 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.IO.LowLevel.Unsafe;
+using GoodLuckValley.Player.Input;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace GoodLuckValley.UI
 {
@@ -17,10 +13,23 @@ namespace GoodLuckValley.UI
         [SerializeField] private GameEvent onUpdatePaused;
         #endregion
 
+        [Header("References")]
+        [SerializeField] private InputReader input;
+
         #region PROPERTIES
         public bool Paused { get; private set; }
         public bool SoftPaused { get; private set; }
         #endregion
+
+        private void OnEnable()
+        {
+            input.Pause += OnPause;
+        }
+
+        private void OnDisable()
+        {
+            input.Pause -= OnPause;
+        }
 
         public void Start()
         {
@@ -35,11 +44,21 @@ namespace GoodLuckValley.UI
         }
 
         /// <summary>
+        /// Handle pause input
+        /// </summary>
+        /// <param name="started">If the button has been pressed</param>
+        public void OnPause(bool started)
+        {
+            // If the button has been pressed, toggle pause
+            if (started) TogglePause();
+        }
+
+        /// <summary>
         /// Toggle the pause menu
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public void TogglePause(Component sender, object data)
+        public void TogglePause()
         {
             // Don't pause if already soft paused
             if (SoftPaused) return;
@@ -101,7 +120,7 @@ namespace GoodLuckValley.UI
         public void Resume()
         {
             // Since only called from the menu, TogglePause will unpause
-            TogglePause(this, null);
+            TogglePause();
         }
 
         /// <summary>
