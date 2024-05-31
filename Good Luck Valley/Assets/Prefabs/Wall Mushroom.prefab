@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8042315493927773866}
   - component: {fileID: 1617817673137450972}
   - component: {fileID: 2989694117589004102}
-  - component: {fileID: 3651182992331655184}
+  - component: {fileID: 9200763087286250718}
   m_Layer: 9
   m_Name: Wall Mushroom
   m_TagString: Mushroom
@@ -192,7 +192,7 @@ MonoBehaviour:
   shroomType: 1
   velocity: {x: 0, y: 0}
   bounceEntity: 0
---- !u!114 &3651182992331655184
+--- !u!114 &9200763087286250718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,9 +201,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6416888149012354788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cebc9976244b77409c8a1064447ad36, type: 3}
+  m_Script: {fileID: 11500000, guid: cdc198a3e707c90418310f09cd5d14aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mushroomData: {fileID: 11400000, guid: 026643fcdd857004283d5b773dfb1cda, type: 2}
   shroomType: 1
   bounceDirection: {x: 0, y: 0}
   bounceForce: 0

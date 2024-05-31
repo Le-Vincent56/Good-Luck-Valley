@@ -38,9 +38,6 @@ namespace GoodLuckValley.Player.Control
 
         [Header("Fields - Wall Slide")]
         [SerializeField] private int wallDirX;
-        [SerializeField] private Vector2 wallJumpClimb;
-        [SerializeField] private Vector2 wallJumpOff;
-        [SerializeField] private Vector2 wallJumpLeap;
         [SerializeField] private float timeToWallUnstick;
 
         [Header("Fields - Checks")]
@@ -573,7 +570,7 @@ namespace GoodLuckValley.Player.Control
             isBouncing = true;
 
             // Apply bounce force
-            velocity.x = bounceData.BounceVector.x;
+            velocity.x += bounceData.BounceVector.x;
             velocity.y = bounceData.BounceVector.y;
         }
     }

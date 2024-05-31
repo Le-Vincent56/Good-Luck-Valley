@@ -1,7 +1,5 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.World.Tiles;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -113,7 +111,7 @@ namespace GoodLuckValley.Mushroom
 
             // Instantiate the regular shroom
             GameObject shroom = Instantiate(regShroom, collisionData.SpawnPoint, rotationQuat);
-            shroom.GetComponent<MushroomData>().InstantiateMushroomData(ShroomType.Regular, collisionData.Rotation);
+            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, collisionData.Rotation);
 
             // Add the Mushroom to its respective list
             // Calls to:

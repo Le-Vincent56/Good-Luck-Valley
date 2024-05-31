@@ -14,7 +14,7 @@ namespace GoodLuckValley.Mushroom
         [Header("References")]
         [SerializeField] private Animator animator;
         [SerializeField] private CollisionHandler collisionHandler;
-        [SerializeField] private MushroomData data;
+        [SerializeField] private MushroomInfo data;
 
         [Header("Fields")]
         [SerializeField] private ShroomType shroomType;
@@ -28,7 +28,7 @@ namespace GoodLuckValley.Mushroom
             // Get components
             animator = GetComponent<Animator>();
             collisionHandler = GetComponent<CollisionHandler>();
-            data = GetComponent<MushroomData>();
+            data = GetComponent<MushroomInfo>();
 
             // Declare states
             stateMachine = new StateMachine();

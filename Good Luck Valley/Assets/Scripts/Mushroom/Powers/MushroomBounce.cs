@@ -38,10 +38,10 @@ namespace GoodLuckValley.Mushroom
         public void Bounce(Component sender, object data)
         {
             // Check if the correct data type was sent
-            if (data is not MushroomData) return;
+            if (data is not MushroomInfo) return;
 
             // Cast the data
-            MushroomData mushroomData = (MushroomData)data;
+            MushroomInfo mushroomData = (MushroomInfo)data;
 
             // Create Bounce Data
             BounceData bounceData = new BounceData(

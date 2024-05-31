@@ -82,7 +82,7 @@ namespace GoodLuckValley.Mushroom
 
             // Create a shroom
             GameObject shroom = Instantiate(wallShroom, collisionData.SpawnPoint, rotationQuat);
-            shroom.GetComponent<MushroomData>().InstantiateMushroomData(ShroomType.Wall, collisionData.Rotation);
+            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Wall, collisionData.Rotation);
 
             // Add the wall mushroom to its respective list
             // Calls to:
@@ -116,7 +116,7 @@ namespace GoodLuckValley.Mushroom
             GameObject shroom = CreateShroom(collisionData);
 
             // Set bounce data
-            Vector2 wallJumpVector = shroom.GetComponent<MushroomData>().GetBounceVector();
+            Vector2 wallJumpVector = shroom.GetComponent<MushroomInfo>().GetBounceVector();
 
             // Apply force
             // Calls to:

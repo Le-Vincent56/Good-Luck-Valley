@@ -32,12 +32,18 @@ namespace GoodLuckValley.Mushroom
 
         private void OnEnable()
         {
-            input.Throw += Throw;
+            input.Throw += OnThrow;
+            input.QuickBounce += OnQuickBounce;
+            input.RecallLast += OnRecallLast;
+            input.RecallAll += OnRecallAll;
         }
 
         private void OnDisable()
         {
-            input.Throw -= Throw;
+            input.Throw -= OnThrow;
+            input.QuickBounce -= OnQuickBounce;
+            input.RecallLast -= OnRecallLast;
+            input.RecallAll -= OnRecallAll;
         }
 
         /// <summary>
@@ -60,7 +66,7 @@ namespace GoodLuckValley.Mushroom
             unlockedWallJump = data.unlockedWallJump;
         }
 
-        private void Throw(bool started, bool canceled)
+        private void OnThrow(bool started, bool canceled)
         {
             ContextData contextData = new ContextData(started, canceled);
 
@@ -68,6 +74,39 @@ namespace GoodLuckValley.Mushroom
             // Calls to:
             //  - MushroomThrow.OnThrow();
             onThrow.Raise(this, contextData);
+        }
+
+        private void OnQuickBounce(bool started)
+        {
+            if (started)
+            {
+                // Quick bounce
+                // Calls to:
+                //  - MushroomQuickBounce.QuickBounce();
+                onQuickBounce.Raise(this, null);
+            }
+        }
+
+        private void OnRecallLast(bool started)
+        {
+            if(started)
+            {
+                // Recall last shroom
+                // Calls to:
+                //  - MushroomTracker.RecallLast();
+                onRecallLast.Raise(this, null);
+            }
+        }
+
+        private void OnRecallAll(bool started)
+        {
+            if(started)
+            {
+                // Recall all shrooms
+                // Calls to:
+                //  - MushroomTracker.RecallAll();
+                onRecallAll.Raise(this, null);
+            }
         }
 
         /// <summary>
