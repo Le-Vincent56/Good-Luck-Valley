@@ -89,25 +89,25 @@
                 {
                     "name": "DevTools",
                     "type": "Button",
-                    "id": "6b75abe9-889f-4a03-a42a-4ac28c2c7aef",
+                    "id": "070e5ce1-f82c-4de5-80e2-7e578ec94f80",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "No Clip",
+                    "name": "NoClip",
                     "type": "Button",
-                    "id": "f0d28a6d-c480-4193-941b-87e4c4ca4ece",
+                    "id": "3e1d270d-77a0-4262-8ebb-b4e50712d23a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Toggle Mushroom",
+                    "name": "UnlockPowers",
                     "type": "Button",
-                    "id": "6424c686-eb71-4cec-8a43-46eee57026e5",
+                    "id": "508263da-505f-4a9b-afe7-d973db585170",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -117,7 +117,7 @@
             "bindings": [
                 {
                     "name": "2D Vector",
-                    "id": "850644e7-3d77-4daa-9911-710656e65db6",
+                    "id": "233514ea-d20f-4404-9c05-07fc034bc200",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -128,7 +128,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "92403563-9e76-4be2-876d-424fc77bb148",
+                    "id": "f6be2d4a-fbce-4c41-9548-6a6bd748f9a3",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -139,7 +139,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "4df3e331-7b70-4b29-8630-4f41b96fc730",
+                    "id": "b691705d-91bb-4e82-8730-947a2fec27d0",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -150,7 +150,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "923ec307-a3ba-4c8a-be1e-c9002f43e7c2",
+                    "id": "93a4c792-7170-4831-8523-07b0ceb14b4b",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -161,7 +161,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "6bc0bcd5-474c-40ba-9342-8ce5648b3381",
+                    "id": "58c1e54b-f2c4-4bc4-aad6-68d1c4328bc8",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -260,7 +260,7 @@
                 },
                 {
                     "name": "",
-                    "id": "3c190a19-3b45-490f-8e5b-468ade6300ba",
+                    "id": "6034c311-c93f-42d2-b751-db7b0b73c0be",
                     "path": "<Keyboard>/minus",
                     "interactions": "",
                     "processors": "",
@@ -271,23 +271,73 @@
                 },
                 {
                     "name": "",
-                    "id": "1d9c6d07-36a3-4ae2-b739-f4f2e62d74d8",
+                    "id": "6309d0a2-0cbb-4538-a5a5-e9071820f104",
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "No Clip",
+                    "action": "NoClip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "a052f353-2577-4d62-94b1-31c4b740c487",
+                    "id": "e586aa42-9b3b-4b01-a59c-09b35ed184cc",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Toggle Mushroom",
+                    "action": "UnlockPowers",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "0394a4c8-4f01-462f-8a02-73d8422b661b",
+            "actions": [
+                {
+                    "name": "Start",
+                    "type": "Button",
+                    "id": "1edcc436-aaa1-4983-82ac-86d33e72e941",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3cd5549d-15e5-4fd0-aabf-b547ce88fc0b",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b92129ab-a493-442f-88a6-0471583894b0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65548503-24a4-4e23-8609-a5165aef51e0",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,11 +1,8 @@
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Patterns;
-using GoodLuckValley.Player;
-using GoodLuckValley.Player.Handlers;
-using GoodLuckValley.Player.StateMachine;
+using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Interactables;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -120,7 +117,7 @@ namespace GoodLuckValley.Persistence
             selectedData = new GameData
             {
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
-                CurrentLevelName = "Level 1.2",
+                CurrentLevelName = "Level 2.1",
                 playerSaveData = new PlayerSaveData(),
                 mushroomSaveData = new MushroomSaveData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
@@ -251,6 +248,20 @@ namespace GoodLuckValley.Persistence
             }
 
             return mostRecentSaveName;
+        }
+
+        /// <summary>
+        /// Refresh the save data
+        /// </summary>
+        public void RefreshSaveData()
+        {
+            // Initialize the Saves dictionary
+            saves = new Dictionary<string, GameData>();
+            IEnumerable<string> savesEnum = ListSaves();
+            foreach (string save in savesEnum)
+            {
+                saves[save] = dataService.Load(save);
+            }
         }
     }
 }
