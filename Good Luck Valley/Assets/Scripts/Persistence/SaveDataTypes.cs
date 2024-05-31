@@ -28,14 +28,10 @@ namespace GoodLuckValley.Persistence
     {
         [field: SerializeField] public SerializableGuid ID { get; set; }
         public Vector3 position;
-        public bool isFacingRight;
-        public string previousState;
-        public string currentState;
 
         public PlayerSaveData()
         {
             position = new Vector3(23.325f, 15.965f, 0.0f);
-            isFacingRight = true;
         }
     }
 

@@ -109,12 +109,39 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DevTools"",
+                    ""type"": ""Button"",
+                    ""id"": ""070e5ce1-f82c-4de5-80e2-7e578ec94f80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NoClip"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e1d270d-77a0-4262-8ebb-b4e50712d23a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UnlockPowers"",
+                    ""type"": ""Button"",
+                    ""id"": ""508263da-505f-4a9b-afe7-d973db585170"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": ""2D Vector"",
-                    ""id"": ""5877c6ab-2c1c-4fd5-8a61-bbef42e4c7b3"",
+                    ""id"": ""233514ea-d20f-4404-9c05-07fc034bc200"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -124,8 +151,19 @@ namespace GoodLuckValley.Player.Input
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""up"",
+                    ""id"": ""f6be2d4a-fbce-4c41-9548-6a6bd748f9a3"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""down"",
-                    ""id"": ""655e6809-3607-425f-84c7-521ade49bb3b"",
+                    ""id"": ""b691705d-91bb-4e82-8730-947a2fec27d0"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -136,7 +174,7 @@ namespace GoodLuckValley.Player.Input
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""0e5f1191-da84-4a34-991b-a88b116b1a84"",
+                    ""id"": ""93a4c792-7170-4831-8523-07b0ceb14b4b"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -147,7 +185,7 @@ namespace GoodLuckValley.Player.Input
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""41c87b6c-6bf0-439c-88b1-ef5badc44213"",
+                    ""id"": ""58c1e54b-f2c4-4bc4-aad6-68d1c4328bc8"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -243,6 +281,39 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6034c311-c93f-42d2-b751-db7b0b73c0be"",
+                    ""path"": ""<Keyboard>/minus"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DevTools"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6309d0a2-0cbb-4538-a5a5-e9071820f104"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NoClip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e586aa42-9b3b-4b01-a59c-09b35ed184cc"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UnlockPowers"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -310,6 +381,9 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_QuickBounce = m_PlayerControls.FindAction("Quick Bounce", throwIfNotFound: true);
             m_PlayerControls_Interact = m_PlayerControls.FindAction("Interact", throwIfNotFound: true);
             m_PlayerControls_Pause = m_PlayerControls.FindAction("Pause", throwIfNotFound: true);
+            m_PlayerControls_DevTools = m_PlayerControls.FindAction("DevTools", throwIfNotFound: true);
+            m_PlayerControls_NoClip = m_PlayerControls.FindAction("NoClip", throwIfNotFound: true);
+            m_PlayerControls_UnlockPowers = m_PlayerControls.FindAction("UnlockPowers", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
@@ -383,6 +457,9 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_QuickBounce;
         private readonly InputAction m_PlayerControls_Interact;
         private readonly InputAction m_PlayerControls_Pause;
+        private readonly InputAction m_PlayerControls_DevTools;
+        private readonly InputAction m_PlayerControls_NoClip;
+        private readonly InputAction m_PlayerControls_UnlockPowers;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -396,6 +473,9 @@ namespace GoodLuckValley.Player.Input
             public InputAction @QuickBounce => m_Wrapper.m_PlayerControls_QuickBounce;
             public InputAction @Interact => m_Wrapper.m_PlayerControls_Interact;
             public InputAction @Pause => m_Wrapper.m_PlayerControls_Pause;
+            public InputAction @DevTools => m_Wrapper.m_PlayerControls_DevTools;
+            public InputAction @NoClip => m_Wrapper.m_PlayerControls_NoClip;
+            public InputAction @UnlockPowers => m_Wrapper.m_PlayerControls_UnlockPowers;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -432,6 +512,15 @@ namespace GoodLuckValley.Player.Input
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @DevTools.started += instance.OnDevTools;
+                @DevTools.performed += instance.OnDevTools;
+                @DevTools.canceled += instance.OnDevTools;
+                @NoClip.started += instance.OnNoClip;
+                @NoClip.performed += instance.OnNoClip;
+                @NoClip.canceled += instance.OnNoClip;
+                @UnlockPowers.started += instance.OnUnlockPowers;
+                @UnlockPowers.performed += instance.OnUnlockPowers;
+                @UnlockPowers.canceled += instance.OnUnlockPowers;
             }
 
             private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -463,6 +552,15 @@ namespace GoodLuckValley.Player.Input
                 @Pause.started -= instance.OnPause;
                 @Pause.performed -= instance.OnPause;
                 @Pause.canceled -= instance.OnPause;
+                @DevTools.started -= instance.OnDevTools;
+                @DevTools.performed -= instance.OnDevTools;
+                @DevTools.canceled -= instance.OnDevTools;
+                @NoClip.started -= instance.OnNoClip;
+                @NoClip.performed -= instance.OnNoClip;
+                @NoClip.canceled -= instance.OnNoClip;
+                @UnlockPowers.started -= instance.OnUnlockPowers;
+                @UnlockPowers.performed -= instance.OnUnlockPowers;
+                @UnlockPowers.canceled -= instance.OnUnlockPowers;
             }
 
             public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -537,6 +635,9 @@ namespace GoodLuckValley.Player.Input
             void OnQuickBounce(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
+            void OnDevTools(InputAction.CallbackContext context);
+            void OnNoClip(InputAction.CallbackContext context);
+            void OnUnlockPowers(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

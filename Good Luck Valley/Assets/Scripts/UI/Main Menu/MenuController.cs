@@ -50,6 +50,9 @@ namespace GoodLuckValley.UI.MainMenu
 
         private void Start()
         {
+            // Refresh save data
+            SaveLoadSystem.Instance.RefreshSaveData();
+
             // Update UI
             UpdateUIFromSaveData();
 

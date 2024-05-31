@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 585038927488184642}
   - component: {fileID: 1306321270861685918}
   - component: {fileID: 3104307657730489375}
+  - component: {fileID: 2299901252162279132}
+  - component: {fileID: 7435526266546591446}
   m_Layer: 10
   m_Name: Mushroom Powers
   m_TagString: Untagged
@@ -58,6 +60,7 @@ MonoBehaviour:
   onQuickBounce: {fileID: 11400000, guid: e3b7c83e71eea3645b8dcb3a48fa13e4, type: 2}
   onRecallLast: {fileID: 11400000, guid: 90c2ad9b240fa204e965446344ead7dc, type: 2}
   onRecallAll: {fileID: 11400000, guid: 6690b17507b8acd43aa95affc461e97e, type: 2}
+  onCancelThrow: {fileID: 11400000, guid: 585f35f0253f2a14e910ffee00d96827, type: 2}
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   data:
     <ID>k__BackingField:
@@ -67,8 +70,8 @@ MonoBehaviour:
       Part4: 0
     unlockedThrow: 0
     unlockedWallJump: 0
-  unlockedThrow: 1
-  unlockedWallJump: 1
+  unlockedThrow: 0
+  unlockedWallJump: 0
   <ID>k__BackingField:
     Part1: 1172083930
     Part2: 1112073779
@@ -149,6 +152,62 @@ MonoBehaviour:
       - m_Target: {fileID: 536824551496159179}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.PowerController, Assembly-CSharp
         m_MethodName: UnlockThrow
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2299901252162279132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589847039867995421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: be4bda848206b2244af167de81d4cff1, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 536824551496159179}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.PowerController, Assembly-CSharp
+        m_MethodName: SetPaused
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7435526266546591446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589847039867995421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 40bd0571e5719e341b18bf544be9fbd3, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 536824551496159179}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.PowerController, Assembly-CSharp
+        m_MethodName: OnUnlockPowers
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -981,6 +1040,58 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &6988039211361314857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1465558386990664987}
+  - component: {fileID: 4244427029743385840}
+  m_Layer: 10
+  m_Name: DevTools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1465558386990664987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988039211361314857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2414757590046708016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4244427029743385840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988039211361314857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 826f6e838ea95d649bd5bb82e2c65c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onUnlockPowers: {fileID: 11400000, guid: 40bd0571e5719e341b18bf544be9fbd3, type: 2}
+  onUpdateDevToolsUI: {fileID: 11400000, guid: 9c9478f7de5d21d4c9c878ee7d3bc77a, type: 2}
+  input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
+  playerTransform: {fileID: 2414757590046708016}
+  usingDevTools: 0
+  noClipActive: 0
+  noClipSpeed: 1
+  powersUnlocked: 0
 --- !u!1 &7498535248954153839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,6 +1185,7 @@ GameObject:
   - component: {fileID: 4285914667633860384}
   - component: {fileID: 8410818967186305475}
   - component: {fileID: 2832842873247991424}
+  - component: {fileID: 8038435228954040881}
   m_Layer: 0
   m_Name: Throw
   m_TagString: Untagged
@@ -1177,6 +1289,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8038435228954040881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995139873918918414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 585f35f0253f2a14e910ffee00d96827, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4285914667633860384}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomThrow, Assembly-CSharp
+        m_MethodName: CancelThrow
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9047676686677396218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,6 +1331,8 @@ GameObject:
   - component: {fileID: 5731558841692214012}
   - component: {fileID: 1180876124798562802}
   - component: {fileID: 3312724052698482696}
+  - component: {fileID: 9054618323676775915}
+  - component: {fileID: -4315846995888419064}
   - component: {fileID: 7318721661013769202}
   - component: {fileID: 7671007024137985392}
   m_Layer: 10
@@ -1213,6 +1355,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1465558386990664987}
   - {fileID: 4520939286314282537}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1350,6 +1493,9 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 456
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 2048
   maxSlopeAngle: 50
   currentLayer: 0
 --- !u!114 &3312724052698482696
@@ -1369,6 +1515,7 @@ MonoBehaviour:
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   collisionHandler: {fileID: 0}
   data: {fileID: 11400000, guid: 263f2bec0a34f804b808f7105f2570e8, type: 2}
+  devTools: {fileID: 0}
   gravity: 0
   maxJumpVelocity: 0
   minJumpVelocity: 0
@@ -1380,15 +1527,49 @@ MonoBehaviour:
   lastOnGroundTime: 0
   lastPressedJumpTime: 0
   wallDirX: 0
-  wallJumpClimb: {x: 7.5, y: 16}
-  wallJumpOff: {x: 8.5, y: 7}
-  wallJumpLeap: {x: 18, y: 17}
   timeToWallUnstick: 0
   isGrounded: 0
   isWallSliding: 0
   isBouncing: 0
   isWallJumping: 0
   isAgainstWall: 0
+--- !u!114 &9054618323676775915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9580fc20f005a33419429470e128942d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
+--- !u!114 &-4315846995888419064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690100f12a92340469be8b8e8f2cba6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    position: {x: 23.325, y: 15.965, z: 0}
+  <ID>k__BackingField:
+    Part1: 981660440
+    Part2: 1129345911
+    Part3: 4255517369
+    Part4: 479523728
 --- !u!114 &7318721661013769202
 MonoBehaviour:
   m_ObjectHideFlags: 0

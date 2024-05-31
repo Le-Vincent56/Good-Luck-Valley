@@ -1,3 +1,4 @@
+using GoodLuckValley.World.Interactables;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace GoodLuckValley.Entity
             public CollisionLayer Layer;
             public RaycastHit2D VerticalCollisionRay;
             public RaycastHit2D HorizontalCollisionRay;
+            public IInteractable Interactable;
 
             /// <summary>
             /// Reset the Collision Info
@@ -46,11 +48,13 @@ namespace GoodLuckValley.Entity
                 Layer = CollisionLayer.Ground;
                 VerticalCollisionRay = new RaycastHit2D();
                 HorizontalCollisionRay = new RaycastHit2D();
+                Interactable = null;
             }
         }
 
         [SerializeField] private bool debug;
         [SerializeField] private LayerMask collisionMask;
+        [SerializeField] private LayerMask interactableMask;
         [SerializeField] private float maxSlopeAngle;
         [SerializeField] private CollisionLayer currentLayer;
         public CollisionInfo collisions;
@@ -89,38 +93,44 @@ namespace GoodLuckValley.Entity
             {
                 Vector2 rayOrigin = (directionY == -1) ? origins.bottomLeft : origins.topLeft;
                 rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+                RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+                RaycastHit2D hitInteractable = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, interactableMask);
 
                 // Debug
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
 
-                if (hit)
+                if (hitCollider)
                 {
                     // Adjust the velocity y
-                    velocity.y = (hit.distance - skinWidth) * directionY;
+                    velocity.y = (hitCollider.distance - skinWidth) * directionY;
 
                     // Set the ray length equal to the hit distance
-                    rayLength = hit.distance;
+                    rayLength = hitCollider.distance;
 
                     if(collisions.ClimbingSlope)
                     {
                         velocity.x = velocity.y / Mathf.Tan(collisions.SlopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);
                     }
 
-                    hitRays.Add(hit);
+                    hitRays.Add(hitCollider);
 
                     if(i == centralVerticalRay)
                     {
                         centralRayHit = true;
-                        centralHitRay = hit;
+                        centralHitRay = hitCollider;
                     }    
 
                     // Set collision info
                     collisions.Above = (directionY == 1);
                     collisions.Below = (directionY == -1);
-                    collisions.Layer = layers[hit.transform.gameObject.layer];
+                    collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
+                }
+
+                if(hitInteractable)
+                {
+                    collisions.Interactable = hitInteractable.transform.gameObject.GetComponent<IInteractable>();
                 }
             }
 
@@ -203,16 +213,17 @@ namespace GoodLuckValley.Entity
             {
                 Vector2 rayOrigin = (directionX == -1) ? origins.bottomLeft : origins.bottomRight;
                 rayOrigin += Vector2.up * (horizontalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+                RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+                RaycastHit2D hitInteractable = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, interactableMask);
 
                 // Debug
                 if (debug)
                     Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
 
-                if (hit)
+                if (hitCollider)
                 {
                     // Get the slope angle
-                    float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                    float slopeAngle = Vector2.Angle(hitCollider.normal, Vector2.up);
                     
                     // Use the first ray to check for a slope
                     if(i == 0 && slopeAngle <= maxSlopeAngle)
@@ -232,7 +243,7 @@ namespace GoodLuckValley.Entity
                         if(slopeAngle != collisions.PrevSlopeAngle)
                         {
                             // Set the distance to the slope
-                            distanceToSlopeStart = hit.distance - skinWidth;
+                            distanceToSlopeStart = hitCollider.distance - skinWidth;
 
                             // Subtract from the velocity so that it only uses
                             // the pure velocity when climbing
@@ -240,7 +251,7 @@ namespace GoodLuckValley.Entity
                         }
 
                         // Climb the slope
-                        ClimbSlope(ref velocity, slopeAngle, hit);
+                        ClimbSlope(ref velocity, slopeAngle, hitCollider);
 
                         // Re-add the distance to slope
                         velocity.x += distanceToSlopeStart * directionX;
@@ -250,10 +261,10 @@ namespace GoodLuckValley.Entity
                     if(!collisions.ClimbingSlope || slopeAngle > maxSlopeAngle)
                     {
                         // Adjust the velocity y
-                        velocity.x = (hit.distance - skinWidth) * directionX;
+                        velocity.x = (hitCollider.distance - skinWidth) * directionX;
 
                         // Set the ray length equal to the hit distance
-                        rayLength = hit.distance;
+                        rayLength = hitCollider.distance;
 
                         // Update velocity on the y-axis if on a slpe
                         if(collisions.ClimbingSlope)
@@ -262,21 +273,26 @@ namespace GoodLuckValley.Entity
                         }
 
                         // Store the hitpoint
-                        hitRays.Add(hit);
+                        hitRays.Add(hitCollider);
 
                         // Check if this is the central ray
                         if (i == centralHorizontalRay)
                         {
                             centralRayHit = true;
-                            centralHitRay = hit;
+                            centralHitRay = hitCollider;
                         }
 
                         // Set collision info
                         collisions.Right = (directionX == 1);
                         collisions.Left = (directionX == -1);
-                        collisions.Layer = layers[hit.transform.gameObject.layer];
+                        collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                         currentLayer = collisions.Layer;
                     }
+                }
+
+                if (hitInteractable)
+                {
+                    collisions.Interactable = hitInteractable.transform.gameObject.GetComponent<IInteractable>();
                 }
             }
 

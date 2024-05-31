@@ -178,7 +178,7 @@ namespace GoodLuckValley.Mushroom
             if(contextData.Canceled)
             {
                 // Check if can throw updated
-                if (!canThrow) return;
+                if (!canThrow || throwState != ThrowState.Throwing) return;
 
                 // Get the count to limit
                 // Calls to:
@@ -194,6 +194,24 @@ namespace GoodLuckValley.Mushroom
         public void SetThrowUnlocked(bool throwUnlocked)
         {
             this.throwUnlocked = throwUnlocked;
+        }
+
+        /// <summary>
+        /// Cancel the mushroom throw
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void CancelThrow(Component sender, object data)
+        {
+            // Check if already throwing
+            if (throwState == ThrowState.Throwing)
+            {
+                // Set throw state to "not throwing"
+                throwState = ThrowState.NotThrowing;
+
+                // Disable the throw UI
+                onDisableThrowUI.Raise(this, false);
+            }
         }
     }
 }

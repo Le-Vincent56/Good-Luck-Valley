@@ -12,6 +12,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onQuickBounce;
         [SerializeField] private GameEvent onRecallLast;
         [SerializeField] private GameEvent onRecallAll;
+        [SerializeField] private GameEvent onCancelThrow;
 
         #region REFERENCES
         [Header("References")]
@@ -20,6 +21,7 @@ namespace GoodLuckValley.Mushroom
         #endregion
 
         #region FIELDS
+        private bool paused = false;
         [SerializeField] private bool unlockedThrow;
         [SerializeField] private bool unlockedWallJump;
         #endregion
@@ -66,8 +68,17 @@ namespace GoodLuckValley.Mushroom
             unlockedWallJump = data.unlockedWallJump;
         }
 
+        /// <summary>
+        /// Handle Throw input
+        /// </summary>
+        /// <param name="started">If the button has been pressed</param>
+        /// <param name="canceled">If the button has been lifted</param>
         private void OnThrow(bool started, bool canceled)
         {
+            // Return if paused
+            if (paused) return;
+
+            // Create data
             ContextData contextData = new ContextData(started, canceled);
 
             // Raise the throw event
@@ -76,9 +87,14 @@ namespace GoodLuckValley.Mushroom
             onThrow.Raise(this, contextData);
         }
 
+        /// <summary>
+        /// Handle Quick Bounce input
+        /// </summary>
+        /// <param name="started">If the button has been pressed</param>
         private void OnQuickBounce(bool started)
         {
-            if (started)
+            // Only handle if pressed once and the game is not paused
+            if (started && !paused)
             {
                 // Quick bounce
                 // Calls to:
@@ -87,9 +103,14 @@ namespace GoodLuckValley.Mushroom
             }
         }
 
+        /// <summary>
+        /// Handle Recall Last input
+        /// </summary>
+        /// <param name="started">If the button has been pressed</param>
         private void OnRecallLast(bool started)
         {
-            if(started)
+            // Only handle if pressed once and the game is not paused
+            if (started && !paused)
             {
                 // Recall last shroom
                 // Calls to:
@@ -98,9 +119,14 @@ namespace GoodLuckValley.Mushroom
             }
         }
 
+        /// <summary>
+        /// Handle Recall All input
+        /// </summary>
+        /// <param name="started">If the button has been pressed</param>
         private void OnRecallAll(bool started)
         {
-            if(started)
+            // Only handle if pressed once and the game is not paused
+            if (started && !paused)
             {
                 // Recall all shrooms
                 // Calls to:
@@ -157,6 +183,36 @@ namespace GoodLuckValley.Mushroom
 
             // Update save data
             UpdateData();
+        }
+
+        public void OnUnlockPowers(Component sender, object data)
+        {
+            // Verify that the correct data is being sent
+            if (data is not bool) return;
+
+            bool unlocked = (bool)data;
+
+            // Set the powers
+            unlockedThrow = unlocked;
+            unlockedWallJump = unlocked;
+        }
+
+        /// <summary>
+        /// Set paused for the Power Controller
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void SetPaused(Component sender, object data)
+        {
+            // Verify the correct data is being sent
+            if (data is not bool) return;
+
+            // Cast and set data
+            bool paused = (bool)data;
+            this.paused = paused;
+
+            // Cancel throw
+            onCancelThrow.Raise(this, null);
         }
     }
 }

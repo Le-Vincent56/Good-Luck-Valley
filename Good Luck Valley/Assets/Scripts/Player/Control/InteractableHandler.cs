@@ -1,3 +1,5 @@
+using GoodLuckValley.Entity;
+using GoodLuckValley.Player.Input;
 using GoodLuckValley.World.Interactables;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,30 +9,42 @@ namespace GoodLuckValley.Player.Handlers
 {
     public class InteractableHandler : MonoBehaviour
     {
-        #region FIELDS
+        [Header("References")]
+        [SerializeField] private InputReader input;
+        [SerializeField] private CollisionHandler collisionHandler;
+
+        [Header("Fields")]
+        [SerializeField] private bool canInteract;
         private IInteractable interactable;
-        #endregion
 
-        /// <summary>
-        /// Set the current Interactable for the Player
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public void SetInteractable(Component sender, object data)
+        private void Awake()
         {
-            // Check if the data type is correct
-            if (data is not IInteractable || data is null) return;
-
-            // Cast the data
-            IInteractable sentInteractable = (IInteractable)data;
-
-            // Set the interactable
-            interactable = sentInteractable;
+            collisionHandler = GetComponent<CollisionHandler>();
         }
 
-        /// <summary>
-        /// Interact with the current Interactable, if not null
-        /// </summary>
-        public void Interact(Component sender, object data) => interactable?.Interact();
+        private void OnEnable()
+        {
+            input.Interact += OnInteract;
+        }
+
+        private void OnDisable()
+        {
+            input.Interact -= OnInteract;
+        }
+
+        private void FixedUpdate()
+        {
+            interactable = collisionHandler.collisions.Interactable;
+
+            canInteract = interactable != null;
+        }
+
+        public void OnInteract(bool started)
+        {
+            if(started)
+            {
+                interactable?.Interact();
+            }
+        }
     }
 }

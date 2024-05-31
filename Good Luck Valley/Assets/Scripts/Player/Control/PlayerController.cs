@@ -19,6 +19,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private InputReader input;
         [SerializeField] private CollisionHandler collisionHandler;
         [SerializeField] private PlayerData data;
+        [SerializeField] private DevTools devTools;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -54,6 +55,7 @@ namespace GoodLuckValley.Player.Control
             // Get components
             animator = GetComponent<Animator>();
             collisionHandler = GetComponent<CollisionHandler>();
+            devTools = GetComponentInChildren<DevTools>();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -64,6 +66,7 @@ namespace GoodLuckValley.Player.Control
             FallState fallState = new FallState(this, animator);
             BounceState bounceState = new BounceState(this, animator);
             WallJumpState wallJumpState = new WallJumpState(this, animator);
+            DevState devState = new DevState(this, devTools, animator);
 
             // Define strict transitions
             At(idleState, locomotionState, new FuncPredicate(() => input.NormInputX != 0));
@@ -83,9 +86,13 @@ namespace GoodLuckValley.Player.Control
             At(bounceState, wallState, new FuncPredicate(() => isWallSliding));
             At(wallJumpState, wallState, new FuncPredicate(() => isWallSliding));
 
+            At(devState, idleState, new FuncPredicate(() => !devTools.Active && input.NormInputX == 0));
+            At(devState, locomotionState, new FuncPredicate(() => !devTools.Active && input.NormInputX != 0));
+
             // Define any transitions
-            Any(fallState, new FuncPredicate(() => !isGrounded && !isWallSliding && velocity.y < 0f));
-            Any(bounceState, new FuncPredicate(() => isBouncing));
+            Any(devState, new FuncPredicate(() => devTools.Active));
+            Any(fallState, new FuncPredicate(() => !devTools.Active && !isGrounded && !isWallSliding && velocity.y < 0f));
+            Any(bounceState, new FuncPredicate(() => !devTools && isBouncing));
 
             // Set an initial state
             stateMachine.SetState(idleState);
