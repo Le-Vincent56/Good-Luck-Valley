@@ -1,10 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom.States
 {
-    public class IdleState : MushroomState
+    public class WallIdleState : WallMushroomState
     {
-        public IdleState(MushroomController mushroom, Animator animator) : base(mushroom, animator)
+        public WallIdleState(MushroomController mushroom, Animator animator) : base(mushroom, animator)
         {
         }
 
@@ -22,4 +24,5 @@ namespace GoodLuckValley.Mushroom.States
             mushroom.HandleCollisions();
         }
     }
+
 }

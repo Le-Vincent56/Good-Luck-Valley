@@ -24,18 +24,6 @@ namespace GoodLuckValley.Mushroom
             }
         }
 
-        public struct BounceData
-        {
-            public Vector2 BounceVector;
-            public ForceMode2D ForceMode;
-
-            public BounceData(Vector2 bounceVector, ForceMode2D forceMode)
-            {
-                BounceVector = bounceVector;
-                ForceMode = forceMode;
-            }
-        }
-
         #region EVENTS
         [Header("Events")]
         [SerializeField] private GameEvent onRequestUnlockedWallJump;
@@ -108,43 +96,32 @@ namespace GoodLuckValley.Mushroom
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public void GetWallDirection(Component sender, object data)
+        public void GetSpawnData(Component sender, object data)
         {
             // See if the wall jump is unlocked
             onRequestUnlockedWallJump.Raise(this, null);
 
             // Check the correct data was sent or if the wall jump is unlocked
-            if (data is not Data || !unlockedWallJump) return;
+            if (data is not RaycastHit2D || !unlockedWallJump) return;
 
-            // Cast the data
-            Data wallData = (Data)data;
+            RaycastHit2D hit = (RaycastHit2D)data;
 
-            // Set wall data
-            wallJumpInput = wallData.Input;
-            wallDirection = wallData.Direction;
-            size = wallData.Size;
-
-            // If not on a wall, don't continue
-            if (!wallJumpInput || wallDirection == 0f) return;
-
-            // Create a raycast
-            RaycastHit2D hitInfo = Physics2D.Linecast(wallData.WallCheckPos, new Vector2(wallData.WallCheckPos.x + (wallDirection * size), wallData.WallCheckPos.y), mushroomWallLayer);
-            contactPoint = hitInfo.point;
+            // Set contact point
+            contactPoint = hit.point;
 
             // Create collision data
-            CollisionData collisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(contactPoint);
+            CollisionData collisionData = hit.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(contactPoint);
 
             // Create the mushroom
             GameObject shroom = CreateShroom(collisionData);
 
             // Set bounce data
             Vector2 wallJumpVector = shroom.GetComponent<MushroomData>().GetBounceVector();
-            BounceData bounceData = new BounceData(wallJumpVector, ForceMode2D.Impulse);
 
             // Apply force
             // Calls to:
             //  - PlayerController.StartWallJump()
-            onWallJump.Raise(this, bounceData);
+            onWallJump.Raise(this, wallJumpVector);
         }
 
         /// <summary>

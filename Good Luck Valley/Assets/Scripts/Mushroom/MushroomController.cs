@@ -17,6 +17,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private MushroomData data;
 
         [Header("Fields")]
+        [SerializeField] private ShroomType shroomType;
         [SerializeField] private Vector2 velocity;
         [SerializeField] private bool bounceEntity;
 
@@ -31,15 +32,29 @@ namespace GoodLuckValley.Mushroom
 
             // Declare states
             stateMachine = new StateMachine();
-            IdleState idleState = new IdleState(this, animator);
-            BounceState bounceState = new BounceState(this, animator);
 
-            // Define strict transitions
-            At(idleState, bounceState, new FuncPredicate(() => bounceEntity));
-            At(bounceState, idleState, new FuncPredicate(() => !bounceEntity));
+            switch(shroomType)
+            {
+                case ShroomType.Regular:
+                    IdleState idleState = new IdleState(this, animator);
+                    BounceState bounceState = new BounceState(this, animator);
 
-            // Set the initial state
-            stateMachine.SetState(idleState);
+                    // Define strict transitions
+                    At(idleState, bounceState, new FuncPredicate(() => bounceEntity));
+                    At(bounceState, idleState, new FuncPredicate(() => !bounceEntity));
+
+                    // Set the initial state
+                    stateMachine.SetState(idleState);
+                    break;
+
+                case ShroomType.Wall:
+                    WallIdleState wallIdleState = new WallIdleState(this, animator);
+
+                    At(wallIdleState, wallIdleState, new FuncPredicate(() => bounceEntity));
+
+                    stateMachine.SetState(wallIdleState);
+                    break;
+            }
         }
 
         private void Update()
@@ -64,7 +79,7 @@ namespace GoodLuckValley.Mushroom
             {
                 // Bounce the entity
                 bounceEntity = true;
-                onShroomEnter.Raise(this, data);
+                onShroomEnter?.Raise(this, data);
             }
         }
 
