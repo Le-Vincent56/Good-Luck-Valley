@@ -27,8 +27,8 @@ namespace GoodLuckValley.Entity
             public bool SlidingDownMaxSlope;
             public Vector2 SlopeNormal;
             public CollisionLayer Layer;
-            public Vector2 VerticalCollisionPoint;
-            public Vector2 HorizontalCollisionPoint;
+            public RaycastHit2D VerticalCollisionRay;
+            public RaycastHit2D HorizontalCollisionRay;
 
             /// <summary>
             /// Reset the Collision Info
@@ -44,8 +44,8 @@ namespace GoodLuckValley.Entity
                 SlopeNormal = Vector2.zero;
                 SlidingDownMaxSlope = false;
                 Layer = CollisionLayer.Ground;
-                VerticalCollisionPoint = Vector2.zero;
-                HorizontalCollisionPoint = Vector2.zero;
+                VerticalCollisionRay = new RaycastHit2D();
+                HorizontalCollisionRay = new RaycastHit2D();
             }
         }
 
@@ -82,8 +82,8 @@ namespace GoodLuckValley.Entity
 
             // Prepare to find the center-most collision point
             bool centralRayHit = false;
-            Vector2 centralhitPoint = Vector2.zero;
-            List<Vector2> hitPoints = new List<Vector2>();
+            RaycastHit2D centralHitRay = new RaycastHit2D();
+            List<RaycastHit2D> hitRays = new List<RaycastHit2D>();
 
             for (int i = 0; i < verticalRayCount; i++)
             {
@@ -108,12 +108,12 @@ namespace GoodLuckValley.Entity
                         velocity.x = velocity.y / Mathf.Tan(collisions.SlopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);
                     }
 
-                    hitPoints.Add(hit.point);
+                    hitRays.Add(hit);
 
                     if(i == centralVerticalRay)
                     {
                         centralRayHit = true;
-                        centralhitPoint = hit.point;
+                        centralHitRay = hit;
                     }    
 
                     // Set collision info
@@ -127,28 +127,28 @@ namespace GoodLuckValley.Entity
             // Check if the central ray was hit
             if (centralRayHit)
             {
-                collisions.VerticalCollisionPoint = centralhitPoint;
-            } else if (hitPoints.Count > 0)
+                collisions.VerticalCollisionRay = centralHitRay;
+            } else if (hitRays.Count > 0)
             {
                 // Set the max value for distance to compare
                 float closestDistance = float.MaxValue;
 
                 // Iterate through each point and find the closest distance to the center
-                foreach (Vector2 point in hitPoints)
+                foreach (RaycastHit2D ray in hitRays)
                 {
                     // Compare the distance
-                    float distance = Mathf.Abs(point.x - (origins.bottomLeft.x + (origins.topRight.x - origins.bottomLeft.x) / 2));
+                    float distance = Mathf.Abs(ray.point.x - (origins.bottomLeft.x + (origins.topRight.x - origins.bottomLeft.x) / 2));
                     if (distance < closestDistance)
                     {
                         closestDistance = distance;
-                        collisions.VerticalCollisionPoint = point;
+                        collisions.VerticalCollisionRay = ray;
                     }
                 }
             }
 
             // Debug
             if (debug)
-                Debug.DrawRay(collisions.VerticalCollisionPoint, Vector2.up * directionY, Color.white);
+                Debug.DrawRay(collisions.VerticalCollisionRay.point, Vector2.up * directionY, Color.white);
 
             // If climbing a slope, fire out a new ray in the future position
             // To check for a new slope
@@ -192,8 +192,8 @@ namespace GoodLuckValley.Entity
 
             // Prepare to find the center-most collision point
             bool centralRayHit = false;
-            Vector2 centralHitPoint = Vector2.zero;
-            List<Vector2> hitPoints = new List<Vector2>();
+            RaycastHit2D centralHitRay = new RaycastHit2D();
+            List<RaycastHit2D> hitRays = new List<RaycastHit2D>();
 
             // Control ray length according to x-velocity compared to skin width
             if (Mathf.Abs(velocity.x) < skinWidth)
@@ -262,13 +262,13 @@ namespace GoodLuckValley.Entity
                         }
 
                         // Store the hitpoint
-                        hitPoints.Add(hit.point);
+                        hitRays.Add(hit);
 
                         // Check if this is the central ray
                         if (i == centralHorizontalRay)
                         {
                             centralRayHit = true;
-                            centralHitPoint = hit.point;
+                            centralHitRay = hit;
                         }
 
                         // Set collision info
@@ -284,29 +284,29 @@ namespace GoodLuckValley.Entity
             if(centralRayHit)
             {
                 // If so, set it as the collision point
-                collisions.HorizontalCollisionPoint = centralHitPoint;
-            } else if(hitPoints.Count > 0)
+                collisions.HorizontalCollisionRay = centralHitRay;
+            } else if(hitRays.Count > 0)
             {
                 // Set the max value for distance to compare
                 float closestDistance = float.MaxValue;
                 float centerY = (origins.bottomLeft.y + origins.topLeft.y) / 2;
 
                 // Iterate through each point and find the closest distance to the center
-                foreach (Vector2 point in hitPoints)
+                foreach (RaycastHit2D ray in hitRays)
                 {
                     // Compare the distance
-                    float distance = Mathf.Abs(point.y - centerY);
+                    float distance = Mathf.Abs(ray.point.y - centerY);
                     if (distance < closestDistance)
                     {
                         closestDistance = distance;
-                        collisions.HorizontalCollisionPoint = centralHitPoint;
+                        collisions.HorizontalCollisionRay = ray;
                     }
                 }
             }
 
             // Debug
             if (debug)
-                Debug.DrawRay(collisions.HorizontalCollisionPoint, Vector2.right * directionX, Color.white);
+                Debug.DrawRay(collisions.HorizontalCollisionRay.point, Vector2.right * directionX, Color.white);
         }
 
         public void HandleAllCollisionsForStatic(ref Vector2 velocity)

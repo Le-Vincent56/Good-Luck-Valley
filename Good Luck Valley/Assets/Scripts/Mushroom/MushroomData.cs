@@ -58,7 +58,7 @@ namespace GoodLuckValley.Mushroom
 
                     // Set bounce direction and force
                     bounceDirection = (bounceRotation * transform.up).normalized;
-                    bounceForce = 10f;
+                    bounceForce = 15f;
                     break;
             }
         }
