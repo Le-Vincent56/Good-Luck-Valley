@@ -42,7 +42,7 @@ namespace GoodLuckValley.UI.MainMenu
             LoadState.InstantiateUILists();
 
             // Set each object to be false
-            for(int i = 1; i < screens.Count; i++)
+            for(int i = 1; i < screens.Count; i++)  
             {
                 screens[i].SetActive(false);
             }
