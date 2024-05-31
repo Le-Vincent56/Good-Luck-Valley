@@ -36,9 +36,11 @@ namespace GoodLuckValley.Entity
         /// </summary>
         public void UpdateRaycastOrigins()
         {
+            // Get current bounds
             Bounds bounds = entityCollider.bounds;
             bounds.Expand(skinWidth * -2f);
 
+            // Set origin position for raycasts
             origins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
             origins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
             origins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
@@ -50,6 +52,7 @@ namespace GoodLuckValley.Entity
         /// </summary>
         public void CalculateRaySpacing()
         {
+            // Get curent collider bounds
             Bounds bounds = entityCollider.bounds;
             bounds.Expand(skinWidth * -2f);
 

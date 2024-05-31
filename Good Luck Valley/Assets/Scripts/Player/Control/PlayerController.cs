@@ -85,6 +85,8 @@ namespace GoodLuckValley.Player.Control
             At(bounceState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX != 0));
             At(bounceState, wallState, new FuncPredicate(() => isWallSliding));
             At(wallJumpState, wallState, new FuncPredicate(() => isWallSliding));
+            At(wallJumpState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX == 0));
+            At(wallJumpState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX != 0));
 
             At(devState, idleState, new FuncPredicate(() => !devTools.Active && input.NormInputX == 0));
             At(devState, locomotionState, new FuncPredicate(() => !devTools.Active && input.NormInputX != 0));
@@ -489,19 +491,6 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
-        public void StartWallJump(Component sender, object data)
-        {
-            // Verify that the data being sent is correct
-            if (data is not Vector2) return;
-
-            // Cast data
-            Vector2 wallJumpVector = (Vector2)data;
-
-            // Set data
-            velocity.x = wallJumpVector.x;
-            velocity.y = wallJumpVector.y;
-        }
-
         /// <summary>
         /// Handle jump input
         /// </summary>
@@ -554,10 +543,15 @@ namespace GoodLuckValley.Player.Control
         }
 
         /// <summary>
-        /// Set the player to bouncing
+        /// Set the player's bouncing state
         /// </summary>
         /// <param name="isBouncing"></param>
         public void SetBouncing(bool isBouncing) => this.isBouncing = isBouncing; 
+
+        /// <summary>
+        /// Set the player's wall jumping state
+        /// </summary>
+        /// <param name="isWallJumping"></param>
         public void SetWallJumping(bool isWallJumping) => this.isWallJumping = isWallJumping;
 
         /// <summary>
@@ -579,6 +573,24 @@ namespace GoodLuckValley.Player.Control
             // Apply bounce force
             velocity.x += bounceData.BounceVector.x;
             velocity.y = bounceData.BounceVector.y;
+        }
+
+        /// <summary>
+        /// Start a wall jump
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void StartWallJump(Component sender, object data)
+        {
+            // Verify that the data being sent is correct
+            if (data is not Vector2) return;
+
+            // Cast data
+            Vector2 wallJumpVector = (Vector2)data;
+
+            // Set data
+            velocity.x = wallJumpVector.x;
+            velocity.y = wallJumpVector.y;
         }
     }
 }
