@@ -20,6 +20,7 @@ namespace GoodLuckValley.Player.Control
 
         [Header("Events")]
         [SerializeField] private GameEvent onUnlockPowers;
+        [SerializeField] private GameEvent onToggleDevToolsUI;
         [SerializeField] private GameEvent onUpdateDevToolsUI;
 
         [Header("References")]
@@ -69,6 +70,8 @@ namespace GoodLuckValley.Player.Control
             {
                 // Toggle DevTools
                 usingDevTools = !usingDevTools;
+
+                onToggleDevToolsUI.Raise(this, usingDevTools);
             }
         }
 

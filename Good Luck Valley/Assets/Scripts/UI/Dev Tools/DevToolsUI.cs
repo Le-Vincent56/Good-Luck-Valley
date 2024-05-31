@@ -1,4 +1,4 @@
-using GoodLuckValley.Player.Handlers;
+using GoodLuckValley.Player.Control;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,16 +33,16 @@ namespace GoodLuckValley.UI.DevTools
 
         public void UpdateUI(Component sender, object data)
         {
-            if (data is not PlayerInputHandler.DevTools) return;
+            if (data is not Player.Control.DevTools.Data) return;
 
-            PlayerInputHandler.DevTools devToolsData = (PlayerInputHandler.DevTools)data;
+            Player.Control.DevTools.Data devToolsData = (Player.Control.DevTools.Data)data;
 
             string display = "Dev Tools Enabled";
 
             if (devToolsData.NoClip)
                 display += "\n NoClip On";
 
-            if (devToolsData.EnabledShroom)
+            if (devToolsData.PowersUnlocked)
                 display += "\nMushroom Powers Unlocked";
 
             displayText.text = display;

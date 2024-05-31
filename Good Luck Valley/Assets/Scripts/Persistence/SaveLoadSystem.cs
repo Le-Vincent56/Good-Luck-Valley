@@ -117,7 +117,7 @@ namespace GoodLuckValley.Persistence
             selectedData = new GameData
             {
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
-                CurrentLevelName = "Level 1.2",
+                CurrentLevelName = "Level 2.1",
                 playerSaveData = new PlayerSaveData(),
                 mushroomSaveData = new MushroomSaveData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
