@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GoodLuckValley.Player.StateMachine;
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Events;
 using GoodLuckValley.World.Tiles;
 using static GoodLuckValley.World.Tiles.CollisionData;
+using GoodLuckValley.Player.Control;
 
 namespace GoodLuckValley.UI
 {
@@ -17,11 +17,6 @@ namespace GoodLuckValley.UI
         [SerializeField] private GameEvent onRequestThrowData;
         [SerializeField] private GameEvent onShowIndicator;
         [SerializeField] private GameEvent onHideIndicator;
-        #endregion
-
-        #region REFERENCES
-        [Header("Objects")]
-        [SerializeField] private PlayerControllerOld player;
         #endregion
 
         #region FIELDS
@@ -53,9 +48,6 @@ namespace GoodLuckValley.UI
         // Start is called before the first frame update
         void Start()
         {
-            // Get the player controller
-            onRequestPlayerController.Raise(this, null);
-
             // Width of the line
             width = 0.1f;
 
@@ -291,33 +283,6 @@ namespace GoodLuckValley.UI
 
             lineRenderer.positionCount = 0;
 
-            switch (facingRight)
-            {
-                case true:
-                    // If they are facing right the trajectory line cannot go past the left 
-                    //    side of the player 
-                    if (player.RB.velocity.x < 0 && playerPos.x - launchForce.x < playerPos.x)
-                    {
-                        // Turns the player by calling the player's Turn method
-                        player.Turn();
-                    }
-                    // Sets starting position for line to match the location the shrooms are
-                    //      spawned from with the offset
-                    break;
-
-                case false:
-                    // if the player is facing left the trajectory line cannot go past
-                    //      the right side of the player
-                    if (player.RB.velocity.x > 0 && playerPos.x + launchForce.x < playerPos.x)
-                    {
-                        // sets launchforce to zero to 'stop' the renderer
-                        player.Turn();
-                    }
-                    // sets starting position for line to match the location the shrooms are
-                    //      spawned from with the offsets
-                    break;
-            }
-
             // Hide the indicator
             // Calls to:
             //  - MushroomIndicator.HideIndicator()
@@ -386,11 +351,6 @@ namespace GoodLuckValley.UI
         public void SetCursorPosition(Vector2 cursorPosition)
         {
             this.cursorPosition = cursorPosition;
-        }
-
-        public void SetPlayerController(PlayerControllerOld playerController)
-        {
-            this.player = playerController;
         }
     }
 }

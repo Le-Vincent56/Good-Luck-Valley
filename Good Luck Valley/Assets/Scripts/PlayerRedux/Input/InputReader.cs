@@ -5,6 +5,18 @@ using static GoodLuckValley.Player.Input.PlayerInputActions;
 
 namespace GoodLuckValley.Player.Input
 {
+    public struct ContextData
+    {
+        public bool Started;
+        public bool Canceled;
+
+        public ContextData(bool started, bool canceled)
+        {
+            Started = started;
+            Canceled = canceled;
+        }
+    }
+
     [CreateAssetMenu(fileName = "InputReader")]
     public class InputReader : ScriptableObject, IPlayerControlsActions
     {
@@ -101,7 +113,6 @@ namespace GoodLuckValley.Player.Input
             {
                 Throw.Invoke(context.started, context.canceled);
             }
-            
         }
     }
 }

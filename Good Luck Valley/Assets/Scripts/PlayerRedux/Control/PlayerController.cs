@@ -1,40 +1,40 @@
+using GHoodLuckValley.Player.Data;
+using GoodLuckValley.Mushroom;
 using GoodLuckValley.Player.Input;
-using GoodLuckValley.Player.StateMachine;
-using GoodLuckValley.Player.StateMachine.States;
+using GoodLuckValley.Patterns.StateMachine;
 using UnityEngine;
-using UnityEngine.Rendering;
+using GoodLuckValley.Player.States;
+using GoodLuckValley.Entity;
+using GoodLuckValley.Events;
 
 namespace GoodLuckValley.Player.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onWallJumpInput;
+
         [Header("References")]
-        [SerializeField] private PlayerData data;
         [SerializeField] private Animator animator;
         [SerializeField] private InputReader input;
         [SerializeField] private CollisionHandler collisionHandler;
+        [SerializeField] private PlayerData data;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
-        [SerializeField] private float accelerationTimeGround;
-        [SerializeField] private float accelerationTimeAir;
         [SerializeField] private float maxJumpVelocity;
         [SerializeField] private float minJumpVelocity;
         [SerializeField] private bool fastFalling;
-        [SerializeField] private float maxFallSpeed;
-        [SerializeField] private float fastFallScalar;
-        [SerializeField] private float maxFastFallSpeed;
         [SerializeField] private Vector2 velocity;
 
         [Header("Fields - Movement")]
-        [SerializeField] private float movementSpeed;
         [SerializeField] private float xVelSmoothing;
 
         [Header("Fields - Jump")]
+        [SerializeField] private bool isJumpCut;
         [SerializeField] private bool isJumping;
-        [SerializeField] private float maxJumpHeight;
-        [SerializeField] private float minJumpHeight;
-        [SerializeField] private float timeToJumpApex;
+        [SerializeField] private float lastOnGroundTime;
+        [SerializeField] private float lastPressedJumpTime;
 
         [Header("Fields - Wall Slide")]
         [SerializeField] private bool wallSliding;
@@ -42,16 +42,13 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private Vector2 wallJumpClimb;
         [SerializeField] private Vector2 wallJumpOff;
         [SerializeField] private Vector2 wallJumpLeap;
-        [SerializeField] private float fastWallSlideScalar;
-        [SerializeField] private float maxWallSlideSpeed;
-        [SerializeField] private float maxFastWallSlideSpeed;
-        [SerializeField] private float wallStickTime;
         [SerializeField] private float timeToWallUnstick;
 
         [Header("Fields - Checks")]
         [SerializeField] private bool isGrounded;
+        [SerializeField] private bool isBouncing;
 
-        private StateMachine.StateMachine stateMachine;
+        private StateMachine stateMachine;
 
         private void Awake()
         {
@@ -60,17 +57,18 @@ namespace GoodLuckValley.Player.Control
             collisionHandler = GetComponent<CollisionHandler>();
 
             // Declare states
-            stateMachine = new StateMachine.StateMachine();
+            stateMachine = new StateMachine();
             IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator);
             JumpState jumpState = new JumpState(this, animator);
             WallState wallState = new WallState(this, animator);
             FallState fallState = new FallState(this, animator);
+            BounceState bounceState = new BounceState(this, animator);
 
-            // Define transitions
-            At(idleState, locomotionState, new FuncPredicate(() => input.NormInputX  != 0));
+            // Define strict transitions
+            At(idleState, locomotionState, new FuncPredicate(() => input.NormInputX != 0));
             At(idleState, jumpState, new FuncPredicate(() => isJumping));
-            At(locomotionState, idleState, new FuncPredicate(() => input.NormInputX  == 0));
+            At(locomotionState, idleState, new FuncPredicate(() => input.NormInputX == 0));
             At(locomotionState, jumpState, new FuncPredicate(() => isJumping));
             At(jumpState, locomotionState, new FuncPredicate(() => isGrounded && !isJumping));
             At(jumpState, wallState, new FuncPredicate(() => wallSliding));
@@ -79,19 +77,24 @@ namespace GoodLuckValley.Player.Control
             At(fallState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX  == 0));
             At(fallState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX  != 0));
             At(fallState, wallState, new FuncPredicate(() => wallSliding));
+            At(bounceState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX == 0));
+            At(bounceState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX != 0));
+            At(bounceState, wallState, new FuncPredicate(() => wallSliding));
 
-            // Any, go to fall
+            // Define any transitions
             Any(fallState, new FuncPredicate(() => !isGrounded && !wallSliding && velocity.y < 0f));
+            Any(bounceState, new FuncPredicate(() => isBouncing));
 
+            // Set an initial state
             stateMachine.SetState(idleState);
         }
 
         private void Start()
         {
             // Define gravity
-            gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-            maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
-            minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+            gravity = -(2 * data.maxJumpHeight) / Mathf.Pow(data.timeToJumpApex, 2);
+            maxJumpVelocity = Mathf.Abs(gravity * data.timeToJumpApex);
+            minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * data.minJumpHeight);
         }
 
         private void OnEnable()
@@ -108,6 +111,9 @@ namespace GoodLuckValley.Player.Control
 
         private void Update()
         {
+            // Update timers
+            UpdateTimers();
+
             // Update the state machine
             stateMachine.Update();
         }
@@ -121,9 +127,24 @@ namespace GoodLuckValley.Player.Control
             CheckDirectionToFace();
         }
 
+        /// <summary>
+        /// Add a transition from one State to another given a certain condition
+        /// </summary>
+        /// <param name="from">The State to define the transition from</param>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the Transition</param>
         private void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
+
+        /// <summary>
+        /// Add a transition from any State to another one given a certain condition
+        /// </summary>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the transition</param>
         private void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
+        /// <summary>
+        /// Check the direction for the player to face
+        /// </summary>
         private void CheckDirectionToFace()
         {
             Vector3 scale = transform.localScale;
@@ -131,17 +152,32 @@ namespace GoodLuckValley.Player.Control
             transform.localScale = scale;
         }
 
+        /// <summary>
+        /// Update movement timers
+        /// </summary>
+        public void UpdateTimers()
+        {
+            if(lastOnGroundTime > 0f)
+                lastOnGroundTime -= Time.deltaTime;
+
+            if(lastPressedJumpTime > 0f)
+                lastPressedJumpTime -= Time.deltaTime;
+        }
+
+        /// <summary>
+        /// Calculate the initial velocity of movement before handling
+        /// </summary>
         public void CalculateVelocity()
         {
             // Get the target speed
-            float targetSpeed = input.NormInputX  * movementSpeed;
+            float targetSpeed = input.NormInputX  * data.movementSpeed;
 
             // Smooth the target speed, taking in acceleration to account
             velocity.x = Mathf.SmoothDamp(
                 velocity.x,
                 targetSpeed,
                 ref xVelSmoothing,
-                (collisionHandler.collisions.Below) ? accelerationTimeGround : accelerationTimeAir
+                (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
             );
 
             // Check if the player is grounded
@@ -150,16 +186,46 @@ namespace GoodLuckValley.Player.Control
                 // Set grounded to true
                 isGrounded = true;
 
-                // If the player was jumping, stop jumping
-                if (isJumping) isJumping = false;
+                // Set bouncing to false
+                isBouncing = false;
+
+                // Set coyote time
+                lastOnGroundTime = data.coyoteTime;
+
+                if(lastPressedJumpTime > 0f)
+                {
+                    // Set jumping to true
+                    isJumping = true;
+
+                    // Reset last pressed jump time
+                    lastPressedJumpTime = 0f;
+
+                    // Execute the jump
+                    HandleJump();
+                }
             }
             else isGrounded = false;
+
+            if(collisionHandler.collisions.Below && velocity.y <= 0f)
+            {
+                if (isJumping)
+                    isJumping = false;
+
+                if (isJumpCut)
+                    isJumpCut = false;
+            }
 
             // Check if wall sliding
             if ((collisionHandler.collisions.Left || collisionHandler.collisions.Right) &&
                 !collisionHandler.collisions.Below && velocity.y < 0 &&
                 collisionHandler.collisions.Layer == CollisionHandler.CollisionLayer.MushroomWall)
             {
+                if (isJumping)
+                    isJumping = false;
+
+                if (isJumpCut)
+                    isJumpCut = false;
+
                 wallSliding = true;
             } else
             {
@@ -172,6 +238,9 @@ namespace GoodLuckValley.Player.Control
                 HandleFalling();
         }
 
+        /// <summary>
+        /// Handle player falling
+        /// </summary>
         public void HandleFalling()
         {
             // Check if grounded
@@ -185,12 +254,12 @@ namespace GoodLuckValley.Player.Control
             if(fastFalling)
             {
                 // Increase the gravity by the scalar
-                velocity.y += gravity * fastFallScalar * Time.deltaTime;
+                velocity.y += gravity * data.fastFallScalar * Time.deltaTime;
 
                 // Clamp to fast fall speed
-                if(velocity.y < -maxFastFallSpeed)
+                if(velocity.y < -data.maxFastFallSpeed)
                 {
-                    velocity.y = -maxFastFallSpeed;
+                    velocity.y = -data.maxFastFallSpeed;
                 }
             } else
             {
@@ -198,13 +267,16 @@ namespace GoodLuckValley.Player.Control
                 velocity.y += gravity * Time.deltaTime;
 
                 // If not, clamp to normal fall speed
-                if (velocity.y < -maxFallSpeed)
+                if (velocity.y < -data.maxFallSpeed)
                 {
-                    velocity.y = -maxFallSpeed;
+                    velocity.y = -data.maxFallSpeed;
                 }
             }
         }
 
+        /// <summary>
+        /// Handle the wall sliding of the player
+        /// </summary>
         public void HandleWallSliding()
         {
             // Get the direction of the wall
@@ -217,12 +289,12 @@ namespace GoodLuckValley.Player.Control
                 if(fastFalling)
                 {
                     // Increase the gravity by the scalar
-                    velocity.y += gravity * fastWallSlideScalar * Time.deltaTime;
+                    velocity.y += gravity * data.fastWallSlideScalar * Time.deltaTime;
 
                     // Clamp to the max fast wall slide speed
-                    if (velocity.y < -maxFastWallSlideSpeed)
+                    if (velocity.y < -data.maxFastWallSlideSpeed)
                     {
-                        velocity.y = -maxFastWallSlideSpeed;
+                        velocity.y = -data.maxFastWallSlideSpeed;
                     }
                 } else
                 {
@@ -230,9 +302,9 @@ namespace GoodLuckValley.Player.Control
                     velocity.y += gravity * Time.deltaTime;
 
                     // Clamp to the max wall slide speed
-                    if (velocity.y < -maxWallSlideSpeed)
+                    if (velocity.y < -data.maxWallSlideSpeed)
                     {
-                        velocity.y = -maxWallSlideSpeed;
+                        velocity.y = -data.maxWallSlideSpeed;
                     }
                 }
 
@@ -251,12 +323,15 @@ namespace GoodLuckValley.Player.Control
                     else
                     {
                         // Reset the wall stick time
-                        timeToWallUnstick = wallStickTime;
+                        timeToWallUnstick = data.wallStickTime;
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Handle the player movement
+        /// </summary>
         public void HandleMovement()
         {
             // Move
@@ -278,13 +353,13 @@ namespace GoodLuckValley.Player.Control
                     velocity.y = 0f;
                 }
             }
-            else if (!collisionHandler.collisions.Below)
-            {
-                // Set not grounded
-                isGrounded = false;
-            }
         }
 
+        /// <summary>
+        /// Move the player
+        /// </summary>
+        /// <param name="velocity"></param>
+        /// <param name="standingOnPlatform"></param>
         public void Move(Vector2 velocity, bool standingOnPlatform = false)
         {
             // Update raycasts
@@ -322,70 +397,110 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
-        public void OnJump(bool started)
-        {
-            // Check if the context was started
-            if(started)
-            {
-                // Set jumping to true
-                isJumping = true;
 
-                // Check if wall sliding
-                if (wallSliding)
+        /// <summary>
+        /// Handle the upward movement of the jump
+        /// </summary>
+        private void HandleJump()
+        {
+            // Check if grounded
+            if (collisionHandler.collisions.Below || lastOnGroundTime > 0 && !isJumpCut)
+            {
+                // Check if sliding down a slope
+                if (collisionHandler.collisions.SlidingDownMaxSlope)
                 {
-                    // Check if pressing against the wall
-                    if (wallDirX == input.NormInputX )
+                    // Check if we are not jumping against a max slope
+                    if (input.NormInputX != -Mathf.Sign(collisionHandler.collisions.SlopeNormal.x))
                     {
-                        velocity.x = -wallDirX * wallJumpClimb.x;
-                        velocity.y = wallJumpClimb.y;
-                    }
-                    else if (input.NormInputX  == 0) // Check if not pressing at all
-                    {
-                        velocity.x = -wallDirX * wallJumpOff.x;
-                        velocity.y = wallJumpOff.y;
-                    }
-                    else // Check if pressing away from the wall
-                    {
-                        velocity.x = -wallDirX * wallJumpLeap.x;
-                        velocity.y = wallJumpLeap.y;
+                        velocity.y = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.y;
+                        velocity.x = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.x;
                     }
                 }
-
-                // Check if grounded
-                if (collisionHandler.collisions.Below)
+                else
                 {
-                    // Check if sliding down a slope
-                    if (collisionHandler.collisions.SlidingDownMaxSlope)
-                    {
-                        // Check if we are not jumping against a max slope
-                        if (input.NormInputX  != -Mathf.Sign(collisionHandler.collisions.SlopeNormal.x))
-                        {
-                            velocity.y = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.y;
-                            velocity.x = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.x;
-                        }
-                    }
-                    else
-                    {
-                        // Otherwise, jump like normal
-                        velocity.y = maxJumpVelocity;
-                    }
+                    // Otherwise, jump like normal
+                    velocity.y = maxJumpVelocity;
                 }
             }
 
-            // Check if the context was canceled
-            if(!started)
+            if(isJumpCut)
             {
                 // Cut velocity
                 if (velocity.y > minJumpVelocity)
                 {
                     velocity.y = minJumpVelocity;
                 }
-
-                // Set jumping to false
-                isJumping = false;
             }
         }
 
+        /// <summary>
+        /// Begin the jump
+        /// </summary>
+        public void StartJump()
+        {
+            // Check if wall sliding
+            if(!wallSliding)
+            {
+                HandleJump();
+            }
+            else
+            {
+            }
+
+            // Check if wall sliding
+            if (wallSliding)
+            {
+                velocity.x = -wallDirX * wallJumpLeap.x;
+                velocity.y = wallJumpLeap.y;
+            }
+
+            
+        }
+
+        /// <summary>
+        /// Handle jump input
+        /// </summary>
+        /// <param name="started"></param>
+        public void OnJump(bool started)
+        {
+            // Check if the context was started
+            if(started)
+            {
+                if (!isJumping)
+                {
+                    // Set jumping to true
+                    isJumping = true;
+
+                    // Set jump cut to false
+                    isJumpCut = false;
+
+                    // Start the jump
+                    StartJump();
+                }
+                else if (isJumping)
+                {
+                    isJumpCut = false;
+
+                    // Set the last pressed jump time
+                    lastPressedJumpTime = data.jumpBufferTime;
+                }
+            }
+
+            // Check if the context was canceled and that the input still applies
+            if(!started)
+            {
+                // Set jump cutting
+                isJumpCut = true;
+
+                // Handle the jump
+                HandleJump();
+            }
+        }
+
+        /// <summary>
+        /// Handle fast fall input
+        /// </summary>
+        /// <param name="started"></param>
         public void OnFastFall(bool started)
         {
             if (started)
@@ -397,6 +512,33 @@ namespace GoodLuckValley.Player.Control
             {
                 fastFalling = false;
             }
+        }
+
+        /// <summary>
+        /// Set the player to bouncing
+        /// </summary>
+        /// <param name="isBouncing"></param>
+        public void SetBouncing(bool isBouncing) => this.isBouncing = isBouncing; 
+
+        /// <summary>
+        /// Bounce the player
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void Bounce(Component sender, object data)
+        {
+            // Check if the data is the correct type
+            if (data is not MushroomBounce.BounceData) return;
+
+            // Cast data
+            MushroomBounce.BounceData bounceData =(MushroomBounce.BounceData)data;
+
+            // Set bouncing to true
+            isBouncing = true;
+
+            // Apply bounce force
+            velocity.x = bounceData.BounceVector.x;
+            velocity.y = bounceData.BounceVector.y;
         }
     }
 }

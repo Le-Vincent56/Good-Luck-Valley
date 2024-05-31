@@ -17,6 +17,8 @@ namespace GoodLuckValley.Entity
         protected RaycastOrigins origins;
         protected int horizontalRayCount;
         protected int verticalRayCount;
+        protected int centralHorizontalRay;
+        protected int centralVerticalRay;
         protected float horizontalRaySpacing;
         protected float verticalRaySpacing;
 
@@ -62,6 +64,10 @@ namespace GoodLuckValley.Entity
             // Calculate the psacing between all raycasts
             horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
             verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
+
+            // Set center points
+            centralHorizontalRay = horizontalRayCount / 2;
+            centralVerticalRay = verticalRayCount / 2;
         }
     }
 }

@@ -1,14 +1,21 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
-using System.Collections;
-using System.Collections.Generic;
+using GoodLuckValley.Player.Input;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
 {
     public class PowerController : MonoBehaviour, IBind<MushroomSaveData>
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onThrow;
+        [SerializeField] private GameEvent onQuickBounce;
+        [SerializeField] private GameEvent onRecallLast;
+        [SerializeField] private GameEvent onRecallAll;
+
         #region REFERENCES
+        [Header("References")]
+        [SerializeField] private InputReader input;
         [SerializeField] private MushroomSaveData data;
         #endregion
 
@@ -22,6 +29,16 @@ namespace GoodLuckValley.Mushroom
         public bool UnlockedThrow { get { return unlockedThrow;} }
         public bool UnlockedWallJump { get {  return unlockedWallJump;} }
         #endregion
+
+        private void OnEnable()
+        {
+            input.Throw += Throw;
+        }
+
+        private void OnDisable()
+        {
+            input.Throw -= Throw;
+        }
 
         /// <summary>
         /// Update Mushroom Power save data
@@ -41,6 +58,16 @@ namespace GoodLuckValley.Mushroom
             // Set data
             unlockedThrow = data.unlockedThrow;
             unlockedWallJump = data.unlockedWallJump;
+        }
+
+        private void Throw(bool started, bool canceled)
+        {
+            ContextData contextData = new ContextData(started, canceled);
+
+            // Raise the throw event
+            // Calls to:
+            //  - MushroomThrow.OnThrow();
+            onThrow.Raise(this, contextData);
         }
 
         /// <summary>

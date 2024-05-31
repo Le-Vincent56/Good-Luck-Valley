@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Mushroom.StateMachine.States
+namespace GoodLuckValley.Mushroom.StateMachineOld.States
 {
-    public class RegularMushroomState : MushroomState
+    public class RegularMushroomState : MushroomStateOld
     {
         #region FIELDS
         protected bool isBouncing;
         #endregion
 
-        public RegularMushroomState(MushroomController mushroom, MushroomStateMachine stateMachine, string animationBoolName)
+        public RegularMushroomState(MushroomControllerOld mushroom, MushroomStateMachineOld stateMachine, string animationBoolName)
             : base(mushroom, stateMachine, animationBoolName)
         {
         }
