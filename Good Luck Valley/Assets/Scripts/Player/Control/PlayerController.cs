@@ -100,7 +100,7 @@ namespace GoodLuckValley.Player.Control
             // Define any transitions
             Any(devState, new FuncPredicate(() => devTools.Active));
             Any(fallState, new FuncPredicate(() => !devTools.Active && !isGrounded && !isWallSliding && velocity.y < 0f));
-            Any(bounceState, new FuncPredicate(() => !devTools && isBouncing));
+            Any(bounceState, new FuncPredicate(() => !devTools.Active && isBouncing));
 
             // Set an initial state
             stateMachine.SetState(idleState);
