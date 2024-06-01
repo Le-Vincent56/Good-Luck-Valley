@@ -11,7 +11,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private ShroomType shroomType;
         [SerializeField] private Vector2 bounceDirection;
         [SerializeField] private float bounceForce;
-        [SerializeField] private float rotation;
+        [SerializeField] private int rotation;
 
         #region PROPERTIES
         public bool Rotated { get; private set; }
@@ -21,7 +21,7 @@ namespace GoodLuckValley.Mushroom
         /// Instantiate the data of the Mushroom
         /// </summary>
         /// <param name="shroomType"></param>
-        public void InstantiateMushroomData(ShroomType shroomType, float rotation)
+        public void InstantiateMushroomData(ShroomType shroomType, int rotation)
         {
             // Set data
             this.shroomType = shroomType;
@@ -36,9 +36,9 @@ namespace GoodLuckValley.Mushroom
                     bounceForce = mushroomData.regularBounceForce;
                     Rotated = false;
 
-                    if(Mathf.Abs((int)rotation) == 45)
+                    if(Mathf.Abs(rotation) == 45 || Mathf.Abs(rotation) == 135)
                     {
-                        bounceForce = 10f / Mathf.Sin(45f);
+                        bounceForce = mushroomData.regularSlopeBounceForce;
                         Rotated = true;
                     }
                     break;

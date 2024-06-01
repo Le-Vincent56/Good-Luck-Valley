@@ -70,8 +70,8 @@ MonoBehaviour:
       Part4: 0
     unlockedThrow: 0
     unlockedWallJump: 0
-  unlockedThrow: 0
-  unlockedWallJump: 0
+  unlockedThrow: 1
+  unlockedWallJump: 1
   <ID>k__BackingField:
     Part1: 1172083930
     Part2: 1112073779
@@ -227,9 +227,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5445976481101561012}
   - component: {fileID: 431873193127342469}
+  - component: {fileID: 8693680543694562495}
   - component: {fileID: 6660810350643126684}
   - component: {fileID: 5029976447107171208}
   - component: {fileID: 2104972983226189629}
+  - component: {fileID: 3890962541650020238}
   m_Layer: 0
   m_Name: Indicator
   m_TagString: Untagged
@@ -304,6 +306,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &8693680543694562495
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206898662599272021}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.007452011, y: 0.012419343}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 2.56}
+    newSize: {x: 2.56, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7964592, y: 0.8461373}
+  m_EdgeRadius: 0
 --- !u!114 &6660810350643126684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +365,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   validSprite: {fileID: 21300000, guid: bf6740596ef39ff4492b138cb34518c8, type: 3}
   invalidSprite: {fileID: 21300000, guid: 6294342a8e69e734a97d29d1532aa722, type: 3}
+  finalSpawnInfo:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Angle: 0
+  indicatorHeight: 0
 --- !u!114 &5029976447107171208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +417,34 @@ MonoBehaviour:
       - m_Target: {fileID: 6660810350643126684}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomIndicator, Assembly-CSharp
         m_MethodName: HideIndicator
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3890962541650020238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206898662599272021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 0488b422c6fcd5843b29e70cd16091c2, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6660810350643126684}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomIndicator, Assembly-CSharp
+        m_MethodName: GetFinalSpawnInfo
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -840,7 +920,6 @@ MonoBehaviour:
     m_Bits: 640
   throwMultiplier: 8
   show: 0
-  facingRight: 0
   cursorPosition: {x: 0, y: 0}
   throwDirection: {x: 0, y: 0}
   launchForce: {x: 0, y: 0}
@@ -1220,10 +1299,15 @@ MonoBehaviour:
   onRemoveFirstShroom: {fileID: 11400000, guid: 5df1a868a6ba0554da8263d93a35b128, type: 2}
   onGetThrowDirection: {fileID: 11400000, guid: a82350fe457471f4999b279f21cf1258, type: 2}
   onGetSpawnData: {fileID: 11400000, guid: 7302a3c64b60c1e43a9ac8c82a2287f8, type: 2}
+  onGetFinalSpawnInfo: {fileID: 11400000, guid: 0488b422c6fcd5843b29e70cd16091c2, type: 2}
   onEnableThrowUI: {fileID: 11400000, guid: cd34581456012724ebfe0bec4cdb144f, type: 2}
   onDisableThrowUI: {fileID: 11400000, guid: e0a7f9ab0fa9fcd48b31fdc7416c6637, type: 2}
   spore: {fileID: 1470045706857144608, guid: dec2852c561ebf04ab3e0da5b0c3bd06, type: 3}
   throwDirection: {x: 0, y: 0}
+  finalSpawnInfo:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Angle: 0
   throwMultiplier: 407.5
   throwUnlocked: 1
   canThrow: 1
@@ -1326,6 +1410,7 @@ GameObject:
   - component: {fileID: 5731558841692214012}
   - component: {fileID: 1180876124798562802}
   - component: {fileID: 3312724052698482696}
+  - component: {fileID: 1378804955233713589}
   - component: {fileID: 9054618323676775915}
   - component: {fileID: -4315846995888419064}
   - component: {fileID: 7318721661013769202}
@@ -1484,6 +1569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b53398eae5dc4c04e864921e09790d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceBetweenRays: 0.1
   debug: 0
   collisionMask:
     serializedVersion: 2
@@ -1528,6 +1614,30 @@ MonoBehaviour:
   isBouncing: 0
   isWallJumping: 0
   isAgainstWall: 0
+--- !u!114 &1378804955233713589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690100f12a92340469be8b8e8f2cba6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    position: {x: 23.325, y: 15.965, z: 0}
+  <ID>k__BackingField:
+    Part1: 3819671457
+    Part2: 1159333638
+    Part3: 1157771957
+    Part4: 4202531976
 --- !u!114 &9054618323676775915
 MonoBehaviour:
   m_ObjectHideFlags: 0

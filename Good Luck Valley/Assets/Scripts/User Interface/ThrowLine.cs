@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Events;
-using GoodLuckValley.World.Tiles;
-using static GoodLuckValley.World.Tiles.CollisionData;
-using GoodLuckValley.Player.Control;
 
 namespace GoodLuckValley.UI
 {
@@ -154,7 +149,8 @@ namespace GoodLuckValley.UI
 
             // Collision data
             ShroomSpawnData spawnData = new ShroomSpawnData(
-                new CollisionData(CollisionDirection.Up, 0f, Vector2.zero), 
+                Vector2.zero,
+                0,
                 false
             );
 
@@ -166,16 +162,18 @@ namespace GoodLuckValley.UI
                 shroomableHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], shroomableLayer);
                 unshroomableHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], unshroomableLayer);
 
-                // Check hit infos
+                // Check shroomable hits
                 if (shroomableHitInfo)
                 {
-                    Debug.Log(Vector2.Angle(shroomableHitInfo.normal, Vector2.up));
+                    // Handle valid raycasts
                     HandleRaycastValid(i, shroomableHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
 
+                // Check unshroomeable hits
                 if (unshroomableHitInfo)
                 {
+                    // handle invalid raycasts
                     HandleRaycastInvalid(i, unshroomableHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
@@ -204,7 +202,7 @@ namespace GoodLuckValley.UI
         }
         
         /// <summary>
-        /// Handle collisions for Mushroom Spawning for a Raycast
+        /// Handle collisions for mushroom spawning for a valid raycast
         /// </summary>
         /// <param name="count"></param>
         /// <param name="hitInfo"></param>
@@ -230,10 +228,19 @@ namespace GoodLuckValley.UI
             collided = true;
 
             // Set collision data
-            spawnData.CollisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(hitInfo.point);
+            spawnData.Point = hitInfo.point;
+            spawnData.Rotation = (int)Vector2.Angle(hitInfo.normal, Vector2.up) * -(int)Mathf.Sign(hitInfo.normal.x);
             spawnData.Valid = true;
         }
 
+        /// <summary>
+        /// Handle collisions for mushroom spawning for an invalid raycast
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="hitInfo"></param>
+        /// <param name="newPoints"></param>
+        /// <param name="spawnData"></param>
+        /// <param name="collided"></param>
         public void HandleRaycastInvalid(int count, RaycastHit2D hitInfo, out Vector3[] newPoints, out ShroomSpawnData spawnData, out bool collided)
         {
             newPoints = new Vector3[count + 2];
@@ -252,7 +259,8 @@ namespace GoodLuckValley.UI
             collided = true;
 
             // Set collision data
-            spawnData.CollisionData = new CollisionData(CollisionDirection.None, 0f, hitInfo.point);
+            spawnData.Point = hitInfo.point;
+            spawnData.Rotation = (int)Vector2.Angle(hitInfo.normal, Vector2.up);
             spawnData.Valid = false;
         }
 
@@ -271,6 +279,11 @@ namespace GoodLuckValley.UI
             onHideIndicator.Raise(this, null);
         }
 
+        /// <summary>
+        /// Get the direction of the throw
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void GetLineDirection(Component sender, object data)
         {
             if (sender is not MushroomThrow) return;
@@ -315,15 +328,6 @@ namespace GoodLuckValley.UI
 
             show = (bool)data;
             DeleteLine();
-        }
-
-        /// <summary>
-        /// Set if the player is facing right
-        /// </summary>
-        /// <param name="facingRight">Whether the player is facing right or not</param>
-        public void SetFacingRight(bool facingRight)
-        {
-            this.facingRight = facingRight;
         }
 
         /// <summary>

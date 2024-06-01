@@ -1,7 +1,5 @@
 using GoodLuckValley.Events;
-using GoodLuckValley.World.Tiles;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -49,49 +47,6 @@ namespace GoodLuckValley.Mushroom
         #endregion
 
         /// <summary>
-        /// Create a Wall Jumnp Mushroom
-        /// </summary>
-        /// <param name="collisionData">The CollisionData to inform Mushroom placement</param>
-        public GameObject CreateShroom(CollisionData collisionData)
-        {
-            // Get the shroom height
-            float shroomHeight = (wallShroom.GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.25f;
-
-            // The quaternion that will rotate the shroom
-            Quaternion rotationQuat = Quaternion.AngleAxis(collisionData.Rotation, Vector3.forward);
-
-            // Displace the shroom depending on collision direction
-            switch (collisionData.Direction)
-            {
-                case CollisionData.CollisionDirection.Up:
-                    collisionData.SpawnPoint.y += shroomHeight;
-                    break;
-
-                case CollisionData.CollisionDirection.Right:
-                    collisionData.SpawnPoint.x += shroomHeight;
-                    break;
-
-                case CollisionData.CollisionDirection.Down:
-                    collisionData.SpawnPoint.y -= shroomHeight;
-                    break;
-
-                case CollisionData.CollisionDirection.Left:
-                    collisionData.SpawnPoint.x -= shroomHeight;
-                    break;
-            }
-
-            // Create a shroom
-            GameObject shroom = Instantiate(wallShroom, collisionData.SpawnPoint, rotationQuat);
-            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Wall, collisionData.Rotation);
-
-            // Add the wall mushroom to its respective list
-            // Calls to:
-            //  - MushroomTracker.AddWallMushroom();
-            onAddWallMushroom.Raise(this, shroom);
-            return shroom;
-        }
-
-        /// <summary>
         /// Get the wall direction of the wall jump and prepare the jump
         /// </summary>
         /// <param name="sender"></param>
@@ -106,22 +61,92 @@ namespace GoodLuckValley.Mushroom
 
             RaycastHit2D hit = (RaycastHit2D)data;
 
-            // Set contact point
-            contactPoint = hit.point;
+            if(hit)
+            {
+                // Create a spawn data container
+                ShroomSpawnData spawnData = new ShroomSpawnData();
 
-            // Create collision data
-            CollisionData collisionData = hit.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(contactPoint);
+                // Set collision data
+                spawnData.Point = hit.point;
+                spawnData.Rotation = (int)Vector2.Angle(hit.normal, Vector2.up) * -(int)Mathf.Sign(hit.normal.x);
+                spawnData.Valid = true;
 
-            // Create the mushroom
-            GameObject shroom = CreateShroom(collisionData);
+                //  Calculate and store the final spawn info
+                FinalSpawnInfo finalSpawnInfo = new FinalSpawnInfo();
+                CalculateFinalSpawnInfo(spawnData, ref finalSpawnInfo);
 
-            // Set bounce data
-            Vector2 wallJumpVector = shroom.GetComponent<MushroomInfo>().GetBounceVector();
+                // Create the mushroom
+                CreateShroom(finalSpawnInfo);
 
-            // Apply force
+                // Create the mushroom
+                GameObject shroom = CreateShroom(finalSpawnInfo);
+
+                // Set bounce data
+                Vector2 wallJumpVector = shroom.GetComponent<MushroomInfo>().GetBounceVector();
+
+                // Apply force
+                // Calls to:
+                //  - PlayerController.StartWallJump()
+                onWallJump.Raise(this, wallJumpVector);
+            }
+        }
+
+        /// <summary>
+        /// Calculate the final spawn info for the mushroom wall jump
+        /// </summary>
+        /// <param name="spawnData">The spawn data of the mushroom</param>
+        /// <param name="finalSpawnInfo">The final spawn info to store into</param>
+        public void CalculateFinalSpawnInfo(ShroomSpawnData spawnData, ref FinalSpawnInfo finalSpawnInfo)
+        {
+            // Rotation of the shroom according to collision data
+            Quaternion rotationQuat = Quaternion.AngleAxis(spawnData.Rotation, Vector3.forward);
+            transform.rotation = rotationQuat;
+
+            // Set spawn info
+            finalSpawnInfo = new FinalSpawnInfo(spawnData.Point, rotationQuat, spawnData.Rotation);
+        }
+
+        /// <summary>
+        /// Create a Wall Jumnp Mushroom
+        /// </summary>
+        /// <param name="finalSpawnInfo">The final spawn info of the mushroom</param>
+        public GameObject CreateShroom(FinalSpawnInfo finalSpawnInfo)
+        {
+            // Create a shroom
+            GameObject shroom = Instantiate(wallShroom, finalSpawnInfo.Position, finalSpawnInfo.Rotation);
+
+            // Get the mushroom's height
+            Bounds bounds = shroom.GetComponent<BoxCollider2D>().bounds;
+            float mushroomHeight = (bounds.max.y - bounds.min.y) / 6f;
+
+            // Get the spawn point
+            Vector2 spawnPoint = finalSpawnInfo.Position;
+
+            Debug.Log(finalSpawnInfo.Angle);
+
+            // Edit spawn point position depending on angle
+            switch (finalSpawnInfo.Angle)
+            {
+                case 90:
+                    spawnPoint.x -= mushroomHeight;
+                    break;
+
+                case -90:
+                    spawnPoint.x += mushroomHeight;
+                    break;
+            }
+
+            // Set the spawn point
+            shroom.transform.position = spawnPoint;
+
+            // Set mushroom info
+            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Wall, finalSpawnInfo.Angle);
+
+            // Add the wall mushroom to its respective list
             // Calls to:
-            //  - PlayerController.StartWallJump()
-            onWallJump.Raise(this, wallJumpVector);
+            //  - MushroomTracker.AddWallMushroom();
+            onAddWallMushroom.Raise(this, shroom);
+            return shroom;
         }
 
         /// <summary>

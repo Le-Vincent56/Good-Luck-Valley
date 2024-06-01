@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7389799708004788831}
   - component: {fileID: 7389799708004789155}
-  - component: {fileID: 7389799708004789154}
   - component: {fileID: 7389799708004788829}
-  - component: {fileID: 7389799708004788828}
   m_Layer: 7
   m_Name: Mushroom_Wall
   m_TagString: Untagged
@@ -87,33 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &7389799708004789154
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7389799708004788830}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &7389799708004788829
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -159,37 +130,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7389799708004788828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7389799708004788830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1a01ac23e6b72147833efb28dc0944d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileType: 4
-  shroomType: 1
-  prioritySide: 1
-  contactBuffer: 0.5
-  center: {x: 0, y: 0}
-  width: 0
-  height: 0
-  diagDirection: 0
-  hypotenusePoints: []
-  spawnHor: 0
-  spawnVer: 0
-  diagonalRot: 0
-  horizontalRot: 0
-  verticalRot: 0
-  spawnUp: 0
-  spawnRight: 0
-  spawnDown: 0
-  spawnLeft: 0
-  topRot: -180
-  bottomRot: -90
-  leftRot: 180
-  rightRot: 90

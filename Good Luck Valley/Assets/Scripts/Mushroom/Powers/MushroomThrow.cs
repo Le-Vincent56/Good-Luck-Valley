@@ -1,36 +1,20 @@
 using GoodLuckValley.Events;
-using GoodLuckValley.Player.Handlers;
 using GoodLuckValley.Player.Input;
-using GoodLuckValley.World.Tiles;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace GoodLuckValley.Mushroom
 {
     public struct ShroomSpawnData
     {
-        public CollisionData CollisionData;
+        public Vector2 Point;
+        public int Rotation;
         public bool Valid;
 
-        public ShroomSpawnData(CollisionData collisionData, bool valid)
+        public ShroomSpawnData(Vector2 point, int rotation, bool valid)
         {
-            CollisionData = collisionData;
+            Point = point;
+            Rotation = rotation;
             Valid = valid;
-        }
-    }
-
-    public struct SporeData
-    {
-        public Vector2 LaunchForce;
-        public GameObject Spore;
-
-        public SporeData(Vector2 launchForce, GameObject spore)
-        {
-            LaunchForce = launchForce;
-            Spore = spore;
         }
     }
 
@@ -49,6 +33,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onRemoveFirstShroom;
         [SerializeField] private GameEvent onGetThrowDirection;
         [SerializeField] private GameEvent onGetSpawnData;
+        [SerializeField] private GameEvent onGetFinalSpawnInfo;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
 
@@ -59,6 +44,7 @@ namespace GoodLuckValley.Mushroom
         #region FIELDS
         [SerializeField] private Vector2 throwDirection;
         [SerializeField] private ShroomSpawnData spawnData;
+        [SerializeField] private FinalSpawnInfo finalSpawnInfo;
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool throwUnlocked;
         [SerializeField] private bool canThrow;
@@ -81,6 +67,11 @@ namespace GoodLuckValley.Mushroom
         public void SetSpawnData(ShroomSpawnData data)
         {
             spawnData = data;
+        }
+
+        public void SetFinalSpawnInfo(FinalSpawnInfo finalSpawnInfo)
+        {
+            this.finalSpawnInfo = finalSpawnInfo;
         }
 
         /// <summary>
@@ -136,10 +127,15 @@ namespace GoodLuckValley.Mushroom
             //  - ThrowLine.HideLine();
             onDisableThrowUI.Raise(this, false);
 
+            // Get final spawn info
+            // Calls to:
+            //  - MushroomIndicator.GetFinalSpawnInfo();
+            onGetFinalSpawnInfo.Raise(this, null);
+
             // Create a spore and set collision data
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
-            newSpore.GetComponent<Spore>().SetCollisionData(spawnData.CollisionData);
-            newSpore.GetComponent<Rigidbody2D>().AddForce(throwDirection * throwMultiplier);
+            newSpore.GetComponent<Spore>().SetSpawnInfo(finalSpawnInfo);
+            newSpore.GetComponent<Spore>().ThrowSpore(throwDirection);
         }
 
         /// <summary>

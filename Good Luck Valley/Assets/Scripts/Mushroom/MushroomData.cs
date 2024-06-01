@@ -6,5 +6,6 @@ using UnityEngine;
 public class MushroomData : ScriptableObject
 {
     [SerializeField] public float regularBounceForce;
+    [SerializeField] public float regularSlopeBounceForce;
     [SerializeField] public float wallBounceForce;
 }

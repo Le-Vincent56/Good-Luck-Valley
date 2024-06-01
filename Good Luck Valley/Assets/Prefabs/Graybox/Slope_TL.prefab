@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4983755233021603894}
   - component: {fileID: 4983755233021603889}
-  - component: {fileID: 4983755233021603888}
   - component: {fileID: 4983755233021603891}
-  - component: {fileID: 4983755233021603890}
   m_Layer: 8
   m_Name: Slope_TL
   m_TagString: Untagged
@@ -87,33 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4983755233021603888
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4983755233021603901}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!60 &4983755233021603891
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -150,7 +121,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -162,37 +133,3 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.5}
       - {x: 0.5, y: -0.5}
   m_UseDelaunayMesh: 0
---- !u!114 &4983755233021603890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4983755233021603901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1a01ac23e6b72147833efb28dc0944d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileType: 3
-  shroomType: 0
-  prioritySide: 0
-  contactBuffer: 0.01
-  center: {x: 0, y: 0}
-  width: 0
-  height: 0
-  diagDirection: 1
-  hypotenusePoints: []
-  spawnHor: 0
-  spawnVer: 0
-  diagonalRot: 0
-  horizontalRot: 0
-  verticalRot: 0
-  spawnUp: 0
-  spawnRight: 0
-  spawnDown: 0
-  spawnLeft: 0
-  topRot: 0
-  bottomRot: 0
-  leftRot: 0
-  rightRot: 0
