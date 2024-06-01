@@ -90,12 +90,22 @@ namespace GoodLuckValley.Mushroom
                     spawnPoint.x += indicatorHeight;
                     break;
 
+                case 44:
+                    spawnPoint.x -= indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y += indicatorHeight * Mathf.Sin(45);
+                    break;
+
                 case 45:
                     spawnPoint.x -= indicatorHeight * Mathf.Cos(45);
                     spawnPoint.y += indicatorHeight * Mathf.Sin(45);
                     break;
 
                 case -45:
+                    spawnPoint.x += indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y += indicatorHeight * Mathf.Sin(45);
+                    break;
+
+                case -44:
                     spawnPoint.x += indicatorHeight * Mathf.Cos(45);
                     spawnPoint.y += indicatorHeight * Mathf.Sin(45);
                     break;

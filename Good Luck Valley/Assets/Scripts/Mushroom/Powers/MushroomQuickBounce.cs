@@ -104,9 +104,19 @@ namespace GoodLuckValley.Mushroom
                     spawnPoint.x += mushroomHeight;
                     break;
 
+                case 44:
+                    spawnPoint.x -= mushroomHeight * Mathf.Cos(45) * 0.7f;
+                    spawnPoint.y += mushroomHeight * Mathf.Sin(45) * 0.7f;
+                    break;
+
                 case 45:
                     spawnPoint.x -= mushroomHeight * Mathf.Cos(45) * 0.7f;
                     spawnPoint.y += mushroomHeight * Mathf.Sin(45) * 0.7f;
+                    break;
+
+                case -44:
+                    spawnPoint.x += mushroomHeight * Mathf.Cos(45);
+                    spawnPoint.y += mushroomHeight * Mathf.Sin(45);
                     break;
 
                 case -45:
