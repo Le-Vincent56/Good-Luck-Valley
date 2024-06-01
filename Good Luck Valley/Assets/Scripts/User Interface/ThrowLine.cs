@@ -27,15 +27,12 @@ namespace GoodLuckValley.UI
         private ShroomSpawnData currentSpawnData;
 
         [Header("Layer Masks")]
-        [SerializeField] private LayerMask groundLayer;
-        [SerializeField] private LayerMask wallLayer;
-        [SerializeField] private LayerMask mushroomWallLayer;
+        [SerializeField] private LayerMask shroomableLayer;
         [SerializeField] private LayerMask unshroomableLayer;
 
         [Header("Details")]
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool show;
-        [SerializeField] private bool facingRight;
 
         [Header("Vectors")]
         [SerializeField] private Vector2 cursorPosition;
@@ -149,9 +146,7 @@ namespace GoodLuckValley.UI
             bool collided = false;
 
             // Creates hit info variable for storing information about raycast hit
-            RaycastHit2D groundHitInfo;
-            RaycastHit2D wallHitInfo;
-            RaycastHit2D shroomWallHitInfo;
+            RaycastHit2D shroomableHitInfo;
             RaycastHit2D unshroomableHitInfo;
 
             // Create new array for storing the new points we will draw with
@@ -168,27 +163,14 @@ namespace GoodLuckValley.UI
             {
                 // Sets hit info to the return value of the linecast method,
                 //   using the current point on the line and the next point as the locations to check between
-                groundHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], groundLayer);
-                wallHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], wallLayer);
-                shroomWallHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mushroomWallLayer);
+                shroomableHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], shroomableLayer);
                 unshroomableHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], unshroomableLayer);
 
                 // Check hit infos
-                if (groundHitInfo)
+                if (shroomableHitInfo)
                 {
-                    HandleRaycastValid(i, groundHitInfo, out newPoints, out spawnData, out collided);
-                    break;
-                }
-
-                if(wallHitInfo)
-                {
-                    HandleRaycastValid(i, wallHitInfo, out newPoints, out spawnData, out collided);
-                    break;
-                }
-
-                if (shroomWallHitInfo)
-                {
-                    HandleRaycastValid(i, shroomWallHitInfo, out newPoints, out spawnData, out collided);
+                    Debug.Log(Vector2.Angle(shroomableHitInfo.normal, Vector2.up));
+                    HandleRaycastValid(i, shroomableHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
 
