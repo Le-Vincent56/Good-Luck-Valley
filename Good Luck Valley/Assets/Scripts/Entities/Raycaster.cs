@@ -11,8 +11,8 @@ namespace GoodLuckValley.Entity
 
     public class Raycaster : MonoBehaviour
     {
+        [SerializeField] protected float distanceBetweenRays = 0.10f;
         protected const float skinWidth = 0.015f;
-        protected const float distanceBetweenRays = 0.10f;
         protected BoxCollider2D entityCollider;
         protected RaycastOrigins origins;
         protected int horizontalRayCount;

@@ -1,27 +1,50 @@
-using GoodLuckValley.UI;
-using GoodLuckValley.World.Tiles;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
 {
+    [Serializable]
+    public struct FinalSpawnInfo
+    {
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public int Angle;
+
+        public FinalSpawnInfo(Vector3 position, Quaternion rotation, int angle)
+        {
+            Position = position;
+            Rotation = rotation;
+            Angle = angle;
+        }
+
+        public void Print() => Debug.Log($"Position: {Position}, Angle: {Angle}");
+    }
+
     public class MushroomIndicator : MonoBehaviour
     {
         #region REFERENCES
+        private BoxCollider2D boxCollider;
         private SpriteRenderer spriteRenderer;
         [SerializeField] private Sprite validSprite;
         [SerializeField] private Sprite invalidSprite;
         #endregion
 
+        [Header("Fields")]
+        [SerializeField] private FinalSpawnInfo finalSpawnInfo;
+        [SerializeField] private float indicatorHeight;
+
         // Start is called before the first frame update
         void Start()
         {
             // Get the sprite renderer
+            boxCollider = GetComponent<BoxCollider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
 
             // Set the sprite to be invisible
             SetSpriteOpacity(0f);
+
+            Bounds bounds = boxCollider.bounds;
+            indicatorHeight = bounds.extents.y;
         }
 
         /// <summary>
@@ -41,58 +64,64 @@ namespace GoodLuckValley.Mushroom
             // Show Indicator
             SetSpriteOpacity(1f);
 
-            // Height of the shroom for offsetting
-            float shroomHeight = 0.226875f;
-            float shroomHeightDiag = shroomHeight * (3f / 4f);
-
             // Rotation of the shroom according to collision data
-            Quaternion rotationQuat = Quaternion.AngleAxis(spawnData.CollisionData.Rotation, Vector3.forward);
+            Quaternion rotationQuat = Quaternion.AngleAxis(spawnData.Rotation, Vector3.forward);
             transform.rotation = rotationQuat;
 
-            // Moves shroom indicator to end of line position
-            Vector2 spawnPoint = spawnData.CollisionData.SpawnPoint;
+            // Get teh spawn point
+            Vector2 spawnPoint = spawnData.Point;
 
-            // Displace the shroom depending on collision direction
-            switch (spawnData.CollisionData.Direction)
+            // Edit spawn point position depending on angle
+            switch (spawnData.Rotation)
             {
-                case CollisionData.CollisionDirection.Up:
-                    spawnPoint.y += shroomHeight;
+                case 0:
+                    spawnPoint.y += indicatorHeight;
                     break;
 
-                case CollisionData.CollisionDirection.Right:
-                    spawnPoint.x += shroomHeight;
+                case -180:
+                    spawnPoint.y -= indicatorHeight;
                     break;
 
-                case CollisionData.CollisionDirection.Down:
-                    spawnPoint.y -= shroomHeight;
+                case 90:
+                    spawnPoint.x -= indicatorHeight;
                     break;
 
-                case CollisionData.CollisionDirection.Left:
-                    spawnPoint.x -= shroomHeight;
+                case -90:
+                    spawnPoint.x += indicatorHeight;
                     break;
 
-                case CollisionData.CollisionDirection.TopRightDiag:
-                    spawnPoint.x += shroomHeightDiag;
-                    spawnPoint.y += shroomHeightDiag;
+                case 44:
+                    spawnPoint.x -= indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y += indicatorHeight * Mathf.Sin(45);
                     break;
 
-                case CollisionData.CollisionDirection.TopLeftDiag:
-                    spawnPoint.x -= shroomHeightDiag;
-                    spawnPoint.y += shroomHeightDiag;
+                case 45:
+                    spawnPoint.x -= indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y += indicatorHeight * Mathf.Sin(45);
                     break;
 
-                case CollisionData.CollisionDirection.BottomLeftDiag:
-                    spawnPoint.x -= shroomHeightDiag;
-                    spawnPoint.y -= shroomHeightDiag;
+                case -45:
+                    spawnPoint.x += indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y += indicatorHeight * Mathf.Sin(45);
                     break;
 
-                case CollisionData.CollisionDirection.BottomRightDiag:
-                    spawnPoint.x += shroomHeightDiag;
-                    spawnPoint.y -= shroomHeightDiag;
+                case -44:
+                    spawnPoint.x += indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y += indicatorHeight * Mathf.Sin(45);
+                    break;
+
+                case 135:
+                    spawnPoint.x -= indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y -= indicatorHeight * Mathf.Sin(45);
+                    break;
+
+                case -135:
+                    spawnPoint.x += indicatorHeight * Mathf.Cos(45);
+                    spawnPoint.y -= indicatorHeight * Mathf.Sin(45);
                     break;
             }
 
-            if(spawnData.Valid)
+            if (spawnData.Valid)
             {
                 spriteRenderer.sprite = validSprite;
             } else
@@ -102,6 +131,9 @@ namespace GoodLuckValley.Mushroom
 
             // Set the shroom inidcator position
             transform.position = spawnPoint;
+
+            // Set spawn info
+            finalSpawnInfo = new FinalSpawnInfo(spawnPoint, rotationQuat, spawnData.Rotation);
         }
 
         /// <summary>
@@ -125,6 +157,21 @@ namespace GoodLuckValley.Mushroom
             newColor.a = opacity;
             spriteRenderer.color = newColor;
         }
-    }
 
+        /// <summary>
+        /// Send the Final Spawn Info
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void GetFinalSpawnInfo(Component sender, object data)
+        {
+            // Verify that the correct sender is asking
+            if (sender is not MushroomThrow) return;
+
+            finalSpawnInfo.Print();
+
+            // Send the final spawn info
+            ((MushroomThrow)sender).SetFinalSpawnInfo(finalSpawnInfo);
+        }
+    }
 }

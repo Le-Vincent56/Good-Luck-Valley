@@ -1,79 +1,97 @@
+using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Mushroom;
-using GoodLuckValley.World.Tiles;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Spore : MonoBehaviour
 {
     #region REFERENCES
     [Header("Events")]
     [SerializeField] private GameEvent onAddMushroom;
+    
 
-    [Header("Objects")]
+    [Header("References")]
     [SerializeField] private GameObject regShroom;
+    [SerializeField] private CollisionHandler collisionHandler;
+    [SerializeField] private SporeData sporeData;
     #endregion
 
     #region FIELDS
     [SerializeField] private ShroomType shroomType;
-    private CollisionData collisionData;
+    [SerializeField] private Vector2 velocity;
+    private FinalSpawnInfo spawnInfo;
     private bool spawnConfirmed = false;
     #endregion
+
+    private void Start()
+    {
+        collisionHandler = GetComponent<CollisionHandler>();
+    }
+
+    private void FixedUpdate()
+    {
+        // Check for any collisions
+        if(collisionHandler.collisions.Above || collisionHandler.collisions.Below ||
+            collisionHandler.collisions.Left || collisionHandler.collisions.Right)
+        {
+            // Exit case - a spawn has already happened
+            if (spawnConfirmed) return;
+
+            // Don't allow any other spawns to happen
+            spawnConfirmed = true;
+
+            // Create the shroom
+            CreateShroom();
+
+            // Destroy the gameObject
+            Destroy(gameObject);
+        }
+
+        // Apply gravity
+        velocity.y += sporeData.gravity * Time.deltaTime;
+
+        // Move the spore
+        Move(velocity * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Move the spore
+    /// </summary>
+    /// <param name="velocity"></param>
+    private void Move(Vector2 velocity)
+    {
+        // Update raycasts
+        collisionHandler.UpdateRaycastOrigins();
+
+        // Reset collisions
+        collisionHandler.collisions.ResetInfo();
+
+        // Set the old velocity
+        collisionHandler.collisions.PrevVelocity = velocity;
+
+        // Set the facing direction
+        if (velocity.x != 0f)
+        {
+            collisionHandler.collisions.FacingDirection = (int)Mathf.Sign(velocity.x);
+        }
+
+        // Handle horizontal collisions
+        collisionHandler.HorizontalCollisions(ref velocity);
+
+        // Handle vertical collisions
+        if (velocity.y != 0f)
+            collisionHandler.VerticalCollisions(ref velocity);
+
+        // Move
+        transform.Translate(velocity);
+    }
 
     /// <summary>
     /// Create a mushroom
     /// </summary>
     /// <param name="spawnPoint">The spawn point to create the mushroom at</param>
-    public void CreateShroom(Vector2 spawnPoint)
+    private void CreateShroom()
     {
-        float shroomHeight = (regShroom.GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.035f;
-        float shroomHeightDiag = shroomHeight * (3f / 4f);
-
-        // The quaternion that will rotate the shroom
-        Quaternion rotationQuat = Quaternion.AngleAxis(collisionData.Rotation, Vector3.forward);
-
-        // Displace the shroom depending on collision direction
-        switch (collisionData.Direction)
-        {
-            case CollisionData.CollisionDirection.Up:
-                spawnPoint.y += shroomHeight;
-                break;
-
-            case CollisionData.CollisionDirection.Right:
-                spawnPoint.x += shroomHeight;
-                break;
-
-            case CollisionData.CollisionDirection.Down:
-                spawnPoint.y -= shroomHeight;
-                break;
-
-            case CollisionData.CollisionDirection.Left:
-                spawnPoint.x -= shroomHeight;
-                break;
-
-            case CollisionData.CollisionDirection.TopRightDiag:
-                spawnPoint.x += shroomHeightDiag;
-                spawnPoint.y += shroomHeightDiag;
-                break;
-
-            case CollisionData.CollisionDirection.TopLeftDiag:
-                spawnPoint.x -= shroomHeightDiag;
-                spawnPoint.y += shroomHeightDiag;
-                break;
-
-            case CollisionData.CollisionDirection.BottomLeftDiag:
-                spawnPoint.x -= shroomHeightDiag;
-                spawnPoint.y -= shroomHeightDiag;
-                break;
-
-            case CollisionData.CollisionDirection.BottomRightDiag:
-                spawnPoint.x += shroomHeightDiag;
-                spawnPoint.y -= shroomHeightDiag;
-                break;
-        }
-
         // Create a shroom
         GameObject shroom = null;
 
@@ -81,18 +99,18 @@ public class Spore : MonoBehaviour
         switch (shroomType)
         {
             case ShroomType.Regular:
-                shroom = Instantiate(regShroom, spawnPoint, rotationQuat);
-                shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, collisionData.Rotation);
+                shroom = Instantiate(regShroom, spawnInfo.Position, spawnInfo.Rotation);
+                shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, spawnInfo.Angle);
                 break;
 
             case ShroomType.Wall:
-                shroom = Instantiate(regShroom, spawnPoint, rotationQuat);
-                shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, collisionData.Rotation);
+                shroom = Instantiate(regShroom, spawnInfo.Position, spawnInfo.Rotation);
+                shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, spawnInfo.Angle);
                 break;
 
             default:
-                shroom = Instantiate(regShroom, spawnPoint, rotationQuat);
-                shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, collisionData.Rotation);
+                shroom = Instantiate(regShroom, spawnInfo.Position, spawnInfo.Rotation);
+                shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, spawnInfo.Angle);
                 break;
         }
 
@@ -102,35 +120,22 @@ public class Spore : MonoBehaviour
         onAddMushroom.Raise(this, shroom);
     }
 
-    public void OnTriggerEnter2D(Collider2D collider)
+    /// <summary>
+    /// Set the throw vector for the Spore
+    /// </summary>
+    /// <param name="throwDirection"></param>
+    public void ThrowSpore(Vector2 throwDirection)
     {
-        // Exit case - not the correct collider type
-        if (collider is not BoxCollider2D && collider is not PolygonCollider2D) return;
-        
-        // Exit case - a spawn has already happened
-        if (spawnConfirmed) return;
-
-        // Set shroom type
-        IShroomeable shroomeableTile = collider.GetComponent<IShroomeable>();
-
-        // Exit case - no shroomeable tile found
-        if (shroomeableTile == null) return;
-
-        // Don't allow any other spawns to happen
-        spawnConfirmed = true;
-
-        // Get the shroom type
-        shroomType = shroomeableTile.GetShroomType();
-
-        // Create the shroom
-        CreateShroom(collisionData.SpawnPoint);
-
-        // Destroy the gameObject
-        Destroy(gameObject);
+        velocity.x = throwDirection.x * sporeData.throwSpeed;
+        velocity.y = throwDirection.y * sporeData.throwSpeed;
     }
 
-    public void SetCollisionData(CollisionData data)
+    /// <summary>
+    /// Set the final spawn info for the Spore
+    /// </summary>
+    /// <param name="spawnInfo"></param>
+    public void SetSpawnInfo(FinalSpawnInfo spawnInfo)
     {
-        this.collisionData = data;
+        this.spawnInfo = spawnInfo;
     }
 }

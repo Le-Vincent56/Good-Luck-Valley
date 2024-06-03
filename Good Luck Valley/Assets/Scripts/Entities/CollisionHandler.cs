@@ -325,11 +325,16 @@ namespace GoodLuckValley.Entity
                 Debug.DrawRay(collisions.HorizontalCollisionRay.point, Vector2.right * directionX, Color.white);
         }
 
+        /// <summary>
+        /// Handle all collision directions for a static object
+        /// </summary>
+        /// <param name="velocity"></param>
         public void HandleAllCollisionsForStatic(ref Vector2 velocity)
         {
             float rayLengthX = Mathf.Abs(velocity.x) + skinWidth;
             float rayLengthY = Mathf.Abs(velocity.y) + skinWidth;
 
+            // Loop through the left horizontal rays
             for (int i = 0; i < horizontalRayCount; i++)
             {
                 Vector2 rayOrigin = origins.bottomLeft;
@@ -351,6 +356,7 @@ namespace GoodLuckValley.Entity
                 }
             }
 
+            // Loop thorugh the right horizontal rays
             for (int i = 0; i < horizontalRayCount; i++)
             {
                 Vector2 rayOrigin = origins.bottomRight;
@@ -372,6 +378,7 @@ namespace GoodLuckValley.Entity
                 }
             }
 
+            // Loop through the upward vertical rays
             for (int i = 0; i < verticalRayCount; i++)
             {
                 Vector2 rayOrigin = origins.topLeft;
@@ -393,6 +400,7 @@ namespace GoodLuckValley.Entity
                 }
             }
 
+            // Loop through the downward vertical rays
             for (int i = 0; i < verticalRayCount; i++)
             {
                 Vector2 rayOrigin = origins.bottomLeft;
@@ -494,6 +502,11 @@ namespace GoodLuckValley.Entity
             }
         }
 
+        /// <summary>
+        /// Slide down slopes that are greater than or equal to the max slope angle
+        /// </summary>
+        /// <param name="hit"></param>
+        /// <param name="velocity"></param>
         private void SlideDownMaxSlope(RaycastHit2D hit, ref Vector2 velocity)
         {
             // Check if the raycast hit a slope

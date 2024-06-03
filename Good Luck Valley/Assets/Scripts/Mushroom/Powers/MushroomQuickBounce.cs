@@ -1,5 +1,4 @@
 using GoodLuckValley.Events;
-using GoodLuckValley.World.Tiles;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -42,76 +41,95 @@ namespace GoodLuckValley.Mushroom
             // If hit
             if(hitInfo)
             {
-                // Attempt to get a shroom tile
-                ShroomTile shroomTile = hitInfo.transform.gameObject.GetComponent<ShroomTile>();
+                // Create a spawn data container
+                ShroomSpawnData spawnData = new ShroomSpawnData();
 
-                // If there's a tile, create a mushroom
-                if (shroomTile != null)
-                {
-                    // Gather collision data
-                    CollisionData collisionData = shroomTile.GetCollisionAngle(hitInfo.point);
+                // Set collision data
+                spawnData.Point = hitInfo.point;
+                spawnData.Rotation = (int)Vector2.Angle(hitInfo.normal, Vector2.up) * -(int)Mathf.Sign(hitInfo.normal.x);
+                spawnData.Valid = true;
 
-                    // Create the mushroom
-                    CreateShroom(collisionData);
-                }
+                //  Calculate and store the final spawn info
+                FinalSpawnInfo finalSpawnInfo = new FinalSpawnInfo();
+                CalculateFinalSpawnInfo(spawnData, ref finalSpawnInfo);
+
+                // Create the mushroom
+                CreateShroom(finalSpawnInfo);
             }
+        }
+
+        /// <summary>
+        ///  Calculate the final spawn info for the mushroom
+        /// </summary>
+        /// <param name="spawnData"></param>
+        /// <param name="finalSpawnInfo"></param>
+        public void CalculateFinalSpawnInfo(ShroomSpawnData spawnData, ref FinalSpawnInfo finalSpawnInfo)
+        {
+            // Rotation of the shroom according to collision data
+            Quaternion rotationQuat = Quaternion.AngleAxis(spawnData.Rotation, Vector3.forward);
+            transform.rotation = rotationQuat;
+
+            // Set spawn info
+            finalSpawnInfo = new FinalSpawnInfo(spawnData.Point, rotationQuat, spawnData.Rotation);
         }
 
         /// <summary>
         /// Create a Mushroom
         /// </summary>
         /// <param name="collisionData">The CollisionData in which to create the Mushroom with</param>
-        public void CreateShroom(CollisionData collisionData)
+        public void CreateShroom(FinalSpawnInfo finalSpawnInfo)
         {
-            float shroomHeight = (regShroom.GetComponent<SpriteRenderer>().bounds.size.y / 2) - 0.035f;
-            float shroomHeightDiag = shroomHeight * (3f / 4f);
+            // Instantiate the regular shroom
+            GameObject shroom = Instantiate(regShroom, finalSpawnInfo.Position, finalSpawnInfo.Rotation);
 
-            // The quaternion that will rotate the shroom
-            Quaternion rotationQuat = Quaternion.AngleAxis(collisionData.Rotation, Vector3.forward);
+            // Get the height of the mushroom
+            Bounds bounds = shroom.GetComponent<BoxCollider2D>().bounds;
+            float mushroomHeight = (bounds.max.y - bounds.min.y) / 2f;
 
-            // Displace the shroom depending on collision direction
-            switch (collisionData.Direction)
+            // Get the spawn point
+            Vector2 spawnPoint = finalSpawnInfo.Position;
+
+            // Edit spawn point position depending on angle
+            switch (finalSpawnInfo.Angle)
             {
-                case CollisionData.CollisionDirection.Up:
-                    collisionData.SpawnPoint.y += shroomHeight;
+                case 0:
+                    spawnPoint.y += mushroomHeight;
                     break;
 
-                case CollisionData.CollisionDirection.Right:
-                    collisionData.SpawnPoint.x += shroomHeight;
+                case 90:
+                    spawnPoint.x -= mushroomHeight;
                     break;
 
-                case CollisionData.CollisionDirection.Down:
-                    collisionData.SpawnPoint.y -= shroomHeight;
+                case -90:
+                    spawnPoint.x += mushroomHeight;
                     break;
 
-                case CollisionData.CollisionDirection.Left:
-                    collisionData.SpawnPoint.x -= shroomHeight;
+                case 44:
+                    spawnPoint.x -= mushroomHeight * Mathf.Cos(45) * 0.7f;
+                    spawnPoint.y += mushroomHeight * Mathf.Sin(45) * 0.7f;
                     break;
 
-                case CollisionData.CollisionDirection.TopRightDiag:
-                    collisionData.SpawnPoint.x += shroomHeightDiag;
-                    collisionData.SpawnPoint.y += shroomHeightDiag;
+                case 45:
+                    spawnPoint.x -= mushroomHeight * Mathf.Cos(45) * 0.7f;
+                    spawnPoint.y += mushroomHeight * Mathf.Sin(45) * 0.7f;
                     break;
 
-                case CollisionData.CollisionDirection.TopLeftDiag:
-                    collisionData.SpawnPoint.x -= shroomHeightDiag;
-                    collisionData.SpawnPoint.y += shroomHeightDiag;
+                case -44:
+                    spawnPoint.x += mushroomHeight * Mathf.Cos(45);
+                    spawnPoint.y += mushroomHeight * Mathf.Sin(45);
                     break;
 
-                case CollisionData.CollisionDirection.BottomLeftDiag:
-                    collisionData.SpawnPoint.x -= shroomHeightDiag;
-                    collisionData.SpawnPoint.y -= shroomHeightDiag;
-                    break;
-
-                case CollisionData.CollisionDirection.BottomRightDiag:
-                    collisionData.SpawnPoint.x += shroomHeightDiag;
-                    collisionData.SpawnPoint.y -= shroomHeightDiag;
+                case -45:
+                    spawnPoint.x += mushroomHeight * Mathf.Cos(45);
+                    spawnPoint.y += mushroomHeight * Mathf.Sin(45);
                     break;
             }
 
-            // Instantiate the regular shroom
-            GameObject shroom = Instantiate(regShroom, collisionData.SpawnPoint, rotationQuat);
-            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, collisionData.Rotation);
+            // Set the shroom position
+            shroom.transform.position = spawnPoint;
+
+            // Set mushroom info
+            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, finalSpawnInfo.Angle);
 
             // Add the Mushroom to its respective list
             // Calls to:

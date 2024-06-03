@@ -71,19 +71,25 @@ namespace GoodLuckValley.Player.Control
             // Define strict transitions
             At(idleState, locomotionState, new FuncPredicate(() => input.NormInputX != 0));
             At(idleState, jumpState, new FuncPredicate(() => isJumping));
+
             At(locomotionState, idleState, new FuncPredicate(() => input.NormInputX == 0));
             At(locomotionState, jumpState, new FuncPredicate(() => isJumping));
+
             At(jumpState, locomotionState, new FuncPredicate(() => isGrounded && !isJumping));
             At(jumpState, wallState, new FuncPredicate(() => isWallSliding));
+
             At(wallState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX  == 0));
             At(wallState, jumpState, new FuncPredicate(() => isJumping));
             At(wallState, wallJumpState, new FuncPredicate(() => isWallJumping));
+
             At(fallState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX  == 0));
             At(fallState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX  != 0));
             At(fallState, wallState, new FuncPredicate(() => isWallSliding));
+
             At(bounceState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX == 0));
             At(bounceState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX != 0));
             At(bounceState, wallState, new FuncPredicate(() => isWallSliding));
+
             At(wallJumpState, wallState, new FuncPredicate(() => isWallSliding));
             At(wallJumpState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX == 0));
             At(wallJumpState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX != 0));
@@ -94,7 +100,7 @@ namespace GoodLuckValley.Player.Control
             // Define any transitions
             Any(devState, new FuncPredicate(() => devTools.Active));
             Any(fallState, new FuncPredicate(() => !devTools.Active && !isGrounded && !isWallSliding && velocity.y < 0f));
-            Any(bounceState, new FuncPredicate(() => !devTools && isBouncing));
+            Any(bounceState, new FuncPredicate(() => !devTools.Active && isBouncing));
 
             // Set an initial state
             stateMachine.SetState(idleState);
@@ -466,29 +472,28 @@ namespace GoodLuckValley.Player.Control
         /// </summary>
         public void StartJump()
         {
-            if (isAgainstWall)
-            {
-                // Set wall sliding to false
-                isWallSliding = false;
+            // Set jumping to true
+            isJumping = true;
 
-                // Set wall jumping to true
-                isWallJumping = true;
+            // Set jump cut to false
+            isJumpCut = false;
 
-                // Wall jump
-                // Calls to:
-                //  - MushroomWallJump.GetSpawnData
-                onWallJumpInput.Raise(this, collisionHandler.collisions.HorizontalCollisionRay);
-            } else
-            {
-                // Set jumping to true
-                isJumping = true;
+            // Handle a normal jump
+            HandleJump();
+        }
 
-                // Set jump cut to false
-                isJumpCut = false;
+        public void StartWallJump()
+        {
+            // Set wall sliding to false
+            isWallSliding = false;
 
-                // Handle a normal jump
-                HandleJump();
-            }
+            // Set wall jumping to true
+            isWallJumping = true;
+
+            // Wall jump
+            // Calls to:
+            //  - MushroomWallJump.GetSpawnData
+            onWallJumpInput.Raise(this, collisionHandler.collisions.HorizontalCollisionRay);
         }
 
         /// <summary>
@@ -500,22 +505,34 @@ namespace GoodLuckValley.Player.Control
             // Check if the context was started
             if(started)
             {
-                if (!isJumping)
+                // Check for wall jumps first
+                if (isAgainstWall)
                 {
-                    // Start the jump
-                    StartJump();
+                    // Start the wall jump
+                    StartWallJump();
                 }
-                else if (isJumping)
-                {
-                    isJumpCut = false;
 
-                    // Set the last pressed jump time
-                    lastPressedJumpTime = data.jumpBufferTime;
+                // If not bouncing or wall jumping, do a normal jump
+                if (!isBouncing && !isWallJumping)
+                {
+                    // Check if jumping already
+                    if(!isJumping)
+                    {
+                        // Start the jump if not
+                        StartJump();
+                    } else
+                    {
+                        // Jump cut if so
+                        isJumpCut = false;
+
+                        // Set the last pressed jump time
+                        lastPressedJumpTime = data.jumpBufferTime;
+                    }
                 }
             }
 
             // Check if the context was canceled and that the input still applies
-            if(!started)
+            if(!started && isJumping)
             {
                 // Set jump cutting
                 isJumpCut = true;
@@ -566,6 +583,14 @@ namespace GoodLuckValley.Player.Control
 
             // Cast data
             MushroomBounce.BounceData bounceData =(MushroomBounce.BounceData)data;
+
+            // Cancel jumping and jump cuts
+            if (isJumping)
+                isJumping = false;
+            if (isJumpCut)
+                isJumpCut = false;
+
+            lastPressedJumpTime = 0;
 
             // Set bouncing to true
             isBouncing = true;

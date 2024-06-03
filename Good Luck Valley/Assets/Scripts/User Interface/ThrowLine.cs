@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Events;
-using GoodLuckValley.World.Tiles;
-using static GoodLuckValley.World.Tiles.CollisionData;
-using GoodLuckValley.Player.Control;
 
 namespace GoodLuckValley.UI
 {
@@ -27,15 +22,12 @@ namespace GoodLuckValley.UI
         private ShroomSpawnData currentSpawnData;
 
         [Header("Layer Masks")]
-        [SerializeField] private LayerMask groundLayer;
-        [SerializeField] private LayerMask wallLayer;
-        [SerializeField] private LayerMask mushroomWallLayer;
+        [SerializeField] private LayerMask shroomableLayer;
         [SerializeField] private LayerMask unshroomableLayer;
 
         [Header("Details")]
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool show;
-        [SerializeField] private bool facingRight;
 
         [Header("Vectors")]
         [SerializeField] private Vector2 cursorPosition;
@@ -149,9 +141,7 @@ namespace GoodLuckValley.UI
             bool collided = false;
 
             // Creates hit info variable for storing information about raycast hit
-            RaycastHit2D groundHitInfo;
-            RaycastHit2D wallHitInfo;
-            RaycastHit2D shroomWallHitInfo;
+            RaycastHit2D shroomableHitInfo;
             RaycastHit2D unshroomableHitInfo;
 
             // Create new array for storing the new points we will draw with
@@ -159,7 +149,8 @@ namespace GoodLuckValley.UI
 
             // Collision data
             ShroomSpawnData spawnData = new ShroomSpawnData(
-                new CollisionData(CollisionDirection.Up, 0f, Vector2.zero), 
+                Vector2.zero,
+                0,
                 false
             );
 
@@ -168,32 +159,21 @@ namespace GoodLuckValley.UI
             {
                 // Sets hit info to the return value of the linecast method,
                 //   using the current point on the line and the next point as the locations to check between
-                groundHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], groundLayer);
-                wallHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], wallLayer);
-                shroomWallHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], mushroomWallLayer);
+                shroomableHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], shroomableLayer);
                 unshroomableHitInfo = Physics2D.Linecast(lineRendererStartingPoints[i], lineRendererStartingPoints[i + 1], unshroomableLayer);
 
-                // Check hit infos
-                if (groundHitInfo)
+                // Check shroomable hits
+                if (shroomableHitInfo)
                 {
-                    HandleRaycastValid(i, groundHitInfo, out newPoints, out spawnData, out collided);
+                    // Handle valid raycasts
+                    HandleRaycastValid(i, shroomableHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
 
-                if(wallHitInfo)
-                {
-                    HandleRaycastValid(i, wallHitInfo, out newPoints, out spawnData, out collided);
-                    break;
-                }
-
-                if (shroomWallHitInfo)
-                {
-                    HandleRaycastValid(i, shroomWallHitInfo, out newPoints, out spawnData, out collided);
-                    break;
-                }
-
+                // Check unshroomeable hits
                 if (unshroomableHitInfo)
                 {
+                    // handle invalid raycasts
                     HandleRaycastInvalid(i, unshroomableHitInfo, out newPoints, out spawnData, out collided);
                     break;
                 }
@@ -222,7 +202,7 @@ namespace GoodLuckValley.UI
         }
         
         /// <summary>
-        /// Handle collisions for Mushroom Spawning for a Raycast
+        /// Handle collisions for mushroom spawning for a valid raycast
         /// </summary>
         /// <param name="count"></param>
         /// <param name="hitInfo"></param>
@@ -248,10 +228,19 @@ namespace GoodLuckValley.UI
             collided = true;
 
             // Set collision data
-            spawnData.CollisionData = hitInfo.transform.gameObject.GetComponent<ShroomTile>().GetCollisionAngle(hitInfo.point);
+            spawnData.Point = hitInfo.point;
+            spawnData.Rotation = (int)Vector2.Angle(hitInfo.normal, Vector2.up) * -(int)Mathf.Sign(hitInfo.normal.x);
             spawnData.Valid = true;
         }
 
+        /// <summary>
+        /// Handle collisions for mushroom spawning for an invalid raycast
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="hitInfo"></param>
+        /// <param name="newPoints"></param>
+        /// <param name="spawnData"></param>
+        /// <param name="collided"></param>
         public void HandleRaycastInvalid(int count, RaycastHit2D hitInfo, out Vector3[] newPoints, out ShroomSpawnData spawnData, out bool collided)
         {
             newPoints = new Vector3[count + 2];
@@ -270,7 +259,8 @@ namespace GoodLuckValley.UI
             collided = true;
 
             // Set collision data
-            spawnData.CollisionData = new CollisionData(CollisionDirection.None, 0f, hitInfo.point);
+            spawnData.Point = hitInfo.point;
+            spawnData.Rotation = (int)Vector2.Angle(hitInfo.normal, Vector2.up);
             spawnData.Valid = false;
         }
 
@@ -289,6 +279,11 @@ namespace GoodLuckValley.UI
             onHideIndicator.Raise(this, null);
         }
 
+        /// <summary>
+        /// Get the direction of the throw
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void GetLineDirection(Component sender, object data)
         {
             if (sender is not MushroomThrow) return;
@@ -333,15 +328,6 @@ namespace GoodLuckValley.UI
 
             show = (bool)data;
             DeleteLine();
-        }
-
-        /// <summary>
-        /// Set if the player is facing right
-        /// </summary>
-        /// <param name="facingRight">Whether the player is facing right or not</param>
-        public void SetFacingRight(bool facingRight)
-        {
-            this.facingRight = facingRight;
         }
 
         /// <summary>

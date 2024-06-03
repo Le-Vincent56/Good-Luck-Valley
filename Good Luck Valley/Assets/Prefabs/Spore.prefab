@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1470045706857144612}
   - component: {fileID: 1470045706857144615}
-  - component: {fileID: 1515613611546638461}
-  - component: {fileID: 1470045706857144614}
+  - component: {fileID: 7069424644417479728}
+  - component: {fileID: 2049912985908494333}
   - component: {fileID: 1470045706857144609}
   m_Layer: 0
   m_Name: Spore
@@ -87,35 +87,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &1515613611546638461
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470045706857144608}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.5
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 4
-  m_Material: {fileID: 6200000, guid: 404eec6c7d4556445972ebad413ae383, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
---- !u!58 &1470045706857144614
-CircleCollider2D:
+--- !u!61 &7069424644417479728
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -143,12 +116,44 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0908227, y: -0.047932625}
+  m_Offset: {x: -0.0850029, y: -0.043964863}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.72, y: 2.35}
+    newSize: {x: 2.56, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.19562435
+  m_Size: {x: 0.5803757, y: 0.46830273}
+  m_EdgeRadius: 0
+--- !u!114 &2049912985908494333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470045706857144608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53398eae5dc4c04e864921e09790d1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceBetweenRays: 0.05
+  debug: 1
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 264
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  maxSlopeAngle: 0
+  currentLayer: 0
 --- !u!114 &1470045706857144609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,4 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onAddMushroom: {fileID: 11400000, guid: d7c6448fb23ce9e4f80ec3ae16049dce, type: 2}
   regShroom: {fileID: 2614290565263911450, guid: 17cb27f0fe3449346873f28e02abcf91, type: 3}
+  collisionHandler: {fileID: 0}
+  sporeData: {fileID: 11400000, guid: dcdeaaaae1e4c3c4f994c9f5b542c803, type: 2}
   shroomType: 0
+  velocity: {x: 0, y: 0}

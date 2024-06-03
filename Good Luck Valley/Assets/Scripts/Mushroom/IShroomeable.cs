@@ -1,8 +1,3 @@
-using GoodLuckValley.World.Tiles;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace GoodLuckValley.Mushroom
 {
     public enum ShroomType
@@ -18,6 +13,5 @@ namespace GoodLuckValley.Mushroom
         /// </summary>
         /// <returns>The type of shroom that will spawn on the tile</returns>
         public ShroomType GetShroomType();
-        public CollisionData GetCollisionAngle(Vector2 contactPoint);
     }
 }
