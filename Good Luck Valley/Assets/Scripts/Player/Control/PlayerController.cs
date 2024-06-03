@@ -17,7 +17,7 @@ namespace GoodLuckValley.Player.Control
         [Header("References")]
         [SerializeField] private Animator animator;
         [SerializeField] private InputReader input;
-        [SerializeField] private CollisionHandler collisionHandler;
+        [SerializeField] private DynamicCollisionHandler collisionHandler;
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
 
@@ -54,7 +54,7 @@ namespace GoodLuckValley.Player.Control
         {
             // Get components
             animator = GetComponent<Animator>();
-            collisionHandler = GetComponent<CollisionHandler>();
+            collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
 
             // Declare states
@@ -206,8 +206,9 @@ namespace GoodLuckValley.Player.Control
                 // Set grounded to true
                 isGrounded = true;
 
-                // Set bouncing to false
-                isBouncing = false;
+                // Set bouncing to false if bouncing and falling down
+                if(isBouncing && velocity.y <= 0f)
+                    ResetBounce();
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
@@ -239,7 +240,7 @@ namespace GoodLuckValley.Player.Control
             // Check if wall sliding
             if ((collisionHandler.collisions.Left || collisionHandler.collisions.Right) &&
                 !collisionHandler.collisions.Below && velocity.y < 0 &&
-                collisionHandler.collisions.Layer == CollisionHandler.CollisionLayer.MushroomWall)
+                collisionHandler.collisions.Layer == CollisionLayer.MushroomWall)
             {
                 // Cancel jumps and jump cuts once on a wall
                 if (isJumping)
@@ -258,7 +259,7 @@ namespace GoodLuckValley.Player.Control
             // Check if against a wall
             if((collisionHandler.collisions.Left || collisionHandler.collisions.Right) &&
                 !isGrounded &&
-                collisionHandler.collisions.Layer == CollisionHandler.CollisionLayer.MushroomWall)
+                collisionHandler.collisions.Layer == CollisionLayer.MushroomWall)
             {
                 isAgainstWall = true;
             } else
@@ -560,10 +561,13 @@ namespace GoodLuckValley.Player.Control
         }
 
         /// <summary>
-        /// Set the player's bouncing state
+        /// Reset the player's bounce variables
         /// </summary>
-        /// <param name="isBouncing"></param>
-        public void SetBouncing(bool isBouncing) => this.isBouncing = isBouncing; 
+        public void ResetBounce()
+        {
+            // Set bouncing to false and update the events
+            isBouncing = false;
+        }
 
         /// <summary>
         /// Set the player's wall jumping state

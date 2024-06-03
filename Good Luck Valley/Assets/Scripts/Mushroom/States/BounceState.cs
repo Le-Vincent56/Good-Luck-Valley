@@ -29,9 +29,6 @@ namespace GoodLuckValley.Mushroom.States
 
         public override void FixedUpdate()
         {
-            // Check for collisions
-            mushroom.CheckCollisions();
-
             // Handle collisions
             mushroom.HandleCollisions();
         }

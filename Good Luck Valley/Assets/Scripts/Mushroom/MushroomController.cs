@@ -13,7 +13,7 @@ namespace GoodLuckValley.Mushroom
 
         [Header("References")]
         [SerializeField] private Animator animator;
-        [SerializeField] private CollisionHandler collisionHandler;
+        [SerializeField] private StaticCollisionHandler collisionHandler;
         [SerializeField] private MushroomInfo data;
 
         [Header("Fields")]
@@ -27,7 +27,7 @@ namespace GoodLuckValley.Mushroom
         {
             // Get components
             animator = GetComponent<Animator>();
-            collisionHandler = GetComponent<CollisionHandler>();
+            collisionHandler = GetComponent<StaticCollisionHandler>();
             data = GetComponent<MushroomInfo>();
 
             // Declare states
@@ -94,8 +94,8 @@ namespace GoodLuckValley.Mushroom
             // Set the old velocity
             collisionHandler.collisions.PrevVelocity = velocity;
 
-            // Handle horizontal collisions
-            collisionHandler.HandleAllCollisionsForStatic(ref velocity);
+            // Handle collisions
+            collisionHandler.HandleCollisions(ref velocity);
 
             // Handle platforms
             if (standingOnPlatform)

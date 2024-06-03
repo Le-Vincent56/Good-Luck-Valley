@@ -12,7 +12,7 @@ public class Spore : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject regShroom;
-    [SerializeField] private CollisionHandler collisionHandler;
+    [SerializeField] private DynamicCollisionHandler collisionHandler;
     [SerializeField] private SporeData sporeData;
     #endregion
 
@@ -25,13 +25,13 @@ public class Spore : MonoBehaviour
 
     private void Start()
     {
-        collisionHandler = GetComponent<CollisionHandler>();
+        collisionHandler = GetComponent<DynamicCollisionHandler>();
     }
 
     private void FixedUpdate()
     {
         // Check for any collisions
-        if(collisionHandler.collisions.Above || collisionHandler.collisions.Below ||
+        if (collisionHandler.collisions.Above || collisionHandler.collisions.Below ||
             collisionHandler.collisions.Left || collisionHandler.collisions.Right)
         {
             // Exit case - a spawn has already happened
@@ -126,8 +126,10 @@ public class Spore : MonoBehaviour
     /// <param name="throwDirection"></param>
     public void ThrowSpore(Vector2 throwDirection)
     {
+        
         velocity.x = throwDirection.x * sporeData.throwSpeed;
         velocity.y = throwDirection.y * sporeData.throwSpeed;
+        Debug.Log(velocity);
     }
 
     /// <summary>

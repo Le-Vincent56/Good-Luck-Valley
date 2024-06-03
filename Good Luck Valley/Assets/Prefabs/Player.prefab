@@ -501,7 +501,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onAddMushroom: {fileID: 11400000, guid: d7c6448fb23ce9e4f80ec3ae16049dce, type: 2}
   onRequestThrowUnlock: {fileID: 11400000, guid: c2219e9df1280ac45adef96e29790d77, type: 2}
-  regShroom: {fileID: 2614290565263911450, guid: 17cb27f0fe3449346873f28e02abcf91, type: 3}
+  regShroom: {fileID: 6546575361362329001, guid: 9ec2cd60aeb79544e996fc735fcb5304, type: 3}
   maxDistance: 1.3
   shroomableLayer:
     serializedVersion: 2
@@ -914,7 +914,7 @@ MonoBehaviour:
   onHideIndicator: {fileID: 11400000, guid: 716e1959a3e7de84aaf2e00000632b85, type: 2}
   shroomableLayer:
     serializedVersion: 2
-    m_Bits: 328
+    m_Bits: 4424
   unshroomableLayer:
     serializedVersion: 2
     m_Bits: 640
@@ -1048,6 +1048,7 @@ GameObject:
   - component: {fileID: 1625793729386976011}
   - component: {fileID: 4766348710842266182}
   - component: {fileID: 5788275715540116562}
+  - component: {fileID: 4766675572211902679}
   m_Layer: 0
   m_Name: Bounce
   m_TagString: Untagged
@@ -1083,6 +1084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onBounce: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
+  isBouncing: 0
   canBounce: 0
   bounceForce: 10
 --- !u!114 &5788275715540116562
@@ -1104,6 +1106,34 @@ MonoBehaviour:
       - m_Target: {fileID: 4766348710842266182}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
         m_MethodName: Bounce
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4766675572211902679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4251934024621643868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 023a3fea06e0c0b449a2fed04aae3ce0, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4766348710842266182}
+        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
+        m_MethodName: UpdateBounce
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1408,7 +1438,8 @@ GameObject:
   - component: {fileID: 8508898665649311971}
   - component: {fileID: 3274030665019315463}
   - component: {fileID: 5731558841692214012}
-  - component: {fileID: 1180876124798562802}
+  - component: {fileID: 456266487528382957}
+  - component: {fileID: 1889134711469463787}
   - component: {fileID: 3312724052698482696}
   - component: {fileID: 1378804955233713589}
   - component: {fileID: 9054618323676775915}
@@ -1557,7 +1588,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5014615, y: 0.9904121}
   m_EdgeRadius: 0
---- !u!114 &1180876124798562802
+--- !u!114 &456266487528382957
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1566,7 +1597,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 9047676686677396218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b53398eae5dc4c04e864921e09790d1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 64625fa644d8e504d992f6e36d68027d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceBetweenRays: 0.1
+  debug: 0
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 456
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  maxSlopeAngle: 50
+  currentLayer: 0
+--- !u!114 &1889134711469463787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64625fa644d8e504d992f6e36d68027d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   distanceBetweenRays: 0.1
@@ -1592,6 +1645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onWallJumpInput: {fileID: 11400000, guid: 3e7262a3ea9a3b940b78a066bf59e6a1, type: 2}
+  onResetBounce: {fileID: 11400000, guid: 023a3fea06e0c0b449a2fed04aae3ce0, type: 2}
   animator: {fileID: 0}
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   collisionHandler: {fileID: 0}

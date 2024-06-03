@@ -1,5 +1,5 @@
 using GoodLuckValley.Persistence;
-using System.Collections;
+using GoodLuckValley.Patterns.Commands;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,8 @@ namespace GoodLuckValley.World.Interactables
         [SerializeField] protected CollectibleSaveData data;
         #endregion
 
-        #region FIELDS        
+        #region FIELDS
+        readonly Queue<ICommand<IInteractable>> commandQueue = new Queue<ICommand<IInteractable>>();
         [SerializeField] protected bool isCollected;
         #endregion
 
@@ -23,19 +24,29 @@ namespace GoodLuckValley.World.Interactables
         {
             // Check if the Collectible should be active
             CheckActive();
+
+            // Create and enqueue the interactable command
+            InteractableCommand newCommand = new InteractableCommand.Builder(new List<IInteractable> { this })
+                .WithAction(_ => Interact())
+                .Build();
+            QueueCommand(newCommand);
         }
 
         /// <summary>
-        /// Bind the Collectible for persistence
+        /// Queue a Command for the Collectible
         /// </summary>
-        /// <param name="data"></param>
-        public void Bind(CollectibleSaveData data)
+        /// <param name="command"></param>
+        public void QueueCommand(ICommand<IInteractable> command) => commandQueue.Enqueue(command);
+        
+        /// <summary>
+        /// Execute the command for hte interactable
+        /// </summary>
+        public void ExecuteCommand()
         {
-            this.data = data;
-            this.data.ID = ID;
-
-            // Set collected data
-            isCollected = data.collected;
+            if(commandQueue.Count > 0)
+            {
+                commandQueue.Dequeue()?.Execute();
+            }
         }
 
         /// <summary>
@@ -56,6 +67,19 @@ namespace GoodLuckValley.World.Interactables
         {
             if (isCollected) gameObject.SetActive(false);
             else gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// Bind the Collectible for persistence
+        /// </summary>
+        /// <param name="data"></param>
+        public void Bind(CollectibleSaveData data)
+        {
+            this.data = data;
+            this.data.ID = ID;
+
+            // Set collected data
+            isCollected = data.collected;
         }
     }
 }

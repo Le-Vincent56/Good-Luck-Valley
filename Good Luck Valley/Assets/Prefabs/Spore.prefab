@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1470045706857144612}
   - component: {fileID: 1470045706857144615}
   - component: {fileID: 7069424644417479728}
-  - component: {fileID: 2049912985908494333}
+  - component: {fileID: 6753384807165928123}
   - component: {fileID: 1470045706857144609}
   m_Layer: 0
   m_Name: Spore
@@ -132,7 +132,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5803757, y: 0.46830273}
   m_EdgeRadius: 0
---- !u!114 &2049912985908494333
+--- !u!114 &6753384807165928123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,18 +141,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1470045706857144608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b53398eae5dc4c04e864921e09790d1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 64625fa644d8e504d992f6e36d68027d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   distanceBetweenRays: 0.05
-  debug: 1
+  debug: 0
   collisionMask:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 8
   interactableMask:
     serializedVersion: 2
     m_Bits: 0
-  maxSlopeAngle: 0
+  maxSlopeAngle: 50
   currentLayer: 0
 --- !u!114 &1470045706857144609
 MonoBehaviour:
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onAddMushroom: {fileID: 11400000, guid: d7c6448fb23ce9e4f80ec3ae16049dce, type: 2}
-  regShroom: {fileID: 2614290565263911450, guid: 17cb27f0fe3449346873f28e02abcf91, type: 3}
+  regShroom: {fileID: 6546575361362329001, guid: 9ec2cd60aeb79544e996fc735fcb5304, type: 3}
   collisionHandler: {fileID: 0}
   sporeData: {fileID: 11400000, guid: dcdeaaaae1e4c3c4f994c9f5b542c803, type: 2}
   shroomType: 0
