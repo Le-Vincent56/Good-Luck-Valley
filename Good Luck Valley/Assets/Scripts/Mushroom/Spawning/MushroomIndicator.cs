@@ -16,8 +16,6 @@ namespace GoodLuckValley.Mushroom
             Rotation = rotation;
             Angle = angle;
         }
-
-        public void Print() => Debug.Log($"Position: {Position}, Angle: {Angle}");
     }
 
     public class MushroomIndicator : MonoBehaviour
@@ -167,8 +165,6 @@ namespace GoodLuckValley.Mushroom
         {
             // Verify that the correct sender is asking
             if (sender is not MushroomThrow) return;
-
-            finalSpawnInfo.Print();
 
             // Send the final spawn info
             ((MushroomThrow)sender).SetFinalSpawnInfo(finalSpawnInfo);
