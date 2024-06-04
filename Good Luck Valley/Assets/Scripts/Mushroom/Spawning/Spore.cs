@@ -129,7 +129,6 @@ public class Spore : MonoBehaviour
         
         velocity.x = throwDirection.x * sporeData.throwSpeed;
         velocity.y = throwDirection.y * sporeData.throwSpeed;
-        Debug.Log(velocity);
     }
 
     /// <summary>

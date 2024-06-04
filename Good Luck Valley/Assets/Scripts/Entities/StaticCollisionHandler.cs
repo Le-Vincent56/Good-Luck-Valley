@@ -11,6 +11,7 @@ namespace GoodLuckValley.Entity
             public bool Left, Right;
             public Vector2 PrevVelocity;
             public CollisionLayer Layer;
+            public GameObject Entity;
 
             /// <summary>
             /// Reset the Collision Info
@@ -21,6 +22,7 @@ namespace GoodLuckValley.Entity
                 Left = Right = false;
                 PrevVelocity = Vector2.zero;
                 Layer = CollisionLayer.Ground;
+                Entity = null;
             }
         }
 
@@ -28,6 +30,7 @@ namespace GoodLuckValley.Entity
         [SerializeField] private bool debug;
         [SerializeField] private LayerMask collisionMask;
         [SerializeField] private CollisionLayer currentLayer;
+        [SerializeField] private string collidingEntity;
         public CollisionInfo collisions;
         private Dictionary<int, CollisionLayer> layers;
 
@@ -36,6 +39,7 @@ namespace GoodLuckValley.Entity
         {
             layers = new Dictionary<int, CollisionLayer>()
             {
+                {0, CollisionLayer.None },
                 {3, CollisionLayer.Ground},
                 {6, CollisionLayer.Wall},
                 {7, CollisionLayer.MushroomWall},
@@ -72,7 +76,13 @@ namespace GoodLuckValley.Entity
                     // Set collision info
                     collisions.Left = true;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
+                    collisions.Entity = hit.transform.gameObject;
                     currentLayer = collisions.Layer;
+                    collidingEntity = collisions.Entity.name;
+                } else
+                {
+                    currentLayer = CollisionLayer.None;
+                    collidingEntity = "None";
                 }
             }
 
@@ -94,7 +104,13 @@ namespace GoodLuckValley.Entity
                     // Set collision info
                     collisions.Right = true;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
+                    collisions.Entity = hit.transform.gameObject;
                     currentLayer = collisions.Layer;
+                    collidingEntity = collisions.Entity.name;
+                } else
+                {
+                    currentLayer = CollisionLayer.None;
+                    collidingEntity = "None";
                 }
             }
 
@@ -116,7 +132,13 @@ namespace GoodLuckValley.Entity
                     // Set collision info
                     collisions.Above = true;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
+                    collisions.Entity = hit.transform.gameObject;
                     currentLayer = collisions.Layer;
+                    collidingEntity = collisions.Entity.name;
+                } else
+                {
+                    currentLayer = CollisionLayer.None;
+                    collidingEntity = "None";
                 }
             }
 
@@ -138,7 +160,13 @@ namespace GoodLuckValley.Entity
                     // Set collision info
                     collisions.Below = true;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
+                    collisions.Entity = hit.transform.gameObject;
                     currentLayer = collisions.Layer;
+                    collidingEntity = collisions.Entity.name;
+                } else
+                {
+                    currentLayer = CollisionLayer.None;
+                    collidingEntity = "None";
                 }
             }
         }

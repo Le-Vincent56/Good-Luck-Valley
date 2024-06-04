@@ -6,12 +6,14 @@ namespace GoodLuckValley.Entity
 {
     public enum CollisionLayer
     {
+        None = 0,
         Ground = 3,
         Wall = 6,
         MushroomWall = 7,
         Slope = 8,
         Mushroom = 9,
         Player = 10,
+        Decomposable = 12,
     }
 
     public class DynamicCollisionHandler : Raycaster
@@ -66,12 +68,14 @@ namespace GoodLuckValley.Entity
             collisions.FacingDirection = 1;
             layers = new Dictionary<int, CollisionLayer>()
             {
+                {0, CollisionLayer.None },
                 {3, CollisionLayer.Ground},
                 {6, CollisionLayer.Wall},
                 {7, CollisionLayer.MushroomWall},
                 {8, CollisionLayer.Slope},
                 {9, CollisionLayer.Mushroom },
-                {10, CollisionLayer.Player }
+                {10, CollisionLayer.Player },
+                {12, CollisionLayer.Decomposable }
             };
         }
 
@@ -127,6 +131,9 @@ namespace GoodLuckValley.Entity
                     collisions.Below = (directionY == -1);
                     collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
+                } else
+                {
+                    currentLayer = CollisionLayer.None;
                 }
 
                 if(hitInteractable)
@@ -187,6 +194,10 @@ namespace GoodLuckValley.Entity
                         collisions.SlopeAngle = slopeAngle;
                         collisions.Layer = layers[hit.transform.gameObject.layer];
                         currentLayer = collisions.Layer;
+                    }
+                    else
+                    {
+                        currentLayer = CollisionLayer.None;
                     }
                 }
             }
@@ -289,6 +300,10 @@ namespace GoodLuckValley.Entity
                         collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                         currentLayer = collisions.Layer;
                     }
+                    else
+                    {
+                        currentLayer = CollisionLayer.None;
+                    }
                 }
 
                 if (hitInteractable)
@@ -348,6 +363,10 @@ namespace GoodLuckValley.Entity
                 collisions.Layer = layers[hit.transform.gameObject.layer];
                 currentLayer = collisions.Layer;
             }
+            else
+            {
+                currentLayer = CollisionLayer.None;
+            }
         }
 
         /// <summary>
@@ -399,6 +418,10 @@ namespace GoodLuckValley.Entity
                                 collisions.Layer = layers[hit.transform.gameObject.layer];
                                 currentLayer = collisions.Layer;
                             }
+                            else
+                            {
+                                currentLayer = CollisionLayer.None;
+                            }
                         }
                     }
                 }
@@ -428,6 +451,10 @@ namespace GoodLuckValley.Entity
                     collisions.SlopeNormal = hit.normal;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
+                }
+                else
+                {
+                    currentLayer = CollisionLayer.None;
                 }
             }
         }

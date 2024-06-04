@@ -4,16 +4,8 @@ namespace GoodLuckValley.World.Decomposables
 {
     public interface IDecomposable
     {
-        /// <summary>
-        /// Queue a command for the Decomposable
-        /// </summary>
-        /// <param name="command"></param>
-        public void QueueCommand(ICommand<IDecomposable> command);
+        void Decompose();
 
-        /// <summary>
-        /// Execute the Interaction
-        /// </summary>
-        public void ExecuteCommand();
+        void Recompose();
     }
-
 }

@@ -39,7 +39,7 @@ namespace GoodLuckValley.World.Interactables
         public void QueueCommand(ICommand<IInteractable> command) => commandQueue.Enqueue(command);
         
         /// <summary>
-        /// Execute the command for hte interactable
+        /// Execute the command for the interactable
         /// </summary>
         public void ExecuteCommand()
         {

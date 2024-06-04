@@ -1,11 +1,10 @@
 using GoodLuckValley.Events;
-using System.Collections;
-using System.Collections.Generic;
+using GoodLuckValley.Patterns.Visitor;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
 {
-    public class ShroomTimer : MonoBehaviour
+    public class ShroomTimer : MonoBehaviour, IVisitable
     {
         #region REFERENCES
         [Header("Events")]
@@ -21,13 +20,16 @@ namespace GoodLuckValley.Mushroom
         // Start is called before the first frame update
         void Start()
         {
-            durationTimer = 3.0f;
+            durationTimer = -10f;
             bounceBuffer = 0.1f;
         }
 
         // Update is called once per frame
         void Update()
         {
+            // Check if the duration timer should be run
+            if (durationTimer <= -10f) return;
+
             // Update shroom duration
             UpdateShroomDuration();
         }
@@ -66,6 +68,26 @@ namespace GoodLuckValley.Mushroom
 
             // Decrease time from the timer
             durationTimer -= Time.deltaTime;
+        }
+
+        /// <summary>
+        /// Set the duration timer
+        /// </summary>
+        /// <param name="duration">The duration of the timer</param>
+        public void SetDuration(float duration)
+        {
+            durationTimer = duration;
+        }
+
+        /// <summary>
+        /// Accept a visitor for the Shroom Timer
+        /// </summary>
+        /// <param name="visitor">The Visitor to accept</param>
+        public void Accept(IVisitor visitor)
+        {
+            // Accept the visit and alloww the visitor to visit
+            // the shroom timer
+            visitor.Visit(this);
         }
     }
 }
