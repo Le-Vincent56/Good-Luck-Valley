@@ -18,6 +18,7 @@ namespace GHoodLuckValley.Player.Data
 
         [Header("Movement")]
         [SerializeField] public float movementSpeed;
+        [SerializeField] public float fastSlopeScalar;
 
         [Header("Jump")]
         [SerializeField] public float maxJumpHeight;

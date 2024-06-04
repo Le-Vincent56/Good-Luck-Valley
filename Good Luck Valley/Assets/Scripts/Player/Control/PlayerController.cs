@@ -412,7 +412,7 @@ namespace GoodLuckValley.Player.Control
 
             // Handle collisions if necessary
             if(velocity.y < 0f)
-                collisionHandler.DescendSlope(ref velocity);
+                collisionHandler.DescendSlope(ref velocity, fastFalling);
 
             // Set the facing direction
             if (velocity.x != 0f)
