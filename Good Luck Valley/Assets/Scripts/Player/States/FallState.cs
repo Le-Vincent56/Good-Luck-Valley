@@ -15,8 +15,8 @@ namespace GoodLuckValley.Player.States
         {
             animator.CrossFade(FallHash, crossFadeDuration);
 
-            // Set bouncing to false
-            player.SetBouncing(false);
+            // Reset the player bounce
+            player.ResetBounce();
         }
 
         public override void FixedUpdate()

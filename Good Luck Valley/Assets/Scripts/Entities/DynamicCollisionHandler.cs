@@ -4,18 +4,20 @@ using UnityEngine;
 
 namespace GoodLuckValley.Entity
 {
-    public class CollisionHandler : Raycaster
+    public enum CollisionLayer
     {
-        public enum CollisionLayer
-        {
-            Ground = 3,
-            Wall = 6,
-            MushroomWall = 7,
-            Slope = 8,
-            Mushroom = 9,
-            Player = 10,
-        }
+        None = 0,
+        Ground = 3,
+        Wall = 6,
+        MushroomWall = 7,
+        Slope = 8,
+        Mushroom = 9,
+        Player = 10,
+        Decomposable = 12,
+    }
 
+    public class DynamicCollisionHandler : Raycaster
+    {
         public struct CollisionInfo
         {
             public bool Above, Below;
@@ -52,6 +54,7 @@ namespace GoodLuckValley.Entity
             }
         }
 
+        [Header("Fields")]
         [SerializeField] private bool debug;
         [SerializeField] private LayerMask collisionMask;
         [SerializeField] private LayerMask interactableMask;
@@ -65,12 +68,14 @@ namespace GoodLuckValley.Entity
             collisions.FacingDirection = 1;
             layers = new Dictionary<int, CollisionLayer>()
             {
+                {0, CollisionLayer.None },
                 {3, CollisionLayer.Ground},
                 {6, CollisionLayer.Wall},
                 {7, CollisionLayer.MushroomWall},
                 {8, CollisionLayer.Slope},
                 {9, CollisionLayer.Mushroom },
-                {10, CollisionLayer.Player }
+                {10, CollisionLayer.Player },
+                {12, CollisionLayer.Decomposable }
             };
         }
 
@@ -126,6 +131,9 @@ namespace GoodLuckValley.Entity
                     collisions.Below = (directionY == -1);
                     collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
+                } else
+                {
+                    currentLayer = CollisionLayer.None;
                 }
 
                 if(hitInteractable)
@@ -186,6 +194,10 @@ namespace GoodLuckValley.Entity
                         collisions.SlopeAngle = slopeAngle;
                         collisions.Layer = layers[hit.transform.gameObject.layer];
                         currentLayer = collisions.Layer;
+                    }
+                    else
+                    {
+                        currentLayer = CollisionLayer.None;
                     }
                 }
             }
@@ -288,6 +300,10 @@ namespace GoodLuckValley.Entity
                         collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                         currentLayer = collisions.Layer;
                     }
+                    else
+                    {
+                        currentLayer = CollisionLayer.None;
+                    }
                 }
 
                 if (hitInteractable)
@@ -326,104 +342,6 @@ namespace GoodLuckValley.Entity
         }
 
         /// <summary>
-        /// Handle all collision directions for a static object
-        /// </summary>
-        /// <param name="velocity"></param>
-        public void HandleAllCollisionsForStatic(ref Vector2 velocity)
-        {
-            float rayLengthX = Mathf.Abs(velocity.x) + skinWidth;
-            float rayLengthY = Mathf.Abs(velocity.y) + skinWidth;
-
-            // Loop through the left horizontal rays
-            for (int i = 0; i < horizontalRayCount; i++)
-            {
-                Vector2 rayOrigin = origins.bottomLeft;
-                rayOrigin += Vector2.up * (horizontalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.left, rayLengthX, collisionMask);
-
-                if (debug)
-                    Debug.DrawRay(rayOrigin, Vector2.left, Color.red);
-
-                if (hit)
-                {
-                    // Set the ray length equal to the hit distance
-                    rayLengthX = hit.distance;
-
-                    // Set collision info
-                    collisions.Left = true;
-                    collisions.Layer = layers[hit.transform.gameObject.layer];
-                    currentLayer = collisions.Layer;
-                }
-            }
-
-            // Loop thorugh the right horizontal rays
-            for (int i = 0; i < horizontalRayCount; i++)
-            {
-                Vector2 rayOrigin = origins.bottomRight;
-                rayOrigin += Vector2.up * (horizontalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right, rayLengthX, collisionMask);
-
-                if (debug)
-                    Debug.DrawRay(rayOrigin, Vector2.right, Color.red);
-
-                if (hit)
-                {
-                    // Set the ray length equal to the hit distance
-                    rayLengthX = hit.distance;
-
-                    // Set collision info
-                    collisions.Right = true;
-                    collisions.Layer = layers[hit.transform.gameObject.layer];
-                    currentLayer = collisions.Layer;
-                }
-            }
-
-            // Loop through the upward vertical rays
-            for (int i = 0; i < verticalRayCount; i++)
-            {
-                Vector2 rayOrigin = origins.topLeft;
-                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLengthY, collisionMask);
-
-                if (debug)
-                    Debug.DrawRay(rayOrigin, Vector2.up, Color.red);
-
-                if (hit)
-                {
-                    // Set the ray length equal to the hit distance
-                    rayLengthY = hit.distance;
-
-                    // Set collision info
-                    collisions.Above = true;
-                    collisions.Layer = layers[hit.transform.gameObject.layer];
-                    currentLayer = collisions.Layer;
-                }
-            }
-
-            // Loop through the downward vertical rays
-            for (int i = 0; i < verticalRayCount; i++)
-            {
-                Vector2 rayOrigin = origins.bottomLeft;
-                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLengthY, collisionMask);
-
-                if (debug)
-                    Debug.DrawRay(rayOrigin, Vector2.down, Color.red);
-
-                if (hit)
-                {
-                    // Set the ray length equal to the hit distance
-                    rayLengthY = hit.distance;
-
-                    // Set collision info
-                    collisions.Below = true;
-                    collisions.Layer = layers[hit.transform.gameObject.layer];
-                    currentLayer = collisions.Layer;
-                }
-            }
-        }
-
-        /// <summary>
         /// Climb a slope
         /// </summary>
         /// <param name="velocity">The current velocity</param>
@@ -444,6 +362,10 @@ namespace GoodLuckValley.Entity
                 collisions.SlopeNormal = hit.normal;
                 collisions.Layer = layers[hit.transform.gameObject.layer];
                 currentLayer = collisions.Layer;
+            }
+            else
+            {
+                currentLayer = CollisionLayer.None;
             }
         }
 
@@ -496,6 +418,10 @@ namespace GoodLuckValley.Entity
                                 collisions.Layer = layers[hit.transform.gameObject.layer];
                                 currentLayer = collisions.Layer;
                             }
+                            else
+                            {
+                                currentLayer = CollisionLayer.None;
+                            }
                         }
                     }
                 }
@@ -525,6 +451,10 @@ namespace GoodLuckValley.Entity
                     collisions.SlopeNormal = hit.normal;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
+                }
+                else
+                {
+                    currentLayer = CollisionLayer.None;
                 }
             }
         }

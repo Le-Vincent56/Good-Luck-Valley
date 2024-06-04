@@ -26,6 +26,7 @@ namespace GoodLuckValley.Mushroom
         #endregion
 
         #region FIELDS
+        [SerializeField] private bool isBouncing;
         [SerializeField] private bool canBounce;
         [SerializeField] private float bounceForce;
         #endregion
@@ -38,7 +39,7 @@ namespace GoodLuckValley.Mushroom
         public void Bounce(Component sender, object data)
         {
             // Check if the correct data type was sent
-            if (data is not MushroomInfo) return;
+            if (data is not MushroomInfo || isBouncing) return;
 
             // Cast the data
             MushroomInfo mushroomData = (MushroomInfo)data;

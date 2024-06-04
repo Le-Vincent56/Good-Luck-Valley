@@ -11,7 +11,7 @@ namespace GoodLuckValley.Player.Handlers
     {
         [Header("References")]
         [SerializeField] private InputReader input;
-        [SerializeField] private CollisionHandler collisionHandler;
+        [SerializeField] private DynamicCollisionHandler collisionHandler;
 
         [Header("Fields")]
         [SerializeField] private bool canInteract;
@@ -19,7 +19,7 @@ namespace GoodLuckValley.Player.Handlers
 
         private void Awake()
         {
-            collisionHandler = GetComponent<CollisionHandler>();
+            collisionHandler = GetComponent<DynamicCollisionHandler>();
         }
 
         private void OnEnable()
@@ -43,7 +43,7 @@ namespace GoodLuckValley.Player.Handlers
         {
             if(started)
             {
-                interactable?.Interact();
+                interactable?.ExecuteCommand();
             }
         }
     }
