@@ -18,11 +18,9 @@ namespace GoodLuckValley.Entities
             UpdateRaycastOrigins();
         }
 
-        private void Update()
-        {
-            UpdateRaycastOrigins();
-        }
-
+        /// <summary>
+        /// Update the origins of the raycasts
+        /// </summary>
         public void UpdateRaycastOrigins()
         {
             Bounds bounds = entityCollider.bounds;

@@ -10,7 +10,16 @@ namespace GoodLuckValley.Entities.Fireflies
 
         public override void FixedUpdate()
         {
-            // Follow the current target
+            fireflies.HandleMovement();
+        }
+
+        public override void OnExit()
+        {
+            // If pending placed, then that means the fireflies are following a lantern,
+            // so set the lantern as the new retreat target and set the following
+            // target to none
+            if (fireflies.IsPendingPlaced)
+                fireflies.SetRetreatTarget();
         }
     }
 }

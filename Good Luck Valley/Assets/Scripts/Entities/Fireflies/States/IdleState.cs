@@ -9,5 +9,15 @@ namespace GoodLuckValley.Entities.Fireflies
         public IdleState(FireflyController fireflies, Animator animator) : base(fireflies, animator)
         {
         }
+
+        public override void OnEnter()
+        {
+            fireflies.CheckPlaced();
+        }
+
+        public override void Update()
+        {
+            fireflies.CheckPlaced();
+        }
     }
 }
