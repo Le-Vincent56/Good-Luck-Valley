@@ -26,7 +26,7 @@ namespace GoodLuckValley.Mushroom
         [Header("Events")]
         [SerializeField] private GameEvent onRequestUnlockedWallJump;
         [SerializeField] private GameEvent onWallJump;
-        [SerializeField] private GameEvent onAddWallMushroom;
+        [SerializeField] private GameEvent onAddMushroom;
         [Space(5f)]
         #endregion
 
@@ -145,7 +145,7 @@ namespace GoodLuckValley.Mushroom
             // Add the wall mushroom to its respective list
             // Calls to:
             //  - MushroomTracker.AddWallMushroom();
-            onAddWallMushroom.Raise(this, shroom);
+            onAddMushroom.Raise(this, shroom);
             return shroom;
         }
 

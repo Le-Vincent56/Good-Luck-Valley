@@ -549,7 +549,6 @@ GameObject:
   - component: {fileID: 5787592593319311090}
   - component: {fileID: 6999456719077587847}
   - component: {fileID: 8979580251121128686}
-  - component: {fileID: 7308456942291082996}
   m_Layer: 0
   m_Name: Tracker
   m_TagString: Untagged
@@ -586,7 +585,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSendCountToLimit: {fileID: 11400000, guid: 0b94e55dd3691a44a87cefdd406f63fc, type: 2}
   mushrooms: []
-  wallMushrooms: []
   limit: 3
   wallLimit: 1
 --- !u!114 &1736962260688546542
@@ -720,34 +718,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1281685094317335046}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomTracker, Assembly-CSharp
         m_MethodName: RecallAll
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &7308456942291082996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1863350070199152437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 500926042ab57b045a53b83cecaf74de, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1281685094317335046}
-        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomTracker, Assembly-CSharp
-        m_MethodName: AddWallMushroom
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1214,7 +1184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onRequestUnlockedWallJump: {fileID: 11400000, guid: d91b2ba83d80f1246946ca86a4f206e8, type: 2}
   onWallJump: {fileID: 11400000, guid: b7babe64976505c4e9add98ab5ad689c, type: 2}
-  onAddWallMushroom: {fileID: 11400000, guid: 500926042ab57b045a53b83cecaf74de, type: 2}
+  onAddMushroom: {fileID: 11400000, guid: d7c6448fb23ce9e4f80ec3ae16049dce, type: 2}
   wallShroom: {fileID: 6416888149012354788, guid: c216b5d823bd7a843af99a633a5b533c, type: 3}
   unlockedWallJump: 0
   mushroomWallLayer:
@@ -1410,11 +1380,12 @@ GameObject:
   - component: {fileID: 3274030665019315463}
   - component: {fileID: 5731558841692214012}
   - component: {fileID: 456266487528382957}
-  - component: {fileID: 1889134711469463787}
   - component: {fileID: 3312724052698482696}
   - component: {fileID: 1378804955233713589}
+  - component: {fileID: 363582678741358101}
   - component: {fileID: 9054618323676775915}
-  - component: {fileID: -4315846995888419064}
+  - component: {fileID: 3589987339555332761}
+  - component: {fileID: 2463274158582569253}
   - component: {fileID: 7318721661013769202}
   - component: {fileID: 7671007024137985392}
   m_Layer: 10
@@ -1581,28 +1552,6 @@ MonoBehaviour:
     m_Bits: 2048
   maxSlopeAngle: 50
   currentLayer: 0
---- !u!114 &1889134711469463787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9047676686677396218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64625fa644d8e504d992f6e36d68027d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceBetweenRays: 0.1
-  debug: 0
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 456
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 2048
-  maxSlopeAngle: 50
-  currentLayer: 0
 --- !u!114 &3312724052698482696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,6 +1587,7 @@ MonoBehaviour:
   isBouncing: 0
   isWallJumping: 0
   isAgainstWall: 0
+  hasFireflies: 0
 --- !u!114 &1378804955233713589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1662,6 +1612,20 @@ MonoBehaviour:
     Part2: 1159333638
     Part3: 1157771957
     Part4: 4202531976
+--- !u!114 &363582678741358101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb88d715b40c19c4eb111f720f0dc625, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onUpdateFireflies: {fileID: 0}
+  hasFireflies: 0
 --- !u!114 &9054618323676775915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1677,7 +1641,7 @@ MonoBehaviour:
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   collisionHandler: {fileID: 0}
   canInteract: 0
---- !u!114 &-4315846995888419064
+--- !u!114 &3589987339555332761
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1686,21 +1650,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 9047676686677396218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 690100f12a92340469be8b8e8f2cba6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    <ID>k__BackingField:
-      Part1: 0
-      Part2: 0
-      Part3: 0
-      Part4: 0
-    position: {x: 23.325, y: 15.965, z: 0}
-  <ID>k__BackingField:
-    Part1: 981660440
-    Part2: 1129345911
-    Part3: 4255517369
-    Part4: 479523728
+  gameEvent: {fileID: 11400000, guid: d2cc81ee7b9d060419099a205c4cc020, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 363582678741358101}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
+          Assembly-CSharp
+        m_MethodName: OnGetPlayerTransform
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2463274158582569253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: b8d016c6735e42a4ca36ecc391e67cf6, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 363582678741358101}
+        m_TargetAssemblyTypeName: FireflyHandler, Assembly-CSharp
+        m_MethodName: OnSetPlayerFireflies
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7318721661013769202
 MonoBehaviour:
   m_ObjectHideFlags: 0

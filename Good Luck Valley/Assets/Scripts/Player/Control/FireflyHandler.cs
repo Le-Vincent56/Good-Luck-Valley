@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class FireflyHandler : MonoBehaviour
 {
-    [Header("Events")]
-    [SerializeField] private GameEvent onUpdateFireflies;
-
     [Header("Fields")]
     [SerializeField] private bool hasFireflies;
 
