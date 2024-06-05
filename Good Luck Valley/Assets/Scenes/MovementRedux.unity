@@ -1469,11 +1469,6 @@ MonoBehaviour:
   fireflies: {fileID: 0}
   channel: 1
   onFinalLanternLit: {fileID: 11400000, guid: 60802e11b6f8acf4bbe967807acab7d5, type: 2}
---- !u!1 &960807386 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-  m_PrefabInstance: {fileID: 6543610189921143792}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &995675623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,77 +1719,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2414757590046708016, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
   m_PrefabInstance: {fileID: 6543610189921143792}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1173841825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960807386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: d2cc81ee7b9d060419099a205c4cc020, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1173841827}
-        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
-          Assembly-CSharp
-        m_MethodName: OnGetPlayerTransform
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1173841826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960807386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: b8d016c6735e42a4ca36ecc391e67cf6, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1173841827}
-        m_TargetAssemblyTypeName: FireflyHandler, Assembly-CSharp
-        m_MethodName: OnSetPlayerFireflies
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1173841827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960807386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb88d715b40c19c4eb111f720f0dc625, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onUpdateFireflies: {fileID: 0}
-  hasFireflies: 0
 --- !u!1001 &1179791839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1825,11 +1749,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7770600246787331423, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -36.69
+      value: 22.2
       objectReference: {fileID: 0}
     - target: {fileID: 7770600246787331423, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.06
+      value: -3.09
       objectReference: {fileID: 0}
     - target: {fileID: 7770600246787331423, guid: 2ff882969fe65bb48b1427bf77a3f39e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3738,11 +3662,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2414757590046708016, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -36.69
+      value: 22.2
       objectReference: {fileID: 0}
     - target: {fileID: 2414757590046708016, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.06
+      value: -3.09
       objectReference: {fileID: 0}
     - target: {fileID: 2414757590046708016, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3785,22 +3709,11 @@ PrefabInstance:
       value: Refactored Player
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1180876124798562802, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-    - {fileID: 4766675572211902679, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-    - {fileID: 1889134711469463787, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-    - {fileID: -4315846995888419064, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-      insertIndex: 8
-      addedObject: {fileID: 1173841827}
-    - targetCorrespondingSourceObject: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1173841825}
-    - targetCorrespondingSourceObject: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1173841826}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
