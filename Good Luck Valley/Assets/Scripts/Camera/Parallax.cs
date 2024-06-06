@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 namespace GoodLuckValley.Cameras
@@ -27,7 +28,7 @@ namespace GoodLuckValley.Cameras
             }
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             for(int i = 0; i < layers.Length; i++)
             {
