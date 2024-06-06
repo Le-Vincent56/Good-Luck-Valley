@@ -32,7 +32,6 @@ namespace GoodLuckValley.Entity
             public CollisionLayer Layer;
             public RaycastHit2D VerticalCollisionRay;
             public RaycastHit2D HorizontalCollisionRay;
-            public IInteractable Interactable;
 
             /// <summary>
             /// Reset the Collision Info
@@ -50,14 +49,12 @@ namespace GoodLuckValley.Entity
                 Layer = CollisionLayer.Ground;
                 VerticalCollisionRay = new RaycastHit2D();
                 HorizontalCollisionRay = new RaycastHit2D();
-                Interactable = null;
             }
         }
 
         [Header("Fields")]
         [SerializeField] private bool debug;
         [SerializeField] private LayerMask collisionMask;
-        [SerializeField] private LayerMask interactableMask;
         [SerializeField] private float maxSlopeAngle;
         [SerializeField] private CollisionLayer currentLayer;
         public CollisionInfo collisions;
@@ -99,7 +96,6 @@ namespace GoodLuckValley.Entity
                 Vector2 rayOrigin = (directionY == -1) ? origins.bottomLeft : origins.topLeft;
                 rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
                 RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
-                RaycastHit2D hitInteractable = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, interactableMask);
 
                 // Debug
                 if (debug)
@@ -134,11 +130,6 @@ namespace GoodLuckValley.Entity
                 } else
                 {
                     currentLayer = CollisionLayer.None;
-                }
-
-                if(hitInteractable)
-                {
-                    collisions.Interactable = hitInteractable.transform.gameObject.GetComponent<IInteractable>();
                 }
             }
 
@@ -226,7 +217,6 @@ namespace GoodLuckValley.Entity
                 Vector2 rayOrigin = (directionX == -1) ? origins.bottomLeft : origins.bottomRight;
                 rayOrigin += Vector2.up * (horizontalRaySpacing * i);
                 RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
-                RaycastHit2D hitInteractable = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, interactableMask);
 
                 // Debug
                 if (debug)
@@ -304,11 +294,6 @@ namespace GoodLuckValley.Entity
                     {
                         currentLayer = CollisionLayer.None;
                     }
-                }
-
-                if (hitInteractable)
-                {
-                    collisions.Interactable = hitInteractable.transform.gameObject.GetComponent<IInteractable>();
                 }
             }
 

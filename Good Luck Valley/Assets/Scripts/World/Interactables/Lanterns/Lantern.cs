@@ -1,3 +1,4 @@
+using GoodLuckValley.Entities;
 using GoodLuckValley.Entities.Fireflies;
 using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.Commands;
@@ -12,9 +13,11 @@ namespace GoodLuckValley.World.Interactables
         [Header("Events")]
         [SerializeField] private GameEvent onStoreFireflies;
         [SerializeField] private GameEvent onWithdrawFireflies;
+        [SerializeField] private GameEvent onSetInteractable;
 
         [Header("References")]
         [SerializeField] protected Transform fireflies;
+        [SerializeField] protected AreaCollider areaCollider;
 
         [Header("Fields")]
         [SerializeField] protected int channel;
@@ -23,12 +26,36 @@ namespace GoodLuckValley.World.Interactables
 
         public bool HasFireflies => fireflies != null;
 
+        private void Awake()
+        {
+            areaCollider = GetComponent<AreaCollider>();
+        }
+
+        private void OnEnable()
+        {
+            areaCollider.OnTriggerEnter += EnterArea;
+            areaCollider.OnTriggerExit += ExitArea;
+        }
+
+        private void OnDisable()
+        {
+            areaCollider.OnTriggerEnter -= EnterArea;
+            areaCollider.OnTriggerExit -= ExitArea;
+        }
+
+        public void EnterArea(GameObject gameObject) => onSetInteractable.Raise(this, this);
+
+        public void ExitArea(GameObject gameObject) => onSetInteractable.Raise(this, null);
+
         /// <summary>
         /// Queue a Command for the Collectible
         /// </summary>
         /// <param name="command"></param>
         public void QueueCommand(ICommand<IInteractable> command) => commandQueue.Enqueue(command);
 
+        /// <summary>
+        /// Execute the interact command
+        /// </summary>
         public void ExecuteCommand()
         {
             // Create and enqueue the interactable command
@@ -46,6 +73,9 @@ namespace GoodLuckValley.World.Interactables
             }
         }
 
+        /// <summary>
+        /// Interact logic for the Lantern
+        /// </summary>
         public void Interact()
         {
             if(HasFireflies)
@@ -63,6 +93,9 @@ namespace GoodLuckValley.World.Interactables
             }
         }
 
+        /// <summary>
+        /// Withdraw the fireflies by seting the stored transform to null
+        /// </summary>
         public void Withdraw()
         {
             fireflies = null;
