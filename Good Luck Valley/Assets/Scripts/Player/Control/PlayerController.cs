@@ -7,6 +7,7 @@ using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Entities.Fireflies;
+using GoodLuckValley.Cameras;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -14,6 +15,8 @@ namespace GoodLuckValley.Player.Control
     {
         [Header("Events")]
         [SerializeField] private GameEvent onWallJumpInput;
+        [SerializeField] private GameEvent onSendPlayerTransform;
+        [SerializeField] private GameEvent onPlayerTurn;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -49,6 +52,8 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool isWallJumping;
         [SerializeField] private bool isAgainstWall;
         [SerializeField] private bool hasFireflies;
+
+        private float fallSpeedDampingChangeThreshold;
 
         private StateMachine stateMachine;
 
@@ -110,10 +115,16 @@ namespace GoodLuckValley.Player.Control
 
         private void Start()
         {
+            // Send out the player transform
+            onSendPlayerTransform.Raise(this, transform);
+
             // Define gravity
             gravity = -(2 * data.maxJumpHeight) / Mathf.Pow(data.timeToJumpApex, 2);
             maxJumpVelocity = Mathf.Abs(gravity * data.timeToJumpApex);
             minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * data.minJumpHeight);
+
+            // Set the fall speed change threshold
+            fallSpeedDampingChangeThreshold = CameraManager.Instance.FallSpeedDampingChangeThreshold;
         }
 
         private void OnEnable()
@@ -169,6 +180,11 @@ namespace GoodLuckValley.Player.Control
             Vector3 scale = transform.localScale;
             scale.x = collisionHandler.collisions.FacingDirection;
             transform.localScale = scale;
+
+            // Turn the camera
+            // Calls to:
+            //  - CameraFollowObject.CallTurn();
+            onPlayerTurn.Raise(this, collisionHandler.collisions.FacingDirection);
         }
 
         /// <summary>
@@ -311,6 +327,12 @@ namespace GoodLuckValley.Player.Control
                     velocity.y = -data.maxFallSpeed;
                 }
             }
+
+            if(velocity.y <= fallSpeedDampingChangeThreshold &&
+                !CameraManager.Instance.IsLerpingYDamping && !CameraManager.Instance.LerpedFromPlayerFalling)
+            {
+                CameraManager.Instance.LerpYDamping(true);
+            }
         }
 
         /// <summary>
@@ -391,6 +413,12 @@ namespace GoodLuckValley.Player.Control
                     // Otherwise, set y-velocity to 0
                     velocity.y = 0f;
                 }
+            }
+
+            if(velocity.y >= 0f && !CameraManager.Instance.IsLerpingYDamping && CameraManager.Instance.LerpedFromPlayerFalling)
+            {
+                CameraManager.Instance.LerpedFromPlayerFalling = false;
+                CameraManager.Instance.LerpYDamping(false);
             }
         }
 

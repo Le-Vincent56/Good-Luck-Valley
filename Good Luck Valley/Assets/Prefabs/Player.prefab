@@ -1546,10 +1546,7 @@ MonoBehaviour:
   debug: 0
   collisionMask:
     serializedVersion: 2
-    m_Bits: 456
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 4552
   maxSlopeAngle: 50
   currentLayer: 0
 --- !u!114 &3312724052698482696
@@ -1565,6 +1562,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onWallJumpInput: {fileID: 11400000, guid: 3e7262a3ea9a3b940b78a066bf59e6a1, type: 2}
+  onSendPlayerTransform: {fileID: 11400000, guid: c8eb9a52825cb7f4ba84e87939e5aa94, type: 2}
+  onPlayerTurn: {fileID: 11400000, guid: fbdc891029903794880c5adf4b1c0d20, type: 2}
   animator: {fileID: 0}
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   collisionHandler: {fileID: 0}
@@ -1624,7 +1623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb88d715b40c19c4eb111f720f0dc625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onUpdateFireflies: {fileID: 0}
   hasFireflies: 0
 --- !u!114 &9054618323676775915
 MonoBehaviour:
@@ -1639,7 +1637,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
-  collisionHandler: {fileID: 0}
   canInteract: 0
 --- !u!114 &3589987339555332761
 MonoBehaviour:
