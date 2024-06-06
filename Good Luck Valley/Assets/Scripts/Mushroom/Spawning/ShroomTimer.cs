@@ -79,11 +79,7 @@ namespace GoodLuckValley.Mushroom
             durationTimer = duration;
         }
 
-        /// <summary>
-        /// Accept a visitor for the Shroom Timer
-        /// </summary>
-        /// <param name="visitor">The Visitor to accept</param>
-        public void Accept(IVisitor visitor)
+        public void Accept<T>(T visitor) where T : Component, IVisitor
         {
             // Accept the visit and alloww the visitor to visit
             // the shroom timer

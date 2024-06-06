@@ -11,12 +11,7 @@ namespace GoodLuckValley.Entities.Fireflies
 
         public override void OnEnter()
         {
-            // Clear the current following target
-        }
-
-        public override void OnExit()
-        {
-            // Set the transform to the retreat transform
+            fireflies.Retreat();
         }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
+using GoodLuckValley.Entities.Fireflies;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -47,6 +48,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool isBouncing;
         [SerializeField] private bool isWallJumping;
         [SerializeField] private bool isAgainstWall;
+        [SerializeField] private bool hasFireflies;
 
         private StateMachine stateMachine;
 
@@ -59,7 +61,7 @@ namespace GoodLuckValley.Player.Control
 
             // Declare states
             stateMachine = new StateMachine();
-            IdleState idleState = new IdleState(this, animator);
+            States.IdleState idleState = new States.IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator);
             JumpState jumpState = new JumpState(this, animator);
             WallState wallState = new WallState(this, animator);
@@ -205,6 +207,8 @@ namespace GoodLuckValley.Player.Control
             {
                 // Set grounded to true
                 isGrounded = true;
+
+                isWallJumping = false;
 
                 // Set bouncing to false if bouncing and falling down
                 if(isBouncing && velocity.y <= 0f)
@@ -408,7 +412,7 @@ namespace GoodLuckValley.Player.Control
 
             // Handle collisions if necessary
             if(velocity.y < 0f)
-                collisionHandler.DescendSlope(ref velocity);
+                collisionHandler.DescendSlope(ref velocity, fastFalling);
 
             // Set the facing direction
             if (velocity.x != 0f)

@@ -14,7 +14,6 @@ namespace GoodLuckValley.Mushroom
         #region FIELDS
         [Header("Details")]
         [SerializeField] private List<GameObject> mushrooms;
-        [SerializeField] private List<GameObject> wallMushrooms;
         [SerializeField] private int limit = 3;
         [SerializeField] private int wallLimit = 1;
         #endregion
@@ -74,29 +73,6 @@ namespace GoodLuckValley.Mushroom
 
             // Add the mushroom to the list
             mushrooms.Add(mushroom);
-        }
-
-        /// <summary>
-        /// Add a Mushroom to the Wall Mushroom list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public void AddWallMushroom(Component sender, object data)
-        {
-            // Check the correct data was sent
-            if (data is not GameObject) return;
-
-            // Cast the data
-            GameObject mushroom = (GameObject)data;
-
-            // Remove the first wall mushroom if necessary
-            if(wallMushrooms.Count >= wallLimit)
-            {
-                RemoveFirstShroom(wallMushrooms);
-            }
-
-            // Add the mushroom to the wall list
-            wallMushrooms.Add(mushroom);
         }
 
         /// <summary>

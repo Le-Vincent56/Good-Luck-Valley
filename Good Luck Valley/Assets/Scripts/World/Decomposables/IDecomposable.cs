@@ -1,11 +1,13 @@
-using GoodLuckValley.Patterns.Commands;
+using System.Collections;
 
 namespace GoodLuckValley.World.Decomposables
 {
     public interface IDecomposable
     {
-        void Decompose();
+        void Decompose(float decomposeTime);
 
-        void Recompose();
+        void Recompose(float decomposeTime);
+
+        int GetIndex();
     }
 }

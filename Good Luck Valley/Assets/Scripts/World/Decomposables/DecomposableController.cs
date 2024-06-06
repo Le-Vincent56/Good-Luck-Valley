@@ -1,11 +1,12 @@
 using GoodLuckValley.Entity;
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Patterns.Commands;
-using GoodLuckValley.Patterns.Observer;
 using GoodLuckValley.Patterns.Visitor;
+using GoodLuckValley.Patterns.Observer;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Collections;
 
 namespace GoodLuckValley.World.Decomposables
 {
@@ -16,9 +17,12 @@ namespace GoodLuckValley.World.Decomposables
         [SerializeField] public List<IDecomposable> decomposables = new List<IDecomposable>();
 
         [Header("Fields")]
+        [SerializeField] public Observer<bool> Decomposed = new Observer<bool>(false);
         [SerializeField] private bool regrow = true;
         [SerializeField] private bool attachedMushroom;
         [SerializeField] private float shroomSapTime;
+        [SerializeField] private float decomposeTime;
+        [SerializeField] private float recomposeTime;
         readonly Queue<ICommand<IDecomposable>> commandQueue = new Queue<ICommand<IDecomposable>>();
         private Vector2 velocity;
 
@@ -26,6 +30,7 @@ namespace GoodLuckValley.World.Decomposables
         {
             collisionHandler = GetComponent<StaticCollisionHandler>();
             decomposables = GetComponentsInChildren<IDecomposable>().ToList();
+            decomposables.Sort((a, b) => a.GetIndex().CompareTo(b.GetIndex()));
         }
 
         private void FixedUpdate()
@@ -52,6 +57,7 @@ namespace GoodLuckValley.World.Decomposables
                 collisionHandler.collisions.Above || collisionHandler.collisions.Below) && regrow)
             {
                 // Set attached mushroom to false
+                Decomposed.Value = false;
                 attachedMushroom = false;
 
                 RecomposeAll();
@@ -87,6 +93,8 @@ namespace GoodLuckValley.World.Decomposables
 
             // Execute the command
             ExecuteCommand();
+
+            StartCoroutine(AwaitFullyDecomposed());
         }
 
         private void RecomposeAll()
@@ -104,19 +112,34 @@ namespace GoodLuckValley.World.Decomposables
 
             // Execute the command
             ExecuteCommand();
+
+            StartCoroutine(AwaitFullyDecomposed());
+        }
+
+        private IEnumerator AwaitFullyDecomposed()
+        {
+            float elapsedTime = 0f;
+
+            while(elapsedTime < decomposeTime && attachedMushroom)
+            {
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            Decomposed.Value = attachedMushroom;
         }
 
         /// <summary>
         /// Decompose a decomposable
         /// </summary>
         /// <param name="decomposable"></param>
-        private void Decompose(IDecomposable decomposable) => decomposable.Decompose();
+        private void Decompose(IDecomposable decomposable) => decomposable.Decompose(decomposeTime);
 
         /// <summary>
         /// Recompose a decomposable
         /// </summary>
         /// <param name="decomposable"></param>
-        private void Recompose(IDecomposable decomposable) => decomposable.Recompose();
+        private void Recompose(IDecomposable decomposable) => decomposable.Recompose(recomposeTime);
 
         public void UpdateRegrow(bool plucked)
         {
@@ -148,14 +171,13 @@ namespace GoodLuckValley.World.Decomposables
             collisionHandler.HandleCollisions(ref velocity);
         }
 
-        /// <summary>
-        /// Visit the ShroomTimer and set the sap time
-        /// </summary>
-        /// <param name="shroomTimer">The ShroomTimer to set the sap time to</param>
-        public void Visit(ShroomTimer shroomTimer)
+        public void Visit<T>(T visitable) where T : Component, IVisitable
         {
-            // Set teh duration of the shroom timer
-            shroomTimer.SetDuration(shroomSapTime);
+            if(visitable is ShroomTimer shroomTimer)
+            {
+                // Set teh duration of the shroom timer
+                shroomTimer.SetDuration(shroomSapTime);
+            }
         }
     }
 }

@@ -36,7 +36,6 @@ namespace GoodLuckValley.Patterns.Observer
 
         public void Invoke()
         {
-            Debug.Log($"Invoking {onValueChanged.GetPersistentEventCount()} listeners");
             onValueChanged.Invoke(value);
         }
 
