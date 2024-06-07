@@ -1,5 +1,4 @@
 using GoodLuckValley.Player.Input;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace GoodLuckValley.Cameras
