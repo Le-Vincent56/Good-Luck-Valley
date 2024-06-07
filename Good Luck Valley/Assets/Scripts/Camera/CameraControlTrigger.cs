@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEditor;
-using GoodLuckValley.Entity;
 using GoodLuckValley.Entities;
 
 namespace GoodLuckValley.Cameras

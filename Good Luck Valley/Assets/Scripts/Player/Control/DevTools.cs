@@ -56,7 +56,7 @@ namespace GoodLuckValley.Player.Control
         public void HandleNoClip()
         {
             // Move around in no clip
-            Vector2 movement = new Vector2(input.NormInputX * noClipSpeed, input.NormInputY * noClipSpeed);
+            Vector2 movement = new Vector2(input.NormMoveX * noClipSpeed, input.NormMoveY * noClipSpeed);
             playerTransform.Translate(movement);
         }
 

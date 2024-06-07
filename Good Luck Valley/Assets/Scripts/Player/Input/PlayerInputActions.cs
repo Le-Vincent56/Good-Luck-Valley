@@ -136,6 +136,15 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""c3f0d9c5-225f-4d94-bc53-18caf4e85b7c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -314,6 +323,39 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""UnlockPowers"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""eea2cb55-5bb9-49ba-9a57-0980bbecc359"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""6fb79e01-6b2a-4ea4-8a0b-9de7c38b3cbf"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""373d69d1-f1b3-4e8d-9e5a-7a25dacab165"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -384,6 +426,7 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_DevTools = m_PlayerControls.FindAction("DevTools", throwIfNotFound: true);
             m_PlayerControls_NoClip = m_PlayerControls.FindAction("NoClip", throwIfNotFound: true);
             m_PlayerControls_UnlockPowers = m_PlayerControls.FindAction("UnlockPowers", throwIfNotFound: true);
+            m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
@@ -460,6 +503,7 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_DevTools;
         private readonly InputAction m_PlayerControls_NoClip;
         private readonly InputAction m_PlayerControls_UnlockPowers;
+        private readonly InputAction m_PlayerControls_Look;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -476,6 +520,7 @@ namespace GoodLuckValley.Player.Input
             public InputAction @DevTools => m_Wrapper.m_PlayerControls_DevTools;
             public InputAction @NoClip => m_Wrapper.m_PlayerControls_NoClip;
             public InputAction @UnlockPowers => m_Wrapper.m_PlayerControls_UnlockPowers;
+            public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -521,6 +566,9 @@ namespace GoodLuckValley.Player.Input
                 @UnlockPowers.started += instance.OnUnlockPowers;
                 @UnlockPowers.performed += instance.OnUnlockPowers;
                 @UnlockPowers.canceled += instance.OnUnlockPowers;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
             }
 
             private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -561,6 +609,9 @@ namespace GoodLuckValley.Player.Input
                 @UnlockPowers.started -= instance.OnUnlockPowers;
                 @UnlockPowers.performed -= instance.OnUnlockPowers;
                 @UnlockPowers.canceled -= instance.OnUnlockPowers;
+                @Look.started -= instance.OnLook;
+                @Look.performed -= instance.OnLook;
+                @Look.canceled -= instance.OnLook;
             }
 
             public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -638,6 +689,7 @@ namespace GoodLuckValley.Player.Input
             void OnDevTools(InputAction.CallbackContext context);
             void OnNoClip(InputAction.CallbackContext context);
             void OnUnlockPowers(InputAction.CallbackContext context);
+            void OnLook(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

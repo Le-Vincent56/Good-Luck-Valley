@@ -1,4 +1,3 @@
-using GoodLuckValley.Player.Control;
 using UnityEngine;
 
 namespace GoodLuckValley.Entity

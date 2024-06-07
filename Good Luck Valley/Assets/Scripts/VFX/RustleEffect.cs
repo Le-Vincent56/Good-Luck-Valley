@@ -1,7 +1,5 @@
 using GoodLuckValley.Entities;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RustleEffect : MonoBehaviour
