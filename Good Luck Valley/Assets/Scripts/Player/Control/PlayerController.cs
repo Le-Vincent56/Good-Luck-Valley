@@ -6,7 +6,6 @@ using UnityEngine;
 using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
-using GoodLuckValley.Entities.Fireflies;
 using GoodLuckValley.Cameras;
 
 namespace GoodLuckValley.Player.Control
@@ -17,6 +16,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onSendPlayerTransform;
         [SerializeField] private GameEvent onPlayerTurn;
+        [SerializeField] private GameEvent onSetCanPeek;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -66,7 +66,7 @@ namespace GoodLuckValley.Player.Control
 
             // Declare states
             stateMachine = new StateMachine();
-            States.IdleState idleState = new States.IdleState(this, animator);
+            IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator);
             JumpState jumpState = new JumpState(this, animator);
             WallState wallState = new WallState(this, animator);
@@ -76,33 +76,33 @@ namespace GoodLuckValley.Player.Control
             DevState devState = new DevState(this, devTools, animator);
 
             // Define strict transitions
-            At(idleState, locomotionState, new FuncPredicate(() => input.NormInputX != 0));
+            At(idleState, locomotionState, new FuncPredicate(() => input.NormMoveX != 0));
             At(idleState, jumpState, new FuncPredicate(() => isJumping));
 
-            At(locomotionState, idleState, new FuncPredicate(() => input.NormInputX == 0));
+            At(locomotionState, idleState, new FuncPredicate(() => input.NormMoveX == 0));
             At(locomotionState, jumpState, new FuncPredicate(() => isJumping));
 
             At(jumpState, locomotionState, new FuncPredicate(() => isGrounded && !isJumping));
             At(jumpState, wallState, new FuncPredicate(() => isWallSliding));
 
-            At(wallState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX  == 0));
+            At(wallState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX  == 0));
             At(wallState, jumpState, new FuncPredicate(() => isJumping));
             At(wallState, wallJumpState, new FuncPredicate(() => isWallJumping));
 
-            At(fallState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX  == 0));
-            At(fallState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX  != 0));
+            At(fallState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX  == 0));
+            At(fallState, locomotionState, new FuncPredicate(() => isGrounded && input.NormMoveX  != 0));
             At(fallState, wallState, new FuncPredicate(() => isWallSliding));
 
-            At(bounceState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX == 0));
-            At(bounceState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX != 0));
+            At(bounceState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX == 0));
+            At(bounceState, locomotionState, new FuncPredicate(() => isGrounded && input.NormMoveX != 0));
             At(bounceState, wallState, new FuncPredicate(() => isWallSliding));
 
             At(wallJumpState, wallState, new FuncPredicate(() => isWallSliding));
-            At(wallJumpState, idleState, new FuncPredicate(() => isGrounded && input.NormInputX == 0));
-            At(wallJumpState, locomotionState, new FuncPredicate(() => isGrounded && input.NormInputX != 0));
+            At(wallJumpState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX == 0));
+            At(wallJumpState, locomotionState, new FuncPredicate(() => isGrounded && input.NormMoveX != 0));
 
-            At(devState, idleState, new FuncPredicate(() => !devTools.Active && input.NormInputX == 0));
-            At(devState, locomotionState, new FuncPredicate(() => !devTools.Active && input.NormInputX != 0));
+            At(devState, idleState, new FuncPredicate(() => !devTools.Active && input.NormMoveX == 0));
+            At(devState, locomotionState, new FuncPredicate(() => !devTools.Active && input.NormMoveX != 0));
 
             // Define any transitions
             Any(devState, new FuncPredicate(() => devTools.Active));
@@ -207,7 +207,7 @@ namespace GoodLuckValley.Player.Control
             // Get the target speed
             if(!isWallJumping)
             {
-                float targetSpeed = input.NormInputX * data.movementSpeed;
+                float targetSpeed = input.NormMoveX * data.movementSpeed;
 
                 // Smooth the target speed, taking in acceleration to account
                 velocity.x = Mathf.SmoothDamp(
@@ -244,6 +244,9 @@ namespace GoodLuckValley.Player.Control
                     // Execute the jump
                     HandleJump();
                 }
+
+                // Allow the player to peek
+                onSetCanPeek.Raise(this, true);
             }
             else isGrounded = false;
 
@@ -377,7 +380,7 @@ namespace GoodLuckValley.Player.Control
                     velocity.x = 0f;
 
                     // Check if we need to stick to the wall
-                    if (input.NormInputX != wallDirX && input.NormInputX != 0f)
+                    if (input.NormMoveX != wallDirX && input.NormMoveX != 0f)
                     {
                         timeToWallUnstick -= Time.deltaTime;
                     }
@@ -477,7 +480,7 @@ namespace GoodLuckValley.Player.Control
                 if (collisionHandler.collisions.SlidingDownMaxSlope)
                 {
                     // Check if we are not jumping against a max slope
-                    if (input.NormInputX != -Mathf.Sign(collisionHandler.collisions.SlopeNormal.x))
+                    if (input.NormMoveX != -Mathf.Sign(collisionHandler.collisions.SlopeNormal.x))
                     {
                         velocity.y = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.y;
                         velocity.x = maxJumpVelocity * collisionHandler.collisions.SlopeNormal.x;
@@ -652,6 +655,17 @@ namespace GoodLuckValley.Player.Control
             // Set data
             velocity.x = wallJumpVector.x;
             velocity.y = wallJumpVector.y;
+        }
+
+        /// <summary>
+        /// Set whether or not the player can peek or not
+        /// </summary>
+        /// <param name="canPeek">Whether the player can peek or not</param>
+        public void SetCanPeek(bool canPeek)
+        {
+            // Calls to:
+            //  - CameraPeek.SetCanPeek();
+            onSetCanPeek.Raise(this, canPeek);
         }
     }
 }

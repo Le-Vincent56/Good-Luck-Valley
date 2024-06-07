@@ -1,19 +1,18 @@
 using GoodLuckValley.Player.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
     public class IdleState : BaseState
     {
-        public IdleState(PlayerController player, Animator animator) : base(player, animator)
-        {
-        }
+        public IdleState(PlayerController player, Animator animator) : base(player, animator) { }
 
         public override void OnEnter()
         {
             animator.CrossFade(IdleHash, crossFadeDuration);
+
+            // Allow the player to peek
+            player.SetCanPeek(true);
         }
 
         public override void FixedUpdate()

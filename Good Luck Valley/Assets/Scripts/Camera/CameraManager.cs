@@ -19,8 +19,10 @@ namespace GoodLuckValley.Cameras
         private Vector2 startingTrackedObjectOffset;
         private Coroutine lerpYPanCoroutine;
         private Coroutine panCameraCoroutine;
+        private Coroutine peekCameraCoroutine;
         private CinemachineFramingTransposer framingTransposer;
 
+        public bool IsDefaultCam => activeCamera == virtualCameras[0];
         public bool IsPanning { get; private set; }
         public bool IsLerpingYDamping { get; private set; }
         public bool LerpedFromPlayerFalling { get; set; }
@@ -89,6 +91,64 @@ namespace GoodLuckValley.Cameras
             }
 
             IsLerpingYDamping = false;
+        }
+
+        public void Peek(float panDistance, float panTime, Vector2 peekDirection, float peekYDamp, bool panToStartingPos)
+        {
+            peekCameraCoroutine = StartCoroutine(PeekCamera(panDistance, panTime, peekDirection, peekYDamp, panToStartingPos));
+        }
+
+        private IEnumerator PeekCamera(float panDistance, float panTime, Vector2 peekDirection, float peekYDamp, bool panToStartingPos)
+        {
+            // Establish a starting and end position
+            Vector2 endPos;
+            Vector2 startingPos;
+
+            // Handle pan from trigger
+            if (!panToStartingPos)
+            {
+                // Set the framing transposer's damping
+                framingTransposer.m_YDamping = peekYDamp;
+
+                // Normalize the pan direction
+                endPos = new Vector2(Mathf.Abs(peekDirection.x), peekDirection.y);
+
+                // Set the pan distance
+                endPos *= panDistance;
+
+                // Set the starting position
+                startingPos = startingTrackedObjectOffset;
+
+                // Add the starting position to the end position
+                endPos += startingPos;
+            }
+            else // Handle a pan back to the starting position
+            {
+                framingTransposer.m_YDamping = peekYDamp;
+
+                // Set the starting position to the current tracked object offset
+                startingPos = framingTransposer.m_TrackedObjectOffset;
+
+                // Set the end position to the original tracked object offset
+                endPos = startingTrackedObjectOffset;
+            }
+
+            // Handle the panning
+            float elapsedTime = 0f;
+            while (elapsedTime < panTime)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // Lerp the pan
+                Vector3 panLerp = Vector3.Lerp(startingPos, endPos, (elapsedTime / panTime));
+
+                // Set the pan
+                framingTransposer.m_TrackedObjectOffset = panLerp;
+
+                yield return null;
+            }
+
+            framingTransposer.m_YDamping = normYPanAmount;
         }
 
         public void PanCameraOnContact(float panDistance, float panTime, Vector2 panDirection, bool panToStartingPos)
