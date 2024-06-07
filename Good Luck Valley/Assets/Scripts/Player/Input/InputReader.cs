@@ -32,11 +32,13 @@ namespace GoodLuckValley.Player.Input
         public event UnityAction<bool> DevTools = delegate { };
         public event UnityAction<bool> NoClip = delegate { };
         public event UnityAction<bool> UnlockPowers = delegate { };
+        public event UnityAction<bool> Look = delegate { };
 
         PlayerInputActions inputActions;
         public Vector3 Direction => inputActions.PlayerControls.Move.ReadValue<Vector2>();
-        public int NormInputX { get; private set; }
-        public int NormInputY { get; private set; }
+        public int NormMoveX { get; private set; }
+        public int NormMoveY { get; private set; }
+        public int NormLookY { get; private set; }
 
         void OnEnable()
         {
@@ -85,8 +87,8 @@ namespace GoodLuckValley.Player.Input
             Vector2 rawMovementInput = context.ReadValue<Vector2>();
             Move.Invoke(rawMovementInput);
 
-            NormInputX = (int)(rawMovementInput * Vector2.right).normalized.x;
-            NormInputY = (int)(rawMovementInput * Vector2.up).normalized.y;
+            NormMoveX = (int)(rawMovementInput * Vector2.right).normalized.x;
+            NormMoveY = (int)(rawMovementInput * Vector2.up).normalized.y;
         }
 
         public void OnPause(InputAction.CallbackContext context)
@@ -133,6 +135,20 @@ namespace GoodLuckValley.Player.Input
         public void OnUnlockPowers(InputAction.CallbackContext context)
         {
             UnlockPowers.Invoke(context.started);
+        }
+
+        public void OnLook(InputAction.CallbackContext context)
+        {
+            Vector2 rawMovementInput = context.ReadValue<Vector2>();
+            NormLookY = (int)(rawMovementInput * Vector2.up).normalized.y;
+
+            if (context.started)
+            {
+                Look.Invoke(context.started);
+            } else if(context.canceled)
+            {
+                Look.Invoke(context.started);
+            }
         }
     }
 }

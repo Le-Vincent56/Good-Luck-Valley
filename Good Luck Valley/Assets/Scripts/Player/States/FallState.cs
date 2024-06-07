@@ -1,15 +1,11 @@
 using GoodLuckValley.Player.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
     public class FallState : BaseState
     {
-        public FallState(PlayerController player, Animator animator) : base(player, animator)
-        {
-        }
+        public FallState(PlayerController player, Animator animator) : base(player, animator) { }
 
         public override void OnEnter()
         {
@@ -17,6 +13,9 @@ namespace GoodLuckValley.Player.States
 
             // Reset the player bounce
             player.ResetBounce();
+
+            // Don't allow the player to peek
+            player.SetCanPeek(false); ;
         }
 
         public override void FixedUpdate()

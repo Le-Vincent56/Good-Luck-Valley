@@ -1,19 +1,18 @@
 using GoodLuckValley.Player.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
     public class WallJumpState : BaseState
     {
-        public WallJumpState(PlayerController player, Animator animator) : base(player, animator)
-        {
-        }
+        public WallJumpState(PlayerController player, Animator animator) : base(player, animator) { }
 
         public override void OnEnter()
         {
             animator.CrossFade(WallJumpHash, crossFadeDuration);
+
+            // Don't allow the player to peek
+            player.SetCanPeek(false);
         }
 
         public override void FixedUpdate()

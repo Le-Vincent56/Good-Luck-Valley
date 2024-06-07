@@ -109,11 +109,14 @@ namespace GoodLuckValley.Entities.Fireflies
             if (!isFree)
             {
                 // If there's no current target, the fireflies are trapped
-                if (followTarget == null)
+                if (followTarget == null && lastLantern == null)
                     isTrapped = true;
 
                 return;
             }
+
+            // If already freed, don't get triggered by the decompose controller
+            if (!isTrapped) return;
 
             // Set is trapped to false and set the current target
             isTrapped = false;
