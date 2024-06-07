@@ -1,4 +1,5 @@
 using GoodLuckValley.Player.Input;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace GoodLuckValley.Cameras
@@ -99,6 +100,23 @@ namespace GoodLuckValley.Cameras
             inputPressed = false;
             peeking = false;
             elapsedTime = 0f;
+        }
+
+        /// <summary>
+        /// Set whether or not the player can peek
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void SetCanPeek(Component sender, object data)
+        {
+            // Verify that the correct data was sent
+            if (data is not bool) return;
+
+            // Cast the data
+            bool canPeek = (bool)data;
+
+            // Set the data
+            this.canPeek = canPeek;
         }
     }
 }

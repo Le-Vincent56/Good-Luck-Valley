@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 2880234198892720873}
   - component: {fileID: 2101943485941398509}
   - component: {fileID: 2579475348540798019}
+  - component: {fileID: 1149610672891149014}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -379,6 +380,34 @@ MonoBehaviour:
   panDistance: 3
   panTime: 0.35
   peekYDamp: 1
+--- !u!114 &1149610672891149014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136656142002040464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 3050c99c4ce29f941b36f4aa78ec7198, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2579475348540798019}
+        m_TargetAssemblyTypeName: GoodLuckValley.Cameras.CameraPeek, Assembly-CSharp
+        m_MethodName: SetCanPeek
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5610160464796919036
 GameObject:
   m_ObjectHideFlags: 0

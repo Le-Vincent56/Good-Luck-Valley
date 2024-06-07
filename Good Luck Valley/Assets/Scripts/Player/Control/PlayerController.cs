@@ -16,6 +16,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onSendPlayerTransform;
         [SerializeField] private GameEvent onPlayerTurn;
+        [SerializeField] private GameEvent onSetCanPeek;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -65,7 +66,7 @@ namespace GoodLuckValley.Player.Control
 
             // Declare states
             stateMachine = new StateMachine();
-            States.IdleState idleState = new States.IdleState(this, animator);
+            IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator);
             JumpState jumpState = new JumpState(this, animator);
             WallState wallState = new WallState(this, animator);
@@ -243,6 +244,9 @@ namespace GoodLuckValley.Player.Control
                     // Execute the jump
                     HandleJump();
                 }
+
+                // Allow the player to peek
+                onSetCanPeek.Raise(this, true);
             }
             else isGrounded = false;
 
@@ -651,6 +655,17 @@ namespace GoodLuckValley.Player.Control
             // Set data
             velocity.x = wallJumpVector.x;
             velocity.y = wallJumpVector.y;
+        }
+
+        /// <summary>
+        /// Set whether or not the player can peek or not
+        /// </summary>
+        /// <param name="canPeek">Whether the player can peek or not</param>
+        public void SetCanPeek(bool canPeek)
+        {
+            // Calls to:
+            //  - CameraPeek.SetCanPeek();
+            onSetCanPeek.Raise(this, canPeek);
         }
     }
 }

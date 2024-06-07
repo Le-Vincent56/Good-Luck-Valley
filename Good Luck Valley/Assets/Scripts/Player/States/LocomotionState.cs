@@ -10,6 +10,9 @@ namespace GoodLuckValley.Player.States
         public override void OnEnter()
         {
             animator.CrossFade(LocomotionHash, crossFadeDuration);
+
+            // Allow the player to peek
+            player.SetCanPeek(true);
         }
 
         public override void FixedUpdate()
