@@ -1,3 +1,4 @@
+using GoodLuckValley.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class RustleEffect : MonoBehaviour
 {
+    private AreaCollider areaCollider;
+
     public LightWindVariableController shaderController;
     public float startingMultiplier;
     public float currentMultiplier;
@@ -22,7 +25,20 @@ public class RustleEffect : MonoBehaviour
 
     private void Awake()
     {
+        // Set references
+        areaCollider = GetComponent<AreaCollider>();
+
         startingMultiplier = shaderController.directionMultiplier;
+    }
+
+    private void OnEnable()
+    {
+        areaCollider.OnTriggerEnter += Rustle;
+    }
+
+    private void OnDisable()
+    {
+        areaCollider.OnTriggerEnter -= Rustle;
     }
 
     //private void Update()
@@ -33,6 +49,13 @@ public class RustleEffect : MonoBehaviour
     //        testTrigger = false;
     //    }
     //}
+
+    private void Rustle(GameObject gameObject)
+    {
+        int enterDirection = Mathf.RoundToInt((gameObject.transform.position - areaCollider.Bounds.center).normalized.x);
+
+        InitiateRustle(testEM, testSpeed, enterDirection);
+    }
 
     /// <summary>
     /// Initiates the rustle effect
