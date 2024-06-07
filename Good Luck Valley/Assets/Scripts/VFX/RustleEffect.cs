@@ -12,9 +12,12 @@ public class RustleEffect : MonoBehaviour
     public float startingMultiplier;
     public float currentMultiplier;
     public float endingMultiplier;
-    public int direction;
     public float speed;
     private bool rustling;
+
+    [Header("Non-Wind Rustle")]
+    public float setBendStrength;
+    public bool nonWind;
 
     [Header("Testing Variables")]
     public bool testTrigger;
@@ -41,20 +44,25 @@ public class RustleEffect : MonoBehaviour
         areaCollider.OnTriggerEnter -= Rustle;
     }
 
-    //private void Update()
-    //{
-    //    if (testTrigger)
-    //    {
-    //        InitiateRustle(testEM, testSpeed, testDir);
-    //        testTrigger = false;
-    //    }
-    //}
+    //Only for testing
+    private void Update()
+    {
+        if (testTrigger)
+        {
+            InitiateRustle(testEM, testSpeed);
+            testTrigger = false;
+        }
+    }
 
     private void Rustle(GameObject gameObject)
     {
-        int enterDirection = Mathf.RoundToInt((gameObject.transform.position - areaCollider.Bounds.center).normalized.x);
-
-        InitiateRustle(testEM, testSpeed, enterDirection);
+        // If wind is not applied to this rustle object
+        if (nonWind)
+        {
+            // Set bend strength for temp rustle
+            shaderController.UpdateBendStrength(setBendStrength);
+        }
+        InitiateRustle(endingMultiplier, speed);
     }
 
     /// <summary>
@@ -62,18 +70,16 @@ public class RustleEffect : MonoBehaviour
     /// </summary>
     /// <param name="endingMultiplier"> How intense the rustle will be, should depend on the speed of the object colliding </param>
     /// <param name="speed"> How fast the rustle will be, should depend on the speed of the object colliding </param>
-    /// <param name="direction"> The "direction" of the rustle, either 1 or -1 </param>
-    public void InitiateRustle(float endingMultiplier, float speed, int direction)
+    public void InitiateRustle(float endingMultiplier, float speed)
     {
         // Check if currently rustling
-        if (!rustling) 
+        if (!rustling)
         {
             // Set values
             rustling = true;
             this.endingMultiplier = endingMultiplier;
-            this.direction = direction;
             this.speed = speed;
-            currentMultiplier = startingMultiplier * direction;
+            currentMultiplier = startingMultiplier;
 
             // Start the rustle effect (moving away from starting position)
             StartCoroutine(StartRustle());
@@ -86,7 +92,7 @@ public class RustleEffect : MonoBehaviour
         while(Mathf.Abs(currentMultiplier) <= Mathf.Abs(endingMultiplier))
         {
             // Increase current mult
-            currentMultiplier += (speed * direction);
+            currentMultiplier += (speed);
             // Set current mult in the shader
             shaderController.UpdateDirectionMultiplier(currentMultiplier);
            
@@ -104,7 +110,7 @@ public class RustleEffect : MonoBehaviour
         while (Mathf.Abs(currentMultiplier) >= Mathf.Abs(startingMultiplier))
         {
             // Decrease current mult
-            currentMultiplier -= (speed * direction);
+            currentMultiplier -= (speed);
             
             // Set current mult in shader
             shaderController.UpdateDirectionMultiplier(currentMultiplier);
@@ -113,6 +119,11 @@ public class RustleEffect : MonoBehaviour
 
         // No longer ruslting
         rustling = false;
+        // If this rustle object doesn't have wind, set to 0
+        if (nonWind)
+        {
+            shaderController.UpdateBendStrength(0);
+        }
         yield break;
     }
 }
