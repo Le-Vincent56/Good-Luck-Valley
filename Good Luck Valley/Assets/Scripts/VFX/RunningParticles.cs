@@ -1,3 +1,4 @@
+using GoodLuckValley.Player.Control;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class RunningParticles : MonoBehaviour
         {
             timeSinceLastParticle += Time.deltaTime;
         }
-        else
+        else if (GetComponentInParent<PlayerController>().CheckGrounded)
         {
             CheckGroundTileAndPlayParticle();
             timeSinceLastParticle = 0;

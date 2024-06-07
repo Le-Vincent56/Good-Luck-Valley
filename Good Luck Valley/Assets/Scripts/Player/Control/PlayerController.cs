@@ -57,6 +57,8 @@ namespace GoodLuckValley.Player.Control
 
         private StateMachine stateMachine;
 
+        public bool CheckGrounded { get { return isGrounded; } }
+
         private void Awake()
         {
             // Get components
