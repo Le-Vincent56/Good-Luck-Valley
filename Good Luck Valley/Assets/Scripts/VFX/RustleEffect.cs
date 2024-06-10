@@ -6,7 +6,7 @@ public class RustleEffect : MonoBehaviour
 {
     private AreaCollider areaCollider;
 
-    public LightWindVariableController shaderController;
+    private LightWindVariableController shaderController;
     public float startingMultiplier;
     public float currentMultiplier;
     public float endingMultiplier;
@@ -28,6 +28,7 @@ public class RustleEffect : MonoBehaviour
     {
         // Set references
         areaCollider = GetComponent<AreaCollider>();
+        shaderController = GetComponent<LightWindVariableController>();
 
         startingMultiplier = shaderController.directionMultiplier;
     }
