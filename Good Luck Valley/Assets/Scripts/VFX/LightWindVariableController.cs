@@ -32,4 +32,12 @@ public class LightWindVariableController : MonoBehaviour
         propertyBlock.SetFloat("_DirectionMultiplier", directionMultiplier);
         GetComponent<Renderer>().SetPropertyBlock(propertyBlock);
     }
+
+    public void UpdateBendStrength(float bendStrength)
+    {
+        MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+        GetComponent<Renderer>().GetPropertyBlock(propertyBlock);
+        propertyBlock.SetFloat("_Bend_Strength", bendStrength);
+        GetComponent<Renderer>().SetPropertyBlock(propertyBlock);
+    }
 }
