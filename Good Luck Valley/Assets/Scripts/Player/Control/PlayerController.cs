@@ -34,6 +34,7 @@ namespace GoodLuckValley.Player.Control
 
         [Header("Fields - Movement")]
         [SerializeField] private float xVelSmoothing;
+        [SerializeField] private float lastPressedMoveTime;
 
         [Header("Fields - Jump")]
         [SerializeField] private bool isJumpCut;
@@ -131,12 +132,14 @@ namespace GoodLuckValley.Player.Control
 
         private void OnEnable()
         {
+            input.Move += SetTurnTimer;
             input.Jump += OnJump;
             input.FastFall += OnFastFall;
         }
 
         private void OnDisable()
         {
+            input.Move -= SetTurnTimer;
             input.Jump -= OnJump;
             input.FastFall -= OnFastFall;
         }
@@ -186,7 +189,8 @@ namespace GoodLuckValley.Player.Control
             // Turn the camera
             // Calls to:
             //  - CameraFollowObject.CallTurn();
-            onPlayerTurn.Raise(this, collisionHandler.collisions.FacingDirection);
+            if(lastPressedMoveTime <= 0f)
+                onPlayerTurn.Raise(this, collisionHandler.collisions.FacingDirection);
         }
 
         /// <summary>
@@ -199,6 +203,9 @@ namespace GoodLuckValley.Player.Control
 
             if(lastPressedJumpTime > 0f)
                 lastPressedJumpTime -= Time.deltaTime;
+
+            if (lastPressedMoveTime > 0f)
+                lastPressedMoveTime -= Time.deltaTime;
         }
 
         /// <summary>
@@ -669,5 +676,11 @@ namespace GoodLuckValley.Player.Control
             //  - CameraPeek.SetCanPeek();
             onSetCanPeek.Raise(this, canPeek);
         }
+
+        /// <summary>
+        /// Set the timer to turn and activate LookAhead
+        /// </summary>
+        /// <param name="turnTimer"></param>
+        private void SetTurnTimer(Vector2 turnTimer) => lastPressedMoveTime = data.movementTurnTime;
     }
 }
