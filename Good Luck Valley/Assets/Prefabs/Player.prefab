@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  flipYRotationTime: 0.3
+  flipYRotationTime: 0.8
   isFacingRight: 0
 --- !u!114 &1424657294064230843
 MonoBehaviour:
@@ -691,7 +691,6 @@ MonoBehaviour:
   onSendCountToLimit: {fileID: 11400000, guid: 0b94e55dd3691a44a87cefdd406f63fc, type: 2}
   mushrooms: []
   limit: 3
-  wallLimit: 1
 --- !u!114 &1736962260688546542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1773,6 +1772,7 @@ MonoBehaviour:
   fastFalling: 0
   velocity: {x: 0, y: 0}
   xVelSmoothing: 0
+  lastPressedMoveTime: 0
   isJumpCut: 0
   isJumping: 0
   lastOnGroundTime: 0
