@@ -69,8 +69,6 @@ namespace GoodLuckValley.Mushroom
             // Get teh spawn point
             Vector2 spawnPoint = spawnData.Point;
 
-            Debug.Log(spawnData.Rotation);
-
             // Edit spawn point position depending on angle
             switch (spawnData.Rotation)
             {
