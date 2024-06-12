@@ -548,6 +548,56 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90c94ee6797c859499880d8f75f23eb7, type: 3}
+--- !u!1 &115406482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 115406484}
+  - component: {fileID: 115406483}
+  m_Layer: 0
+  m_Name: Sound Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &115406483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115406482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f827388b46e6c1b4f8750a684e0052a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoUnparentOnAwake: 1
+  soundEmitterPrefab: {fileID: 5566327484898196144, guid: ec242e6b9a12ab54999b5bcd506dbac9, type: 3}
+  collectionCheck: 1
+  defaultCapacity: 10
+  maxPoolSize: 100
+  maxSoundInstances: 30
+--- !u!4 &115406484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115406482}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.242214, y: -0.97422963, z: 208.7904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &168008213
 GameObject:
   m_ObjectHideFlags: 0
@@ -3582,6 +3632,19 @@ Transform:
   - {fileID: 2138332512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &1904026023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+  m_PrefabInstance: {fileID: 6543610189921143792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &1904026038
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904026023}
+  m_Enabled: 1
 --- !u!1 &1909343513 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4646058849056595314, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
@@ -4301,7 +4364,8 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1921905078}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6905061454798388754, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4423,6 +4487,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: SFX
+      value: 
+      objectReference: {fileID: 11400000, guid: e7106fc55664d8a4297de35f5eba666b, type: 2}
+    - target: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: SFX.mixerGroup
+      value: 
+      objectReference: {fileID: -2769311914157060453, guid: bc531a4e6430c874e9647c2803e2b6d3, type: 2}
+    - target: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: SFX.frequentSound
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: SFX.clips.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: SFX.clips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5703541b0e607284285e4f4beed2765b, type: 3}
+    - target: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: SFX.clips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 59f2b737429b4a84cb690089fba92bba, type: 3}
+    - target: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: SFX.clips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: b4c5232fb509a6b45acea7f4adae3663, type: 3}
     - target: {fileID: 8006367741796093942, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
       propertyPath: flipYRotationTime
       value: 2
@@ -4452,7 +4544,10 @@ PrefabInstance:
     - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1904026038}
   m_SourcePrefab: {fileID: 100100000, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
 --- !u!1001 &7164676770939104101
 PrefabInstance:
@@ -4545,3 +4640,4 @@ SceneRoots:
   - {fileID: 48579904}
   - {fileID: 1970968137}
   - {fileID: 1157481166}
+  - {fileID: 115406484}

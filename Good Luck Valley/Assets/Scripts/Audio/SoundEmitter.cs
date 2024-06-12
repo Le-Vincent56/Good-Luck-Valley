@@ -30,7 +30,7 @@ namespace GoodLuckValley.Audio.Sound
             Data = data;
 
             // Set the AudioSource data from the SoundData data
-            audioSource.clip = data.clip;
+            audioSource.clip = data.clips[Random.Range(0, data.clips.Length)];
             audioSource.outputAudioMixerGroup = data.mixerGroup;
             audioSource.loop = data.loop;
             audioSource.playOnAwake = data.playOnAwake;

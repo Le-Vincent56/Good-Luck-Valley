@@ -20,6 +20,7 @@ namespace GoodLuckValley.Audio.Sound
 
         private void Start()
         {
+            // Initialize the sound pool
             InitializePool();
         }
 

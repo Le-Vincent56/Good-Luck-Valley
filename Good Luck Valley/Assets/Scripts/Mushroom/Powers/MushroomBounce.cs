@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.Sound;
 using GoodLuckValley.Events;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,17 +20,16 @@ namespace GoodLuckValley.Mushroom
             }
         }
 
-        #region EVENTS
         [Header("Events")]
         [SerializeField] private GameEvent onBounce;
         [Space(10f)]
-        #endregion
 
-        #region FIELDS
+        [Header("Fields")]
+        [SerializeField] private SoundData SFX;
         [SerializeField] private bool isBouncing;
         [SerializeField] private bool canBounce;
         [SerializeField] private float bounceForce;
-        #endregion
+        
 
         /// <summary>
         /// Collect the Mushroom's Bounce Data and send it to the Player to Bounce
@@ -54,6 +54,12 @@ namespace GoodLuckValley.Mushroom
             // Calls to:
             //  - PlayerController.StartBounce()
             onBounce.Raise(this, bounceData);
+
+            // Play the sound
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(SFX)
+                .WithRandomPitch()
+                .Play();
         }
     }
 }

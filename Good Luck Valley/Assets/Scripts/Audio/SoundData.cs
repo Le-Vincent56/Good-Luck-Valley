@@ -4,10 +4,10 @@ using UnityEngine.Audio;
 
 namespace GoodLuckValley.Audio.Sound
 {
-    [Serializable]
-    public class SoundData
+    [CreateAssetMenu(fileName = "SoundData")]
+    public class SoundData : ScriptableObject
     {
-        public AudioClip clip;
+        public AudioClip[] clips;
         public AudioMixerGroup mixerGroup;
         public bool loop;
         public bool playOnAwake;
