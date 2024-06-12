@@ -1,11 +1,10 @@
 using GoodLuckValley.Player.Control;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class RunningParticles : MonoBehaviour
+public class SpawnParticleEffect : MonoBehaviour
 {
     // Fields
     [Header("Particle Systems")]
@@ -17,32 +16,12 @@ public class RunningParticles : MonoBehaviour
     [SerializeField] LayerMask grassLayer;
 
     [Header("Particle Information")]
-    [SerializeField] private float timeSinceLastParticle;
-    [SerializeField] private float timeBetweenParticles;
-    [SerializeField] private float minXVelocity;
     [SerializeField] private Transform raycastEndhardpoint;
-
-    private PlayerController playerController;
 
 
     private void Awake()
     {
-        playerController = GetComponentInParent<PlayerController>();
-    }
-
-    private void Update()
-    {
-        Debug.Log(playerController.GetVelocity.x);
-        // Need a way to check if player is grounded
-        if (timeSinceLastParticle < timeBetweenParticles)
-        {
-            timeSinceLastParticle += Time.deltaTime;
-        }
-        else if (playerController.CheckGrounded && Mathf.Abs(playerController.GetVelocity.x) > minXVelocity)
-        {
-            CheckGroundTileAndPlayParticle();
-            timeSinceLastParticle = 0;
-        }
+        CheckGroundTileAndPlayParticle();
     }
 
     public void PlayGrassEffect()
@@ -64,7 +43,7 @@ public class RunningParticles : MonoBehaviour
         {
             PlayGrassEffect();
         }
-        else if(dirtCast)
+        else if (dirtCast)
         {
             PlayDirtEffect();
         }
