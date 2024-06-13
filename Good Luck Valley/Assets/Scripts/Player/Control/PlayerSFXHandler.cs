@@ -35,6 +35,9 @@ namespace GoodLuckValley.Player.Control
                     .WithSoundData(footsteps)
                     .WithRandomPitch()
                     .Play();
+
+                // Reset the footstep timer
+                ResetFootsteps();
             }
         }
 
@@ -63,6 +66,11 @@ namespace GoodLuckValley.Player.Control
                 .WithSoundData(fall)
                 .Play();
         }
+
+        /// <summary>
+        /// Stop the falling sound effect
+        /// </summary>
+        public void StopFall() => SoundManager.Instance.StopAllSoundsOfType(fall);
 
         /// <summary>
         /// Play the sound effect for bouncing

@@ -37,5 +37,11 @@ namespace GoodLuckValley.Player.States
             // Handle player movement
             player.HandleMovement();
         }
+
+        public override void OnExit()
+        {
+            // Stop the falling sound effect
+            sfx.StopFall();
+        }
     }
 }

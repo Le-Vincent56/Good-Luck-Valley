@@ -27,9 +27,6 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private DevTools devTools;
         [SerializeField] private PlayerSFXHandler sfxHandler;
 
-        [Header("Fields - Sounds")]
-        [SerializeField] public SoundData landSFX;
-
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
         [SerializeField] private float maxJumpVelocity;
