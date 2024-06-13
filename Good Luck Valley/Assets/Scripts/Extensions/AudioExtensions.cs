@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GoodLuckValley.Audio.Extensions
+namespace GoodLuckValley.Extensions
 {
     public static class AudioExtensions
     {

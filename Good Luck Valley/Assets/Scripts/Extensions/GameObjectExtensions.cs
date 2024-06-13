@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GoodLuckValley.Patterns.Extensions
+namespace GoodLuckValley.Extensions
 {
     public static class GameObjectExtensions
     {
