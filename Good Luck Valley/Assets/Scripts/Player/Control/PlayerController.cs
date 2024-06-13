@@ -61,6 +61,7 @@ namespace GoodLuckValley.Player.Control
         private StateMachine stateMachine;
 
         public bool CheckGrounded { get { return isGrounded; } }
+        public Vector2 GetVelocity { get { return velocity; } }
 
         private void Awake()
         {

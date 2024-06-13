@@ -1,20 +1,32 @@
 using GoodLuckValley.Player.Control;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class RunningParticles : MonoBehaviour
 {
     // Fields
+    [Header("Particle Systems")]
     [SerializeField] private VisualEffect grassParticle;
     [SerializeField] private VisualEffect dirtParticle;
-    public float timeSinceLastParticle;
-    [SerializeField] private float timeBetweenParticles;
-    [SerializeField] private Transform raycastEndhardpoint;
-    [SerializeField] LayerMask dirtLayer;
-    [SerializeField] LayerMask grassLayer;
 
+    [Header("Particle Information")]
+    [SerializeField] private float timeSinceLastParticle;
+    [SerializeField] private float timeBetweenParticles;
+    [SerializeField] private float minXVelocity;
+    [SerializeField] private Transform raycastEndHardpoint;
+
+    private PlayerController playerController;
+    private DetectTileType detectTileType;
+
+
+    private void Awake()
+    {
+        playerController = GetComponentInParent<PlayerController>();
+        detectTileType = new DetectTileType(this.transform.position, raycastEndHardpoint.position);
+    }
 
     private void Update()
     {
@@ -23,35 +35,26 @@ public class RunningParticles : MonoBehaviour
         {
             timeSinceLastParticle += Time.deltaTime;
         }
-        else if (GetComponentInParent<PlayerController>().CheckGrounded)
+        else if (playerController.CheckGrounded && Mathf.Abs(playerController.GetVelocity.x) > minXVelocity)
         {
-            CheckGroundTileAndPlayParticle();
+            switch (detectTileType.CheckTileType())
+            {
+                case TileType.Dirt:
+                    PlayEffect(dirtParticle);
+                    break;
+                case TileType.Grass:
+                    PlayEffect(grassParticle);
+                    break;
+                case TileType.None:
+                    Debug.Log("no tile type detected");
+                    break;
+            }
             timeSinceLastParticle = 0;
         }
     }
 
-    public void PlayGrassEffect()
+    public void PlayEffect(VisualEffect vfx)
     {
-        grassParticle.Play();
-    }
-
-    public void PlayDirtEffect()
-    {
-        dirtParticle.Play();
-    }
-
-    private void CheckGroundTileAndPlayParticle()
-    {
-        RaycastHit2D dirtCast = Physics2D.Linecast(transform.position, raycastEndhardpoint.position, dirtLayer);
-        RaycastHit2D grassCast = Physics2D.Linecast(transform.position, raycastEndhardpoint.position, grassLayer);
-
-        if (grassCast)
-        {
-            PlayGrassEffect();
-        }
-        else if(dirtCast)
-        {
-            PlayDirtEffect();
-        }
+        vfx.Play();
     }
 }

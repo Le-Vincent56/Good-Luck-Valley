@@ -1,27 +1,32 @@
 using GoodLuckValley.Entities;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class RustleEffect : MonoBehaviour
 {
     private AreaCollider areaCollider;
 
     private LightWindVariableController shaderController;
-    public float startingMultiplier;
-    public float currentMultiplier;
-    public float endingMultiplier;
-    public float speed;
+    [SerializeField] private float startingMultiplier;
+    [SerializeField] private float currentMultiplier;
+    [SerializeField] private float endingMultiplier;
+    [SerializeField] private float speed;
     private bool rustling;
 
     [Header("Non-Wind Rustle")]
-    public float setBendStrength;
-    public bool nonWind;
+    [SerializeField] private float setBendStrength;
+    [SerializeField] private bool nonWind;
+
+    [Header("Particle Systems")]
+    [SerializeField] private VisualEffect leafParticles;
+    [SerializeField] private bool enableLeaves = false;
 
     [Header("Testing Variables")]
-    public bool testTrigger;
-    public float testEM;
-    public int testDir;
-    public float testSpeed;
+    [SerializeField] private bool testTrigger;
+    [SerializeField] private float testEM;
+    [SerializeField] private int testDir;
+    [SerializeField] private float testSpeed;
 
 
     private void Awake()
@@ -81,6 +86,10 @@ public class RustleEffect : MonoBehaviour
             currentMultiplier = startingMultiplier;
 
             // Start the rustle effect (moving away from starting position)
+            if (enableLeaves) 
+            {
+                leafParticles.Play();
+            }
             StartCoroutine(StartRustle());
         }
     }
