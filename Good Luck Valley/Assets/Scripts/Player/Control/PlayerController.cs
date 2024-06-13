@@ -78,8 +78,8 @@ namespace GoodLuckValley.Player.Control
             WallState wallState = new WallState(this, animator, sfxHandler);
             FallState fallState = new FallState(this, animator, sfxHandler);
             LandState landState = new LandState(this, animator, sfxHandler);
-            BounceState bounceState = new BounceState(this, animator, sfxHandler);
-            WallJumpState wallJumpState = new WallJumpState(this, animator);
+            BounceState bounceState = new BounceState(this, animator);
+            WallJumpState wallJumpState = new WallJumpState(this, animator, sfxHandler);
             DevState devState = new DevState(this, devTools, animator);
 
             // Define strict transitions

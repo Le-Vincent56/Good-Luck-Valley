@@ -12,5 +12,7 @@ namespace GoodLuckValley.Audio.Sound
         public bool loop;
         public bool playOnAwake;
         public bool frequentSound;
+        [Range(0, 1)] public float volume;
+        [Range(0, 1)] public float spatialBlend;
     }
 }

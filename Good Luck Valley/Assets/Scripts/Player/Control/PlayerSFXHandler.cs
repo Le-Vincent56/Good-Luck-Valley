@@ -1,20 +1,20 @@
 using GoodLuckValley.Audio.Sound;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Control
 {
     public class PlayerSFXHandler : MonoBehaviour
     {
-        [Header("Sound Data")]
+        [Header("Sound Data - Movement")]
         [SerializeField] private SoundData footsteps;
         [SerializeField] private SoundData land;
         [SerializeField] private SoundData fall;
-        [SerializeField] private SoundData bounce;
         [SerializeField] private SoundData wallSlide;
         [SerializeField] private SoundData wallJump;
         [SerializeField] private SoundData jump;
+
+        [Header("Sound Data - Mushroom")]
+        [SerializeField] private SoundData sporeThrow;
 
         [Header("Fields")]
         [SerializeField] private float footstepInterval;
@@ -73,12 +73,25 @@ namespace GoodLuckValley.Player.Control
         public void StopFall() => SoundManager.Instance.StopAllSoundsOfType(fall);
 
         /// <summary>
-        /// Play the sound effect for bouncing
+        /// Play the sound effect for throwing a spore
         /// </summary>
-        public void Bounce()
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void SporeThrow(Component sender, object data)
         {
             SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(bounce)
+                .WithSoundData(sporeThrow)
+                .WithRandomPitch()
+                .Play();
+        }
+
+        /// <summary>
+        /// Play the sound effect for wall jumping
+        /// </summary>
+        public void WallJump()
+        {
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(wallJump)
                 .WithRandomPitch()
                 .Play();
         }

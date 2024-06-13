@@ -384,7 +384,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 5f650d068be36bd4aacc3e02d9450b6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -704,7 +704,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c4283a83e49b5394090fdf72e928968b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1081,7 +1081,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5f650d068be36bd4aacc3e02d9450b6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1165,7 +1165,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 609f48d2e4161404685fd57df9aa0cc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1776,7 +1776,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: db9b49fdf03fc9e43b73aa0df73874be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2039,7 +2039,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: d92f996a6cd4a58469dbba869f9f062b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2181,6 +2181,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1102627162}
   - component: {fileID: 1102627163}
+  - component: {fileID: 1102627165}
+  - component: {fileID: 1102627164}
   m_Layer: 10
   m_Name: Player SFX
   m_TagString: Untagged
@@ -2218,12 +2220,72 @@ MonoBehaviour:
   footsteps: {fileID: 11400000, guid: 0c084fe6a95ae724092d9957df61421c, type: 2}
   land: {fileID: 11400000, guid: e38a3360208e63f46beb699a0acd9522, type: 2}
   fall: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  bounce: {fileID: 11400000, guid: e7106fc55664d8a4297de35f5eba666b, type: 2}
   wallSlide: {fileID: 0}
   wallJump: {fileID: 0}
   jump: {fileID: 0}
+  grow: {fileID: 11400000, guid: 40a89438e624a8e478f4b499fd1a647b, type: 2}
+  sporeThrow: {fileID: 11400000, guid: 68d99002a800ed541a1dde6c3c0ea2d0, type: 2}
+  bounce: {fileID: 11400000, guid: e7106fc55664d8a4297de35f5eba666b, type: 2}
   footstepInterval: 0.4
   footstepTimer: 0
+--- !u!114 &1102627164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102627161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 6bab257e8c6d13346b1b34cc6a4785c9, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1102627163}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerSFXHandler,
+          Assembly-CSharp
+        m_MethodName: SporeThrow
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1102627165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102627161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 409f7b71214bb1149aa2e2ca899286cf, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1102627163}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerSFXHandler,
+          Assembly-CSharp
+        m_MethodName: Grow
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1157481166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3341,7 +3403,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d92f996a6cd4a58469dbba869f9f062b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
