@@ -1,51 +1,43 @@
 using GoodLuckValley.Player.Control;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 using UnityEngine.VFX;
+
 
 public class SpawnParticleEffect : MonoBehaviour
 {
     // Fields
+    private DetectTileType detectTileType;
+
+    [SerializeField] private Transform raycastEndHardpoint;
+
     [Header("Particle Systems")]
     [SerializeField] private VisualEffect grassParticle;
     [SerializeField] private VisualEffect dirtParticle;
 
-    [Header("Layer Masks")]
-    [SerializeField] LayerMask dirtLayer;
-    [SerializeField] LayerMask grassLayer;
-
-    [Header("Particle Information")]
-    [SerializeField] private Transform raycastEndhardpoint;
 
 
     private void Awake()
     {
-        CheckGroundTileAndPlayParticle();
-    }
-
-    public void PlayGrassEffect()
-    {
-        grassParticle.Play();
-    }
-
-    public void PlayDirtEffect()
-    {
-        dirtParticle.Play();
-    }
-
-    private void CheckGroundTileAndPlayParticle()
-    {
-        RaycastHit2D dirtCast = Physics2D.Linecast(transform.position, raycastEndhardpoint.position, dirtLayer);
-        RaycastHit2D grassCast = Physics2D.Linecast(transform.position, raycastEndhardpoint.position, grassLayer);
-
-        if (grassCast)
+        detectTileType = new DetectTileType(this.transform, raycastEndHardpoint);
+        switch (detectTileType.CheckGroundTileAndPlayParticle())
         {
-            PlayGrassEffect();
+            case TileType.Dirt:
+                PlayEffect(dirtParticle);
+                break;
+            case TileType.Grass:
+                PlayEffect(grassParticle);
+                break;
+            case TileType.None:
+                Debug.Log("no tile type detected");
+                break;
         }
-        else if (dirtCast)
-        {
-            PlayDirtEffect();
-        }
+    }
+
+    public void PlayEffect(VisualEffect vfx)
+    {
+        vfx.Play();
     }
 }
