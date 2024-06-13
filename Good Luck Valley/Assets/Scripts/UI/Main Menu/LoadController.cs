@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.Sound;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +9,16 @@ namespace GoodLuckValley.UI.MainMenu
 {
     public class LoadController : MonoBehaviour
     {
-        #region REFERENCES
         [SerializeField] private MenuController menuController;
         [SerializeField] private Image deleteProgressPanel;
         [SerializeField] private Image deleteProgressAnimation;
         [SerializeField] private Animator deleteProgressAnimator;
+        [SerializeField] private SoundData buttonSFX;
         private Dictionary<string, ConfirmationPopupMenu> popUps = new Dictionary<string, ConfirmationPopupMenu>();
         private SaveSlot selectedSlot;
-        #endregion
 
-        #region FIELDS
         private const string DELETE_IDLE = "Delete Idle";
         private const string DELETE_ACTIVE = "Delete Active";
-        #endregion
 
         public void Start()
         {
@@ -92,6 +90,7 @@ namespace GoodLuckValley.UI.MainMenu
             // If no slot is selected, return
             if (selectedSlot == null) return;
 
+            // Start a new game on an empty slot, load a game otherwise
             if(selectedSlot.IsEmpty)
             {
                 menuController.LoadState.NewData(selectedSlot);
@@ -99,6 +98,12 @@ namespace GoodLuckValley.UI.MainMenu
             {
                 menuController.LoadState.LoadData(selectedSlot);
             }
+
+            // Play the button sound effect
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(buttonSFX)
+                .WithRandomPitch()
+                .Play();
         }
 
         /// <summary>
@@ -118,6 +123,12 @@ namespace GoodLuckValley.UI.MainMenu
                 },
                 () => { } // Cancel
             );
+            
+            // Play the button sound effect
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(buttonSFX)
+                .WithRandomPitch()
+                .Play();
         }
 
         /// <summary>
@@ -136,6 +147,12 @@ namespace GoodLuckValley.UI.MainMenu
 
             // Go back to the Main Menu
             menuController.SetState(1);
+
+            // Play the button sound effect
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(buttonSFX)
+                .WithRandomPitch()
+                .Play();
         }
 
         /// <summary>

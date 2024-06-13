@@ -170,8 +170,27 @@ namespace GoodLuckValley.Audio.Sound
                 soundEmitter.Stop();
             }
 
-            // Clear the frequent soudn emitters
+            // Clear the frequent sound emitters
             FrequentSoundEmitters.Clear();
         }
+
+        /// <summary>
+        /// Stop all sounds of a given SoundData type
+        /// </summary>
+        /// <param name="sound">The SoundData type to stop</param>
+        public void StopAllSoundsOfType(SoundData sound)
+        {
+            // Create a copy of the activeSoundEmitters list to avoid modification during iteration
+            List<SoundEmitter> activeSoundEmittersCopy = new List<SoundEmitter>(activeSoundEmitters);
+
+            // Loop through all active sound emitters
+            foreach (SoundEmitter soundEmitter in activeSoundEmittersCopy)
+            {
+                // Check if the SoundEmitter's SoundData equals the given type
+                if (soundEmitter.Data == sound)
+                    // If so, stop the sound
+                    soundEmitter.Stop();
+            }
+        }    
     }
 }
