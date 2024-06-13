@@ -18,7 +18,7 @@ namespace GoodLuckValley.Audio.Sound
         [SerializeField] private int maxPoolSize = 100;
         [SerializeField] private int maxSoundInstances = 30;
 
-        private void Start()
+        private void Awake()
         {
             // Initialize the sound pool
             InitializePool();

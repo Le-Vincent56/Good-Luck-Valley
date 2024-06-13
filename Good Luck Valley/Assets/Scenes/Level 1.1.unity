@@ -30636,6 +30636,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1138611491}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -26.146}
+--- !u!1 &1073277024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1073277025}
+  - component: {fileID: 1073277026}
+  m_Layer: 0
+  m_Name: Ambience Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1073277025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073277024}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 16.71, y: -44.36, z: 0}
+  m_LocalScale: {x: 112.77575, y: 14.522406, z: 11.807}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1073277026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073277024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df81adecf346704c9d2557edcf882c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoUnparentOnAwake: 1
+  ambience: {fileID: 11400000, guid: 5e4a0d66b3d2043489c85e3d20889e47, type: 2}
+  minBirdWait: 0.2
+  maxBirdWait: 2
+  ambientBirdTimer: 0
+  ambientBirdSFX: {fileID: 11400000, guid: aaa12c3cf2b2ea1418b63e3d4d28532f, type: 2}
+  minInsectWait: 0.2
+  maxInsectWait: 2
+  ambientInsectTimer: 0
+  ambientInsectSFX: {fileID: 11400000, guid: 4c68e10aebc24f44d960f440bc106a6e, type: 2}
+  minTreeWait: 1
+  maxTreeWait: 3
+  ambientTreeTimer: 0
+  ambientTreeSFX: {fileID: 11400000, guid: 67a6047450ba47d4db0d5b3566365ec2, type: 2}
+  minWindWait: 2
+  maxWindWait: 5
+  ambientWindTimer: 0
+  ambientWindSFX: {fileID: 11400000, guid: b4c0af6d7b4c32240a850b784d9074ad, type: 2}
 --- !u!1 &1088509953
 GameObject:
   m_ObjectHideFlags: 0
@@ -90764,6 +90826,7 @@ SceneRoots:
   - {fileID: 1981630800}
   - {fileID: 1602579610}
   - {fileID: 2134625942}
+  - {fileID: 1073277025}
   - {fileID: 1097866831}
   - {fileID: 1979201780}
   - {fileID: 1914867649}
