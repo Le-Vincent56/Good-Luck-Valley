@@ -2,7 +2,7 @@ using GoodLuckValley.Audio.Sound;
 using GoodLuckValley.Patterns.Singletons;
 using UnityEngine;
 
-public class AmbienceManager : PersistentSingleton<MonoBehaviour>
+public class AmbienceManager : PersistentSingleton<AmbienceManager>
 {
     [Header("Fields - General Ambience")]
     [SerializeField] private SoundData ambience;

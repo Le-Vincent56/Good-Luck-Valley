@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.Sound;
 using GoodLuckValley.Extensions;
 using GoodLuckValley.Patterns.Singletons;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine.Audio;
 
 namespace GoodLuckValley.Audio.Music
 {
-    public class MusicManager : PersistentSingleton<MonoBehaviour>
+    public class MusicManager : PersistentSingleton<MusicManager>
     {
         private const float crossFadeTime = 1.0f;
         private float fading;
@@ -33,7 +34,7 @@ namespace GoodLuckValley.Audio.Music
             HandleCrossFade();
 
             // Check if the next track should be played
-            if(current && !current.isPlaying && playlist.Count > 0)
+            if (current && !current.isPlaying && playlist.Count > 0)
             {
                 // Play the next track
                 PlayNextTrack();
@@ -96,7 +97,7 @@ namespace GoodLuckValley.Audio.Music
             current = gameObject.GetOrAdd<AudioSource>();
             current.clip = clip;
             current.outputAudioMixerGroup = musicMixerGroup;
-            current.loop = false;
+            current.loop = true;
             current.volume = 0;
             current.bypassListenerEffects = true;
 
