@@ -25,7 +25,6 @@ namespace GoodLuckValley.Mushroom
         [Space(10f)]
 
         [Header("Fields")]
-        [SerializeField] private SoundData SFX;
         [SerializeField] private bool isBouncing;
         [SerializeField] private bool canBounce;
         [SerializeField] private float bounceForce;
@@ -54,12 +53,6 @@ namespace GoodLuckValley.Mushroom
             // Calls to:
             //  - PlayerController.StartBounce()
             onBounce.Raise(this, bounceData);
-
-            // Play the sound
-            SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(SFX)
-                .WithRandomPitch()
-                .Play();
         }
     }
 }

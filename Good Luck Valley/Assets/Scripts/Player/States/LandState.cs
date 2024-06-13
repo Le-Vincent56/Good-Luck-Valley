@@ -1,26 +1,22 @@
-
+using GoodLuckValley.Audio.Sound;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
-    public class WallState : BaseState
+    public class LandState : BaseState
     {
         private readonly PlayerSFXHandler sfx;
 
-        public WallState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        public LandState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
         {
             this.sfx = sfx;
         }
 
         public override void OnEnter()
         {
-            animator.CrossFade(WallSlideHash, crossFadeDuration);
-
-            // Don't allow the player to peek
-            player.SetCanPeek(false);
-
-            // TODO: Play wall slide sound effect
+            // Play the land sound effect
+            sfx.Land();
         }
 
         public override void FixedUpdate()
@@ -31,7 +27,7 @@ namespace GoodLuckValley.Player.States
             // Calculate wall sliding
             player.HandleWallSliding();
 
-            // Handle movement
+            // Handle player movement
             player.HandleMovement();
         }
     }

@@ -5,7 +5,12 @@ namespace GoodLuckValley.Player.States
 {
     public class FallState : BaseState
     {
-        public FallState(PlayerController player, Animator animator) : base(player, animator) { }
+        private readonly PlayerSFXHandler sfx;
+
+        public FallState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        {
+            this.sfx = sfx;
+        }
 
         public override void OnEnter()
         {
@@ -15,7 +20,10 @@ namespace GoodLuckValley.Player.States
             player.ResetBounce();
 
             // Don't allow the player to peek
-            player.SetCanPeek(false); ;
+            player.SetCanPeek(false);
+
+            // Play the falling sound effect
+            sfx.Fall();
         }
 
         public override void FixedUpdate()

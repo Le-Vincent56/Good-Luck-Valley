@@ -5,7 +5,12 @@ namespace GoodLuckValley.Player.States
 {
     public class JumpState : BaseState
     {
-        public JumpState(PlayerController player, Animator animator) : base(player, animator) { }
+        private readonly PlayerSFXHandler sfx;
+
+        public JumpState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        {
+            this.sfx = sfx;
+        }
 
         public override void OnEnter()
         {
@@ -13,6 +18,8 @@ namespace GoodLuckValley.Player.States
 
             // Don't allow the player to peek
             player.SetCanPeek(false);
+
+            // TODO: Play the jumping sound effect
         }
 
         public override void FixedUpdate()
