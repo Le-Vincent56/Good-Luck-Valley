@@ -13,10 +13,10 @@ public class DetectTileType
 {
     private LayerMask dirtLayer = LayerMask.GetMask("Dirt");
     private LayerMask grassLayer = LayerMask.GetMask("Grass");
-    private Transform raycastEnd;
-    private Transform raycastStart;
+    private Vector3 raycastEnd;
+    private Vector3 raycastStart;
 
-    public DetectTileType(Transform raycastEnd, Transform raycastStart)
+    public DetectTileType(Vector3 raycastEnd, Vector3 raycastStart)
     {
         this.raycastEnd = raycastEnd;
         this.raycastStart = raycastStart;
@@ -24,8 +24,8 @@ public class DetectTileType
 
     public TileType CheckGroundTileAndPlayParticle()
     {
-        RaycastHit2D dirtCast = Physics2D.Linecast(raycastStart.position, raycastEnd.position, dirtLayer);
-        RaycastHit2D grassCast = Physics2D.Linecast(raycastStart.position, raycastEnd.position, grassLayer);
+        RaycastHit2D dirtCast = Physics2D.Linecast(raycastStart, raycastEnd, dirtLayer);
+        RaycastHit2D grassCast = Physics2D.Linecast(raycastStart, raycastEnd, grassLayer);
 
         if (grassCast)
         {

@@ -25,7 +25,7 @@ public class RunningParticles : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponentInParent<PlayerController>();
-        detectTileType = new DetectTileType(this.transform, raycastEndHardpoint);
+        detectTileType = new DetectTileType(this.transform.position, raycastEndHardpoint.position);
     }
 
     private void Update()
