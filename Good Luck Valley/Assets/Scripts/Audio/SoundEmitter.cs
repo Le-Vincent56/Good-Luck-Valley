@@ -34,6 +34,8 @@ namespace GoodLuckValley.Audio.Sound
             audioSource.outputAudioMixerGroup = data.mixerGroup;
             audioSource.loop = data.loop;
             audioSource.playOnAwake = data.playOnAwake;
+            audioSource.volume = data.volume;
+            audioSource.spatialBlend = data.spatialBlend;
         }
 
         /// <summary>

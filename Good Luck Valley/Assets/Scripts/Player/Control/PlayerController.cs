@@ -60,8 +60,8 @@ namespace GoodLuckValley.Player.Control
 
         private StateMachine stateMachine;
 
-        public bool CheckGrounded { get { return isGrounded; } }
-        public Vector2 GetVelocity { get { return velocity; } }
+        public bool IsGrounded { get { return isGrounded; } }
+        public Vector2 Velocity { get { return velocity; } }
 
         private void Awake()
         {
@@ -79,8 +79,8 @@ namespace GoodLuckValley.Player.Control
             WallState wallState = new WallState(this, animator, sfxHandler);
             FallState fallState = new FallState(this, animator, sfxHandler);
             LandState landState = new LandState(this, animator, sfxHandler);
-            BounceState bounceState = new BounceState(this, animator, sfxHandler);
-            WallJumpState wallJumpState = new WallJumpState(this, animator);
+            BounceState bounceState = new BounceState(this, animator);
+            WallJumpState wallJumpState = new WallJumpState(this, animator, sfxHandler);
             DevState devState = new DevState(this, devTools, animator);
 
             // Define strict transitions

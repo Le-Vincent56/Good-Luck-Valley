@@ -1,43 +1,39 @@
-using GoodLuckValley.Player.Control;
-using System.Collections;
-using System.Collections.Generic;
-using System.Transactions;
+using GoodLuckValley.World.Tiles;
 using UnityEngine;
 using UnityEngine.VFX;
 
-
-public class SpawnParticleEffect : MonoBehaviour
+namespace GoodLuckValley.Mushroom
 {
-    // Fields
-    private DetectTileType detectTileType;
-
-    [SerializeField] private Transform raycastEndHardpoint;
-
-    [Header("Particle Systems")]
-    [SerializeField] private VisualEffect grassParticle;
-    [SerializeField] private VisualEffect dirtParticle;
-
-
-
-    private void Awake()
+    public class SpawnParticleEffect : MonoBehaviour
     {
-        detectTileType = new DetectTileType(this.transform.position, raycastEndHardpoint.position);
-        switch (detectTileType.CheckTileType())
+        // Fields
+        [SerializeField] private DetectTileType detectTileType;
+
+        [Header("Particle Systems")]
+        [SerializeField] private VisualEffect grassParticle;
+        [SerializeField] private VisualEffect dirtParticle;
+
+        private void Awake()
         {
-            case TileType.Dirt:
-                PlayEffect(dirtParticle);
-                break;
-            case TileType.Grass:
-                PlayEffect(grassParticle);
-                break;
-            case TileType.None:
-                Debug.Log("no tile type detected");
-                break;
-        }
-    }
+            detectTileType.RaycastStart = transform.position;
 
-    public void PlayEffect(VisualEffect vfx)
-    {
-        vfx.Play();
+            switch (detectTileType.CheckTileType())
+            {
+                case TileType.Dirt:
+                    PlayEffect(dirtParticle);
+                    break;
+                case TileType.Grass:
+                    PlayEffect(grassParticle);
+                    break;
+                case TileType.None:
+                    Debug.Log("no tile type detected");
+                    break;
+            }
+        }
+
+        public void PlayEffect(VisualEffect vfx)
+        {
+            vfx.Play();
+        }
     }
 }

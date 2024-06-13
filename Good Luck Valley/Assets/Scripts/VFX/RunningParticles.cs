@@ -1,60 +1,59 @@
 using GoodLuckValley.Player.Control;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+using GoodLuckValley.World.Tiles;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class RunningParticles : MonoBehaviour
+namespace GoodLuckValley.VFX
 {
-    // Fields
-    [Header("Particle Systems")]
-    [SerializeField] private VisualEffect grassParticle;
-    [SerializeField] private VisualEffect dirtParticle;
-
-    [Header("Particle Information")]
-    [SerializeField] private float timeSinceLastParticle;
-    [SerializeField] private float timeBetweenParticles;
-    [SerializeField] private float minXVelocity;
-    [SerializeField] private Transform raycastEndHardpoint;
-
-    private PlayerController playerController;
-    private DetectTileType detectTileType;
-
-
-    private void Awake()
+    public class RunningParticles : MonoBehaviour
     {
-        playerController = GetComponentInParent<PlayerController>();
-        detectTileType = new DetectTileType(this.transform.position, raycastEndHardpoint.position);
-    }
+        // Fields
+        [Header("Particle Systems")]
+        [SerializeField] private VisualEffect grassParticle;
+        [SerializeField] private VisualEffect dirtParticle;
 
-    private void Update()
-    {
-        // Need a way to check if player is grounded
-        if (timeSinceLastParticle < timeBetweenParticles)
+        [Header("Particle Information")]
+        [SerializeField] private float timeSinceLastParticle;
+        [SerializeField] private float timeBetweenParticles;
+        [SerializeField] private float minXVelocity;
+
+        private PlayerController playerController;
+        [SerializeField] private DetectTileType detectTileType;
+
+        private void Awake()
         {
-            timeSinceLastParticle += Time.deltaTime;
+            playerController = GetComponentInParent<PlayerController>();
+            detectTileType.RaycastStart = transform.position;
         }
-        else if (playerController.CheckGrounded && Mathf.Abs(playerController.GetVelocity.x) > minXVelocity)
+
+        private void Update()
         {
-            switch (detectTileType.CheckTileType())
+            // Need a way to check if player is grounded
+            if (timeSinceLastParticle < timeBetweenParticles)
             {
-                case TileType.Dirt:
-                    PlayEffect(dirtParticle);
-                    break;
-                case TileType.Grass:
-                    PlayEffect(grassParticle);
-                    break;
-                case TileType.None:
-                    Debug.Log("no tile type detected");
-                    break;
+                timeSinceLastParticle += Time.deltaTime;
             }
-            timeSinceLastParticle = 0;
+            else if (playerController.IsGrounded && Mathf.Abs(playerController.Velocity.x) > minXVelocity)
+            {
+                switch (detectTileType.CheckTileType())
+                {
+                    case TileType.Dirt:
+                        PlayEffect(dirtParticle);
+                        break;
+                    case TileType.Grass:
+                        PlayEffect(grassParticle);
+                        break;
+                    case TileType.None:
+                        Debug.Log("no tile type detected");
+                        break;
+                }
+                timeSinceLastParticle = 0;
+            }
         }
-    }
 
-    public void PlayEffect(VisualEffect vfx)
-    {
-        vfx.Play();
+        public void PlayEffect(VisualEffect vfx)
+        {
+            vfx.Play();
+        }
     }
 }
