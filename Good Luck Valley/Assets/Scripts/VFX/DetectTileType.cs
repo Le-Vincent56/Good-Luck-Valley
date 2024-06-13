@@ -22,7 +22,7 @@ public class DetectTileType
         this.raycastStart = raycastStart;
     }
 
-    public TileType CheckGroundTileAndPlayParticle()
+    public TileType CheckTileType()
     {
         RaycastHit2D dirtCast = Physics2D.Linecast(raycastStart, raycastEnd, dirtLayer);
         RaycastHit2D grassCast = Physics2D.Linecast(raycastStart, raycastEnd, grassLayer);

@@ -37,7 +37,7 @@ public class RunningParticles : MonoBehaviour
         }
         else if (playerController.CheckGrounded && Mathf.Abs(playerController.GetVelocity.x) > minXVelocity)
         {
-            switch (detectTileType.CheckGroundTileAndPlayParticle())
+            switch (detectTileType.CheckTileType())
             {
                 case TileType.Dirt:
                     PlayEffect(dirtParticle);

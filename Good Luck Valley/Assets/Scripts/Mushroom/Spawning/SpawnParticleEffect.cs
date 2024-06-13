@@ -22,7 +22,7 @@ public class SpawnParticleEffect : MonoBehaviour
     private void Awake()
     {
         detectTileType = new DetectTileType(this.transform.position, raycastEndHardpoint.position);
-        switch (detectTileType.CheckGroundTileAndPlayParticle())
+        switch (detectTileType.CheckTileType())
         {
             case TileType.Dirt:
                 PlayEffect(dirtParticle);
