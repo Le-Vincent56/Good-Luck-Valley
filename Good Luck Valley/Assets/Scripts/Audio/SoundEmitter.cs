@@ -1,4 +1,4 @@
-using GoodLuckValley.Patterns.Extensions;
+using GoodLuckValley.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
