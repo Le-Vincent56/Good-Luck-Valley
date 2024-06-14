@@ -18527,58 +18527,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1138611491}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5.194}
---- !u!1 &752430474
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 752430476}
-  - component: {fileID: 752430475}
-  m_Layer: 0
-  m_Name: Music Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &752430475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 752430474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3dcbc8aeed3e44499f55a5f931f272b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AutoUnparentOnAwake: 1
-  minWaitTime: 0.01
-  maxWaitTime: 0.1
-  waitTime: 0
-  levelOneMusic: {fileID: 8300000, guid: e071c675a2946cc42b5259dea30169c3, type: 3}
-  initialPlaylist:
-  - {fileID: 8300000, guid: e071c675a2946cc42b5259dea30169c3, type: 3}
-  musicMixerGroup: {fileID: -2969714227671255455, guid: bc531a4e6430c874e9647c2803e2b6d3, type: 2}
---- !u!4 &752430476
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 752430474}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 74.338806, y: -29.825617, z: 2.9856997}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &756937031
 GameObject:
   m_ObjectHideFlags: 0
@@ -102135,6 +102083,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 448071325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &3039415916687039640
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 74.338806
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -29.825617
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.9856997
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119592036415442416, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809720029005247926, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
+      propertyPath: m_Name
+      value: Music Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 314adc76e00fb1546b64d4d1c1a63f1d, type: 3}
 --- !u!1001 &4050365588307441229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102203,7 +102208,7 @@ SceneRoots:
   - {fileID: 1602579610}
   - {fileID: 2134625942}
   - {fileID: 1028795917}
-  - {fileID: 752430476}
+  - {fileID: 3039415916687039640}
   - {fileID: 1979201780}
   - {fileID: 1914867649}
   - {fileID: 4050365588307441229}
