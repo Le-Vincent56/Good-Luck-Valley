@@ -5,7 +5,12 @@ namespace GoodLuckValley.Player.States
 {
     public class WallJumpState : BaseState
     {
-        public WallJumpState(PlayerController player, Animator animator) : base(player, animator) { }
+        private readonly PlayerSFXHandler sfx;
+
+        public WallJumpState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        {
+            this.sfx = sfx;
+        }
 
         public override void OnEnter()
         {
@@ -13,6 +18,9 @@ namespace GoodLuckValley.Player.States
 
             // Don't allow the player to peek
             player.SetCanPeek(false);
+
+            // Play the wall jump sound effect
+            sfx.WallJump();
         }
 
         public override void FixedUpdate()

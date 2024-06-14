@@ -7,6 +7,7 @@ using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
+using GoodLuckValley.Audio.Sound;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -24,6 +25,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private DynamicCollisionHandler collisionHandler;
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
+        [SerializeField] private PlayerSFXHandler sfxHandler;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -34,6 +36,7 @@ namespace GoodLuckValley.Player.Control
 
         [Header("Fields - Movement")]
         [SerializeField] private float xVelSmoothing;
+        [SerializeField] private float lastPressedMoveTime;
 
         [Header("Fields - Jump")]
         [SerializeField] private bool isJumpCut;
@@ -57,7 +60,8 @@ namespace GoodLuckValley.Player.Control
 
         private StateMachine stateMachine;
 
-        public bool CheckGrounded { get { return isGrounded; } }
+        public bool IsGrounded { get { return isGrounded; } }
+        public Vector2 Velocity { get { return velocity; } }
 
         private void Awake()
         {
@@ -65,16 +69,18 @@ namespace GoodLuckValley.Player.Control
             animator = GetComponent<Animator>();
             collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
+            sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
 
             // Declare states
             stateMachine = new StateMachine();
             IdleState idleState = new IdleState(this, animator);
-            LocomotionState locomotionState = new LocomotionState(this, animator);
-            JumpState jumpState = new JumpState(this, animator);
-            WallState wallState = new WallState(this, animator);
-            FallState fallState = new FallState(this, animator);
+            LocomotionState locomotionState = new LocomotionState(this, animator, sfxHandler);
+            JumpState jumpState = new JumpState(this, animator, sfxHandler);
+            WallState wallState = new WallState(this, animator, sfxHandler);
+            FallState fallState = new FallState(this, animator, sfxHandler);
+            LandState landState = new LandState(this, animator, sfxHandler);
             BounceState bounceState = new BounceState(this, animator);
-            WallJumpState wallJumpState = new WallJumpState(this, animator);
+            WallJumpState wallJumpState = new WallJumpState(this, animator, sfxHandler);
             DevState devState = new DevState(this, devTools, animator);
 
             // Define strict transitions
@@ -91,9 +97,11 @@ namespace GoodLuckValley.Player.Control
             At(wallState, jumpState, new FuncPredicate(() => isJumping));
             At(wallState, wallJumpState, new FuncPredicate(() => isWallJumping));
 
-            At(fallState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX  == 0));
-            At(fallState, locomotionState, new FuncPredicate(() => isGrounded && input.NormMoveX  != 0));
             At(fallState, wallState, new FuncPredicate(() => isWallSliding));
+            At(fallState, landState, new FuncPredicate(() => isGrounded));
+
+            At(landState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX == 0));
+            At(landState, locomotionState, new FuncPredicate(() => isGrounded && input.NormMoveX != 0));
 
             At(bounceState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX == 0));
             At(bounceState, locomotionState, new FuncPredicate(() => isGrounded && input.NormMoveX != 0));
@@ -131,12 +139,14 @@ namespace GoodLuckValley.Player.Control
 
         private void OnEnable()
         {
+            input.Move += SetTurnTimer;
             input.Jump += OnJump;
             input.FastFall += OnFastFall;
         }
 
         private void OnDisable()
         {
+            input.Move -= SetTurnTimer;
             input.Jump -= OnJump;
             input.FastFall -= OnFastFall;
         }
@@ -186,7 +196,8 @@ namespace GoodLuckValley.Player.Control
             // Turn the camera
             // Calls to:
             //  - CameraFollowObject.CallTurn();
-            onPlayerTurn.Raise(this, collisionHandler.collisions.FacingDirection);
+            if(lastPressedMoveTime <= 0f)
+                onPlayerTurn.Raise(this, collisionHandler.collisions.FacingDirection);
         }
 
         /// <summary>
@@ -199,6 +210,9 @@ namespace GoodLuckValley.Player.Control
 
             if(lastPressedJumpTime > 0f)
                 lastPressedJumpTime -= Time.deltaTime;
+
+            if (lastPressedMoveTime > 0f)
+                lastPressedMoveTime -= Time.deltaTime;
         }
 
         /// <summary>
@@ -669,5 +683,11 @@ namespace GoodLuckValley.Player.Control
             //  - CameraPeek.SetCanPeek();
             onSetCanPeek.Raise(this, canPeek);
         }
+
+        /// <summary>
+        /// Set the timer to turn and activate LookAhead
+        /// </summary>
+        /// <param name="turnTimer"></param>
+        private void SetTurnTimer(Vector2 turnTimer) => lastPressedMoveTime = data.movementTurnTime;
     }
 }

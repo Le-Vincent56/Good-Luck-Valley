@@ -50,11 +50,29 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 0.2
+        m_Name: Starting Size
+        m_Overridden: 1
+      - m_Value: -5
+        m_Name: Gravity
+        m_Overridden: 1
+      - m_Value: 5
+        m_Name: Count
+        m_Overridden: 1
+      - m_Value: 0.6
+        m_Name: Lifetime
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: -1, y: 0.5, z: 0}
+        m_Name: Min Velocity
+        m_Overridden: 1
+      - m_Value: {x: -1.5, y: 1, z: 0}
+        m_Name: Max Velocity
+        m_Overridden: 1
     m_Vector4f:
       m_Array: []
     m_Uint:
@@ -69,8 +87,20 @@ VisualEffect:
       m_Array: []
     m_NamedObject:
       m_Array:
-      - m_Value: {fileID: 2800000, guid: f145c7619c728e649bae91ed386bf57c, type: 3}
+      - m_Value: {fileID: 2800000, guid: 5c7cfd7ec3d148b40b3e5dac3ce3dc3e, type: 3}
         m_Name: Texture
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: 5c7cfd7ec3d148b40b3e5dac3ce3dc3e, type: 3}
+        m_Name: Particle Texture
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: b187712591118124a9c29c7c2485dc46, type: 3}
+        m_Name: Texture 1
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: cfe5538652c395641b13fdf78fc2b6b0, type: 3}
+        m_Name: Texture 2
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: f9a5c7b9d42d6b148a73c3a76ea1c35f, type: 3}
+        m_Name: Texture 3
         m_Overridden: 1
     m_Bool:
       m_Array: []
@@ -111,6 +141,6 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1169282353
+  m_SortingLayer: 3
+  m_SortingOrder: 1

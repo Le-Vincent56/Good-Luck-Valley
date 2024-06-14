@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461840232571325375}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -24.72, y: 7.25, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &461840232571325369
 VisualEffect:
@@ -41,19 +41,41 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461840232571325375}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: c0075efa524dd4340808665f310939f8, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 60da0fe07098fe343b690a2817dbfb35, type: 3}
   m_InitialEventName: 
   m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: 
+        m_Overridden: 0
+      - m_Value: 0.1
+        m_Name: Starting Size
+        m_Overridden: 1
+      - m_Value: -5
+        m_Name: Gravity
+        m_Overridden: 1
+      - m_Value: 5
+        m_Name: Count
+        m_Overridden: 1
+      - m_Value: 0.6
+        m_Name: Lifetime
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: -1, y: 0.5, z: 0}
+        m_Name: Min Velocity
+        m_Overridden: 1
+      - m_Value: {x: -1.5, y: 1, z: 0}
+        m_Name: Max Velocity
+        m_Overridden: 1
     m_Vector4f:
       m_Array: []
     m_Uint:
@@ -67,7 +89,16 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 2800000, guid: cfe5538652c395641b13fdf78fc2b6b0, type: 3}
+        m_Name: Texture
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: cfe5538652c395641b13fdf78fc2b6b0, type: 3}
+        m_Name: Particle Texture
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: cfe5538652c395641b13fdf78fc2b6b0, type: 3}
+        m_Name: Texture 1
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!73398921 &461840232571325374
@@ -107,6 +138,6 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -10461435
-  m_SortingLayer: 9
-  m_SortingOrder: 0
+  m_SortingLayerID: 1169282353
+  m_SortingLayer: 3
+  m_SortingOrder: 1
