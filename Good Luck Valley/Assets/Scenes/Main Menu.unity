@@ -496,16 +496,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 728416619}
-        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.MenuController, Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+      - m_Target: {fileID: 685396271}
+        m_TargetAssemblyTypeName: TransitionLevel, Assembly-CSharp
+        m_MethodName: GoToThisLevel
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 7
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Level 1.1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &193187570
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258361010}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a12bf67fcb66144b9dd187c121eeaee, type: 3}
   m_Name: 
@@ -1744,6 +1744,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649371656}
   m_CullTransparentMesh: 1
+--- !u!1001 &685396267
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 81.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -44.3584
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353322914523296649, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219312007691745035, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+      propertyPath: m_Name
+      value: Level Transition Collider
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+--- !u!114 &685396271 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2876592705778928586, guid: 874d08cff1265c8429c65e28724bfdb9, type: 3}
+  m_PrefabInstance: {fileID: 685396267}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b95ae74514a7e429b9cef3ba3612f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &687975056
 GameObject:
   m_ObjectHideFlags: 0
@@ -3081,7 +3149,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088182524}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -3113,7 +3181,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1117166888}
   m_OnClick:
     m_PersistentCalls:
@@ -3137,7 +3205,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088182524}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3218,7 +3286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9490196, g: 0.90588236, b: 0.89411765, a: 1}
+  m_Color: {r: 0.34591186, g: 0.34591186, b: 0.34591186, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5828,16 +5896,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 728416619}
-        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.MenuController, Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+      - m_Target: {fileID: 685396271}
+        m_TargetAssemblyTypeName: TransitionLevel, Assembly-CSharp
+        m_MethodName: GoToThisLevel
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Level 1.1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1934529984
@@ -5999,7 +6067,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009304062}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -6055,7 +6123,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009304062}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -6541,3 +6609,4 @@ SceneRoots:
   - {fileID: 521063160}
   - {fileID: 1243736002}
   - {fileID: 355718535}
+  - {fileID: 685396267}
