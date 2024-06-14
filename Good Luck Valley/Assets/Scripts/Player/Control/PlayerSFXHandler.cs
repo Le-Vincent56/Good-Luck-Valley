@@ -100,9 +100,7 @@ namespace GoodLuckValley.Player.Control
         /// <summary>
         /// Play the sound effect for throwing a spore
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public void SporeThrow(Component sender, object data)
+        public void SporeThrow()
         {
             SoundManager.Instance.CreateSoundBuilder()
                 .WithSoundData(sporeThrow)

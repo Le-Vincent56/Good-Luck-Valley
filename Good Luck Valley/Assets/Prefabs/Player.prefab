@@ -175,8 +175,8 @@ MonoBehaviour:
       Part4: 0
     unlockedThrow: 0
     unlockedWallJump: 0
-  unlockedThrow: 1
-  unlockedWallJump: 1
+  unlockedThrow: 0
+  unlockedWallJump: 0
   <ID>k__BackingField:
     Part1: 1172083930
     Part2: 1112073779
@@ -1121,7 +1121,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5934230490664107429}
   - component: {fileID: 2016815691044445664}
-  - component: {fileID: 8973121589895236331}
   m_Layer: 10
   m_Name: Player SFX
   m_TagString: Untagged
@@ -1160,9 +1159,9 @@ MonoBehaviour:
   grassFootsteps: {fileID: 11400000, guid: b1cfff12126f0f744b0d9dc7c19418d2, type: 2}
   land: {fileID: 11400000, guid: e38a3360208e63f46beb699a0acd9522, type: 2}
   fall: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  wallSlide: {fileID: 0}
+  wallSlide: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
   wallJump: {fileID: 11400000, guid: e7106fc55664d8a4297de35f5eba666b, type: 2}
-  jump: {fileID: 0}
+  jump: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
   sporeThrow: {fileID: 11400000, guid: 68d99002a800ed541a1dde6c3c0ea2d0, type: 2}
   detectTileType:
     direction: 1
@@ -1175,35 +1174,6 @@ MonoBehaviour:
       m_Bits: 32768
   footstepInterval: 0.4
   footstepTimer: 0
---- !u!114 &8973121589895236331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4157728105775766138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 6bab257e8c6d13346b1b34cc6a4785c9, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2016815691044445664}
-        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerSFXHandler,
-          Assembly-CSharp
-        m_MethodName: SporeThrow
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &4251934024621643868
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,7 +1584,7 @@ MonoBehaviour:
   onGetFinalSpawnInfo: {fileID: 11400000, guid: 0488b422c6fcd5843b29e70cd16091c2, type: 2}
   onEnableThrowUI: {fileID: 11400000, guid: cd34581456012724ebfe0bec4cdb144f, type: 2}
   onDisableThrowUI: {fileID: 11400000, guid: e0a7f9ab0fa9fcd48b31fdc7416c6637, type: 2}
-  onSporeThrowSound: {fileID: 11400000, guid: 6bab257e8c6d13346b1b34cc6a4785c9, type: 2}
+  onSetThrowing: {fileID: 11400000, guid: 3647b2556ce5d7d45b212ad55127053e, type: 2}
   spore: {fileID: 1470045706857144608, guid: dec2852c561ebf04ab3e0da5b0c3bd06, type: 3}
   throwDirection: {x: 0, y: 0}
   finalSpawnInfo:
@@ -1719,6 +1689,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2414757590046708016}
   - component: {fileID: 8508898665649311971}
+  - component: {fileID: 8729480241898235974}
   - component: {fileID: 3274030665019315463}
   - component: {fileID: 5731558841692214012}
   - component: {fileID: 456266487528382957}
@@ -1730,8 +1701,8 @@ GameObject:
   - component: {fileID: 2463274158582569253}
   - component: {fileID: 7318721661013769202}
   - component: {fileID: 7671007024137985392}
+  - component: {fileID: 7819745326037000363}
   - component: {fileID: 7507005121504451109}
-  - component: {fileID: 8729480241898235974}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -1798,9 +1769,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: 1169282353
+  m_SortingLayer: 4
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 06294f7870849404b93a71b1315d8521, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1812,6 +1783,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!81 &8729480241898235974
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
 --- !u!95 &3274030665019315463
 Animator:
   serializedVersion: 5
@@ -1937,6 +1916,7 @@ MonoBehaviour:
   isBouncing: 0
   isWallJumping: 0
   isAgainstWall: 0
+  isThrowing: 0
   hasFireflies: 0
 --- !u!114 &1378804955233713589
 MonoBehaviour:
@@ -2104,6 +2084,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7819745326037000363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 3647b2556ce5d7d45b212ad55127053e, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3312724052698482696}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
+          Assembly-CSharp
+        m_MethodName: StartThrow
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7507005121504451109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2133,14 +2142,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!81 &8729480241898235974
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9047676686677396218}
-  m_Enabled: 1
 --- !u!1001 &6195044701291275922
 PrefabInstance:
   m_ObjectHideFlags: 0

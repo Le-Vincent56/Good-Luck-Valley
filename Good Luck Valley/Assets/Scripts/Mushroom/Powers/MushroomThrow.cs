@@ -36,7 +36,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onGetFinalSpawnInfo;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
-        [SerializeField] private GameEvent onSporeThrowSound;
+        [SerializeField] private GameEvent onSetThrowing;
 
         [Header("Prefabs")]
         [SerializeField] private GameObject spore;
@@ -138,10 +138,10 @@ namespace GoodLuckValley.Mushroom
             newSpore.GetComponent<Spore>().SetSpawnInfo(finalSpawnInfo);
             newSpore.GetComponent<Spore>().ThrowSpore(throwDirection);
 
-            // Play the spore throw sound
+            // Set throwing for the PlayerController
             // Calls to:
-            //  - PlayerSFXHandler.SporeThrow()
-            onSporeThrowSound.Raise(this, null);
+            //  - PlayerController.SetThrow();
+            onSetThrowing.Raise(this, true);
         }
 
         /// <summary>

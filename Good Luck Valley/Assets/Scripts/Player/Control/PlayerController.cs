@@ -54,6 +54,8 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool isBouncing;
         [SerializeField] private bool isWallJumping;
         [SerializeField] private bool isAgainstWall;
+        [SerializeField] private bool isThrowing;
+        [SerializeField] private bool isThrowingAgain;
         [SerializeField] private bool hasFireflies;
 
         private float fallSpeedDampingChangeThreshold;
@@ -81,14 +83,18 @@ namespace GoodLuckValley.Player.Control
             LandState landState = new LandState(this, animator, sfxHandler);
             BounceState bounceState = new BounceState(this, animator);
             WallJumpState wallJumpState = new WallJumpState(this, animator, sfxHandler);
+            IdleThrowState idleThrowState = new IdleThrowState(this, animator, sfxHandler);
+            LocomotionThrowState locomotionThrowState = new LocomotionThrowState(this, animator, sfxHandler);
             DevState devState = new DevState(this, devTools, animator);
 
             // Define strict transitions
             At(idleState, locomotionState, new FuncPredicate(() => input.NormMoveX != 0));
             At(idleState, jumpState, new FuncPredicate(() => isJumping));
+            At(idleState, idleThrowState, new FuncPredicate(() => isThrowing));
 
             At(locomotionState, idleState, new FuncPredicate(() => input.NormMoveX == 0));
             At(locomotionState, jumpState, new FuncPredicate(() => isJumping));
+            At(locomotionState, locomotionThrowState, new FuncPredicate(() => isThrowing));
 
             At(jumpState, locomotionState, new FuncPredicate(() => isGrounded && !isJumping));
             At(jumpState, wallState, new FuncPredicate(() => isWallSliding));
@@ -110,6 +116,16 @@ namespace GoodLuckValley.Player.Control
             At(wallJumpState, wallState, new FuncPredicate(() => isWallSliding));
             At(wallJumpState, idleState, new FuncPredicate(() => isGrounded && input.NormMoveX == 0));
             At(wallJumpState, locomotionState, new FuncPredicate(() => isGrounded && input.NormMoveX != 0));
+
+            At(idleThrowState, idleState, new FuncPredicate(() => !isThrowing && input.NormMoveX == 0));
+            At(idleThrowState, locomotionState, new FuncPredicate(() => input.NormMoveX != 0));
+            At(idleThrowState, jumpState, new FuncPredicate(() => isJumping));
+            At(idleThrowState, idleThrowState, new FuncPredicate(() => isThrowingAgain));
+
+            At(locomotionThrowState, idleState, new FuncPredicate(() => input.NormMoveX == 0));
+            At(locomotionThrowState, locomotionState, new FuncPredicate(() => !isThrowing && input.NormMoveX != 0));
+            At(locomotionThrowState, jumpState, new FuncPredicate(() => isJumping));
+            At(locomotionThrowState, locomotionThrowState, new FuncPredicate(() => isThrowingAgain));
 
             At(devState, idleState, new FuncPredicate(() => !devTools.Active && input.NormMoveX == 0));
             At(devState, locomotionState, new FuncPredicate(() => !devTools.Active && input.NormMoveX != 0));
@@ -672,6 +688,29 @@ namespace GoodLuckValley.Player.Control
             velocity.x = wallJumpVector.x;
             velocity.y = wallJumpVector.y;
         }
+
+        /// <summary>
+        /// Start the player throw
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void StartThrow(Component sender, object data)
+        {
+            // Check if throwing
+            if (!isThrowing)
+                // If not, set the player to throwing
+                isThrowing = true;
+            else
+                isThrowingAgain = true;
+        }
+
+        public void SetThrowingAgain(bool isThrowingAgain) => this.isThrowingAgain = isThrowingAgain;
+
+        /// <summary>
+        /// Set the player throw
+        /// </summary>
+        /// <param name="isThrowing"></param>
+        public void SetThrow(bool isThrowing) => this.isThrowing = isThrowing;
 
         /// <summary>
         /// Set whether or not the player can peek or not
