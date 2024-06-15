@@ -44,7 +44,6 @@ namespace GoodLuckValley.VFX
                         PlayEffect(grassParticle);
                         break;
                     case TileType.None:
-                        Debug.Log("no tile type detected");
                         break;
                 }
                 timeSinceLastParticle = 0;
