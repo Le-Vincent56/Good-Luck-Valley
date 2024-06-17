@@ -20,9 +20,6 @@ namespace GoodLuckValley.Player.States
             // Calculate velocity
             player.CalculateVelocity();
 
-            // Handle wall sliding
-            player.HandleWallSliding();
-
             // Handle player movement
             player.HandleMovement();
         }
