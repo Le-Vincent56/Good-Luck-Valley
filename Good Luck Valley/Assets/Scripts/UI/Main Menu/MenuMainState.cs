@@ -54,6 +54,7 @@ namespace GoodLuckValley.UI.MainMenu
 
                 // Credits
                 case 5:
+                    stateMachine.ChangeState(menu.CreditsState);
                     break;
 
                 // Exit to Desktop
