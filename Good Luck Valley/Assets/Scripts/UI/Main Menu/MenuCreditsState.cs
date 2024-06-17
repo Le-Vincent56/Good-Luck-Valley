@@ -53,7 +53,6 @@ namespace GoodLuckValley.UI.MainMenu
             // Store images and texts into lists
             List<Image> images = uiObject.GetComponentsInChildren<Image>(true).ToList();
             List<Text> texts = uiObject.GetComponentsInChildren<Text>(true).ToList();
-            backButton = uiObject.GetComponentInChildren<Button>(true);
 
             // Add ImageDatas
             foreach (Image image in images)
