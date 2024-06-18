@@ -50,10 +50,12 @@ namespace GoodLuckValley.UI.MainMenu
 
                 // Settings
                 case 4:
+                    stateMachine.ChangeState(menu.SettingsState);
                     break;
 
                 // Credits
                 case 5:
+                    stateMachine.ChangeState(menu.CreditsState);
                     break;
 
                 // Exit to Desktop

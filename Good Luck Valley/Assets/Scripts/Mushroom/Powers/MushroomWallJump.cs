@@ -1,5 +1,4 @@
 using GoodLuckValley.Events;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -121,8 +120,6 @@ namespace GoodLuckValley.Mushroom
 
             // Get the spawn point
             Vector2 spawnPoint = finalSpawnInfo.Position;
-
-            Debug.Log(finalSpawnInfo.Angle);
 
             // Edit spawn point position depending on angle
             switch (finalSpawnInfo.Angle)

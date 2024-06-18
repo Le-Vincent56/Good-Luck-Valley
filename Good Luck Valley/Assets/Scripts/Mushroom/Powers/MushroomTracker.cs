@@ -15,7 +15,6 @@ namespace GoodLuckValley.Mushroom
         [Header("Details")]
         [SerializeField] private List<GameObject> mushrooms;
         [SerializeField] private int limit = 3;
-        [SerializeField] private int wallLimit = 1;
         #endregion
 
         /// <summary>

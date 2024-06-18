@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.Sound;
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
@@ -15,6 +16,9 @@ namespace GoodLuckValley.UI
 
         [Header("References")]
         [SerializeField] private InputReader input;
+
+        [Header("Fields")]
+        [SerializeField] private SoundData buttonSFX;
 
         #region PROPERTIES
         public bool Paused { get; private set; }
@@ -121,6 +125,12 @@ namespace GoodLuckValley.UI
         {
             // Since only called from the menu, TogglePause will unpause
             TogglePause();
+
+            // Play the button sound effect
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(buttonSFX)
+                .WithRandomPitch()
+                .Play();
         }
 
         /// <summary>
@@ -130,6 +140,12 @@ namespace GoodLuckValley.UI
         {
             // Save the game
             SaveLoadSystem.Instance.SaveGame();
+
+            // Play the button sound effect
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(buttonSFX)
+                .WithRandomPitch()
+                .Play();
         }
 
         /// <summary>
@@ -139,6 +155,12 @@ namespace GoodLuckValley.UI
         {
             // Load the main menu scene
             SceneManager.LoadScene("Main Menu");
+
+            // Play the button sound effect
+            SoundManager.Instance.CreateSoundBuilder()
+                .WithSoundData(buttonSFX)
+                .WithRandomPitch()
+                .Play();
         }
     }
 }
