@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GHoodLuckValley.Player.Data
@@ -18,6 +16,8 @@ namespace GHoodLuckValley.Player.Data
 
         [Header("Movement")]
         [SerializeField] public float movementSpeed;
+        [SerializeField] public float movementTurnTime;
+        [SerializeField] public float fastSlopeScalar;
 
         [Header("Jump")]
         [SerializeField] public float maxJumpHeight;

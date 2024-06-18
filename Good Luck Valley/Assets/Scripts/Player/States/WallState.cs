@@ -1,19 +1,26 @@
+
 using GoodLuckValley.Player.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
     public class WallState : BaseState
     {
-        public WallState(PlayerController player, Animator animator) : base(player, animator)
+        private readonly PlayerSFXHandler sfx;
+
+        public WallState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
         {
+            this.sfx = sfx;
         }
 
         public override void OnEnter()
         {
             animator.CrossFade(WallSlideHash, crossFadeDuration);
+
+            // Don't allow the player to peek
+            player.SetCanPeek(false);
+
+            // TODO: Play wall slide sound effect
         }
 
         public override void FixedUpdate()

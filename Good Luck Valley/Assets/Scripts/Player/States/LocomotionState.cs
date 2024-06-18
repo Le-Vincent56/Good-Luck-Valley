@@ -5,11 +5,25 @@ namespace GoodLuckValley.Player.States
 {
     public class LocomotionState : BaseState
     {
-        public LocomotionState(PlayerController player, Animator animator) : base(player, animator) { }
+        private readonly PlayerSFXHandler sfx;
+
+        public LocomotionState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        {
+            this.sfx = sfx;
+        }
 
         public override void OnEnter()
         {
             animator.CrossFade(LocomotionHash, crossFadeDuration);
+
+            // Allow the player to peek
+            player.SetCanPeek(true);
+        }
+
+        public override void Update()
+        {
+            // Update footstep sounds
+            sfx.Footsteps();
         }
 
         public override void FixedUpdate()
@@ -19,6 +33,12 @@ namespace GoodLuckValley.Player.States
 
             // Handle movement
             player.HandleMovement();
+        }
+
+        public override void OnExit()
+        {
+            // Reset footstep sounds
+            sfx.ResetFootsteps();
         }
     }
 }

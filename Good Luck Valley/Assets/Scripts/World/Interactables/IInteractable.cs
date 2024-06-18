@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace GoodLuckValley.World.Interactables
 {
     public interface IInteractable
     {
         /// <summary>
-        /// Interact with the interactable
+        /// The interaction function for the Interactable
         /// </summary>
         public void Interact();
+
+        /// <summary>
+        /// Execute the Interaction
+        /// </summary>
+        public void ExecuteCommand();
     }
 }

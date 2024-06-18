@@ -11,16 +11,10 @@ namespace GoodLuckValley.Player.Handlers
     {
         [Header("References")]
         [SerializeField] private InputReader input;
-        [SerializeField] private CollisionHandler collisionHandler;
 
         [Header("Fields")]
-        [SerializeField] private bool canInteract;
+        [SerializeField] public bool canInteract;
         private IInteractable interactable;
-
-        private void Awake()
-        {
-            collisionHandler = GetComponent<CollisionHandler>();
-        }
 
         private void OnEnable()
         {
@@ -32,19 +26,41 @@ namespace GoodLuckValley.Player.Handlers
             input.Interact -= OnInteract;
         }
 
-        private void FixedUpdate()
-        {
-            interactable = collisionHandler.collisions.Interactable;
-
-            canInteract = interactable != null;
-        }
-
+        /// <summary>
+        /// Interact with the current interactable
+        /// </summary>
+        /// <param name="started"></param>
         public void OnInteract(bool started)
         {
             if(started)
             {
-                interactable?.Interact();
+                interactable?.ExecuteCommand();
             }
+        }
+
+        /// <summary>
+        ///  Set an interactable for the player to handle
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void OnSetInteractable(Component sender, object data)
+        {
+            // Check if the data is null
+            if (data is null)
+            {
+                // Set the interactable to null
+                interactable = null;
+            } else if(data is IInteractable)
+            {
+                // If not, cast the data
+                IInteractable interactable = (IInteractable)data;
+
+                // Set the data
+                this.interactable = interactable;
+            }
+
+            // Set whether or not the player can interact
+            canInteract = interactable != null;
         }
     }
 }

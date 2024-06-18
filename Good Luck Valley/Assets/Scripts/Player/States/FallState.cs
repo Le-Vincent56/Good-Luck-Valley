@@ -1,22 +1,29 @@
 using GoodLuckValley.Player.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
     public class FallState : BaseState
     {
-        public FallState(PlayerController player, Animator animator) : base(player, animator)
+        private readonly PlayerSFXHandler sfx;
+
+        public FallState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
         {
+            this.sfx = sfx;
         }
 
         public override void OnEnter()
         {
             animator.CrossFade(FallHash, crossFadeDuration);
 
-            // Set bouncing to false
-            player.SetBouncing(false);
+            // Reset the player bounce
+            player.ResetBounce();
+
+            // Don't allow the player to peek
+            player.SetCanPeek(false);
+
+            // Play the falling sound effect
+            sfx.Fall();
         }
 
         public override void FixedUpdate()
@@ -29,6 +36,12 @@ namespace GoodLuckValley.Player.States
 
             // Handle player movement
             player.HandleMovement();
+        }
+
+        public override void OnExit()
+        {
+            // Stop the falling sound effect
+            sfx.StopFall();
         }
     }
 }

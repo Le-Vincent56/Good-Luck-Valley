@@ -13,13 +13,15 @@ namespace GoodLuckValley.Mushroom
 
         [Header("References")]
         [SerializeField] private Animator animator;
-        [SerializeField] private CollisionHandler collisionHandler;
+        [SerializeField] private StaticCollisionHandler collisionHandler;
         [SerializeField] private MushroomInfo data;
+        [SerializeField] private MushroomSFXHandler sfxHandler;
 
         [Header("Fields")]
         [SerializeField] private ShroomType shroomType;
         [SerializeField] private Vector2 velocity;
         [SerializeField] private bool bounceEntity;
+        [SerializeField] private bool growing;
 
         private StateMachine stateMachine;
 
@@ -27,8 +29,12 @@ namespace GoodLuckValley.Mushroom
         {
             // Get components
             animator = GetComponent<Animator>();
-            collisionHandler = GetComponent<CollisionHandler>();
+            collisionHandler = GetComponent<StaticCollisionHandler>();
             data = GetComponent<MushroomInfo>();
+            sfxHandler = GetComponent<MushroomSFXHandler>();
+
+            // Set variables
+            growing = true;
 
             // Declare states
             stateMachine = new StateMachine();
@@ -36,15 +42,18 @@ namespace GoodLuckValley.Mushroom
             switch(shroomType)
             {
                 case ShroomType.Regular:
+                    GrowState growState = new GrowState(this, animator, sfxHandler);
                     IdleState idleState = new IdleState(this, animator);
-                    BounceState bounceState = new BounceState(this, animator);
+                    BounceState bounceState = new BounceState(this, animator, sfxHandler);
 
                     // Define strict transitions
+                    At(growState, idleState, new FuncPredicate(() => !growing));
+                    At(growState, bounceState, new FuncPredicate(() => bounceEntity));
                     At(idleState, bounceState, new FuncPredicate(() => bounceEntity));
                     At(bounceState, idleState, new FuncPredicate(() => !bounceEntity));
 
                     // Set the initial state
-                    stateMachine.SetState(idleState);
+                    stateMachine.SetState(growState);
                     break;
 
                 case ShroomType.Wall:
@@ -94,8 +103,8 @@ namespace GoodLuckValley.Mushroom
             // Set the old velocity
             collisionHandler.collisions.PrevVelocity = velocity;
 
-            // Handle horizontal collisions
-            collisionHandler.HandleAllCollisionsForStatic(ref velocity);
+            // Handle collisions
+            collisionHandler.HandleCollisions(ref velocity);
 
             // Handle platforms
             if (standingOnPlatform)
@@ -104,9 +113,14 @@ namespace GoodLuckValley.Mushroom
             }
         }
 
-        public void ResetBounce()
-        {
-            bounceEntity = false;
-        }
+        /// <summary>
+        /// Stop the growing of the mushroom
+        /// </summary>
+        public void StopGrowing() => growing = false;
+
+        /// <summary>
+        /// Reset the bounce
+        /// </summary>
+        public void ResetBounce() => bounceEntity = false;
     }
 }

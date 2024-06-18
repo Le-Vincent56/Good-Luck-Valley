@@ -6,15 +6,20 @@ namespace GoodLuckValley.Mushroom.States
     {
         private float animationTimer;
         public bool Finished { get => animationTimer <= 0; }
+        private readonly MushroomSFXHandler sfx;
 
-        public BounceState(MushroomController mushroom, Animator animator) : base(mushroom, animator)
+        public BounceState(MushroomController mushroom, Animator animator, MushroomSFXHandler sfx) : base(mushroom, animator)
         {
+            this.sfx = sfx;
         }
 
         public override void OnEnter()
         {
             animator.CrossFade(BounceHash, crossFadeDuration);
             animationTimer = animator.GetCurrentAnimatorStateInfo(0).length;
+
+            // Play the bounce sound effect
+            sfx.Bounce();
         }
 
         public override void Update()
@@ -29,9 +34,6 @@ namespace GoodLuckValley.Mushroom.States
 
         public override void FixedUpdate()
         {
-            // Check for collisions
-            mushroom.CheckCollisions();
-
             // Handle collisions
             mushroom.HandleCollisions();
         }

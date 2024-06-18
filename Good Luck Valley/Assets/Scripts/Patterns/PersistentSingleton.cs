@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Patterns
+namespace GoodLuckValley.Patterns.Singletons
 {
     public class PersistentSingleton<T> : MonoBehaviour where T : Component
     {
-        #region FIELDS
         public bool AutoUnparentOnAwake = true;
-
         protected static T instance;
-        #endregion
-
-        #region PROPERTIES
         public static bool HasInstance => instance != null;
         public static T Instance
         {
@@ -34,7 +27,6 @@ namespace GoodLuckValley.Patterns
                 return instance;
             }
         }
-        #endregion
 
         /// <summary>
         /// Try to get the Persistent Singleton Instance

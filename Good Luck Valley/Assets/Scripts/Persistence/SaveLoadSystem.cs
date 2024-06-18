@@ -1,5 +1,5 @@
 using GoodLuckValley.Mushroom;
-using GoodLuckValley.Patterns;
+using GoodLuckValley.Patterns.Singletons;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Interactables;
 using System;

@@ -36,6 +36,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onGetFinalSpawnInfo;
         [SerializeField] private GameEvent onEnableThrowUI;
         [SerializeField] private GameEvent onDisableThrowUI;
+        [SerializeField] private GameEvent onSetThrowing;
 
         [Header("Prefabs")]
         [SerializeField] private GameObject spore;
@@ -136,6 +137,11 @@ namespace GoodLuckValley.Mushroom
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
             newSpore.GetComponent<Spore>().SetSpawnInfo(finalSpawnInfo);
             newSpore.GetComponent<Spore>().ThrowSpore(throwDirection);
+
+            // Set throwing for the PlayerController
+            // Calls to:
+            //  - PlayerController.SetThrow();
+            onSetThrowing.Raise(this, true);
         }
 
         /// <summary>
