@@ -1262,7 +1262,7 @@ GameObject:
   - component: {fileID: 7325320347257684249}
   - component: {fileID: 7215556231266280211}
   m_Layer: 0
-  m_Name: Particles
+  m_Name: Player Particles Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1277,7 +1277,7 @@ Transform:
   m_GameObject: {fileID: 4720176512460996794}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.091, y: -0.628, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1300,7 +1300,7 @@ MonoBehaviour:
   grassParticle: {fileID: 391412505926739509}
   dirtParticle: {fileID: 6021859622279982379}
   timeSinceLastParticle: 0
-  timeBetweenParticles: 0.4
+  timeBetweenParticles: 0.1
   minXVelocity: 3.5
   detectTileType:
     direction: 1
@@ -1917,6 +1917,7 @@ MonoBehaviour:
   isWallJumping: 0
   isAgainstWall: 0
   isThrowing: 0
+  isThrowingAgain: 0
   hasFireflies: 0
 --- !u!114 &1378804955233713589
 MonoBehaviour:

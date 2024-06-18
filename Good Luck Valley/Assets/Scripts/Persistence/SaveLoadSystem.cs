@@ -117,7 +117,7 @@ namespace GoodLuckValley.Persistence
             selectedData = new GameData
             {
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
-                CurrentLevelName = "Level 2.1",
+                CurrentLevelName = "Level 1.1",
                 playerSaveData = new PlayerSaveData(),
                 mushroomSaveData = new MushroomSaveData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
@@ -149,7 +149,7 @@ namespace GoodLuckValley.Persistence
             // If no Current Level Name is given, default to a given scene
             if(String.IsNullOrWhiteSpace(selectedData.CurrentLevelName))
             {
-                selectedData.CurrentLevelName = "SampleScene";
+                selectedData.CurrentLevelName = "Level 1.1";
             }
 
             SceneManager.LoadScene(selectedData.CurrentLevelName);
