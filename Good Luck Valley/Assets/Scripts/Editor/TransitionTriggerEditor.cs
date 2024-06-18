@@ -6,10 +6,23 @@ using UnityEngine.SceneManagement;
 [CustomEditor(typeof(TransitionTrigger))]
 public class TransitionTriggerEditor : Editor
 {
-    public override void OnInspectorGUI()
+    TransitionTrigger transitionTrigger;
+
+    private void OnEnable()
     {
         // Get the target object
-        TransitionTrigger transitionTrigger = (TransitionTrigger)target;
+        transitionTrigger = (TransitionTrigger)target;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        // Add some space
+        EditorGUILayout.Space();
+
+        // Create a header
+        EditorGUILayout.LabelField("Fields", EditorStyles.boldLabel);
 
         // Get the number of scenes in the build
         int sceneCount = SceneManager.sceneCountInBuildSettings;

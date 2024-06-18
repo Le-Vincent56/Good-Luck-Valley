@@ -1,11 +1,15 @@
 using GoodLuckValley.Entities;
+using GoodLuckValley.Events;
 using UnityEngine;
 
 namespace GoodLuckValley.World.AreaTriggers
 {
     public class TransitionTrigger : MonoBehaviour
     {
-        [SerializeField] private string sceneToTransitionTo;
+        [Header("Events")]
+        [SerializeField] private GameEvent onTransition;
+
+        private string sceneToTransitionTo;
         public string SceneToTransitionTo
         {
             get => sceneToTransitionTo;
@@ -26,17 +30,12 @@ namespace GoodLuckValley.World.AreaTriggers
 
         private void OnDisable()
         {
-            
-        }
-
-        private void Start()
-        {
-            Debug.Log(SceneToTransitionTo);
+            areaCollider.OnTriggerEnter -= TriggerEnter;
         }
 
         private void TriggerEnter(GameObject other)
         {
-            Debug.Log(SceneToTransitionTo);
+            onTransition.Raise(this, null);
         }
     }
 }
