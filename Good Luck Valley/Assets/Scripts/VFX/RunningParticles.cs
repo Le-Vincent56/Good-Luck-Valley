@@ -1,5 +1,6 @@
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Tiles;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -52,6 +53,8 @@ namespace GoodLuckValley.VFX
 
         public void PlayEffect(VisualEffect vfx)
         {
+            Debug.Log(vfx);
+            vfx.SetVector3("SpawnPosition", transform.position);
             vfx.Play();
         }
     }

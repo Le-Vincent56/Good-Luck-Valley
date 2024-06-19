@@ -55,6 +55,10 @@ namespace GoodLuckValley.Cameras
             // overlap
             bool isCheckRight = (facingRight == 1);
             if (isFacingRight == isCheckRight) return;
+            
+            // Stop any current coroutines
+            if(turnCoroutine != null)
+                StopCoroutine(turnCoroutine);
 
             // Start the turn coroutine
             turnCoroutine = StartCoroutine(FlipYLerp(facingRight));

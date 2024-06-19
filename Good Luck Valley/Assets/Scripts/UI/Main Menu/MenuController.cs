@@ -21,6 +21,8 @@ namespace GoodLuckValley.UI.MainMenu
         public MenuInitialState InitialState { get; private set; }
         public MenuMainState MainState { get; private set; }
         public MenuLoadState LoadState { get; private set; }
+        public MenuCreditsState CreditsState { get; private set; }
+        public MenuSettingsState SettingsState { get; private set; }
         #endregion
 
         private void Awake()
@@ -35,11 +37,15 @@ namespace GoodLuckValley.UI.MainMenu
             InitialState = new MenuInitialState(this, StateMachine, true, screens[0]);
             MainState = new MenuMainState(this, StateMachine, true, screens[1], screens[2]);
             LoadState = new MenuLoadState(this, StateMachine, true, screens[3], GetComponentInChildren<LoadController>());
+            CreditsState = new MenuCreditsState(this, StateMachine, true, screens[4]);
+            SettingsState = new MenuSettingsState(this, StateMachine, true, screens[5]);
 
             // Set state data
             InitialState.InstantiateUILists();
             MainState.InstantiateUILists();
             LoadState.InstantiateUILists();
+            CreditsState.InstantiateUILists();
+            SettingsState.InstantiateUILists();
 
             // Set each object to be false
             for(int i = 1; i < screens.Count; i++)  
