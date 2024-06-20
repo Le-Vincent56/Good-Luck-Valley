@@ -11,9 +11,10 @@ namespace GoodLuckValley.Audio.Music
     {
         private const float crossFadeTime = 1.0f;
         private float fading;
-        private AudioSource current;
-        private AudioSource previous;
+        public AudioSource current;
         private readonly Queue<AudioClip> playlist = new Queue<AudioClip>();
+        private readonly Queue<bool> transitions = new Queue<bool>();
+        private int crossFadeCount = 0;
 
         [SerializeField] private List<AudioClip> initialPlaylist;
         [SerializeField] private AudioMixerGroup musicMixerGroup;
@@ -30,8 +31,9 @@ namespace GoodLuckValley.Audio.Music
 
         private void Update()
         {
-            // Handle any cross fading
-            HandleCrossFade();
+            // Handle any cross fading, but only one time
+            if(crossFadeCount <= 0)
+                HandleCrossFade();
 
             // Check if the next track should be played
             if (current && !current.isPlaying && playlist.Count > 0)
@@ -45,13 +47,16 @@ namespace GoodLuckValley.Audio.Music
         /// Add an AudioClip to the playlist
         /// </summary>
         /// <param name="clip">The AudioClip to add to the playlist</param>
-        public void AddToPlaylist(AudioClip clip)
+        public void AddToPlaylist(AudioClip clip, bool isTransition = false)
         {
             // Enqueue the AudioClip
             playlist.Enqueue(clip);
-            
+            transitions.Enqueue(!isTransition);
+
+            Debug.Log("Enqueued " + clip.name);
+
             // Check if any audio is playing
-            if(current == null && previous == null)
+            if(current == null)
             {
                 // If not, play the next track
                 PlayNextTrack();
@@ -79,26 +84,13 @@ namespace GoodLuckValley.Audio.Music
         {
             // Return if this AudioClip is already playing
             if (current && current.clip == clip) return;
-            
-            // Check if there was a previous audio source
-            if(previous)
-            {
-                // Destroy it
-                Destroy(previous);
-
-                // Nullify the previous AudioSource
-                previous = null;
-            }
-
-            // Set the current AudioSource to the previous AudioSource
-            previous = current;
 
             // Set the current AudioSource
             current = gameObject.GetOrAdd<AudioSource>();
             current.clip = clip;
             current.outputAudioMixerGroup = musicMixerGroup;
-            current.loop = true;
-            current.volume = 0;
+            current.loop = transitions.Dequeue();
+            current.volume = (crossFadeCount <= 0) ? 0f : 1f;
             current.bypassListenerEffects = true;
 
             // Play the current AudioSource
@@ -123,9 +115,6 @@ namespace GoodLuckValley.Audio.Music
             // Logarithmic fade
             float logFraction = fraction.ToLogarithmicFraction();
 
-            // If a previous AudioSource is present, reduce the volume
-            if (previous) previous.volume = 1.0f - logFraction;
-
             // If a current AudioSource is present, increase the volume
             if (current) current.volume = logFraction;
 
@@ -135,15 +124,7 @@ namespace GoodLuckValley.Audio.Music
                 // Set fading to 0
                 fading = 0.0f;
 
-                // Check if a previous AudioSource exists
-                if(previous)
-                {
-                    // Destroy it
-                    Destroy(previous);
-
-                    // Nullify the previous AudioSource
-                    previous = null;
-                }
+                crossFadeCount++;
             }
         }
     }
