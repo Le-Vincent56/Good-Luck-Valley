@@ -35,6 +35,7 @@ namespace GoodLuckValley.AreaTriggers.Music
 
             MusicManager.Instance.AddToPlaylist(transition, true);
             MusicManager.Instance.AddToPlaylist(newLoop);
+            MusicManager.Instance.canEnqueue = false;
         }
     }
 }

@@ -15,12 +15,15 @@ namespace GoodLuckValley.Audio.Music
         private readonly Queue<AudioClip> playlist = new Queue<AudioClip>();
         private readonly Queue<bool> transitions = new Queue<bool>();
         private int crossFadeCount = 0;
+        public bool canEnqueue;
 
         [SerializeField] private List<AudioClip> initialPlaylist;
         [SerializeField] private AudioMixerGroup musicMixerGroup;
 
         private void Start()
         {
+            canEnqueue = true;
+
             // Loop through each clip added in the initial playlist
             foreach(AudioClip clip in initialPlaylist)
             {
@@ -49,6 +52,8 @@ namespace GoodLuckValley.Audio.Music
         /// <param name="clip">The AudioClip to add to the playlist</param>
         public void AddToPlaylist(AudioClip clip, bool isTransition = false)
         {
+            if (!canEnqueue) return;
+
             // Enqueue the AudioClip
             playlist.Enqueue(clip);
             transitions.Enqueue(!isTransition);
