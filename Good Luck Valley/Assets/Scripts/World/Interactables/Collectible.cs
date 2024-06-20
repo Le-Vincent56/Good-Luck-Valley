@@ -2,12 +2,18 @@ using GoodLuckValley.Persistence;
 using GoodLuckValley.Patterns.Commands;
 using System.Collections.Generic;
 using UnityEngine;
+using GoodLuckValley.Events;
+using GoodLuckValley.Entities;
 
 namespace GoodLuckValley.World.Interactables
 {
     public class Collectible : MonoBehaviour, IInteractable, IBind<CollectibleSaveData>
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onSetInteractable;
+
         #region REFERENCES
+        private AreaCollider areaCollider;
         [SerializeField] protected CollectibleSaveData data;
         #endregion
 
@@ -20,6 +26,23 @@ namespace GoodLuckValley.World.Interactables
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
         #endregion
 
+        private void Awake()
+        {
+            areaCollider = GetComponent<AreaCollider>();
+    }
+
+        private void OnEnable()
+        {
+            areaCollider.OnTriggerEnter += EnterArea;
+            areaCollider.OnTriggerExit += ExitArea;
+        }
+
+        private void OnDisable()
+        {
+            areaCollider.OnTriggerEnter -= EnterArea;
+            areaCollider.OnTriggerExit -= ExitArea;
+        }
+
         private void Start()
         {
             // Check if the Collectible should be active
@@ -31,6 +54,9 @@ namespace GoodLuckValley.World.Interactables
                 .Build();
             QueueCommand(newCommand);
         }
+
+        public void EnterArea(GameObject gameObject) => onSetInteractable.Raise(this, this);
+        public void ExitArea(GameObject gameObject) => onSetInteractable.Raise(this, null);
 
         /// <summary>
         /// Queue a Command for the Collectible
