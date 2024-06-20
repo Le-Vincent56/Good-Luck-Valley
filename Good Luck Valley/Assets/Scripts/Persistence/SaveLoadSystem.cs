@@ -149,7 +149,7 @@ namespace GoodLuckValley.Persistence
             // If no Current Level Name is given, default to a given scene
             if(String.IsNullOrWhiteSpace(selectedData.CurrentLevelName))
             {
-                selectedData.CurrentLevelName = "SampleScene";
+                selectedData.CurrentLevelName = "Level 1.1";
             }
 
             SceneManager.LoadScene(selectedData.CurrentLevelName);
