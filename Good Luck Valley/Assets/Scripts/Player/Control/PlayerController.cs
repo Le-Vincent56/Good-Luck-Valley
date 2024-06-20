@@ -704,6 +704,10 @@ namespace GoodLuckValley.Player.Control
         /// <param name="data"></param>
         public void StartThrow(Component sender, object data)
         {
+            // Don't allow for throws in the air, will cause a throw animation when landing,
+            // long after the throw was done
+            if (!isGrounded) return;
+
             // Check if throwing
             if (!isThrowing)
                 // If not, set the player to throwing
