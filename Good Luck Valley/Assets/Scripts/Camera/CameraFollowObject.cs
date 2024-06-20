@@ -55,8 +55,6 @@ namespace GoodLuckValley.Cameras
             // overlap
             bool isCheckRight = (facingRight == 1);
             if (isFacingRight == isCheckRight) return;
-
-            Debug.Log("Calling Turn");
             
             // Stop any current coroutines
             if(turnCoroutine != null)
