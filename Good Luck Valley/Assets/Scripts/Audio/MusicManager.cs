@@ -52,8 +52,6 @@ namespace GoodLuckValley.Audio.Music
         /// <param name="clip">The AudioClip to add to the playlist</param>
         public void AddToPlaylist(AudioClip clip, bool isTransition = false)
         {
-            if (!canEnqueue) return;
-
             // Enqueue the AudioClip
             playlist.Enqueue(clip);
             transitions.Enqueue(!isTransition);

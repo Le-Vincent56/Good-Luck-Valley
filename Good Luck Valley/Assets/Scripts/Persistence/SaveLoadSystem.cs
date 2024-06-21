@@ -56,8 +56,6 @@ namespace GoodLuckValley.Persistence
 
         private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            await Task.Delay(5);
-
             // Guard clause to not load data in
             if (scene.name == "Menu") return;
 
