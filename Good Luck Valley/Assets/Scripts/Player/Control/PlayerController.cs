@@ -7,7 +7,6 @@ using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
-using GoodLuckValley.Audio.Sound;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -26,6 +25,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
         [SerializeField] private PlayerSFXHandler sfxHandler;
+        [SerializeField] private PlayerSaveHandler saveHandler;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -59,6 +59,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool isThrowing;
         [SerializeField] private bool isThrowingAgain;
         [SerializeField] private bool hasFireflies;
+        [SerializeField] private bool isFastSliding;
 
         private float fallSpeedDampingChangeThreshold;
 
@@ -74,6 +75,7 @@ namespace GoodLuckValley.Player.Control
             collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
+            saveHandler = GetComponent<PlayerSaveHandler>();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -160,6 +162,7 @@ namespace GoodLuckValley.Player.Control
             input.Move += SetTurnTimer;
             input.Jump += OnJump;
             input.FastFall += OnFastFall;
+            input.FastSlide += OnFastSlide;
         }
 
         private void OnDisable()
@@ -167,6 +170,7 @@ namespace GoodLuckValley.Player.Control
             input.Move -= SetTurnTimer;
             input.Jump -= OnJump;
             input.FastFall -= OnFastFall;
+            input.FastSlide -= OnFastSlide;
         }
 
         private void Update()
@@ -483,7 +487,7 @@ namespace GoodLuckValley.Player.Control
 
             // Handle collisions if necessary
             if(velocity.y < 0f)
-                collisionHandler.DescendSlope(ref velocity, fastFalling);
+                collisionHandler.DescendSlope(ref velocity, isFastSliding, data.fastSlopeScalar);
 
             // Set the facing direction
             if (velocity.x != 0f)
@@ -632,6 +636,19 @@ namespace GoodLuckValley.Player.Control
             if (!started)
             {
                 fastFalling = false;
+            }
+        }
+
+        public void OnFastSlide(bool started)
+        {
+            if(started)
+            {
+                isFastSliding = true;
+            }
+
+            if(!started)
+            {
+                isFastSliding = false;
             }
         }
 

@@ -63,6 +63,8 @@ namespace GoodLuckValley.SceneManagement
                 // Calls to:
                 // - CameraFade.PlayFadeIn();
                 onFadeIn.Raise(this, true);
+
+                SaveLoadSystem.Instance.SaveGame();
             }
         }
 

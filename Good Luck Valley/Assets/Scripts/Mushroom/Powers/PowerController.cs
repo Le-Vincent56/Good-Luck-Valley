@@ -51,7 +51,7 @@ namespace GoodLuckValley.Mushroom
         /// <summary>
         /// Update Mushroom Power save data
         /// </summary>
-        public void UpdateData()
+        public void UpdateSaveData()
         {
             data.unlockedThrow = unlockedThrow;
             data.unlockedWallJump = unlockedWallJump;
@@ -168,7 +168,7 @@ namespace GoodLuckValley.Mushroom
             unlockedThrow = true;
 
             // Update data
-            UpdateData();
+            UpdateSaveData();
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace GoodLuckValley.Mushroom
             unlockedWallJump = true;
 
             // Update save data
-            UpdateData();
+            UpdateSaveData();
         }
 
         public void OnUnlockPowers(Component sender, object data)

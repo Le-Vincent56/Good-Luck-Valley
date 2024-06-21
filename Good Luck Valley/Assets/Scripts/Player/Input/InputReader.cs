@@ -35,6 +35,7 @@ namespace GoodLuckValley.Player.Input
         public event UnityAction<bool> NoClip = delegate { };
         public event UnityAction<bool> UnlockPowers = delegate { };
         public event UnityAction<bool> Look = delegate { };
+        public event UnityAction<bool> FastSlide = delegate { };
 
         PlayerInputActions inputActions;
         public Vector3 Direction => inputActions.PlayerControls.Move.ReadValue<Vector2>();
@@ -183,6 +184,20 @@ namespace GoodLuckValley.Player.Input
             } else if(context.canceled)
             {
                 Look.Invoke(context.started);
+            }
+        }
+
+        public void OnFastSlide(InputAction.CallbackContext context)
+        {
+            if (!AllowControl) return;
+
+            if (context.started)
+            {
+                FastSlide.Invoke(context.started);
+            }
+            else if (context.canceled)
+            {
+                FastSlide.Invoke(context.started);
             }
         }
     }

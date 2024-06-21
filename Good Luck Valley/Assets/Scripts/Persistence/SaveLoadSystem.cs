@@ -5,6 +5,7 @@ using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,13 +54,15 @@ namespace GoodLuckValley.Persistence
         private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
         private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            await Task.Delay(5);
+
             // Guard clause to not load data in
             if (scene.name == "Menu") return;
 
             // Bind player data
-            Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
+            //Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
             Bind<PowerController, MushroomSaveData>(selectedData.mushroomSaveData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas);
         }

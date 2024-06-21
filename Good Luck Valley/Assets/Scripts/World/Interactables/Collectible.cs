@@ -81,7 +81,7 @@ namespace GoodLuckValley.World.Interactables
         public virtual void Interact()
         {
             isCollected = true;
-            data.collected = true;
+            UpdateSaveData();
 
             CheckActive();
         }
@@ -93,6 +93,14 @@ namespace GoodLuckValley.World.Interactables
         {
             if (isCollected) gameObject.SetActive(false);
             else gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// Update Collectible save data
+        /// </summary>
+        public void UpdateSaveData()
+        {
+            data.collected = isCollected;
         }
 
         /// <summary>
