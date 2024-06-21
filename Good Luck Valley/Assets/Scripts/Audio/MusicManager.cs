@@ -58,8 +58,6 @@ namespace GoodLuckValley.Audio.Music
             playlist.Enqueue(clip);
             transitions.Enqueue(!isTransition);
 
-            Debug.Log("Enqueued " + clip.name);
-
             // Check if any audio is playing
             if(current == null)
             {
