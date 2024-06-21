@@ -30,7 +30,7 @@ namespace GoodLuckValley.AreaTriggers.Music
         private void TriggerEnter(GameObject other)
         {
             // If the music is currently looping, stop looping
-            if (MusicManager.Instance.current.loop)
+            if (MusicManager.Instance.current.loop && MusicManager.Instance.canEnqueue)
                 MusicManager.Instance.current.loop = false;
 
             MusicManager.Instance.AddToPlaylist(transition, true);
