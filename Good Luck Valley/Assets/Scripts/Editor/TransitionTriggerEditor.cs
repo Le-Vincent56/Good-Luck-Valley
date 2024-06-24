@@ -6,23 +6,22 @@ using UnityEngine.SceneManagement;
 [CustomEditor(typeof(TransitionTrigger))]
 public class TransitionTriggerEditor : Editor
 {
-    TransitionTrigger transitionTrigger;
-
-    private void OnEnable()
-    {
-        // Get the target object
-        transitionTrigger = (TransitionTrigger)target;
-    }
-
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        // Get the target object
+        TransitionTrigger transitionTrigger = (TransitionTrigger)target;
 
-        // Add some space
-        EditorGUILayout.Space();
+        // Ensure the serialized object is up to date
+        serializedObject.Update();
 
         // Create a header
         EditorGUILayout.LabelField("Fields", EditorStyles.boldLabel);
+
+        // Show the TransitionType enum
+        transitionTrigger.TransitionType = (TransitionType)EditorGUILayout.EnumPopup("Transition Type", transitionTrigger.TransitionType);
+
+        // Show the move direction
+        transitionTrigger.MoveDirection = EditorGUILayout.IntSlider("Move Direction", transitionTrigger.MoveDirection, -1, 1);
 
         // Get the number of scenes in the build
         int sceneCount = SceneManager.sceneCountInBuildSettings;
@@ -47,7 +46,7 @@ public class TransitionTriggerEditor : Editor
         int currentIndex = System.Array.IndexOf(sceneNames, transitionTrigger.SceneToTransitionTo);
 
         // Show a popup to select a scene from the list
-        int selectedIndex = EditorGUILayout.Popup("Scene to Transition to", currentIndex, sceneNames);
+        int selectedIndex = EditorGUILayout.Popup("Scene to Transition To", currentIndex, sceneNames);
 
         // Update the sceneToTransitionTo if a new scene is selected
         if(selectedIndex >= 0 && selectedIndex < sceneNames.Length)
@@ -55,10 +54,13 @@ public class TransitionTriggerEditor : Editor
             transitionTrigger.SceneToTransitionTo = sceneNames[selectedIndex];
         }
 
-        // Save any changes to the object
+        // Check for GUI changes to set dirty
         if(GUI.changed)
         {
             EditorUtility.SetDirty(transitionTrigger);
         }
+
+        // Save any changes to the object
+        serializedObject.ApplyModifiedProperties();
     }
 }

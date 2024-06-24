@@ -1,3 +1,5 @@
+using GoodLuckValley.Events;
+using GoodLuckValley.SceneManagement;
 using System.Collections;
 using UnityEngine;
 
@@ -32,7 +34,11 @@ namespace GoodLuckValley.Cameras
             if (fadeCoroutine != null)
                 StopCoroutine(fadeCoroutine);
 
-            fadeCoroutine = StartCoroutine(Fade(0f));
+            // If there is boolean data sent and it is true, set the color opacity to full
+            if (data is bool newScene && newScene)
+                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
+
+            fadeCoroutine = StartCoroutine(Fade(0f, true));
         }
 
         /// <summary>
@@ -40,12 +46,12 @@ namespace GoodLuckValley.Cameras
         /// </summary>
         /// <param name="sdender"></param>
         /// <param name="data"></param>
-        public void PlayFadeOut(Component sdender, object data)
+        public void PlayFadeOut(Component sender, object data)
         {
             if (fadeCoroutine != null)
                 StopCoroutine(fadeCoroutine);
 
-            fadeCoroutine = StartCoroutine(Fade(1f));
+            fadeCoroutine = StartCoroutine(Fade(1f, false));
         }
 
         /// <summary>
@@ -53,8 +59,9 @@ namespace GoodLuckValley.Cameras
         /// </summary>
         /// <param name="targetAlpha">The alpha  value (0-1) to fade towards</param>
         /// <returns></returns>
-        private IEnumerator Fade(float targetAlpha)
+        private IEnumerator Fade(float targetAlpha, bool fadeIn)
         {
+            
             float startAlpha = spriteRenderer.color.a;
             float elapsedTime = 0f;
             Color color = spriteRenderer.color;
@@ -87,6 +94,13 @@ namespace GoodLuckValley.Cameras
 
             // Nullify the fade coroutine
             fadeCoroutine = null;
+
+            // Change the scene if fading out
+            if (!fadeIn)
+                SceneLoader.Instance.ChangeScene();
+            else
+                // End the transition if fading in
+                SceneLoader.Instance.EndTransition();
         }
     }
 }

@@ -1,15 +1,36 @@
+using GoodLuckValley.Audio.Music;
 using GoodLuckValley.Entities;
 using GoodLuckValley.Events;
+using GoodLuckValley.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GoodLuckValley.World.AreaTriggers
 {
+    public enum TransitionType
+    {
+        Entrance = 0,
+        Exit = 1
+    }
+
     public class TransitionTrigger : MonoBehaviour
     {
-        [Header("Events")]
-        [SerializeField] private GameEvent onTransition;
+        [SerializeField] private TransitionType transitionType;
+        [SerializeField] private int moveDirection;
+        [SerializeField] private string sceneToTransitionTo;
 
-        private string sceneToTransitionTo;
+        public TransitionType TransitionType
+        {
+            get => transitionType;
+            set => transitionType = value;
+        }
+
+        public int MoveDirection
+        {
+            get => moveDirection;
+            set => moveDirection = value;
+        }
+
         public string SceneToTransitionTo
         {
             get => sceneToTransitionTo;
@@ -35,7 +56,11 @@ namespace GoodLuckValley.World.AreaTriggers
 
         private void TriggerEnter(GameObject other)
         {
-            onTransition.Raise(this, null);
+            // Don't trigger if loading already
+            if (SceneLoader.Instance.IsLoading) return;
+
+            SceneLoader.Instance.SetSceneToLoad(sceneToTransitionTo, transitionType, moveDirection);
+            SceneLoader.Instance.BeginTransition();
         }
     }
 }

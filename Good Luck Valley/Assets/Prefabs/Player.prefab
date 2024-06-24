@@ -1262,7 +1262,7 @@ GameObject:
   - component: {fileID: 7325320347257684249}
   - component: {fileID: 7215556231266280211}
   m_Layer: 0
-  m_Name: Particles
+  m_Name: Player Particles Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1277,12 +1277,10 @@ Transform:
   m_GameObject: {fileID: 4720176512460996794}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.091, y: -0.628, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 391412505926739507}
-  - {fileID: 6021859622279982378}
+  m_Children: []
   m_Father: {fileID: 2414757590046708016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7215556231266280211
@@ -1297,10 +1295,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d563eebe76f4b40a23459299d486e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grassParticle: {fileID: 391412505926739509}
-  dirtParticle: {fileID: 6021859622279982379}
+  grassParticle: {fileID: 0}
+  dirtParticle: {fileID: 0}
   timeSinceLastParticle: 0
-  timeBetweenParticles: 0.4
+  timeBetweenParticles: 0.1
   minXVelocity: 3.5
   detectTileType:
     direction: 1
@@ -1703,6 +1701,9 @@ GameObject:
   - component: {fileID: 7671007024137985392}
   - component: {fileID: 7819745326037000363}
   - component: {fileID: 7507005121504451109}
+  - component: {fileID: 1284406165784972627}
+  - component: {fileID: 1180109682511361156}
+  - component: {fileID: 9099959743522067043}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -1902,6 +1903,8 @@ MonoBehaviour:
   maxJumpVelocity: 0
   minJumpVelocity: 0
   fastFalling: 0
+  moveDirectionX: 0
+  manualMoveX: 0
   velocity: {x: 0, y: 0}
   xVelSmoothing: 0
   lastPressedMoveTime: 0
@@ -1917,6 +1920,7 @@ MonoBehaviour:
   isWallJumping: 0
   isAgainstWall: 0
   isThrowing: 0
+  isThrowingAgain: 0
   hasFireflies: 0
 --- !u!114 &1378804955233713589
 MonoBehaviour:
@@ -2142,137 +2146,90 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1001 &6195044701291275922
-PrefabInstance:
+--- !u!114 &1284406165784972627
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7325320347257684249}
-    m_Modifications:
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.6040001
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461840232571325375, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-      propertyPath: m_Name
-      value: Player Dirt
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
---- !u!4 &6021859622279982378 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 461840232571325368, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-  m_PrefabInstance: {fileID: 6195044701291275922}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!2083052967 &6021859622279982379 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 461840232571325369, guid: 054bf56de9dce9e4cae09f746a5c9543, type: 3}
-  m_PrefabInstance: {fileID: 6195044701291275922}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &7162547084100928641
-PrefabInstance:
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 822904cd24adaa146a0d9594fc902e3f, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3312724052698482696}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
+          Assembly-CSharp
+        m_MethodName: PreparePlayerPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1180109682511361156
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7325320347257684249}
-    m_Modifications:
-    - target: {fileID: 7352382605719773873, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_Name
-      value: Player Leaves
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.6040001
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
---- !u!4 &391412505926739507 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7352382605719773874, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-  m_PrefabInstance: {fileID: 7162547084100928641}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!2083052967 &391412505926739509 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 7352382605719773876, guid: f4c40275c5c32dd4eac522f0decf5b15, type: 3}
-  m_PrefabInstance: {fileID: 7162547084100928641}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 1790b0c16c32f9840a8190d205cf7751, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3312724052698482696}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
+          Assembly-CSharp
+        m_MethodName: BeginPlayerTransition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &9099959743522067043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 2a91f0f5bc6b05f46ac6e8f270214922, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3312724052698482696}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
+          Assembly-CSharp
+        m_MethodName: EndPlayerTransition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

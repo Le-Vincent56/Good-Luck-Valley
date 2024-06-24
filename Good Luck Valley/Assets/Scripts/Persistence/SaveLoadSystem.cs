@@ -5,6 +5,7 @@ using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,13 +54,13 @@ namespace GoodLuckValley.Persistence
         private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
         private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Guard clause to not load data in
             if (scene.name == "Menu") return;
 
             // Bind player data
-            Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
+            //Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
             Bind<PowerController, MushroomSaveData>(selectedData.mushroomSaveData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas);
         }
@@ -117,7 +118,7 @@ namespace GoodLuckValley.Persistence
             selectedData = new GameData
             {
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
-                CurrentLevelName = "Level 2.1",
+                CurrentLevelName = "Level 1.1",
                 playerSaveData = new PlayerSaveData(),
                 mushroomSaveData = new MushroomSaveData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
@@ -149,7 +150,7 @@ namespace GoodLuckValley.Persistence
             // If no Current Level Name is given, default to a given scene
             if(String.IsNullOrWhiteSpace(selectedData.CurrentLevelName))
             {
-                selectedData.CurrentLevelName = "SampleScene";
+                selectedData.CurrentLevelName = "Level 1.1";
             }
 
             SceneManager.LoadScene(selectedData.CurrentLevelName);

@@ -358,7 +358,7 @@ namespace GoodLuckValley.Entity
         /// Descend a slope
         /// </summary>
         /// <param name="velocity">The current velocity</param>
-        public void DescendSlope(ref Vector2 velocity, bool isFastFalling = false)
+        public void DescendSlope(ref Vector2 velocity, bool isFastFalling = false, float fastFallScalar = 1f)
         {
             RaycastHit2D maxSlopeHitLeft = Physics2D.Raycast(origins.bottomLeft, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
             RaycastHit2D maxSlopeHitRight = Physics2D.Raycast(origins.bottomRight, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
@@ -391,7 +391,7 @@ namespace GoodLuckValley.Entity
                             // Check how far down to move based on x-velocity
                             if (hit.distance - skinWidth <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x))
                             {
-                                float moveDistance = isFastFalling ? Mathf.Abs(velocity.x) * 5f : Mathf.Abs(velocity.x);
+                                float moveDistance = isFastFalling ? Mathf.Abs(velocity.x) * fastFallScalar : Mathf.Abs(velocity.x); 
                                 float descendVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
                                 velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
                                 velocity.y -= descendVelocityY;

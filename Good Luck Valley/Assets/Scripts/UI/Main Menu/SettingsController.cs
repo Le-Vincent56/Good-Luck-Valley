@@ -23,7 +23,7 @@ namespace GoodLuckValley.UI.MainMenu
             PlayButtonSFX();
         }
 
-        private void PlayButtonSFX()
+        public void PlayButtonSFX()
         {
             // Play the button sound effect
             SoundManager.Instance.CreateSoundBuilder()
