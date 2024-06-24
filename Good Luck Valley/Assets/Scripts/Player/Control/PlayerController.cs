@@ -7,6 +7,8 @@ using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
+using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.ServiceLocator;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -25,7 +27,6 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
         [SerializeField] private PlayerSFXHandler sfxHandler;
-        [SerializeField] private PlayerSaveHandler saveHandler;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -75,7 +76,6 @@ namespace GoodLuckValley.Player.Control
             collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
-            saveHandler = GetComponent<PlayerSaveHandler>();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -773,6 +773,11 @@ namespace GoodLuckValley.Player.Control
             manualMoveX = dir;
         }
 
+        /// <summary>
+        /// Function for handling the beginning of a level transition
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void BeginPlayerTransition(Component sender, object data)
         {
             // Verify that the correct data is sent
@@ -789,6 +794,11 @@ namespace GoodLuckValley.Player.Control
             manualMoveX = manualMove;
         }
 
+        /// <summary>
+        /// Function for handling the end of a level transition
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void EndPlayerTransition(Component sender, object data)
         {
             // Enable cotrol
