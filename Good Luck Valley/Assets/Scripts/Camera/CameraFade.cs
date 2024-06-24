@@ -61,6 +61,7 @@ namespace GoodLuckValley.Cameras
         /// <returns></returns>
         private IEnumerator Fade(float targetAlpha, bool fadeIn)
         {
+            
             float startAlpha = spriteRenderer.color.a;
             float elapsedTime = 0f;
             Color color = spriteRenderer.color;
