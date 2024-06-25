@@ -56,6 +56,21 @@ namespace GoodLuckValley.Mushroom
                     stateMachine.SetState(growState);
                     break;
 
+                case ShroomType.Quick:
+                    GrowState quickGrowState = new GrowState(this, animator, sfxHandler);
+                    IdleState quickIdleState = new IdleState(this, animator);
+                    BounceState quickBounceState = new BounceState(this, animator, sfxHandler);
+
+                    // Define strict transitions
+                    At(quickGrowState, quickIdleState, new FuncPredicate(() => !growing));
+                    At(quickGrowState, quickBounceState, new FuncPredicate(() => bounceEntity));
+                    At(quickIdleState, quickBounceState, new FuncPredicate(() => bounceEntity));
+                    At(quickBounceState, quickIdleState, new FuncPredicate(() => !bounceEntity));
+
+                    // Set the initial state
+                    stateMachine.SetState(quickGrowState);
+                    break;
+
                 case ShroomType.Wall:
                     WallIdleState wallIdleState = new WallIdleState(this, animator);
 

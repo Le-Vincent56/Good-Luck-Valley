@@ -15,6 +15,7 @@ namespace GoodLuckValley.Player.Control
     public class PlayerController : MonoBehaviour
     {
         [Header("Events")]
+        [SerializeField] private GameEvent onResetBounce;
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onSendPlayerTransform;
         [SerializeField] private GameEvent onPlayerTurn;
@@ -270,9 +271,22 @@ namespace GoodLuckValley.Player.Control
 
                 isWallJumping = false;
 
-                // Set bouncing to false if bouncing and falling down
+                // Reset bounce
                 if(isBouncing && velocity.y <= 0f)
+                {
+                    // Reset bounce data
                     ResetBounce();
+                }
+
+                // Check to reset bounce count or other variables
+                // that don't rely on the isBouncing variable
+                if(velocity.y <= 0f)
+                {
+                    // Reset bounce variables
+                    // Calls to:
+                    //  - MushroomBounce.ResetBounce()
+                    onResetBounce.Raise(this, null);
+                }
 
                 // Set coyote time
                 lastOnGroundTime = data.coyoteTime;
@@ -691,9 +705,27 @@ namespace GoodLuckValley.Player.Control
             // Set bouncing to true
             isBouncing = true;
 
+            // Calculate bounce force
+            Vector2 bounceVec = bounceData.BounceVector;
+
+            switch(bounceData.BounceCount)
+            {
+                case 2:
+                    bounceVec *= this.data.secondBounceMult;
+                    break;
+
+                case 3:
+                    bounceVec *= this.data.thirdBounceMult;
+                    break;
+
+                default:
+                    bounceVec *= 1f;
+                    break;
+            }
+
             // Apply bounce force
-            velocity.x += bounceData.BounceVector.x;
-            velocity.y = bounceData.BounceVector.y;
+            velocity.x += bounceVec.x;
+            velocity.y = bounceVec.y;
         }
 
         /// <summary>

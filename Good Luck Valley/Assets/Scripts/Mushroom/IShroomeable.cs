@@ -3,6 +3,7 @@ namespace GoodLuckValley.Mushroom
     public enum ShroomType
     {
         Regular,
+        Quick,
         Wall
     }
 

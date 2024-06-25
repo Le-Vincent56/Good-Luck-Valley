@@ -160,7 +160,7 @@ namespace GoodLuckValley.Patterns.Blackboard
                     object value = valueProperty.GetValue(entry.Value);
 
                     // Debug the key and the value
-                    UnityEngine.Debug.Log($"Key: {entry.Key}, Value: {value}");
+                    UnityEngine.Debug.Log($"Key: {entry.Key}, Value: {entry.Value}");
                 }
             }
         }

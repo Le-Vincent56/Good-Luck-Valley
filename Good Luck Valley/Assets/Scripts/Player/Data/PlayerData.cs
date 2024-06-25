@@ -31,5 +31,9 @@ namespace GHoodLuckValley.Player.Data
         [SerializeField] public float fastWallSlideScalar;
         [SerializeField] public float maxFastWallSlideSpeed;
         [SerializeField] public float wallStickTime;
+
+        [Header("Bounce")]
+        [SerializeField] public float secondBounceMult;
+        [SerializeField] public float thirdBounceMult;
     }
 }
