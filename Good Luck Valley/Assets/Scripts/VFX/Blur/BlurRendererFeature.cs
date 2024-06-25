@@ -1,3 +1,4 @@
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace GoodLuckValley.VFX
@@ -20,15 +21,12 @@ namespace GoodLuckValley.VFX
         //}
         public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
         {
-            blurRenderPass.Setup(renderer, renderer.cameraColorTargetHandle);
+            blurRenderPass.Setup(renderer.cameraColorTargetHandle);
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (blurRenderPass.Setup(renderer, renderer.cameraColorTargetHandle))
-            {
-                renderer.EnqueuePass(blurRenderPass);
-            }
+            renderer.EnqueuePass(blurRenderPass);
         }
     }
 }

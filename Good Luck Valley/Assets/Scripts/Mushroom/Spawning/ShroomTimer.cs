@@ -12,6 +12,7 @@ namespace GoodLuckValley.Mushroom
         #endregion
 
         #region FIELDS
+        [SerializeField] private bool removedByTimer;
         [SerializeField] private float durationTimer;
         [SerializeField] private float bounceBuffer;
         [SerializeField] private bool onCooldown;
@@ -20,7 +21,6 @@ namespace GoodLuckValley.Mushroom
         // Start is called before the first frame update
         void Start()
         {
-            durationTimer = -10f;
             bounceBuffer = 0.1f;
         }
 
@@ -28,7 +28,7 @@ namespace GoodLuckValley.Mushroom
         void Update()
         {
             // Check if the duration timer should be run
-            if (durationTimer <= -10f) return;
+            if (!removedByTimer) return;
 
             // Update shroom duration
             UpdateShroomDuration();

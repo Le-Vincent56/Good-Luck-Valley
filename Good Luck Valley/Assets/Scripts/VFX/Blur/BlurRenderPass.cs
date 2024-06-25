@@ -13,11 +13,11 @@ namespace GoodLuckValley.VFX
         private RenderTargetIdentifier source;
         private int blurTexID;
 
-        public bool Setup(ScriptableRenderer renderer, RenderTargetIdentifier cameraColorTargetHandle)
+        public bool Setup(RenderTargetIdentifier cameraColorTargetHandle)
         {
             source = cameraColorTargetHandle;
             blurSettings = VolumeManager.instance.stack.GetComponent<BlurSettings>();
-            renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing; // IF DOESN'T WORK: SET TO AFTER INSTEAD OF BEFORE
+            renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing; // IF DOESN'T WORK: SET TO AFTER INSTEAD OF BEFORE
 
             if (blurSettings != null && blurSettings.IsActive())
             {

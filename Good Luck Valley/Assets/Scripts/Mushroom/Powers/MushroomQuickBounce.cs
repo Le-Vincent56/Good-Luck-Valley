@@ -12,7 +12,7 @@ namespace GoodLuckValley.Mushroom
         #endregion
 
         #region REFERENCES
-        [SerializeField] private GameObject regShroom;
+        [SerializeField] private GameObject quickShroom;
         #endregion
 
         #region FIELDS
@@ -80,7 +80,7 @@ namespace GoodLuckValley.Mushroom
         public void CreateShroom(FinalSpawnInfo finalSpawnInfo)
         {
             // Instantiate the regular shroom
-            GameObject shroom = Instantiate(regShroom, finalSpawnInfo.Position, finalSpawnInfo.Rotation);
+            GameObject shroom = Instantiate(quickShroom, finalSpawnInfo.Position, finalSpawnInfo.Rotation);
 
             // Get the height of the mushroom
             Bounds bounds = shroom.GetComponent<BoxCollider2D>().bounds;
@@ -129,7 +129,7 @@ namespace GoodLuckValley.Mushroom
             shroom.transform.position = spawnPoint;
 
             // Set mushroom info
-            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Regular, finalSpawnInfo.Angle);
+            shroom.GetComponent<MushroomInfo>().InstantiateMushroomData(ShroomType.Quick, finalSpawnInfo.Angle);
 
             // Add the Mushroom to its respective list
             // Calls to:
