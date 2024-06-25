@@ -1715,6 +1715,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &928049977
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6384236386745113482, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_Name
+      value: Mushroom Pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -31.892
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.773
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.7358044
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926947960321003573, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 12a860bbc4c270349896e5ac7f34b09c, type: 3}
 --- !u!1 &974086696
 GameObject:
   m_ObjectHideFlags: 0
@@ -3359,55 +3416,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1480862768 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4251934024621643868, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-  m_PrefabInstance: {fileID: 6543610189921143792}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1480862771 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4766348710842266182, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-  m_PrefabInstance: {fileID: 6543610189921143792}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480862768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 277c3fe5fb798ab4ea8b7c2180abeda5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1480862772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480862768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: d894b2751e9e71c41ae24e8e3077f57e, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1480862771}
-        m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
-        m_MethodName: ResetBounce
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!4 &1481158535 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2414757590046708016, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-  m_PrefabInstance: {fileID: 6543610189921143792}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1526314533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4646058849056595313, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
@@ -4257,50 +4265,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4646058849056595313, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
   m_PrefabInstance: {fileID: 1702104570}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2006818092
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2006818093}
-  - component: {fileID: 2006818094}
-  m_Layer: 10
-  m_Name: Tutorial Checker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2006818093
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006818092}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1481158535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2006818094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006818092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0382d54469164f645a9bf9d50a15f896, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2048551594
 GameObject:
   m_ObjectHideFlags: 0
@@ -4408,7 +4372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d158f1b4d9fd44c9b6b231c824226f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackboardData: {fileID: 11400000, guid: a175f26f5440a104e9e75af4bf7a600b, type: 2}
+  blackboardDatas:
+  - {fileID: 11400000, guid: 7a44fbc9c4ae5af4baa066a5ae817564, type: 2}
+  - {fileID: 11400000, guid: 4ea6575ff2667c1479cfea771cdd6946, type: 2}
+  blackboards: []
 --- !u!4 &2056865920
 Transform:
   m_ObjectHideFlags: 0
@@ -5150,24 +5117,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3312724052698482696, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-      propertyPath: blackboardData
-      value: 
-      objectReference: {fileID: 11400000, guid: a175f26f5440a104e9e75af4bf7a600b, type: 2}
     - target: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
       propertyPath: m_Name
       value: Refactored Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2414757590046708016, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2006818093}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4251934024621643868, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1480862772}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
 --- !u!1001 &7164676770939104101
 PrefabInstance:
@@ -5256,3 +5213,4 @@ SceneRoots:
   - {fileID: 1297892726}
   - {fileID: 2056865920}
   - {fileID: 1264519368}
+  - {fileID: 928049977}

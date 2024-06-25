@@ -37,12 +37,11 @@ namespace GoodLuckValley.Patterns.Blackboard
         static Dictionary<AnyValue.ValueType, Action<Blackboard, BlackboardKey, AnyValue>> setValueDispatchTable 
             = new Dictionary<AnyValue.ValueType, Action<Blackboard, BlackboardKey, AnyValue>>()
         {
-                { AnyValue.ValueType.Int, (blackboard, key, anyValue) => blackboard.SetValue<int>(key, anyValue) },
-                { AnyValue.ValueType.Float, (blackboard, key, anyValue) => blackboard.SetValue<float>(key, anyValue) },
-                { AnyValue.ValueType.Bool, (blackboard, key, anyValue) => blackboard.SetValue<bool>(key, anyValue) },
-                { AnyValue.ValueType.String, (blackboard, key, anyValue) => blackboard.SetValue<string>(key, anyValue) },
-                { AnyValue.ValueType.Vector2, (blackboard, key, anyValue) => blackboard.SetValue<Vector2>(key, anyValue) },
-
+                { AnyValue.ValueType.Int, (blackboard, key, anyValue) => blackboard.SetValue<int>(key, anyValue, true) },
+                { AnyValue.ValueType.Float, (blackboard, key, anyValue) => blackboard.SetValue<float>(key, anyValue, true) },
+                { AnyValue.ValueType.Bool, (blackboard, key, anyValue) => blackboard.SetValue<bool>(key, anyValue, true) },
+                { AnyValue.ValueType.String, (blackboard, key, anyValue) => blackboard.SetValue<string>(key, anyValue, true) },
+                { AnyValue.ValueType.Vector2, (blackboard, key, anyValue) => blackboard.SetValue<Vector2>(key, anyValue, true) },
         };
 
         /// <summary>

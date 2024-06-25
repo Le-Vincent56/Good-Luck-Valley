@@ -8,45 +8,62 @@ namespace GoodLuckValley.Patterns.Blackboard
 {
     public class BlackboardController : MonoBehaviour
     {
-        [SerializeField] BlackboardData blackboardData;
-        readonly Blackboard blackboard = new Blackboard();
-        readonly Arbiter arbiter = new Arbiter();
+        private Dictionary<string, int> blackboardIndices = new Dictionary<string, int>();
+        [SerializeField] private BlackboardData[] blackboardDatas;
+        [SerializeField] private Blackboard[] blackboards;
 
         private void Awake()
         {
+            blackboardIndices = new Dictionary<string, int>()
+            {
+                {"Tutorial", 0 },
+                {"Unlocks", 1 },
+            };
+
             // Register to the global service locator
             ServiceLocator.ServiceLocator.Global.Register(this);
 
+            blackboards = new Blackboard[blackboardDatas.Length];
+
             // Set blackboard values
-            blackboardData.SetValuesOnBlackboard(blackboard);
-
-            // Debug the blackboard
-            blackboard.Debug();
+            for(int i = 0; i < blackboardDatas.Length; i++)
+            {
+                blackboards[i] = new Blackboard();
+                blackboardDatas[i].SetValuesOnBlackboard(blackboards[i]);
+            }
         }
-
-        /// <summary>
-        /// Get the Blackboard
-        /// </summary>
-        /// <returns>The Blackboard used by the Arbiter</returns>
-        public Blackboard GetBlackboard() => blackboard;
-
-        /// <summary>
-        /// Register an Expert to the Arbiter
-        /// </summary>
-        /// <param name="expert">The Expert to register</param>
-        public void RegisterExpert(IExpert expert) => arbiter.RegisterExpert(expert);
-
-
-        // TODO Add deregister expert method
 
         private void Update()
         {
-            // Execute all agreed actions from the current iteration
-            foreach(Action action in arbiter.BlackboardIteration(blackboard))
+            // Iterate through each blackboard
+            for(int i = 0; i < blackboards.Length; i++)
             {
-                // Execute the action
-                action();
+                // Check if the blackboard is dirty
+                if (!blackboards[i].Dirty) continue;
+
+                // If it is, reflect the data back to the data object
+                blackboards[i].ReflectData(blackboardDatas[i]);
+
+                // Clean the blackboard
+                blackboards[i].Dirty = false;
             }
+        }
+
+        /// <summary>
+        /// Get a Blackboard from its name
+        /// </summary>
+        /// <returns>The Blackboard associated with the given name</returns>
+        public Blackboard GetBlackboard(string blackboardName)
+        {
+            // Try to get an index from a string name
+            if(blackboardIndices.TryGetValue(blackboardName, out int index))
+            {
+                // Return the blackboard at the given index
+                return blackboards[index];
+            }
+
+            Debug.Log("BlackboardController.GetBlackboard: Blackboard name does not exist/not implemented");
+            return null;
         }
     }
 }
