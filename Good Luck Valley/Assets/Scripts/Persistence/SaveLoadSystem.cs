@@ -54,14 +54,14 @@ namespace GoodLuckValley.Persistence
         private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
         private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Guard clause to not load data in
             if (scene.name == "Menu") return;
 
             // Bind player data
             //Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
-            Bind<PowerController, MushroomSaveData>(selectedData.mushroomSaveData);
+            //Bind<PowerController, MushroomSaveData>(selectedData.mushroomSaveData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas);
         }
 

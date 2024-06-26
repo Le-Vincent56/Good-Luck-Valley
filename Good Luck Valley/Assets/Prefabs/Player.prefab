@@ -831,81 +831,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &2049989953146525311
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6324904985651900315}
-  - component: {fileID: 6858904030826562964}
-  - component: {fileID: 7172722138466778730}
-  m_Layer: 10
-  m_Name: Tutorial Checker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6324904985651900315
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049989953146525311}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2414757590046708016}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6858904030826562964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049989953146525311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0382d54469164f645a9bf9d50a15f896, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
---- !u!114 &7172722138466778730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049989953146525311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 2bd59caa71d9bf4449f32b6cb7e7c3d1, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6858904030826562964}
-        m_TargetAssemblyTypeName: GoodLuckValley.Player.Tutorial.TutorialChecker,
-          Assembly-CSharp
-        m_MethodName: TeachInteract
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &3580228890345776939
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,7 +1760,6 @@ Transform:
   - {fileID: 4520939286314282537}
   - {fileID: 7325320347257684249}
   - {fileID: 7509024588537334907}
-  - {fileID: 6324904985651900315}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8508898665649311971
@@ -1995,6 +1919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7acc9aed00eeb446bafdae0b26976c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onLearnControl: {fileID: 11400000, guid: 243df3732f5388e459fdf0258d5596e1, type: 2}
   onResetBounce: {fileID: 11400000, guid: d894b2751e9e71c41ae24e8e3077f57e, type: 2}
   onWallJumpInput: {fileID: 11400000, guid: 3e7262a3ea9a3b940b78a066bf59e6a1, type: 2}
   onSendPlayerTransform: {fileID: 11400000, guid: c8eb9a52825cb7f4ba84e87939e5aa94, type: 2}

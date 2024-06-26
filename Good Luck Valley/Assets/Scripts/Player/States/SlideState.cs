@@ -3,19 +3,20 @@ using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
-    public class LocomotionState : BaseState
+    public class SlideState : BaseState
     {
         private readonly PlayerSFXHandler sfx;
 
-        public LocomotionState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        public SlideState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
         {
             this.sfx = sfx;
         }
 
         public override void OnEnter()
         {
-            player.LearnControl("Move");
+            player.LearnControl("Slide");
 
+            // TODO: Replace with slide animation
             animator.CrossFade(LocomotionHash, crossFadeDuration);
 
             // Allow the player to peek
@@ -24,8 +25,7 @@ namespace GoodLuckValley.Player.States
 
         public override void Update()
         {
-            // Update footstep sounds
-            sfx.Footsteps();
+            // TODO: Update slide sound
         }
 
         public override void FixedUpdate()
@@ -39,8 +39,7 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
-            // Reset footstep sounds
-            sfx.ResetFootsteps();
+            // TODO: (Maybe) reset slide sound
         }
     }
 }

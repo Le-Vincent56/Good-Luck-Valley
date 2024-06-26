@@ -15,6 +15,7 @@ namespace GoodLuckValley.Player.Control
     public class PlayerController : MonoBehaviour
     {
         [Header("Events")]
+        [SerializeField] private GameEvent onLearnControl;
         [SerializeField] private GameEvent onResetBounce;
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onSendPlayerTransform;
@@ -61,13 +62,20 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool isThrowing;
         [SerializeField] private bool isThrowingAgain;
         [SerializeField] private bool hasFireflies;
+        [SerializeField] private bool tryFastSlide;
         [SerializeField] private bool isFastSliding;
+        [SerializeField] private bool isCrawling;
+
+        private Blackboard playerBlackboard;
+        private BlackboardKey isCrawlingKey;
 
         private float fallSpeedDampingChangeThreshold;
 
         private StateMachine stateMachine;
 
         public bool IsGrounded { get { return isGrounded; } }
+        public bool IsFastSliding { get { return isFastSliding; } set { isFastSliding = value; } }
+        public bool IsCrawling { get { return isCrawling; } set { isCrawling = value; } }
         public Vector2 Velocity { get { return velocity; } }
 
         private void Awake()
@@ -77,12 +85,16 @@ namespace GoodLuckValley.Player.Control
             collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
+            BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
 
             // Declare states
             stateMachine = new StateMachine();
             IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator, sfxHandler);
             JumpState jumpState = new JumpState(this, animator, sfxHandler);
+            SlideState slideState = new SlideState(this, animator, sfxHandler);
+            CrawlIdleState crawlIdleState = new CrawlIdleState(this, animator, boxCollider);
+            CrawlLocomotionState crawlLocomotionState = new CrawlLocomotionState(this, animator, sfxHandler, boxCollider);
             WallState wallState = new WallState(this, animator, sfxHandler);
             FallState fallState = new FallState(this, animator, sfxHandler);
             LandState landState = new LandState(this, animator, sfxHandler);
@@ -96,13 +108,31 @@ namespace GoodLuckValley.Player.Control
             At(idleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
             At(idleState, jumpState, new FuncPredicate(() => isJumping));
             At(idleState, idleThrowState, new FuncPredicate(() => isThrowing));
+            At(idleState, slideState, new FuncPredicate(() => isFastSliding));
+            At(idleState, crawlIdleState, new FuncPredicate(() => isCrawling && moveDirectionX == 0));
+            At(idleState, crawlLocomotionState, new FuncPredicate(() => isCrawling && moveDirectionX != 0));
 
             At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
             At(locomotionState, jumpState, new FuncPredicate(() => isJumping));
             At(locomotionState, locomotionThrowState, new FuncPredicate(() => isThrowing));
+            At(locomotionState, slideState, new FuncPredicate(() => isFastSliding));
+            At(locomotionState, crawlIdleState, new FuncPredicate(() => isCrawling && moveDirectionX == 0));
+            At(locomotionState, crawlLocomotionState, new FuncPredicate(() => isCrawling && moveDirectionX != 0));
 
             At(jumpState, locomotionState, new FuncPredicate(() => isGrounded && !isJumping));
             At(jumpState, wallState, new FuncPredicate(() => isWallSliding));
+
+            At(slideState, idleState, new FuncPredicate(() => !isFastSliding && moveDirectionX == 0));
+            At(slideState, locomotionState, new FuncPredicate(() => !isFastSliding && moveDirectionX != 0));
+            At(slideState, jumpState, new FuncPredicate(() => isJumping));
+
+            At(crawlIdleState, idleState, new FuncPredicate(() => !isCrawling && moveDirectionX == 0));
+            At(crawlIdleState, locomotionState, new FuncPredicate(() => !isCrawling && moveDirectionX != 0));
+            At(crawlIdleState, crawlLocomotionState, new FuncPredicate(() => isCrawling && moveDirectionX != 0));
+
+            At(crawlLocomotionState, idleState, new FuncPredicate(() => !isCrawling && moveDirectionX == 0));
+            At(crawlLocomotionState, locomotionState, new FuncPredicate(() => !isCrawling && moveDirectionX != 0));
+            At(crawlLocomotionState, crawlIdleState, new FuncPredicate(() => isCrawling && moveDirectionX == 0));
 
             At(wallState, idleState, new FuncPredicate(() => isGrounded && moveDirectionX == 0));
             At(wallState, jumpState, new FuncPredicate(() => isJumping));
@@ -126,11 +156,13 @@ namespace GoodLuckValley.Player.Control
             At(idleThrowState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
             At(idleThrowState, jumpState, new FuncPredicate(() => isJumping));
             At(idleThrowState, idleThrowState, new FuncPredicate(() => isThrowingAgain));
+            At(idleThrowState, slideState, new FuncPredicate(() => isFastSliding));
 
             At(locomotionThrowState, idleState, new FuncPredicate(() => moveDirectionX == 0));
             At(locomotionThrowState, locomotionState, new FuncPredicate(() => !isThrowing && moveDirectionX != 0));
             At(locomotionThrowState, jumpState, new FuncPredicate(() => isJumping));
             At(locomotionThrowState, locomotionThrowState, new FuncPredicate(() => isThrowingAgain));
+            At(locomotionThrowState, slideState, new FuncPredicate(() => isFastSliding));
 
             At(devState, idleState, new FuncPredicate(() => !devTools.Active && moveDirectionX == 0));
             At(devState, locomotionState, new FuncPredicate(() => !devTools.Active && moveDirectionX != 0));
@@ -156,6 +188,13 @@ namespace GoodLuckValley.Player.Control
 
             // Set the fall speed change threshold
             fallSpeedDampingChangeThreshold = CameraManager.Instance.FallSpeedDampingChangeThreshold;
+
+            // Register blackboard
+            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            isCrawlingKey = playerBlackboard.GetOrRegisterKey("IsCrawling");
+
+            // Set values for the blackboard
+            ChangeBlackboardValue(isCrawlingKey, false);
         }
 
         private void OnEnable()
@@ -164,6 +203,7 @@ namespace GoodLuckValley.Player.Control
             input.Jump += OnJump;
             input.FastFall += OnFastFall;
             input.FastSlide += OnFastSlide;
+            input.Crawl += OnCrawl;
         }
 
         private void OnDisable()
@@ -172,6 +212,7 @@ namespace GoodLuckValley.Player.Control
             input.Jump -= OnJump;
             input.FastFall -= OnFastFall;
             input.FastSlide -= OnFastSlide;
+            input.Crawl -= OnCrawl;
         }
 
         private void Update()
@@ -214,58 +255,23 @@ namespace GoodLuckValley.Player.Control
         private void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
         /// <summary>
-        /// Check the direction for the player to face
-        /// </summary>
-        private void CheckDirectionToFace()
-        {
-            Vector3 scale = transform.localScale;
-            scale.x = collisionHandler.collisions.FacingDirection;
-            transform.localScale = scale;
-
-            // Turn the camera
-            // Calls to:
-            //  - CameraFollowObject.CallTurn();
-            if(lastPressedMoveTime <= 0f)
-                onPlayerTurn.Raise(this, collisionHandler.collisions.FacingDirection);
-        }
-
-        /// <summary>
-        /// Update movement timers
-        /// </summary>
-        public void UpdateTimers()
-        {
-            if(lastOnGroundTime > 0f)
-                lastOnGroundTime -= Time.deltaTime;
-
-            if(lastPressedJumpTime > 0f)
-                lastPressedJumpTime -= Time.deltaTime;
-
-            if (lastPressedMoveTime > 0f)
-                lastPressedMoveTime -= Time.deltaTime;
-        }
-
-        /// <summary>
         /// Calculate the initial velocity of movement before handling
         /// </summary>
         public void CalculateVelocity()
         {
-            // Get the target speed
-            if(!isWallJumping)
+            // If fast sliding, set the move direction
+            if(isFastSliding)
             {
-                float targetSpeed = moveDirectionX * data.movementSpeed;
-
-                // Smooth the target speed, taking in acceleration to account
-                velocity.x = Mathf.SmoothDamp(
-                    velocity.x,
-                    targetSpeed,
-                    ref xVelSmoothing,
-                    (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
-                );
+                moveDirectionX = collisionHandler.collisions.SlopeDescentDirection;
             }
 
             // Check if the player is grounded
             if (collisionHandler.collisions.Below)
             {
+                // Cancel fast slides if not descending a slope
+                if (!collisionHandler.collisions.DescendingSlope)
+                    isFastSliding = false;
+
                 // Set grounded to true
                 isGrounded = true;
 
@@ -348,9 +354,23 @@ namespace GoodLuckValley.Player.Control
                 isAgainstWall = false;
             }
 
+            // Get the target speed
+            if (!isWallJumping)
+            {
+                float targetSpeed = (!isCrawling) ? moveDirectionX * data.movementSpeed : moveDirectionX * data.crawlSpeed;
+
+                // Smooth the target speed, taking in acceleration to account
+                velocity.x = Mathf.SmoothDamp(
+                    velocity.x,
+                    targetSpeed,
+                    ref xVelSmoothing,
+                    (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
+                );
+            }
+
             // Apply gravity if not wall sliding - wall sliding handles gravity
             // on it's own
-            if(!isWallSliding)
+            if (!isWallSliding)
                 HandleFalling();
         }
 
@@ -369,6 +389,9 @@ namespace GoodLuckValley.Player.Control
             // Check if fast falling
             if(fastFalling)
             {
+                // Learn the fast fall control
+                LearnControl("Fast Fall");
+
                 // Increase the gravity by the scalar
                 velocity.y += gravity * data.fastFallScalar * Time.deltaTime;
 
@@ -393,61 +416,6 @@ namespace GoodLuckValley.Player.Control
                 !CameraManager.Instance.IsLerpingYDamping && !CameraManager.Instance.LerpedFromPlayerFalling)
             {
                 CameraManager.Instance.LerpYDamping(true);
-            }
-        }
-
-        /// <summary>
-        /// Handle the wall sliding of the player
-        /// </summary>
-        public void HandleWallSliding()
-        {
-            // Get the direction of the wall
-            wallDirX = (collisionHandler.collisions.Left) ? -1 : 1;
-
-            // Check if wall sliding
-            if (isWallSliding)
-            {
-                // Check if fast falling
-                if(fastFalling)
-                {
-                    // Increase the gravity by the scalar
-                    velocity.y += gravity * data.fastWallSlideScalar * Time.deltaTime;
-
-                    // Clamp to the max fast wall slide speed
-                    if (velocity.y < -data.maxFastWallSlideSpeed)
-                    {
-                        velocity.y = -data.maxFastWallSlideSpeed;
-                    }
-                } else
-                {
-                    // Use normal gravity
-                    velocity.y += gravity * Time.deltaTime;
-
-                    // Clamp to the max wall slide speed
-                    if (velocity.y < -data.maxWallSlideSpeed)
-                    {
-                        velocity.y = -data.maxWallSlideSpeed;
-                    }
-                }
-
-                // Check if we should be sticking to the wall
-                if (timeToWallUnstick > 0f)
-                {
-                    // Set x-velocity and smoothing to 0
-                    xVelSmoothing = 0f;
-                    velocity.x = 0f;
-
-                    // Check if we need to stick to the wall
-                    if (input.NormMoveX != wallDirX && input.NormMoveX != 0f)
-                    {
-                        timeToWallUnstick -= Time.deltaTime;
-                    }
-                    else
-                    {
-                        // Reset the wall stick time
-                        timeToWallUnstick = data.wallStickTime;
-                    }
-                }
             }
         }
 
@@ -501,7 +469,7 @@ namespace GoodLuckValley.Player.Control
 
             // Handle collisions if necessary
             if(velocity.y < 0f)
-                collisionHandler.DescendSlope(ref velocity, isFastSliding, data.fastSlopeScalar);
+                collisionHandler.DescendSlope(ref velocity, tryFastSlide, this, data.fastSlopeScalar);
 
             // Set the facing direction
             if (velocity.x != 0f)
@@ -525,7 +493,7 @@ namespace GoodLuckValley.Player.Control
             }
         }
 
-
+        #region JUMP HANDLING
         /// <summary>
         /// Handle the upward movement of the jump
         /// </summary>
@@ -575,97 +543,9 @@ namespace GoodLuckValley.Player.Control
             // Handle a normal jump
             HandleJump();
         }
+        #endregion
 
-        public void StartWallJump()
-        {
-            // Set wall sliding to false
-            isWallSliding = false;
-
-            // Set wall jumping to true
-            isWallJumping = true;
-
-            // Wall jump
-            // Calls to:
-            //  - MushroomWallJump.GetSpawnData
-            onWallJumpInput.Raise(this, collisionHandler.collisions.HorizontalCollisionRay);
-        }
-
-        /// <summary>
-        /// Handle jump input
-        /// </summary>
-        /// <param name="started"></param>
-        public void OnJump(bool started)
-        {
-            // Check if the context was started
-            if(started)
-            {
-                // Check for wall jumps first
-                if (isAgainstWall)
-                {
-                    // Start the wall jump
-                    StartWallJump();
-                }
-
-                // If not bouncing or wall jumping, do a normal jump
-                if (!isBouncing && !isWallJumping)
-                {
-                    // Check if jumping already
-                    if(!isJumping)
-                    {
-                        // Start the jump if not
-                        StartJump();
-                    } else
-                    {
-                        // Jump cut if so
-                        isJumpCut = false;
-
-                        // Set the last pressed jump time
-                        lastPressedJumpTime = data.jumpBufferTime;
-                    }
-                }
-            }
-
-            // Check if the context was canceled and that the input still applies
-            if(!started && isJumping)
-            {
-                // Set jump cutting
-                isJumpCut = true;
-
-                // Handle the jump
-                HandleJump();
-            }
-        }
-
-        /// <summary>
-        /// Handle fast fall input
-        /// </summary>
-        /// <param name="started"></param>
-        public void OnFastFall(bool started)
-        {
-            if (started)
-            {
-                fastFalling = true;
-            }
-
-            if (!started)
-            {
-                fastFalling = false;
-            }
-        }
-
-        public void OnFastSlide(bool started)
-        {
-            if(started)
-            {
-                isFastSliding = true;
-            }
-
-            if(!started)
-            {
-                isFastSliding = false;
-            }
-        }
-
+        #region BOUNCE HANDLING
         /// <summary>
         /// Reset the player's bounce variables
         /// </summary>
@@ -674,12 +554,6 @@ namespace GoodLuckValley.Player.Control
             // Set bouncing to false and update the events
             isBouncing = false;
         }
-
-        /// <summary>
-        /// Set the player's wall jumping state
-        /// </summary>
-        /// <param name="isWallJumping"></param>
-        public void SetWallJumping(bool isWallJumping) => this.isWallJumping = isWallJumping;
 
         /// <summary>
         /// Bounce the player
@@ -692,7 +566,7 @@ namespace GoodLuckValley.Player.Control
             if (data is not MushroomBounce.BounceData) return;
 
             // Cast data
-            MushroomBounce.BounceData bounceData =(MushroomBounce.BounceData)data;
+            MushroomBounce.BounceData bounceData = (MushroomBounce.BounceData)data;
 
             // Cancel jumping and jump cuts
             if (isJumping)
@@ -708,7 +582,7 @@ namespace GoodLuckValley.Player.Control
             // Calculate bounce force
             Vector2 bounceVec = bounceData.BounceVector;
 
-            switch(bounceData.BounceCount)
+            switch (bounceData.BounceCount)
             {
                 case 2:
                     bounceVec *= this.data.secondBounceMult;
@@ -727,6 +601,28 @@ namespace GoodLuckValley.Player.Control
             velocity.x += bounceVec.x;
             velocity.y = bounceVec.y;
         }
+        #endregion
+
+        #region WALL JUMP HANDLING
+        public void StartWallJump()
+        {
+            // Set wall sliding to false
+            isWallSliding = false;
+
+            // Set wall jumping to true
+            isWallJumping = true;
+
+            // Wall jump
+            // Calls to:
+            //  - MushroomWallJump.GetSpawnData
+            onWallJumpInput.Raise(this, collisionHandler.collisions.HorizontalCollisionRay);
+        }
+
+        /// <summary>
+        /// Set the player's wall jumping state
+        /// </summary>
+        /// <param name="isWallJumping"></param>
+        public void SetWallJumping(bool isWallJumping) => this.isWallJumping = isWallJumping;
 
         /// <summary>
         /// Start a wall jump
@@ -747,6 +643,64 @@ namespace GoodLuckValley.Player.Control
         }
 
         /// <summary>
+        /// Handle the wall sliding of the player
+        /// </summary>
+        public void HandleWallSliding()
+        {
+            // Get the direction of the wall
+            wallDirX = (collisionHandler.collisions.Left) ? -1 : 1;
+
+            // Check if wall sliding
+            if (isWallSliding)
+            {
+                // Check if fast falling
+                if (fastFalling)
+                {
+                    // Increase the gravity by the scalar
+                    velocity.y += gravity * data.fastWallSlideScalar * Time.deltaTime;
+
+                    // Clamp to the max fast wall slide speed
+                    if (velocity.y < -data.maxFastWallSlideSpeed)
+                    {
+                        velocity.y = -data.maxFastWallSlideSpeed;
+                    }
+                }
+                else
+                {
+                    // Use normal gravity
+                    velocity.y += gravity * Time.deltaTime;
+
+                    // Clamp to the max wall slide speed
+                    if (velocity.y < -data.maxWallSlideSpeed)
+                    {
+                        velocity.y = -data.maxWallSlideSpeed;
+                    }
+                }
+
+                // Check if we should be sticking to the wall
+                if (timeToWallUnstick > 0f)
+                {
+                    // Set x-velocity and smoothing to 0
+                    xVelSmoothing = 0f;
+                    velocity.x = 0f;
+
+                    // Check if we need to stick to the wall
+                    if (input.NormMoveX != wallDirX && input.NormMoveX != 0f)
+                    {
+                        timeToWallUnstick -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        // Reset the wall stick time
+                        timeToWallUnstick = data.wallStickTime;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region THROW HANDLING
+        /// <summary>
         /// Start the player throw
         /// </summary>
         /// <param name="sender"></param>
@@ -756,6 +710,9 @@ namespace GoodLuckValley.Player.Control
             // Don't allow for throws in the air, will cause a throw animation when landing,
             // long after the throw was done
             if (!isGrounded) return;
+
+            // Return if crawling
+            if (isCrawling) return;
 
             // Check if throwing
             if (!isThrowing)
@@ -772,24 +729,9 @@ namespace GoodLuckValley.Player.Control
         /// </summary>
         /// <param name="isThrowing"></param>
         public void SetThrow(bool isThrowing) => this.isThrowing = isThrowing;
+        #endregion
 
-        /// <summary>
-        /// Set whether or not the player can peek or not
-        /// </summary>
-        /// <param name="canPeek">Whether the player can peek or not</param>
-        public void SetCanPeek(bool canPeek)
-        {
-            // Calls to:
-            //  - CameraPeek.SetCanPeek();
-            onSetCanPeek.Raise(this, canPeek);
-        }
-
-        /// <summary>
-        /// Set the timer to turn and activate LookAhead
-        /// </summary>
-        /// <param name="turnTimer"></param>
-        private void SetTurnTimer(Vector2 turnTimer) => lastPressedMoveTime = data.movementTurnTime;
-
+        #region TRANSITION HANDLING
         public void PreparePlayerPosition(Component sender, object data)
         {
             // Verify the correct data is sent
@@ -836,5 +778,176 @@ namespace GoodLuckValley.Player.Control
             // Enable cotrol
             input.AllowControl = true;
         }
+        #endregion
+
+        #region INPUT
+        /// <summary>
+        /// Handle jump input
+        /// </summary>
+        /// <param name="started"></param>
+        public void OnJump(bool started)
+        {
+            // Check if the context was started
+            if (started)
+            {
+                // Check for wall jumps first
+                if (isAgainstWall)
+                {
+                    // Start the wall jump
+                    StartWallJump();
+                }
+
+                // If not bouncing, wall jumping, or crawling, do a normal jump
+                if (!isBouncing && !isWallJumping && !isCrawling)
+                {
+                    // Check if jumping already
+                    if (!isJumping)
+                    {
+                        // Start the jump if not
+                        StartJump();
+                    }
+                    else
+                    {
+                        // Jump cut if so
+                        isJumpCut = false;
+
+                        // Set the last pressed jump time
+                        lastPressedJumpTime = data.jumpBufferTime;
+                    }
+                }
+            }
+
+            // Check if the context was canceled and that the input still applies
+            if (!started && isJumping)
+            {
+                // Set jump cutting
+                isJumpCut = true;
+
+                // Handle the jump
+                HandleJump();
+            }
+        }
+
+        /// <summary>
+        /// Handle fast fall input
+        /// </summary>
+        /// <param name="started"></param>
+        public void OnFastFall(bool started)
+        {
+            if (started)
+            {
+                fastFalling = true;
+            }
+
+            if (!started)
+            {
+                fastFalling = false;
+            }
+        }
+
+        /// <summary>
+        /// Handle fast slide input
+        /// </summary>
+        /// <param name="started"></param>
+        public void OnFastSlide(bool started)
+        {
+            if (started)
+            {
+                tryFastSlide = true;
+            }
+
+            if (!started)
+            {
+                tryFastSlide = false;
+                isFastSliding = false;
+            }
+        }
+
+        /// <summary>
+        /// Handle crawl input
+        /// </summary>
+        /// <param name="started"></param>
+        public void OnCrawl(bool started)
+        {
+            if (started && isGrounded)
+            {
+                isCrawling = true;
+                ChangeBlackboardValue(isCrawlingKey, isCrawling);
+            }
+
+            if (!started)
+            {
+                isCrawling = false;
+                ChangeBlackboardValue(isCrawlingKey, isCrawling);
+            }
+        }
+        #endregion
+
+        #region HELPERS
+        /// <summary>
+        /// Set the timer to turn and activate LookAhead
+        /// </summary>
+        /// <param name="turnTimer"></param>
+        private void SetTurnTimer(Vector2 turnTimer) => lastPressedMoveTime = data.movementTurnTime;
+
+        /// <summary>
+        /// Check the direction for the player to face
+        /// </summary>
+        private void CheckDirectionToFace()
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = collisionHandler.collisions.FacingDirection;
+            transform.localScale = scale;
+
+            // Turn the camera
+            // Calls to:
+            //  - CameraFollowObject.CallTurn();
+            if (lastPressedMoveTime <= 0f)
+                onPlayerTurn.Raise(this, collisionHandler.collisions.FacingDirection);
+        }
+
+        /// <summary>
+        /// Update movement timers
+        /// </summary>
+        public void UpdateTimers()
+        {
+            if (lastOnGroundTime > 0f)
+                lastOnGroundTime -= Time.deltaTime;
+
+            if (lastPressedJumpTime > 0f)
+                lastPressedJumpTime -= Time.deltaTime;
+
+            if (lastPressedMoveTime > 0f)
+                lastPressedMoveTime -= Time.deltaTime;
+        }
+
+        /// <summary>
+        /// Wrapper function to learn a control
+        /// </summary>
+        /// <param name="controlName">The name of the control</param>
+        public void LearnControl(string controlName) => onLearnControl.Raise(this, controlName);
+
+        /// <summary>
+        /// Set whether or not the player can peek or not
+        /// </summary>
+        /// <param name="canPeek">Whether the player can peek or not</param>
+        public void SetCanPeek(bool canPeek)
+        {
+            // Calls to:
+            //  - CameraPeek.SetCanPeek();
+            onSetCanPeek.Raise(this, canPeek);
+        }
+
+        /// <summary>
+        /// Change a Blackboard value
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <param name="value">The value</param>
+        public void ChangeBlackboardValue(BlackboardKey key, bool value)
+        {
+            if (playerBlackboard.TryGetValue(key, out bool blackboardValue))
+                playerBlackboard.SetValue(key, value);
+        }
+        #endregion
     }
 }

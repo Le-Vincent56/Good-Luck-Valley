@@ -3,29 +3,24 @@ using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
-    public class LocomotionState : BaseState
+    public class CrawlIdleState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private BoxCollider2D boxCollider;
 
-        public LocomotionState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        public CrawlIdleState(PlayerController player, Animator animator, BoxCollider2D boxCollider) : base(player, animator)
         {
-            this.sfx = sfx;
+            this.boxCollider = boxCollider;
         }
 
         public override void OnEnter()
         {
-            player.LearnControl("Move");
+            player.LearnControl("Crawl");
 
+            // TODO: Replace with idle crawl animation
             animator.CrossFade(LocomotionHash, crossFadeDuration);
 
             // Allow the player to peek
             player.SetCanPeek(true);
-        }
-
-        public override void Update()
-        {
-            // Update footstep sounds
-            sfx.Footsteps();
         }
 
         public override void FixedUpdate()
@@ -39,8 +34,8 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
-            // Reset footstep sounds
-            sfx.ResetFootsteps();
+            // Set crawling to false
+            player.IsCrawling = false;
         }
     }
 }
