@@ -841,6 +841,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6324904985651900315}
   - component: {fileID: 6858904030826562964}
+  - component: {fileID: 7172722138466778730}
   m_Layer: 10
   m_Name: Tutorial Checker
   m_TagString: Untagged
@@ -875,6 +876,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0382d54469164f645a9bf9d50a15f896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
+--- !u!114 &7172722138466778730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049989953146525311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 2bd59caa71d9bf4449f32b6cb7e7c3d1, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6858904030826562964}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Tutorial.TutorialChecker,
+          Assembly-CSharp
+        m_MethodName: TeachInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3580228890345776939
 GameObject:
   m_ObjectHideFlags: 0

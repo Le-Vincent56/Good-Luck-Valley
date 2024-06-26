@@ -43,7 +43,7 @@ namespace GoodLuckValley.World.Interactables
             areaCollider.OnTriggerExit -= ExitArea;
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             // Check if the Collectible should be active
             CheckActive();

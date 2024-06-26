@@ -2,6 +2,7 @@ using GoodLuckValley.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace GoodLuckValley.Patterns.Blackboard
 {
@@ -49,22 +50,8 @@ namespace GoodLuckValley.Patterns.Blackboard
     {
         Dictionary<string, BlackboardKey> keyRegistry = new Dictionary<string, BlackboardKey>();
         Dictionary<BlackboardKey, object> entries = new Dictionary<BlackboardKey, object>();
-        public List<Action> PassedActions { get; } = new();
 
-        /// <summary>
-        /// Add an Action to the List of Passed Actions
-        /// </summary>
-        /// <param name="action">The Action to add</param>
-        public void AddAction(Action action)
-        {
-            Preconditions.CheckNotNull(action);
-            PassedActions.Add(action);
-        }
-
-        /// <summary>
-        /// Clear the List of Passed Actions
-        /// </summary>
-        public void ClearActions() => PassedActions.Clear();
+        public bool Dirty { get; set; }
 
         /// <summary>
         /// Attempt to get a value out of the Blackboard
@@ -95,9 +82,15 @@ namespace GoodLuckValley.Patterns.Blackboard
         /// <typeparam name="T">The type of the value being set</typeparam>
         /// <param name="key">The key within the Blackboard</param>
         /// <param name="value">The new value</param>
-        public void SetValue<T>(BlackboardKey key, T value)
+        public void SetValue<T>(BlackboardKey key, T value, bool fromData = false)
         {
             entries[key] = new BlackboardEntry<T>(key, value);
+
+            // If setting values from BlackboardData, return
+            if (fromData) return;
+
+            // Otherwise, notify dirty
+            Dirty = true;
         }
 
         /// <summary>
@@ -137,6 +130,66 @@ namespace GoodLuckValley.Patterns.Blackboard
         public void Remove(BlackboardKey key) => entries.Remove(key);
 
         /// <summary>
+        /// Reflect data back into the ScriptableObject
+        /// </summary>
+        /// <param name="data"></param>
+        public void ReflectData(BlackboardData data)
+        {
+            foreach(KeyValuePair<BlackboardKey, object> entry in entries)
+            {
+                // Get the key and entry value
+                BlackboardKey key = entry.Key;
+                object entryValue = entry.Value;
+
+                // Find the corresponding BlackboardEntryData in the BlackboardData
+                BlackboardEntryData blackboardEntryData = data.entries.Find(e => e.keyName == key.ToString());
+
+                // Check if a BlackboardEntryData has been retrieved
+                if(blackboardEntryData != null)
+                {
+                    // Update the value based on the entry type
+                    Type entryType = entryValue.GetType();
+
+                    // Check if the type is equal to the generic type of the type of the Blackboard Entry
+                    if (entryType.IsGenericType && entryType.GetGenericTypeDefinition() == typeof(BlackboardEntry<>))
+                    {
+                        // Get the property of the value
+                        PropertyInfo valueProperty = entryType.GetProperty("Value");
+
+                        // If it is null, continue
+                        if (valueProperty == null) continue;
+
+                        // Get the value of the entry
+                        object value = valueProperty.GetValue(entryValue);
+
+                        switch (blackboardEntryData.valueType)
+                        {
+                            case AnyValue.ValueType.Int:
+                                blackboardEntryData.value.intValue = (int)value;
+                                break;
+
+                            case AnyValue.ValueType.Float:
+                                blackboardEntryData.value.floatValue = (float)value;
+                                break;
+
+                            case AnyValue.ValueType.Bool:
+                                blackboardEntryData.value.boolValue = (bool)value;
+                                break;
+
+                            case AnyValue.ValueType.String:
+                                blackboardEntryData.value.stringValue = (string)value;
+                                break;
+
+                            case AnyValue.ValueType.Vector2:
+                                blackboardEntryData.value.vector2Value = (Vector2)value;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Debug the Blackboard
         /// </summary>
         public void Debug()
@@ -151,7 +204,7 @@ namespace GoodLuckValley.Patterns.Blackboard
                 if(entryType.IsGenericType && entryType.GetGenericTypeDefinition() == typeof(BlackboardEntry<>))
                 {
                     // Get the property of the value
-                    PropertyInfo valueProperty = entryType.GetProperty("value");
+                    PropertyInfo valueProperty = entryType.GetProperty("Value");
 
                     // If it is null, continue
                     if (valueProperty == null) continue;
@@ -160,7 +213,7 @@ namespace GoodLuckValley.Patterns.Blackboard
                     object value = valueProperty.GetValue(entry.Value);
 
                     // Debug the key and the value
-                    UnityEngine.Debug.Log($"Key: {entry.Key}, Value: {entry.Value}");
+                    UnityEngine.Debug.Log($"Key: {entry.Key}, Value: {value}");
                 }
             }
         }
