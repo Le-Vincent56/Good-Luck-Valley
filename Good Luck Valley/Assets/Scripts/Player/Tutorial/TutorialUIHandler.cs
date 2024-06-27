@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace GoodLuckValley.UI.Tutorial
 
         Dictionary<string, int> indexDictionary;
         [SerializeField] private GameObject[] panels;
+        Coroutine fadeCoroutine;
 
         private void Awake()
         {
@@ -31,10 +33,13 @@ namespace GoodLuckValley.UI.Tutorial
             };
         }
 
-        public async void Show(string name)
+        public void Show(string name)
         {
             // Get the index of the name
             int index = indexDictionary[name];
+
+            // Set the game object to active
+            panels[index].SetActive(true);
 
             if (index >= panels.Length)
             {
@@ -44,14 +49,16 @@ namespace GoodLuckValley.UI.Tutorial
 
             Text[] texts = panels[index].GetComponentsInChildren<Text>();
             Image[] images = panels[index].GetComponentsInChildren<Image>();
+
+            // Stop any current fade coroutine
+            if (fadeCoroutine != null)
+                StopCoroutine(fadeCoroutine);
 
             // Fade in every text and image
-            //StartCoroutine(Fade())
-
-            panels[index].SetActive(true);
+            StartCoroutine(Fade(index, texts, images, 1f, 0.4f));
         }
 
-        public void Hide()
+        public void Hide(string name)
         {
             // Get the index of the name
             int index = indexDictionary[name];
@@ -65,19 +72,97 @@ namespace GoodLuckValley.UI.Tutorial
             Text[] texts = panels[index].GetComponentsInChildren<Text>();
             Image[] images = panels[index].GetComponentsInChildren<Image>();
 
-            // Fade out every text and image
+            // Stop any current fade coroutine
+            if (fadeCoroutine != null)
+                StopCoroutine(fadeCoroutine);
 
-            panels[index].SetActive(false);
+            // Fade out every text and image
+            StartCoroutine(Fade(index, texts, images, 0f, 0.4f));
         }
 
-        //private IEnumerator Fade(Text[] texts, Image[] images, float targetAlpha, float duration)
-        //{
-        //    float elapsedTime = 0f;
+        private IEnumerator Fade(int index, Text[] texts, Image[] images, float targetAlpha, float duration)
+        {
+            // Get the starting alphas for each Text and Image element
+            float[] startAlphasText = new float[texts.Length];
+            float[] startAlphasImages = new float[images.Length];
 
-        //    while(elapsedTime < duration)
-        //    {
+            // Fill the Text alpha array
+            for(int i = 0; i < texts.Length; i++)
+            {
+                if (texts[i] == null) continue;
+                
+                startAlphasText[i] = texts[i].color.a;
+            }
 
-        //    }
-        //}
+            // Fill the Image alpha array
+            for(int i = 0; i < images.Length; i++)
+            {
+                if (texts[i] == null) continue;
+
+                startAlphasImages[i] = images[i].color.a;
+            }
+
+            // Set initial timer value
+            float elapsedTime = 0f;
+
+            // Check if the timer is less than the duration
+            while (elapsedTime < duration)
+            {
+                // If so, increment the timer and get a t value
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / duration;
+
+                // Lerp Text alpha values
+                for(int i = 0; i < texts.Length; i++)
+                {
+                    if (texts[i] == null) continue;
+
+                    Color color = texts[i].color;
+                    color.a = Mathf.Lerp(startAlphasText[i], targetAlpha, t);
+                    texts[i].color = color;
+                }
+                
+                // Lerp Image alpha values
+                for(int i = 0; i < images.Length; i++)
+                {
+                    if (images[i] == null) continue;
+
+                    Color color = texts[i].color;
+                    color.a = Mathf.Lerp(startAlphasImages[i], targetAlpha, t);
+                    texts[i].color = color;
+                }
+
+                yield return null;
+            }
+
+            // Ensure the final Text alphas are set
+            for (int i = 0; i < texts.Length; i++)
+            {
+                if (texts[i] != null)
+                {
+                    Color color = texts[i].color;
+                    color.a = targetAlpha;
+                    texts[i].color = color;
+                }
+            }
+            
+            // Ensure the final Image alphas are set
+            for (int i = 0; i < images.Length; i++)
+            {
+                if (images[i] != null)
+                {
+                    Color color = images[i].color;
+                    color.a = targetAlpha;
+                    images[i].color = color;
+                }
+            }
+
+            // Check if the target alpha is 0
+            if(targetAlpha == 0f)
+            {
+                // If so, deactivate the game object
+                panels[index].SetActive(false);
+            }
+        }
     }
 }

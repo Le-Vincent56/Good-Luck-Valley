@@ -100,21 +100,21 @@ namespace GoodLuckValley.Player.Control
             LandState landState = new LandState(this, animator, sfxHandler);
             BounceState bounceState = new BounceState(this, animator);
             WallJumpState wallJumpState = new WallJumpState(this, animator, sfxHandler);
-            IdleThrowState idleThrowState = new IdleThrowState(this, animator, sfxHandler);
-            LocomotionThrowState locomotionThrowState = new LocomotionThrowState(this, animator, sfxHandler);
+            ThrowIdleState throwIdleState = new ThrowIdleState(this, animator, sfxHandler);
+            ThrowLocomotionState throwLocomotionState = new ThrowLocomotionState(this, animator, sfxHandler);
             DevState devState = new DevState(this, devTools, animator);
 
             // Define strict transitions
             At(idleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
             At(idleState, jumpState, new FuncPredicate(() => isJumping));
-            At(idleState, idleThrowState, new FuncPredicate(() => isThrowing));
+            At(idleState, throwIdleState, new FuncPredicate(() => isThrowing));
             At(idleState, slideState, new FuncPredicate(() => isFastSliding));
             At(idleState, crawlIdleState, new FuncPredicate(() => isCrawling && moveDirectionX == 0));
             At(idleState, crawlLocomotionState, new FuncPredicate(() => isCrawling && moveDirectionX != 0));
 
             At(locomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
             At(locomotionState, jumpState, new FuncPredicate(() => isJumping));
-            At(locomotionState, locomotionThrowState, new FuncPredicate(() => isThrowing));
+            At(locomotionState, throwLocomotionState, new FuncPredicate(() => isThrowing));
             At(locomotionState, slideState, new FuncPredicate(() => isFastSliding));
             At(locomotionState, crawlIdleState, new FuncPredicate(() => isCrawling && moveDirectionX == 0));
             At(locomotionState, crawlLocomotionState, new FuncPredicate(() => isCrawling && moveDirectionX != 0));
@@ -152,17 +152,17 @@ namespace GoodLuckValley.Player.Control
             At(wallJumpState, idleState, new FuncPredicate(() => isGrounded && moveDirectionX == 0));
             At(wallJumpState, locomotionState, new FuncPredicate(() => isGrounded && moveDirectionX != 0));
 
-            At(idleThrowState, idleState, new FuncPredicate(() => !isThrowing && moveDirectionX == 0));
-            At(idleThrowState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
-            At(idleThrowState, jumpState, new FuncPredicate(() => isJumping));
-            At(idleThrowState, idleThrowState, new FuncPredicate(() => isThrowingAgain));
-            At(idleThrowState, slideState, new FuncPredicate(() => isFastSliding));
+            At(throwIdleState, idleState, new FuncPredicate(() => !isThrowing && moveDirectionX == 0));
+            At(throwIdleState, locomotionState, new FuncPredicate(() => moveDirectionX != 0));
+            At(throwIdleState, jumpState, new FuncPredicate(() => isJumping));
+            At(throwIdleState, throwIdleState, new FuncPredicate(() => isThrowingAgain));
+            At(throwIdleState, slideState, new FuncPredicate(() => isFastSliding));
 
-            At(locomotionThrowState, idleState, new FuncPredicate(() => moveDirectionX == 0));
-            At(locomotionThrowState, locomotionState, new FuncPredicate(() => !isThrowing && moveDirectionX != 0));
-            At(locomotionThrowState, jumpState, new FuncPredicate(() => isJumping));
-            At(locomotionThrowState, locomotionThrowState, new FuncPredicate(() => isThrowingAgain));
-            At(locomotionThrowState, slideState, new FuncPredicate(() => isFastSliding));
+            At(throwLocomotionState, idleState, new FuncPredicate(() => moveDirectionX == 0));
+            At(throwLocomotionState, locomotionState, new FuncPredicate(() => !isThrowing && moveDirectionX != 0));
+            At(throwLocomotionState, jumpState, new FuncPredicate(() => isJumping));
+            At(throwLocomotionState, throwLocomotionState, new FuncPredicate(() => isThrowingAgain));
+            At(throwLocomotionState, slideState, new FuncPredicate(() => isFastSliding));
 
             At(devState, idleState, new FuncPredicate(() => !devTools.Active && moveDirectionX == 0));
             At(devState, locomotionState, new FuncPredicate(() => !devTools.Active && moveDirectionX != 0));
