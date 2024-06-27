@@ -220,7 +220,7 @@ namespace GoodLuckValley.Player.Tutorial
                 // Teach the control
                 tutorialBlackboard.SetValue(controlKey, true);
 
-                UIHandler.Show(name);
+                UIHandler.Hide(name);
             }
         }
 
@@ -255,7 +255,7 @@ namespace GoodLuckValley.Player.Tutorial
                 tutorialBlackboard.SetValue(key, true);
 
                 // Show the UI
-                UIHandler.Show(name);
+                UIHandler.Hide(name);
             }
         }
 

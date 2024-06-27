@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
-    public class LocomotionThrowState : BaseState
+    public class ThrowLocomotionState : BaseState
     {
         private readonly PlayerSFXHandler sfx;
         private float animationTimer;
         private bool Finished { get => animationTimer <= 0; }
 
-        public LocomotionThrowState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
+        public ThrowLocomotionState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
         {
             this.sfx = sfx;
         }
 
         public override void OnEnter()
         {
-            animator.CrossFade(LocomotionThrowHash, crossFadeDuration);
+            animator.CrossFade(ThrowLocomotionHash, crossFadeDuration);
             animationTimer = 0.2f;
 
             // Allow the player to peek

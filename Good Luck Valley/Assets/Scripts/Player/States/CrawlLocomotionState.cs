@@ -21,7 +21,7 @@ namespace GoodLuckValley.Player.States
             player.LearnControl("Crawl");
 
             // TODO: Replace with locomotion crawl animation
-            animator.CrossFade(LocomotionHash, crossFadeDuration);
+            animator.CrossFade(CrawlLocomotionHash, crossFadeDuration);
 
             // Allow the player to peek
             player.SetCanPeek(true);
