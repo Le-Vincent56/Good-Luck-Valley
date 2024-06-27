@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using GoodLuckValley.Cameras;
+using GoodLuckValley.Events;
 
 namespace GoodLuckValley.UI
 {
     public class GameCursor : MonoBehaviour
     {
-        #region  FIELDS
+        [Header("Events")]
+        [SerializeField] private GameEvent onUpdateCursorPosition;
+
+        [Header("Fields")]
         [SerializeField] private Vector2 cursorPosition;
         [SerializeField] private CameraData.ScreenBounds cursorBounds;
-        #endregion
 
         // Start is called before the first frame update
         void Start()
@@ -41,6 +44,11 @@ namespace GoodLuckValley.UI
 
             // Update actual position
             transform.position = cursorPosition;
+
+            // Send out cursor position
+            // Calls to:
+            //  - CameraOmniPeek.UpdateCursorPosition()
+            onUpdateCursorPosition.Raise(this, cursorPosition);
         }
 
         /// <summary>
