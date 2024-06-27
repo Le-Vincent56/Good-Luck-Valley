@@ -8168,6 +8168,10 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1921905078}
+    - target: {fileID: 2579475348540798019, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2880234198892720873, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.019388
@@ -8223,8 +8227,67 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4136656142002040464, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4895178201161282687}
+    - targetCorrespondingSourceObject: {fileID: 4136656142002040464, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4895178201161282686}
   m_SourcePrefab: {fileID: 100100000, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+--- !u!1 &4895178201161282685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4136656142002040464, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+  m_PrefabInstance: {fileID: 4895178201161282684}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4895178201161282686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4895178201161282685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: bd54c786ef2b4544fa4616cca6ee552e, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4895178201161282687}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4895178201161282687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4895178201161282685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb266afee5a34944c90c35cd66cd9aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  boundaryPadding: {x: 0, y: 0}
+  noPeekZone:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!114 &4896641673443332515
 MonoBehaviour:
   m_ObjectHideFlags: 0
