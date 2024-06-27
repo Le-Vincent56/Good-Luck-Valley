@@ -345,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenThrowTrigger
 --- !u!114 &13741712
 MonoBehaviour:
@@ -815,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenPeekTrigger
 --- !u!114 &81840944
 MonoBehaviour:
@@ -1230,7 +1232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1359,6 +1361,7 @@ GameObject:
   - component: {fileID: 189683241}
   - component: {fileID: 189683239}
   - component: {fileID: 189683238}
+  - component: {fileID: 189683242}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1559,6 +1562,34 @@ MonoBehaviour:
   - {fileID: 254292043}
   - {fileID: 14828537}
   - {fileID: 930797862}
+--- !u!114 &189683242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189683233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 189683241}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Tutorial.TutorialUIHandler, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &254292043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,7 +1723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1782,7 +1813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1861,7 +1892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2024,7 +2055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2701,7 +2732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3124,6 +3155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenChainBounceTrigger
 --- !u!114 &724226777
 MonoBehaviour:
@@ -3298,6 +3330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenInteractTrigger
 --- !u!114 &748292869
 MonoBehaviour:
@@ -3911,6 +3944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenSlideTrigger
 --- !u!114 &862669279
 MonoBehaviour:
@@ -4716,7 +4750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5199,6 +5233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenQuickBounceTrigger
 --- !u!114 &1201836804
 MonoBehaviour:
@@ -5492,6 +5527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenJumpTrigger
 --- !u!1 &1264519365
 GameObject:
@@ -6681,6 +6717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenSingleRecallTrigger
 --- !u!114 &1548403423
 MonoBehaviour:
@@ -6844,6 +6881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenAimTrigger
 --- !u!114 &1574899255
 MonoBehaviour:
@@ -7211,6 +7249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenMoveTrigger
 --- !u!1 &1692719576
 GameObject:
@@ -7244,6 +7283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenCrawlTrigger
 --- !u!114 &1692719578
 MonoBehaviour:
@@ -7734,7 +7774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7818,7 +7858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8221,7 +8261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8300,7 +8340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8586,7 +8626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8833,7 +8873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9057,6 +9097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenTotalRecallTrigger
 --- !u!114 &2040599209
 MonoBehaviour:
@@ -9266,54 +9307,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2056865918
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2056865920}
-  - component: {fileID: 2056865919}
-  m_Layer: 0
-  m_Name: Blackboard Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2056865919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056865918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0d158f1b4d9fd44c9b6b231c824226f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blackboardDatas:
-  - {fileID: 11400000, guid: 7a44fbc9c4ae5af4baa066a5ae817564, type: 2}
-  - {fileID: 11400000, guid: 0648a381155bb3a43a15f320a979e46c, type: 2}
-  blackboards: []
---- !u!4 &2056865920
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056865918}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.180681, y: -2.972647, z: 0.34307882}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2057601096
 GameObject:
   m_ObjectHideFlags: 0
@@ -9347,7 +9340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 328.3, y: -687.2}
+  m_AnchoredPosition: {x: 328.3, y: -710.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2066325835
@@ -9775,6 +9768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23e489c937ee914a95f978ab753861f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onShowTutorialUI: {fileID: 11400000, guid: 8b0d31756289de74cb9a774ceb09a544, type: 2}
   tutorialKeyName: SeenFastFallTrigger
 --- !u!114 &2144831586
 MonoBehaviour:
@@ -10097,6 +10091,18 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1921905078}
+    - target: {fileID: 2579475348540798019, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      propertyPath: panTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579475348540798019, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      propertyPath: peekYDamp
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579475348540798019, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      propertyPath: panDistance
+      value: 2.25
+      objectReference: {fileID: 0}
     - target: {fileID: 2880234198892720873, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.019388
@@ -10357,6 +10363,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 603bccc681e978e4388bdcbc71a704d5, type: 3}
+--- !u!1001 &7863277778131773771
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1054035166704135783, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_Name
+      value: Blackboard Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18.180681
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.972647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.34307882
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840293494885395990, guid: af8740274a40435438f421009b7ea482, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af8740274a40435438f421009b7ea482, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -10375,7 +10438,7 @@ SceneRoots:
   - {fileID: 1297892726}
   - {fileID: 928049977}
   - {fileID: 1264519368}
-  - {fileID: 2056865920}
+  - {fileID: 7863277778131773771}
   - {fileID: 1835545942}
   - {fileID: 125564766}
   - {fileID: 484228704}

@@ -71,7 +71,7 @@ namespace GoodLuckValley.Cameras
                     CameraManager.Instance.Peek(panDistance, panTime, new Vector2(0f, input.NormLookY), peekYDamp, false);
                     peeking = true;
                 }
-            } else if(!inputPressed && peeking) // Only execute if already peeking
+            } else if(!inputPressed)
             {
                 // Pan the camera back
                 CameraManager.Instance.Peek(panDistance, panTime, new Vector2(0f, input.NormLookY), peekYDamp, true);

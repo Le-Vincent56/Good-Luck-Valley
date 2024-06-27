@@ -31,11 +31,5 @@ namespace GoodLuckValley.Player.States
             // Handle movement
             player.HandleMovement();
         }
-
-        public override void OnExit()
-        {
-            // Set crawling to false
-            player.IsCrawling = false;
-        }
     }
 }

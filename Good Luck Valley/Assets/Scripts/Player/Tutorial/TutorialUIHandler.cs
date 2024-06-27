@@ -15,6 +15,7 @@ namespace GoodLuckValley.UI.Tutorial
 
         private void Awake()
         {
+            // Initialize dictionary
             indexDictionary = new Dictionary<string, int>()
             {
                 { "Move", 0 },
@@ -33,20 +34,28 @@ namespace GoodLuckValley.UI.Tutorial
             };
         }
 
-        public void Show(string name)
+        public void Show(Component sender, object data)
         {
-            // Get the index of the name
-            int index = indexDictionary[name];
+            // Verify that the correct data was sent
+            if (data is not string) return;
+
+            // Cast data
+            string dictKey = (string)data;
+
+            // Get the value of the key
+            int index = indexDictionary[dictKey];
 
             // Set the game object to active
             panels[index].SetActive(true);
 
+            // Check if the index is larger than the length of the array
             if (index >= panels.Length)
             {
                 Debug.Log("TutorialUIHandler.Show: Index is larger than the amount of indices within the Panels array");
                 return;
             }
 
+            // Gather UI elements
             Text[] texts = panels[index].GetComponentsInChildren<Text>();
             Image[] images = panels[index].GetComponentsInChildren<Image>();
 
@@ -60,15 +69,17 @@ namespace GoodLuckValley.UI.Tutorial
 
         public void Hide(string name)
         {
-            // Get the index of the name
+            // Get the value of the key
             int index = indexDictionary[name];
 
+            // Check if the index is larger than the length of the array
             if (index >= panels.Length)
             {
                 Debug.Log("TutorialUIHandler.Show: Index is larger than the amount of indices within the Panels array");
                 return;
             }
 
+            // Gather UI elements
             Text[] texts = panels[index].GetComponentsInChildren<Text>();
             Image[] images = panels[index].GetComponentsInChildren<Image>();
 
