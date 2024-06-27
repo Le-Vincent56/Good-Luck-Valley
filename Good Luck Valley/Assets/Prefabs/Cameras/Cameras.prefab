@@ -356,8 +356,10 @@ MonoBehaviour:
   - {fileID: 7973059987211535523}
   - {fileID: 8956588383120990035}
   activeCamera: {fileID: 0}
-  fallPanAmount: 0.25
-  fallPanTime: 0.35
+  fallPanAmount: 3.5
+  fallDampAmount: 2
+  fallPanDownTime: 0.5
+  fallPanReturnTime: 0.4
   fallSpeedDampingChangeThreshold: -5
   normYPanAmount: 0
 --- !u!114 &2579475348540798019
@@ -372,14 +374,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ebbbd2e09ddc9439589f0def125bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onLearnPeek: {fileID: 11400000, guid: a1ea7caae5158bd4ebe5e6cdf577bcf1, type: 2}
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   canPeek: 1
   inputPressed: 0
   inputTime: 0.5
-  peeking: 0
-  panDistance: 3
-  panTime: 0.35
-  peekYDamp: 1
+  currentPeeking: 0
+  previousPeeking: 0
+  panDistance: 2.25
+  panTime: 0.5
+  peekYDamp: 0
 --- !u!114 &1149610672891149014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +422,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8234456416121981473}
   - component: {fileID: 9024988257541979951}
-  - component: {fileID: 4579605830296740079}
   - component: {fileID: 2487869462262879840}
   m_Layer: 16
   m_Name: BG Blur Camera
@@ -493,14 +496,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4579605830296740079
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4424831733179833661}
-  m_Enabled: 1
 --- !u!114 &2487869462262879840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,7 +656,7 @@ Transform:
   m_GameObject: {fileID: 5986701206259390396}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.739388, y: -15.274237, z: -10.013644}
+  m_LocalPosition: {x: -73.939384, y: -24.594236, z: -10.013675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1065,7 +1060,7 @@ Transform:
   m_GameObject: {fileID: 8151357047097989398}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.739388, y: -15.274237, z: -10.013644}
+  m_LocalPosition: {x: -73.939384, y: -24.594236, z: -10.013675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1108,7 +1103,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.5
+  orthographic size: 4
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -1276,7 +1271,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -8930765
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 500
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}

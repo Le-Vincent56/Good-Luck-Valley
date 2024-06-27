@@ -184,9 +184,6 @@ namespace GoodLuckValley.Player.Tutorial
             if(started)
             {
                 TeachMushroomControl(seenAimTrigger, hasAimed, "Aim");
-
-                // After aiming, show the throw tutorial
-                UIHandler.Show(this, "Throw");
             }
 
             if(canceled)
@@ -198,6 +195,7 @@ namespace GoodLuckValley.Player.Tutorial
         public void TeachTotalRecall(bool started) => TeachMushroomControl(seenTotalRecallTrigger, hasTotalRecall, "Total Recall");
         public void TeachSingleRecall(bool started) => TeachMushroomControl(seenSingleRecallTrigger, hasSingleRecall, "Single Recall");
         public void TeachQuickBounce(bool started) => TeachMushroomControl(seenQuickBounceTrigger, hasQuickBounced, "Quick Bounce");
+        public void TeachChainBounce(Component sender, object data) => TeachMushroomControl(seenChainBounceTrigger, hasChainBounced, "Chain Bounce");
 
         /// <summary>
         /// Teach a default control (not locked behind something)
@@ -259,6 +257,10 @@ namespace GoodLuckValley.Player.Tutorial
 
                 // Show the UI
                 UIHandler.Hide(name);
+
+                // After aiming, show the throw tutorial
+                if (key == hasAimed)
+                    UIHandler.Show(this, "Throw");
             }
         }
 

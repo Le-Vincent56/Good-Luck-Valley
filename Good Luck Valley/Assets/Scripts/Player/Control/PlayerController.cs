@@ -16,6 +16,7 @@ namespace GoodLuckValley.Player.Control
     {
         [Header("Events")]
         [SerializeField] private GameEvent onLearnControl;
+        [SerializeField] private GameEvent onLearnChainBounce;
         [SerializeField] private GameEvent onResetBounce;
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onSendPlayerTransform;
@@ -38,6 +39,8 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private int moveDirectionX;
         [SerializeField] private int manualMoveX;
         [SerializeField] private Vector2 velocity;
+        [SerializeField] private float groundPredictionAmount;
+        [SerializeField] private float standCheckDist;
 
         [Header("Fields - Movement")]
         [SerializeField] private float xVelSmoothing;
@@ -77,6 +80,7 @@ namespace GoodLuckValley.Player.Control
         public bool IsFastSliding { get { return isFastSliding; } set { isFastSliding = value; } }
         public bool IsCrawling { get { return isCrawling; } set { isCrawling = value; } }
         public Vector2 Velocity { get { return velocity; } }
+        public (Vector2 Offset, Vector2 Size) CrawlingCollider { get; private set; }
 
         private void Awake()
         {
@@ -93,8 +97,8 @@ namespace GoodLuckValley.Player.Control
             LocomotionState locomotionState = new LocomotionState(this, animator, sfxHandler);
             JumpState jumpState = new JumpState(this, animator, sfxHandler);
             SlideState slideState = new SlideState(this, animator, sfxHandler);
-            CrawlIdleState crawlIdleState = new CrawlIdleState(this, animator, boxCollider);
-            CrawlLocomotionState crawlLocomotionState = new CrawlLocomotionState(this, animator, sfxHandler, boxCollider);
+            CrawlIdleState crawlIdleState = new CrawlIdleState(this, animator, boxCollider, collisionHandler);
+            CrawlLocomotionState crawlLocomotionState = new CrawlLocomotionState(this, animator, sfxHandler, boxCollider, collisionHandler);
             WallState wallState = new WallState(this, animator, sfxHandler);
             FallState fallState = new FallState(this, animator, sfxHandler);
             LandState landState = new LandState(this, animator, sfxHandler);
@@ -174,6 +178,22 @@ namespace GoodLuckValley.Player.Control
 
             // Set an initial state
             stateMachine.SetState(idleState);
+
+            // Set crawling values
+            Vector2 crawlOffset = new Vector2(-0.05183601f, -0.4001744f);
+            Vector2 crawlSize = new Vector2(0.8475914f, 0.5710797f);
+
+            // Set default values
+            Vector2 defaultOffset = new Vector2(-0.009529829f, -0.1905082f);
+            Vector2 defaultSize = new Vector2(0.5014615f, 0.9904121f);
+
+            float crawlingTop = crawlOffset.y + (crawlSize.y / 2.0f);
+            float standingTop = defaultOffset.y + (defaultSize.y / 2.0f);
+
+            // Calculate the y-distance between the tops of the colliders
+            standCheckDist = standingTop - crawlingTop;
+
+            Debug.Log(standCheckDist);
         }
 
         private void Start()
@@ -222,6 +242,14 @@ namespace GoodLuckValley.Player.Control
                 moveDirectionX = input.NormMoveX;
             else
                 moveDirectionX = manualMoveX;
+
+            // Check crawling so that if the player is not holding crawl, but they can stand,
+            // they automatically stand
+            if(!input.HoldingCrawl && isCrawling && collisionHandler.collisions.CanStand)
+            {
+                isCrawling = false;
+                ChangeBlackboardValue(isCrawlingKey, isCrawling);
+            }
 
             // Update timers
             UpdateTimers();
@@ -412,10 +440,20 @@ namespace GoodLuckValley.Player.Control
                 }
             }
 
+            // Show more underneath the player if they are falling
             if(velocity.y <= fallSpeedDampingChangeThreshold &&
-                !CameraManager.Instance.IsLerpingYDamping && !CameraManager.Instance.LerpedFromPlayerFalling)
+                !CameraManager.Instance.IsLerpingYDamping && !CameraManager.Instance.LerpedFromPlayerFalling
+                && !collisionHandler.collisions.CameraWithinGroundDistance)
             {
                 CameraManager.Instance.LerpYDamping(true);
+            }
+
+            // Reset the camera when predicting ground to avoid bounciness with the camera re-adjusting
+            if(velocity.y <= fallSpeedDampingChangeThreshold && CameraManager.Instance.LerpedFromPlayerFalling 
+                && collisionHandler.collisions.CameraWithinGroundDistance)
+            {
+                CameraManager.Instance.LerpedFromPlayerFalling = false;
+                CameraManager.Instance.LerpYDamping(false);
             }
         }
 
@@ -444,7 +482,8 @@ namespace GoodLuckValley.Player.Control
                 }
             }
 
-            if(velocity.y >= 0f && !CameraManager.Instance.IsLerpingYDamping && CameraManager.Instance.LerpedFromPlayerFalling)
+            // If grounded, or moving upwards, reset the camera
+            if (velocity.y >= 0f && CameraManager.Instance.LerpedFromPlayerFalling)
             {
                 CameraManager.Instance.LerpedFromPlayerFalling = false;
                 CameraManager.Instance.LerpYDamping(false);
@@ -483,6 +522,13 @@ namespace GoodLuckValley.Player.Control
             // Handle vertical collisions
             if (velocity.y != 0f)
                 collisionHandler.VerticalCollisions(ref velocity);
+
+            // Predict ground
+            collisionHandler.PredictGround(velocity, groundPredictionAmount);
+
+            // Check if the player can stand
+            if(isCrawling)
+                collisionHandler.CheckCanStand(velocity, standCheckDist);
 
             // Move
             transform.Translate(velocity);
@@ -596,6 +642,9 @@ namespace GoodLuckValley.Player.Control
                     break;
 
                 case 3:
+                    // Learn the chain bounce
+                    onLearnChainBounce.Raise(this, null);
+
                     bounceVec *= this.data.thirdBounceMult;
                     break;
 
@@ -884,6 +933,10 @@ namespace GoodLuckValley.Player.Control
 
             if (!started)
             {
+                // If the player can't stand, return
+                if (!collisionHandler.collisions.CanStand) return;
+
+                // Otherwise, set crawling to false
                 isCrawling = false;
                 ChangeBlackboardValue(isCrawlingKey, isCrawling);
             }

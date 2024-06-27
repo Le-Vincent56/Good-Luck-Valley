@@ -43,6 +43,7 @@ namespace GoodLuckValley.Player.Input
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
         public int NormLookY { get; private set; }
+        public bool HoldingCrawl { get; private set; }
 
         void OnEnable()
         {
@@ -208,10 +209,12 @@ namespace GoodLuckValley.Player.Input
 
             if(context.started)
             {
+                HoldingCrawl = true;
                 Crawl.Invoke(context.started);
             }
             else if (context.canceled)
             {
+                HoldingCrawl = false;
                 Crawl.Invoke(context.started);
             }
         }

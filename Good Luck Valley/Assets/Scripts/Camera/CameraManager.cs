@@ -12,8 +12,10 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private CinemachineVirtualCamera activeCamera;
 
         [Header("Fields")]
-        [SerializeField] private float fallPanAmount = 0.05f;
-        [SerializeField] private float fallPanTime = 0.35f;
+        [SerializeField] private float fallPanAmount = 2f;
+        [SerializeField] private float fallDampAmount;
+        [SerializeField] private float fallPanDownTime = 0.35f;
+        [SerializeField] private float fallPanReturnTime = 0.15f;
         [SerializeField] private float fallSpeedDampingChangeThreshold = -4;
         [SerializeField] private float normYPanAmount;
         private Vector2 startingTrackedObjectOffset;
@@ -56,6 +58,9 @@ namespace GoodLuckValley.Cameras
 
         public void LerpYDamping(bool isPlayerFalling)
         {
+            if(lerpYPanCoroutine != null)
+                StopCoroutine(lerpYPanCoroutine);
+
             lerpYPanCoroutine = StartCoroutine(LerpYAction(isPlayerFalling));
         }
 
@@ -63,29 +68,56 @@ namespace GoodLuckValley.Cameras
         {
             IsLerpingYDamping = true;
 
-            // Get the starting damping amount
-            float startDampAmount = framingTransposer.m_YDamping;
-            float endDampAmount;
+            Vector2 endPos;
+            Vector2 startPos;
+
+            float panTime = fallPanDownTime;
 
             // Determine the end damping amount
             if(isPlayerFalling)
             {
-                endDampAmount = fallPanAmount;
                 LerpedFromPlayerFalling = true;
+
+                // Set the framing transposer's damping
+                framingTransposer.m_YDamping = fallDampAmount;
+
+                // Get the end position
+                endPos = new Vector2(0, -fallPanAmount);
+                startPos = startingTrackedObjectOffset;
+
+                // Add the positions together
+                endPos += startPos;
             } else
             {
-                endDampAmount = normYPanAmount;
+                panTime = fallPanReturnTime;
+
+                // Set the framing transposer's damping
+                framingTransposer.m_YDamping = 0;
+
+                // Set the starting position to the current tracked object offset
+                startPos = framingTransposer.m_TrackedObjectOffset;
+
+                // Set the end position to the original tracked object offset
+                endPos = startingTrackedObjectOffset;
             }
 
             // Lerp the pan amount
             float elapsedTime = 0f;
-            while(elapsedTime < fallPanTime)
+            while(elapsedTime < panTime)
             {
                 elapsedTime += Time.deltaTime;
 
-                // Lerp the pan amount and set it for the framing transposer
-                float lerpedPanAmount = Mathf.Lerp(startDampAmount, endDampAmount, (elapsedTime / fallPanTime));
-                framingTransposer.m_YDamping = lerpedPanAmount;
+                // Calculate t for easing
+                float t = elapsedTime / panTime;
+                t = Mathf.SmoothStep(0f, 1f, t);
+
+                // Lerp the pan
+                Vector3 panLerp = Vector3.Lerp(startPos, endPos, t);
+
+                // Set the pan
+                framingTransposer.m_TrackedObjectOffset = panLerp;
+
+                framingTransposer.m_YDamping = normYPanAmount;
 
                 yield return null;
             }
