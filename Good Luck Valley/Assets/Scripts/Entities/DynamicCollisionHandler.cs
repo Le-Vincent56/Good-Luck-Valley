@@ -1,3 +1,4 @@
+using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Interactables;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,7 @@ namespace GoodLuckValley.Entity
             public bool ClimbingSlope;
             public bool DescendingSlope;
             public float SlopeAngle, PrevSlopeAngle;
+            public int SlopeDescentDirection;
             public Vector2 PrevVelocity;
             public int FacingDirection;
             public bool SlidingDownMaxSlope;
@@ -358,7 +360,7 @@ namespace GoodLuckValley.Entity
         /// Descend a slope
         /// </summary>
         /// <param name="velocity">The current velocity</param>
-        public void DescendSlope(ref Vector2 velocity, bool isFastFalling = false, float fastFallScalar = 1f)
+        public void DescendSlope(ref Vector2 velocity, bool tryingFastSlide = false, PlayerController player = null, float fastSlideScalar = 1f)
         {
             RaycastHit2D maxSlopeHitLeft = Physics2D.Raycast(origins.bottomLeft, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
             RaycastHit2D maxSlopeHitRight = Physics2D.Raycast(origins.bottomRight, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
@@ -391,7 +393,9 @@ namespace GoodLuckValley.Entity
                             // Check how far down to move based on x-velocity
                             if (hit.distance - skinWidth <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x))
                             {
-                                float moveDistance = isFastFalling ? Mathf.Abs(velocity.x) * fastFallScalar : Mathf.Abs(velocity.x); 
+                                // Check for fast sliding
+                                player.IsFastSliding = (tryingFastSlide && player != null) ? true : false;
+                                float moveDistance = tryingFastSlide ? Mathf.Abs(velocity.x) * fastSlideScalar : Mathf.Abs(velocity.x); 
                                 float descendVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
                                 velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
                                 velocity.y -= descendVelocityY;
@@ -400,6 +404,7 @@ namespace GoodLuckValley.Entity
                                 collisions.DescendingSlope = true;
                                 collisions.Below = true;
                                 collisions.SlopeNormal = hit.normal;
+                                collisions.SlopeDescentDirection = (int)Mathf.Sign(hit.normal.x);
                                 collisions.Layer = layers[hit.transform.gameObject.layer];
                                 currentLayer = collisions.Layer;
                             }

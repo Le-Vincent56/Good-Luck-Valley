@@ -1,4 +1,6 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.ServiceLocator;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -19,8 +21,17 @@ namespace GoodLuckValley.Mushroom
         [Header("Fields")]
         [SerializeField] private float maxDistance;
         [SerializeField] private LayerMask shroomableLayer;
-        private bool throwUnlocked;
+        private Blackboard playerBlackboard;
+        private BlackboardKey unlockedThrow;
+        private BlackboardKey isCrawlingKey;
         #endregion
+
+        private void Start()
+        {
+            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
+            isCrawlingKey = playerBlackboard.GetOrRegisterKey("IsCrawling");
+        }
 
         /// <summary>
         /// Handle the Quick Bounce
@@ -29,11 +40,11 @@ namespace GoodLuckValley.Mushroom
         /// <param name="data"></param>
         public void QuickBounce(Component sender, object data)
         {
-            // Check to see if the throw is unlocked
-            onRequestThrowUnlock.Raise(this, null);
+            // Check if the player has unlocked the spirit power
+            if (playerBlackboard.TryGetValue(unlockedThrow, out bool unlockValue) && !unlockValue) return;
 
-            // If the throw is not unlocked, return
-            if (!throwUnlocked) return;
+            // Don't allow quick bouncing if crawling
+            if (playerBlackboard.TryGetValue(isCrawlingKey, out bool isCrawling) && isCrawling) return;
 
             // Raycast down and look for shroomable surfaces
             RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, maxDistance, shroomableLayer);
@@ -135,15 +146,6 @@ namespace GoodLuckValley.Mushroom
             // Calls to:
             //  - MushroomTracker.AddMushroom();
             onAddMushroom.Raise(this, shroom);
-        }
-
-        /// <summary>
-        /// Set if the Mushroom Throw is unlocked
-        /// </summary>
-        /// <param name="throwUnlocked">Whether or not the Mushroom Throw is unlocked</param>
-        public void SetThrowUnlocked(bool throwUnlocked)
-        {
-            this.throwUnlocked = throwUnlocked;
         }
     }
 }

@@ -1,4 +1,6 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.ServiceLocator;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -37,13 +39,21 @@ namespace GoodLuckValley.Mushroom
 
         #region FIELDS
         [Header("Fields")]
-        [SerializeField] private bool unlockedWallJump;
         [SerializeField] private LayerMask mushroomWallLayer;
         private bool wallJumpInput;
         private float wallDirection;
         private float size;
         private Vector2 contactPoint;
+
+        private Blackboard playerBlackboard;
+        private BlackboardKey unlockedWallJump;
         #endregion
+
+        private void Start()
+        {
+            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            unlockedWallJump = playerBlackboard.GetOrRegisterKey("UnlockedWallJump");
+        }
 
         /// <summary>
         /// Get the wall direction of the wall jump and prepare the jump
@@ -52,11 +62,11 @@ namespace GoodLuckValley.Mushroom
         /// <param name="data"></param>
         public void GetSpawnData(Component sender, object data)
         {
-            // See if the wall jump is unlocked
-            onRequestUnlockedWallJump.Raise(this, null);
+            // Return if the wall jump is not unlocked
+            if (playerBlackboard.TryGetValue(unlockedWallJump, out bool unlockValue) && !unlockValue) return;
 
             // Check the correct data was sent or if the wall jump is unlocked
-            if (data is not RaycastHit2D || !unlockedWallJump) return;
+            if (data is not RaycastHit2D) return;
 
             RaycastHit2D hit = (RaycastHit2D)data;
 
@@ -144,15 +154,6 @@ namespace GoodLuckValley.Mushroom
             //  - MushroomTracker.AddWallMushroom();
             onAddMushroom.Raise(this, shroom);
             return shroom;
-        }
-
-        /// <summary>
-        /// Set if the wall jump ability is unlocked
-        /// </summary>
-        /// <param name="unlockedWallJump">Whether or not the wall jump is unlocked</param>
-        public void SetWallJumpUnlocked(bool unlockedWallJump)
-        {
-            this.unlockedWallJump = unlockedWallJump;
         }
 
         private void OnDrawGizmos()

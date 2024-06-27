@@ -17,7 +17,7 @@ namespace GoodLuckValley.Patterns.Blackboard
             blackboardIndices = new Dictionary<string, int>()
             {
                 {"Tutorial", 0 },
-                {"Unlocks", 1 },
+                {"Player", 1 },
             };
 
             // Register to the global service locator

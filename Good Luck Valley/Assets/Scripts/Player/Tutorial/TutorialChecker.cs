@@ -1,18 +1,20 @@
 using GoodLuckValley.Patterns.Blackboard;
 using GoodLuckValley.Patterns.ServiceLocator;
 using GoodLuckValley.Player.Input;
-using System;
-using System.Threading.Tasks;
+using GoodLuckValley.UI.Tutorial;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Tutorial
 {
     public class TutorialChecker : MonoBehaviour
     {
+        private TutorialUIHandler UIHandler;
+
+        [SerializeField] private bool bypassTutorials;
         [SerializeField] private InputReader input;
 
-        Blackboard unlockBlackboard;
-        BlackboardKey unlockedSpiritPower;
+        Blackboard playerBlackboard;
+        BlackboardKey unlockedThrow;
 
         Blackboard tutorialBlackboard;
         BlackboardKey seenMoveTrigger;
@@ -42,41 +44,18 @@ namespace GoodLuckValley.Player.Tutorial
         BlackboardKey seenChainBounceTrigger;
         BlackboardKey hasChainBounced;
 
-        private void OnEnable()
-        {
-            input.Move += TeachMovement;
-            input.Jump += TeachJump;
-            input.FastSlide += TeachSlide;
-            input.FastFall += TeachFastFall;
-            input.Crawl += TeachCrawl;
-            input.Throw += TeachThrow;
-            input.RecallAll += TeachTotalRecall;
-            input.RecallLast += TeachSingleRecall;
-            input.QuickBounce += TeachQuickBounce;
-        }
-
-        private void OnDisable()
-        {
-            input.Move -= TeachMovement;
-            input.Jump -= TeachJump;
-            input.FastSlide -= TeachSlide;
-            input.FastFall -= TeachFastFall;
-            input.Crawl -= TeachCrawl;
-            input.Throw -= TeachThrow;
-            input.RecallAll -= TeachTotalRecall;
-            input.RecallLast -= TeachSingleRecall;
-            input.QuickBounce -= TeachQuickBounce;
-        }
-
         // Start is called before the first frame update
         void Start()
         {
+            // Get references
+            UIHandler = GetComponent<TutorialUIHandler>();
+
             // Get blackboards
             tutorialBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Tutorial");
-            unlockBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Unlocks");
+            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
 
             // Register keys
-            unlockedSpiritPower = unlockBlackboard.GetOrRegisterKey("UnlockedSpiritPower");
+            unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
             seenMoveTrigger = tutorialBlackboard.GetOrRegisterKey("SeenMoveTrigger");
             hasMoved = tutorialBlackboard.GetOrRegisterKey("HasMoved");
             seenJumpTrigger = tutorialBlackboard.GetOrRegisterKey("SeenJumpTrigger");
@@ -108,6 +87,26 @@ namespace GoodLuckValley.Player.Tutorial
             SetDefaultBlackboardValues(false);
         }
 
+        private void OnEnable()
+        {
+            input.Throw += TeachThrow;
+            input.RecallAll += TeachTotalRecall;
+            input.RecallLast += TeachSingleRecall;
+            input.QuickBounce += TeachQuickBounce;
+        }
+
+        private void OnDisable()
+        {
+            input.Throw -= TeachThrow;
+            input.RecallAll -= TeachTotalRecall;
+            input.RecallLast -= TeachSingleRecall;
+            input.QuickBounce -= TeachQuickBounce;
+        }
+
+        /// <summary>
+        /// Set all Tutorial Blackboard values to a default value
+        /// </summary>
+        /// <param name="defaultValue">The value to set</param>
         private void SetDefaultBlackboardValues(bool defaultValue)
         {
             ChangeBlackboardValue(seenMoveTrigger, defaultValue);
@@ -138,47 +137,110 @@ namespace GoodLuckValley.Player.Tutorial
             ChangeBlackboardValue(hasChainBounced, defaultValue);
         }
 
-        public void TeachMovement(Vector2 moveVec) => TeachDefaultControl(hasMoved);
-        public void TeachJump(bool started) => TeachDefaultControl(hasJumped);
-        public void TeachSlide(bool started) => TeachDefaultControl(hasSlid);
-        public void TeachFastFall(bool started) => TeachDefaultControl(hasFastFallen);
-        public void TeachCrawl(bool started) => TeachDefaultControl(hasCrawled);
-        public void TeachInteract(Component sender, object data) => TeachDefaultControl(hasInteracted);
+        /// <summary>
+        /// Learn a movement control based on a string
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void LearnControl(Component sender, object data)
+        {
+            // Verify that the correct data was sent
+            if (data is not string) return;
+
+            // Cast the data
+            string controlName = (string)data;
+
+            // Process further using the string name
+            switch(controlName)
+            {
+                case "Move":
+                    TeachDefaultControl(seenMoveTrigger, hasMoved, controlName);
+                    break;
+
+                case "Jump":
+                    TeachDefaultControl(seenJumpTrigger, hasJumped, controlName);
+                    break;
+
+                case "Slide":
+                    TeachDefaultControl(seenSlideTrigger, hasSlid, controlName);
+                    break;
+
+                case "Fast Fall":
+                    TeachDefaultControl(seenFastFallTrigger, hasFastFallen, controlName);
+                    break;
+
+                case "Crawl":
+                    TeachDefaultControl(seenCrawlTrigger, hasCrawled, controlName);
+                    break;
+
+                default:
+                    return;
+            }
+        }
+
+        public void TeachInteract(Component sender, object data) => TeachDefaultControl(seenInteractTrigger, hasInteracted, "Interact");
         public void TeachThrow(bool started, bool canceled)
         {
             if(started)
             {
-                TeachMushroomControl(hasAimed);
+                TeachMushroomControl(seenAimTrigger, hasAimed, "Aim");
             }
 
             if(canceled)
             {
-                TeachMushroomControl(hasThrown);
+                TeachMushroomControl(seenThrowTrigger, hasThrown, "Throw");
             }
         }
-        public void TeachPeek(Component sender, object data) => TeachDefaultControl(hasPeeked);
-        public void TeachTotalRecall(bool started) => TeachMushroomControl(hasTotalRecall);
-        public void TeachSingleRecall(bool started) => TeachMushroomControl(hasSingleRecall);
-        public void TeachQuickBounce(bool started) => TeachMushroomControl(hasQuickBounced);
+        public void TeachPeek(Component sender, object data) => TeachDefaultControl(seenPeekTrigger, hasPeeked, "Peek");
+        public void TeachTotalRecall(bool started) => TeachMushroomControl(seenTotalRecallTrigger, hasTotalRecall, "Total Recall");
+        public void TeachSingleRecall(bool started) => TeachMushroomControl(seenSingleRecallTrigger, hasSingleRecall, "Single Recall");
+        public void TeachQuickBounce(bool started) => TeachMushroomControl(seenQuickBounceTrigger, hasQuickBounced, "Quick Bounce");
 
-
-        private void TeachDefaultControl(BlackboardKey key)
+        /// <summary>
+        /// Teach a default control (not locked behind something)
+        /// </summary>
+        /// <param name="prereqKey">The prerequisite key</param>
+        /// <param name="controlKey">The control key</param>
+        private void TeachDefaultControl(BlackboardKey prereqKey, BlackboardKey controlKey, string name)
         {
+            // Check if the trigger has been seen
+            if (tutorialBlackboard.TryGetValue(prereqKey, out bool prereqValue))
+            {
+                // If the trigger hasn't been seen, return
+                if (!prereqValue & !bypassTutorials) return;
+            }
+            else return; // If the trigger key doesn't exist, return
+
             // Try to get the blackboard value
-            if(tutorialBlackboard.TryGetValue(key, out bool blackboardValue))
+            if(tutorialBlackboard.TryGetValue(controlKey, out bool blackboardValue))
             {
                 // If the control has been taught, return
                 if (blackboardValue) return;
 
                 // Teach the control
-                tutorialBlackboard.SetValue(key, true);
+                tutorialBlackboard.SetValue(controlKey, true);
+
+                UIHandler.Show(name);
             }
         }
 
-        private void TeachMushroomControl(BlackboardKey key)
+        /// <summary>
+        /// Teach a Mushroom control (need to unlock the Spirit Power)
+        /// </summary>
+        /// <param name="prereqKey">The prerequisite key</param>
+        /// <param name="key">The control key</param>
+        private void TeachMushroomControl(BlackboardKey prereqKey, BlackboardKey key, string name)
         {
+            // Check if the trigger has been seen
+            if (tutorialBlackboard.TryGetValue(prereqKey, out bool prereqValue))
+            {
+                // If the trigger hasn't been seen, return
+                if (!prereqValue && !bypassTutorials) return;
+            }
+            else return; // If the trigger key doesn't exist, return
+
             // Try to get the unlock blackboard value
-            if(unlockBlackboard.TryGetValue(unlockedSpiritPower, out bool unlockValue))
+            if (playerBlackboard.TryGetValue(unlockedThrow, out bool unlockValue))
             {
                 // If the spirit power has not been unlocked, return
                 if (!unlockValue) return;
@@ -191,9 +253,17 @@ namespace GoodLuckValley.Player.Tutorial
 
                 // Teach the control
                 tutorialBlackboard.SetValue(key, true);
+
+                // Show the UI
+                UIHandler.Show(name);
             }
         }
 
+        /// <summary>
+        /// Change a Blackboard value
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <param name="value">The value</param>
         private void ChangeBlackboardValue(BlackboardKey key, bool value)
         {
             if (tutorialBlackboard.TryGetValue(key, out bool blackboardValue))

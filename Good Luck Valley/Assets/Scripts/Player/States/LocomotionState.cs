@@ -14,6 +14,8 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
+            player.LearnControl("Move");
+
             animator.CrossFade(LocomotionHash, crossFadeDuration);
 
             // Allow the player to peek

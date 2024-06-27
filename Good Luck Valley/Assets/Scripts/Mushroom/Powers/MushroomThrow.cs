@@ -1,4 +1,6 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.ServiceLocator;
 using GoodLuckValley.Player.Input;
 using UnityEngine;
 
@@ -47,10 +49,20 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private ShroomSpawnData spawnData;
         [SerializeField] private FinalSpawnInfo finalSpawnInfo;
         [SerializeField] private float throwMultiplier;
-        [SerializeField] private bool throwUnlocked;
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
+        private Blackboard playerBlackboard;
+        private BlackboardKey unlockedThrow;
+        private BlackboardKey isCrawling;
         #endregion
+
+        private void Start()
+        {
+            // Register blackboards and keys
+            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
+            isCrawling = playerBlackboard.GetOrRegisterKey("IsCrawling");
+        }
 
         /// <summary>
         /// Set the throw direction for the spore
@@ -151,11 +163,11 @@ namespace GoodLuckValley.Mushroom
         /// <param name="data"></param>
         public void OnThrow(Component sender, object data)
         {
-            // Get throw unlocks
-            onRequestThrowUnlock.Raise(this, null);
+            // Check if the player has unlocked the spirit power
+            if (playerBlackboard.TryGetValue(unlockedThrow, out bool unlockValue) && !unlockValue) return;
 
-            // Exit case - throw not unlocked, or the player cannot throw
-            if (!throwUnlocked || !canThrow) return;
+            // Check if the player is crawling
+            if (playerBlackboard.TryGetValue(isCrawling, out bool crawlingValue) && crawlingValue) return;
 
             // Check if the data type is correct
             if (data is not ContextData) return;
@@ -187,15 +199,6 @@ namespace GoodLuckValley.Mushroom
                 //  - MushroomTracker.CheckCountLimit()
                 onGetCountToLimit.Raise(this, null);
             }
-        }
-
-        /// <summary>
-        /// Set if the Mushroom Throw ability is unlocked
-        /// </summary>
-        /// <param name="throwUnlocked">Whether or not the mushroom throw is unlocked</param>
-        public void SetThrowUnlocked(bool throwUnlocked)
-        {
-            this.throwUnlocked = throwUnlocked;
         }
 
         /// <summary>

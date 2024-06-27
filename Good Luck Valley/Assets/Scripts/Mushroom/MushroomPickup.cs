@@ -13,16 +13,16 @@ public class MushroomPickup : Collectible
     [SerializeField] private GameEvent onTeachInteractable;
     [SerializeField] private GameEvent onUnlockThrow;
 
-    Blackboard unlockBlackboard;
-    BlackboardKey unlockedSpiritPower;
+    Blackboard playerBlackboard;
+    BlackboardKey unlockedThrow;
     #endregion
 
     protected override void Start()
     {
         base.Start();
 
-        unlockBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Unlocks");
-        unlockedSpiritPower = unlockBlackboard.GetOrRegisterKey("UnlockedSpiritPower");
+        playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+        unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
     }
 
     public override void Interact()
@@ -32,12 +32,9 @@ public class MushroomPickup : Collectible
         // Teach interactable
         onTeachInteractable.Raise(this, null);
 
-        // Unlock the throw
-        onUnlockThrow.Raise(this, null);
-
         // Update the blackboard
-        if (unlockBlackboard.TryGetValue(unlockedSpiritPower, out bool blackboardValue))
-            unlockBlackboard.SetValue(unlockedSpiritPower, true);
+        if (playerBlackboard.TryGetValue(unlockedThrow, out bool blackboardValue))
+            playerBlackboard.SetValue(unlockedThrow, true);
 
         // Collect the collectible
         base.Interact();
