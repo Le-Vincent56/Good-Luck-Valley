@@ -30,8 +30,8 @@ namespace GoodLuckValley.Player.States
             player.SetCanPeek(true);
 
             // Set player box collider
-            boxCollider.offset = new Vector2(-0.05183601f, -0.4001744f);
-            boxCollider.size = new Vector2(0.8475914f, 0.5710797f);
+            boxCollider.offset = new Vector2(-0.05183601f, -0.4508255f);
+            boxCollider.size = new Vector2(0.8475914f, 0.4697776f);
             collisionHandler.UpdateCollider();
         }
 
