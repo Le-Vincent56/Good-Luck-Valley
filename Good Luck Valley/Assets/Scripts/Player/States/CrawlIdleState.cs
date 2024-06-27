@@ -17,7 +17,7 @@ namespace GoodLuckValley.Player.States
             player.LearnControl("Crawl");
 
             // TODO: Replace with idle crawl animation
-            animator.CrossFade(LocomotionHash, crossFadeDuration);
+            animator.CrossFade(CrawlIdleHash, crossFadeDuration);
 
             // Allow the player to peek
             player.SetCanPeek(true);
