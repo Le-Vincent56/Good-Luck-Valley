@@ -33,7 +33,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Locomotion Throw
+  m_Name: Throw Locomotion
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -59,7 +59,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Crawl
+  m_Name: Crawl Locomotion
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -116,6 +116,9 @@ AnimatorStateMachine:
     m_Position: {x: 380, y: 520, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7093122491631342663}
+    m_Position: {x: 380, y: 620, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7696914698226844412}
     m_Position: {x: 380, y: 570, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
@@ -234,7 +237,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle Throw
+  m_Name: Throw Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -326,6 +329,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: bc13d1066fd14d84b8dfe65922ecf9de, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &7696914698226844412
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Crawl Idle
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 59306afc8291ba145b03ce90a92e522b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

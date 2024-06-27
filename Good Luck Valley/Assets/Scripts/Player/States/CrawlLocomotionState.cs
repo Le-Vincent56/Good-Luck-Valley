@@ -43,9 +43,6 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
-            // Set crawling to false
-            player.IsCrawling = false;
-
             // TODO: (Maybe) reset slide sound
         }
     }

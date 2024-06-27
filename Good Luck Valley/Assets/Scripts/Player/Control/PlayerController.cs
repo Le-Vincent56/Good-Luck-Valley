@@ -574,6 +574,13 @@ namespace GoodLuckValley.Player.Control
             if (isJumpCut)
                 isJumpCut = false;
 
+            // Reset crawling
+            if (isCrawling)
+            {
+                isCrawling = false;
+                ChangeBlackboardValue(isCrawlingKey, isCrawling);
+            }
+
             lastPressedJumpTime = 0;
 
             // Set bouncing to true

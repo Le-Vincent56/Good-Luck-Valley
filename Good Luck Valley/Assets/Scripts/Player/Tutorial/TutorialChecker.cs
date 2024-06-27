@@ -184,6 +184,9 @@ namespace GoodLuckValley.Player.Tutorial
             if(started)
             {
                 TeachMushroomControl(seenAimTrigger, hasAimed, "Aim");
+
+                // After aiming, show the throw tutorial
+                UIHandler.Show(this, "Throw");
             }
 
             if(canceled)

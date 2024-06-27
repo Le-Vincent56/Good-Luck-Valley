@@ -139,8 +139,12 @@ namespace GoodLuckValley.Cameras
             {
                 elapsedTime += Time.deltaTime;
 
+                // Calculate t for easing
+                float t = elapsedTime / panTime;
+                t = Mathf.SmoothStep(0f, 1f, t);
+
                 // Lerp the pan
-                Vector3 panLerp = Vector3.Lerp(startingPos, endPos, (elapsedTime / panTime));
+                Vector3 panLerp = Vector3.Lerp(startingPos, endPos, t);
 
                 // Set the pan
                 framingTransposer.m_TrackedObjectOffset = panLerp;
