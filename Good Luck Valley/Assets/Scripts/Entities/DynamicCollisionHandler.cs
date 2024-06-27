@@ -34,6 +34,8 @@ namespace GoodLuckValley.Entity
             public CollisionLayer Layer;
             public RaycastHit2D VerticalCollisionRay;
             public RaycastHit2D HorizontalCollisionRay;
+            public bool CameraWithinGroundDistance;
+            public bool CanStand;
 
             /// <summary>
             /// Reset the Collision Info
@@ -51,6 +53,8 @@ namespace GoodLuckValley.Entity
                 Layer = CollisionLayer.Ground;
                 VerticalCollisionRay = new RaycastHit2D();
                 HorizontalCollisionRay = new RaycastHit2D();
+                CameraWithinGroundDistance = false;
+                CanStand = true;
             }
         }
 
@@ -77,6 +81,59 @@ namespace GoodLuckValley.Entity
                 {12, CollisionLayer.Decomposable }
             };
         }
+
+        public void PredictGround(Vector2 velocity, float predictAmount)
+        {
+            // Set direction and ray length
+            float directionY = Mathf.Sign(velocity.y);
+            float rayLength = Mathf.Abs(velocity.y) + predictAmount + skinWidth;
+
+            for (int i = 0; i < verticalRayCount; i++)
+            {
+                Vector2 rayOrigin = (directionY == -1) ? origins.bottomLeft : origins.topLeft;
+                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+                RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+
+                // Debug
+                if (debug)
+                    Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
+
+                if (hitCollider)
+                {
+                    // Set the ray length equal to the hit distance
+                    rayLength = hitCollider.distance;
+
+                    // Set collision info
+                    collisions.CameraWithinGroundDistance = true;
+                }
+            }
+        }
+
+        public void CheckCanStand(Vector2 velocity, float standCheckDist)
+        {
+            // Set direction and ray length
+            float rayLength = Mathf.Abs(velocity.y) + standCheckDist + skinWidth;
+
+            for (int i = 0; i < verticalRayCount; i++)
+            {
+                Vector2 rayOrigin = origins.topLeft;
+                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+                RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, collisionMask);
+
+                if(debug)
+                    Debug.DrawRay(rayOrigin, Vector2.up * rayLength, Color.red);
+
+                if (hitCollider)
+                {
+                    // Set the ray length equal to the hit distance
+                    rayLength = hitCollider.distance;
+
+                    // Set collision info
+                    collisions.CanStand = false;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Handle vertical collisions

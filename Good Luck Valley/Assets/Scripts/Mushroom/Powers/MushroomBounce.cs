@@ -54,14 +54,22 @@ namespace GoodLuckValley.Mushroom
             switch (mushroomData.Type)
             {
                 case ShroomType.Regular:
+                    // Check the current bounce chain
                     if (bounceCount < 3)
+                    {
+                        // Increment bounces
                         bounceCount++;
+                    }
                     else if(bounceCount >= 3)
+                    {
+                        // Reset the chain bounce
                         bounceCount = 1;
+                    }
                     break;
 
                 case ShroomType.Quick:
-                    Debug.Log("Quick!");
+                    // Set the bounce count to one - can't chain on 
+                    // quick shrooms
                     bounceCount = 1;
                     break;
 
@@ -79,6 +87,7 @@ namespace GoodLuckValley.Mushroom
             // Raise the bounce event
             // Calls to:
             //  - PlayerController.StartBounce()
+            //  - MsuhroombounceEffect.ApplyEffect()
             onBounce.Raise(this, bounceData);
         }
 

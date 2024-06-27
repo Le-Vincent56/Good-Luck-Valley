@@ -1,3 +1,4 @@
+using GoodLuckValley.Events;
 using GoodLuckValley.Player.Input;
 using UnityEngine;
 
@@ -5,6 +6,9 @@ namespace GoodLuckValley.Cameras
 {
     public class CameraPeek : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onLearnPeek;
+
         [Header("References")]
         [SerializeField] private InputReader input;
 
@@ -12,7 +16,8 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private bool canPeek;
         [SerializeField] private bool inputPressed;
         [SerializeField] private float inputTime;
-        [SerializeField] private bool peeking;
+        [SerializeField] private bool currentPeeking;
+        [SerializeField] private bool previousPeeking;
         [SerializeField] private float panDistance;
         [SerializeField] private float panTime;
         [SerializeField] private float peekYDamp;
@@ -30,6 +35,8 @@ namespace GoodLuckValley.Cameras
 
         private void Update()
         {
+            previousPeeking = currentPeeking;
+
             // Check if the player can peek at all
             if(!canPeek)
             {
@@ -65,13 +72,23 @@ namespace GoodLuckValley.Cameras
                     elapsedTime += Time.deltaTime;
                 }
                 // Check if the elapsed time is greater or equal to the input time and the camera currently is not panned
-                else if (elapsedTime >= inputTime && !peeking)
+                else if (elapsedTime >= inputTime && !currentPeeking)
                 {
+                    // Learn peeking
+                    onLearnPeek.Raise(this, null);
+
                     // Pan the camera
                     CameraManager.Instance.Peek(panDistance, panTime, new Vector2(0f, input.NormLookY), peekYDamp, false);
-                    peeking = true;
+                    currentPeeking = true;
                 }
-            } else if(!inputPressed)
+            } else if(!inputPressed && currentPeeking)
+            {
+                // Pan the camera back
+                CameraManager.Instance.Peek(panDistance, panTime, new Vector2(0f, input.NormLookY), peekYDamp, true);
+
+                // Reset the peek variables
+                ResetPeek();
+            } else if(currentPeeking != previousPeeking)
             {
                 // Pan the camera back
                 CameraManager.Instance.Peek(panDistance, panTime, new Vector2(0f, input.NormLookY), peekYDamp, true);
@@ -79,6 +96,7 @@ namespace GoodLuckValley.Cameras
                 // Reset the peek variables
                 ResetPeek();
             }
+
         }
 
         /// <summary>
@@ -97,7 +115,7 @@ namespace GoodLuckValley.Cameras
         private void ResetPeek()
         {
             inputPressed = false;
-            peeking = false;
+            currentPeeking = false;
             elapsedTime = 0f;
         }
 

@@ -36,8 +36,6 @@ namespace GoodLuckValley.Player.States
             if (animationTimer > 0)
                 animationTimer -= Time.deltaTime;
 
-            Debug.Log(animationTimer);
-
             // If the animation is finished, stop throwing
             if (Finished) player.SetThrow(false);
         }
