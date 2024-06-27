@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Level
+namespace GoodLuckValley.Cameras
 {
     public class CameraData : MonoBehaviour
     {

@@ -60,11 +60,6 @@ namespace GoodLuckValley.Mushroom
                         // Increment bounces
                         bounceCount++;
                     }
-                    else if(bounceCount >= 3)
-                    {
-                        // Reset the chain bounce
-                        bounceCount = 1;
-                    }
                     break;
 
                 case ShroomType.Quick:

@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using GoodLuckValley.Level;
+using GoodLuckValley.Cameras;
 
 namespace GoodLuckValley.UI
 {
