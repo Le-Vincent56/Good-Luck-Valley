@@ -12,7 +12,7 @@ namespace GoodLuckValley.UI
 
         [Header("Fields")]
         [SerializeField] private Vector2 cursorPosition;
-        [SerializeField] private CameraData.ScreenBounds cursorBounds;
+        [SerializeField] private Bounds cursorBounds;
 
         // Start is called before the first frame update
         void Start()
@@ -77,8 +77,8 @@ namespace GoodLuckValley.UI
         private void CheckCursorBoundsPlayer()
         {
             // Clamp the cursor position into the bounds of the screen
-            cursorPosition.x = Mathf.Clamp(cursorPosition.x, cursorBounds.Left, cursorBounds.Right);
-            cursorPosition.y = Mathf.Clamp(cursorPosition.y, cursorBounds.Bottom, cursorBounds.Top);
+            cursorPosition.x = Mathf.Clamp(cursorPosition.x, cursorBounds.min.x, cursorBounds.max.x);
+            cursorPosition.y = Mathf.Clamp(cursorPosition.y, cursorBounds.min.y, cursorBounds.max.y);
         }
 
         /// <summary>
@@ -89,10 +89,10 @@ namespace GoodLuckValley.UI
         public void UpdateCursorBounds(Component sender, object data)
         {
             // Make sure the correct data was sent
-            if(data is not CameraData.ScreenBounds) return;
+            if(data is not Bounds) return;
 
             // Cast and update data
-            cursorBounds = (CameraData.ScreenBounds)data;
+            cursorBounds = (Bounds)data;
         }
 
         /// <summary>

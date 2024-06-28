@@ -2,11 +2,24 @@ using GoodLuckValley.Patterns.Singletons;
 using UnityEngine;
 using Cinemachine;
 using System.Collections;
+using GoodLuckValley.Events;
 
 namespace GoodLuckValley.Cameras
 {
+    public enum CameraType
+    {
+        Default = 0,
+        Peek = 1,
+        Tight = 2,
+        Showcase = 3,
+        Locked = 4,
+    }
+
     public class CameraManager : Singleton<CameraManager>
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onUpdateScreenBounds;
+
         [Header("References")]
         [SerializeField] private CinemachineVirtualCamera[] virtualCameras;
         [SerializeField] private CinemachineVirtualCamera activeCamera;
@@ -26,9 +39,9 @@ namespace GoodLuckValley.Cameras
         private Coroutine panCameraCoroutine;
         private Coroutine peekCameraCoroutine;
         private CinemachineFramingTransposer framingTransposer;
-        CameraFollowObject followObject;
 
         public bool IsDefaultCam => activeCamera == virtualCameras[0];
+        public bool IsPeekCam => activeCamera == virtualCameras[1];
         public bool IsPanning { get; private set; }
         public bool IsLerpingYDamping { get; private set; }
         public bool LerpedFromPlayerFalling { get; set; }
@@ -61,17 +74,31 @@ namespace GoodLuckValley.Cameras
             startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
             currentTrackedObjectOffset = startingTrackedObjectOffset;
             targetTrackedObjectOffset = startingTrackedObjectOffset;
+        }
 
-            followObject = framingTransposer.FollowTarget.GetComponent<CameraFollowObject>();
+        private void Update()
+        {
+            Bounds bounds = CalculateCameraBounds();
+
+            onUpdateScreenBounds.Raise(this, bounds);
+        }
+
+        private Bounds CalculateCameraBounds()
+        {
+            float height = 2f * Camera.main.orthographicSize;
+            float width = height * Camera.main.aspect;
+
+            Vector3 center = Camera.main.transform.position;
+            Vector3 size = new Vector3(width, height);
+
+            return new Bounds(center, size);
         }
 
         public void SetTrackedOffset(Vector2 pos) => framingTransposer.m_TrackedObjectOffset = pos;
 
         #region PEEKING
-        public void Peek(Vector2 offset, Vector2 peekDamping, float peekDistance, float peekTime)
+        public void Peek(Vector2 offset, Vector2 peekDamping, float peekDistance, float peekLerp)
         {
-            offset = followObject.IsFacingRight ? offset : offset * -1f;
-
             Vector2 newTargetPosition = currentTrackedObjectOffset + offset;
             Vector2 clampedTargetPosition = Vector2.ClampMagnitude(newTargetPosition - startingTrackedObjectOffset, peekDistance) + startingTrackedObjectOffset;
 
@@ -82,27 +109,25 @@ namespace GoodLuckValley.Cameras
             framingTransposer.m_YDamping = peekDamping.y;
 
             if(peekCameraCoroutine == null)
-                peekCameraCoroutine = StartCoroutine(PeekCamera(peekTime));
+                peekCameraCoroutine = StartCoroutine(PeekCamera(peekLerp));
         }
 
-        public void Unpeek(float peekTime)
+        public void Unpeek()
         {
+            currentTrackedObjectOffset = startingTrackedObjectOffset;
             targetTrackedObjectOffset = startingTrackedObjectOffset;
-
-            if (peekCameraCoroutine == null)
-                peekCameraCoroutine = StartCoroutine(PeekCamera(peekTime));
         }
 
-        private IEnumerator PeekCamera(float peekTime)
+        private IEnumerator PeekCamera(float peekLerp)
         {
-            while(true)
+            while (true)
             {
                 // Calculate the new position based on the target position
-                currentTrackedObjectOffset = Vector2.Lerp(currentTrackedObjectOffset, targetTrackedObjectOffset, Time.deltaTime / peekTime);
+                currentTrackedObjectOffset = Vector2.Lerp(currentTrackedObjectOffset, targetTrackedObjectOffset, peekLerp);
 
                 framingTransposer.m_TrackedObjectOffset = currentTrackedObjectOffset;
 
-                if(Vector2.Distance(currentTrackedObjectOffset, targetTrackedObjectOffset) < 0.01f)
+                if (Vector2.Distance(currentTrackedObjectOffset, targetTrackedObjectOffset) < 0.1f)
                 {
                     framingTransposer.m_TrackedObjectOffset = targetTrackedObjectOffset;
                     currentTrackedObjectOffset = targetTrackedObjectOffset;
@@ -272,6 +297,17 @@ namespace GoodLuckValley.Cameras
             activeCamera = newCamera;
 
             // Update the framing composer
+            framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+
+        public void SwitchCamera(CameraType newCamera)
+        {
+            activeCamera.enabled = false;
+
+            activeCamera = virtualCameras[(int)newCamera];
+
+            activeCamera.enabled = true;
+
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         }
         #endregion
