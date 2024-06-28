@@ -8291,10 +8291,18 @@ MonoBehaviour:
   tryPeekBuffer: 0
   tryPeekTimeMax: 1
   tryingToPeek: 0
-  peekDistance: 2
-  peekTime: 0.5
+  peekDistance: 3
+  startPeekTime: 0.2
+  endPeekTime: 0.4
   peekDamp: {x: 0, y: 0}
   peeking: 0
+  changePeek: 0
+  currentDistance: 0
+  currentFollowPos: {x: 0, y: 0}
+  calculatedFollowPos: {x: 0, y: 0}
+  cursorPos: {x: 0, y: 0}
+  currentDirection: {x: 0, y: 0}
+  calculatedDirection: {x: 0, y: 0}
 --- !u!114 &4895178201161282688
 MonoBehaviour:
   m_ObjectHideFlags: 0

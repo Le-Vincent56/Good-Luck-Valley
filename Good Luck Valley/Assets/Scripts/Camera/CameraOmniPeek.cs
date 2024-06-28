@@ -1,9 +1,8 @@
 using GoodLuckValley.Cameras;
 using GoodLuckValley.Events;
-using System.Collections;
-using System.Collections.Generic;
+using GoodLuckValley.Extensions;
 using UnityEngine;
-using UnityEngine.Windows;
+using UnityEngine.InputSystem;
 
 public class CameraOmniPeek : MonoBehaviour
 {
@@ -21,15 +20,19 @@ public class CameraOmniPeek : MonoBehaviour
 
     [Header("Fields - Peek")]
     [SerializeField] private float peekDistance;
-    [SerializeField] private float peekTime;
+    [SerializeField] private float startPeekTime;
+    [SerializeField] private float endPeekTime;
     [SerializeField] private Vector2 peekDamp;
     [SerializeField] private bool peeking;
+    [SerializeField] private bool changePeek;
 
-    private Vector2 currentFollowPos;
-    private Vector2 previousCursorPos;
-    private Vector2 currentCursorPos;
-    private Vector2 eventCursorPos;
-    private Vector2 previousDirection;
+    [Header("Fields - Positions")]
+    [SerializeField] private float currentDistance;
+    [SerializeField] private Vector2 currentFollowPos;
+    [SerializeField] private Vector2 calculatedFollowPos;
+    [SerializeField] private Vector2 cursorPos;
+    [SerializeField] private Vector2 currentDirection;
+    [SerializeField] private Vector2 calculatedDirection;
     private Rect noPeekZone;
 
     private void Update()
@@ -59,49 +62,72 @@ public class CameraOmniPeek : MonoBehaviour
         noPeekZone.yMax = currentBounds.Top - boundaryPadding;
         noPeekZone.yMin = currentBounds.Bottom + boundaryPadding;
 
-        currentCursorPos = eventCursorPos;
+        // Get cursor position
+        Vector2 rawCursorPos = Camera.main.ScreenToWorldPoint(
+            new Vector2(
+                Mouse.current.position.ReadValue().x,
+                Mouse.current.position.ReadValue().y
+        )
+        );
 
-        // Get direction to cursor
-        Vector2 direction = (currentCursorPos - currentFollowPos).normalized;
+        cursorPos = Vector2Extensions.Round(rawCursorPos, 1);
 
-        // Check if trying to peek
-        if (currentCursorPos.x < noPeekZone.xMin || currentCursorPos.x > noPeekZone.xMax ||
-            currentCursorPos.y < noPeekZone.yMin || currentCursorPos.y > noPeekZone.yMax)
+        // Check if the cursor is within the bounds of the noPeekZone
+        if (cursorPos.x < noPeekZone.xMin || cursorPos.x > noPeekZone.xMax ||
+            cursorPos.y < noPeekZone.yMin || cursorPos.y > noPeekZone.yMax)
         {
+            // If so, try to peek
             tryingToPeek = true;
-        } else
+        }
+        else
         {
+            // If not, then stop trying to peek
             tryingToPeek = false;
 
-            if(peeking)
+            // Check if peekiing
+            if (peeking)
             {
-                // Pan the camera back
-                CameraManager.Instance.Peek(peekDistance, peekTime, direction, peekDamp, true);
+                // Stop peeking
+                CameraManager.Instance.Unpeek(endPeekTime);
             }
 
-            // TODO: Reset peeking
+            // Reset peeking variables
             tryPeekBuffer = 0f;
             peeking = false;
         }
 
-        if (peeking && previousCursorPos == currentCursorPos) return;
-
-        if (tryingToPeek)
+        // Check if we are trying to peek, but have not yet peeked
+        if(tryingToPeek && !peeking)
         {
+            // Increment the peek buffer
             tryPeekBuffer += Time.deltaTime;
 
+            // Check if the player has been trying to peek for long enough
             if(tryPeekBuffer >= tryPeekTimeMax)
             {
                 // Learn peeking
                 onLearnPeek.Raise(this, null);
 
-                // Pan the camera
-                CameraManager.Instance.Peek(peekDistance, peekTime, direction, peekDamp, false);
+                // Set peeking to true
                 peeking = true;
             }
         }
 
-        previousCursorPos = currentCursorPos;
+        // Check if the camera is peeking
+        if(peeking)
+        {
+            // Get the current direction to the cursor from the follow object
+            currentDirection = (cursorPos - currentFollowPos).normalized;
+
+            // Get the calculated destination position
+            calculatedFollowPos = Vector2Extensions.Round(currentFollowPos + (currentDirection * peekDistance), 1);
+
+            // Get the direction to the calculated follow position
+            calculatedDirection = calculatedFollowPos - currentFollowPos;
+
+            // Peek towards that direction
+            CameraManager.Instance.Peek(calculatedDirection.normalized, peekDamp, peekDistance, startPeekTime);
+        }
     }
 
     /// <summary>
@@ -118,27 +144,13 @@ public class CameraOmniPeek : MonoBehaviour
         currentBounds = (CameraData.ScreenBounds)data;
     }
 
-    /// <summary>
-    /// Update the cursor position
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="data"></param>
-    public void UpdateCursorPosition(Component sender, object data)
-    {
-        // Make sure the correct data was sent
-        if (data is not Vector2) return;
-
-        // Cast and update data
-        eventCursorPos = (Vector2)data;
-    }
-
     public void UpdateFollowPosition(Component sender, object data)
     {
         // Make sure the correct data was sent
         if (data is not Vector2) return;
 
         // Cast and update data
-        currentFollowPos = (Vector2)data;
+        currentFollowPos = Vector2Extensions.Round((Vector2)data, 1);
     }
 
     private void OnDrawGizmos()
@@ -147,6 +159,12 @@ public class CameraOmniPeek : MonoBehaviour
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(noPeekZone.center, noPeekZone.size);
+        }
+
+        if(calculatedFollowPos != null && currentFollowPos != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(currentFollowPos, calculatedFollowPos);
         }
     }
 }

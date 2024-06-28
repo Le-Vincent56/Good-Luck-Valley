@@ -17,6 +17,8 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private bool isFacingRight;
         private Coroutine turnCoroutine;
 
+        public bool IsFacingRight { get { return isFacingRight; } }
+
         void Update()
         {
             transform.position = playerTransform.position;
