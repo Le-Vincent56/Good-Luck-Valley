@@ -1,3 +1,4 @@
+using GoodLuckValley.Events;
 using System.Collections;
 using UnityEngine;
 
@@ -5,6 +6,9 @@ namespace GoodLuckValley.Cameras
 {
     public class CameraFollowObject : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onSendFollowObjectPos;
+
         [Header("References")]
         [SerializeField] private Transform playerTransform;
 
@@ -16,6 +20,8 @@ namespace GoodLuckValley.Cameras
         void Update()
         {
             transform.position = playerTransform.position;
+
+            onSendFollowObjectPos.Raise(this, (Vector2)transform.position);
         }
 
         /// <summary>

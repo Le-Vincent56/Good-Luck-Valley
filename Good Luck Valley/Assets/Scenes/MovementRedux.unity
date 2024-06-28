@@ -8234,6 +8234,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4136656142002040464, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4895178201161282686}
+    - targetCorrespondingSourceObject: {fileID: 4136656142002040464, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4895178201161282688}
+    - targetCorrespondingSourceObject: {fileID: 4136656142002040464, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4895178201161282693}
   m_SourcePrefab: {fileID: 100100000, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
 --- !u!1 &4895178201161282685 stripped
 GameObject:
@@ -8257,12 +8263,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4895178201161282687}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+        m_TargetAssemblyTypeName: CameraOmniPeek, Assembly-CSharp
+        m_MethodName: UpdateCurrentBounds
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8280,14 +8286,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb266afee5a34944c90c35cd66cd9aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 0
-  boundaryPadding: {x: 0, y: 0}
-  noPeekZone:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
+  onLearnPeek: {fileID: 11400000, guid: a1ea7caae5158bd4ebe5e6cdf577bcf1, type: 2}
+  boundaryPadding: 0.2
+  tryPeekBuffer: 0
+  tryPeekTimeMax: 1
+  tryingToPeek: 0
+  peekDistance: 2
+  peekTime: 0.5
+  peekDamp: {x: 0, y: 0}
+  peeking: 0
+--- !u!114 &4895178201161282688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4895178201161282685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 79bff9d4c6e053a4088f8609642eaaf7, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4895178201161282687}
+        m_TargetAssemblyTypeName: CameraOmniPeek, Assembly-CSharp
+        m_MethodName: UpdateCursorPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4895178201161282693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4895178201161282685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 9f3ab2e283ecc364c9c1b67b71be7c08, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4895178201161282687}
+        m_TargetAssemblyTypeName: CameraOmniPeek, Assembly-CSharp
+        m_MethodName: UpdateFollowPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4896641673443332515
 MonoBehaviour:
   m_ObjectHideFlags: 0

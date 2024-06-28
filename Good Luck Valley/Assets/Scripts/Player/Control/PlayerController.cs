@@ -192,8 +192,6 @@ namespace GoodLuckValley.Player.Control
 
             // Calculate the y-distance between the tops of the colliders
             standCheckDist = standingTop - crawlingTop;
-
-            Debug.Log(standCheckDist);
         }
 
         private void Start()
