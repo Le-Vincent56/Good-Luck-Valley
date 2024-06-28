@@ -19,28 +19,28 @@ namespace GoodLuckValley.Mushroom
             switch(bounceData.BounceCount)
             {
                 case 1:
-                    transform.localScale = new Vector3(0.75f, 0.75f);
+                    //transform.localScale = new Vector3(0.75f, 0.75f);
                     PlayBounceParticles(bounceData, 1);
                     Debug.Log("Scalar 1");
                     break;
 
                 case 2:
-                    transform.localScale = new Vector3(1.0f, 1.0f);
+                    //transform.localScale = new Vector3(1.0f, 1.0f);
                     PlayBounceParticles(bounceData, 2);
                     Debug.Log("Scalar 2");
                     break;
 
                 case 3:
-                    transform.localScale = new Vector3(0.5f, 0.5f);
+                    //transform.localScale = new Vector3(0.5f, 0.5f);
                     PlayBounceParticles(bounceData, 3);
                     Debug.Log("Scalar 3");
                     break;
             }
         }
 
-        private void PlayBounceParticles(MushroomBounce.BounceData bounceData, float velocityScalar)
+        private void PlayBounceParticles(MushroomBounce.BounceData bounceData, float effectScalar)
         {
-            shroomBounceParticles.SetFloat("VelocityScalar", velocityScalar);
+            shroomBounceParticles.SetFloat("EffectScalar", effectScalar);
             shroomBounceParticles.SetVector3("SpawnPosition", transform.position);
             shroomBounceParticles.Play();
         }
