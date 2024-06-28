@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 224870724150070256}
   - component: {fileID: 7510729778402212107}
   - component: {fileID: 7585116469709029358}
-  - component: {fileID: 7437590853358127221}
-  - component: {fileID: 7770388298496943015}
   m_Layer: 0
   m_Name: Mushroom Bounce Particles
   m_TagString: Untagged
@@ -230,47 +228,6 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 918238377
+  m_SortingLayer: 5
   m_SortingOrder: 0
---- !u!114 &7437590853358127221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5371226646640959218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c1879086a5b4546bdcbc03c7103e19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shroomBounceParticles: {fileID: 7510729778402212107}
---- !u!114 &7770388298496943015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5371226646640959218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7437590853358127221}
-        m_TargetAssemblyTypeName: GoodLuckValley.VFX.BounceParticles, Assembly-CSharp
-        m_MethodName: PlayShroomBounceParticles
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
