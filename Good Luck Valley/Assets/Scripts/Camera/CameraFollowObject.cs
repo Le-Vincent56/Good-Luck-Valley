@@ -18,6 +18,13 @@ namespace GoodLuckValley.Cameras
         private Coroutine turnCoroutine;
 
         public bool IsFacingRight { get { return isFacingRight; } }
+        public float DefaultLerpTime { get; private set; }
+
+        private void Awake()
+        {
+            // Set the default lerp time
+            DefaultLerpTime = flipYRotationTime;
+        }
 
         void Update()
         {
@@ -127,5 +134,11 @@ namespace GoodLuckValley.Cameras
                 return 180f;
             }
         }
+
+        /// <summary>
+        /// Set the lerp time of the rotation
+        /// </summary>
+        /// <param name="time"></param>
+        public void SetLerpTime(float time) => flipYRotationTime = time;
     }
 }

@@ -41,25 +41,19 @@ namespace GoodLuckValley.Cameras
 
         private void Update()
         {
-            // Check if already panning
-            if (CameraManager.Instance.IsPanning)
-            {
-                // Reset the peek variables
-                return;
-            }
+            // Reset peeking if already panning due to a scripted scene
+            if (CameraManager.Instance.IsPanning) canPeek = false;
 
-            // Check if the camera is the default follow camera or the peek camera
-            if (!CameraManager.Instance.IsDefaultCam && !CameraManager.Instance.IsPeekCam)
-            {
-                // Reset the peek variables
-                return;
-            }
+            // Reset peeking if the camera is currently lerping offsets
+            if (CameraManager.Instance.LerpingOffsets) canPeek = false;
 
-            if (peeking && !canPeek)
-            {
-                ResetPeek();
-            }
+            // Reset peeking if the camera is the default follow camera or the peek camera
+            if (!CameraManager.Instance.IsDefaultCam && !CameraManager.Instance.IsPeekCam) canPeek = false;
 
+            // Reset if already peeking and told that the camera cannot peek
+            if (peeking && !canPeek) ResetPeek();
+
+            // Return if the player can't peek
             if (!canPeek) return;
 
             // Create rect if not created already

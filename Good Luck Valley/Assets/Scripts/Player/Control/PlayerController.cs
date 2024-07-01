@@ -30,6 +30,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
         [SerializeField] private PlayerSFXHandler sfxHandler;
+        [SerializeField] private CameraFollowObject followObject;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -90,6 +91,7 @@ namespace GoodLuckValley.Player.Control
             devTools = GetComponentInChildren<DevTools>();
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+            followObject = GetComponentInChildren<CameraFollowObject>();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -440,10 +442,10 @@ namespace GoodLuckValley.Player.Control
 
             // Show more underneath the player if they are falling
             if(velocity.y <= fallSpeedDampingChangeThreshold &&
-                !CameraManager.Instance.IsLerpingYDamping && !CameraManager.Instance.LerpedFromPlayerFalling
+                !CameraManager.Instance.IsLerpingFallOffset && !CameraManager.Instance.LerpedFromPlayerFalling
                 && !collisionHandler.collisions.CameraWithinGroundDistance)
             {
-                CameraManager.Instance.LerpYDamping(true);
+                CameraManager.Instance.LerpFallOffset(true);
             }
 
             // Reset the camera when predicting ground to avoid bounciness with the camera re-adjusting
@@ -451,7 +453,7 @@ namespace GoodLuckValley.Player.Control
                 && collisionHandler.collisions.CameraWithinGroundDistance)
             {
                 CameraManager.Instance.LerpedFromPlayerFalling = false;
-                CameraManager.Instance.LerpYDamping(false);
+                CameraManager.Instance.LerpFallOffset(false);
             }
         }
 
@@ -480,11 +482,39 @@ namespace GoodLuckValley.Player.Control
                 }
             }
 
+            // Check if the camera should be lerped at a base level
+            if ((collisionHandler.collisions.Layer == CollisionLayer.Slope && !CameraManager.Instance.IsLerpingSlideOffset && !CameraManager.Instance.LerpedFromPlayerSliding
+                && collisionHandler.collisions.LastSlopeVerticalDirection != 0) ||
+                (collisionHandler.collisions.Layer == CollisionLayer.Slope && 
+                collisionHandler.collisions.PrevLastSlopeVerticalDirection != collisionHandler.collisions.LastSlopeVerticalDirection))
+            {
+                bool changedDirections = 
+                    (collisionHandler.collisions.LastSlopeVerticalDirection != 0 && collisionHandler.collisions.PrevLastSlopeVerticalDirection != 0)
+                    ? collisionHandler.collisions.PrevLastSlopeVerticalDirection != collisionHandler.collisions.LastSlopeVerticalDirection
+                    : false;
+
+                // Get the camera direction
+                Vector2 cameraDirection = new Vector2(
+                    (int)Mathf.Sign(collisionHandler.collisions.SlopeNormal.x),
+                    collisionHandler.collisions.LastSlopeVerticalDirection
+                );
+
+                // Lerp the slide
+                CameraManager.Instance.LerpSlideOffset(followObject, cameraDirection, true, changedDirections);
+            }
+
             // If grounded, or moving upwards, reset the camera
-            if (velocity.y >= 0f && CameraManager.Instance.LerpedFromPlayerFalling)
+            if (velocity.y >= 0f && CameraManager.Instance.LerpedFromPlayerFalling && collisionHandler.collisions.Layer != CollisionLayer.Slope)
             {
                 CameraManager.Instance.LerpedFromPlayerFalling = false;
-                CameraManager.Instance.LerpYDamping(false);
+                CameraManager.Instance.LerpFallOffset(false);
+            }
+
+            // If moving upwards or lerping from player sliding and not descending slopes, reset the camera
+            if(velocity.y >= 0f && CameraManager.Instance.LerpedFromPlayerSliding && collisionHandler.collisions.Layer != CollisionLayer.Slope)
+            {
+                CameraManager.Instance.LerpedFromPlayerSliding = false;
+                CameraManager.Instance.LerpSlideOffset(followObject, Vector2.zero, false);
             }
         }
 
