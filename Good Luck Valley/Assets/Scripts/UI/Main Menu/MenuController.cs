@@ -77,6 +77,9 @@ namespace GoodLuckValley.UI.MainMenu
             currentState = StateMachine.CurrentState.ToString().Substring(27);
         }
 
+        public void NewGame() => SaveLoadSystem.Instance.NewGame();
+        public void ContinueGame() => SaveLoadSystem.Instance.ContinueGame();
+
         /// <summary>
         /// Check the current Menu State
         /// </summary>
