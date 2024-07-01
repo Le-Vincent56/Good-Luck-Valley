@@ -1,5 +1,6 @@
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Interactables;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace GoodLuckValley.Entity
         Decomposable = 12,
     }
 
+    [Serializable]
     public class DynamicCollisionHandler : Raycaster
     {
         public struct CollisionInfo
@@ -31,6 +33,9 @@ namespace GoodLuckValley.Entity
             public int FacingDirection;
             public bool SlidingDownMaxSlope;
             public Vector2 SlopeNormal;
+            public Vector2 LastSeenSlopeNormal;
+            public int PrevLastSlopeVerticalDirection;
+            public int LastSlopeVerticalDirection;
             public CollisionLayer Layer;
             public RaycastHit2D VerticalCollisionRay;
             public RaycastHit2D HorizontalCollisionRay;
@@ -47,6 +52,7 @@ namespace GoodLuckValley.Entity
                 ClimbingSlope = false;
                 DescendingSlope = false;
                 PrevSlopeAngle = SlopeAngle;
+                PrevLastSlopeVerticalDirection = LastSlopeVerticalDirection;
                 SlopeAngle = 0f;
                 SlopeNormal = Vector2.zero;
                 SlidingDownMaxSlope = false;
@@ -63,7 +69,7 @@ namespace GoodLuckValley.Entity
         [SerializeField] private LayerMask collisionMask;
         [SerializeField] private float maxSlopeAngle;
         [SerializeField] private CollisionLayer currentLayer;
-        public CollisionInfo collisions;
+        [SerializeField] public CollisionInfo collisions;
         private Dictionary<int, CollisionLayer> layers;
 
         private void Start()
@@ -186,7 +192,15 @@ namespace GoodLuckValley.Entity
                     collisions.Below = (directionY == -1);
                     collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
-                } else
+
+                    // Reset the last seen slope variables if detecting ground
+                    if(collisions.Layer == CollisionLayer.Ground)
+                    {
+                        collisions.LastSeenSlopeNormal = Vector2.zero;
+                        collisions.LastSlopeVerticalDirection = 0;
+                    }
+                        
+                } else if(!collisions.Above && !collisions.Below)
                 {
                     currentLayer = CollisionLayer.None;
                 }
@@ -243,11 +257,8 @@ namespace GoodLuckValley.Entity
                         // Set the new slope
                         collisions.SlopeAngle = slopeAngle;
                         collisions.Layer = layers[hit.transform.gameObject.layer];
+                        collisions.LastSlopeVerticalDirection = 1;
                         currentLayer = collisions.Layer;
-                    }
-                    else
-                    {
-                        currentLayer = CollisionLayer.None;
                     }
                 }
             }
@@ -349,10 +360,6 @@ namespace GoodLuckValley.Entity
                         collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                         currentLayer = collisions.Layer;
                     }
-                    else
-                    {
-                        currentLayer = CollisionLayer.None;
-                    }
                 }
             }
 
@@ -402,14 +409,12 @@ namespace GoodLuckValley.Entity
                 velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
                 collisions.Below = true;
                 collisions.ClimbingSlope = true;
+                collisions.LastSlopeVerticalDirection = 1;
                 collisions.SlopeAngle = slopeAngle;
                 collisions.SlopeNormal = hit.normal;
+                collisions.LastSeenSlopeNormal = collisions.SlopeNormal;
                 collisions.Layer = layers[hit.transform.gameObject.layer];
                 currentLayer = collisions.Layer;
-            }
-            else
-            {
-                currentLayer = CollisionLayer.None;
             }
         }
 
@@ -459,15 +464,13 @@ namespace GoodLuckValley.Entity
 
                                 collisions.SlopeAngle = slopeAngle;
                                 collisions.DescendingSlope = true;
+                                collisions.LastSlopeVerticalDirection = -1;
                                 collisions.Below = true;
                                 collisions.SlopeNormal = hit.normal;
+                                collisions.LastSeenSlopeNormal = collisions.SlopeNormal;
                                 collisions.SlopeDescentDirection = (int)Mathf.Sign(hit.normal.x);
                                 collisions.Layer = layers[hit.transform.gameObject.layer];
                                 currentLayer = collisions.Layer;
-                            }
-                            else
-                            {
-                                currentLayer = CollisionLayer.None;
                             }
                         }
                     }
@@ -496,12 +499,10 @@ namespace GoodLuckValley.Entity
                     collisions.SlopeAngle = slopeAngle;
                     collisions.SlidingDownMaxSlope = true;
                     collisions.SlopeNormal = hit.normal;
+                    collisions.LastSlopeVerticalDirection = -1;
+                    collisions.LastSeenSlopeNormal = collisions.SlopeNormal;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
-                }
-                else
-                {
-                    currentLayer = CollisionLayer.None;
                 }
             }
         }
