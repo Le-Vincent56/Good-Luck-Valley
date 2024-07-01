@@ -237,7 +237,7 @@ namespace GoodLuckValley.Cameras
         #endregion
 
         #region SLIDE-LERPING
-        public void LerpSlideOffset(CameraFollowObject followObject, Vector2 slideDirection, bool isPlayerSliding, bool changedDirections = false)
+        public void LerpSlopeOffset(CameraFollowObject followObject, Vector2 slideDirection, bool isPlayerSliding, bool changedDirections = false)
         {
             // If peeking, unpeek
             if (peeking)
@@ -246,21 +246,22 @@ namespace GoodLuckValley.Cameras
             if (lerpSlideOffsetCoroutine != null)
                 StopCoroutine(lerpSlideOffsetCoroutine);
 
+            // Check if the player is changing directions
             if(changedDirections && isPlayerSliding)
             {
                 followObject.SetLerpTime(slideFollowLerpTime);
 
-                lerpSlideOffsetCoroutine = StartCoroutine(LerpSlideActionY(slideDirection.y));
+                lerpSlideOffsetCoroutine = StartCoroutine(LerpSlopeActionY(slideDirection.y));
             } else
             {
                 // Set the default lerp time for the follow obejct
                 followObject.SetLerpTime(followObject.DefaultLerpTime);
 
-                lerpSlideOffsetCoroutine = StartCoroutine(LerpSlideAction(slideDirection, isPlayerSliding));
+                lerpSlideOffsetCoroutine = StartCoroutine(LerpSlopeAction(slideDirection, isPlayerSliding));
             }
         }
 
-        private IEnumerator LerpSlideActionY(float slideDirectionY)
+        private IEnumerator LerpSlopeActionY(float slideDirectionY)
         {
             IsLerpingSlideOffset = true;
             LerpedFromPlayerSliding = true;
@@ -311,7 +312,7 @@ namespace GoodLuckValley.Cameras
             IsLerpingSlideOffset = false;
         }
 
-        private IEnumerator LerpSlideAction(Vector2 slideDirection,bool isPlayerSliding)
+        private IEnumerator LerpSlopeAction(Vector2 slideDirection,bool isPlayerSliding)
         {
             IsLerpingSlideOffset = true;
 
@@ -353,8 +354,6 @@ namespace GoodLuckValley.Cameras
 
                 // Set the end position to the original tracked object offset
                 endPos = startingTrackedObjectOffset;
-
-                Debug.Log("Start Pos: " + startPos + ", End Pos: " + endPos);
             }
 
             // Lerp the pan amount
@@ -363,9 +362,9 @@ namespace GoodLuckValley.Cameras
             {
                 elapsedTime += Time.deltaTime;
 
-                // Calculate t for easing
+                // Sine easing
                 float t = elapsedTime / panTime;
-                t = Mathf.SmoothStep(0f, 1f, t);
+                t = Mathf.Sin(t * Mathf.PI * 0.5f);
 
                 // Lerp the pan
                 Vector3 panLerp = Vector3.Lerp(startPos, endPos, t);
