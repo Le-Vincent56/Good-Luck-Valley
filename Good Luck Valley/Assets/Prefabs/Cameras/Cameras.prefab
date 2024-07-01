@@ -470,13 +470,19 @@ MonoBehaviour:
   - {fileID: 904309322676359139}
   - {fileID: 8956588383120990035}
   activeCamera: {fileID: 0}
-  fallPanAmount: 3.5
-  fallDampAmount: 2
-  fallPanDownTime: 0.5
-  fallPanReturnTime: 0.4
-  fallSpeedDampingChangeThreshold: -5
   normYPanAmount: 0
   normXPanAmount: 0
+  peeking: 0
+  fallPanAmount: 3.5
+  fallDampAmount: 2
+  fallPanDownTime: 1
+  fallPanReturnTime: 0.6
+  fallSpeedDampingChangeThreshold: -5
+  slidePanAmount: {x: 2, y: 2}
+  slideDampAmount: {x: 1, y: 1}
+  slideFollowLerpTime: 1.3
+  slidePanDownTime: 1.6
+  slidePanReturnTime: 0.6
 --- !u!114 &3490228112016692920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,7 +843,7 @@ Transform:
   m_GameObject: {fileID: 5986701206259390396}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -74.63939, y: -24.894238, z: -10.013675}
+  m_LocalPosition: {x: -62.31939, y: -24.794235, z: -10.013675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1174,7 +1180,7 @@ Transform:
   m_GameObject: {fileID: 8151357047097989398}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -74.63939, y: -24.894238, z: -10.013675}
+  m_LocalPosition: {x: -62.31939, y: -24.794235, z: -10.013675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -1519,10 +1519,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TransitionLevel, Assembly-CSharp
-        m_MethodName: GoToThisLevel
-        m_Mode: 5
+      - m_Target: {fileID: 728416619}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.MenuController, Assembly-CSharp
+        m_MethodName: ContinueGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12542,30 +12542,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1563783168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6b4e9d7a46b3f7438d5583741310f13, type: 3}
+  m_Script: {fileID: 11500000, guid: a02d6a11e56431a4bad1ec2c5a361128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCameraMove: {fileID: 11400000, guid: e09a29b294e85384d8d47ab81aab62e3, type: 2}
   onUpdateScreenBounds: {fileID: 11400000, guid: bd54c786ef2b4544fa4616cca6ee552e, type: 2}
-  smartCam: {fileID: 0}
-  currentMainViewport:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  previousCMViewport:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  currentCMViewport:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
 --- !u!1 &1582885679
 GameObject:
   m_ObjectHideFlags: 0
@@ -15466,17 +15446,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838128188}
   m_CullTransparentMesh: 1
---- !u!114 &1845841866 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6655149103432159469, guid: 5856bf4cb1a88f14ba1a7a09cb18f750, type: 3}
-  m_PrefabInstance: {fileID: 2055198691}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a12bf67fcb66144b9dd187c121eeaee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1847053291
 GameObject:
   m_ObjectHideFlags: 0
@@ -16345,8 +16314,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1845841866}
-        m_TargetAssemblyTypeName: GoodLuckValley.Persistence.SaveLoadSystem, Assembly-CSharp
+      - m_Target: {fileID: 728416619}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.MenuController, Assembly-CSharp
         m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
