@@ -86,7 +86,7 @@ namespace GoodLuckValley.Player.Control
         private void Awake()
         {
             // Get components
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
             collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
@@ -500,7 +500,7 @@ namespace GoodLuckValley.Player.Control
                 );
 
                 // Lerp the slide
-                CameraManager.Instance.LerpSlideOffset(followObject, cameraDirection, true, changedDirections);
+                CameraManager.Instance.LerpSlopeOffset(followObject, cameraDirection, true, changedDirections);
             }
 
             // If grounded, or moving upwards, reset the camera
@@ -514,7 +514,7 @@ namespace GoodLuckValley.Player.Control
             if(velocity.y >= 0f && CameraManager.Instance.LerpedFromPlayerSliding && collisionHandler.collisions.Layer != CollisionLayer.Slope)
             {
                 CameraManager.Instance.LerpedFromPlayerSliding = false;
-                CameraManager.Instance.LerpSlideOffset(followObject, Vector2.zero, false);
+                CameraManager.Instance.LerpSlopeOffset(followObject, Vector2.zero, false);
             }
         }
 

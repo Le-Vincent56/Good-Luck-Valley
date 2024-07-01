@@ -17,7 +17,10 @@ namespace GoodLuckValley.Player.States
             player.LearnControl("Slide");
 
             // TODO: Replace with slide animation
-            animator.CrossFade(LocomotionHash, crossFadeDuration);
+            animator.CrossFade(SlideHash, crossFadeDuration);
+
+            // Set slide transform
+            animator.transform.localPosition = new Vector2(animator.transform.localPosition.x - 0.25f, animator.transform.localPosition.y);
 
             // Allow the player to peek
             player.SetCanPeek(true);
@@ -39,6 +42,9 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
+            // Reset slide transform
+            animator.transform.localPosition = new Vector2(animator.transform.localPosition.x + 0.25f, animator.transform.localPosition.y);
+
             // TODO: (Maybe) reset slide sound
         }
     }
