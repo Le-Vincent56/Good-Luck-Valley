@@ -1067,6 +1067,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1625793729386976011}
   - component: {fileID: 4766348710842266182}
+  - component: {fileID: 4911574724411822996}
   - component: {fileID: 5788275715540116562}
   - component: {fileID: 1220538795847296189}
   m_Layer: 0
@@ -1108,6 +1109,18 @@ MonoBehaviour:
   isBouncing: 0
   canBounce: 0
   bounceForce: 10
+--- !u!114 &4911574724411822996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4251934024621643868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e8eed1846a786418ff19112ff7978a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5788275715540116562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,6 +1149,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4911574724411822996}
+        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
+          Assembly-CSharp
+        m_MethodName: InitiateAndPlayEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1220538795847296189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1156,6 +1182,19 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
         m_MethodName: ResetBounce
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4911574724411822996}
+        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
+          Assembly-CSharp
+        m_MethodName: StopEffect
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1609,6 +1648,7 @@ MonoBehaviour:
   throwMultiplier: 407.5
   canThrow: 1
   throwState: 0
+  sporeVFX: {fileID: 0}
 --- !u!114 &8410818967186305475
 MonoBehaviour:
   m_ObjectHideFlags: 0
