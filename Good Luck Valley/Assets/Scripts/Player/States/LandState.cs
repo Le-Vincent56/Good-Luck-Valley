@@ -7,16 +7,21 @@ namespace GoodLuckValley.Player.States
     public class LandState : BaseState
     {
         private readonly PlayerSFXHandler sfx;
+        private readonly PlayerParticlesController particles;
 
-        public LandState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
+        public LandState(PlayerController player, Animator animator, PlayerSFXHandler sfx, PlayerParticlesController particles) : base(player, animator)
         {
             this.sfx = sfx;
+            this.particles = particles;
         }
 
         public override void OnEnter()
         {
             // Play the land sound effect
             sfx.Land();
+
+            // Play land particles
+            particles.HandleLandParticles();
         }
 
         public override void FixedUpdate()

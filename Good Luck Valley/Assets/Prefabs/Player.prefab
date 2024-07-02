@@ -994,6 +994,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &4098618095103433846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1874665483524763777}
+  m_Layer: 10
+  m_Name: Land Particles Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1874665483524763777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4098618095103433846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.652, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4157728105775766138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1098,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1625793729386976011}
   - component: {fileID: 4766348710842266182}
-  - component: {fileID: 4911574724411822996}
   - component: {fileID: 5788275715540116562}
   - component: {fileID: 1220538795847296189}
   m_Layer: 0
@@ -1109,18 +1139,6 @@ MonoBehaviour:
   isBouncing: 0
   canBounce: 0
   bounceForce: 10
---- !u!114 &4911574724411822996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4251934024621643868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3e8eed1846a786418ff19112ff7978a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5788275715540116562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1149,7 +1167,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4911574724411822996}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
           Assembly-CSharp
         m_MethodName: InitiateAndPlayEffect
@@ -1190,7 +1208,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4911574724411822996}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
           Assembly-CSharp
         m_MethodName: StopEffect
@@ -1203,64 +1221,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &4720176512460996794
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7325320347257684249}
-  - component: {fileID: 7215556231266280211}
-  m_Layer: 0
-  m_Name: Player Particles Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7325320347257684249
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4720176512460996794}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.091, y: -0.628, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2414757590046708016}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7215556231266280211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4720176512460996794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61d563eebe76f4b40a23459299d486e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grassParticle: {fileID: 0}
-  dirtParticle: {fileID: 0}
-  timeSinceLastParticle: 0
-  timeBetweenParticles: 0.1
-  minXVelocity: 3.5
-  detectTileType:
-    direction: 1
-    distance: 10
-    dirtLayer:
-      serializedVersion: 2
-      m_Bits: 16384
-    grassLayer:
-      serializedVersion: 2
-      m_Bits: 32768
 --- !u!1 &5100838675558143619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,6 +1411,41 @@ MonoBehaviour:
   - {x: -29.520935, y: -10.827106, z: -0.0000000018626451}
   - {x: -46.34418, y: -4.067898, z: -0.0000000018626451}
   - {x: -41.681644, y: -20.107616, z: -0.0000000018626451}
+--- !u!1 &6970480993911136760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7971081741340313663}
+  m_Layer: 10
+  m_Name: Player Particles Hardpoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7971081741340313663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6970480993911136760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8433651813274011594}
+  - {fileID: 8536587783710387406}
+  - {fileID: 1874665483524763777}
+  - {fileID: 5718666806328399981}
+  m_Father: {fileID: 2414757590046708016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6988039211361314857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1728,68 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &8426544341988214441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8433651813274011594}
+  m_Layer: 10
+  m_Name: Run Particles Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8433651813274011594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426544341988214441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8484946615333333410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8536587783710387406}
+  m_Layer: 10
+  m_Name: Jump Particles Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8536587783710387406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8484946615333333410}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.652, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9047676686677396218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,8 +1840,8 @@ Transform:
   - {fileID: 5934230490664107429}
   - {fileID: 1465558386990664987}
   - {fileID: 4520939286314282537}
-  - {fileID: 7325320347257684249}
   - {fileID: 7509024588537334907}
+  - {fileID: 7971081741340313663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &8729480241898235974
@@ -1884,6 +1941,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 263f2bec0a34f804b808f7105f2570e8, type: 2}
   devTools: {fileID: 0}
   sfxHandler: {fileID: 0}
+  particlesController: {fileID: 0}
   followObject: {fileID: 0}
   gravity: 0
   maxJumpVelocity: 0
@@ -2224,3 +2282,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &9113423550294391236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5718666806328399981}
+  m_Layer: 10
+  m_Name: Bounce Airtime Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5718666806328399981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9113423550294391236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
