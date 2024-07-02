@@ -12,7 +12,7 @@ namespace GoodLuckValley.VFX
 
         private void Update()
         {
-            //vfx.SetVector2("WorldSpawnPosition", transform.position);
+            vfx.SetVector2("WorldSpawnPosition", transform.position);
         }
 
         public void InitiateAndPlayEffect(VisualEffect vfx)

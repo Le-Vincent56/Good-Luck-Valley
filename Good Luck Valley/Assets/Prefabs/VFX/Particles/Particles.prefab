@@ -120,8 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdadb921d01fdf46850dece254e6fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grassRunVFX: {fileID: 0}
-  dirtRunVFX: {fileID: 0}
+  grassRunVFX: {fileID: 8326147010549941512}
+  dirtRunVFX: {fileID: 7741442562264391357}
   runParticlesHardpoint: {fileID: 0}
   grassJumpVFX: {fileID: 4041607799474666945}
   dirtJumpVFX: {fileID: 6203553933282709106}
@@ -132,17 +132,17 @@ MonoBehaviour:
   bounceAirtimeVFX: {fileID: 7040737533403282195}
   bounceAirtimeParticlesHardpoint: {fileID: 0}
   timeSinceLastParticle: 0
-  timeBetweenParticles: 0
-  minXVelocity: 0
+  timeBetweenParticles: 0.1
+  minXVelocity: 2
   detectTileType:
-    direction: 0
-    distance: 0
+    direction: 1
+    distance: 1
     dirtLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 16384
     grassLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 32768
 --- !u!114 &8419709305097339012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +489,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1884746510336042435, guid: 6bc839f60b66ff74ebf38db498aa12ab, type: 3}
   m_PrefabInstance: {fileID: 866232140279410817}
   m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &7741442562264391357 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 7451866889576951356, guid: 6bc839f60b66ff74ebf38db498aa12ab, type: 3}
+  m_PrefabInstance: {fileID: 866232140279410817}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1550508834361092028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -546,6 +551,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94767bd8361393e499f55b2bf15afa28, type: 3}
+--- !u!2083052967 &8326147010549941512 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 7352382605719773876, guid: 94767bd8361393e499f55b2bf15afa28, type: 3}
+  m_PrefabInstance: {fileID: 1550508834361092028}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8326147010549941518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7352382605719773874, guid: 94767bd8361393e499f55b2bf15afa28, type: 3}
