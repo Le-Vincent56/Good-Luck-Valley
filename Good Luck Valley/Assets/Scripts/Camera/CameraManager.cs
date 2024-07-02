@@ -3,6 +3,7 @@ using UnityEngine;
 using Cinemachine;
 using System.Collections;
 using GoodLuckValley.Events;
+using UnityEngine.UIElements;
 
 namespace GoodLuckValley.Cameras
 {
@@ -24,27 +25,42 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private CinemachineVirtualCamera[] virtualCameras;
         [SerializeField] private CinemachineVirtualCamera activeCamera;
 
-        [Header("Fields")]
+        [Header("Fields - General")]
+        [SerializeField] private float normYPanAmount;
+        [SerializeField] private float normXPanAmount;
+        [SerializeField] private bool peeking;
+
+        [Header("Fields - Falling")]
         [SerializeField] private float fallPanAmount = 2f;
         [SerializeField] private float fallDampAmount;
         [SerializeField] private float fallPanDownTime = 0.35f;
         [SerializeField] private float fallPanReturnTime = 0.15f;
         [SerializeField] private float fallSpeedDampingChangeThreshold = -4;
-        [SerializeField] private float normYPanAmount;
-        [SerializeField] private float normXPanAmount;
+
+        [Header("Fields - Sliding")]
+        [SerializeField] private Vector2 slidePanAmount;
+        [SerializeField] private Vector2 slideDampAmount;
+        [SerializeField] private float slideFollowLerpTime = 1.8f;
+        [SerializeField] private float slidePanDownTime = 0.15f;
+        [SerializeField] private float slidePanReturnTime = 0.15f;
+
         private Vector2 startingTrackedObjectOffset;
         private Vector2 currentTrackedObjectOffset;
         private Vector2 targetTrackedObjectOffset;
-        private Coroutine lerpYPanCoroutine;
+        private Coroutine lerpFallOffsetCoroutine;
+        private Coroutine lerpSlideOffsetCoroutine;
         private Coroutine panCameraCoroutine;
         private Coroutine peekCameraCoroutine;
         private CinemachineFramingTransposer framingTransposer;
 
-        public bool IsDefaultCam => activeCamera == virtualCameras[0];
-        public bool IsPeekCam => activeCamera == virtualCameras[1];
+        public bool IsDefaultCam => activeCamera == virtualCameras[(int)CameraType.Default];
+        public bool IsPeekCam => activeCamera == virtualCameras[(int)CameraType.Peek];
         public bool IsPanning { get; private set; }
-        public bool IsLerpingYDamping { get; private set; }
+        public bool IsLerpingFallOffset { get; private set; }
         public bool LerpedFromPlayerFalling { get; set; }
+        public bool IsLerpingSlideOffset { get; private set; }
+        public bool LerpedFromPlayerSliding { get; set; }
+        public bool LerpingOffsets { get => IsLerpingFallOffset || IsLerpingSlideOffset; }
         public float FallSpeedDampingChangeThreshold { get { return fallSpeedDampingChangeThreshold; } }
 
         protected override void Awake()
@@ -110,12 +126,16 @@ namespace GoodLuckValley.Cameras
 
             if(peekCameraCoroutine == null)
                 peekCameraCoroutine = StartCoroutine(PeekCamera(peekLerp));
+
+            peeking = true;
         }
 
         public void Unpeek()
         {
             currentTrackedObjectOffset = startingTrackedObjectOffset;
             targetTrackedObjectOffset = startingTrackedObjectOffset;
+
+            peeking = false;
         }
 
         private IEnumerator PeekCamera(float peekLerp)
@@ -144,18 +164,18 @@ namespace GoodLuckValley.Cameras
         }
         #endregion
 
-        #region Y-LERPING
-        public void LerpYDamping(bool isPlayerFalling)
+        #region FALL-LERPING
+        public void LerpFallOffset(bool isPlayerFalling)
         {
-            if(lerpYPanCoroutine != null)
-                StopCoroutine(lerpYPanCoroutine);
+            if(lerpFallOffsetCoroutine != null)
+                StopCoroutine(lerpFallOffsetCoroutine);
 
-            lerpYPanCoroutine = StartCoroutine(LerpYAction(isPlayerFalling));
+            lerpFallOffsetCoroutine = StartCoroutine(LerpFallAction(isPlayerFalling));
         }
 
-        private IEnumerator LerpYAction(bool isPlayerFalling)
+        private IEnumerator LerpFallAction(bool isPlayerFalling)
         {
-            IsLerpingYDamping = true;
+            IsLerpingFallOffset = true;
 
             Vector2 endPos;
             Vector2 startPos;
@@ -170,7 +190,7 @@ namespace GoodLuckValley.Cameras
                 // Set the framing transposer's damping
                 framingTransposer.m_YDamping = fallDampAmount;
 
-                // Get the end position
+                // Get the start and end position
                 endPos = new Vector2(0, -fallPanAmount);
                 startPos = startingTrackedObjectOffset;
 
@@ -206,12 +226,162 @@ namespace GoodLuckValley.Cameras
                 // Set the pan
                 framingTransposer.m_TrackedObjectOffset = panLerp;
 
+                // Reset damping
                 framingTransposer.m_YDamping = normYPanAmount;
 
                 yield return null;
             }
 
-            IsLerpingYDamping = false;
+            IsLerpingFallOffset = false;
+        }
+        #endregion
+
+        #region SLIDE-LERPING
+        public void LerpSlopeOffset(CameraFollowObject followObject, Vector2 slideDirection, bool isPlayerSliding, bool changedDirections = false)
+        {
+            // If peeking, unpeek
+            if (peeking)
+                Unpeek();
+
+            if (lerpSlideOffsetCoroutine != null)
+                StopCoroutine(lerpSlideOffsetCoroutine);
+
+            // Check if the player is changing directions
+            if(changedDirections && isPlayerSliding)
+            {
+                followObject.SetLerpTime(slideFollowLerpTime);
+
+                lerpSlideOffsetCoroutine = StartCoroutine(LerpSlopeActionY(slideDirection.y));
+            } else
+            {
+                // Set the default lerp time for the follow obejct
+                followObject.SetLerpTime(followObject.DefaultLerpTime);
+
+                lerpSlideOffsetCoroutine = StartCoroutine(LerpSlopeAction(slideDirection, isPlayerSliding));
+            }
+        }
+
+        private IEnumerator LerpSlopeActionY(float slideDirectionY)
+        {
+            IsLerpingSlideOffset = true;
+            LerpedFromPlayerSliding = true;
+
+            Vector2 startPos;
+            Vector2 endPos;
+
+            // Set the framing transposer's damping
+            framingTransposer.m_XDamping = slideDampAmount.x;
+            framingTransposer.m_YDamping = slideDampAmount.y;
+
+            // Get the start and end position
+            float slidePanY = (Mathf.Sign(slideDirectionY) < 0) ? -slidePanAmount.y : slidePanAmount.y;
+
+            endPos = new Vector2(0, slidePanY * 2);
+            startPos = framingTransposer.m_TrackedObjectOffset;
+
+            // Combine the positions
+            endPos += startPos;
+
+            endPos.x = startingTrackedObjectOffset.x + slidePanAmount.x;
+            endPos.y = Mathf.Clamp(endPos.y, -2, 2);
+
+            // Lerp the pan amount
+            float elapsedTime = 0f;
+            while (elapsedTime < slidePanDownTime)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // Sine easing
+                float t = elapsedTime / slidePanDownTime;
+                t = Mathf.Sin(t * Mathf.PI * 0.5f);
+
+                // Lerp the pan
+                Vector3 panLerp = Vector3.Lerp(startPos, endPos, t);
+
+                // Set the pan
+                framingTransposer.m_TrackedObjectOffset = panLerp;
+
+                // Reset damping
+                framingTransposer.m_YDamping = 1;
+
+                yield return null;
+            }
+
+            framingTransposer.m_TrackedObjectOffset = endPos;
+
+            IsLerpingSlideOffset = false;
+        }
+
+        private IEnumerator LerpSlopeAction(Vector2 slideDirection,bool isPlayerSliding)
+        {
+            IsLerpingSlideOffset = true;
+
+            Vector2 startPos;
+            Vector2 endPos;
+
+            float panTime = slidePanDownTime;
+
+            if(isPlayerSliding)
+            {
+                LerpedFromPlayerSliding = true;
+
+                // Set the framing transposer's damping
+                framingTransposer.m_XDamping = slideDampAmount.x;
+                framingTransposer.m_YDamping = slideDampAmount.y;
+
+                // Get the start and end position
+                float slidePanY = (Mathf.Sign(slideDirection.y) < 0) ? -slidePanAmount.y : slidePanAmount.y;
+
+                endPos = new Vector2(slidePanAmount.x, slidePanY);
+                startPos = framingTransposer.m_TrackedObjectOffset;
+
+                // Combine the positions
+                endPos += startPos;
+
+                endPos.x = startingTrackedObjectOffset.x + slidePanAmount.x;
+                endPos.y = Mathf.Clamp(endPos.y, -2, 2);
+            } else
+            {
+                // Set the pan time to the returning time
+                panTime = slidePanReturnTime;
+
+                // Set the framing transposer's damping
+                framingTransposer.m_XDamping = normXPanAmount;
+                framingTransposer.m_YDamping = normYPanAmount;
+
+                // Set the starting position to the current tracked object offset
+                startPos = framingTransposer.m_TrackedObjectOffset;
+
+                // Set the end position to the original tracked object offset
+                endPos = startingTrackedObjectOffset;
+            }
+
+            // Lerp the pan amount
+            float elapsedTime = 0f;
+            while (elapsedTime < panTime)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // Sine easing
+                float t = elapsedTime / panTime;
+                t = Mathf.Sin(t * Mathf.PI * 0.5f);
+
+                // Lerp the pan
+                Vector3 panLerp = Vector3.Lerp(startPos, endPos, t);
+
+                // Set the pan
+                framingTransposer.m_TrackedObjectOffset = panLerp;
+
+                // Reset damping
+                framingTransposer.m_XDamping = normXPanAmount;
+                framingTransposer.m_YDamping = normYPanAmount;
+
+                yield return null;
+            }
+
+            framingTransposer.m_TrackedObjectOffset = endPos;
+
+            IsLerpingSlideOffset = false;
         }
         #endregion
 
