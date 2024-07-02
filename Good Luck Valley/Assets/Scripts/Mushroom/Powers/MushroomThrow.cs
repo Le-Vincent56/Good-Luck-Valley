@@ -2,7 +2,9 @@ using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.Blackboard;
 using GoodLuckValley.Patterns.ServiceLocator;
 using GoodLuckValley.Player.Input;
+using GoodLuckValley.VFX;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace GoodLuckValley.Mushroom
 {
@@ -51,6 +53,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
+        [SerializeField] private VisualEffect sporeVFX;
         private Blackboard playerBlackboard;
         private BlackboardKey unlockedThrow;
         private BlackboardKey isCrawling;
@@ -149,6 +152,8 @@ namespace GoodLuckValley.Mushroom
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
             newSpore.GetComponent<Spore>().SetSpawnInfo(finalSpawnInfo);
             newSpore.GetComponent<Spore>().ThrowSpore(throwDirection);
+            // Spore airtime particles
+            SporeAirtimeParticlesHandler(newSpore);
 
             // Set throwing for the PlayerController
             // Calls to:
@@ -217,6 +222,16 @@ namespace GoodLuckValley.Mushroom
                 // Disable the throw UI
                 onDisableThrowUI.Raise(this, false);
             }
+        }
+
+        /// <summary>
+        /// Handles spore airtime particles
+        /// </summary>
+        /// <param name="newSpore"></param>
+        private void SporeAirtimeParticlesHandler(GameObject newSpore)
+        {
+            // Spore airtime particle handling
+            newSpore.GetComponent<ConstantParticleController>().InitiateAndPlayEffect(sporeVFX);
         }
     }
 }
