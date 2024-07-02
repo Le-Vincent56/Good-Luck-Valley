@@ -16,8 +16,11 @@ namespace GoodLuckValley.Player.States
         protected static readonly int FallHash = Animator.StringToHash("Fall");
         protected static readonly int BounceHash = Animator.StringToHash("Bounce");
         protected static readonly int WallJumpHash = Animator.StringToHash("Wall Jump");
-        protected static readonly int IdleThrowHash = Animator.StringToHash("Idle Throw");
-        protected static readonly int LocomotionThrowHash = Animator.StringToHash("Locomotion Throw");
+        protected static readonly int ThrowIdleHash = Animator.StringToHash("Throw Idle");
+        protected static readonly int ThrowLocomotionHash = Animator.StringToHash("Throw Locomotion");
+        protected static readonly int CrawlIdleHash = Animator.StringToHash("Crawl Idle");
+        protected static readonly int CrawlLocomotionHash = Animator.StringToHash("Crawl Locomotion");
+        protected static readonly int SlideHash = Animator.StringToHash("Slide");
 
         protected const float crossFadeDuration = 0.1f;
 

@@ -14,6 +14,8 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
+            player.LearnControl("Jump");
+
             animator.CrossFade(JumpHash, crossFadeDuration);
 
             // Don't allow the player to peek

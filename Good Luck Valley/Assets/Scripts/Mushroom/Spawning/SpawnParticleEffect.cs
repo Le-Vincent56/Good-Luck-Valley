@@ -26,7 +26,7 @@ namespace GoodLuckValley.Mushroom
                     PlayEffect(grassParticle);
                     break;
                 case TileType.None:
-                    Debug.Log("no tile type detected");
+                    //Debug.Log("no tile type detected");
                     break;
             }
         }

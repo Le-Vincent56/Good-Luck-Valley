@@ -145,6 +145,24 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Fast Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3278430-da7d-4b5b-8069-7e25869ef67f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crawl"",
+                    ""type"": ""Button"",
+                    ""id"": ""df3ba777-cea6-4518-ab29-8dd2a2b1686a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -356,6 +374,28 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2cfcfb2-9552-4b25-9bd8-b91dec178d2a"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fast Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35f1f484-f3cb-48c0-bfb0-deb9fdc12b62"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crawl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -427,6 +467,8 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_NoClip = m_PlayerControls.FindAction("NoClip", throwIfNotFound: true);
             m_PlayerControls_UnlockPowers = m_PlayerControls.FindAction("UnlockPowers", throwIfNotFound: true);
             m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
+            m_PlayerControls_FastSlide = m_PlayerControls.FindAction("Fast Slide", throwIfNotFound: true);
+            m_PlayerControls_Crawl = m_PlayerControls.FindAction("Crawl", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
@@ -504,6 +546,8 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_NoClip;
         private readonly InputAction m_PlayerControls_UnlockPowers;
         private readonly InputAction m_PlayerControls_Look;
+        private readonly InputAction m_PlayerControls_FastSlide;
+        private readonly InputAction m_PlayerControls_Crawl;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -521,6 +565,8 @@ namespace GoodLuckValley.Player.Input
             public InputAction @NoClip => m_Wrapper.m_PlayerControls_NoClip;
             public InputAction @UnlockPowers => m_Wrapper.m_PlayerControls_UnlockPowers;
             public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
+            public InputAction @FastSlide => m_Wrapper.m_PlayerControls_FastSlide;
+            public InputAction @Crawl => m_Wrapper.m_PlayerControls_Crawl;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -569,6 +615,12 @@ namespace GoodLuckValley.Player.Input
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @FastSlide.started += instance.OnFastSlide;
+                @FastSlide.performed += instance.OnFastSlide;
+                @FastSlide.canceled += instance.OnFastSlide;
+                @Crawl.started += instance.OnCrawl;
+                @Crawl.performed += instance.OnCrawl;
+                @Crawl.canceled += instance.OnCrawl;
             }
 
             private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -612,6 +664,12 @@ namespace GoodLuckValley.Player.Input
                 @Look.started -= instance.OnLook;
                 @Look.performed -= instance.OnLook;
                 @Look.canceled -= instance.OnLook;
+                @FastSlide.started -= instance.OnFastSlide;
+                @FastSlide.performed -= instance.OnFastSlide;
+                @FastSlide.canceled -= instance.OnFastSlide;
+                @Crawl.started -= instance.OnCrawl;
+                @Crawl.performed -= instance.OnCrawl;
+                @Crawl.canceled -= instance.OnCrawl;
             }
 
             public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -690,6 +748,8 @@ namespace GoodLuckValley.Player.Input
             void OnNoClip(InputAction.CallbackContext context);
             void OnUnlockPowers(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
+            void OnFastSlide(InputAction.CallbackContext context);
+            void OnCrawl(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

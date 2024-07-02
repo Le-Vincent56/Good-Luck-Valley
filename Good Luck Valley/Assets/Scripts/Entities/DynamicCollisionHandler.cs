@@ -1,4 +1,6 @@
+using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Interactables;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +18,7 @@ namespace GoodLuckValley.Entity
         Decomposable = 12,
     }
 
+    [Serializable]
     public class DynamicCollisionHandler : Raycaster
     {
         public struct CollisionInfo
@@ -25,13 +28,19 @@ namespace GoodLuckValley.Entity
             public bool ClimbingSlope;
             public bool DescendingSlope;
             public float SlopeAngle, PrevSlopeAngle;
+            public int SlopeDescentDirection;
             public Vector2 PrevVelocity;
             public int FacingDirection;
             public bool SlidingDownMaxSlope;
             public Vector2 SlopeNormal;
+            public Vector2 LastSeenSlopeNormal;
+            public int PrevLastSlopeVerticalDirection;
+            public int LastSlopeVerticalDirection;
             public CollisionLayer Layer;
             public RaycastHit2D VerticalCollisionRay;
             public RaycastHit2D HorizontalCollisionRay;
+            public bool CameraWithinGroundDistance;
+            public bool CanStand;
 
             /// <summary>
             /// Reset the Collision Info
@@ -43,12 +52,15 @@ namespace GoodLuckValley.Entity
                 ClimbingSlope = false;
                 DescendingSlope = false;
                 PrevSlopeAngle = SlopeAngle;
+                PrevLastSlopeVerticalDirection = LastSlopeVerticalDirection;
                 SlopeAngle = 0f;
                 SlopeNormal = Vector2.zero;
                 SlidingDownMaxSlope = false;
                 Layer = CollisionLayer.Ground;
                 VerticalCollisionRay = new RaycastHit2D();
                 HorizontalCollisionRay = new RaycastHit2D();
+                CameraWithinGroundDistance = false;
+                CanStand = true;
             }
         }
 
@@ -57,7 +69,7 @@ namespace GoodLuckValley.Entity
         [SerializeField] private LayerMask collisionMask;
         [SerializeField] private float maxSlopeAngle;
         [SerializeField] private CollisionLayer currentLayer;
-        public CollisionInfo collisions;
+        [SerializeField] public CollisionInfo collisions;
         private Dictionary<int, CollisionLayer> layers;
 
         private void Start()
@@ -75,6 +87,59 @@ namespace GoodLuckValley.Entity
                 {12, CollisionLayer.Decomposable }
             };
         }
+
+        public void PredictGround(Vector2 velocity, float predictAmount)
+        {
+            // Set direction and ray length
+            float directionY = Mathf.Sign(velocity.y);
+            float rayLength = Mathf.Abs(velocity.y) + predictAmount + skinWidth;
+
+            for (int i = 0; i < verticalRayCount; i++)
+            {
+                Vector2 rayOrigin = (directionY == -1) ? origins.bottomLeft : origins.topLeft;
+                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+                RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+
+                // Debug
+                if (debug)
+                    Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
+
+                if (hitCollider)
+                {
+                    // Set the ray length equal to the hit distance
+                    rayLength = hitCollider.distance;
+
+                    // Set collision info
+                    collisions.CameraWithinGroundDistance = true;
+                }
+            }
+        }
+
+        public void CheckCanStand(Vector2 velocity, float standCheckDist)
+        {
+            // Set direction and ray length
+            float rayLength = Mathf.Abs(velocity.y) + standCheckDist + skinWidth;
+
+            for (int i = 0; i < verticalRayCount; i++)
+            {
+                Vector2 rayOrigin = origins.topLeft;
+                rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
+                RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, collisionMask);
+
+                if(debug)
+                    Debug.DrawRay(rayOrigin, Vector2.up * rayLength, Color.red);
+
+                if (hitCollider)
+                {
+                    // Set the ray length equal to the hit distance
+                    rayLength = hitCollider.distance;
+
+                    // Set collision info
+                    collisions.CanStand = false;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Handle vertical collisions
@@ -127,7 +192,15 @@ namespace GoodLuckValley.Entity
                     collisions.Below = (directionY == -1);
                     collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
-                } else
+
+                    // Reset the last seen slope variables if detecting ground
+                    if(collisions.Layer == CollisionLayer.Ground)
+                    {
+                        collisions.LastSeenSlopeNormal = Vector2.zero;
+                        collisions.LastSlopeVerticalDirection = 0;
+                    }
+                        
+                } else if(!collisions.Above && !collisions.Below)
                 {
                     currentLayer = CollisionLayer.None;
                 }
@@ -184,11 +257,8 @@ namespace GoodLuckValley.Entity
                         // Set the new slope
                         collisions.SlopeAngle = slopeAngle;
                         collisions.Layer = layers[hit.transform.gameObject.layer];
+                        collisions.LastSlopeVerticalDirection = 1;
                         currentLayer = collisions.Layer;
-                    }
-                    else
-                    {
-                        currentLayer = CollisionLayer.None;
                     }
                 }
             }
@@ -290,10 +360,6 @@ namespace GoodLuckValley.Entity
                         collisions.Layer = layers[hitCollider.transform.gameObject.layer];
                         currentLayer = collisions.Layer;
                     }
-                    else
-                    {
-                        currentLayer = CollisionLayer.None;
-                    }
                 }
             }
 
@@ -343,14 +409,12 @@ namespace GoodLuckValley.Entity
                 velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
                 collisions.Below = true;
                 collisions.ClimbingSlope = true;
+                collisions.LastSlopeVerticalDirection = 1;
                 collisions.SlopeAngle = slopeAngle;
                 collisions.SlopeNormal = hit.normal;
+                collisions.LastSeenSlopeNormal = collisions.SlopeNormal;
                 collisions.Layer = layers[hit.transform.gameObject.layer];
                 currentLayer = collisions.Layer;
-            }
-            else
-            {
-                currentLayer = CollisionLayer.None;
             }
         }
 
@@ -358,7 +422,7 @@ namespace GoodLuckValley.Entity
         /// Descend a slope
         /// </summary>
         /// <param name="velocity">The current velocity</param>
-        public void DescendSlope(ref Vector2 velocity, bool isFastFalling = false)
+        public void DescendSlope(ref Vector2 velocity, bool tryingFastSlide = false, PlayerController player = null, float fastSlideScalar = 1f)
         {
             RaycastHit2D maxSlopeHitLeft = Physics2D.Raycast(origins.bottomLeft, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
             RaycastHit2D maxSlopeHitRight = Physics2D.Raycast(origins.bottomRight, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
@@ -391,21 +455,22 @@ namespace GoodLuckValley.Entity
                             // Check how far down to move based on x-velocity
                             if (hit.distance - skinWidth <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x))
                             {
-                                float moveDistance = isFastFalling ? Mathf.Abs(velocity.x) * 5f : Mathf.Abs(velocity.x);
+                                // Check for fast sliding
+                                player.IsFastSliding = (tryingFastSlide && player != null) ? true : false;
+                                float moveDistance = tryingFastSlide ? Mathf.Abs(velocity.x) * fastSlideScalar : Mathf.Abs(velocity.x); 
                                 float descendVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
                                 velocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(velocity.x);
                                 velocity.y -= descendVelocityY;
 
                                 collisions.SlopeAngle = slopeAngle;
                                 collisions.DescendingSlope = true;
+                                collisions.LastSlopeVerticalDirection = -1;
                                 collisions.Below = true;
                                 collisions.SlopeNormal = hit.normal;
+                                collisions.LastSeenSlopeNormal = collisions.SlopeNormal;
+                                collisions.SlopeDescentDirection = (int)Mathf.Sign(hit.normal.x);
                                 collisions.Layer = layers[hit.transform.gameObject.layer];
                                 currentLayer = collisions.Layer;
-                            }
-                            else
-                            {
-                                currentLayer = CollisionLayer.None;
                             }
                         }
                     }
@@ -434,12 +499,10 @@ namespace GoodLuckValley.Entity
                     collisions.SlopeAngle = slopeAngle;
                     collisions.SlidingDownMaxSlope = true;
                     collisions.SlopeNormal = hit.normal;
+                    collisions.LastSlopeVerticalDirection = -1;
+                    collisions.LastSeenSlopeNormal = collisions.SlopeNormal;
                     collisions.Layer = layers[hit.transform.gameObject.layer];
                     currentLayer = collisions.Layer;
-                }
-                else
-                {
-                    currentLayer = CollisionLayer.None;
                 }
             }
         }

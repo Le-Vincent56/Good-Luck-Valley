@@ -53,7 +53,6 @@ namespace GoodLuckValley.VFX
 
         public void PlayEffect(VisualEffect vfx)
         {
-            Debug.Log(vfx);
             vfx.SetVector3("SpawnPosition", transform.position);
             vfx.Play();
         }

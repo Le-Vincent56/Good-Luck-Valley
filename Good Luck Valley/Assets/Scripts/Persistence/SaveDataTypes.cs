@@ -31,7 +31,7 @@ namespace GoodLuckValley.Persistence
 
         public PlayerSaveData()
         {
-            position = new Vector3(23.325f, 15.965f, 0.0f);
+            position = new Vector3(-21.242f, -46.16f, 0.0f);
         }
     }
 

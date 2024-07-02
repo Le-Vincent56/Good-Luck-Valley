@@ -1,3 +1,4 @@
+using GoodLuckValley.Events;
 using System.Collections;
 using UnityEngine;
 
@@ -5,6 +6,9 @@ namespace GoodLuckValley.Cameras
 {
     public class CameraFollowObject : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onSendFollowObjectPos;
+
         [Header("References")]
         [SerializeField] private Transform playerTransform;
 
@@ -13,9 +17,20 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private bool isFacingRight;
         private Coroutine turnCoroutine;
 
+        public bool IsFacingRight { get { return isFacingRight; } }
+        public float DefaultLerpTime { get; private set; }
+
+        private void Awake()
+        {
+            // Set the default lerp time
+            DefaultLerpTime = flipYRotationTime;
+        }
+
         void Update()
         {
             transform.position = playerTransform.position;
+
+            onSendFollowObjectPos.Raise(this, (Vector2)transform.position);
         }
 
         /// <summary>
@@ -55,6 +70,10 @@ namespace GoodLuckValley.Cameras
             // overlap
             bool isCheckRight = (facingRight == 1);
             if (isFacingRight == isCheckRight) return;
+            
+            // Stop any current coroutines
+            if(turnCoroutine != null)
+                StopCoroutine(turnCoroutine);
 
             // Start the turn coroutine
             turnCoroutine = StartCoroutine(FlipYLerp(facingRight));
@@ -115,5 +134,11 @@ namespace GoodLuckValley.Cameras
                 return 180f;
             }
         }
+
+        /// <summary>
+        /// Set the lerp time of the rotation
+        /// </summary>
+        /// <param name="time"></param>
+        public void SetLerpTime(float time) => flipYRotationTime = time;
     }
 }

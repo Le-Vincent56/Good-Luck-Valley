@@ -103,7 +103,10 @@ namespace GoodLuckValley.Mushroom
         /// <param name="data"></param>
         public void RecallLast(Component sender, object data)
         {
-            // Destroy the last mushroom and remove it from the list
+            // Check if there are any mushrooms to recall
+            if (mushrooms.Count < 1) return;
+
+            // If so, destroy the last mushroom and remove it from the list
             Destroy(mushrooms[mushrooms.Count - 1]);
             mushrooms.RemoveAt(mushrooms.Count - 1);
         }

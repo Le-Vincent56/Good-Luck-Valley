@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using GoodLuckValley.Level;
+using GoodLuckValley.Cameras;
+using GoodLuckValley.Events;
 
 namespace GoodLuckValley.UI
 {
     public class GameCursor : MonoBehaviour
     {
-        #region  FIELDS
+        [Header("Events")]
+        [SerializeField] private GameEvent onUpdateCursorPosition;
+
+        [Header("Fields")]
         [SerializeField] private Vector2 cursorPosition;
-        [SerializeField] private CameraData.ScreenBounds cursorBounds;
-        #endregion
+        [SerializeField] private Bounds cursorBounds;
 
         // Start is called before the first frame update
         void Start()
@@ -43,6 +44,11 @@ namespace GoodLuckValley.UI
 
             // Update actual position
             transform.position = cursorPosition;
+
+            // Send out cursor position
+            // Calls to:
+            //  - CameraOmniPeek.UpdateCursorPosition()
+            onUpdateCursorPosition.Raise(this, cursorPosition);
         }
 
         /// <summary>
@@ -71,8 +77,8 @@ namespace GoodLuckValley.UI
         private void CheckCursorBoundsPlayer()
         {
             // Clamp the cursor position into the bounds of the screen
-            cursorPosition.x = Mathf.Clamp(cursorPosition.x, cursorBounds.Left, cursorBounds.Right);
-            cursorPosition.y = Mathf.Clamp(cursorPosition.y, cursorBounds.Bottom, cursorBounds.Top);
+            cursorPosition.x = Mathf.Clamp(cursorPosition.x, cursorBounds.min.x, cursorBounds.max.x);
+            cursorPosition.y = Mathf.Clamp(cursorPosition.y, cursorBounds.min.y, cursorBounds.max.y);
         }
 
         /// <summary>
@@ -83,10 +89,10 @@ namespace GoodLuckValley.UI
         public void UpdateCursorBounds(Component sender, object data)
         {
             // Make sure the correct data was sent
-            if(data is not CameraData.ScreenBounds) return;
+            if(data is not Bounds) return;
 
             // Cast and update data
-            cursorBounds = (CameraData.ScreenBounds)data;
+            cursorBounds = (Bounds)data;
         }
 
         /// <summary>

@@ -71,5 +71,11 @@ namespace GoodLuckValley.Entity
             centralHorizontalRay = horizontalRayCount / 2;
             centralVerticalRay = verticalRayCount / 2;
         }
+
+        public void UpdateCollider()
+        {
+            UpdateRaycastOrigins();
+            CalculateRaySpacing();
+        }
     }
 }

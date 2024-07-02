@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 namespace GoodLuckValley.Entities
 {
+    [RequireComponent(typeof(BoxCollider2D))]
     public class AreaCollider : MonoBehaviour
     {
         [Header("Events")]

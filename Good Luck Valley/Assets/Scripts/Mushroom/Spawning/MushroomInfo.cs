@@ -14,6 +14,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private int rotation;
 
         #region PROPERTIES
+        public ShroomType Type { get { return shroomType; } }
         public bool Rotated { get; private set; }
         #endregion
 
@@ -31,6 +32,7 @@ namespace GoodLuckValley.Mushroom
             switch (shroomType)
             {
                 case ShroomType.Regular:
+
                     // Set bounce direction and force
                     bounceDirection = transform.up.normalized;
                     bounceForce = mushroomData.regularBounceForce;
@@ -41,7 +43,22 @@ namespace GoodLuckValley.Mushroom
                         bounceForce = mushroomData.regularSlopeBounceForce;
                         bounceDirection.x -= 0.2f;
                         bounceDirection.y += 0.2f;
-                        Debug.Log("Mushroom Direction: " + bounceDirection);
+                        Rotated = true;
+                    }
+                    break;
+
+                case ShroomType.Quick:
+
+                    // Set bounce direction and force
+                    bounceDirection = transform.up.normalized;
+                    bounceForce = mushroomData.regularBounceForce;
+                    Rotated = false;
+
+                    if (Mathf.Abs(rotation) == 45 || Mathf.Abs(rotation) == 135)
+                    {
+                        bounceForce = mushroomData.regularSlopeBounceForce;
+                        bounceDirection.x -= 0.2f;
+                        bounceDirection.y += 0.2f;
                         Rotated = true;
                     }
                     break;

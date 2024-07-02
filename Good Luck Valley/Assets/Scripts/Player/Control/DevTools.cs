@@ -1,4 +1,6 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.ServiceLocator;
 using GoodLuckValley.Player.Input;
 using UnityEngine;
 
@@ -19,7 +21,6 @@ namespace GoodLuckValley.Player.Control
         }
 
         [Header("Events")]
-        [SerializeField] private GameEvent onUnlockPowers;
         [SerializeField] private GameEvent onToggleDevToolsUI;
         [SerializeField] private GameEvent onUpdateDevToolsUI;
 
@@ -32,6 +33,9 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool noClipActive = false;
         [SerializeField] private float noClipSpeed;
         [SerializeField] private bool powersUnlocked = false;
+        private Blackboard playerBlackboard;
+        private BlackboardKey unlockedThrow;
+        private BlackboardKey unlockedWallJump;
 
         public bool Active { get { return usingDevTools; } }
         public bool NoClip { get { return noClipActive; } }
@@ -48,6 +52,14 @@ namespace GoodLuckValley.Player.Control
             input.DevTools -= OnDevTools;
             input.NoClip -= OnNoClip;
             input.UnlockPowers -= OnUnlockPowers;
+        }
+
+        private void Start()
+        {
+            // Register Blackboard and get keys
+            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
+            unlockedWallJump = playerBlackboard.GetOrRegisterKey("UnlockedWallJump");
         }
 
         /// <summary>
@@ -107,7 +119,11 @@ namespace GoodLuckValley.Player.Control
                 powersUnlocked = !powersUnlocked;
 
                 // Unlock powers
-                onUnlockPowers.Raise(this, powersUnlocked);
+                if (playerBlackboard.TryGetValue(unlockedThrow, out bool unlockValue))
+                    playerBlackboard.SetValue(unlockedThrow, powersUnlocked);
+
+                if (playerBlackboard.TryGetValue(unlockedWallJump, out bool wallJumpValue))
+                    playerBlackboard.SetValue(unlockedWallJump, powersUnlocked);
 
                 // Update UI
                 onUpdateDevToolsUI.Raise(this, new Data(noClipActive, powersUnlocked));

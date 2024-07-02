@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6926947960321003573}
   - component: {fileID: 4210478666818187334}
-  - component: {fileID: 9076959183876959418}
   - component: {fileID: 8941110044397168434}
+  - component: {fileID: 9076959183876959418}
+  - component: {fileID: 3145323784739220799}
   m_Layer: 11
   m_Name: Mushroom Pickup
   m_TagString: Untagged
@@ -86,32 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9076959183876959418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6384236386745113482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03209ba6380b18e4980eed42fbebf339, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    <ID>k__BackingField:
-      Part1: 0
-      Part2: 0
-      Part3: 0
-      Part4: 0
-    collected: 0
-  isCollected: 0
-  <ID>k__BackingField:
-    Part1: 1240106432
-    Part2: 1243960301
-    Part3: 2024981398
-    Part4: 2476021214
-  onUnlockThrow: {fileID: 11400000, guid: 00b14fa1f7136d24ca18774f48cbc8c7, type: 2}
 --- !u!61 &8941110044397168434
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,3 +132,49 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.02, y: 1.0475}
   m_EdgeRadius: 0
+--- !u!114 &9076959183876959418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384236386745113482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03209ba6380b18e4980eed42fbebf339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSetInteractable: {fileID: 11400000, guid: e9cce8a1f07b9d9488a975f4fc690806, type: 2}
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    collected: 0
+  isCollected: 0
+  <ID>k__BackingField:
+    Part1: 1240106432
+    Part2: 1243960301
+    Part3: 2024981398
+    Part4: 2476021214
+  onTeachInteractable: {fileID: 11400000, guid: 2bd59caa71d9bf4449f32b6cb7e7c3d1, type: 2}
+  onUnlockThrow: {fileID: 11400000, guid: 00b14fa1f7136d24ca18774f48cbc8c7, type: 2}
+--- !u!114 &3145323784739220799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384236386745113482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
