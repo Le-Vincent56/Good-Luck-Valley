@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
   m_Name: FilmGrain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   type:
     m_OverrideState: 1
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.47
+    m_Value: 0.6
   response:
     m_OverrideState: 1
     m_Value: 1
@@ -46,60 +46,13 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.362
+    m_Value: 0.442
   smoothness:
     m_OverrideState: 1
     m_Value: 0.646
   rounded:
     m_OverrideState: 1
     m_Value: 0
---- !u!114 &-4878989537276996917
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
-  m_Name: Bloom
-  m_EditorClassIdentifier: 
-  active: 0
-  skipIterations:
-    m_OverrideState: 1
-    m_Value: 1
-  threshold:
-    m_OverrideState: 1
-    m_Value: 0.3
-  intensity:
-    m_OverrideState: 1
-    m_Value: 4.22
-  scatter:
-    m_OverrideState: 1
-    m_Value: 0
-  clamp:
-    m_OverrideState: 1
-    m_Value: 0.1
-  tint:
-    m_OverrideState: 1
-    m_Value: {r: 0.8679245, g: 0.76287127, b: 0.36845842, a: 1}
-  highQualityFiltering:
-    m_OverrideState: 1
-    m_Value: 0
-  downscale:
-    m_OverrideState: 0
-    m_Value: 0
-  maxIterations:
-    m_OverrideState: 0
-    m_Value: 6
-  dirtTexture:
-    m_OverrideState: 1
-    m_Value: {fileID: 2800000, guid: a5ad38d58c88dd14382d54412ba653e7, type: 3}
-    dimension: 1
-  dirtIntensity:
-    m_OverrideState: 1
-    m_Value: 29.2
 --- !u!114 &-2748904046571742048
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -115,7 +68,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.037
+    m_Value: 0.1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +82,6 @@ MonoBehaviour:
   m_Name: Global Volume Profile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: -4878989537276996917}
   - {fileID: -2748904046571742048}
   - {fileID: -5237404301674466080}
   - {fileID: 6180163565391380566}

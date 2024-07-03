@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,16 +10,14 @@ namespace GoodLuckValley.Persistence
         public long LastUpdated;
         public string Name;
         public string CurrentLevelName;
-        public SettingsData settingsData;
         public PlayerSaveData playerSaveData;
-        public MushroomSaveData mushroomSaveData;
+        public GlobalData globalData;
         public List<CollectibleSaveData> collectibleSaveDatas;
-    }
 
-    [Serializable]
-    public class SettingsData
-    {
-
+        public override string ToString()
+        {
+            return $"Player: {playerSaveData}\n";
+        }
     }
 
     [Serializable]
@@ -33,16 +30,21 @@ namespace GoodLuckValley.Persistence
         {
             position = new Vector3(-21.242f, -46.16f, 0.0f);
         }
+
+        public override string ToString()
+        {
+            return $"Position: {position}";
+        }
     }
 
     [Serializable]
-    public class MushroomSaveData : ISaveable
+    public class GlobalData : ISaveable
     {
         [field: SerializeField] public SerializableGuid ID { get; set; }
         public bool unlockedThrow;
         public bool unlockedWallJump;
 
-        public MushroomSaveData()
+        public GlobalData()
         {
             unlockedThrow = false;
             unlockedWallJump = false;

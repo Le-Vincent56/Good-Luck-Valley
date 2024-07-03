@@ -62,7 +62,7 @@ namespace GoodLuckValley.Mushroom
         private void Start()
         {
             // Register blackboards and keys
-            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
             unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
             isCrawling = playerBlackboard.GetOrRegisterKey("IsCrawling");
         }
@@ -152,8 +152,6 @@ namespace GoodLuckValley.Mushroom
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
             newSpore.GetComponent<Spore>().SetSpawnInfo(finalSpawnInfo);
             newSpore.GetComponent<Spore>().ThrowSpore(throwDirection);
-            // Spore airtime particles
-            SporeAirtimeParticlesHandler(newSpore);
 
             // Set throwing for the PlayerController
             // Calls to:
@@ -222,16 +220,6 @@ namespace GoodLuckValley.Mushroom
                 // Disable the throw UI
                 onDisableThrowUI.Raise(this, false);
             }
-        }
-
-        /// <summary>
-        /// Handles spore airtime particles
-        /// </summary>
-        /// <param name="newSpore"></param>
-        private void SporeAirtimeParticlesHandler(GameObject newSpore)
-        {
-            // Spore airtime particle handling
-            newSpore.GetComponent<ConstantParticleController>().InitiateAndPlayEffect(sporeVFX);
         }
     }
 }

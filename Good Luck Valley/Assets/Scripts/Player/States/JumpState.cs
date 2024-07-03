@@ -22,6 +22,9 @@ namespace GoodLuckValley.Player.States
             player.SetCanPeek(false);
 
             // TODO: Play the jumping sound effect
+
+            // Play jump particles
+            player.PlayParticles(0);
         }
 
         public override void FixedUpdate()

@@ -17,15 +17,10 @@ namespace GoodLuckValley.Mushroom
         #region REFERENCES
         [Header("References")]
         [SerializeField] private InputReader input;
-        [SerializeField] private MushroomSaveData data;
         #endregion
 
         #region FIELDS
         private bool paused = false;
-        #endregion
-
-        #region PROPERTIES
-        [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
         #endregion
 
         private void OnEnable()

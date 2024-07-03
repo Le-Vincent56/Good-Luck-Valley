@@ -20,6 +20,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private GameEvent onResetBounce;
         [SerializeField] private GameEvent onWallJumpInput;
         [SerializeField] private GameEvent onSendPlayerTransform;
+        [SerializeField] private GameEvent onSendPlayerController;
         [SerializeField] private GameEvent onPlayerTurn;
         [SerializeField] private GameEvent onSetCanPeek;
 
@@ -30,7 +31,9 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
         [SerializeField] private PlayerSFXHandler sfxHandler;
+        [SerializeField] private PlayerParticlesController particlesController;
         [SerializeField] private CameraFollowObject followObject;
+        [SerializeField] private PlayerSaveHandler saveHandler;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -92,6 +95,7 @@ namespace GoodLuckValley.Player.Control
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
             followObject = GetComponentInChildren<CameraFollowObject>();
+            saveHandler = GetComponent<PlayerSaveHandler>();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -198,8 +202,9 @@ namespace GoodLuckValley.Player.Control
 
         private void Start()
         {
-            // Send out the player transform
+            // Send out the player transform and controller
             onSendPlayerTransform.Raise(this, transform);
+            onSendPlayerController.Raise(this, this);
 
             // Define gravity
             gravity = -(2 * data.maxJumpHeight) / Mathf.Pow(data.timeToJumpApex, 2);
@@ -210,7 +215,7 @@ namespace GoodLuckValley.Player.Control
             fallSpeedDampingChangeThreshold = CameraManager.Instance.FallSpeedDampingChangeThreshold;
 
             // Register blackboard
-            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
             isCrawlingKey = playerBlackboard.GetOrRegisterKey("IsCrawling");
 
             // Set values for the blackboard
@@ -829,6 +834,9 @@ namespace GoodLuckValley.Player.Control
 
             // Set the player direction
             manualMoveX = dir;
+
+            // Force a save
+            saveHandler.ForceUpdate();
         }
 
         /// <summary>
@@ -1024,6 +1032,42 @@ namespace GoodLuckValley.Player.Control
             // Calls to:
             //  - CameraPeek.SetCanPeek();
             onSetCanPeek.Raise(this, canPeek);
+        }
+
+        /// <summary>
+        /// Play a particle effect
+        /// </summary>
+        /// <param name="particleType">An int representing the particle type (0 for Jump, 1 for Land)</param>
+        public void PlayParticles(int particleType)
+        {
+            // If there is no set particles controller, return
+            if (particlesController == null) return;
+
+            // Handle particle types
+            switch(particleType)
+            {
+                case 0:
+                    particlesController.HandleJumpParticles();
+                    break;
+
+                case 1:
+                    particlesController.HandleLandParticles();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Receive the player's particle controller
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void ReceiveParticlesController(Component sender, object data)
+        {
+            // Verify that the correct data is sent
+            if (data is not PlayerParticlesController) return;
+
+            // Cast and set data
+            particlesController = (PlayerParticlesController)data;
         }
 
         /// <summary>

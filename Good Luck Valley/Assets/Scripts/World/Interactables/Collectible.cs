@@ -23,6 +23,7 @@ namespace GoodLuckValley.World.Interactables
         #endregion
 
         #region PROPERTIES
+        private bool AlwaysApply { get; set; } = true;
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
         #endregion
 
@@ -107,12 +108,11 @@ namespace GoodLuckValley.World.Interactables
         /// Bind the Collectible for persistence
         /// </summary>
         /// <param name="data"></param>
-        public void Bind(CollectibleSaveData data)
+        public void Bind(CollectibleSaveData data, bool applyData = true)
         {
             this.data = data;
             this.data.ID = ID;
 
-            // Set collected data
             isCollected = data.collected;
         }
     }
