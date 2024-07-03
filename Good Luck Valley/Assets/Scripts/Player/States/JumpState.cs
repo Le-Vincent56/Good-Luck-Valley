@@ -6,12 +6,10 @@ namespace GoodLuckValley.Player.States
     public class JumpState : BaseState
     {
         private readonly PlayerSFXHandler sfx;
-        private readonly PlayerParticlesController particles;
 
-        public JumpState(PlayerController player, Animator animator, PlayerSFXHandler sfx, PlayerParticlesController particles) : base(player, animator) 
+        public JumpState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
         {
             this.sfx = sfx;
-            this.particles = particles;
         }
 
         public override void OnEnter()
@@ -26,7 +24,7 @@ namespace GoodLuckValley.Player.States
             // TODO: Play the jumping sound effect
 
             // Play jump particles
-            particles.HandleJumpParticles();
+            player.PlayParticles(0);
         }
 
         public override void FixedUpdate()

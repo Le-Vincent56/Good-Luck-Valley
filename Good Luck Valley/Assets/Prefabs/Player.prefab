@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSendFollowObjectPos: {fileID: 11400000, guid: 9f3ab2e283ecc364c9c1b67b71be7c08, type: 2}
   playerTransform: {fileID: 0}
-  flipYRotationTime: 0.5
+  flipYRotationTime: 0.6
   isFacingRight: 0
 --- !u!114 &1424657294064230843
 MonoBehaviour:
@@ -364,9 +364,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1169282353
+  m_SortingLayer: 3
+  m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: bf6740596ef39ff4492b138cb34518c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   validSprite: {fileID: 21300000, guid: bf6740596ef39ff4492b138cb34518c8, type: 3}
-  invalidSprite: {fileID: 21300000, guid: 6294342a8e69e734a97d29d1532aa722, type: 3}
+  invalidSprite: {fileID: 0}
   finalSpawnInfo:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 0}
@@ -1221,6 +1221,8 @@ MonoBehaviour:
   onBounce: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
   bounceCount: 0
   isBouncing: 0
+  bounceTimer: 0
+  nextBounceBuffer: 0.001
   canBounce: 0
   bounceForce: 10
 --- !u!114 &5788275715540116562
@@ -1282,7 +1284,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4766348710842266182}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
-        m_MethodName: ResetBounce
+        m_MethodName: ResetBounceCount
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1504,6 +1506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7971081741340313663}
+  - component: {fileID: 2025569947423292017}
   m_Layer: 10
   m_Name: Player Particles Hardpoints
   m_TagString: Untagged
@@ -1530,6 +1533,20 @@ Transform:
   - {fileID: 5718666806328399981}
   m_Father: {fileID: 2414757590046708016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2025569947423292017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6970480993911136760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b81cea1cfd1dc9468d1fdf70b6fd5ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSendHardpoints: {fileID: 11400000, guid: 8325c2a329bfea04a907085227941bc7, type: 2}
+  hardpoints: []
 --- !u!1 &6988039211361314857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,6 +1916,7 @@ GameObject:
   - component: {fileID: 1284406165784972627}
   - component: {fileID: 1180109682511361156}
   - component: {fileID: 9099959743522067043}
+  - component: {fileID: 4471219666466674378}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -2018,6 +2036,7 @@ MonoBehaviour:
   onResetBounce: {fileID: 11400000, guid: d894b2751e9e71c41ae24e8e3077f57e, type: 2}
   onWallJumpInput: {fileID: 11400000, guid: 3e7262a3ea9a3b940b78a066bf59e6a1, type: 2}
   onSendPlayerTransform: {fileID: 11400000, guid: c8eb9a52825cb7f4ba84e87939e5aa94, type: 2}
+  onSendPlayerController: {fileID: 11400000, guid: 348436666149729428e4fe07976cf182, type: 2}
   onPlayerTurn: {fileID: 11400000, guid: fbdc891029903794880c5adf4b1c0d20, type: 2}
   onSetCanPeek: {fileID: 11400000, guid: 3050c99c4ce29f941b36f4aa78ec7198, type: 2}
   animator: {fileID: 0}
@@ -2106,7 +2125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
-  canInteract: 0
+  canInteract: 1
 --- !u!114 &3589987339555332761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2358,6 +2377,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
           Assembly-CSharp
         m_MethodName: EndPlayerTransition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4471219666466674378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: a56b9e430109c4340a5468df502c68ac, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3312724052698482696}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
+          Assembly-CSharp
+        m_MethodName: ReceiveParticlesController
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

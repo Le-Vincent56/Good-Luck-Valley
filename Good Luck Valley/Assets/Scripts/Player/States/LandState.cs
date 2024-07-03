@@ -7,12 +7,10 @@ namespace GoodLuckValley.Player.States
     public class LandState : BaseState
     {
         private readonly PlayerSFXHandler sfx;
-        private readonly PlayerParticlesController particles;
 
-        public LandState(PlayerController player, Animator animator, PlayerSFXHandler sfx, PlayerParticlesController particles) : base(player, animator)
+        public LandState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
         {
             this.sfx = sfx;
-            this.particles = particles;
         }
 
         public override void OnEnter()
@@ -21,7 +19,7 @@ namespace GoodLuckValley.Player.States
             sfx.Land();
 
             // Play land particles
-            particles.HandleLandParticles();
+            player.PlayParticles(1);
         }
 
         public override void FixedUpdate()

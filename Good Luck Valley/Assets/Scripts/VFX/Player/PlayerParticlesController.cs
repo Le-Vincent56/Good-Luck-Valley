@@ -1,3 +1,4 @@
+using GoodLuckValley.Events;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Tiles;
 using System.Collections;
@@ -9,6 +10,9 @@ using UnityEngine.VFX;
 
 public class PlayerParticlesController : MonoBehaviour
 {
+    [Header("Events")]
+    [SerializeField] private GameEvent onSendParticlesController;
+
     [Header("Running Particles")]
     [SerializeField] private VisualEffect grassRunVFX;
     [SerializeField] private VisualEffect dirtRunVFX;
@@ -36,11 +40,12 @@ public class PlayerParticlesController : MonoBehaviour
     private PlayerController playerController;
     private bool airtimeParticlesActive;
 
-    public PlayerController SetPlayerController { set { playerController = value; } }
-
-    private void Awake()
+    private void Start()
     {
         detectTileType.RaycastStart = runParticlesHardpoint.position;
+
+        // Send the particles controller
+        onSendParticlesController.Raise(this, this);
     }
 
     private void Update()
@@ -56,6 +61,30 @@ public class PlayerParticlesController : MonoBehaviour
         }
     }
 
+    public void SetPlayerController(Component sender, object data)
+    {
+        // Verify that the correct data was sent
+        if (data is not PlayerController) return;
+
+        // Cast and set the data
+        playerController = (PlayerController)data;
+    }
+
+    public void SetHardpoints(Component sender, object data)
+    {
+        // Verify that the correct data was sent
+        if (data is not PlayerHardpointsContainer.Hardpoints) return;
+
+        // Cast the data
+        PlayerHardpointsContainer.Hardpoints hardpoints = (PlayerHardpointsContainer.Hardpoints)data;
+
+        // Set data
+        runParticlesHardpoint = hardpoints.Run;
+        jumpParticlesHardpoint = hardpoints.Jump;
+        landParticlesHardpoint = hardpoints.Land;
+        bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
+    }
+
     private void HandleRunningParticles()
     {
         if (timeSinceLastParticle < timeBetweenParticles)
@@ -64,7 +93,7 @@ public class PlayerParticlesController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Running Particles");
+            //Debug.Log("Running Particles");
             PlayEffectBasedOnTileType(grassRunVFX, dirtRunVFX, runParticlesHardpoint.position);
             timeSinceLastParticle = 0;
         }
@@ -73,13 +102,13 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void HandleJumpParticles()
     {
-        Debug.Log("Jumping Particles");
+        //Debug.Log("Jumping Particles");
         PlayEffectBasedOnTileType(grassJumpVFX, dirtJumpVFX, jumpParticlesHardpoint.position);
 
     }
     public void HandleLandParticles()
     {
-        Debug.Log("Landing Particles");
+        //Debug.Log("Landing Particles");
         PlayEffectBasedOnTileType(grassLandVFX, dirtLandVFX, landParticlesHardpoint.position);
     }
 
@@ -102,17 +131,17 @@ public class PlayerParticlesController : MonoBehaviour
         switch (detectTileType.CheckTileType())
         {
             case TileType.Dirt:
-                Debug.Log("Playing Effect: " + dirtEffect.name + " at position: " + spawnPosition);
+                //Debug.Log("Playing Effect: " + dirtEffect.name + " at position: " + spawnPosition);
                 dirtEffect.SetVector2("SpawnPosition", spawnPosition);
                 dirtEffect.Play();
                 break;
             case TileType.Grass:
-                Debug.Log("Playing Effect: " + grassEffect.name + " at position: " + spawnPosition);
+                //Debug.Log("Playing Effect: " + grassEffect.name + " at position: " + spawnPosition);
                 grassEffect.SetVector2("SpawnPosition", spawnPosition);
                 grassEffect.Play();
                 break;
             case TileType.None:
-                Debug.Log("NONE");
+                //Debug.Log("NONE");
                 break;
         }
     }
