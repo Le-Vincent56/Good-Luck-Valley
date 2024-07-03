@@ -73,6 +73,8 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void SetPlayerController(Component sender, object data)
     {
+        Debug.Log("setting PC");
+
         // Verify that the correct data was sent
         if (data is not PlayerController) return;
 
@@ -82,6 +84,8 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void SetHardpoints(Component sender, object data)
     {
+        Debug.Log("setting hardpoints");
+
         // Verify that the correct data was sent
         if (data is not PlayerHardpointsContainer.Hardpoints) return;
 
@@ -93,6 +97,9 @@ public class PlayerParticlesController : MonoBehaviour
         jumpParticlesHardpoint = hardpoints.Jump;
         landParticlesHardpoint = hardpoints.Land;
         bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
+
+
+        detectTileType.RaycastStart = runParticlesHardpoint.position;
 
         // Place the raycast detector
         detectTileType.RaycastStart = runParticlesHardpoint.position;
@@ -135,7 +142,7 @@ public class PlayerParticlesController : MonoBehaviour
     public void StopAirtimeBounceParticles()
     {
         bounceAirtimeVFX.Stop();
-        airtimeParticlesActive = false;
+        airtimeParticlesActive = false; 
     }
 
     #region HELPERS
@@ -144,17 +151,14 @@ public class PlayerParticlesController : MonoBehaviour
         switch (detectTileType.CheckTileType())
         {
             case TileType.Dirt:
-                //Debug.Log("Playing Effect: " + dirtEffect.name + " at position: " + spawnPosition);
                 dirtEffect.SetVector2("SpawnPosition", spawnPosition);
                 dirtEffect.Play();
                 break;
             case TileType.Grass:
-                //Debug.Log("Playing Effect: " + grassEffect.name + " at position: " + spawnPosition);
                 grassEffect.SetVector2("SpawnPosition", spawnPosition);
                 grassEffect.Play();
                 break;
             case TileType.None:
-                //Debug.Log("NONE");
                 break;
         }
     }
