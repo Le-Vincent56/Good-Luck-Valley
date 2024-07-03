@@ -33,6 +33,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerSFXHandler sfxHandler;
         [SerializeField] private PlayerParticlesController particlesController;
         [SerializeField] private CameraFollowObject followObject;
+        [SerializeField] private PlayerSaveHandler saveHandler;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -94,6 +95,7 @@ namespace GoodLuckValley.Player.Control
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
             followObject = GetComponentInChildren<CameraFollowObject>();
+            saveHandler = GetComponent<PlayerSaveHandler>();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -213,7 +215,7 @@ namespace GoodLuckValley.Player.Control
             fallSpeedDampingChangeThreshold = CameraManager.Instance.FallSpeedDampingChangeThreshold;
 
             // Register blackboard
-            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
             isCrawlingKey = playerBlackboard.GetOrRegisterKey("IsCrawling");
 
             // Set values for the blackboard
@@ -832,6 +834,9 @@ namespace GoodLuckValley.Player.Control
 
             // Set the player direction
             manualMoveX = dir;
+
+            // Force a save
+            saveHandler.ForceUpdate();
         }
 
         /// <summary>

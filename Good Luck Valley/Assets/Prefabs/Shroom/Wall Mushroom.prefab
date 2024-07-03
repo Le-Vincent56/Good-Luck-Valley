@@ -75,9 +75,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1169282353
-  m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingLayerID: 918238377
+  m_SortingLayer: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1f376d308890f154c9dc9df7d5aa6bae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -190,9 +190,11 @@ MonoBehaviour:
   animator: {fileID: 0}
   collisionHandler: {fileID: 0}
   data: {fileID: 0}
+  sfxHandler: {fileID: 0}
   shroomType: 1
   velocity: {x: 0, y: 0}
   bounceEntity: 0
+  growing: 0
 --- !u!114 &9200763087286250718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,3 +212,4 @@ MonoBehaviour:
   bounceDirection: {x: 0, y: 0}
   bounceForce: 0
   rotation: 0
+  index: 0

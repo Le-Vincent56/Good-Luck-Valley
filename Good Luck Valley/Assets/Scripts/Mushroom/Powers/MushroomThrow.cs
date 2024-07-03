@@ -62,7 +62,7 @@ namespace GoodLuckValley.Mushroom
         private void Start()
         {
             // Register blackboards and keys
-            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
             unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
             isCrawling = playerBlackboard.GetOrRegisterKey("IsCrawling");
         }

@@ -21,7 +21,7 @@ public class MushroomPickup : Collectible
     {
         base.Start();
 
-        playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+        playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
         unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
     }
 

@@ -57,7 +57,7 @@ namespace GoodLuckValley.Player.Control
         private void Start()
         {
             // Register Blackboard and get keys
-            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
             unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
             unlockedWallJump = playerBlackboard.GetOrRegisterKey("UnlockedWallJump");
         }
