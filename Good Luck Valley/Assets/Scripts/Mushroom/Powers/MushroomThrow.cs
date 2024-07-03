@@ -2,7 +2,9 @@ using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.Blackboard;
 using GoodLuckValley.Patterns.ServiceLocator;
 using GoodLuckValley.Player.Input;
+using GoodLuckValley.VFX;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace GoodLuckValley.Mushroom
 {
@@ -51,6 +53,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
+        [SerializeField] private VisualEffect sporeVFX;
         private Blackboard playerBlackboard;
         private BlackboardKey unlockedThrow;
         private BlackboardKey isCrawling;

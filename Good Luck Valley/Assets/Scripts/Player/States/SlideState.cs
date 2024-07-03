@@ -6,10 +6,12 @@ namespace GoodLuckValley.Player.States
     public class SlideState : BaseState
     {
         private readonly PlayerSFXHandler sfx;
+        private readonly float offset;
 
         public SlideState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
         {
             this.sfx = sfx;
+            offset = 0.25f;
         }
 
         public override void OnEnter()
@@ -20,7 +22,7 @@ namespace GoodLuckValley.Player.States
             animator.CrossFade(SlideHash, crossFadeDuration);
 
             // Set slide transform
-            animator.transform.localPosition = new Vector2(animator.transform.localPosition.x - 0.25f, animator.transform.localPosition.y);
+            animator.transform.localPosition = new Vector2(animator.transform.localPosition.x - offset, animator.transform.localPosition.y);
 
             // Allow the player to peek
             player.SetCanPeek(true);
@@ -43,7 +45,7 @@ namespace GoodLuckValley.Player.States
         public override void OnExit()
         {
             // Reset slide transform
-            animator.transform.localPosition = new Vector2(animator.transform.localPosition.x + 0.25f, animator.transform.localPosition.y);
+            animator.transform.localPosition = new Vector2(0, 0);
 
             // TODO: (Maybe) reset slide sound
         }

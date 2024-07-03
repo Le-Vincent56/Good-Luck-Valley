@@ -30,6 +30,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
         [SerializeField] private PlayerSFXHandler sfxHandler;
+        [SerializeField] private PlayerParticlesController particlesController;
         [SerializeField] private CameraFollowObject followObject;
 
         [Header("Fields - Physics")]
@@ -92,18 +93,19 @@ namespace GoodLuckValley.Player.Control
             sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
             followObject = GetComponentInChildren<CameraFollowObject>();
+            particlesController.SetPlayerController = this;
 
             // Declare states
             stateMachine = new StateMachine();
             IdleState idleState = new IdleState(this, animator);
             LocomotionState locomotionState = new LocomotionState(this, animator, sfxHandler);
-            JumpState jumpState = new JumpState(this, animator, sfxHandler);
+            JumpState jumpState = new JumpState(this, animator, sfxHandler, particlesController);
             SlideState slideState = new SlideState(this, animator, sfxHandler);
             CrawlIdleState crawlIdleState = new CrawlIdleState(this, animator, boxCollider, collisionHandler);
             CrawlLocomotionState crawlLocomotionState = new CrawlLocomotionState(this, animator, sfxHandler, boxCollider, collisionHandler);
             WallState wallState = new WallState(this, animator, sfxHandler);
             FallState fallState = new FallState(this, animator, sfxHandler);
-            LandState landState = new LandState(this, animator, sfxHandler);
+            LandState landState = new LandState(this, animator, sfxHandler, particlesController);
             BounceState bounceState = new BounceState(this, animator);
             WallJumpState wallJumpState = new WallJumpState(this, animator, sfxHandler);
             ThrowIdleState throwIdleState = new ThrowIdleState(this, animator, sfxHandler);

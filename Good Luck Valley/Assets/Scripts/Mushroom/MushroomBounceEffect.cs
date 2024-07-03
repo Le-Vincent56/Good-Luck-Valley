@@ -41,7 +41,7 @@ namespace GoodLuckValley.Mushroom
         private void PlayBounceParticles(MushroomBounce.BounceData bounceData, float effectScalar)
         {
             shroomBounceParticles.SetFloat("EffectScalar", effectScalar);
-            shroomBounceParticles.SetVector3("SpawnPosition", transform.position);
+            shroomBounceParticles.SetVector2("SpawnPosition", transform.position);
             shroomBounceParticles.Play();
         }
     }
