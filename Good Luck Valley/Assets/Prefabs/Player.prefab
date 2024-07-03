@@ -1507,6 +1507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7971081741340313663}
   - component: {fileID: 2025569947423292017}
+  - component: {fileID: 7910012605614114057}
   m_Layer: 10
   m_Name: Player Particles Hardpoints
   m_TagString: Untagged
@@ -1547,6 +1548,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSendHardpoints: {fileID: 11400000, guid: 8325c2a329bfea04a907085227941bc7, type: 2}
   hardpoints: []
+--- !u!114 &7910012605614114057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6970480993911136760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 8e86110c8d59115458b7ac7aabc09383, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025569947423292017}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerHardpointsContainer,
+          Assembly-CSharp
+        m_MethodName: SendHardpoints
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6988039211361314857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1917,6 +1947,7 @@ GameObject:
   - component: {fileID: 1180109682511361156}
   - component: {fileID: 9099959743522067043}
   - component: {fileID: 4471219666466674378}
+  - component: {fileID: 2386050620623812326}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -2047,6 +2078,7 @@ MonoBehaviour:
   sfxHandler: {fileID: 0}
   particlesController: {fileID: 0}
   followObject: {fileID: 0}
+  saveHandler: {fileID: 0}
   gravity: 0
   maxJumpVelocity: 0
   minJumpVelocity: 0
@@ -2406,6 +2438,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
           Assembly-CSharp
         m_MethodName: ReceiveParticlesController
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2386050620623812326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: dcc33721ba449e142b9f866cd9addde6, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1378804955233713589}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerSaveHandler,
+          Assembly-CSharp
+        m_MethodName: SetPerformUpdate
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

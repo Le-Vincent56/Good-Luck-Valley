@@ -1,11 +1,9 @@
-using GoodLuckValley.Mushroom;
 using GoodLuckValley.Patterns.Singletons;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,7 +17,7 @@ namespace GoodLuckValley.Persistence
     public interface IBind<TData> where TData : ISaveable
     {
         SerializableGuid ID { get; set; }
-        void Bind(TData data);
+        void Bind(TData data, bool applyData = true);
     }
 
     public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
@@ -51,21 +49,17 @@ namespace GoodLuckValley.Persistence
             }
         }
 
-        private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
-        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        /// <summary>
+        /// Bind data
+        /// </summary>
+        public void BindData(bool applyData = true)
         {
-            // Guard clause to not load data in
-            if (scene.name == "Menu") return;
-
-            // Bind player data
-            //Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData);
-            //Bind<PowerController, MushroomSaveData>(selectedData.mushroomSaveData);
-            Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas);
+            Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData, applyData);
+            Bind<GlobalDataSaveHandler, GlobalData>(selectedData.globalData, applyData);
+            Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas, applyData);
         }
 
-        private void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
+        private void Bind<T, TData>(TData data, bool applyData = true) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
         {
             // Find the entity of the given type
             T entity = FindObjectsByType<T>(FindObjectsSortMode.None).FirstOrDefault();
@@ -81,11 +75,11 @@ namespace GoodLuckValley.Persistence
                 }
 
                 // Bind the data
-                entity.Bind(data);
+                entity.Bind(data, applyData);
             }
         }
 
-        private void Bind<T, TData>(List<TData> datas) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
+        private void Bind<T, TData>(List<TData> datas, bool applyData = true) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
         {
             // Find all entities of a certain type
             T[] entities = FindObjectsByType<T>(FindObjectsSortMode.None);
@@ -105,7 +99,7 @@ namespace GoodLuckValley.Persistence
                 }
 
                 // Bind the entity with its data
-                entity.Bind(data);
+                entity.Bind(data, applyData);
             }
         }
 
@@ -120,17 +114,25 @@ namespace GoodLuckValley.Persistence
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
                 CurrentLevelName = "Level 1.1",
                 playerSaveData = new PlayerSaveData(),
-                mushroomSaveData = new MushroomSaveData(),
+                globalData = new GlobalData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
             };
-            SceneManager.LoadScene(selectedData.CurrentLevelName);
+
+            // Save the game
+            SaveGame(true);
         }
 
         /// <summary>
         /// Save the game
         /// </summary>
-        public void SaveGame()
+        public void SaveGame(bool fromNewGame = false)
         {
+            // Set the current level name if not starting a new game (will put the main menu scene
+            // if saving from NewGame())
+            if(!fromNewGame)
+                // Set the current level name
+                selectedData.CurrentLevelName = SceneManager.GetActiveScene().name;
+
             // Set when the data was last updated
             selectedData.LastUpdated = DateTime.Now.ToBinary();
 
@@ -152,8 +154,6 @@ namespace GoodLuckValley.Persistence
             {
                 selectedData.CurrentLevelName = "Level 1.1";
             }
-
-            SceneManager.LoadScene(selectedData.CurrentLevelName);
         }
 
 
@@ -264,5 +264,7 @@ namespace GoodLuckValley.Persistence
                 saves[save] = dataService.Load(save);
             }
         }
+
+        public void Debug() => UnityEngine.Debug.Log(selectedData);
     }
 }

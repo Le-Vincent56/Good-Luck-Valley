@@ -56,7 +56,7 @@ public class TutorialTrigger : MonoBehaviour
 
     protected virtual void Start()
     {
-        tutorialBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Tutorial");
+        tutorialBlackboard = BlackboardController.Instance.GetBlackboard("Tutorial");
 
         // Get/Register key
         seenTutorialKey = tutorialBlackboard.GetOrRegisterKey(tutorialKeyName);

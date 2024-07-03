@@ -1,27 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GoodLuckValley.Patterns.ServiceLocator;
-using System;
+using GoodLuckValley.Persistence;
+using GoodLuckValley.Patterns.Singletons;
 
 namespace GoodLuckValley.Patterns.Blackboard
 {
-    public class BlackboardController : MonoBehaviour
+    public class BlackboardController : PersistentSingleton<BlackboardController>
     {
+        [Header("Blackboards")]
         private Dictionary<string, int> blackboardIndices = new Dictionary<string, int>();
         [SerializeField] private BlackboardData[] blackboardDatas;
         [SerializeField] private Blackboard[] blackboards;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             blackboardIndices = new Dictionary<string, int>()
             {
                 {"Tutorial", 0 },
                 {"Player", 1 },
             };
-
-            // Register to the global service locator
-            ServiceLocator.ServiceLocator.ForSceneOf(this).Register(this);
 
             blackboards = new Blackboard[blackboardDatas.Length];
 

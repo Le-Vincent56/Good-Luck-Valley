@@ -12,6 +12,7 @@ public class PlayerParticlesController : MonoBehaviour
 {
     [Header("Events")]
     [SerializeField] private GameEvent onSendParticlesController;
+    [SerializeField] private GameEvent onRequestHardpoints;
 
     [Header("Running Particles")]
     [SerializeField] private VisualEffect grassRunVFX;
@@ -42,14 +43,18 @@ public class PlayerParticlesController : MonoBehaviour
 
     private void Start()
     {
-        detectTileType.RaycastStart = runParticlesHardpoint.position;
-
         // Send the particles controller
         onSendParticlesController.Raise(this, this);
     }
 
     private void Update()
     {
+        if(!CheckValidTransforms())
+        {
+            onRequestHardpoints.Raise(this, null);
+            return;
+        }
+
         if (playerController.IsGrounded && Mathf.Abs(playerController.Velocity.x) > minXVelocity)
         {
             HandleRunningParticles();
@@ -60,6 +65,11 @@ public class PlayerParticlesController : MonoBehaviour
             bounceAirtimeVFX.SetVector2("SpawnPosition", bounceAirtimeParticlesHardpoint.position);
         }
     }
+
+    public bool CheckValidTransforms() => (runParticlesHardpoint != null) && 
+        (jumpParticlesHardpoint != null) && 
+        (landParticlesHardpoint != null) && 
+        (bounceAirtimeParticlesHardpoint != null);
 
     public void SetPlayerController(Component sender, object data)
     {
@@ -83,6 +93,9 @@ public class PlayerParticlesController : MonoBehaviour
         jumpParticlesHardpoint = hardpoints.Jump;
         landParticlesHardpoint = hardpoints.Land;
         bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
+
+        // Place the raycast detector
+        detectTileType.RaycastStart = runParticlesHardpoint.position;
     }
 
     private void HandleRunningParticles()

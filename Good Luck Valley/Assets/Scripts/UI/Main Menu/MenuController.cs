@@ -1,4 +1,5 @@
 using GoodLuckValley.Persistence;
+using GoodLuckValley.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -48,7 +49,7 @@ namespace GoodLuckValley.UI.MainMenu
             SettingsState.InstantiateUILists();
 
             // Set each object to be false
-            for(int i = 1; i < screens.Count; i++)  
+            for (int i = 1; i < screens.Count; i++)
             {
                 screens[i].SetActive(false);
             }
@@ -77,8 +78,22 @@ namespace GoodLuckValley.UI.MainMenu
             currentState = StateMachine.CurrentState.ToString().Substring(27);
         }
 
-        public void NewGame() => SaveLoadSystem.Instance.NewGame();
-        public void ContinueGame() => SaveLoadSystem.Instance.ContinueGame();
+        public void NewGame()
+        {
+            // Start a new save file
+            SaveLoadSystem.Instance.NewGame();
+
+            // Load the scene
+            SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
+        }
+        public void ContinueGame()
+        {
+            // Get the most recently saved file
+            SaveLoadSystem.Instance.ContinueGame();
+
+            // Load the scene
+            SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
+        }
 
         /// <summary>
         /// Check the current Menu State
