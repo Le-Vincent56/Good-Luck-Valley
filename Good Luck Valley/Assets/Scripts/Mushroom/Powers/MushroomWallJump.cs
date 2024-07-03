@@ -51,7 +51,7 @@ namespace GoodLuckValley.Mushroom
 
         private void Start()
         {
-            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
             unlockedWallJump = playerBlackboard.GetOrRegisterKey("UnlockedWallJump");
         }
 

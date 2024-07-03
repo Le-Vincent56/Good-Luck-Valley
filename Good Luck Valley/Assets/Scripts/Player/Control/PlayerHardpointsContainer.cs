@@ -41,5 +41,7 @@ namespace GoodLuckValley.Player.Control
             // Set out the hardpoints
             onSendHardpoints.Raise(this, container);
         }
+
+        public void SendHardpoints(Component sender, object data) => onSendHardpoints.Raise(this, container);
     }
 }

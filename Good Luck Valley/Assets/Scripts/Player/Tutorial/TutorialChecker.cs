@@ -51,8 +51,8 @@ namespace GoodLuckValley.Player.Tutorial
             UIHandler = GetComponent<TutorialUIHandler>();
 
             // Get blackboards
-            tutorialBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Tutorial");
-            playerBlackboard = ServiceLocator.For(this).Get<BlackboardController>().GetBlackboard("Player");
+            tutorialBlackboard = BlackboardController.Instance.GetBlackboard("Tutorial");
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
 
             // Register keys
             unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");

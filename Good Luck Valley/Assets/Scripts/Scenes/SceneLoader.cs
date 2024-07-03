@@ -23,6 +23,7 @@ namespace GoodLuckValley.SceneManagement
         [SerializeField] private LevelPositionData levelData;
 
         [Header("Fields")]
+        [SerializeField] private bool fromMainMenu;
         [SerializeField] private float transitionTime = 1f;
         [SerializeField] private bool isLoading;
         [SerializeField] private (string name, TransitionType type) sceneToLoad;
@@ -36,33 +37,53 @@ namespace GoodLuckValley.SceneManagement
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Check if transitioning into a scene
             if(scene.name == sceneToLoad.name && isLoading)
             {
-                // Set player position
-                Vector3 playerPos;
-                if (sceneToLoad.type == TransitionType.Entrance)
+                if (scene.name != "Menu" && SaveLoadSystem.Instance.selectedData != null)
                 {
-                    playerPos = levelData.GetLevelData(sceneToLoad.name).Enter;
-                }
-                else
-                {
-                    playerPos = levelData.GetLevelData(sceneToLoad.name).Exit;
+                    SaveLoadSystem.Instance.BindData(false);
                 }
 
-                (Vector2 pos, int dir) dataToSend;
-                dataToSend.pos = playerPos;
-                dataToSend.dir = transitionDirection;
+                if (!fromMainMenu)
+                {
+                    // Set player position
+                    Vector3 playerPos;
+                    if (sceneToLoad.type == TransitionType.Entrance)
+                    {
+                        playerPos = levelData.GetLevelData(sceneToLoad.name).Enter;
+                    }
+                    else
+                    {
+                        playerPos = levelData.GetLevelData(sceneToLoad.name).Exit;
+                    }
 
-                // Prepare the level
-                onPrepareLevel.Raise(this, dataToSend);
+                    (Vector2 pos, int dir) dataToSend;
+                    dataToSend.pos = playerPos;
+                    dataToSend.dir = transitionDirection;
+
+                    // Prepare the level
+                    // Calls to:
+                    //  - Player.PreparePlayerPosition()
+                    onPrepareLevel.Raise(this, dataToSend);
+                }
 
                 // Start fading in
                 // Calls to:
                 // - CameraFade.PlayFadeIn();
                 onFadeIn.Raise(this, true);
+
+                if (scene.name != "Menu" && SaveLoadSystem.Instance.selectedData != null)
+                {
+                    SaveLoadSystem.Instance.BindData(true);
+                }
             }
         }
 
@@ -85,6 +106,8 @@ namespace GoodLuckValley.SceneManagement
 
             isLoading = true;
 
+            fromMainMenu = false;
+
             // Begin any transition effects
             // Calls to:
             // - CameraFade.PlayFadeOut();
@@ -92,7 +115,18 @@ namespace GoodLuckValley.SceneManagement
 
             await Task.Delay(TimeSpan.FromSeconds(transitionTime));
 
-            // Begin any transition effects
+            // Start fade out
+            // Calls to:
+            // - CameraFade.PlayFadeOut();
+            onFadeOut.Raise(this, null);
+        }
+
+        public void TransitionFadeOutOnly()
+        {
+            // Set loading
+            isLoading = true;
+
+            // Start fade out
             // Calls to:
             // - CameraFade.PlayFadeOut();
             onFadeOut.Raise(this, null);
@@ -110,6 +144,14 @@ namespace GoodLuckValley.SceneManagement
             // Calls to:
             //  -
             onTransitionEnd.Raise(this, null);
+        }
+
+        public void EnterGame(string sceneName)
+        {
+            sceneToLoad.name = sceneName;
+            fromMainMenu = true;
+
+            TransitionFadeOutOnly();
         }
     }
 }
