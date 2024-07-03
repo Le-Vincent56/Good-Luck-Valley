@@ -21,7 +21,7 @@ namespace GoodLuckValley.Patterns.Blackboard
             };
 
             // Register to the global service locator
-            ServiceLocator.ServiceLocator.Global.Register(this);
+            ServiceLocator.ServiceLocator.ForSceneOf(this).Register(this);
 
             blackboards = new Blackboard[blackboardDatas.Length];
 

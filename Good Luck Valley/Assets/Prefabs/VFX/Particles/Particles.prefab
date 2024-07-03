@@ -83,9 +83,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6502974802106342530}
   - component: {fileID: 8755268464727312901}
+  - component: {fileID: 8949755954041655344}
   - component: {fileID: 8419709305097339012}
   - component: {fileID: 3111930104769145389}
   - component: {fileID: 7591630367027101870}
+  - component: {fileID: 6261569464745103547}
   m_Layer: 0
   m_Name: Player Particles Controller
   m_TagString: Untagged
@@ -120,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdadb921d01fdf46850dece254e6fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSendParticlesController: {fileID: 11400000, guid: a56b9e430109c4340a5468df502c68ac, type: 2}
   grassRunVFX: {fileID: 8326147010549941512}
   dirtRunVFX: {fileID: 7741442562264391357}
   runParticlesHardpoint: {fileID: 0}
@@ -143,6 +146,34 @@ MonoBehaviour:
     grassLayer:
       serializedVersion: 2
       m_Bits: 32768
+--- !u!114 &8949755954041655344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2963608606527961974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 348436666149729428e4fe07976cf182, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8755268464727312901}
+        m_TargetAssemblyTypeName: PlayerParticlesController, Assembly-CSharp
+        m_MethodName: SetPlayerController
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8419709305097339012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +250,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: PlayerParticlesController, Assembly-CSharp
         m_MethodName: StopAirtimeBounceParticles
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6261569464745103547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2963608606527961974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 8325c2a329bfea04a907085227941bc7, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8755268464727312901}
+        m_TargetAssemblyTypeName: PlayerParticlesController, Assembly-CSharp
+        m_MethodName: SetHardpoints
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
