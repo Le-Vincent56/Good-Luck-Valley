@@ -29,7 +29,7 @@ namespace GoodLuckValley.Player.Control
             // Get all hardpoints
             Transform[] allHardpoints = GetComponentsInChildren<Transform>();
 
-            // Skip the first (this transform)
+            // Skip the first (this transform)  
             hardpoints = allHardpoints.Skip(1).ToArray();
 
             // Set hardpoints
