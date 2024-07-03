@@ -72,6 +72,10 @@ namespace GoodLuckValley.Mushroom
 
             // Add the mushroom to the list
             mushrooms.Add(mushroom);
+
+            // Set the index of the mushroom
+            MushroomInfo info = mushroom.GetComponent<MushroomInfo>();
+            info.SetIndex(mushrooms.IndexOf(mushroom));
         }
 
         /// <summary>

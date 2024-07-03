@@ -16,6 +16,9 @@ namespace GoodLuckValley.Mushroom
             // Cast data
             MushroomBounce.BounceData bounceData = (MushroomBounce.BounceData)data;
 
+            // Return if a mismatching index is sent
+            if (bounceData.Index != GetComponent<MushroomInfo>().Index) return;
+
             switch(bounceData.BounceCount)
             {
                 case 1:

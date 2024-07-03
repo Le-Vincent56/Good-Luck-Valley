@@ -1106,6 +1106,8 @@ MonoBehaviour:
   onBounce: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
   bounceCount: 0
   isBouncing: 0
+  bounceTimer: 0
+  nextBounceBuffer: 0.001
   canBounce: 0
   bounceForce: 10
 --- !u!114 &5788275715540116562
@@ -1154,7 +1156,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4766348710842266182}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
-        m_MethodName: ResetBounce
+        m_MethodName: ResetBounceCount
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
