@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSendFollowObjectPos: {fileID: 11400000, guid: 9f3ab2e283ecc364c9c1b67b71be7c08, type: 2}
   playerTransform: {fileID: 0}
-  flipYRotationTime: 0.5
+  flipYRotationTime: 0.6
   isFacingRight: 0
 --- !u!114 &1424657294064230843
 MonoBehaviour:
@@ -205,6 +205,90 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1190042805438475849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 416913286538467804}
+  - component: {fileID: 6144438029615011858}
+  m_Layer: 0
+  m_Name: Self Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &416913286538467804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190042805438475849}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.005, y: -0.149, z: 0}
+  m_LocalScale: {x: 0.9986019, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2414757590046708016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6144438029615011858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190042805438475849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 0.75157225, b: 0.85591197, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 0
+  m_ApplyToSortingLayers: a11db25b
+  m_LightCookieSprite: {fileID: 21300000, guid: 06294f7870849404b93a71b1315d8521, type: 3}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 0
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 0.8933002
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.7
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -32.438454, y: -29.11031, z: -0.0000000018626451}
+  - {x: 103.16389, y: -29.179333, z: -0.0000000018626451}
+  - {x: 103.56057, y: -11.61215, z: -0.0000000018626451}
+  - {x: -29.520935, y: -10.827106, z: -0.0000000018626451}
+  - {x: -46.34418, y: -4.067898, z: -0.0000000018626451}
+  - {x: -41.681644, y: -20.107616, z: -0.0000000018626451}
 --- !u!1 &1206898662599272021
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,9 +364,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 918238377
+  m_SortingLayer: 5
+  m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: bf6740596ef39ff4492b138cb34518c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -352,7 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   validSprite: {fileID: 21300000, guid: bf6740596ef39ff4492b138cb34518c8, type: 3}
-  invalidSprite: {fileID: 21300000, guid: 6294342a8e69e734a97d29d1532aa722, type: 3}
+  invalidSprite: {fileID: 0}
   finalSpawnInfo:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 0}
@@ -994,6 +1078,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &4098618095103433846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1874665483524763777}
+  m_Layer: 10
+  m_Name: Land Particles Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1874665483524763777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4098618095103433846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.7409988, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4157728105775766138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,6 +1221,8 @@ MonoBehaviour:
   onBounce: {fileID: 11400000, guid: e6840d96c5890e14fbfe1cf748175b67, type: 2}
   bounceCount: 0
   isBouncing: 0
+  bounceTimer: 0
+  nextBounceBuffer: 0.001
   canBounce: 0
   bounceForce: 10
 --- !u!114 &5788275715540116562
@@ -1136,6 +1253,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
+          Assembly-CSharp
+        m_MethodName: InitiateAndPlayEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1220538795847296189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1154,7 +1284,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4766348710842266182}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
-        m_MethodName: ResetBounce
+        m_MethodName: ResetBounceCount
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1164,64 +1294,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &4720176512460996794
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7325320347257684249}
-  - component: {fileID: 7215556231266280211}
-  m_Layer: 0
-  m_Name: Player Particles Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7325320347257684249
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4720176512460996794}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.091, y: -0.628, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2414757590046708016}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7215556231266280211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4720176512460996794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61d563eebe76f4b40a23459299d486e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grassParticle: {fileID: 0}
-  dirtParticle: {fileID: 0}
-  timeSinceLastParticle: 0
-  timeBetweenParticles: 0.1
-  minXVelocity: 3.5
-  detectTileType:
-    direction: 1
-    distance: 10
-    dirtLayer:
-      serializedVersion: 2
-      m_Bits: 16384
-    grassLayer:
-      serializedVersion: 2
-      m_Bits: 32768
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
+          Assembly-CSharp
+        m_MethodName: StopEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5100838675558143619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,9 +1378,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1169282353
-  m_SortingLayer: 3
-  m_SortingOrder: 3
+  m_SortingLayerID: 1538399649
+  m_SortingLayer: 6
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 06294f7870849404b93a71b1315d8521, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1339,7 +1424,7 @@ GameObject:
   - component: {fileID: 7509024588537334907}
   - component: {fileID: 1884962335551390081}
   m_Layer: 0
-  m_Name: Player Light
+  m_Name: Outer Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1353,8 +1438,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6245569970817802847}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.008, y: -0.206, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0035926527, w: 0.99999356}
+  m_LocalPosition: {x: 0.006, y: -0.193, z: 0}
   m_LocalScale: {x: 0.9986019, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1375,15 +1460,15 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 1
-  m_Color: {r: 1, g: 0.95122516, b: 0.51886785, a: 1}
-  m_Intensity: 0.5
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 0.41194963, b: 0.65842557, a: 1}
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 31d5b145c1279861
+  m_ApplyToSortingLayers: a934bb36c12c02ee31d5b145
   m_LightCookieSprite: {fileID: 21300000, guid: 06294f7870849404b93a71b1315d8521, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
+  m_LightOrder: 1
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
@@ -1399,7 +1484,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1.93
+  m_PointLightOuterRadius: 1.31
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -1412,6 +1497,86 @@ MonoBehaviour:
   - {x: -29.520935, y: -10.827106, z: -0.0000000018626451}
   - {x: -46.34418, y: -4.067898, z: -0.0000000018626451}
   - {x: -41.681644, y: -20.107616, z: -0.0000000018626451}
+--- !u!1 &6970480993911136760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7971081741340313663}
+  - component: {fileID: 2025569947423292017}
+  - component: {fileID: 7910012605614114057}
+  m_Layer: 10
+  m_Name: Player Particles Hardpoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7971081741340313663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6970480993911136760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8433651813274011594}
+  - {fileID: 8536587783710387406}
+  - {fileID: 1874665483524763777}
+  - {fileID: 5718666806328399981}
+  m_Father: {fileID: 2414757590046708016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2025569947423292017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6970480993911136760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b81cea1cfd1dc9468d1fdf70b6fd5ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSendHardpoints: {fileID: 11400000, guid: 8325c2a329bfea04a907085227941bc7, type: 2}
+  hardpoints: []
+--- !u!114 &7910012605614114057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6970480993911136760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 8e86110c8d59115458b7ac7aabc09383, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025569947423292017}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerHardpointsContainer,
+          Assembly-CSharp
+        m_MethodName: SendHardpoints
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6988039211361314857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,6 +1774,7 @@ MonoBehaviour:
   throwMultiplier: 407.5
   canThrow: 1
   throwState: 0
+  sporeVFX: {fileID: 0}
 --- !u!114 &8410818967186305475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1693,6 +1859,68 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &8426544341988214441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8433651813274011594}
+  m_Layer: 10
+  m_Name: Run Particles Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8433651813274011594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426544341988214441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.668, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8484946615333333410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8536587783710387406}
+  m_Layer: 10
+  m_Name: Jump Particles Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8536587783710387406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8484946615333333410}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.741, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9047676686677396218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,6 +1946,8 @@ GameObject:
   - component: {fileID: 1284406165784972627}
   - component: {fileID: 1180109682511361156}
   - component: {fileID: 9099959743522067043}
+  - component: {fileID: 4471219666466674378}
+  - component: {fileID: 2386050620623812326}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -1743,8 +1973,9 @@ Transform:
   - {fileID: 5934230490664107429}
   - {fileID: 1465558386990664987}
   - {fileID: 4520939286314282537}
-  - {fileID: 7325320347257684249}
   - {fileID: 7509024588537334907}
+  - {fileID: 416913286538467804}
+  - {fileID: 7971081741340313663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &8729480241898235974
@@ -1836,6 +2067,7 @@ MonoBehaviour:
   onResetBounce: {fileID: 11400000, guid: d894b2751e9e71c41ae24e8e3077f57e, type: 2}
   onWallJumpInput: {fileID: 11400000, guid: 3e7262a3ea9a3b940b78a066bf59e6a1, type: 2}
   onSendPlayerTransform: {fileID: 11400000, guid: c8eb9a52825cb7f4ba84e87939e5aa94, type: 2}
+  onSendPlayerController: {fileID: 11400000, guid: 348436666149729428e4fe07976cf182, type: 2}
   onPlayerTurn: {fileID: 11400000, guid: fbdc891029903794880c5adf4b1c0d20, type: 2}
   onSetCanPeek: {fileID: 11400000, guid: 3050c99c4ce29f941b36f4aa78ec7198, type: 2}
   animator: {fileID: 0}
@@ -1844,7 +2076,9 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 263f2bec0a34f804b808f7105f2570e8, type: 2}
   devTools: {fileID: 0}
   sfxHandler: {fileID: 0}
+  particlesController: {fileID: 0}
   followObject: {fileID: 0}
+  saveHandler: {fileID: 0}
   gravity: 0
   maxJumpVelocity: 0
   minJumpVelocity: 0
@@ -1923,7 +2157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
-  canInteract: 0
+  canInteract: 1
 --- !u!114 &3589987339555332761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2184,3 +2418,92 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4471219666466674378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: a56b9e430109c4340a5468df502c68ac, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3312724052698482696}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerController,
+          Assembly-CSharp
+        m_MethodName: ReceiveParticlesController
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2386050620623812326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047676686677396218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: dcc33721ba449e142b9f866cd9addde6, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1378804955233713589}
+        m_TargetAssemblyTypeName: GoodLuckValley.Player.Control.PlayerSaveHandler,
+          Assembly-CSharp
+        m_MethodName: SetPerformUpdate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &9113423550294391236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5718666806328399981}
+  m_Layer: 10
+  m_Name: Bounce Airtime Hardpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5718666806328399981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9113423550294391236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7971081741340313663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

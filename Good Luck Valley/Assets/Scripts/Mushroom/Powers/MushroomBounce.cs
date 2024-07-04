@@ -13,12 +13,14 @@ namespace GoodLuckValley.Mushroom
             public Vector2 BounceVector;
             public bool Rotated;
             public int BounceCount;
+            public int Index;
 
-            public BounceData(Vector2 bounceVector, bool rotated, int bounceCount)
+            public BounceData(Vector2 bounceVector, bool rotated, int bounceCount, int index)
             {
                 BounceVector = bounceVector;
                 Rotated = rotated;
                 BounceCount = bounceCount;
+                Index = index;
             }
         }
 
@@ -29,12 +31,26 @@ namespace GoodLuckValley.Mushroom
         [Header("Fields")]
         [SerializeField] private int bounceCount;
         [SerializeField] private bool isBouncing;
+        [SerializeField] private float bounceTimer;
+        [SerializeField] private float nextBounceBuffer;
         [SerializeField] private bool canBounce;
         [SerializeField] private float bounceForce;
 
         private void Start()
         {
             bounceCount = 0;
+        }
+
+        private void Update()
+        {
+            // Return if not bouncing
+            if (!isBouncing) return;
+
+            // Update the bounce buffer
+            if (bounceTimer < nextBounceBuffer)
+                bounceTimer += Time.deltaTime;
+            else
+                isBouncing = false;
         }
 
 
@@ -76,17 +92,22 @@ namespace GoodLuckValley.Mushroom
             BounceData bounceData = new BounceData(
                 mushroomData.GetBounceVector(),
                 mushroomData.Rotated,
-                bounceCount
+                bounceCount,
+                mushroomData.Index
             );
+
+            // Set bounce variables
+            isBouncing = true;
+            bounceTimer = 0;
 
             // Raise the bounce event
             // Calls to:
-            //  - PlayerController.StartBounce()
+            //  - PlayerController.Bounce()
             //  - MsuhroombounceEffect.ApplyEffect()
             onBounce.Raise(this, bounceData);
         }
 
-        public void ResetBounce(Component sender, object data)
+        public void ResetBounceCount(Component sender, object data)
         {
             // Reset the bounce count
             bounceCount = 0;

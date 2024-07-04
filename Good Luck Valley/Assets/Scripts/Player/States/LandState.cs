@@ -17,6 +17,9 @@ namespace GoodLuckValley.Player.States
         {
             // Play the land sound effect
             sfx.Land();
+
+            // Play land particles
+            player.PlayParticles(1);
         }
 
         public override void FixedUpdate()

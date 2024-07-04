@@ -1,9 +1,6 @@
-using GoodLuckValley.Audio.Music;
 using GoodLuckValley.Entities;
-using GoodLuckValley.Events;
 using GoodLuckValley.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace GoodLuckValley.World.AreaTriggers
 {
@@ -13,6 +10,7 @@ namespace GoodLuckValley.World.AreaTriggers
         Exit = 1
     }
 
+    [RequireComponent(typeof(AreaCollider))]
     public class TransitionTrigger : MonoBehaviour
     {
         [SerializeField] private TransitionType transitionType;

@@ -1,4 +1,5 @@
 using GoodLuckValley.Persistence;
+using GoodLuckValley.SceneManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -224,6 +225,9 @@ namespace GoodLuckValley.UI.MainMenu
             {
                 // Load the save file
                 SaveLoadSystem.Instance.LoadGame(saveSlot.Name);
+
+                // Load the scene
+                SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
             }
        }
 
@@ -238,6 +242,9 @@ namespace GoodLuckValley.UI.MainMenu
             {
                 // Start a new game
                 SaveLoadSystem.Instance.NewGame();
+
+                // Load the scene
+                SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
             }
         }
     }

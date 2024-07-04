@@ -12,10 +12,12 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private Vector2 bounceDirection;
         [SerializeField] private float bounceForce;
         [SerializeField] private int rotation;
+        [SerializeField] private int index;
 
         #region PROPERTIES
         public ShroomType Type { get { return shroomType; } }
         public bool Rotated { get; private set; }
+        public int Index { get { return index; } }
         #endregion
 
         /// <summary>
@@ -90,6 +92,12 @@ namespace GoodLuckValley.Mushroom
         {
             return bounceDirection * bounceForce;
         }
+
+        /// <summary>
+        /// Set the mushroom's index within the mushroom tracker
+        /// </summary>
+        /// <param name="index">The index to set</param>
+        public void SetIndex(int index) => this.index = index;
 
         private void OnDrawGizmos()
         {
