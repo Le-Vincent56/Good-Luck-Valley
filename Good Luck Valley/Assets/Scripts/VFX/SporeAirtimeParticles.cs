@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.VFX;
 
 namespace GoodLuckValley.VFX
@@ -25,7 +26,6 @@ namespace GoodLuckValley.VFX
         private void OnDisable()
         {
             vfx.Stop();
-            Destroy(vfx);
         }
     }
 }
