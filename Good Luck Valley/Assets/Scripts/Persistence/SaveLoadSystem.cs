@@ -129,7 +129,7 @@ namespace GoodLuckValley.Persistence
         {
             // Set the current level name if not starting a new game (will put the main menu scene
             // if saving from NewGame())
-            if(!fromNewGame)
+            if (!fromNewGame)
                 // Set the current level name
                 selectedData.CurrentLevelName = SceneManager.GetActiveScene().name;
 
