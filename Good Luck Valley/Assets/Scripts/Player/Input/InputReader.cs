@@ -37,6 +37,7 @@ namespace GoodLuckValley.Player.Input
         public event UnityAction<bool> Look = delegate { };
         public event UnityAction<bool> FastSlide = delegate { };
         public event UnityAction<bool> Crawl = delegate { };
+        public event UnityAction<float> Scroll = delegate { };
 
         PlayerInputActions inputActions;
         public Vector3 Direction => inputActions.PlayerControls.Move.ReadValue<Vector2>();
@@ -217,6 +218,14 @@ namespace GoodLuckValley.Player.Input
                 HoldingCrawl = false;
                 Crawl.Invoke(context.started);
             }
+        }
+
+        public void OnScroll(InputAction.CallbackContext context)
+        {
+            if (!AllowControl) return;
+
+            Vector2 rawScrollInput = context.ReadValue<Vector2>();
+            Scroll.Invoke(rawScrollInput.y / 120.0f);
         }
     }
 }
