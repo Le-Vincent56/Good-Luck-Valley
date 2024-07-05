@@ -1,5 +1,5 @@
 using UnityEngine;
-using GoodLuckValley.Entities;
+using GoodLuckValley.World.AreaTriggers;
 
 namespace GoodLuckValley.Cameras
 {
