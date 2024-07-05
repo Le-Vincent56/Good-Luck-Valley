@@ -6,7 +6,7 @@ namespace GoodLuckValley.Cameras.Parallax
     [ExecuteInEditMode]
     public class ParallaxCamera : MonoBehaviour
     {
-        public UnityAction<float> OnCameraTranslate = delegate { };
+        public event UnityAction<float> OnCameraTranslate = delegate { };
 
         private float prevPosition;
 

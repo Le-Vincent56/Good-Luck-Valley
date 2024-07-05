@@ -172,6 +172,15 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleDeveloperConsole"",
+                    ""type"": ""Button"",
+                    ""id"": ""03c73339-204e-48c3-be53-691ecae0bedb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -416,6 +425,17 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7360957a-b5a9-4bbd-a4cc-d0f59ae65398"",
+                    ""path"": ""<Keyboard>/insert"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleDeveloperConsole"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -490,6 +510,7 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_FastSlide = m_PlayerControls.FindAction("Fast Slide", throwIfNotFound: true);
             m_PlayerControls_Crawl = m_PlayerControls.FindAction("Crawl", throwIfNotFound: true);
             m_PlayerControls_Scroll = m_PlayerControls.FindAction("Scroll", throwIfNotFound: true);
+            m_PlayerControls_ToggleDeveloperConsole = m_PlayerControls.FindAction("ToggleDeveloperConsole", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
@@ -570,6 +591,7 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_FastSlide;
         private readonly InputAction m_PlayerControls_Crawl;
         private readonly InputAction m_PlayerControls_Scroll;
+        private readonly InputAction m_PlayerControls_ToggleDeveloperConsole;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -590,6 +612,7 @@ namespace GoodLuckValley.Player.Input
             public InputAction @FastSlide => m_Wrapper.m_PlayerControls_FastSlide;
             public InputAction @Crawl => m_Wrapper.m_PlayerControls_Crawl;
             public InputAction @Scroll => m_Wrapper.m_PlayerControls_Scroll;
+            public InputAction @ToggleDeveloperConsole => m_Wrapper.m_PlayerControls_ToggleDeveloperConsole;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -647,6 +670,9 @@ namespace GoodLuckValley.Player.Input
                 @Scroll.started += instance.OnScroll;
                 @Scroll.performed += instance.OnScroll;
                 @Scroll.canceled += instance.OnScroll;
+                @ToggleDeveloperConsole.started += instance.OnToggleDeveloperConsole;
+                @ToggleDeveloperConsole.performed += instance.OnToggleDeveloperConsole;
+                @ToggleDeveloperConsole.canceled += instance.OnToggleDeveloperConsole;
             }
 
             private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -699,6 +725,9 @@ namespace GoodLuckValley.Player.Input
                 @Scroll.started -= instance.OnScroll;
                 @Scroll.performed -= instance.OnScroll;
                 @Scroll.canceled -= instance.OnScroll;
+                @ToggleDeveloperConsole.started -= instance.OnToggleDeveloperConsole;
+                @ToggleDeveloperConsole.performed -= instance.OnToggleDeveloperConsole;
+                @ToggleDeveloperConsole.canceled -= instance.OnToggleDeveloperConsole;
             }
 
             public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -780,6 +809,7 @@ namespace GoodLuckValley.Player.Input
             void OnFastSlide(InputAction.CallbackContext context);
             void OnCrawl(InputAction.CallbackContext context);
             void OnScroll(InputAction.CallbackContext context);
+            void OnToggleDeveloperConsole(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
