@@ -3,7 +3,7 @@ using GoodLuckValley.Patterns.Commands;
 using System.Collections.Generic;
 using UnityEngine;
 using GoodLuckValley.Events;
-using GoodLuckValley.World.AreaTriggers;
+using GoodLuckValley.Entities;
 
 namespace GoodLuckValley.World.Interactables
 {
