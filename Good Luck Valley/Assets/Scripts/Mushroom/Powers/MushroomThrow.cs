@@ -51,7 +51,6 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private float throwMultiplier;
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
-        [SerializeField] private VisualEffect sporeVFX;
 
         private const float MultiplierScalar = 1.875f;
         private Blackboard playerBlackboard;
