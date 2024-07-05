@@ -1,5 +1,4 @@
 using GoodLuckValley.Events;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,8 +18,6 @@ namespace GoodLuckValley.Cameras
             cameraBounds = CalculateCameraBounds();
 
             onUpdateScreenBounds.Raise(this, cameraBounds);
-
-            Debug.LogError("TEST ERROR");
         }
 
         /// <summary>

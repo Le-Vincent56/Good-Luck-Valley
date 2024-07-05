@@ -1,5 +1,6 @@
-using GoodLuckValley.World.AreaTriggers;
+using GoodLuckValley.Entities;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

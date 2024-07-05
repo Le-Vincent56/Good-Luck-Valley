@@ -84,6 +84,9 @@ public class PlayerParticlesController : MonoBehaviour
         jumpParticlesHardpoint = hardpoints.Jump;
         landParticlesHardpoint = hardpoints.Land;
         bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
+
+
+        detectTileType.RaycastStart = runParticlesHardpoint.position;
     }
 
     private void HandleRunningParticles()
@@ -115,12 +118,9 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void HandleAirtimeBounceParticles()
     {
-        if (playerController.IsGrounded)
-        {
-            airtimeParticlesActive = true;
-            bounceAirtimeVFX.SetVector2("SpawnPosition", bounceAirtimeParticlesHardpoint.position);
-            bounceAirtimeVFX.Play();    
-        }
+        airtimeParticlesActive = true;
+        bounceAirtimeVFX.SetVector2("SpawnPosition", bounceAirtimeParticlesHardpoint.position);
+        bounceAirtimeVFX.Play();
     }
 
     public void StopAirtimeBounceParticles()
@@ -132,8 +132,6 @@ public class PlayerParticlesController : MonoBehaviour
     #region HELPERS
     private void PlayEffectBasedOnTileType(VisualEffect grassEffect, VisualEffect dirtEffect, Vector2 spawnPosition)
     {
-        detectTileType.RaycastStart = spawnPosition;
-
         switch (detectTileType.CheckTileType())
         {
             case TileType.Dirt:
@@ -145,7 +143,6 @@ public class PlayerParticlesController : MonoBehaviour
                 grassEffect.Play();
                 break;
             case TileType.None:
-                Debug.Log("No Tile Type Detected");
                 break;
         }
     }
