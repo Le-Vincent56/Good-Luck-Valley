@@ -12,6 +12,7 @@ public class PlayerParticlesController : MonoBehaviour
 {
     [Header("Events")]
     [SerializeField] private GameEvent onSendParticlesController;
+    [SerializeField] private GameEvent onRequestHardpoints;
 
     [Header("Running Particles")]
     [SerializeField] private VisualEffect grassRunVFX;
@@ -48,6 +49,12 @@ public class PlayerParticlesController : MonoBehaviour
 
     private void Update()
     {
+        if(!CheckHardpoints())
+        {
+            onRequestHardpoints.Raise(this, null);
+            return;
+        }
+
         if (playerController.IsGrounded && Mathf.Abs(playerController.Velocity.x) > minXVelocity)
         {
             HandleRunningParticles();
@@ -61,13 +68,17 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void SetPlayerController(Component sender, object data)
     {
-
         // Verify that the correct data was sent
         if (data is not PlayerController) return;
 
         // Cast and set the data
         playerController = (PlayerController)data;
     }
+
+    public bool CheckHardpoints() => (runParticlesHardpoint != null) &&
+        (jumpParticlesHardpoint != null) &&
+        (landParticlesHardpoint != null) &&
+        (bounceAirtimeParticlesHardpoint != null);
 
     public void SetHardpoints(Component sender, object data)
     {
