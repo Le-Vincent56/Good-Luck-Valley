@@ -6517,6 +6517,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8151357047097989398, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1461210787}
+    - targetCorrespondingSourceObject: {fileID: 8151357047097989398, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1461210789}
+    - targetCorrespondingSourceObject: {fileID: 8151357047097989398, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1461210788}
   m_SourcePrefab: {fileID: 100100000, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
 --- !u!1 &189550495
 GameObject:
@@ -18435,6 +18441,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &522009651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 522009653}
+  - component: {fileID: 522009652}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &522009652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522009651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d377e091a88d9c9448b3148650953dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitializationSettings: {fileID: 11400000, guid: 9e145d484d99c954aac49af892184d87, type: 2}
+  basePath: 
+  language: 
+  defaultPoolSize: 0
+  lowerPoolSize: 0
+  streamingPoolSize: 0
+  memoryCutoffThreshold: 0
+  monitorPoolSize: 0
+  monitorQueuePoolSize: 0
+  callbackManagerBufferSize: 0
+  spatialAudioPoolSize: 0
+  maxSoundPropagationDepth: 0
+  engineLogging: 0
+--- !u!4 &522009653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522009651}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &522773266
 GameObject:
   m_ObjectHideFlags: 0
@@ -102509,6 +102572,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea716c602b3eff4e87efd2111822d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1461210788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461210782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712bdead09d66d24c939cc01a204d2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
+--- !u!114 &1461210789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461210782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1b1832413f6ad4a9bf0f0d6f1ae8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1462513208
 GameObject:
   m_ObjectHideFlags: 0
@@ -126704,3 +126803,4 @@ SceneRoots:
   - {fileID: 1723056518}
   - {fileID: 1230297160}
   - {fileID: 3493694327328035718}
+  - {fileID: 522009653}
