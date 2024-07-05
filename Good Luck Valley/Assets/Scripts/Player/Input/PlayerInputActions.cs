@@ -163,6 +163,15 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""8c3cbff8-d31e-4ad2-b74b-be93de177ed6"",
+                    ""expectedControlType"": ""Delta"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -396,6 +405,17 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""Crawl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ef5847b-10f0-44d5-ae23-bec2755512d8"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -469,6 +489,7 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
             m_PlayerControls_FastSlide = m_PlayerControls.FindAction("Fast Slide", throwIfNotFound: true);
             m_PlayerControls_Crawl = m_PlayerControls.FindAction("Crawl", throwIfNotFound: true);
+            m_PlayerControls_Scroll = m_PlayerControls.FindAction("Scroll", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
@@ -548,6 +569,7 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_Look;
         private readonly InputAction m_PlayerControls_FastSlide;
         private readonly InputAction m_PlayerControls_Crawl;
+        private readonly InputAction m_PlayerControls_Scroll;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -567,6 +589,7 @@ namespace GoodLuckValley.Player.Input
             public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
             public InputAction @FastSlide => m_Wrapper.m_PlayerControls_FastSlide;
             public InputAction @Crawl => m_Wrapper.m_PlayerControls_Crawl;
+            public InputAction @Scroll => m_Wrapper.m_PlayerControls_Scroll;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -621,6 +644,9 @@ namespace GoodLuckValley.Player.Input
                 @Crawl.started += instance.OnCrawl;
                 @Crawl.performed += instance.OnCrawl;
                 @Crawl.canceled += instance.OnCrawl;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
             }
 
             private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -670,6 +696,9 @@ namespace GoodLuckValley.Player.Input
                 @Crawl.started -= instance.OnCrawl;
                 @Crawl.performed -= instance.OnCrawl;
                 @Crawl.canceled -= instance.OnCrawl;
+                @Scroll.started -= instance.OnScroll;
+                @Scroll.performed -= instance.OnScroll;
+                @Scroll.canceled -= instance.OnScroll;
             }
 
             public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -750,6 +779,7 @@ namespace GoodLuckValley.Player.Input
             void OnLook(InputAction.CallbackContext context);
             void OnFastSlide(InputAction.CallbackContext context);
             void OnCrawl(InputAction.CallbackContext context);
+            void OnScroll(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

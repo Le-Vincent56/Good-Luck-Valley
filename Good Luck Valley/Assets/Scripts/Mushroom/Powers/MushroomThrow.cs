@@ -1,8 +1,6 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.Blackboard;
-using GoodLuckValley.Patterns.ServiceLocator;
 using GoodLuckValley.Player.Input;
-using GoodLuckValley.VFX;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -46,7 +44,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameObject spore;
         #endregion
 
-        #region FIELDS
+        [Header("Fields")]
         [SerializeField] private Vector2 throwDirection;
         [SerializeField] private ShroomSpawnData spawnData;
         [SerializeField] private FinalSpawnInfo finalSpawnInfo;
@@ -54,10 +52,11 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private bool canThrow;
         [SerializeField] private ThrowState throwState;
         [SerializeField] private VisualEffect sporeVFX;
+
+        private const float MultiplierScalar = 1.875f;
         private Blackboard playerBlackboard;
         private BlackboardKey unlockedThrow;
         private BlackboardKey isCrawling;
-        #endregion
 
         private void Start()
         {
@@ -71,24 +70,25 @@ namespace GoodLuckValley.Mushroom
         /// Set the throw direction for the spore
         /// </summary>
         /// <param name="throwDirection">The direction to throw the spore</param>
-        public void SetThrowDirection(Vector2 throwDirection)
-        {
-            this.throwDirection = throwDirection;
-        }
+        public void SetThrowDirection(Vector2 throwDirection) => this.throwDirection = throwDirection;
 
         /// <summary>
         /// Set the spawn data for the spore
         /// </summary>
         /// <param name="data">The ShroomSpawnData for the spore for Mushroom spawning</param>
-        public void SetSpawnData(ShroomSpawnData data)
-        {
-            spawnData = data;
-        }
+        public void SetSpawnData(ShroomSpawnData data) => spawnData = data;
 
-        public void SetFinalSpawnInfo(FinalSpawnInfo finalSpawnInfo)
-        {
-            this.finalSpawnInfo = finalSpawnInfo;
-        }
+        /// <summary>
+        /// Set the final spawn info for the Mushroom
+        /// </summary>
+        /// <param name="finalSpawnInfo"></param>
+        public void SetFinalSpawnInfo(FinalSpawnInfo finalSpawnInfo) => this.finalSpawnInfo = finalSpawnInfo;
+
+        /// <summary>
+        /// Set the throw multiplier for the spore
+        /// </summary>
+        /// <param name="throwMultiplier"></param>
+        public void SetThrowMultiplier(float throwMultiplier) => this.throwMultiplier = throwMultiplier;
 
         /// <summary>
         /// Handle throwing
@@ -151,7 +151,7 @@ namespace GoodLuckValley.Mushroom
             // Create a spore and set collision data
             GameObject newSpore = Instantiate(spore, transform.position, Quaternion.identity);
             newSpore.GetComponent<Spore>().SetSpawnInfo(finalSpawnInfo);
-            newSpore.GetComponent<Spore>().ThrowSpore(throwDirection);
+            newSpore.GetComponent<Spore>().ThrowSpore(throwDirection, throwMultiplier, MultiplierScalar);
 
             // Set throwing for the PlayerController
             // Calls to:
