@@ -2,51 +2,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GoodLuckValley.World.AreaTriggers
+namespace GoodLuckValley.Entities
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class AreaCollider : MonoBehaviour
     {
-        public enum Type
-        {
-            Box,
-            Composite
-        }
-
+        [Header("Events")]
         public UnityAction<GameObject> OnTriggerEnter;
         public UnityAction<GameObject> OnTriggerExit;
 
+        [Header("References")]
         protected BoxCollider2D entityCollider;
-        protected CompositeCollider2D compositeCollider;
 
         [Header("Fields")]
-        [SerializeField] private Type colliderType;
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private Bounds bounds;
         [SerializeField] private HashSet<GameObject> currentCollisions = new HashSet<GameObject>();
 
         public Bounds Bounds { get { return bounds; } }
 
-        private void Reset()
-        {
-            // Set the "Player" as a default layer when the component is added
-            layerMask = 1024;
-        }
 
         private void Awake()
         {
-            switch (colliderType)
-            {
-                case Type.Box:
-                    entityCollider = GetComponent<BoxCollider2D>();
-                    bounds = entityCollider.bounds;
-                    break;
+            // Get the box collider
+            entityCollider = GetComponent<BoxCollider2D>();
 
-                case Type.Composite:
-                    compositeCollider = GetComponent<CompositeCollider2D>();
-                    bounds = compositeCollider.bounds;
-                    break;
-            }
+            bounds = entityCollider.bounds;
         }
 
         private void Update()

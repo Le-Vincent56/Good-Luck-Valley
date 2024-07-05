@@ -17,7 +17,7 @@ namespace GoodLuckValley.VFX
         {
             source = cameraColorTargetHandle;
             blurSettings = VolumeManager.instance.stack.GetComponent<BlurSettings>();
-            renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing; // IF DOESN'T WORK: SET TO AFTER INSTEAD OF BEFORE
+            renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing; // IF DOESN'T WORK: SET TO AFTER INSTEAD OF BEFORE
 
             if (blurSettings != null && blurSettings.IsActive())
             {

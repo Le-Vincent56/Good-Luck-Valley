@@ -1,6 +1,7 @@
-using GoodLuckValley.World.AreaTriggers;
+using GoodLuckValley.Entities;
 using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.ServiceLocator;
 using System.Collections.Generic;
 using UnityEngine;
 

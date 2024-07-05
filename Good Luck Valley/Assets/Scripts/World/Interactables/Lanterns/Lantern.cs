@@ -1,4 +1,4 @@
-using GoodLuckValley.World.AreaTriggers;
+using GoodLuckValley.Entities;
 using GoodLuckValley.Entities.Fireflies;
 using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.Commands;
