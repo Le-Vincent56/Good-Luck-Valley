@@ -6,6 +6,5 @@ namespace GoodLuckValley.Mushroom
     public class SporeData : ScriptableObject
     {
         [SerializeField] public float gravity;
-        [SerializeField] public float throwSpeed;
     }
 }
