@@ -25,6 +25,7 @@ namespace GoodLuckValley.VFX
         private void OnDisable()
         {
             vfx.Stop();
+            Destroy(vfx);
         }
     }
 }
