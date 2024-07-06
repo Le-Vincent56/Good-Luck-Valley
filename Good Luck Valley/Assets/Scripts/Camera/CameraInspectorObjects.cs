@@ -12,6 +12,8 @@ namespace GoodLuckValley.Cameras
 
         [HideInInspector] public CinemachineVirtualCamera cameraOnLeft;
         [HideInInspector] public CinemachineVirtualCamera cameraOnRight;
+        [HideInInspector] public CinemachineVirtualCamera cameraOnTop;
+        [HideInInspector] public CinemachineVirtualCamera cameraOnBottom;
 
         [HideInInspector] public Vector2 panDirection;
         [HideInInspector] public float panDistance = 3f;

@@ -156,7 +156,7 @@ public class PlayerParticlesController : MonoBehaviour
                 grassEffect.Play();
                 break;
             case TileType.None:
-                Debug.Log("No Tile Type Detected");
+                //Debug.Log("No Tile Type Detected");
                 break;
         }
     }
