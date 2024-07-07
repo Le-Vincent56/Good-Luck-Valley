@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{F70EB31A-A81F-43AA-8E5E-9B7F2CBF7FD7}" SchemaVersion="119">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{F70EB31A-A81F-43AA-8E5E-9B7F2CBF7FD7}" PersistMode="Standalone">
+			<ChildrenList>
+				<ActorMixer Name="World" ID="{0B9637B9-7643-4439-83EF-8B4D7A0BC46E}" ShortID="564160673">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<WorkUnit Name="NPCs" ID="{89B40861-017F-4F70-A26F-EA0096311D46}" PersistMode="Reference"/>
+						<WorkUnit Name="Objects" ID="{8E73BD67-BA50-42D6-9ED0-B9123FAF0541}" PersistMode="Reference"/>
+						<WorkUnit Name="Player" ID="{DE781BD7-0E25-490E-8A2B-8448EA857B61}" PersistMode="Reference"/>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Ambience" ID="{5E8D6B4E-A874-486A-983D-6F379249ABE8}" ShortID="172395302">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<SwitchContainer Name="Soundscapes" ID="{017A8973-F5E2-40B3-8AFD-24E3BB45E66D}" ShortID="286891192">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="Forest" ID="{CB53642B-4672-4056-9391-74D09CA559B3}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="Ambience_SG" ID="{FC137728-79C3-4653-838E-8144CB6C0B2C}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="Cave_Soundscape" ID="{24747B93-6BB9-48B6-AF7E-71B01A9DAFA8}" ShortID="513840568">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Cave_Soundscape" ID="{2E0C3F01-5B1F-4EB0-B045-3EC8C13F1513}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Cave_Soundscape.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="726274615"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Cave_Soundscape" ID="{2E0C3F01-5B1F-4EB0-B045-3EC8C13F1513}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Forest_Soundscape" ID="{3D6F22BF-BB06-427D-9EDC-956607228DF2}" ShortID="975625498">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Forest_Soundscape" ID="{C3BCF787-578B-4439-B1C3-A073A2517906}">
+											<Language>SFX</Language>
+											<AudioFile>Forest_Soundscape.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="168390414"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Forest_Soundscape" ID="{C3BCF787-578B-4439-B1C3-A073A2517906}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="Cave_Soundscape" ID="{24747B93-6BB9-48B6-AF7E-71B01A9DAFA8}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="Forest_Soundscape" ID="{3D6F22BF-BB06-427D-9EDC-956607228DF2}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="Forest" ID="{CB53642B-4672-4056-9391-74D09CA559B3}"/>
+										<ItemList>
+											<ItemRef Name="Forest_Soundscape" ID="{3D6F22BF-BB06-427D-9EDC-956607228DF2}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="Cave" ID="{BEDCB5D0-9790-4E6D-9D4F-E7680F9E47D4}"/>
+										<ItemList>
+											<ItemRef Name="Cave_Soundscape" ID="{24747B93-6BB9-48B6-AF7E-71B01A9DAFA8}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+					</ChildrenList>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

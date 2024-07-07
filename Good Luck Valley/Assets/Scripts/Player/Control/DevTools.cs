@@ -33,6 +33,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool noClipActive = false;
         [SerializeField] private float noClipSpeed;
         [SerializeField] private bool powersUnlocked = false;
+        [SerializeField] private bool developerConsole = false;
         private Blackboard playerBlackboard;
         private BlackboardKey unlockedThrow;
         private BlackboardKey unlockedWallJump;
@@ -45,6 +46,7 @@ namespace GoodLuckValley.Player.Control
             input.DevTools += OnDevTools;
             input.NoClip += OnNoClip;
             input.UnlockPowers += OnUnlockPowers;
+            input.DeveloperConsole += ToggleDeveloperConsole;
         }
 
         private void OnDisable()
@@ -52,6 +54,7 @@ namespace GoodLuckValley.Player.Control
             input.DevTools -= OnDevTools;
             input.NoClip -= OnNoClip;
             input.UnlockPowers -= OnUnlockPowers;
+            input.DeveloperConsole -= ToggleDeveloperConsole;
         }
 
         private void Start()
@@ -127,6 +130,21 @@ namespace GoodLuckValley.Player.Control
 
                 // Update UI
                 onUpdateDevToolsUI.Raise(this, new Data(noClipActive, powersUnlocked));
+            }
+        }
+
+        /// <summary>
+        /// Handle showing the developer console
+        /// </summary>
+        /// <param name="started">If the button has been pressed</param>
+        private void ToggleDeveloperConsole(bool started)
+        {
+            if(started)
+            {
+                developerConsole = !developerConsole;
+
+                // Show the developer console
+                Debug.developerConsoleVisible = developerConsole;
             }
         }
     }

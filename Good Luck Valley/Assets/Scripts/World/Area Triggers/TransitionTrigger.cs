@@ -1,5 +1,5 @@
-using GoodLuckValley.Entities;
 using GoodLuckValley.SceneManagement;
+using GoodLuckValley.Scenes.Data;
 using UnityEngine;
 
 namespace GoodLuckValley.World.AreaTriggers
@@ -13,9 +13,13 @@ namespace GoodLuckValley.World.AreaTriggers
     [RequireComponent(typeof(AreaCollider))]
     public class TransitionTrigger : MonoBehaviour
     {
+        [SerializeField] private LevelPositionData levelPositionData;
         [SerializeField] private TransitionType transitionType;
         [SerializeField] private int moveDirection;
         [SerializeField] private string sceneToTransitionTo;
+        [SerializeField] private int loadIndex;
+
+        public LevelPositionData LevelPositionData { get { return levelPositionData; } }
 
         public TransitionType TransitionType
         {
@@ -33,6 +37,12 @@ namespace GoodLuckValley.World.AreaTriggers
         {
             get => sceneToTransitionTo;
             set => sceneToTransitionTo = value;
+        }
+
+        public int LoadIndex
+        {
+            get => loadIndex;
+            set => loadIndex = value;
         }
 
         private AreaCollider areaCollider;
@@ -57,7 +67,7 @@ namespace GoodLuckValley.World.AreaTriggers
             // Don't trigger if loading already
             if (SceneLoader.Instance.IsLoading) return;
 
-            SceneLoader.Instance.SetSceneToLoad(sceneToTransitionTo, transitionType, moveDirection);
+            SceneLoader.Instance.SetSceneToLoad(sceneToTransitionTo, transitionType, moveDirection, loadIndex);
             SceneLoader.Instance.BeginTransition();
         }
     }

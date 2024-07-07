@@ -1,20 +1,21 @@
 using UnityEngine;
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Events;
+using GoodLuckValley.Player.Input;
 
 namespace GoodLuckValley.UI
 {
     public class ThrowLine : MonoBehaviour
     {
-        #region EVENTS
         [Header("Events")]
         [SerializeField] private GameEvent onRequestPlayerController;
         [SerializeField] private GameEvent onRequestThrowData;
         [SerializeField] private GameEvent onShowIndicator;
         [SerializeField] private GameEvent onHideIndicator;
-        #endregion
 
-        #region FIELDS
+        [Header("References")]
+        [SerializeField] private InputReader input;
+
         private float width;
         private int segments;
         private LineRenderer lineRenderer = null;
@@ -26,8 +27,11 @@ namespace GoodLuckValley.UI
         [SerializeField] private LayerMask unshroomableLayer;
 
         [Header("Details")]
-        [SerializeField] private float throwMultiplier;
         [SerializeField] private bool show;
+        [SerializeField] private float throwMultiplier;
+        [SerializeField] private float throwChangeAmount;
+        [SerializeField] private float multMax;
+        [SerializeField] private float multMin;
 
         [Header("Vectors")]
         [SerializeField] private Vector2 cursorPosition;
@@ -35,7 +39,16 @@ namespace GoodLuckValley.UI
         [SerializeField] private Vector2 launchForce;
         [SerializeField] private Vector2 playerPos;
         [SerializeField] private Vector2 offset;
-        #endregion
+
+        private void OnEnable()
+        {
+            input.Scroll += ChangeMultiplier;
+        }
+
+        private void OnDisable()
+        {
+            input.Scroll -= ChangeMultiplier;
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -69,6 +82,12 @@ namespace GoodLuckValley.UI
 
             // Show the line
             PlotTrajectory();
+        }
+
+        public void ChangeMultiplier(float scrollDeltaY)
+        {
+            throwMultiplier += (scrollDeltaY * throwChangeAmount);
+            throwMultiplier = Mathf.Clamp(throwMultiplier, multMin, multMax);
         }
 
         /// <summary>
@@ -288,6 +307,7 @@ namespace GoodLuckValley.UI
         {
             if (sender is not MushroomThrow) return;
 
+            ((MushroomThrow)sender).SetThrowMultiplier(throwMultiplier);
             ((MushroomThrow)sender).SetThrowDirection(throwDirection);
         }
 
