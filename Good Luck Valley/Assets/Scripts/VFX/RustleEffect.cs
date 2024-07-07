@@ -1,9 +1,6 @@
-using GoodLuckValley.Entities;
+using GoodLuckValley.World.AreaTriggers;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.U2D;
-using UnityEngine.VFX;
 
 namespace GoodLuckValley.VFX
 {

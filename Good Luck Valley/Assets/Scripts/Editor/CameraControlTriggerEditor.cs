@@ -15,27 +15,44 @@ public class CameraControlTriggerEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        // Draw the default inspector
-        DrawDefaultInspector();
-
         // Show camera variables
         if(cameraControlTrigger.cameraInspectorObjects.swapCameras)
         {
-            cameraControlTrigger.cameraInspectorObjects.cameraOnLeft = EditorGUILayout.ObjectField(
-                "Camera on Left",
-                cameraControlTrigger.cameraInspectorObjects.cameraOnLeft,
-                typeof(CinemachineVirtualCamera), true
-            ) as CinemachineVirtualCamera;
+            cameraControlTrigger.TriggerDirection = (CameraControlTrigger.Direction)EditorGUILayout.EnumPopup("Camera Direction", cameraControlTrigger.TriggerDirection);
 
-            cameraControlTrigger.cameraInspectorObjects.cameraOnRight = EditorGUILayout.ObjectField(
-                "Camera on Right",
-                cameraControlTrigger.cameraInspectorObjects.cameraOnRight,
-                typeof(CinemachineVirtualCamera), true
-            ) as CinemachineVirtualCamera;
+            switch (cameraControlTrigger.TriggerDirection)
+            {
+                case CameraControlTrigger.Direction.LeftRight:
+                    cameraControlTrigger.cameraInspectorObjects.cameraOnLeft = EditorGUILayout.ObjectField(
+                        "Camera on Left",
+                        cameraControlTrigger.cameraInspectorObjects.cameraOnLeft,
+                        typeof(CinemachineVirtualCamera), true
+                    ) as CinemachineVirtualCamera;
+
+                    cameraControlTrigger.cameraInspectorObjects.cameraOnRight = EditorGUILayout.ObjectField(
+                        "Camera on Right",
+                        cameraControlTrigger.cameraInspectorObjects.cameraOnRight,
+                        typeof(CinemachineVirtualCamera), true
+                    ) as CinemachineVirtualCamera;
+                    break;
+                case CameraControlTrigger.Direction.UpDown:
+                    cameraControlTrigger.cameraInspectorObjects.cameraOnTop = EditorGUILayout.ObjectField(
+                        "Camera on Top",
+                        cameraControlTrigger.cameraInspectorObjects.cameraOnTop,
+                        typeof(CinemachineVirtualCamera), true
+                    ) as CinemachineVirtualCamera;
+
+                    cameraControlTrigger.cameraInspectorObjects.cameraOnBottom = EditorGUILayout.ObjectField(
+                        "Camera on Bottom",
+                        cameraControlTrigger.cameraInspectorObjects.cameraOnBottom,
+                        typeof(CinemachineVirtualCamera), true
+                    ) as CinemachineVirtualCamera;
+                    break;
+            }
         }
 
         // Show pan variables
-        if(cameraControlTrigger.cameraInspectorObjects.panCameraOnContact)
+        if (cameraControlTrigger.cameraInspectorObjects.panCameraOnContact)
         {
             cameraControlTrigger.cameraInspectorObjects.panDirection = EditorGUILayout.Vector2Field(
                 "Camera Pan Direction",
@@ -52,14 +69,14 @@ public class CameraControlTriggerEditor : Editor
                 cameraControlTrigger.cameraInspectorObjects.panTime
             );
 
-            cameraControlTrigger.localPanPoint = EditorGUILayout.Vector2Field(
+            cameraControlTrigger.LocalPanPoint = EditorGUILayout.Vector2Field(
                 "Local Pan Point",
-                cameraControlTrigger.localPanPoint
+                cameraControlTrigger.LocalPanPoint
             );
 
-            cameraControlTrigger.globalPanPoint = EditorGUILayout.Vector2Field(
+            cameraControlTrigger.GlobalPanPoint = EditorGUILayout.Vector2Field(
                 "Global Pan Point",
-                cameraControlTrigger.globalPanPoint
+                cameraControlTrigger.GlobalPanPoint
             );
         }
 

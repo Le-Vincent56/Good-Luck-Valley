@@ -125,11 +125,11 @@ namespace GoodLuckValley.Mushroom
         /// Set the throw vector for the Spore
         /// </summary>
         /// <param name="throwDirection"></param>
-        public void ThrowSpore(Vector2 throwDirection)
+        public void ThrowSpore(Vector2 throwDirection, float throwMultiplier, float multiplierScalar)
         {
 
-            velocity.x = throwDirection.x * sporeData.throwSpeed;
-            velocity.y = throwDirection.y * sporeData.throwSpeed;
+            velocity.x = throwDirection.x * (throwMultiplier * multiplierScalar);
+            velocity.y = throwDirection.y * (throwMultiplier * multiplierScalar);
         }
 
         /// <summary>
