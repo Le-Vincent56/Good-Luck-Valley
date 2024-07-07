@@ -2,7 +2,6 @@ using GoodLuckValley.Entities;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.iOS;
 using UnityEngine.U2D;
 using UnityEngine.VFX;
 
