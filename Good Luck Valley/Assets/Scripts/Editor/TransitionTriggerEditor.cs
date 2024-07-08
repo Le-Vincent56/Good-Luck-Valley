@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEditor;
 using GoodLuckValley.World.AreaTriggers;
 using UnityEngine.SceneManagement;
+using GoodLuckValley.Scenes.Data;
+using System.Collections.Generic;
 
 [CustomEditor(typeof(TransitionTrigger))]
 public class TransitionTriggerEditor : Editor
@@ -16,6 +18,9 @@ public class TransitionTriggerEditor : Editor
 
         // Create a header
         EditorGUILayout.LabelField("Fields", EditorStyles.boldLabel);
+
+        SerializedProperty levelPositionDataProperty = serializedObject.FindProperty("levelPositionData");
+        EditorGUILayout.PropertyField(levelPositionDataProperty);
 
         // Show the TransitionType enum
         transitionTrigger.TransitionType = (TransitionType)EditorGUILayout.EnumPopup("Transition Type", transitionTrigger.TransitionType);
@@ -52,6 +57,37 @@ public class TransitionTriggerEditor : Editor
         if(selectedIndex >= 0 && selectedIndex < sceneNames.Length)
         {
             transitionTrigger.SceneToTransitionTo = sceneNames[selectedIndex];
+        }
+
+        // Ensure that the level position data is assigned and the scene is selected
+        if(transitionTrigger.LevelPositionData !=  null && !string.IsNullOrEmpty(transitionTrigger.SceneToTransitionTo))
+        {
+            // Get the data container for the selected scene
+            LevelDataContainer levelData = transitionTrigger.LevelPositionData.GetLevelData(transitionTrigger.SceneToTransitionTo);
+
+            if(levelData != null)
+            {
+                List<Vector2> positions = transitionTrigger.TransitionType == TransitionType.Exit 
+                    ? levelData.Entrances 
+                    : levelData.Exits;
+
+                string[] positionOptions = new string[positions.Count];
+
+                for(int i = 0; i < positions.Count; i++)
+                {
+                    Vector2 position = transitionTrigger.TransitionType == TransitionType.Exit ? levelData.Entrances[i] : levelData.Exits[i];
+
+                    positionOptions[i] = $"Position {i + 1} ({position})";
+                }
+
+                if(positionOptions.Length > 0)
+                {
+                    transitionTrigger.LoadIndex = EditorGUILayout.Popup("Load Index", transitionTrigger.LoadIndex, positionOptions);
+                } else
+                {
+                    EditorGUILayout.LabelField("No positions available for the selected Transition Type");
+                }
+            }
         }
 
         // Check for GUI changes to set dirty

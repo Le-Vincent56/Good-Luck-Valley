@@ -1,17 +1,43 @@
 using UnityEngine;
 using GoodLuckValley.World.AreaTriggers;
+using Unity.VisualScripting;
 
 namespace GoodLuckValley.Cameras
 {
     public class CameraControlTrigger : MonoBehaviour
     {
+        public enum Direction
+        {
+            LeftRight,
+            UpDown
+        }
+
         [Header("References")]
         private AreaCollider triggerCollider;
 
         [Header("Fields")]
+        [SerializeField] private Direction direction;
         public CameraInspectorObjects cameraInspectorObjects;
-        [HideInInspector] public Vector2 localPanPoint;
-        [HideInInspector] public Vector2 globalPanPoint;
+        private Vector2 localPanPoint;
+        private Vector2 globalPanPoint;
+
+        public Direction TriggerDirection
+        {
+            get => direction;
+            set => direction = value;
+        }
+
+        public Vector2 LocalPanPoint
+        {
+            get => localPanPoint;
+            set => localPanPoint = value;
+        }
+
+        public Vector2 GlobalPanPoint
+        {
+            get => globalPanPoint;
+            set => globalPanPoint = value;
+        }
 
         private void Awake()
         {
@@ -55,14 +81,33 @@ namespace GoodLuckValley.Cameras
         private void ExitTrigger(GameObject gameObj)
         {
             // Check if the trigger should swap cameras and has valid cameras to swap between
-            if(cameraInspectorObjects.swapCameras && 
-                cameraInspectorObjects.cameraOnLeft != null && 
-                cameraInspectorObjects.cameraOnRight != null)
+            switch (direction)
             {
-                Vector2 exitDirection = (gameObj.transform.position - triggerCollider.Bounds.center).normalized;
+                case Direction.LeftRight:
+                    if (cameraInspectorObjects.swapCameras &&
+                        cameraInspectorObjects.cameraOnLeft != null &&
+                        cameraInspectorObjects.cameraOnRight != null)
+                    {
+                        Vector2 exitDirection = (gameObj.transform.position - triggerCollider.Bounds.center).normalized;
 
-                CameraManager.Instance.SwapCamera(cameraInspectorObjects.cameraOnLeft, cameraInspectorObjects.cameraOnRight, exitDirection);
+                        CameraManager.Instance.SwapCamera(cameraInspectorObjects.cameraOnLeft, cameraInspectorObjects.cameraOnRight, exitDirection, true);
+                    }
+                    break;
+
+                case Direction.UpDown:
+                    if (cameraInspectorObjects.swapCameras &&
+                        cameraInspectorObjects.cameraOnTop != null &&
+                        cameraInspectorObjects.cameraOnBottom != null)
+                    {
+                        Debug.Log("UpDown!");
+
+                        Vector2 exitDirection = (gameObj.transform.position - triggerCollider.Bounds.center).normalized;
+
+                        CameraManager.Instance.SwapCamera(cameraInspectorObjects.cameraOnTop, cameraInspectorObjects.cameraOnBottom, exitDirection, false);
+                    }
+                    break;
             }
+            
 
             if (cameraInspectorObjects.panCameraOnContact)
             {

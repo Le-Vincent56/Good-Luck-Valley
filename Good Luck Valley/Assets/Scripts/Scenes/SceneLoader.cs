@@ -26,7 +26,7 @@ namespace GoodLuckValley.SceneManagement
         [SerializeField] private bool fromMainMenu;
         [SerializeField] private float transitionTime = 1f;
         [SerializeField] private bool isLoading;
-        [SerializeField] private (string name, TransitionType type) sceneToLoad;
+        [SerializeField] private (string name, TransitionType type, int loadIndex) sceneToLoad;
         [SerializeField] private int transitionDirection;
         [SerializeField] private string previousScene;
 
@@ -58,11 +58,11 @@ namespace GoodLuckValley.SceneManagement
                     Vector3 playerPos;
                     if (sceneToLoad.type == TransitionType.Entrance)
                     {
-                        playerPos = levelData.GetLevelData(sceneToLoad.name).Enter;
+                        playerPos = levelData.GetLevelData(sceneToLoad.name).Entrances[sceneToLoad.loadIndex];
                     }
                     else
                     {
-                        playerPos = levelData.GetLevelData(sceneToLoad.name).Exit;
+                        playerPos = levelData.GetLevelData(sceneToLoad.name).Exits[sceneToLoad.loadIndex];
                     }
 
                     (Vector2 pos, int dir) dataToSend;
@@ -87,7 +87,7 @@ namespace GoodLuckValley.SceneManagement
             }
         }
 
-        public void SetSceneToLoad(string sceneToLoad, TransitionType transitionType, int moveDirection)
+        public void SetSceneToLoad(string sceneToLoad, TransitionType transitionType, int moveDirection, int loadIndex)
         {
             this.sceneToLoad.name = sceneToLoad;
 
@@ -95,6 +95,8 @@ namespace GoodLuckValley.SceneManagement
                 this.sceneToLoad.type = TransitionType.Exit;
             else
                 this.sceneToLoad.type = TransitionType.Entrance;
+
+            this.sceneToLoad.loadIndex = loadIndex;
 
             transitionDirection = moveDirection;
         }
