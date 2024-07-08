@@ -441,18 +441,35 @@ namespace GoodLuckValley.Cameras
         #endregion
 
         #region CAMERA SWITCHING
-        public void SwapCamera(CinemachineVirtualCamera cameraFromLeft, CinemachineVirtualCamera cameraFromRight, Vector2 triggerExitDirection)
+        public void SwapCamera(CinemachineVirtualCamera cameraFromLeft, CinemachineVirtualCamera cameraFromRight, Vector2 triggerExitDirection, bool horizontal = true)
         {
-            // Check if the current camera is the camera on the left and the exit direction was on the right
-            if(activeCamera == cameraFromLeft && triggerExitDirection.x > 0f)
+            
+            if(horizontal)
             {
-                SwitchCamera(cameraFromLeft, cameraFromRight);
-            } 
-            // Check if the current camera is the camera on the right and the trigger exit direction was on the left
-            else if(activeCamera == cameraFromRight && triggerExitDirection.x < 0f)
+                // Check if the current camera is the camera on the left and the exit direction was on the right
+                if (activeCamera == cameraFromLeft && triggerExitDirection.x > 0f)
+                {
+                    SwitchCamera(cameraFromLeft, cameraFromRight);
+                }
+                // Check if the current camera is the camera on the right and the trigger exit direction was on the left
+                else if (activeCamera == cameraFromRight && triggerExitDirection.x < 0f)
+                {
+                    SwitchCamera(cameraFromRight, cameraFromLeft);
+                }
+            } else
             {
-                SwitchCamera(cameraFromRight, cameraFromLeft);
+                // Check if the current camera is the camera on the right and the trigger exit direction was on the left
+                if (activeCamera == cameraFromLeft && triggerExitDirection.y < 0f)
+                {
+                    SwitchCamera(cameraFromLeft, cameraFromRight);
+                }
+                // Check if the current camera is the camera on the right and the trigger exit direction was on the left
+                else if (activeCamera == cameraFromRight && triggerExitDirection.y > 0f)
+                {
+                    SwitchCamera(cameraFromRight, cameraFromLeft);
+                }
             }
+            
         }
 
         private void SwitchCamera(CinemachineVirtualCamera oldCamera, CinemachineVirtualCamera newCamera)

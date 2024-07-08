@@ -12,6 +12,7 @@ public class PlayerParticlesController : MonoBehaviour
 {
     [Header("Events")]
     [SerializeField] private GameEvent onSendParticlesController;
+    [SerializeField] private GameEvent onRequestHardpoints;
 
     [Header("Running Particles")]
     [SerializeField] private VisualEffect grassRunVFX;
@@ -48,6 +49,12 @@ public class PlayerParticlesController : MonoBehaviour
 
     private void Update()
     {
+        if(!CheckHardpoints())
+        {
+            onRequestHardpoints.Raise(this, null);
+            return;
+        }
+
         if (playerController.IsGrounded && Mathf.Abs(playerController.Velocity.x) > minXVelocity)
         {
             HandleRunningParticles();
@@ -61,13 +68,17 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void SetPlayerController(Component sender, object data)
     {
-
         // Verify that the correct data was sent
         if (data is not PlayerController) return;
 
         // Cast and set the data
         playerController = (PlayerController)data;
     }
+
+    public bool CheckHardpoints() => (runParticlesHardpoint != null) &&
+        (jumpParticlesHardpoint != null) &&
+        (landParticlesHardpoint != null) &&
+        (bounceAirtimeParticlesHardpoint != null);
 
     public void SetHardpoints(Component sender, object data)
     {
@@ -84,9 +95,6 @@ public class PlayerParticlesController : MonoBehaviour
         jumpParticlesHardpoint = hardpoints.Jump;
         landParticlesHardpoint = hardpoints.Land;
         bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
-
-
-        detectTileType.RaycastStart = runParticlesHardpoint.position;
     }
 
     private void HandleRunningParticles()
@@ -118,9 +126,12 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void HandleAirtimeBounceParticles()
     {
-        airtimeParticlesActive = true;
-        bounceAirtimeVFX.SetVector2("SpawnPosition", bounceAirtimeParticlesHardpoint.position);
-        bounceAirtimeVFX.Play();
+        if (playerController.IsGrounded)
+        {
+            airtimeParticlesActive = true;
+            bounceAirtimeVFX.SetVector2("SpawnPosition", bounceAirtimeParticlesHardpoint.position);
+            bounceAirtimeVFX.Play();    
+        }
     }
 
     public void StopAirtimeBounceParticles()
@@ -132,6 +143,8 @@ public class PlayerParticlesController : MonoBehaviour
     #region HELPERS
     private void PlayEffectBasedOnTileType(VisualEffect grassEffect, VisualEffect dirtEffect, Vector2 spawnPosition)
     {
+        detectTileType.RaycastStart = spawnPosition;
+
         switch (detectTileType.CheckTileType())
         {
             case TileType.Dirt:
@@ -143,6 +156,7 @@ public class PlayerParticlesController : MonoBehaviour
                 grassEffect.Play();
                 break;
             case TileType.None:
+                //Debug.Log("No Tile Type Detected");
                 break;
         }
     }

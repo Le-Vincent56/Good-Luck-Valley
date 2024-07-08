@@ -38,8 +38,8 @@ namespace GoodLuckValley.Scenes.Data
     public class LevelDataContainer : IEquatable<LevelDataContainer>
     {
         public string LevelName;
-        public Vector2 Enter;
-        public Vector2 Exit;
+        public List<Vector2> Entrances;
+        public List<Vector2> Exits;
 
         /// <summary>
         /// Compare the LevelDataContainer with another to check if they are equal

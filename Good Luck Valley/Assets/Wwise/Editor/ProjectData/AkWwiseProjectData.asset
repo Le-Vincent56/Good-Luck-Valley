@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 007e98e674735941bfc49f11c186cf34
     GuidInternal: 
-    m_lastTime: -8584813964872784052
+    m_lastTime: -8584812354463801682
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584813964872849108
+    m_lastTime: -8584812354465525347
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -66,8 +66,22 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: cc31a129b26dbb4dbba2c92c4af23575
     GuidInternal: 
-    m_lastTime: -8584813964872814046
-    List: []
+    m_lastTime: -8584812354463851673
+    List:
+    - name: Ambience
+      guid: 2f5ada95e7b2ce4aa7e65fed076a8f21
+      id: 85412153
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: cc31a129b26dbb4dbba2c92c4af23575
+      - ElementName: Ambience
+        ObjectType: 7
+        guid: 2f5ada95e7b2ce4aa7e65fed076a8f21
+      Path: SoundBanks\Default Work Unit\Ambience
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
@@ -80,8 +94,45 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 05f602310328354a9fafb68074469f39
     GuidInternal: 
-    m_lastTime: -8584813964872920011
-    List: []
+    m_lastTime: -8584812354466855703
+    List:
+    - name: Ambience
+      guid: 9efc097d0864f64bb96bbda1394b062d
+      id: 85412153
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 05f602310328354a9fafb68074469f39
+      - ElementName: Ambience
+        ObjectType: 4
+        guid: 9efc097d0864f64bb96bbda1394b062d
+      Path: Events\Default Work Unit\Ambience
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Soundscape
+      guid: e7236d35d211e84c8fb190d5743f2a1c
+      id: 1928262231
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 05f602310328354a9fafb68074469f39
+      - ElementName: Ambience
+        ObjectType: 4
+        guid: 9efc097d0864f64bb96bbda1394b062d
+      - ElementName: Play_Soundscape
+        ObjectType: 3
+        guid: e7236d35d211e84c8fb190d5743f2a1c
+      Path: Events\Default Work Unit\Ambience\Play_Soundscape
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -94,7 +145,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3b98b877b8191e4d997b0521d7f4095a
     GuidInternal: 
-    m_lastTime: -8584813964872920011
+    m_lastTime: -8584812354466845698
     List: []
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
@@ -108,7 +159,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 69d3afc52636b3489a2889364a6f7f6c
     GuidInternal: 
-    m_lastTime: -8584813964872794049
+    m_lastTime: -8584812354463831690
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -122,8 +173,58 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: eec5568e802376459ca10605a1f0e57b
     GuidInternal: 
-    m_lastTime: -8584813964872794049
-    List: []
+    m_lastTime: -8584812354463821686
+    List:
+    - name: Ambience_SG
+      guid: 287713fcc3795346838e8144cb6c0b2c
+      id: 648048682
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: eec5568e802376459ca10605a1f0e57b
+      - ElementName: Ambience_SG
+        ObjectType: 11
+        guid: 287713fcc3795346838e8144cb6c0b2c
+      Path: Switches\Default Work Unit\Ambience_SG
+      values:
+      - name: Cave
+        guid: d0b5dcbe90976d4e9d4fe7680f9e47d4
+        id: 4122393694
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: eec5568e802376459ca10605a1f0e57b
+        - ElementName: Ambience_SG
+          ObjectType: 11
+          guid: 287713fcc3795346838e8144cb6c0b2c
+        - ElementName: Cave
+          ObjectType: 10
+          guid: d0b5dcbe90976d4e9d4fe7680f9e47d4
+      - name: Forest
+        guid: 2b6453cb72465640939174d09ca559b3
+        id: 491961918
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: eec5568e802376459ca10605a1f0e57b
+        - ElementName: Ambience_SG
+          ObjectType: 11
+          guid: 287713fcc3795346838e8144cb6c0b2c
+        - ElementName: Forest
+          ObjectType: 10
+          guid: 2b6453cb72465640939174d09ca559b3
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
     PathAndIcons:
@@ -136,10 +237,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 68dcaa4aa9a20848a61ba85865fc3571
     GuidInternal: 
-    m_lastTime: -8584813964872784052
+    m_lastTime: -8584812354463811686
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 010000000500000006000000070000000a0000000d0000000e0000000f000000100000001400000015000000160000001a0000001c0000001d000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
