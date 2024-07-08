@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="85412153" Type="User" Language="SFX" Hash="{D5088C10-F4F5-3AD8-51EE-353A292822C9}">
+			<ShortName>Ambience</ShortName>
+			<Path>Ambience.bnk</Path>
+			<Media>
+				<File Id="168390414" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Forest_Soundscape.wav</ShortName>
+					<CachePath>SFX/Forest_Soundscape_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="726274615" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Cave_Soundscape.wav</ShortName>
+					<CachePath>SFX/Cave_Soundscape_11A93380.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="1928262231" Name="Play_Soundscape">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="648048682" Id="491961918" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="168390414"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="648048682" Id="4122393694"/>
+							<MediaRefs>
+								<MediaRef Id="726274615"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+			</Events>
+			<SwitchGroups>
+				<SwitchGroup Id="648048682" Name="Ambience_SG">
+					<Switches>
+						<Switch Id="491961918" Name="Forest"/>
+						<Switch Id="4122393694" Name="Cave"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{B6CBD692-12EC-CDBA-0932-48F63C40C91F}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+			<SwitchGroups>
+				<SwitchGroup Id="648048682" Name="Ambience_SG">
+					<Switches>
+						<Switch Id="491961918" Name="Forest"/>
+						<Switch Id="4122393694" Name="Cave"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{330845A5-35BB-1052-7282-DAEF0FAD0B46}</FileHash>
+</SoundBanksInfo>

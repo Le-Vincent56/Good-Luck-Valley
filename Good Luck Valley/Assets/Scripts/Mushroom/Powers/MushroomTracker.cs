@@ -49,6 +49,12 @@ namespace GoodLuckValley.Mushroom
 
             // Remove the first shroom from the list
             mushroomList.RemoveAt(0);
+
+            // Re-arrange indexes
+            foreach (GameObject shroom in mushrooms)
+            {
+                shroom.GetComponent<MushroomInfo>().SetIndex(mushrooms.IndexOf(shroom));
+            }
         }
 
         /// <summary>
@@ -98,6 +104,12 @@ namespace GoodLuckValley.Mushroom
             // and remove it from the list
             Destroy(mushrooms[index]);
             mushrooms.RemoveAt(index);
+
+            // Re-arrange indexes
+            foreach(GameObject shroom in mushrooms)
+            {
+                shroom.GetComponent<MushroomInfo>().SetIndex(mushrooms.IndexOf(shroom));
+            }
         }
 
         /// <summary>
@@ -113,6 +125,12 @@ namespace GoodLuckValley.Mushroom
             // If so, destroy the last mushroom and remove it from the list
             Destroy(mushrooms[mushrooms.Count - 1]);
             mushrooms.RemoveAt(mushrooms.Count - 1);
+
+            // Re-arrange indexes
+            foreach (GameObject shroom in mushrooms)
+            {
+                shroom.GetComponent<MushroomInfo>().SetIndex(mushrooms.IndexOf(shroom));
+            }
         }
 
         /// <summary>

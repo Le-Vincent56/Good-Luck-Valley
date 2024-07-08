@@ -1,5 +1,5 @@
 using GoodLuckValley.Audio.Music;
-using GoodLuckValley.Entities;
+using GoodLuckValley.World.AreaTriggers;
 using UnityEngine;
 
 namespace GoodLuckValley.AreaTriggers.Music
