@@ -3,7 +3,6 @@ using UnityEngine;
 using Cinemachine;
 using System.Collections;
 using GoodLuckValley.Events;
-using UnityEngine.UIElements;
 using System;
 
 namespace GoodLuckValley.Cameras
