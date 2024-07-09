@@ -4,6 +4,7 @@ using Cinemachine;
 using System.Collections;
 using GoodLuckValley.Events;
 using UnityEngine.UIElements;
+using System;
 
 namespace GoodLuckValley.Cameras
 {
@@ -483,8 +484,12 @@ namespace GoodLuckValley.Cameras
             // Set the new camera as the current camera
             activeCamera = newCamera;
 
-            // Update the framing composer
+            // Update the active framing composer
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            // Reset offsets if not a default camera
+            if (Array.IndexOf(virtualCameras, activeCamera) > 4)
+                framingTransposer.m_TrackedObjectOffset = new Vector3(0f, 0f, 0f);
 
             startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
             currentTrackedObjectOffset = startingTrackedObjectOffset;
@@ -493,13 +498,21 @@ namespace GoodLuckValley.Cameras
 
         public void SwitchCamera(CameraType newCamera)
         {
+            // De-activate the current camera
             activeCamera.enabled = false;
 
+            // Find the new camera
             activeCamera = virtualCameras[(int)newCamera];
 
+            // Set the new camera as the current camera
             activeCamera.enabled = true;
 
+            // Update the active framing composer
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            // Reset offsets if not a default camera
+            if (Array.IndexOf(virtualCameras, activeCamera) > 4)
+                framingTransposer.m_TrackedObjectOffset = new Vector3(0f, 0f, 0f);
 
             startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
             currentTrackedObjectOffset = startingTrackedObjectOffset;
