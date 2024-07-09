@@ -1,5 +1,6 @@
 using Cinemachine;
 using GoodLuckValley.Cameras;
+using GoodLuckValley.Events;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ using UnityEngine;
 public class CameraControlTriggerEditor : Editor
 {
     CameraControlTrigger cameraControlTrigger;
+    private static readonly CameraControlTrigger.UpdateDirection[] AllowedDirectionsVert = { CameraControlTrigger.UpdateDirection.Up, CameraControlTrigger.UpdateDirection.Down };
+    private static readonly CameraControlTrigger.UpdateDirection[] AllowedDirectionsHor = { CameraControlTrigger.UpdateDirection.Left, CameraControlTrigger.UpdateDirection.Right };
 
     private void OnEnable()
     {
@@ -18,6 +21,24 @@ public class CameraControlTriggerEditor : Editor
         // Show camera variables
         if(cameraControlTrigger.cameraInspectorObjects.swapCameras)
         {
+            EditorGUILayout.LabelField("Follow Parameters", EditorStyles.boldLabel);
+
+            cameraControlTrigger.UsesNonStaticObj = EditorGUILayout.Toggle("Uses a Non-Static Object", cameraControlTrigger.UsesNonStaticObj);
+            if(cameraControlTrigger.UsesNonStaticObj)
+            {
+                cameraControlTrigger.OnSetUpdatePosition = EditorGUILayout.ObjectField(
+                    "On Set Update Position", 
+                    cameraControlTrigger.OnSetUpdatePosition, 
+                    typeof(GameEvent), true
+                ) as GameEvent;
+
+                cameraControlTrigger.UpdateNonStaticDirection = (CameraControlTrigger.UpdateDirection)EditorGUILayout.EnumPopup("End Update Direction", cameraControlTrigger.UpdateNonStaticDirection);
+            }
+
+            EditorGUILayout.Space();
+
+
+            EditorGUILayout.LabelField("Trigger Parameters", EditorStyles.boldLabel);
             cameraControlTrigger.TriggerDirection = (CameraControlTrigger.Direction)EditorGUILayout.EnumPopup("Camera Direction", cameraControlTrigger.TriggerDirection);
 
             switch (cameraControlTrigger.TriggerDirection)
@@ -35,6 +56,7 @@ public class CameraControlTriggerEditor : Editor
                         typeof(CinemachineVirtualCamera), true
                     ) as CinemachineVirtualCamera;
                     break;
+
                 case CameraControlTrigger.Direction.UpDown:
                     cameraControlTrigger.cameraInspectorObjects.cameraOnTop = EditorGUILayout.ObjectField(
                         "Camera on Top",
