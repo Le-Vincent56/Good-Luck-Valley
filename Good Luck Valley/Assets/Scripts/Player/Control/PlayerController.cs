@@ -8,7 +8,6 @@ using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
 using GoodLuckValley.Patterns.Blackboard;
-using GoodLuckValley.Patterns.ServiceLocator;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -23,6 +22,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private GameEvent onSendPlayerController;
         [SerializeField] private GameEvent onPlayerTurn;
         [SerializeField] private GameEvent onSetCanPeek;
+        [SerializeField] private GameEvent onPositionChange;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -258,6 +258,9 @@ namespace GoodLuckValley.Player.Control
 
             // Update timers
             UpdateTimers();
+
+            // Update player position
+            onPositionChange.Raise(this, (Vector2)transform.position);
 
             // Update the state machine
             stateMachine.Update();

@@ -1,7 +1,6 @@
 using UnityEngine;
 using GoodLuckValley.World.AreaTriggers;
-using Unity.VisualScripting;
-
+using GoodLuckValley.Events;
 namespace GoodLuckValley.Cameras
 {
     public class CameraControlTrigger : MonoBehaviour
@@ -12,14 +11,46 @@ namespace GoodLuckValley.Cameras
             UpDown
         }
 
+        public enum UpdateDirection
+        {
+           Left,
+           Right,
+           Up,
+           Down
+        }
+
+        [Header("Events")]
+        [SerializeField] private GameEvent onSetUpdatePosition;
+
         [Header("References")]
         private AreaCollider triggerCollider;
 
         [Header("Fields")]
+        [SerializeField] private bool usesNonStaticObj;
+        [SerializeField] private bool resetCamOffset;
+        [SerializeField] private UpdateDirection updateDirection;
         [SerializeField] private Direction direction;
         public CameraInspectorObjects cameraInspectorObjects;
         private Vector2 localPanPoint;
         private Vector2 globalPanPoint;
+
+        public GameEvent OnSetUpdatePosition
+        {
+            get => onSetUpdatePosition;
+            set => onSetUpdatePosition = value;
+        }
+
+        public bool UsesNonStaticObj
+        {
+            get => usesNonStaticObj;
+            set => usesNonStaticObj = value;
+        }
+
+        public UpdateDirection UpdateNonStaticDirection
+        {
+            get => updateDirection;
+            set => updateDirection = value;
+        }
 
         public Direction TriggerDirection
         {
@@ -67,6 +98,9 @@ namespace GoodLuckValley.Cameras
 
         private void EnterTrigger(GameObject gameObj)
         {
+            if(usesNonStaticObj && onSetUpdatePosition != null)
+                onSetUpdatePosition.Raise(this, true);
+
             if (cameraInspectorObjects.panCameraOnContact)
             {
                 CameraManager.Instance.PanCameraOnContact(
@@ -91,6 +125,18 @@ namespace GoodLuckValley.Cameras
                         Vector2 exitDirection = (gameObj.transform.position - triggerCollider.Bounds.center).normalized;
 
                         CameraManager.Instance.SwapCamera(cameraInspectorObjects.cameraOnLeft, cameraInspectorObjects.cameraOnRight, exitDirection, true);
+
+                        if (usesNonStaticObj && onSetUpdatePosition != null)
+                        {
+                            if (exitDirection.x < 0f && updateDirection == UpdateDirection.Left)
+                            {
+                                onSetUpdatePosition.Raise(this, false);
+                            }
+                            else if (exitDirection.x > 0f && updateDirection == UpdateDirection.Right)
+                            {
+                                onSetUpdatePosition.Raise(this, false);
+                            }
+                        }
                     }
                     break;
 
@@ -99,15 +145,28 @@ namespace GoodLuckValley.Cameras
                         cameraInspectorObjects.cameraOnTop != null &&
                         cameraInspectorObjects.cameraOnBottom != null)
                     {
-                        Debug.Log("UpDown!");
-
                         Vector2 exitDirection = (gameObj.transform.position - triggerCollider.Bounds.center).normalized;
 
                         CameraManager.Instance.SwapCamera(cameraInspectorObjects.cameraOnTop, cameraInspectorObjects.cameraOnBottom, exitDirection, false);
+
+                        if(usesNonStaticObj && onSetUpdatePosition != null)
+                        {
+                            if (exitDirection.y < 0f && updateDirection == UpdateDirection.Down)
+                            {
+                                onSetUpdatePosition.Raise(this, false);
+                            }
+                            else if (exitDirection.y > 0f && updateDirection == UpdateDirection.Up)
+                            {
+                                onSetUpdatePosition.Raise(this, false);
+                            }
+                        }
                     }
                     break;
             }
-            
+
+            if(usesNonStaticObj && onSetUpdatePosition != null)
+                onSetUpdatePosition.Raise(this, updateDirection);
+
 
             if (cameraInspectorObjects.panCameraOnContact)
             {
