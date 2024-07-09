@@ -7,6 +7,7 @@ namespace GoodLuckValley.World.Tiles
     {
         Grass,
         Dirt,
+        Stone,
         None
     }
 

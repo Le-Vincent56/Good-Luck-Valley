@@ -9,6 +9,30 @@
 							<ObjectRef Name="System" ID="{E95A1757-0B23-4485-941A-8FE93E56A132}" WorkUnitID="{7294F35F-336E-4F5F-BFBB-8A2E7581C16D}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="MASTER_PLAYER" ID="{9DAE2CA4-5848-4DA3-9853-165EB67FA107}">
+							<ChildrenList>
+								<Bus Name="PLAYER_LOCOMOTION" ID="{46EBA906-EB48-4062-ADA3-61C3D531FFF4}"/>
+							</ChildrenList>
+						</Bus>
+						<Bus Name="MASTER_NPC" ID="{75FB7574-7580-4FB4-B039-DEAF943C649B}"/>
+						<Bus Name="MASTER_AMBIENCE" ID="{3CDFE549-5C5B-428C-AB6F-DF9D18D38C8C}">
+							<ChildrenList>
+								<Bus Name="AmbientBeds" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}"/>
+								<Bus Name="2DAmbience" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}"/>
+							</ChildrenList>
+						</Bus>
+						<Bus Name="MASTER_MUSIC" ID="{66327182-3D3A-47D6-B6C1-58308EC3F8FB}"/>
+						<AuxBus Name="REVERBS" ID="{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}">
+							<ChildrenList>
+								<AuxBus Name="REVERB_LARGEROOM" ID="{033BE84F-2D9C-4675-B901-8439FB9A69C5}"/>
+								<AuxBus Name="REVERB_SMALLROOM" ID="{13864DAC-2EAA-40A8-9FA7-8D181B2FA821}"/>
+								<AuxBus Name="REVERB_CAVE" ID="{E866CDD0-A6F4-4684-B40D-3EDDD3952251}"/>
+								<AuxBus Name="REVERB_OUTDOOR" ID="{0977F823-489F-4E0D-A887-A833B7073D6E}"/>
+							</ChildrenList>
+						</AuxBus>
+						<Bus Name="MASTER_MUSHROOM" ID="{5A4F2A31-C479-4CCA-BEF6-F9EF2AEE6D4D}"/>
+					</ChildrenList>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

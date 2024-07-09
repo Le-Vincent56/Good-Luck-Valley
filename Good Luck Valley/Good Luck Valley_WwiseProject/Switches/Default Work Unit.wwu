@@ -3,11 +3,117 @@
 	<Switches>
 		<WorkUnit Name="Default Work Unit" ID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}" PersistMode="Standalone">
 			<ChildrenList>
-				<SwitchGroup Name="Ambience_SG" ID="{FC137728-79C3-4653-838E-8144CB6C0B2C}">
+				<SwitchGroup Name="GROUNDMATSWITCH" ID="{D27FD05C-8199-471B-BB6C-C34996E40AAB}">
 					<ChildrenList>
-						<Switch Name="Forest" ID="{CB53642B-4672-4056-9391-74D09CA559B3}"/>
-						<Switch Name="Cave" ID="{BEDCB5D0-9790-4E6D-9D4F-E7680F9E47D4}"/>
+						<Switch Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
+						<Switch Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
+						<Switch Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
 					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="PLAYERSPEEDSWITCH" ID="{EDEFC7E6-3D41-42D5-AD6C-F7C27C6D6D67}">
+					<PropertyList>
+						<Property Name="UseGameParameter" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Switch Name="CRAWL" ID="{CE6F3E8C-2A66-4676-A822-900680365A4E}"/>
+						<Switch Name="WALK" ID="{813D96E2-B1B8-409C-ACB3-BBFA220BF95D}"/>
+						<Switch Name="RUN" ID="{EA7C6930-8566-467A-AAC4-356489DF7D43}"/>
+					</ChildrenList>
+					<SwitchOnRTPC>
+						<GameParameterRef Name="RTPC_PLAYERSPEED" ID="{0A3B4CA3-C574-423D-8CC0-D680EF6A0E75}"/>
+						<Curve Name="" ID="{034F55BD-E5DB-4AE5-AE92-D8DDDF4F7F41}">
+							<PropertyList>
+								<Property Name="Flags" Type="int32" Value="65537"/>
+							</PropertyList>
+							<PointList>
+								<Point>
+									<XPos>0</XPos>
+									<YPos>1</YPos>
+									<Flags>5</Flags>
+								</Point>
+								<Point>
+									<XPos>1.5996</XPos>
+									<YPos>1</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>1.6006</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2.399</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2.4</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>3.799</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>3.8</XPos>
+									<YPos>0</YPos>
+									<Flags>37</Flags>
+								</Point>
+							</PointList>
+						</Curve>
+					</SwitchOnRTPC>
+				</SwitchGroup>
+				<SwitchGroup Name="MUSHROOMCHAINSWITCH" ID="{D913CE07-7B20-4B65-8719-080B91F9CDFD}">
+					<PropertyList>
+						<Property Name="UseGameParameter" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Switch Name="ONE" ID="{2CA1F23C-3631-4D84-A24C-BA92B4576B5F}"/>
+						<Switch Name="THREE" ID="{8F0B8B2F-D587-41F0-91AC-E73348720962}"/>
+						<Switch Name="TWO" ID="{67EE0532-BBA4-4045-BC84-F21BF1D91111}"/>
+					</ChildrenList>
+					<SwitchOnRTPC>
+						<GameParameterRef Name="RTPC_MUSHROOMCHAIN" ID="{B2B61BEE-9BEC-49C3-BC52-CF7B035BF6A7}"/>
+						<Curve Name="" ID="{4AD03750-AFF4-4F45-A23F-ABE9E284613E}">
+							<PropertyList>
+								<Property Name="Flags" Type="int32" Value="65537"/>
+							</PropertyList>
+							<PointList>
+								<Point>
+									<XPos>1</XPos>
+									<YPos>1</YPos>
+									<Flags>5</Flags>
+								</Point>
+								<Point>
+									<XPos>1.999</XPos>
+									<YPos>1</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2.998</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2.999</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>3</XPos>
+									<YPos>0</YPos>
+									<Flags>37</Flags>
+								</Point>
+							</PointList>
+						</Curve>
+					</SwitchOnRTPC>
 				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
