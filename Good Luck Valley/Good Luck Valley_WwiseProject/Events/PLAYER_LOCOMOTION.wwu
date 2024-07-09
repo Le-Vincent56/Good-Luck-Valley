@@ -3,7 +3,17 @@
 	<Events>
 		<WorkUnit Name="PLAYER_LOCOMOTION" ID="{ED64E320-F047-4438-8910-E839510EAD58}" OwnerID="{95660C8A-CACE-4574-A1DD-81F55040A8F6}" PersistMode="Nested">
 			<ChildrenList>
-				<Event Name="PLAY_PLAYER_FOOTSTEPS" ID="{BCE93F04-2847-4AC9-A2A0-76D28824C163}"/>
+				<Event Name="PLAY_PLAYER_FOOTSTEPS" ID="{BCE93F04-2847-4AC9-A2A0-76D28824C163}">
+					<ChildrenList>
+						<Action Name="" ID="{E9219E88-E0A6-47C8-98EF-95AA7DC099D0}" ShortID="405628117">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PLAYER_FOOTSTEPS_GROUNDMATSWITCH" ID="{8FAD9A2D-9407-4A8D-97FA-FDB6E8EF06A8}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

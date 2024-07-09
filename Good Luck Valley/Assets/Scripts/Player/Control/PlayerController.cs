@@ -8,6 +8,7 @@ using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
 using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Audio.SFX;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -30,7 +31,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private DynamicCollisionHandler collisionHandler;
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
-        [SerializeField] private PlayerSFXHandler sfxHandler;
+        [SerializeField] private PlayerSFXMaster sfxHandler;
         [SerializeField] private PlayerParticlesController particlesController;
         [SerializeField] private CameraFollowObject followObject;
         [SerializeField] private PlayerSaveHandler saveHandler;
@@ -92,7 +93,7 @@ namespace GoodLuckValley.Player.Control
             animator = GetComponentInChildren<Animator>();
             collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
-            sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
+            sfxHandler = GetComponentInChildren<PlayerSFXMaster>();
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
             followObject = GetComponentInChildren<CameraFollowObject>();
             saveHandler = GetComponent<PlayerSaveHandler>();

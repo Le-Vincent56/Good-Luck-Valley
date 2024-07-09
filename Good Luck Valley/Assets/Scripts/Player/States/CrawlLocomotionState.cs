@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
@@ -6,12 +7,12 @@ namespace GoodLuckValley.Player.States
 {
     public class CrawlLocomotionState : BaseState
     {
-        private readonly PlayerSFXHandler sfxHandler;
+        private readonly PlayerSFXMaster sfxHandler;
         private DynamicCollisionHandler collisionHandler;
         private BoxCollider2D boxCollider;
 
-        public CrawlLocomotionState(PlayerController player, Animator animator, 
-            PlayerSFXHandler sfxHandler, BoxCollider2D boxCollider, 
+        public CrawlLocomotionState(PlayerController player, Animator animator,
+            PlayerSFXMaster sfxHandler, BoxCollider2D boxCollider, 
             DynamicCollisionHandler collisionHandler) : base(player, animator)
         {
             this.sfxHandler = sfxHandler;
