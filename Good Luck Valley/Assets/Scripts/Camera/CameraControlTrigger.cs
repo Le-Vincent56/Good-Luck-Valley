@@ -27,7 +27,6 @@ namespace GoodLuckValley.Cameras
 
         [Header("Fields")]
         [SerializeField] private bool usesNonStaticObj;
-        [SerializeField] private bool resetCamOffset;
         [SerializeField] private UpdateDirection updateDirection;
         [SerializeField] private Direction direction;
         public CameraInspectorObjects cameraInspectorObjects;

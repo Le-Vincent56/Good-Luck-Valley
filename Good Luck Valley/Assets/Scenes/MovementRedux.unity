@@ -384,7 +384,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 5f650d068be36bd4aacc3e02d9450b6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -742,6 +742,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4646058849056595313, guid: 7b5fbe2a9a50f8d44a7224498d195f18, type: 3}
   m_PrefabInstance: {fileID: 90856065}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &91198648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 91198650}
+  - component: {fileID: 91198649}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &91198649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91198648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d377e091a88d9c9448b3148650953dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitializationSettings: {fileID: 11400000, guid: 9e145d484d99c954aac49af892184d87, type: 2}
+  basePath: 
+  language: 
+  defaultPoolSize: 0
+  lowerPoolSize: 0
+  streamingPoolSize: 0
+  memoryCutoffThreshold: 0
+  monitorPoolSize: 0
+  monitorQueuePoolSize: 0
+  callbackManagerBufferSize: 0
+  spatialAudioPoolSize: 0
+  maxSoundPropagationDepth: 0
+  engineLogging: 0
+--- !u!4 &91198650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91198648}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &125564765
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,7 +946,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c4283a83e49b5394090fdf72e928968b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -995,7 +1052,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: db9b49fdf03fc9e43b73aa0df73874be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1350,16 +1407,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224056d620f091d42bd9f9ab6e2b0488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSetUpdatePosition: {fileID: 0}
+  onResetCamOffset: {fileID: 0}
+  usesNonStaticObj: 0
+  resetCamOffset: 0
+  updateDirection: 0
+  direction: 0
   cameraInspectorObjects:
     swapCameras: 1
     panCameraOnContact: 0
     cameraOnLeft: {fileID: 2100059452}
     cameraOnRight: {fileID: 298246516}
+    cameraOnTop: {fileID: 0}
+    cameraOnBottom: {fileID: 0}
     panDirection: {x: 0, y: 0}
     panDistance: 3
     panTime: 0.35
-  localPanPoint: {x: -4.47, y: 3.61}
-  globalPanPoint: {x: 0, y: 0}
 --- !u!114 &519426454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1372,6 +1435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -1593,7 +1657,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5f650d068be36bd4aacc3e02d9450b6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1756,7 +1820,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: db9b49fdf03fc9e43b73aa0df73874be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1919,7 +1983,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 609f48d2e4161404685fd57df9aa0cc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2126,16 +2190,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224056d620f091d42bd9f9ab6e2b0488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSetUpdatePosition: {fileID: 0}
+  onResetCamOffset: {fileID: 0}
+  usesNonStaticObj: 0
+  resetCamOffset: 0
+  updateDirection: 0
+  direction: 0
   cameraInspectorObjects:
     swapCameras: 1
     panCameraOnContact: 0
     cameraOnLeft: {fileID: 298246516}
     cameraOnRight: {fileID: 2100059452}
+    cameraOnTop: {fileID: 0}
+    cameraOnBottom: {fileID: 0}
     panDirection: {x: 0, y: 0}
     panDistance: 3
     panTime: 0.35
-  localPanPoint: {x: -4.47, y: 3.61}
-  globalPanPoint: {x: 0, y: 0}
 --- !u!114 &832114011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2148,6 +2218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -2686,7 +2757,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: db9b49fdf03fc9e43b73aa0df73874be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2954,7 +3025,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: d92f996a6cd4a58469dbba869f9f062b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3058,16 +3129,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224056d620f091d42bd9f9ab6e2b0488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSetUpdatePosition: {fileID: 0}
+  onResetCamOffset: {fileID: 0}
+  usesNonStaticObj: 0
+  resetCamOffset: 0
+  updateDirection: 0
+  direction: 0
   cameraInspectorObjects:
     swapCameras: 0
     panCameraOnContact: 1
     cameraOnLeft: {fileID: 0}
     cameraOnRight: {fileID: 0}
+    cameraOnTop: {fileID: 0}
+    cameraOnBottom: {fileID: 0}
     panDirection: {x: 0, y: 0}
     panDistance: 3
     panTime: 0.35
-  localPanPoint: {x: -4.47, y: 3.61}
-  globalPanPoint: {x: 0, y: 0}
 --- !u!114 &1074038681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3080,6 +3157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -4585,16 +4663,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224056d620f091d42bd9f9ab6e2b0488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSetUpdatePosition: {fileID: 0}
+  onResetCamOffset: {fileID: 0}
+  usesNonStaticObj: 0
+  resetCamOffset: 0
+  updateDirection: 0
+  direction: 0
   cameraInspectorObjects:
     swapCameras: 1
     panCameraOnContact: 0
     cameraOnLeft: {fileID: 257315942}
     cameraOnRight: {fileID: 2100059452}
+    cameraOnTop: {fileID: 0}
+    cameraOnBottom: {fileID: 0}
     panDirection: {x: 0, y: 0}
     panDistance: 3
     panTime: 0.35
-  localPanPoint: {x: -4.47, y: 3.61}
-  globalPanPoint: {x: 0, y: 0}
 --- !u!114 &1744380872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4607,6 +4691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -4828,7 +4913,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1282556797
-  m_SortingLayer: 1
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d92f996a6cd4a58469dbba869f9f062b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4872,16 +4957,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224056d620f091d42bd9f9ab6e2b0488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSetUpdatePosition: {fileID: 0}
+  onResetCamOffset: {fileID: 0}
+  usesNonStaticObj: 0
+  resetCamOffset: 0
+  updateDirection: 0
+  direction: 0
   cameraInspectorObjects:
     swapCameras: 1
     panCameraOnContact: 0
     cameraOnLeft: {fileID: 2100059452}
     cameraOnRight: {fileID: 257315942}
+    cameraOnTop: {fileID: 0}
+    cameraOnBottom: {fileID: 0}
     panDirection: {x: 0, y: 0}
     panDistance: 3
     panTime: 0.35
-  localPanPoint: {x: -4.47, y: 3.61}
-  globalPanPoint: {x: 0, y: 0}
 --- !u!114 &1810036103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4894,6 +4985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -5824,11 +5916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b623ca8efe1a7488dce68e64eebb32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothing: 0.5
-  layers:
-  - {fileID: 894953883}
-  - {fileID: 168008214}
-  - {fileID: 1898894104}
 --- !u!1001 &2121272765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6251,6 +6338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -6334,7 +6422,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.33358645, g: 0, b: 0.7607843, a: 0.18431373}
@@ -6435,7 +6523,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0.7607843, b: 0.25534618, a: 0.18431373}
@@ -6494,6 +6582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -6567,6 +6656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -6711,7 +6801,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0.7607843, b: 0.53145224, a: 0.18431373}
@@ -7002,7 +7092,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7607843, g: 0, b: 0.4265779, a: 0.18431373}
@@ -7111,7 +7201,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7607843, g: 0.73510444, b: 0, a: 0.18431373}
@@ -7214,6 +7304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -7490,7 +7581,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0.5472573, b: 0.7610062, a: 0.18431373}
@@ -7605,7 +7696,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.44142672, g: 0.7607843, b: 0, a: 0.18431373}
@@ -7680,6 +7771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -7789,7 +7881,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7607843, g: 0, b: 0.19918154, a: 0.18431373}
@@ -7876,7 +7968,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.33358645, g: 0, b: 0.7607843, a: 0.18431373}
@@ -8391,6 +8483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -8489,7 +8582,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7607843, g: 0, b: 0.20377131, a: 0.18431373}
@@ -8589,6 +8682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -8676,6 +8770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -8782,6 +8877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -8987,6 +9083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -9425,6 +9522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -9640,6 +9738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -9685,7 +9784,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.4305802, g: 0.7735849, b: 0.54550445, a: 0.18431373}
@@ -9817,6 +9916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -10131,7 +10231,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0.7607843, b: 0.25534618, a: 0.18431373}
@@ -10287,7 +10387,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1486931063
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7607843, g: 0.0930191, b: 0, a: 0.18431373}
@@ -10538,3 +10638,4 @@ SceneRoots:
   - {fileID: 125564766}
   - {fileID: 484228704}
   - {fileID: 1558910253}
+  - {fileID: 91198650}
