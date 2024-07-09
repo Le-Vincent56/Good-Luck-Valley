@@ -485,6 +485,10 @@ namespace GoodLuckValley.Cameras
 
             // Update the framing composer
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
+            currentTrackedObjectOffset = startingTrackedObjectOffset;
+            targetTrackedObjectOffset = startingTrackedObjectOffset;
         }
 
         public void SwitchCamera(CameraType newCamera)
@@ -496,6 +500,10 @@ namespace GoodLuckValley.Cameras
             activeCamera.enabled = true;
 
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
+            currentTrackedObjectOffset = startingTrackedObjectOffset;
+            targetTrackedObjectOffset = startingTrackedObjectOffset;
         }
         #endregion
     }
