@@ -13,11 +13,16 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
+        static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
         static const AkUniqueID PLAY_PLAYER_FOOTSTEPS = 98439365U;
+        static const AkUniqueID PLAY_PLAYER_SLIDE = 2425231895U;
+        static const AkUniqueID PLAY_PLAYER_SLIDE_END = 3208332793U;
         static const AkUniqueID PLAY_TESTBEEP = 1955951874U;
         static const AkUniqueID PLAY_TESTBEEP_3D = 1681067324U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
+        static const AkUniqueID STOP_PLAYER_SLIDE = 3309779001U;
         static const AkUniqueID STOP_TESTBEEP_LOOP = 2989390457U;
         static const AkUniqueID STOP_TESTBEEP_LOOP_3D = 304008745U;
     } // namespace EVENTS
@@ -74,6 +79,17 @@ namespace AK
 
     namespace SWITCHES
     {
+        namespace AMBIENCEBIOMESWITCH
+        {
+            static const AkUniqueID GROUP = 1097908491U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID CAVE = 4122393694U;
+                static const AkUniqueID FOREST = 491961918U;
+            } // namespace SWITCH
+        } // namespace AMBIENCEBIOMESWITCH
+
         namespace GROUNDMATSWITCH
         {
             static const AkUniqueID GROUP = 3260060478U;
@@ -128,8 +144,9 @@ namespace AK
 
     namespace BUSSES
     {
-        static const AkUniqueID _2DAMBIENCE = 309309195U;
-        static const AkUniqueID AMBIENTBEDS = 1182634443U;
+        static const AkUniqueID AMBIENCE_2D = 1705038622U;
+        static const AkUniqueID AMBIENCE_3D = 1721816425U;
+        static const AkUniqueID AMBIENCEBEDS_2D = 1890054062U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MASTER_AMBIENCE = 4286911030U;
         static const AkUniqueID MASTER_MUSHROOM = 2228101040U;
