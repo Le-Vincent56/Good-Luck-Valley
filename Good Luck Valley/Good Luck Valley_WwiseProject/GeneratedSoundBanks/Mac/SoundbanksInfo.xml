@@ -119,7 +119,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{C4441D30-F207-A0DE-E45E-44B376D017E8}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{4650632A-B98C-604D-9C63-EEFF30B868BD}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -175,6 +175,10 @@
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_02.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_02_818F3B66.wem</CachePath>
 				</File>
+				<File Id="308218689" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Locomotion\Slide\GRASS_SLIDE_END.wav</ShortName>
+					<CachePath>SFX/Player/Locomotion/Slide/GRASS_SLIDE_END_818F3B66.wem</CachePath>
+				</File>
 				<File Id="345373450" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_05.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_05_818F3B66.wem</CachePath>
@@ -207,6 +211,10 @@
 					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_01.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_01_818F3B66.wem</CachePath>
 				</File>
+				<File Id="479254614" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Locomotion\Slide\GRASS_SLIDE.wav</ShortName>
+					<CachePath>SFX/Player/Locomotion/Slide/GRASS_SLIDE_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="498523602" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_04.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_04_818F3B66.wem</CachePath>
@@ -215,6 +223,10 @@
 					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_01.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Bird Calls/AMBIENCE2D_FOREST_BIRDCALL_01_818F3B66.wem</CachePath>
 				</File>
+				<File Id="555885217" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Locomotion\Slide\DIRT_SLIDE_END.wav</ShortName>
+					<CachePath>SFX/Player/Locomotion/Slide/DIRT_SLIDE_END_818F3B66.wem</CachePath>
+				</File>
 				<File Id="618315995" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_04.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_04_818F3B66.wem</CachePath>
@@ -222,6 +234,10 @@
 				<File Id="638326763" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_WIND.wav</ShortName>
 					<CachePath>SFX/Ambience/Beds/Forest/AMBIENCEBEDS_FOREST_WIND_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="660420232" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Locomotion\Slide\DIRT_SLIDE.wav</ShortName>
+					<CachePath>SFX/Player/Locomotion/Slide/DIRT_SLIDE_818F3B66.wem</CachePath>
 				</File>
 				<File Id="668500464" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TestFiles\SFX_TEST_BEEP.wav</ShortName>
@@ -402,6 +418,38 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="2425231895" Name="PLAY_PLAYER_SLIDE">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3260060478" Id="4248645337"/>
+							<MediaRefs>
+								<MediaRef Id="479254614"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3260060478" Id="2195636714" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="660420232"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3208332793" Name="PLAY_PLAYER_SLIDE_END">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3260060478" Id="4248645337"/>
+							<MediaRefs>
+								<MediaRef Id="308218689"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3260060478" Id="2195636714" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="555885217"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
 				<Event Id="1955951874" Name="PLAY_TESTBEEP">
 					<MediaRefs>
 						<MediaRef Id="668500464"/>
@@ -422,6 +470,7 @@
 						<MediaRef Id="201240048"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="3309779001" Name="STOP_PLAYER_SLIDE" MaxAttenuation="0"/>
 				<Event Id="2989390457" Name="STOP_TESTBEEP_LOOP" MaxAttenuation="0"/>
 				<Event Id="304008745" Name="STOP_TESTBEEP_LOOP_3D" MaxAttenuation="0"/>
 			</Events>
@@ -442,5 +491,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4192E553-2641-7346-5F63-15FF8123D21B}</FileHash>
+	<FileHash>{A44C0E4C-8ACA-1266-C201-CD135BECC43E}</FileHash>
 </SoundBanksInfo>

@@ -16,10 +16,13 @@ namespace AK
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
         static const AkUniqueID PLAY_PLAYER_FOOTSTEPS = 98439365U;
+        static const AkUniqueID PLAY_PLAYER_SLIDE = 2425231895U;
+        static const AkUniqueID PLAY_PLAYER_SLIDE_END = 3208332793U;
         static const AkUniqueID PLAY_TESTBEEP = 1955951874U;
         static const AkUniqueID PLAY_TESTBEEP_3D = 1681067324U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
+        static const AkUniqueID STOP_PLAYER_SLIDE = 3309779001U;
         static const AkUniqueID STOP_TESTBEEP_LOOP = 2989390457U;
         static const AkUniqueID STOP_TESTBEEP_LOOP_3D = 304008745U;
     } // namespace EVENTS
