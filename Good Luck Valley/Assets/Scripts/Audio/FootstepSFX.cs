@@ -33,6 +33,8 @@ namespace GoodLuckValley.Audio.SFX
             // Check if the footstep timer has reached the footstep interval
             if (footstepTimer >= footstepInterval)
             {
+                detectTileType.RaycastStart = transform.parent.position;
+
                 TileType tileType = detectTileType.CheckTileType();
 
                 switch (tileType)
