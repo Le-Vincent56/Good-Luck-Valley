@@ -3,7 +3,7 @@ using UnityEngine;
 using Cinemachine;
 using System.Collections;
 using GoodLuckValley.Events;
-using UnityEngine.UIElements;
+using System;
 
 namespace GoodLuckValley.Cameras
 {
@@ -44,9 +44,11 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private float slidePanDownTime = 0.15f;
         [SerializeField] private float slidePanReturnTime = 0.15f;
 
-        private Vector2 startingTrackedObjectOffset;
-        private Vector2 currentTrackedObjectOffset;
-        private Vector2 targetTrackedObjectOffset;
+        [Header("Fields - Tracked Object Offsets")]
+        [SerializeField] private Vector2 startingPanTrackedObjectOffset;
+        [SerializeField] private Vector2 currentPanTrackedObjectOffset;
+        [SerializeField] private Vector2 targetPanTrackedObjectOffset;
+        [SerializeField] private Vector2 startingTrackedObjectOffset;
         private Coroutine lerpFallOffsetCoroutine;
         private Coroutine lerpSlideOffsetCoroutine;
         private Coroutine panCameraCoroutine;
@@ -87,9 +89,9 @@ namespace GoodLuckValley.Cameras
             normXPanAmount = framingTransposer.m_XDamping;
 
             // Set the starting position of the tracked object offset
-            startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
-            currentTrackedObjectOffset = startingTrackedObjectOffset;
-            targetTrackedObjectOffset = startingTrackedObjectOffset;
+            startingPanTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
+            currentPanTrackedObjectOffset = startingPanTrackedObjectOffset;
+            targetPanTrackedObjectOffset = startingPanTrackedObjectOffset;
         }
 
         private void Update()
@@ -115,10 +117,10 @@ namespace GoodLuckValley.Cameras
         #region PEEKING
         public void Peek(Vector2 offset, Vector2 peekDamping, float peekDistance, float peekLerp)
         {
-            Vector2 newTargetPosition = currentTrackedObjectOffset + offset;
-            Vector2 clampedTargetPosition = Vector2.ClampMagnitude(newTargetPosition - startingTrackedObjectOffset, peekDistance) + startingTrackedObjectOffset;
+            Vector2 newTargetPosition = currentPanTrackedObjectOffset + offset;
+            Vector2 clampedTargetPosition = Vector2.ClampMagnitude(newTargetPosition - startingPanTrackedObjectOffset, peekDistance) + startingPanTrackedObjectOffset;
 
-            targetTrackedObjectOffset = clampedTargetPosition;
+            targetPanTrackedObjectOffset = clampedTargetPosition;
 
             // Set damping
             framingTransposer.m_XDamping = peekDamping.x;
@@ -132,8 +134,8 @@ namespace GoodLuckValley.Cameras
 
         public void Unpeek()
         {
-            currentTrackedObjectOffset = startingTrackedObjectOffset;
-            targetTrackedObjectOffset = startingTrackedObjectOffset;
+            currentPanTrackedObjectOffset = startingPanTrackedObjectOffset;
+            targetPanTrackedObjectOffset = startingPanTrackedObjectOffset;
 
             peeking = false;
         }
@@ -143,14 +145,14 @@ namespace GoodLuckValley.Cameras
             while (true)
             {
                 // Calculate the new position based on the target position
-                currentTrackedObjectOffset = Vector2.Lerp(currentTrackedObjectOffset, targetTrackedObjectOffset, peekLerp);
+                currentPanTrackedObjectOffset = Vector2.Lerp(currentPanTrackedObjectOffset, targetPanTrackedObjectOffset, peekLerp);
 
-                framingTransposer.m_TrackedObjectOffset = currentTrackedObjectOffset;
+                framingTransposer.m_TrackedObjectOffset = currentPanTrackedObjectOffset;
 
-                if (Vector2.Distance(currentTrackedObjectOffset, targetTrackedObjectOffset) < 0.1f)
+                if (Vector2.Distance(currentPanTrackedObjectOffset, targetPanTrackedObjectOffset) < 0.1f)
                 {
-                    framingTransposer.m_TrackedObjectOffset = targetTrackedObjectOffset;
-                    currentTrackedObjectOffset = targetTrackedObjectOffset;
+                    framingTransposer.m_TrackedObjectOffset = targetPanTrackedObjectOffset;
+                    currentPanTrackedObjectOffset = targetPanTrackedObjectOffset;
                     peekCameraCoroutine = null;
 
                     framingTransposer.m_XDamping = normXPanAmount;
@@ -192,7 +194,7 @@ namespace GoodLuckValley.Cameras
 
                 // Get the start and end position
                 endPos = new Vector2(0, -fallPanAmount);
-                startPos = startingTrackedObjectOffset;
+                startPos = startingPanTrackedObjectOffset;
 
                 // Add the positions together
                 endPos += startPos;
@@ -207,7 +209,7 @@ namespace GoodLuckValley.Cameras
                 startPos = framingTransposer.m_TrackedObjectOffset;
 
                 // Set the end position to the original tracked object offset
-                endPos = startingTrackedObjectOffset;
+                endPos = startingPanTrackedObjectOffset;
             }
 
             // Lerp the pan amount
@@ -282,7 +284,7 @@ namespace GoodLuckValley.Cameras
             // Combine the positions
             endPos += startPos;
 
-            endPos.x = startingTrackedObjectOffset.x + slidePanAmount.x;
+            endPos.x = startingPanTrackedObjectOffset.x + slidePanAmount.x;
             endPos.y = Mathf.Clamp(endPos.y, -2, 2);
 
             // Lerp the pan amount
@@ -338,7 +340,7 @@ namespace GoodLuckValley.Cameras
                 // Combine the positions
                 endPos += startPos;
 
-                endPos.x = startingTrackedObjectOffset.x + slidePanAmount.x;
+                endPos.x = startingPanTrackedObjectOffset.x + slidePanAmount.x;
                 endPos.y = Mathf.Clamp(endPos.y, -2, 2);
             } else
             {
@@ -353,7 +355,7 @@ namespace GoodLuckValley.Cameras
                 startPos = framingTransposer.m_TrackedObjectOffset;
 
                 // Set the end position to the original tracked object offset
-                endPos = startingTrackedObjectOffset;
+                endPos = startingPanTrackedObjectOffset;
             }
 
             // Lerp the pan amount
@@ -407,7 +409,7 @@ namespace GoodLuckValley.Cameras
                 endPos *= panDistance;
 
                 // Set the starting position
-                startingPos = startingTrackedObjectOffset;
+                startingPos = startingPanTrackedObjectOffset;
 
                 // Add the starting position to the end position
                 endPos += startingPos;
@@ -417,7 +419,7 @@ namespace GoodLuckValley.Cameras
                 startingPos = framingTransposer.m_TrackedObjectOffset;
 
                 // Set the end position to the original tracked object offset
-                endPos = startingTrackedObjectOffset;
+                endPos = startingPanTrackedObjectOffset;
             }
 
             // Handle the panning
@@ -483,19 +485,35 @@ namespace GoodLuckValley.Cameras
             // Set the new camera as the current camera
             activeCamera = newCamera;
 
-            // Update the framing composer
+            framingTransposer.m_TrackedObjectOffset = startingTrackedObjectOffset;
+
+            // Update the active framing composer
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
+
+            //startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
+            //currentTrackedObjectOffset = startingTrackedObjectOffset;
+            //targetTrackedObjectOffset = startingTrackedObjectOffset;
         }
 
         public void SwitchCamera(CameraType newCamera)
         {
+            // De-activate the current camera
             activeCamera.enabled = false;
 
+            // Find the new camera
             activeCamera = virtualCameras[(int)newCamera];
 
+            // Set the new camera as the current camera
             activeCamera.enabled = true;
 
+            // Update the active framing composer
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            //startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
+            //currentTrackedObjectOffset = startingTrackedObjectOffset;
+            //targetTrackedObjectOffset = startingTrackedObjectOffset;
         }
         #endregion
     }

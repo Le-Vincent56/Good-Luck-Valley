@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,10 +6,10 @@ namespace GoodLuckValley.Player.States
 {
     public class SlideState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
         private readonly float offset;
 
-        public SlideState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
+        public SlideState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator)
         {
             this.sfx = sfx;
             offset = 0.25f;

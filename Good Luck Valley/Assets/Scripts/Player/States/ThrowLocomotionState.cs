@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,11 +6,11 @@ namespace GoodLuckValley.Player.States
 {
     public class ThrowLocomotionState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
         private float animationTimer;
         private bool Finished { get => animationTimer <= 0; }
 
-        public ThrowLocomotionState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
+        public ThrowLocomotionState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator)
         {
             this.sfx = sfx;
         }

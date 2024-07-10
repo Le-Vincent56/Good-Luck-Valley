@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,9 +6,9 @@ namespace GoodLuckValley.Player.States
 {
     public class WallJumpState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
 
-        public WallJumpState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        public WallJumpState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator) 
         {
             this.sfx = sfx;
         }

@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9986019, y: 1, z: 1}
+  m_LocalScale: {x: 0.9986018, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2414757590046708016}
@@ -352,7 +352,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 918238377
-  m_SortingLayer: 5
+  m_SortingLayer: 13
   m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: bf6740596ef39ff4492b138cb34518c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1620,6 +1620,7 @@ MonoBehaviour:
   noClipActive: 0
   noClipSpeed: 1
   powersUnlocked: 0
+  developerConsole: 0
 --- !u!1 &7498535248954153839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1765,7 +1766,6 @@ MonoBehaviour:
   throwMultiplier: 407.5
   canThrow: 1
   throwState: 0
-  sporeVFX: {fileID: 0}
 --- !u!114 &8410818967186305475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1959,8 +1959,8 @@ Transform:
   m_LocalScale: {x: 1.0014, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5936272026601382572}
   - {fileID: 3045553210023442063}
+  - {fileID: 5936272026601382572}
   - {fileID: 5934230490664107429}
   - {fileID: 1465558386990664987}
   - {fileID: 4520939286314282537}
@@ -2061,6 +2061,7 @@ MonoBehaviour:
   onSendPlayerController: {fileID: 11400000, guid: 348436666149729428e4fe07976cf182, type: 2}
   onPlayerTurn: {fileID: 11400000, guid: fbdc891029903794880c5adf4b1c0d20, type: 2}
   onSetCanPeek: {fileID: 11400000, guid: 3050c99c4ce29f941b36f4aa78ec7198, type: 2}
+  onPositionChange: {fileID: 11400000, guid: fa4a9ecb435726c4b8f980d5fb7ed651, type: 2}
   animator: {fileID: 0}
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   collisionHandler: {fileID: 0}
