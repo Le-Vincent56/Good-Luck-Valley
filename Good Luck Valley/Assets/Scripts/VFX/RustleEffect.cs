@@ -119,6 +119,12 @@ namespace GoodLuckValley.VFX
                 // From left
                 direction = 1;
             }
+
+            if (verticalOffset < 0)
+            {
+                direction *= -1;
+            }
+
             // Update shader values
             MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
             GetComponent<Renderer>().GetPropertyBlock(propertyBlock);
