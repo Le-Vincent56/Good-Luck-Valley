@@ -9,7 +9,7 @@ namespace GoodLuckValley.Audio.SFX
 
         private void Awake()
         {
-            footstepSFX = GetComponentInChildren<FootstepSFX>();
+            footstepSFX = GetComponent<FootstepSFX>();
         }
 
         public void Footsteps() => footstepSFX.Footsteps();

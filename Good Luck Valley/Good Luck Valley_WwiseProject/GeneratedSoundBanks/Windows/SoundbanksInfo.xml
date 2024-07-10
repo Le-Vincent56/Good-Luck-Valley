@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{A2B468A6-CEB8-0D0F-4DFC-34E4A845CFCD}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{F889013B-E353-394F-89BC-5CACE92E44E5}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -19,9 +19,10 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
-				<Bus Id="309309195" Name="2DAmbience"/>
-				<Bus Id="1182634443" Name="AmbientBeds"/>
 				<Bus Id="1375983526" Name="PLAYER_LOCOMOTION"/>
+				<Bus Id="1705038622" Name="AMBIENCE_2D"/>
+				<Bus Id="1721816425" Name="AMBIENCE_3D"/>
+				<Bus Id="1890054062" Name="AMBIENCEBEDS_2D"/>
 				<Bus Id="1900298039" Name="MASTER_MUSIC"/>
 				<Bus Id="2228101040" Name="MASTER_MUSHROOM"/>
 				<Bus Id="2453119373" Name="MASTER_PLAYER"/>
@@ -87,6 +88,12 @@
 				</StateGroup>
 			</StateGroups>
 			<SwitchGroups>
+				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
+					<Switches>
+						<Switch Id="491961918" Name="FOREST"/>
+						<Switch Id="4122393694" Name="CAVE"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="1980707854" Name="MUSHROOMCHAINSWITCH">
 					<GameParameterRef Id="1867215876"/>
 					<Switches>
@@ -112,10 +119,34 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{BB583B51-4170-E1FD-0470-7B2A7C32D786}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{C4441D30-F207-A0DE-E45E-44B376D017E8}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
+				<File Id="26005405" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_02.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Bird Calls/AMBIENCE2D_FOREST_BIRDCALL_02_818F3B66.wem</CachePath>
+				</File>
+				<File Id="86227556" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_05.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_05_818F3B66.wem</CachePath>
+				</File>
+				<File Id="90492262" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_06.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_06_818F3B66.wem</CachePath>
+				</File>
+				<File Id="94593228" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_03.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Bird Calls/AMBIENCE2D_FOREST_BIRDCALL_03_818F3B66.wem</CachePath>
+				</File>
+				<File Id="125430513" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_04.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Bird Calls/AMBIENCE2D_FOREST_BIRDCALL_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="140986195" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_02.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_02_818F3B66.wem</CachePath>
+				</File>
 				<File Id="172512769" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Footsteps\Dirt\DIRT_FOOTSTEPS_3.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Footsteps/Dirt/DIRT_FOOTSTEPS_3_818F3B66.wem</CachePath>
@@ -123,6 +154,30 @@
 				<File Id="201240048" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TestFiles\SFX_TEST_BEEP_LOOP.wav</ShortName>
 					<CachePath>SFX/TestFiles/SFX_TEST_BEEP_LOOP_91E69956.wem</CachePath>
+				</File>
+				<File Id="209160380" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Cave\Rock Crumbles\AMBIENCE2D_CAVE_ROCKCRUMBLE_04.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Cave/Rock Crumbles/AMBIENCE2D_CAVE_ROCKCRUMBLE_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="224897681" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_02.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Insect Chirps/AMBIENCE2D_FOREST_INSECTCHIRP_02_818F3B66.wem</CachePath>
+				</File>
+				<File Id="233559399" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_03.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Insect Chirps/AMBIENCE2D_FOREST_INSECTCHIRP_03_818F3B66.wem</CachePath>
+				</File>
+				<File Id="249687352" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERDROP.wav</ShortName>
+					<CachePath>SFX/Ambience/Beds/Cave/AMBIENCEBEDS_CAVE_WATERDROP_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="286830101" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_02.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_02_818F3B66.wem</CachePath>
+				</File>
+				<File Id="345373450" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_05.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_05_818F3B66.wem</CachePath>
 				</File>
 				<File Id="359981591" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Footsteps\Grass\GRASS_FOOTSTEPS_4.wav</ShortName>
@@ -136,9 +191,37 @@
 					<ShortName>Player\Locomotion\Footsteps\Dirt\DIRT_FOOTSTEPS_5.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Footsteps/Dirt/DIRT_FOOTSTEPS_5_818F3B66.wem</CachePath>
 				</File>
+				<File Id="436027017" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WIND.wav</ShortName>
+					<CachePath>SFX/Ambience/Beds/Cave/AMBIENCEBEDS_CAVE_WIND_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="439077008" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Cave\Rock Crumbles\AMBIENCE2D_CAVE_ROCKCRUMBLE_02.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Cave/Rock Crumbles/AMBIENCE2D_CAVE_ROCKCRUMBLE_02_818F3B66.wem</CachePath>
+				</File>
 				<File Id="456978354" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Footsteps\Grass\GRASS_FOOTSTEPS_2.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Footsteps/Grass/GRASS_FOOTSTEPS_2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="465063943" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_01.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="498523602" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_04.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="549087700" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_01.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Bird Calls/AMBIENCE2D_FOREST_BIRDCALL_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="618315995" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_04.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="638326763" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_WIND.wav</ShortName>
+					<CachePath>SFX/Ambience/Beds/Forest/AMBIENCEBEDS_FOREST_WIND_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="668500464" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TestFiles\SFX_TEST_BEEP.wav</ShortName>
@@ -148,13 +231,61 @@
 					<ShortName>Player\Locomotion\Footsteps\Dirt\DIRT_FOOTSTEPS_2.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Footsteps/Dirt/DIRT_FOOTSTEPS_2_818F3B66.wem</CachePath>
 				</File>
+				<File Id="710845220" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_03.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_03_818F3B66.wem</CachePath>
+				</File>
+				<File Id="711730560" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Cave\Rock Crumbles\AMBIENCE2D_CAVE_ROCKCRUMBLE_05.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Cave/Rock Crumbles/AMBIENCE2D_CAVE_ROCKCRUMBLE_05_818F3B66.wem</CachePath>
+				</File>
 				<File Id="714847904" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Footsteps\Dirt\DIRT_FOOTSTEPS_1.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Footsteps/Dirt/DIRT_FOOTSTEPS_1_818F3B66.wem</CachePath>
 				</File>
+				<File Id="757734056" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_05.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Bird Calls/AMBIENCE2D_FOREST_BIRDCALL_05_818F3B66.wem</CachePath>
+				</File>
+				<File Id="765342531" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_07.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_07_818F3B66.wem</CachePath>
+				</File>
+				<File Id="773021938" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_03.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_03_818F3B66.wem</CachePath>
+				</File>
 				<File Id="786155511" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Footsteps\Grass\GRASS_FOOTSTEPS_3.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Footsteps/Grass/GRASS_FOOTSTEPS_3_818F3B66.wem</CachePath>
+				</File>
+				<File Id="815469409" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_01.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="825461371" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_04.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Insect Chirps/AMBIENCE2D_FOREST_INSECTCHIRP_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="851113392" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Cave\Rock Crumbles\AMBIENCE2D_CAVE_ROCKCRUMBLE_01.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Cave/Rock Crumbles/AMBIENCE2D_CAVE_ROCKCRUMBLE_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="894465085" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Cave\Rock Crumbles\AMBIENCE2D_CAVE_ROCKCRUMBLE_03.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Cave/Rock Crumbles/AMBIENCE2D_CAVE_ROCKCRUMBLE_03_818F3B66.wem</CachePath>
+				</File>
+				<File Id="926564563" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_INSECTS.wav</ShortName>
+					<CachePath>SFX/Ambience/Beds/Forest/AMBIENCEBEDS_FOREST_INSECTS_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="968818107" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERFLOW.wav</ShortName>
+					<CachePath>SFX/Ambience/Beds/Cave/AMBIENCEBEDS_CAVE_WATERFLOW_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="974159613" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_01.wav</ShortName>
+					<CachePath>SFX/Ambience/2D/Forest/Insect Chirps/AMBIENCE2D_FOREST_INSECTCHIRP_01_818F3B66.wem</CachePath>
 				</File>
 				<File Id="985524195" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Footsteps\Dirt\DIRT_FOOTSTEPS_6.wav</ShortName>
@@ -165,7 +296,88 @@
 					<CachePath>SFX/Player/Locomotion/Footsteps/Dirt/DIRT_FOOTSTEPS_4_818F3B66.wem</CachePath>
 				</File>
 			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="10454007" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="64624005" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="142525318" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="241202866" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="365416699" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
+				</Custom>
+			</Plugins>
 			<Events>
+				<Event Id="2609132508" Name="PLAY_AMBIENCE2D_MAIN">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="491961918" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="26005405"/>
+								<MediaRef Id="86227556"/>
+								<MediaRef Id="90492262"/>
+								<MediaRef Id="94593228"/>
+								<MediaRef Id="125430513"/>
+								<MediaRef Id="140986195"/>
+								<MediaRef Id="224897681"/>
+								<MediaRef Id="233559399"/>
+								<MediaRef Id="286830101"/>
+								<MediaRef Id="345373450"/>
+								<MediaRef Id="465063943"/>
+								<MediaRef Id="498523602"/>
+								<MediaRef Id="549087700"/>
+								<MediaRef Id="618315995"/>
+								<MediaRef Id="710845220"/>
+								<MediaRef Id="757734056"/>
+								<MediaRef Id="765342531"/>
+								<MediaRef Id="773021938"/>
+								<MediaRef Id="815469409"/>
+								<MediaRef Id="825461371"/>
+								<MediaRef Id="974159613"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="64624005"/>
+									<PluginRef Id="142525318"/>
+									<PluginRef Id="241202866"/>
+									<PluginRef Id="365416699"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="4122393694"/>
+							<MediaRefs>
+								<MediaRef Id="209160380"/>
+								<MediaRef Id="439077008"/>
+								<MediaRef Id="711730560"/>
+								<MediaRef Id="851113392"/>
+								<MediaRef Id="894465085"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="10454007"/>
+								</Custom>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1808419977" Name="PLAY_AMBIENCEBED_MAIN">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="491961918" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="638326763"/>
+								<MediaRef Id="926564563"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="4122393694"/>
+							<MediaRefs>
+								<MediaRef Id="249687352"/>
+								<MediaRef Id="436027017"/>
+								<MediaRef Id="968818107"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
 				<Event Id="98439365" Name="PLAY_PLAYER_FOOTSTEPS">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -214,6 +426,12 @@
 				<Event Id="304008745" Name="STOP_TESTBEEP_LOOP_3D" MaxAttenuation="0"/>
 			</Events>
 			<SwitchGroups>
+				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
+					<Switches>
+						<Switch Id="491961918" Name="FOREST"/>
+						<Switch Id="4122393694" Name="CAVE"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="3260060478" Name="GROUNDMATSWITCH">
 					<Switches>
 						<Switch Id="1216965916" Name="STONE"/>
@@ -224,5 +442,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{6D3CC6CC-B35E-03E4-0335-F86A09893DDC}</FileHash>
+	<FileHash>{14220BA3-445C-F708-F268-6073FB90F193}</FileHash>
 </SoundBanksInfo>

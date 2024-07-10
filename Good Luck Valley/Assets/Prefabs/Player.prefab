@@ -1109,7 +1109,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5934230490664107429}
-  - component: {fileID: 2016815691044445664}
+  - component: {fileID: 2980661001384484232}
+  - component: {fileID: 9186641651251701321}
+  - component: {fileID: 8020386366602493716}
+  - component: {fileID: 422088129986246710}
   m_Layer: 10
   m_Name: Player SFX
   m_TagString: Untagged
@@ -1132,7 +1135,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2414757590046708016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2016815691044445664
+--- !u!114 &2980661001384484232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1141,20 +1144,68 @@ MonoBehaviour:
   m_GameObject: {fileID: 4157728105775766138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb0fcd796566c54eae5d6f5f4a6249f, type: 3}
+  m_Script: {fileID: 11500000, guid: aacb0dd11382f7c4380220e373f859dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dirtFootsteps: {fileID: 11400000, guid: 0c084fe6a95ae724092d9957df61421c, type: 2}
-  grassFootsteps: {fileID: 11400000, guid: b1cfff12126f0f744b0d9dc7c19418d2, type: 2}
-  land: {fileID: 11400000, guid: e38a3360208e63f46beb699a0acd9522, type: 2}
-  fall: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  wallSlide: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  wallJump: {fileID: 11400000, guid: e7106fc55664d8a4297de35f5eba666b, type: 2}
-  jump: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  sporeThrow: {fileID: 11400000, guid: 68d99002a800ed541a1dde6c3c0ea2d0, type: 2}
+--- !u!114 &9186641651251701321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4157728105775766138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b173b4261a9958948b2505120323c20d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ambientBed:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 637e55155fba9ba4a9136c1b8163caf4, type: 2}
+  ambient2D:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 3334a18483e109d4bb7bddc9013e2205, type: 2}
+  ambient2DTimer: 0
+  ambient2DInterval: 1
+--- !u!114 &8020386366602493716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4157728105775766138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35adee353ad3f494fa33148ab0450267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grassSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 6aa4b9c5f90a6384eae2bd4823759a99, type: 2}
+  dirtSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 2cd77ce1ff5f8784091ead2ec74a3dba, type: 2}
+  stoneSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 89d11f79f8cb8ee48ada7443c106a98c, type: 2}
+  footstepEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d12b2a92b6fe8a5439bf34a18cc3a640, type: 2}
   detectTileType:
     direction: 1
-    distance: 10
+    distance: 1
     dirtLayer:
       serializedVersion: 2
       m_Bits: 16384
@@ -1163,6 +1214,28 @@ MonoBehaviour:
       m_Bits: 32768
   footstepInterval: 0.4
   footstepTimer: 0
+--- !u!114 &422088129986246710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4157728105775766138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1b1832413f6ad4a9bf0f0d6f1ae8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &4251934024621643868
 GameObject:
   m_ObjectHideFlags: 0
@@ -2038,7 +2111,7 @@ MonoBehaviour:
   debug: 0
   collisionMask:
     serializedVersion: 2
-    m_Bits: 4552
+    m_Bits: 53704
   maxSlopeAngle: 50
   currentLayer: 0
 --- !u!114 &3312724052698482696
