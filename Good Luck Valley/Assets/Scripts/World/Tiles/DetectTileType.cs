@@ -27,6 +27,7 @@ namespace GoodLuckValley.World.Tiles
         [SerializeField] float distance;
         [SerializeField] LayerMask dirtLayer;
         [SerializeField] LayerMask grassLayer;
+        [SerializeField] LayerMask stoneLayer;
         private Vector3 raycastStart;
         
 
@@ -56,6 +57,7 @@ namespace GoodLuckValley.World.Tiles
 
             RaycastHit2D dirtCast = Physics2D.Raycast(raycastStart, raycastDir, distance, dirtLayer);
             RaycastHit2D grassCast = Physics2D.Raycast(raycastStart, raycastDir, distance, grassLayer);
+            RaycastHit2D stoneCast = Physics2D.Raycast(raycastStart, raycastDir, distance, stoneLayer);
 
             if (grassCast)
             {
@@ -64,6 +66,10 @@ namespace GoodLuckValley.World.Tiles
             else if (dirtCast)
             {
                 return TileType.Dirt;
+            }
+            else if (stoneCast)
+            {
+                return TileType.Stone;
             }
             else
             {

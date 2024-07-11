@@ -1146,6 +1146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aacb0dd11382f7c4380220e373f859dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CRAWL: 0.8
+  WALK: 2
+  RUN: 3.1
   grassSwitch:
     idInternal: 0
     valueGuidInternal: 
@@ -1173,12 +1176,37 @@ MonoBehaviour:
     grassLayer:
       serializedVersion: 2
       m_Bits: 32768
-  footstepEvent:
+    stoneLayer:
+      serializedVersion: 2
+      m_Bits: 131072
+  speedRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: eba8e8fdc793ff244963b64fa052e567, type: 2}
+  startGroundImpactsEvent:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: d12b2a92b6fe8a5439bf34a18cc3a640, type: 2}
-  footstepInterval: 0
-  footstepTimer: 0
+  stopGroundImpactsEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d979ebb2384298340836d975c5ff88d4, type: 2}
+  landEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 0eabc4adc60844a4c9e39ac82c517f4f, type: 2}
+  fallSpeedRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 8e6fd7ac7cb52c748be46c01a245a6de, type: 2}
+  startFallEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 0c8fea7c7ecca44488b0c1ac9d845d74, type: 2}
+  stopFallEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 5e189a42749e04a4ba5446ca387d0e43, type: 2}
   startSlide:
     idInternal: 0
     valueGuidInternal: 
@@ -1187,6 +1215,10 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: a6a1e5c16ac688d4a807a2838a45d07c, type: 2}
+  slideImpact:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: b3975c68c48805b42831b1c74e806bea, type: 2}
 --- !u!114 &9186641651251701321
 MonoBehaviour:
   m_ObjectHideFlags: 0

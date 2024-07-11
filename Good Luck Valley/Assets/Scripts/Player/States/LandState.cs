@@ -33,5 +33,11 @@ namespace GoodLuckValley.Player.States
             // Handle player movement
             player.HandleMovement();
         }
+
+        public override void OnExit()
+        {
+            // Reset fall counters
+            sfx.ResetLandCounter();
+        }
     }
 }
