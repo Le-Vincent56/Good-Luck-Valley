@@ -5,7 +5,7 @@
 			<ChildrenList>
 				<SwitchContainer Name="PLAYER_SLIDE_GROUNDMATSWITCH" ID="{76E508B8-E3FB-4E12-9015-B7BDE681FFB1}" ShortID="741649194">
 					<PropertyList>
-						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="Color" Type="int16" Value="4"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 					</PropertyList>
@@ -24,37 +24,15 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="GRASS_SLIDE" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}" ShortID="168732369">
-							<PropertyList>
-								<Property Name="Color" Type="int16" Value="4"/>
-								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="OverrideColor" Type="bool" Value="True"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="GRASS_SLIDE" ID="{BA965F16-DCF7-4F03-94BD-B23E0617F083}">
-									<Language>SFX</Language>
-									<AudioFile>Player\Locomotion\Slide\GRASS_SLIDE.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="479254614"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="GRASS_SLIDE" ID="{BA965F16-DCF7-4F03-94BD-B23E0617F083}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="DIRT_SLIDE" ID="{091B6954-F5D6-4DB3-95DA-F61596DD2F0C}" ShortID="103703530">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-12</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -77,6 +55,69 @@
 								<ActiveSource Name="DIRT_SLIDE" ID="{C8B448A9-B897-4D55-9689-5BA9B778F3DE}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="GRASS_SLIDE" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}" ShortID="168732369">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="GRASS_SLIDE" ID="{BA965F16-DCF7-4F03-94BD-B23E0617F083}">
+									<Language>SFX</Language>
+									<AudioFile>Player\Locomotion\Slide\GRASS_SLIDE.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="479254614"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="GRASS_SLIDE" ID="{BA965F16-DCF7-4F03-94BD-B23E0617F083}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="STONE_SLIDE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}" ShortID="973321172">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="STONE_SLIDE" ID="{3F8D42FC-E9AF-4AE7-A090-1A5322ECC154}">
+									<Language>SFX</Language>
+									<AudioFile>Player\Locomotion\Slide\STONE_SLIDE.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="240644909"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="STONE_SLIDE" ID="{3F8D42FC-E9AF-4AE7-A090-1A5322ECC154}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 					<GroupingInfo>
 						<GroupingBehaviorList>
@@ -86,8 +127,17 @@
 							<GroupingBehavior>
 								<ItemRef Name="GRASS_SLIDE" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}"/>
 							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="STONE_SLIDE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}"/>
+							</GroupingBehavior>
 						</GroupingBehaviorList>
 						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
+								<ItemList>
+									<ItemRef Name="STONE_SLIDE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}"/>
+								</ItemList>
+							</Grouping>
 							<Grouping>
 								<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
 								<ItemList>
@@ -105,7 +155,7 @@
 				</SwitchContainer>
 				<SwitchContainer Name="PLAYER_SLIDE_END_GROUNDMATSWITCH" ID="{2D9A3B01-2264-472B-A536-08A0C17624EB}" ShortID="440766851">
 					<PropertyList>
-						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="Color" Type="int16" Value="4"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 					<ReferenceList>
@@ -123,10 +173,23 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="DIRT_SLIDE_END" ID="{57CBA4F6-DB53-40BE-892D-A98CB7B1C9C3}" ShortID="562305483">
+						<RandomSequenceContainer Name="DIRT_SLIDE_ENDS" ID="{03E60FC9-3ADF-4C21-9BC9-3C6ACCA7A850}" ShortID="442372734">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{CA65E4DE-5934-49E0-93A2-F289A01154C2}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="100"/>
+													<Property Name="Min" Type="Real64" Value="-100"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -137,22 +200,91 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="DIRT_SLIDE_END" ID="{328FE8E7-D9C2-4AD8-B456-E0E07E96DFCF}">
-									<Language>SFX</Language>
-									<AudioFile>Player\Locomotion\Slide\DIRT_SLIDE_END.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="555885217"/>
-									</MediaIDList>
-								</AudioFileSource>
+								<Sound Name="DIRT_SLIDE_END_01" ID="{A7C21D1E-A04D-4593-A525-E58AB699F9EB}" ShortID="642832506">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="DIRT_SLIDE_END_01" ID="{767596F1-7790-4B4E-AF52-CD9F6E9B4F1A}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1058241660"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="DIRT_SLIDE_END_01" ID="{767596F1-7790-4B4E-AF52-CD9F6E9B4F1A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="DIRT_SLIDE_END_02" ID="{0A6174D2-5108-4DD2-BEEA-2DAD06C8B832}" ShortID="149141967">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="DIRT_SLIDE_END_02" ID="{BBCF73B4-028A-40F9-B048-DAAC01C2C0E6}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="458997009"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="DIRT_SLIDE_END_02" ID="{BBCF73B4-028A-40F9-B048-DAAC01C2C0E6}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="DIRT_SLIDE_END_03" ID="{ECCD1543-0F03-4DC2-9B4C-15983B642FC0}" ShortID="724030484">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="DIRT_SLIDE_END_03" ID="{7F1ECDB9-B509-4A7A-9078-98CAC8A5C4F3}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="577828425"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="DIRT_SLIDE_END_03" ID="{7F1ECDB9-B509-4A7A-9078-98CAC8A5C4F3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="DIRT_SLIDE_END" ID="{328FE8E7-D9C2-4AD8-B456-E0E07E96DFCF}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="GRASS_SLIDE_END" ID="{B0C01859-0087-4F72-9CCC-35A3B3F6DDA4}" ShortID="675698497">
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="GRASS_SLIDE_ENDS" ID="{BDE5F301-4DE2-4546-A048-70F3FD0EFC02}" ShortID="474690194">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{0A899DF3-AC84-428F-BD27-BB004CF0B01F}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="100"/>
+													<Property Name="Min" Type="Real64" Value="-100"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -163,39 +295,199 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="GRASS_SLIDE_END" ID="{69359FFD-3102-4BE8-A2E0-A8C37A0ADDE5}">
-									<Language>SFX</Language>
-									<AudioFile>Player\Locomotion\Slide\GRASS_SLIDE_END.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="308218689"/>
-									</MediaIDList>
-								</AudioFileSource>
+								<Sound Name="GRASS_SLIDE_END_01" ID="{65C5703E-37FE-405F-97FC-D36B46D10CCE}" ShortID="445640071">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GRASS_SLIDE_END_01" ID="{FCD8F349-74EA-4154-85BA-5A648ABFA6E2}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Grass\GRASS_SLIDE_END_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="472092974"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GRASS_SLIDE_END_01" ID="{FCD8F349-74EA-4154-85BA-5A648ABFA6E2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="GRASS_SLIDE_END_02" ID="{B4A2786C-A9C4-4EF2-9CD4-96C5D0953F9D}" ShortID="555006760">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GRASS_SLIDE_END_02" ID="{D84B2C47-6079-43A9-986A-1196064F0E79}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Grass\GRASS_SLIDE_END_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="844122803"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GRASS_SLIDE_END_02" ID="{D84B2C47-6079-43A9-986A-1196064F0E79}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="GRASS_SLIDE_END_03" ID="{CCFD335F-AC88-481A-8F8F-5265B8F8EC6D}" ShortID="876916572">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GRASS_SLIDE_END_03" ID="{8FCE163C-65D5-4CCC-BC25-0424ED91DE3E}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Grass\GRASS_SLIDE_END_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="221512360"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GRASS_SLIDE_END_03" ID="{8FCE163C-65D5-4CCC-BC25-0424ED91DE3E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="GRASS_SLIDE_END" ID="{69359FFD-3102-4BE8-A2E0-A8C37A0ADDE5}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="STONE_SLIDE_ENDS" ID="{5556A62E-3D47-47D1-BD42-55BE2F409250}" ShortID="293614088">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{ACCA2BDF-262B-4891-A295-418BF165ABF6}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="100"/>
+													<Property Name="Min" Type="Real64" Value="-100"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="STONE_SLIDE_END_01" ID="{79D7DCD2-36E1-4F4C-9D08-AC4CC5E6FE23}" ShortID="691266126">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="STONE_SLIDE_END_01" ID="{B1DE3757-F63C-4FB7-B7D3-BB0F6630A762}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Stone\STONE_SLIDE_END_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="547889306"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="STONE_SLIDE_END_01" ID="{B1DE3757-F63C-4FB7-B7D3-BB0F6630A762}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="STONE_SLIDE_END_02" ID="{9CBF37C0-18D1-48EC-BB0D-CB669E271FD7}" ShortID="729826453">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="STONE_SLIDE_END_02" ID="{33F4F910-4328-4CBC-A4FC-4DB94A081A89}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Stone\STONE_SLIDE_END_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="471406975"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="STONE_SLIDE_END_02" ID="{33F4F910-4328-4CBC-A4FC-4DB94A081A89}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="STONE_SLIDE_END_03" ID="{3ADF8F09-3FCE-4A06-A04B-93B05A57E7C0}" ShortID="10826448">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="STONE_SLIDE_END_03" ID="{9B340565-0D16-4F24-A97E-FCD1C0B1F562}">
+											<Language>SFX</Language>
+											<AudioFile>Player\Locomotion\Slide\Slide Ends\Stone\STONE_SLIDE_END_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="504512240"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="STONE_SLIDE_END_03" ID="{9B340565-0D16-4F24-A97E-FCD1C0B1F562}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>
-								<ItemRef Name="GRASS_SLIDE_END" ID="{B0C01859-0087-4F72-9CCC-35A3B3F6DDA4}"/>
+								<ItemRef Name="GRASS_SLIDE_ENDS" ID="{BDE5F301-4DE2-4546-A048-70F3FD0EFC02}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
-								<ItemRef Name="DIRT_SLIDE_END" ID="{57CBA4F6-DB53-40BE-892D-A98CB7B1C9C3}"/>
+								<ItemRef Name="STONE_SLIDE_ENDS" ID="{5556A62E-3D47-47D1-BD42-55BE2F409250}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="DIRT_SLIDE_ENDS" ID="{03E60FC9-3ADF-4C21-9BC9-3C6ACCA7A850}"/>
 							</GroupingBehavior>
 						</GroupingBehaviorList>
 						<GroupingList>
 							<Grouping>
+								<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
+								<ItemList>
+									<ItemRef Name="STONE_SLIDE_ENDS" ID="{5556A62E-3D47-47D1-BD42-55BE2F409250}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
 								<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
 								<ItemList>
-									<ItemRef Name="GRASS_SLIDE_END" ID="{B0C01859-0087-4F72-9CCC-35A3B3F6DDA4}"/>
+									<ItemRef Name="GRASS_SLIDE_ENDS" ID="{BDE5F301-4DE2-4546-A048-70F3FD0EFC02}"/>
 								</ItemList>
 							</Grouping>
 							<Grouping>
 								<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
 								<ItemList>
-									<ItemRef Name="DIRT_SLIDE_END" ID="{57CBA4F6-DB53-40BE-892D-A98CB7B1C9C3}"/>
+									<ItemRef Name="DIRT_SLIDE_ENDS" ID="{03E60FC9-3ADF-4C21-9BC9-3C6ACCA7A850}"/>
 								</ItemList>
 							</Grouping>
 						</GroupingList>

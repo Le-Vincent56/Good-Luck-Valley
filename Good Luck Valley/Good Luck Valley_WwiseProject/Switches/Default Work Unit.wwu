@@ -115,6 +115,51 @@
 						</Curve>
 					</SwitchOnRTPC>
 				</SwitchGroup>
+				<SwitchGroup Name="PLAYERFALLSPEEDSWITCH" ID="{E62C8679-B3AA-461E-A46E-FE5DAD0894E5}">
+					<PropertyList>
+						<Property Name="UseGameParameter" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Switch Name="FASTFALL" ID="{461FD7FB-F57C-4188-BFAA-75FEDBBE6881}"/>
+						<Switch Name="SLOWFALL" ID="{55086A10-7959-452F-9767-C28CC1EBF297}"/>
+						<Switch Name="MEDIUMFALL" ID="{588AD144-1C14-4E33-BCAF-546EEF5BB32B}"/>
+					</ChildrenList>
+					<SwitchOnRTPC>
+						<GameParameterRef Name="RTPC_PLAYERFALLSPEED" ID="{E3CE08EC-41D3-4C6F-B310-7826E821DA86}"/>
+						<Curve Name="" ID="{C8CD5076-231D-4D7D-B989-B3B5297E525B}">
+							<PropertyList>
+								<Property Name="Flags" Type="int32" Value="65537"/>
+							</PropertyList>
+							<PointList>
+								<Point>
+									<XPos>0</XPos>
+									<YPos>2</YPos>
+									<Flags>5</Flags>
+								</Point>
+								<Point>
+									<XPos>4.999</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>5</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>5.001</XPos>
+									<YPos>1</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>10</XPos>
+									<YPos>1</YPos>
+									<Flags>37</Flags>
+								</Point>
+							</PointList>
+						</Curve>
+					</SwitchOnRTPC>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>

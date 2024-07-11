@@ -1,0 +1,2326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}" SchemaVersion="119" RootDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" ParentDocumentID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}">
+	<AudioObjects>
+		<WorkUnit Name="PLAYER_LOCOMOTION_IMPACTS" ID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}" OwnerID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}" PersistMode="Nested">
+			<ChildrenList>
+				<SwitchContainer Name="PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH" ID="{43D9D0F3-4A70-4040-BA82-3959BF628297}" ShortID="326372486">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{CA4B5AC7-B275-4F6B-879E-BE2B96B3D268}"/>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+						<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="RUN" ID="{EA7C6930-8566-467A-AAC4-356489DF7D43}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="PLAYERSPEEDSWITCH" ID="{EDEFC7E6-3D41-42D5-AD6C-F7C27C6D6D67}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<SwitchContainer Name="PLAYER_WALK_GROUNDMATSWITCH" ID="{D5DACFB7-5C1E-458D-89CA-C9249C65C338}" ShortID="360843284">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="GROUNDMATSWITCH" ID="{D27FD05C-8199-471B-BB6C-C34996E40AAB}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="WALK_DIRT_IMPACTS_CONTAINER" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}" ShortID="490179986">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-8</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="DIRT_IMPACTS_LIGHT" ID="{4E23ED3C-0FE2-4AFC-B2D6-ED4BF9353E4F}" ShortID="721699389">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{6F81DEA2-E248-48BC-8089-9F67DBA7196E}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="DIRT_IMPACT_LIGHT_01" ID="{C6FF9FDD-7622-4FC2-828A-561638793795}" ShortID="786449612">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{2998D322-F6CA-4538-ACCA-513853849A01}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_01" ID="{92CB66DE-0B7D-4FF8-8F97-5CC23E6DBAEC}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="864945534"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_01" ID="{92CB66DE-0B7D-4FF8-8F97-5CC23E6DBAEC}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_02" ID="{61332D41-7790-4AA8-B171-361CA92DD53C}" ShortID="34184151">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{6BDF2870-142B-4AE5-85F2-489BA88DC89B}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_02" ID="{83756494-8F18-4EF6-B6AF-6EF3758B7FB6}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="257794690"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_02" ID="{83756494-8F18-4EF6-B6AF-6EF3758B7FB6}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_03" ID="{9A99F4E6-5D37-4BDF-B729-F7D715FA6507}" ShortID="1004394327">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-370</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{D9374FF7-C301-4DE8-84C6-A240941B5FEC}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_03" ID="{60D12722-41ED-452D-B256-FE71CCD2EA78}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="560993515"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_03" ID="{60D12722-41ED-452D-B256-FE71CCD2EA78}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_04" ID="{CC7147A3-A1A8-4C4E-ABFB-45687E44BB5D}" ShortID="1072548681">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-50</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{FEB28425-4834-4971-8D29-89A56500757D}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_04" ID="{B1BCF69F-D54D-4503-92DC-367AF56DC56E}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="399288080"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_04" ID="{B1BCF69F-D54D-4503-92DC-367AF56DC56E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_05" ID="{DDDD8A8C-873B-4531-826E-358E341F068D}" ShortID="848426346">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-150</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{E381FF7E-75F5-4D42-93A7-C6663E7AE279}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_05" ID="{D622D2D1-8CB0-44EC-B60E-5C382033CE7E}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_05.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="555169335"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_05" ID="{D622D2D1-8CB0-44EC-B60E-5C382033CE7E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{27E0A9E5-1794-47BD-A62D-2613A720235C}" ShortID="372926323">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{86A9A1EC-C254-4F7D-AAD1-7CF3242273E3}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{306CADFF-C4E7-4161-9C9F-071876472204}" ShortID="986804516" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.32"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{306CADFF-C4E7-4161-9C9F-071876472204}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="DIRT_IMPACTS_LIGHT" ID="{4E23ED3C-0FE2-4AFC-B2D6-ED4BF9353E4F}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{27E0A9E5-1794-47BD-A62D-2613A720235C}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="WALK_GRASS_IMPACTS_CONTAINER" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}" ShortID="514422914">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-14</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="GRASS_IMPACTS_LIGHT" ID="{3CF9C0F9-CFB8-41B2-A068-50722D072726}" ShortID="299928516">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{196CCDB6-EE3A-4687-9694-0F1D143EACA4}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="GRASS_IMPACT_LIGHT_01" ID="{BDE65E13-D867-4689-8EB5-F16F4086A023}" ShortID="173838856">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_01" ID="{E4BFFE06-4BF3-47D7-840B-7791000D9736}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="487826013"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_01" ID="{E4BFFE06-4BF3-47D7-840B-7791000D9736}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_02" ID="{3E9124EC-428B-4B92-9DD0-80FEB12AC3EB}" ShortID="212185612">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_02" ID="{2CA2244B-4401-4200-84AF-74E07CCD2922}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="735615810"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_02" ID="{2CA2244B-4401-4200-84AF-74E07CCD2922}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_03" ID="{D4362F49-915F-4438-8363-8D73169C5E42}" ShortID="261850018">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_03" ID="{8CC9BA07-6C38-4C8B-A5AB-F50A2F6DF40D}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="164673736"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_03" ID="{8CC9BA07-6C38-4C8B-A5AB-F50A2F6DF40D}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_04" ID="{BA0AF32A-0CCA-445B-B3E5-4E4BA6D11EAE}" ShortID="630610758">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_04" ID="{D342A8BC-3EE5-43DF-8472-CB3A6A9DC92F}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="404848840"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_04" ID="{D342A8BC-3EE5-43DF-8472-CB3A6A9DC92F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_06" ID="{0EEC22CA-A86B-4CDD-95A0-B98324534E3C}" ShortID="123092564">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_06" ID="{8F5C23CA-61A2-4BB2-B5DA-3B909936ECF6}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_06.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="425620963"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_06" ID="{8F5C23CA-61A2-4BB2-B5DA-3B909936ECF6}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_07" ID="{E616AE53-5BDE-486B-9A31-4EE4FD625AB0}" ShortID="520903725">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_07" ID="{CFFA4451-DF5C-4887-B878-070EEC90D70C}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_07.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="80653842"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_07" ID="{CFFA4451-DF5C-4887-B878-070EEC90D70C}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{0AB76368-9065-492F-AA14-0E71F3B079BA}" ShortID="908740478">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{E70CD9E8-F475-49CB-8E3A-71F2240D7A97}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{54E70025-9A34-47CF-A2D4-9AC311EBCA00}" ShortID="288949125" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.125"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{54E70025-9A34-47CF-A2D4-9AC311EBCA00}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="GRASS_IMPACTS_LIGHT" ID="{3CF9C0F9-CFB8-41B2-A068-50722D072726}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{0AB76368-9065-492F-AA14-0E71F3B079BA}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="WALK_STONE_IMPACTS_CONTAINER" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}" ShortID="789688258">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="STONE_IMPACTS_LIGHT" ID="{49C981B8-5D9D-4B96-B974-834287A62799}" ShortID="285459270">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{7ED66FD2-4193-4409-8769-BF0DB87B6DE7}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="STONE_IMPACT_LIGHT_01" ID="{9DE80DF7-A95C-4D6C-BA29-4427F0A4DC30}" ShortID="109985720">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_01" ID="{AB96A0C6-9BC2-4491-9064-99713C35CD3E}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="874260584"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_01" ID="{AB96A0C6-9BC2-4491-9064-99713C35CD3E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_02" ID="{8D870207-2693-4C76-A76F-F64A56428F1D}" ShortID="237371384">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_02" ID="{AC392875-36F9-4870-85D4-B9E4788CF472}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="537454674"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_02" ID="{AC392875-36F9-4870-85D4-B9E4788CF472}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_03" ID="{AB9E4CB5-98B7-4811-85E8-1872409DEB5D}" ShortID="227588781">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_03" ID="{BDEE34F2-CDB8-486D-87EA-3895D5981AA8}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="898367430"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_03" ID="{BDEE34F2-CDB8-486D-87EA-3895D5981AA8}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_04" ID="{2A6AEDD0-A1F0-4CED-BB50-21C5455E4EE8}" ShortID="970886164">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_04" ID="{BE462782-F948-4A16-870D-D76A5F9919BF}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="334253804"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_04" ID="{BE462782-F948-4A16-870D-D76A5F9919BF}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_05" ID="{710DF983-AC9F-43D1-BCBF-A5BBB0265847}" ShortID="549945478">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_05" ID="{4ED1C118-0C9E-4DB6-BF42-35AA653A4B74}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_05.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="94729088"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_05" ID="{4ED1C118-0C9E-4DB6-BF42-35AA653A4B74}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_06" ID="{6A268A55-B0CF-46AF-9779-0818C25AD273}" ShortID="127875939">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_06" ID="{BA776C8F-FD4B-4121-B82F-7620B744856F}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_06.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="305710514"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_06" ID="{BA776C8F-FD4B-4121-B82F-7620B744856F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{3115FC2B-F304-4C5E-A411-7161E98FAED1}" ShortID="481622892">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{78C1CAC6-5A42-4239-905C-214BDCDFE5D1}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{9A064545-1DCA-4FB7-876A-C9981C118C91}" ShortID="237276252" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.4"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{9A064545-1DCA-4FB7-876A-C9981C118C91}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="STONE_IMPACTS_LIGHT" ID="{49C981B8-5D9D-4B96-B974-834287A62799}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{3115FC2B-F304-4C5E-A411-7161E98FAED1}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="WALK_STONE_IMPACTS_CONTAINER" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="WALK_DIRT_IMPACTS_CONTAINER" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="WALK_GRASS_IMPACTS_CONTAINER" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
+										<ItemList>
+											<ItemRef Name="WALK_STONE_IMPACTS_CONTAINER" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
+										<ItemList>
+											<ItemRef Name="WALK_GRASS_IMPACTS_CONTAINER" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
+										<ItemList>
+											<ItemRef Name="WALK_DIRT_IMPACTS_CONTAINER" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<SwitchContainer Name="PLAYER_RUN_GROUNDMATSWITCH" ID="{5D54F237-7313-4EA4-9B1F-6BC77AF8C84C}" ShortID="634580423">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="GROUNDMATSWITCH" ID="{D27FD05C-8199-471B-BB6C-C34996E40AAB}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="RUN_DIRT_IMPACTS_CONTAINER" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}" ShortID="66036947">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>200</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{D35723E5-DD96-43D4-AE32-DE6278258C6C}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="50"/>
+															<Property Name="Min" Type="Real64" Value="-100"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-8</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="DIRT_IMPACTS_HARD" ID="{93E3BE8F-C91A-45CA-8419-D2CF50EC59DA}" ShortID="404742500">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="DIRT_IMPACT_HARD_01" ID="{88D3D557-AFFF-4D66-B91F-E1B803DE957C}" ShortID="399744289">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_HARD_01" ID="{04265BDA-91A5-4F7A-AF15-DE0A7EA123B9}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1065273454"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_HARD_01" ID="{04265BDA-91A5-4F7A-AF15-DE0A7EA123B9}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_HARD_02" ID="{45E44BFF-5FEB-4800-95B3-2468625CC35B}" ShortID="201011436">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-80</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_HARD_02" ID="{9F29E48B-FBAE-4AB3-811A-2C425DB95952}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="759733519"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_HARD_02" ID="{9F29E48B-FBAE-4AB3-811A-2C425DB95952}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_HARD_03" ID="{5D8E6C33-430E-4AF9-BFB1-8FDF8F8B14C6}" ShortID="353476415">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_HARD_03" ID="{E631C756-C5C3-4DD8-923F-868FA3C45F97}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="533439399"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_HARD_03" ID="{E631C756-C5C3-4DD8-923F-868FA3C45F97}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_HARD_04" ID="{6E19D418-3FD3-4501-B18C-834772E37381}" ShortID="167091891">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>180</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_HARD_04" ID="{C82832BB-C3AF-4925-B4D5-CFDEC7FB7CB0}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="620419526"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_HARD_04" ID="{C82832BB-C3AF-4925-B4D5-CFDEC7FB7CB0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_HARD_05" ID="{DF5EB198-BD73-487D-B052-DDAF42CC0062}" ShortID="868023541">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>250</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_HARD_05" ID="{858EF15D-94F6-455E-96B0-457456B7E05F}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_05.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="64852985"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_HARD_05" ID="{858EF15D-94F6-455E-96B0-457456B7E05F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_HARD_06" ID="{60A8F2FF-ACE8-4B71-9FA0-A4AAC0FD054B}" ShortID="991867951">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-180</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_HARD_06" ID="{5E10CB3E-1E7A-49FD-A0B5-74FD0F6B8FD4}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_06.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="351805145"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_HARD_06" ID="{5E10CB3E-1E7A-49FD-A0B5-74FD0F6B8FD4}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{9C8BC5E1-1B85-4732-B718-93E945FA5CD1}" ShortID="832167260">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{DA140D24-546A-452B-8888-71977E6E832E}" ShortID="263127081" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.04"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{DA140D24-546A-452B-8888-71977E6E832E}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="DIRT_IMPACTS_HARD" ID="{93E3BE8F-C91A-45CA-8419-D2CF50EC59DA}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{9C8BC5E1-1B85-4732-B718-93E945FA5CD1}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="RUN_GRASS_IMPACTS_CONTAINER" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}" ShortID="696657395">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{47EB9430-2649-41EF-B504-3F1BA37EB2A7}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="50"/>
+															<Property Name="Min" Type="Real64" Value="-100"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="GRASS_IMPACTS_HARD" ID="{8BED261B-C9F1-4D7F-B6E8-7BAD7E0F9FA2}" ShortID="482255043">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="GRASS_IMPACT_HARD_01" ID="{11A86212-D6CA-4C7F-91E6-50406270A74E}" ShortID="417828895">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_HARD_01" ID="{A0A08F21-6E95-451A-9EA9-0D9F20D4A987}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="514105468"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_HARD_01" ID="{A0A08F21-6E95-451A-9EA9-0D9F20D4A987}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_HARD_02" ID="{CB271924-CE33-44C7-8217-39D7FCD5984A}" ShortID="362846247">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_HARD_02" ID="{22DF2A23-1456-44AE-9391-215196C973A0}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="461081991"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_HARD_02" ID="{22DF2A23-1456-44AE-9391-215196C973A0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_HARD_03" ID="{254B632B-FC4C-4142-8C7A-7E49CC5CCFC2}" ShortID="500250029">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_HARD_03" ID="{A6EE480F-8C8E-48AA-BD42-D81D74B8C278}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="647585239"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_HARD_03" ID="{A6EE480F-8C8E-48AA-BD42-D81D74B8C278}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_HARD_04" ID="{3FFB134B-7F30-408A-96B1-31B08F1F9894}" ShortID="185643075">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_HARD_04" ID="{700B167D-0743-4B8A-AF22-40391DF66AB0}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="27357454"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_HARD_04" ID="{700B167D-0743-4B8A-AF22-40391DF66AB0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{4628FF4F-1663-40D3-8BCB-3A91A2C4FB34}" ShortID="649099736">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{4482582B-7A47-4D0D-92FF-AD4D19030054}" ShortID="906514980" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.147"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{4482582B-7A47-4D0D-92FF-AD4D19030054}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="GRASS_IMPACTS_HARD" ID="{8BED261B-C9F1-4D7F-B6E8-7BAD7E0F9FA2}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{4628FF4F-1663-40D3-8BCB-3A91A2C4FB34}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="RUN_STONE_IMPACTS_CONTAINER" ID="{1B511215-9201-448B-A21E-D8334B5995B9}" ShortID="622678842">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{57D9731E-0C6D-46A7-805A-C1C23713745A}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="50"/>
+															<Property Name="Min" Type="Real64" Value="-50"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="STONE_IMPACTS_HARD" ID="{68B687FE-4E35-40B4-BE29-5799A7218D3C}" ShortID="384125232">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="STONE_IMPACT_HARD_01" ID="{37B228DD-906A-42D1-9989-2292ADA14E1A}" ShortID="369765989">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_HARD_01" ID="{5EB41242-29A5-4026-89DC-B3E4E3B90988}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="949082360"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_HARD_01" ID="{5EB41242-29A5-4026-89DC-B3E4E3B90988}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_HARD_02" ID="{44B514E4-3083-494B-9AE0-8B1251160248}" ShortID="331996728">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_HARD_02" ID="{6FC04CF4-7324-4289-A465-6BC500267C70}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="558204622"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_HARD_02" ID="{6FC04CF4-7324-4289-A465-6BC500267C70}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_HARD_03" ID="{A2BC784C-6E14-4EF1-937A-6A4F898D930D}" ShortID="695210932">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_HARD_03" ID="{2675E89D-C824-4F98-8BA0-5B21CE161440}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1522693"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_HARD_03" ID="{2675E89D-C824-4F98-8BA0-5B21CE161440}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_HARD_04" ID="{9D217C25-01EC-4A61-A42A-0A26976BACAC}" ShortID="50629340">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_HARD_04" ID="{6DE109B6-A459-446F-81AE-C41A211DA203}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="338920558"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_HARD_04" ID="{6DE109B6-A459-446F-81AE-C41A211DA203}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_HARD_05" ID="{8EBC395B-47DB-44A5-B55D-7E8FE54CD6E0}" ShortID="824153327">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_HARD_05" ID="{0065D79E-1B86-48A5-9FD6-5FDD6195DE2A}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_05.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="398737385"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_HARD_05" ID="{0065D79E-1B86-48A5-9FD6-5FDD6195DE2A}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{A6B79384-3A3D-4226-A720-040E5B14C866}" ShortID="841739495">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{735E3245-B891-4486-B8DC-EA304AA55206}" ShortID="871620857" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.213"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{735E3245-B891-4486-B8DC-EA304AA55206}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="STONE_IMPACTS_HARD" ID="{68B687FE-4E35-40B4-BE29-5799A7218D3C}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{A6B79384-3A3D-4226-A720-040E5B14C866}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="RUN_GRASS_IMPACTS_CONTAINER" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="RUN_DIRT_IMPACTS_CONTAINER" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="RUN_STONE_IMPACTS_CONTAINER" ID="{1B511215-9201-448B-A21E-D8334B5995B9}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
+										<ItemList>
+											<ItemRef Name="RUN_STONE_IMPACTS_CONTAINER" ID="{1B511215-9201-448B-A21E-D8334B5995B9}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
+										<ItemList>
+											<ItemRef Name="RUN_GRASS_IMPACTS_CONTAINER" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
+										<ItemList>
+											<ItemRef Name="RUN_DIRT_IMPACTS_CONTAINER" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<SwitchContainer Name="PLAYER_CRAWL_GROUNDMATSWITCH" ID="{F943D4A6-85BF-4BDC-B926-C1B841CF60D0}" ShortID="370335584">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{C1CBB911-962F-4723-B72A-4C646D9A69A8}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="GROUNDMATSWITCH" ID="{D27FD05C-8199-471B-BB6C-C34996E40AAB}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="CRAWL_DIRT_IMPACTS_CONTAINER" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}" ShortID="605374247">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>45</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>800</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{5A029C89-AF22-423D-A2CD-4A391B0A66BD}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-11</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="DIRT_IMPACTS_LIGHT" ID="{46B339E9-C257-4F1E-BB7C-40C0AF32F5CA}" ShortID="423769528">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{54884E91-F116-4345-9767-0550C0A25BD6}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="DIRT_IMPACT_LIGHT_01" ID="{8656F9BF-6B0F-4BD1-901C-4F85D09C6F7D}" ShortID="1040843830">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{DE42F2B3-2743-48F9-95EC-68202EA2C722}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_01" ID="{37F6371B-3ED7-4056-B2E9-E9240286155A}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="864945534"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_01" ID="{37F6371B-3ED7-4056-B2E9-E9240286155A}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_02" ID="{28EC95D1-0E21-454F-A22F-CC5EB9A3D10F}" ShortID="1618022">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{85B03AEF-459F-4333-986E-BE93BE70B7F6}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_02" ID="{D3349E07-33BA-474C-B4B4-F5056A19E208}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="257794690"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_02" ID="{D3349E07-33BA-474C-B4B4-F5056A19E208}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_03" ID="{60AB1F84-5F9B-44EB-B636-15412BAD1509}" ShortID="195007597">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-370</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{4F5B388F-91B9-4B3C-A8DE-B2414B3B506B}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_03" ID="{B71A67A1-D939-41C4-B1AB-087BBBB6F174}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="560993515"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_03" ID="{B71A67A1-D939-41C4-B1AB-087BBBB6F174}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_04" ID="{79534BA2-12F6-4191-A15C-1D45F45B3646}" ShortID="993223424">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-50</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{CEBA599E-F10E-4C43-B618-4680AF079549}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_04" ID="{118139CC-BD8E-4CF6-BA79-7A8DF82C3472}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="399288080"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_04" ID="{118139CC-BD8E-4CF6-BA79-7A8DF82C3472}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="DIRT_IMPACT_LIGHT_05" ID="{7B99FD6D-79F2-43D8-BDCA-F4B567C994BD}" ShortID="239235287">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>-150</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{922A148F-D7C4-43B9-A436-A76D6F20B1CF}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="DIRT_IMPACT_LIGHT_05" ID="{64885F9C-10D9-4B86-811E-1D4AB432A9D0}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_05.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="555169335"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="DIRT_IMPACT_LIGHT_05" ID="{64885F9C-10D9-4B86-811E-1D4AB432A9D0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{855A912B-8651-4A9D-B381-DC430FB7C7E3}" ShortID="8984781">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{48C5A31B-DD32-4C56-B791-EA7DFDC3A7D0}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{A7B05AA6-0247-40E4-BCBA-D70D8F288AD0}" ShortID="567386646" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.235"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{A7B05AA6-0247-40E4-BCBA-D70D8F288AD0}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="DIRT_IMPACTS_LIGHT" ID="{46B339E9-C257-4F1E-BB7C-40C0AF32F5CA}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{855A912B-8651-4A9D-B381-DC430FB7C7E3}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="CRAWL_GRASS_IMPACTS_CONTAINER" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}" ShortID="815085311">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>35</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>800</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{EBA1ABE9-79DA-4484-BBBB-18CF5180ECA7}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-15</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="GRASS_IMPACTS_LIGHT" ID="{75FC0931-BCB8-4A3E-B92E-AC51AB0FD20C}" ShortID="419088497">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{DFA50BE4-3919-40FF-9BB0-854EDC7BBE68}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="GRASS_IMPACT_LIGHT_01" ID="{6EAA42AC-3157-48BF-B1CD-04CB14D1A704}" ShortID="123213139">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_01" ID="{60302B53-9A7D-4A49-B398-7790AEA33587}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="487826013"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_01" ID="{60302B53-9A7D-4A49-B398-7790AEA33587}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_02" ID="{747B9D8F-7410-4D96-929A-22B54539FF57}" ShortID="364119270">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_02" ID="{D02305FE-0862-4C61-87A1-C327FB6CF9EE}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="735615810"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_02" ID="{D02305FE-0862-4C61-87A1-C327FB6CF9EE}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_03" ID="{E91AE569-2863-431D-9095-4D2CA2B58FA3}" ShortID="614417881">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_03" ID="{602C963E-293A-4AC9-812A-A4CA2351A2F2}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="164673736"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_03" ID="{602C963E-293A-4AC9-812A-A4CA2351A2F2}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_04" ID="{108D6CC6-B4CB-450F-AA77-C4A7F8C3C6F3}" ShortID="1070465243">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_04" ID="{A3174B16-9AC6-4732-9AC0-72935ECC3B8E}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="404848840"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_04" ID="{A3174B16-9AC6-4732-9AC0-72935ECC3B8E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_06" ID="{39E68697-072C-4125-BBF9-800CFB62A940}" ShortID="122807393">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_06" ID="{0ACAF00B-1C60-4856-BBEB-5659C11C361A}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_06.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="425620963"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_06" ID="{0ACAF00B-1C60-4856-BBEB-5659C11C361A}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="GRASS_IMPACT_LIGHT_07" ID="{801316FE-E227-4596-9C2C-18CF366108AD}" ShortID="603301757">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="GRASS_IMPACT_LIGHT_07" ID="{DFECF990-3D7B-4550-B5CD-DB999EEB04A3}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_07.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="80653842"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="GRASS_IMPACT_LIGHT_07" ID="{DFECF990-3D7B-4550-B5CD-DB999EEB04A3}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{E8D2B87F-9832-4F87-B9C2-3E4BB2926355}" ShortID="190715741">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{989FFCC6-0009-4075-842F-6BF1A11633FC}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{E2E66BAB-C71D-4A8B-9F96-CA038DA29CCD}" ShortID="1053425351" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.04"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{E2E66BAB-C71D-4A8B-9F96-CA038DA29CCD}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="GRASS_IMPACTS_LIGHT" ID="{75FC0931-BCB8-4A3E-B92E-AC51AB0FD20C}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{E8D2B87F-9832-4F87-B9C2-3E4BB2926355}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="CRAWL_STONE_IMPACTS_CONTAINER" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}" ShortID="243985629">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>800</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{95729AAB-E23A-4283-A8BA-595852EC5675}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="STONE_IMPACTS_LIGHT" ID="{AADC739A-7F5F-4765-A003-5F2127BFD205}" ShortID="541301933">
+											<PropertyList>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{2310E895-69BC-4FE4-B9F5-402F15A5738E}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="STONE_IMPACT_LIGHT_01" ID="{2B90E586-16C4-415A-B34A-B4FE90AF9F2D}" ShortID="213125958">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{4EA539AB-152F-43B2-9B4B-8A210AF1D719}"/>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_01" ID="{1E5FD946-89BE-4A70-83AA-7E63B7DAC6EA}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="874260584"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_01" ID="{1E5FD946-89BE-4A70-83AA-7E63B7DAC6EA}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_02" ID="{E4AA2A21-87D0-4EEB-82E0-220A53FBEFE2}" ShortID="781280217">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_02" ID="{ECF578B9-38A0-498C-A8B5-11A18ACDDF39}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="537454674"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_02" ID="{ECF578B9-38A0-498C-A8B5-11A18ACDDF39}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_03" ID="{B54BF976-9BC7-47A6-9D5A-AAA83ABAF094}" ShortID="316197713">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ValueList>
+																<Value>830</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_03" ID="{EB7C1633-93A8-413E-BD34-08BADC17BBB1}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="898367430"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_03" ID="{EB7C1633-93A8-413E-BD34-08BADC17BBB1}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_04" ID="{5126BACF-15E2-4B58-A773-1198E14D9F9D}" ShortID="719157106">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_04" ID="{2445F094-C764-43AD-9A69-066A23294A27}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_04.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="334253804"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_04" ID="{2445F094-C764-43AD-9A69-066A23294A27}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_05" ID="{9E27B630-F926-4E40-A2DB-C7E50D1DD652}" ShortID="93288473">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_05" ID="{71B9FBE0-35E1-4C2B-BA5C-DC76BEA065D4}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_05.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="94729088"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_05" ID="{71B9FBE0-35E1-4C2B-BA5C-DC76BEA065D4}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="STONE_IMPACT_LIGHT_06" ID="{A889B517-C75F-413F-92FC-A96ACB9D4390}" ShortID="821344459">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="STONE_IMPACT_LIGHT_06" ID="{F7AE49F1-08CF-4783-BC48-CA3C87B119C8}">
+															<Language>SFX</Language>
+															<AudioFile>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_06.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="305710514"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="STONE_IMPACT_LIGHT_06" ID="{F7AE49F1-08CF-4783-BC48-CA3C87B119C8}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="INTERVAL SILENCE" ID="{1CE55D1F-B005-40E2-A519-A9A06D33A27D}" ShortID="132604074">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{51A5E7E6-0793-4E4C-BAD9-D690B30EF89D}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{8608A014-B78B-4E33-B031-4247BF481E2D}" ShortID="784623767" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.247"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{8608A014-B78B-4E33-B031-4247BF481E2D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="STONE_IMPACTS_LIGHT" ID="{AADC739A-7F5F-4765-A003-5F2127BFD205}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="INTERVAL SILENCE" ID="{1CE55D1F-B005-40E2-A519-A9A06D33A27D}" WorkUnitID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="CRAWL_GRASS_IMPACTS_CONTAINER" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="CRAWL_STONE_IMPACTS_CONTAINER" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="CRAWL_DIRT_IMPACTS_CONTAINER" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
+										<ItemList>
+											<ItemRef Name="CRAWL_STONE_IMPACTS_CONTAINER" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
+										<ItemList>
+											<ItemRef Name="CRAWL_GRASS_IMPACTS_CONTAINER" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
+										<ItemList>
+											<ItemRef Name="CRAWL_DIRT_IMPACTS_CONTAINER" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="PLAYER_RUN_GROUNDMATSWITCH" ID="{5D54F237-7313-4EA4-9B1F-6BC77AF8C84C}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="PLAYER_CRAWL_GROUNDMATSWITCH" ID="{F943D4A6-85BF-4BDC-B926-C1B841CF60D0}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="PLAYER_WALK_GROUNDMATSWITCH" ID="{D5DACFB7-5C1E-458D-89CA-C9249C65C338}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="RUN" ID="{EA7C6930-8566-467A-AAC4-356489DF7D43}"/>
+								<ItemList>
+									<ItemRef Name="PLAYER_RUN_GROUNDMATSWITCH" ID="{5D54F237-7313-4EA4-9B1F-6BC77AF8C84C}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="CRAWL" ID="{CE6F3E8C-2A66-4676-A822-900680365A4E}"/>
+								<ItemList>
+									<ItemRef Name="PLAYER_CRAWL_GROUNDMATSWITCH" ID="{F943D4A6-85BF-4BDC-B926-C1B841CF60D0}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="WALK" ID="{813D96E2-B1B8-409C-ACB3-BBFA220BF95D}"/>
+								<ItemList>
+									<ItemRef Name="PLAYER_WALK_GROUNDMATSWITCH" ID="{D5DACFB7-5C1E-458D-89CA-C9249C65C338}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

@@ -1,12 +1,19 @@
 using GoodLuckValley.World.Tiles;
 using UnityEngine;
 using AK.Wwise;
+using System.Threading;
 
 namespace GoodLuckValley.Audio.SFX
 {
     public class PlayerSFXMaster : MonoBehaviour
     {
-        [Header("Wwise")]
+        public float CRAWL = 0.8f;
+        public float WALK = 2.0f;
+        public float RUN = 3.1f;
+
+        private float maxFallCounters;
+
+        [Header("Wwise Switches")]
         [SerializeField] private Switch grassSwitch;
         [SerializeField] private Switch dirtSwitch;
         [SerializeField] private Switch stoneSwitch;
@@ -16,10 +23,17 @@ namespace GoodLuckValley.Audio.SFX
         private TileType currentTileType;
 
         [Header("Player Footsteps")]
-        [SerializeField] private AK.Wwise.Event footstepEvent;
-        [SerializeField] private float footstepInterval;
-        [SerializeField] private float footstepTimer;
+        [SerializeField] private RTPC speedRTPC;
+        [SerializeField] private AK.Wwise.Event startGroundImpactsEvent;
+        [SerializeField] private AK.Wwise.Event stopGroundImpactsEvent;
 
+        [Header("Play Land")]
+        [SerializeField] private AK.Wwise.Event landEvent;
+
+        [Header("Player Fall")]
+        [SerializeField] private RTPC fallSpeedRTPC;
+        [SerializeField] private AK.Wwise.Event startFallEvent;
+        [SerializeField] private AK.Wwise.Event stopFallEvent;
 
         [Header("Player Slide")]
         [SerializeField] private AK.Wwise.Event startSlide;
@@ -57,41 +71,76 @@ namespace GoodLuckValley.Audio.SFX
             }
         }
 
-        public void Footsteps()
+        /// <summary>
+        /// Set the value for the speed RTPC to control player impact sounds
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetSpeedRTPC(float value) => speedRTPC.SetValue(gameObject, value);
+
+        /// <summary>
+        /// Set the value for the fall speed RTPC to control player land sounds
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetFallSpeedRTPC(float value)
         {
-            // Increment the foot step timer
-            footstepTimer += Time.deltaTime;
-
-            // Check if the footstep timer has reached the footstep interval
-            if (footstepTimer >= footstepInterval)
+            if(value <= 5)
             {
-                footstepEvent.Post(gameObject);
+                float newValue = value;
+                if (newValue == 5)
+                    maxFallCounters++;
 
-                // Reset the footstep timer
-                ResetFootsteps();
+                if(maxFallCounters > 3)
+                {
+                    fallSpeedRTPC.SetValue(gameObject, 5f);
+                } else
+                {
+                    fallSpeedRTPC.SetValue(gameObject, 3f);
+                }
+            } else
+            {
+                fallSpeedRTPC.SetValue(gameObject, 10f);
             }
         }
-        public void ResetFootsteps() => footstepTimer = 0;
+
+        /// <summary>
+        /// Start playing the sound effects for ground impacts
+        /// </summary>
+        public void StartGroundImpacts() => startGroundImpactsEvent.Post(gameObject);
+
+        /// <summary>
+        /// Stop playing the sound effect for ground impacts
+        /// </summary>
+        public void StopGroundImpacts() => stopGroundImpactsEvent.Post(gameObject);
 
         /// <summary>
         /// Play the sound effect for landing
         /// </summary>
-        public void Land()
-        {
-        }
+        public void Land() => landEvent.Post(gameObject);
+
+        public void ResetLandCounter() => maxFallCounters = 0;
 
         /// <summary>
         /// Play the sound effecting for falling
         /// </summary>
-        public void Fall()
-        {
-        }
+        public void StartFall() => startFallEvent.Post(gameObject);
 
         /// <summary>
         /// Stop the falling sound effect
         /// </summary>
-        public void StopFall()
+        public void StopFall() => stopFallEvent.Post(gameObject);
+
+        /// <summary>
+        /// Start the slide sound effect
+        /// </summary>
+        public void StartSlide() => startSlide.Post(gameObject);
+
+        /// <summary>
+        /// Stop the slide sound effect
+        /// </summary>
+        public void StopSlide()
         {
+            stopSlide.Post(gameObject);
+            slideImpact.Post(gameObject);
         }
 
         /// <summary>
@@ -106,20 +155,6 @@ namespace GoodLuckValley.Audio.SFX
         /// </summary>
         public void WallJump()
         {
-        }
-
-        /// <summary>
-        /// Start the slide sound effect
-        /// </summary>
-        public void StartSlide() => startSlide.Post(gameObject);
-
-        /// <summary>
-        /// Stop the slide sound effect
-        /// </summary>
-        public void StopSlide()
-        {
-            stopSlide.Post(gameObject);
-            slideImpact.Post(gameObject);
         }
     }
 }

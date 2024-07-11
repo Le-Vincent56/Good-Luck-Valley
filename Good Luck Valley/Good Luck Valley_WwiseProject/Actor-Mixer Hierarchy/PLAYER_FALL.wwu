@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{E172693F-7C36-48A6-8AE6-F934425107C2}" SchemaVersion="119" RootDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" ParentDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}">
+	<AudioObjects>
+		<WorkUnit Name="PLAYER_FALL" ID="{E172693F-7C36-48A6-8AE6-F934425107C2}" OwnerID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" PersistMode="Nested">
+			<ChildrenList>
+				<SwitchContainer Name="PLAYER_FALL_FALLSPEEDSWITCH" ID="{31E709CF-C73B-4120-89FC-BED66176FD6C}" ShortID="12187337">
+					<PropertyList>
+						<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="SLOWFALL" ID="{55086A10-7959-452F-9767-C28CC1EBF297}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="PLAYERFALLSPEEDSWITCH" ID="{E62C8679-B3AA-461E-A46E-FE5DAD0894E5}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="PLAYER_FALL_FASTFALL" ID="{4C87AC70-7BE1-4C6A-8DF9-A0176BBB0CB4}" ShortID="49038683">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="PLAYER_FALL_FASTFALL" ID="{0F6DF526-A3A5-4706-8F73-647D566AC234}">
+									<Language>SFX</Language>
+									<AudioFile>Player\Fall\PLAYER_FALL_FASTFALL.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="91207150"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="PLAYER_FALL_FASTFALL" ID="{0F6DF526-A3A5-4706-8F73-647D566AC234}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="PLAYER_FALL_SLOWMEDIUMFALL" ID="{3A22CC4B-226A-41BC-AFFF-662546D35A92}" ShortID="261605630">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-9</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="PLAYER_FALL_SLOWMEDIUMFALL" ID="{2E380290-8F46-4E6C-8CFC-CC2A40AE1691}">
+									<Language>SFX</Language>
+									<AudioFile>Player\Fall\PLAYER_FALL_SLOWMEDIUMFALL.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="666131792"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="PLAYER_FALL_SLOWMEDIUMFALL" ID="{2E380290-8F46-4E6C-8CFC-CC2A40AE1691}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="PLAYER_FALL_SLOWMEDIUMFALL" ID="{3A22CC4B-226A-41BC-AFFF-662546D35A92}"/>
+								<PropertyList>
+									<Property Name="FadeInTime" Type="Real64">
+										<ValueList>
+											<Value>0.5</Value>
+										</ValueList>
+									</Property>
+									<Property Name="FadeOutTime" Type="Real64">
+										<ValueList>
+											<Value>0.5</Value>
+										</ValueList>
+									</Property>
+								</PropertyList>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="PLAYER_FALL_FASTFALL" ID="{4C87AC70-7BE1-4C6A-8DF9-A0176BBB0CB4}"/>
+								<PropertyList>
+									<Property Name="FadeInTime" Type="Real64">
+										<ValueList>
+											<Value>0.5</Value>
+										</ValueList>
+									</Property>
+									<Property Name="FadeOutTime" Type="Real64">
+										<ValueList>
+											<Value>0.5</Value>
+										</ValueList>
+									</Property>
+								</PropertyList>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="SLOWFALL" ID="{55086A10-7959-452F-9767-C28CC1EBF297}"/>
+								<ItemList>
+									<ItemRef Name="PLAYER_FALL_SLOWMEDIUMFALL" ID="{3A22CC4B-226A-41BC-AFFF-662546D35A92}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="MEDIUMFALL" ID="{588AD144-1C14-4E33-BCAF-546EEF5BB32B}"/>
+								<ItemList>
+									<ItemRef Name="PLAYER_FALL_SLOWMEDIUMFALL" ID="{3A22CC4B-226A-41BC-AFFF-662546D35A92}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="FASTFALL" ID="{461FD7FB-F57C-4188-BFAA-75FEDBBE6881}"/>
+								<ItemList>
+									<ItemRef Name="PLAYER_FALL_FASTFALL" ID="{4C87AC70-7BE1-4C6A-8DF9-A0176BBB0CB4}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

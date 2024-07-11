@@ -449,6 +449,8 @@ namespace GoodLuckValley.Player.Control
                 }
             }
 
+            sfxHandler.SetFallSpeedRTPC(Mathf.Abs(velocity.y));
+
             // Show more underneath the player if they are falling
             if(velocity.y <= fallSpeedDampingChangeThreshold &&
                 !CameraManager.Instance.IsLerpingFallOffset && !CameraManager.Instance.LerpedFromPlayerFalling
