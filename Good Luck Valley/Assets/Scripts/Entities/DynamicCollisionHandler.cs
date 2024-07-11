@@ -118,7 +118,7 @@ namespace GoodLuckValley.Entity
         public void CheckCanStand(Vector2 velocity, float standCheckDist)
         {
             // Set direction and ray length
-            float rayLength = Mathf.Abs(velocity.y) + standCheckDist + skinWidth;
+            float rayLength = Mathf.Abs(velocity.y) + (standCheckDist + 0.15f) + skinWidth;
 
             for (int i = 0; i < verticalRayCount; i++)
             {
@@ -127,7 +127,7 @@ namespace GoodLuckValley.Entity
                 RaycastHit2D hitCollider = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, collisionMask);
 
                 if(debug)
-                    Debug.DrawRay(rayOrigin, Vector2.up * rayLength, Color.red);
+                    Debug.DrawRay(rayOrigin, Vector2.up * rayLength, Color.blue);
 
                 if (hitCollider)
                 {

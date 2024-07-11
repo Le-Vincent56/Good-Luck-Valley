@@ -15,13 +15,17 @@ namespace AK
     {
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
-        static const AkUniqueID PLAY_PLAYER_FOOTSTEPS = 98439365U;
+        static const AkUniqueID PLAY_PLAYER_FALL = 1306343379U;
+        static const AkUniqueID PLAY_PLAYER_IMPACTS = 2773402369U;
+        static const AkUniqueID PLAY_PLAYER_LAND = 4249207015U;
         static const AkUniqueID PLAY_PLAYER_SLIDE = 2425231895U;
         static const AkUniqueID PLAY_PLAYER_SLIDE_END = 3208332793U;
         static const AkUniqueID PLAY_TESTBEEP = 1955951874U;
         static const AkUniqueID PLAY_TESTBEEP_3D = 1681067324U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
+        static const AkUniqueID STOP_PLAYER_FALL = 3680109729U;
+        static const AkUniqueID STOP_PLAYER_IMPACTS = 2961941791U;
         static const AkUniqueID STOP_PLAYER_SLIDE = 3309779001U;
         static const AkUniqueID STOP_TESTBEEP_LOOP = 2989390457U;
         static const AkUniqueID STOP_TESTBEEP_LOOP_3D = 304008745U;
@@ -114,6 +118,18 @@ namespace AK
             } // namespace SWITCH
         } // namespace MUSHROOMCHAINSWITCH
 
+        namespace PLAYERFALLSPEEDSWITCH
+        {
+            static const AkUniqueID GROUP = 2054088970U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID FASTFALL = 3857355556U;
+                static const AkUniqueID MEDIUMFALL = 3946497219U;
+                static const AkUniqueID SLOWFALL = 3936714913U;
+            } // namespace SWITCH
+        } // namespace PLAYERFALLSPEEDSWITCH
+
         namespace PLAYERSPEEDSWITCH
         {
             static const AkUniqueID GROUP = 2051106367U;
@@ -133,6 +149,7 @@ namespace AK
         static const AkUniqueID RTPC_DISTANCE = 262290038U;
         static const AkUniqueID RTPC_FIREFLYCOUNT = 4221177039U;
         static const AkUniqueID RTPC_MUSHROOMCHAIN = 1867215876U;
+        static const AkUniqueID RTPC_PLAYERFALLSPEED = 2290256636U;
         static const AkUniqueID RTPC_PLAYERSPEED = 2653406601U;
     } // namespace GAME_PARAMETERS
 

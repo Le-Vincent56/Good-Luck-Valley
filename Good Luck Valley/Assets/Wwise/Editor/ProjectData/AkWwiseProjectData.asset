@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 007e98e674735941bfc49f11c186cf34
     GuidInternal: 
-    m_lastTime: -8584813964872784052
+    m_lastTime: -8584814030738693009
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584809672695090658
+    m_lastTime: -8584809822579500596
     List:
     - name: AMBIENCE_2D
       guid: b45c581bfdea7f41a764d005cf137d6f
@@ -328,7 +328,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: cc31a129b26dbb4dbba2c92c4af23575
     GuidInternal: 
-    m_lastTime: -8584809672689606062
+    m_lastTime: -8584809728251437596
     List:
     - name: GAME_SOUNDBANK
       guid: 8c86ef3bfc27e3489e4ee297b6818463
@@ -356,7 +356,7 @@ MonoBehaviour:
     ParentPath: Events\AMBIENCE
     guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
     GuidInternal: 
-    m_lastTime: -8584809672701862518
+    m_lastTime: -8584809822781899595
     List:
     - name: PLAY_AMBIENCE2D_MAIN
       guid: af34d8c9ef38c84d934e63ba6df5ad2b
@@ -403,7 +403,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 05f602310328354a9fafb68074469f39
     GuidInternal: 
-    m_lastTime: -8584810524434298498
+    m_lastTime: -8584810764136560978
     List: []
   - PhysicalPath: Events\NPC.wwu
     PathAndIcons:
@@ -416,7 +416,7 @@ MonoBehaviour:
     ParentPath: Events\NPC
     guid: a965c74bb0d43f48bad3e29a7d314974
     GuidInternal: 
-    m_lastTime: -8584810524434288506
+    m_lastTime: -8584810749496903116
     List: []
   - PhysicalPath: Events\PLAYER.wwu
     PathAndIcons:
@@ -429,8 +429,100 @@ MonoBehaviour:
     ParentPath: Events\PLAYER
     guid: 8a0c6695ceca7445a1dd81f55040a8f6
     GuidInternal: 
-    m_lastTime: -8584810524434288506
+    m_lastTime: -8584808778123453939
     List: []
+  - PhysicalPath: Events\PLAYER_FALL.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: PLAYER
+      ObjectType: 12
+      guid: 8a0c6695ceca7445a1dd81f55040a8f6
+    - ElementName: PLAYER_FALL
+      ObjectType: 12
+      guid: d266754dc0a13f46a91e1d2d193286c8
+    ParentPath: Events\PLAYER\PLAYER_FALL
+    guid: d266754dc0a13f46a91e1d2d193286c8
+    GuidInternal: 
+    m_lastTime: -8584808777895611501
+    List:
+    - name: PLAY_PLAYER_FALL
+      guid: b1507d308aa51b4c9dd6f80160656ab3
+      id: 1306343379
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: PLAYER
+        ObjectType: 12
+        guid: 8a0c6695ceca7445a1dd81f55040a8f6
+      - ElementName: PLAYER_FALL
+        ObjectType: 12
+        guid: d266754dc0a13f46a91e1d2d193286c8
+      - ElementName: PLAY_PLAYER_FALL
+        ObjectType: 3
+        guid: b1507d308aa51b4c9dd6f80160656ab3
+      Path: Events\PLAYER\PLAYER_FALL\PLAY_PLAYER_FALL
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: STOP_PLAYER_FALL
+      guid: 86dfa118c367f04a8fee28b1f8780307
+      id: 3680109729
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: PLAYER
+        ObjectType: 12
+        guid: 8a0c6695ceca7445a1dd81f55040a8f6
+      - ElementName: PLAYER_FALL
+        ObjectType: 12
+        guid: d266754dc0a13f46a91e1d2d193286c8
+      - ElementName: STOP_PLAYER_FALL
+        ObjectType: 3
+        guid: 86dfa118c367f04a8fee28b1f8780307
+      Path: Events\PLAYER\PLAYER_FALL\STOP_PLAYER_FALL
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+  - PhysicalPath: Events\PLAYER_LAND.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: PLAYER
+      ObjectType: 12
+      guid: 8a0c6695ceca7445a1dd81f55040a8f6
+    - ElementName: PLAYER_LAND
+      ObjectType: 12
+      guid: 3b84c33f4136254f80c7c1c31c947198
+    ParentPath: Events\PLAYER\PLAYER_LAND
+    guid: 3b84c33f4136254f80c7c1c31c947198
+    GuidInternal: 
+    m_lastTime: -8584808930466878036
+    List:
+    - name: PLAY_PLAYER_LAND
+      guid: e766654af4f68746b68ad5beba5721a3
+      id: 4249207015
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: PLAYER
+        ObjectType: 12
+        guid: 8a0c6695ceca7445a1dd81f55040a8f6
+      - ElementName: PLAYER_LAND
+        ObjectType: 12
+        guid: 3b84c33f4136254f80c7c1c31c947198
+      - ElementName: PLAY_PLAYER_LAND
+        ObjectType: 3
+        guid: e766654af4f68746b68ad5beba5721a3
+      Path: Events\PLAYER\PLAYER_LAND\PLAY_PLAYER_LAND
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\PLAYER_LOCOMOTION.wwu
     PathAndIcons:
     - ElementName: Events
@@ -445,9 +537,9 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION
     guid: 20e364ed47f038448910e839510ead58
     GuidInternal: 
-    m_lastTime: -8584809618343918659
+    m_lastTime: -8584809027944905203
     List: []
-  - PhysicalPath: Events\PLAYER_LOCOMOTION_FOOTSTEPS.wwu
+  - PhysicalPath: Events\PLAYER_LOCOMOTION_IMPACTS.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -458,17 +550,17 @@ MonoBehaviour:
     - ElementName: PLAYER_LOCOMOTION
       ObjectType: 12
       guid: 20e364ed47f038448910e839510ead58
-    - ElementName: PLAYER_LOCOMOTION_FOOTSTEPS
+    - ElementName: PLAYER_LOCOMOTION_IMPACTS
       ObjectType: 12
       guid: 47ff901b1623154e844a0d6e6129166f
-    ParentPath: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_FOOTSTEPS
+    ParentPath: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_IMPACTS
     guid: 47ff901b1623154e844a0d6e6129166f
     GuidInternal: 
-    m_lastTime: -8584809618343918659
+    m_lastTime: -8584808963762057930
     List:
-    - name: PLAY_PLAYER_FOOTSTEPS
+    - name: PLAY_PLAYER_IMPACTS
       guid: 043fe9bc4728c94aa2a076d28824c163
-      id: 98439365
+      id: 2773402369
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -479,13 +571,36 @@ MonoBehaviour:
       - ElementName: PLAYER_LOCOMOTION
         ObjectType: 12
         guid: 20e364ed47f038448910e839510ead58
-      - ElementName: PLAYER_LOCOMOTION_FOOTSTEPS
+      - ElementName: PLAYER_LOCOMOTION_IMPACTS
         ObjectType: 12
         guid: 47ff901b1623154e844a0d6e6129166f
-      - ElementName: PLAY_PLAYER_FOOTSTEPS
+      - ElementName: PLAY_PLAYER_IMPACTS
         ObjectType: 3
         guid: 043fe9bc4728c94aa2a076d28824c163
-      Path: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_FOOTSTEPS\PLAY_PLAYER_FOOTSTEPS
+      Path: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_IMPACTS\PLAY_PLAYER_IMPACTS
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: STOP_PLAYER_IMPACTS
+      guid: ecc32284ffd49d43b451dc71dd92d880
+      id: 2961941791
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: PLAYER
+        ObjectType: 12
+        guid: 8a0c6695ceca7445a1dd81f55040a8f6
+      - ElementName: PLAYER_LOCOMOTION
+        ObjectType: 12
+        guid: 20e364ed47f038448910e839510ead58
+      - ElementName: PLAYER_LOCOMOTION_IMPACTS
+        ObjectType: 12
+        guid: 47ff901b1623154e844a0d6e6129166f
+      - ElementName: STOP_PLAYER_IMPACTS
+        ObjectType: 3
+        guid: ecc32284ffd49d43b451dc71dd92d880
+      Path: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_IMPACTS\STOP_PLAYER_IMPACTS
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -506,7 +621,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_SLIDE
     guid: d58d9328fdf0b44e99f3161fc6092a79
     GuidInternal: 
-    m_lastTime: -8584809618343909120
+    m_lastTime: -8584809635353875480
     List:
     - name: PLAY_PLAYER_SLIDE
       guid: 5d80db6e2c0ce746b435818550469bfa
@@ -588,7 +703,7 @@ MonoBehaviour:
     ParentPath: Events\TEST_EVENTS
     guid: 9ffb27ff79586b48ad078162a3a94910
     GuidInternal: 
-    m_lastTime: -8584810524434278506
+    m_lastTime: -8584810739295416245
     List:
     - name: PLAY_TESTBEEP
       guid: b24da883f988f241af2d62fe91ccd987
@@ -704,7 +819,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3b98b877b8191e4d997b0521d7f4095a
     GuidInternal: 
-    m_lastTime: -8584810459390509945
+    m_lastTime: -8584808859603415111
     List:
     - name: RTPC_DISTANCE
       guid: 291ab848b708ba459bbebca64800530d
@@ -748,6 +863,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: ee1bb6b2ec9bc349bc52cf7b035bf6a7
       Path: Game Parameters\Default Work Unit\RTPC_MUSHROOMCHAIN
+    - name: RTPC_PLAYERFALLSPEED
+      guid: ec08cee3d3416f4cb3107826e821da86
+      id: 2290256636
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 3b98b877b8191e4d997b0521d7f4095a
+      - ElementName: RTPC_PLAYERFALLSPEED
+        ObjectType: 13
+        guid: ec08cee3d3416f4cb3107826e821da86
+      Path: Game Parameters\Default Work Unit\RTPC_PLAYERFALLSPEED
     - name: RTPC_PLAYERSPEED
       guid: a34c3b0a74c53d428cc0d680ef6a0e75
       id: 2653406601
@@ -774,7 +903,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 69d3afc52636b3489a2889364a6f7f6c
     GuidInternal: 
-    m_lastTime: -8584810524434207759
+    m_lastTime: -8584810730823559139
     List:
     - name: STATES_AREA
       guid: 2a7680d205c8e246bf41abb4105e0034
@@ -1020,7 +1149,7 @@ MonoBehaviour:
     ParentPath: Switches\Ambience Switches
     guid: 890d391daa6f444a8d35d51423e241e9
     GuidInternal: 
-    m_lastTime: -8584809672689606062
+    m_lastTime: -8584809841368303751
     List:
     - name: AMBIENCEBIOMESWITCH
       guid: c19da96055f49c4295064afcdee27ef8
@@ -1083,7 +1212,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: eec5568e802376459ca10605a1f0e57b
     GuidInternal: 
-    m_lastTime: -8584810459390223950
+    m_lastTime: -8584808851480992029
     List:
     - name: GROUNDMATSWITCH
       guid: 5cd07fd299811b47bb6cc34996e40aab
@@ -1217,6 +1346,72 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
+    - name: PLAYERFALLSPEEDSWITCH
+      guid: 79862ce6aab31e46a46efe5dad0894e5
+      id: 2054088970
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: eec5568e802376459ca10605a1f0e57b
+      - ElementName: PLAYERFALLSPEEDSWITCH
+        ObjectType: 11
+        guid: 79862ce6aab31e46a46efe5dad0894e5
+      Path: Switches\Default Work Unit\PLAYERFALLSPEEDSWITCH
+      values:
+      - name: FASTFALL
+        guid: fbd71f467cf58841bfaa75fedbbe6881
+        id: 3857355556
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: eec5568e802376459ca10605a1f0e57b
+        - ElementName: PLAYERFALLSPEEDSWITCH
+          ObjectType: 11
+          guid: 79862ce6aab31e46a46efe5dad0894e5
+        - ElementName: FASTFALL
+          ObjectType: 10
+          guid: fbd71f467cf58841bfaa75fedbbe6881
+      - name: MEDIUMFALL
+        guid: 44d18a58141c334ebcaf546eef5bb32b
+        id: 3946497219
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: eec5568e802376459ca10605a1f0e57b
+        - ElementName: PLAYERFALLSPEEDSWITCH
+          ObjectType: 11
+          guid: 79862ce6aab31e46a46efe5dad0894e5
+        - ElementName: MEDIUMFALL
+          ObjectType: 10
+          guid: 44d18a58141c334ebcaf546eef5bb32b
+      - name: SLOWFALL
+        guid: 106a085559792f459767c28cc1ebf297
+        id: 3936714913
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: eec5568e802376459ca10605a1f0e57b
+        - ElementName: PLAYERFALLSPEEDSWITCH
+          ObjectType: 11
+          guid: 79862ce6aab31e46a46efe5dad0894e5
+        - ElementName: SLOWFALL
+          ObjectType: 10
+          guid: 106a085559792f459767c28cc1ebf297
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: PLAYERSPEEDSWITCH
       guid: e6c7efed413dd542ad6cf7c27c6d6d67
       id: 2051106367
@@ -1295,11 +1490,11 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 68dcaa4aa9a20848a61ba85865fc3571
     GuidInternal: 
-    m_lastTime: -8584813964872784052
+    m_lastTime: -8584814030738763011
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
-  AutoSyncSelection: 0
+  ExpandedWaapiItemIds: 01000000050000000600000008000000090000000a0000000b0000000c0000001700000018000000190000001a0000001b0000001d0000001e0000001f0000002000000021000000220000002300000024000000250000002600000028000000290000002a0000003000000036000000
+  AutoSyncSelection: 1
   autoPopulateEnabled: 1
   currentDataSource: 0
   CurrentPluginConfig: 

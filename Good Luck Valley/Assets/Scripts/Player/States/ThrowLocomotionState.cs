@@ -28,13 +28,14 @@ namespace GoodLuckValley.Player.States
 
             // Set throwing again to false
             player.SetThrowingAgain(false);
+
+            // Update footstep sounds
+            sfx.SetSpeedRTPC(sfx.RUN);
+            sfx.StartGroundImpacts();
         }
 
         public override void Update()
         {
-            // Update footstep sounds
-            sfx.Footsteps();
-
             // Update timers
             if (animationTimer > 0)
                 animationTimer -= Time.deltaTime;
@@ -55,7 +56,7 @@ namespace GoodLuckValley.Player.States
         public override void OnExit()
         {
             // Reset footstep sounds
-            sfx.ResetFootsteps();
+            sfx.StopGroundImpacts();
 
             // Set throwing to false
             player.SetThrow(false);

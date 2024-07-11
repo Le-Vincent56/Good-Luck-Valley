@@ -21,12 +21,10 @@ namespace GoodLuckValley.Player.States
 
             // Allow the player to peek
             player.SetCanPeek(true);
-        }
 
-        public override void Update()
-        {
-            // Update footstep sounds
-            sfx.Footsteps();
+            // Start playing ground impacts sounds with the run value for the speed RTPC
+            sfx.SetSpeedRTPC(sfx.RUN);
+            sfx.StartGroundImpacts();
         }
 
         public override void FixedUpdate()
@@ -41,7 +39,7 @@ namespace GoodLuckValley.Player.States
         public override void OnExit()
         {
             // Reset footstep sounds
-            sfx.ResetFootsteps();
+            sfx.StopGroundImpacts();
         }
     }
 }
