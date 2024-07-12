@@ -2,6 +2,10 @@
 <WwiseDocument Type="WorkUnit" ID="{1A99CA78-603F-4713-AAA9-42DEC2FC6405}" SchemaVersion="119" RootDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" ParentDocumentID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}">
 	<AudioObjects>
 		<WorkUnit Name="PLAYER_LOCOMOTION_SLIDE" ID="{1A99CA78-603F-4713-AAA9-42DEC2FC6405}" OwnerID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
 				<SwitchContainer Name="PLAYER_SLIDE_GROUNDMATSWITCH" ID="{76E508B8-E3FB-4E12-9015-B7BDE681FFB1}" ShortID="741649194">
 					<PropertyList>
@@ -17,14 +21,14 @@
 							<ObjectRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+							<ObjectRef Name="PLAYER_LOCOMOTION_SLIDE" ID="{F3B9F419-2115-494B-AC1A-D49E30D628DD}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 						</Reference>
 						<Reference Name="SwitchGroupOrStateGroup">
 							<ObjectRef Name="GROUNDMATSWITCH" ID="{D27FD05C-8199-471B-BB6C-C34996E40AAB}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="DIRT_SLIDE" ID="{091B6954-F5D6-4DB3-95DA-F61596DD2F0C}" ShortID="103703530">
+						<Sound Name="PLAYER_SLIDE_DIRT" ID="{091B6954-F5D6-4DB3-95DA-F61596DD2F0C}" ShortID="103703530">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -55,7 +59,7 @@
 								<ActiveSource Name="DIRT_SLIDE" ID="{C8B448A9-B897-4D55-9689-5BA9B778F3DE}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="GRASS_SLIDE" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}" ShortID="168732369">
+						<Sound Name="PLAYER_SLIDE_GRASS" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}" ShortID="168732369">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
@@ -87,7 +91,7 @@
 								<ActiveSource Name="GRASS_SLIDE" ID="{BA965F16-DCF7-4F03-94BD-B23E0617F083}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="STONE_SLIDE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}" ShortID="973321172">
+						<Sound Name="PLAYER_SLIDE_STONE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}" ShortID="973321172">
 							<PropertyList>
 								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -122,32 +126,32 @@
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>
-								<ItemRef Name="DIRT_SLIDE" ID="{091B6954-F5D6-4DB3-95DA-F61596DD2F0C}"/>
+								<ItemRef Name="PLAYER_SLIDE_DIRT" ID="{091B6954-F5D6-4DB3-95DA-F61596DD2F0C}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
-								<ItemRef Name="GRASS_SLIDE" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}"/>
+								<ItemRef Name="PLAYER_SLIDE_GRASS" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
-								<ItemRef Name="STONE_SLIDE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}"/>
+								<ItemRef Name="PLAYER_SLIDE_STONE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}"/>
 							</GroupingBehavior>
 						</GroupingBehaviorList>
 						<GroupingList>
 							<Grouping>
 								<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
 								<ItemList>
-									<ItemRef Name="STONE_SLIDE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}"/>
+									<ItemRef Name="PLAYER_SLIDE_STONE" ID="{AF59329E-3755-4579-A729-A9C797475B3B}"/>
 								</ItemList>
 							</Grouping>
 							<Grouping>
 								<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
 								<ItemList>
-									<ItemRef Name="GRASS_SLIDE" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}"/>
+									<ItemRef Name="PLAYER_SLIDE_GRASS" ID="{5DC3719B-C13B-4C42-BF28-BAD60228D620}"/>
 								</ItemList>
 							</Grouping>
 							<Grouping>
 								<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
 								<ItemList>
-									<ItemRef Name="DIRT_SLIDE" ID="{091B6954-F5D6-4DB3-95DA-F61596DD2F0C}"/>
+									<ItemRef Name="PLAYER_SLIDE_DIRT" ID="{091B6954-F5D6-4DB3-95DA-F61596DD2F0C}"/>
 								</ItemList>
 							</Grouping>
 						</GroupingList>
@@ -166,7 +170,7 @@
 							<ObjectRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+							<ObjectRef Name="PLAYER_LOCOMOTION_SLIDE" ID="{F3B9F419-2115-494B-AC1A-D49E30D628DD}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 						</Reference>
 						<Reference Name="SwitchGroupOrStateGroup">
 							<ObjectRef Name="GROUNDMATSWITCH" ID="{D27FD05C-8199-471B-BB6C-C34996E40AAB}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>

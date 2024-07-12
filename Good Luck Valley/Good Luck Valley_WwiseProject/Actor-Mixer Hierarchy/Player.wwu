@@ -2,10 +2,15 @@
 <WwiseDocument Type="WorkUnit" ID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" SchemaVersion="119">
 	<AudioObjects>
 		<WorkUnit Name="PLAYER" ID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" PersistMode="Standalone">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
 				<WorkUnit Name="PLAYER_LOCOMOTION" ID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}" PersistMode="Reference"/>
 				<WorkUnit Name="PLAYER_LAND" ID="{AF91DD23-6097-4C61-B08B-62AE82977729}" PersistMode="Reference"/>
 				<WorkUnit Name="PLAYER_FALL" ID="{E172693F-7C36-48A6-8AE6-F934425107C2}" PersistMode="Reference"/>
+				<WorkUnit Name="PLAYER_JUMP" ID="{E27EDFAB-A931-44D8-B67D-E96B65DC29D7}" PersistMode="Reference"/>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

@@ -15,8 +15,11 @@ namespace AK
     {
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
+        static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
+        static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;
         static const AkUniqueID PLAY_PLAYER_FALL = 1306343379U;
         static const AkUniqueID PLAY_PLAYER_IMPACTS = 2773402369U;
+        static const AkUniqueID PLAY_PLAYER_JUMP = 562256996U;
         static const AkUniqueID PLAY_PLAYER_LAND = 4249207015U;
         static const AkUniqueID PLAY_PLAYER_SLIDE = 2425231895U;
         static const AkUniqueID PLAY_PLAYER_SLIDE_END = 3208332793U;
@@ -94,6 +97,23 @@ namespace AK
             } // namespace SWITCH
         } // namespace AMBIENCEBIOMESWITCH
 
+        namespace DISTANCESWITCH
+        {
+            static const AkUniqueID GROUP = 3582311692U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID FIFTEEN = 787714852U;
+                static const AkUniqueID FIFTY = 614582933U;
+                static const AkUniqueID FIVE = 2611770117U;
+                static const AkUniqueID ONE = 1064933119U;
+                static const AkUniqueID ONEHUNDRED = 1461002489U;
+                static const AkUniqueID TEN = 913095698U;
+                static const AkUniqueID TWENTYFIVE = 3772991054U;
+                static const AkUniqueID TWOFIVE = 2688829901U;
+            } // namespace SWITCH
+        } // namespace DISTANCESWITCH
+
         namespace GROUNDMATSWITCH
         {
             static const AkUniqueID GROUP = 3260060478U;
@@ -112,11 +132,24 @@ namespace AK
 
             namespace SWITCH
             {
+                static const AkUniqueID MAX = 1048449613U;
                 static const AkUniqueID ONE = 1064933119U;
                 static const AkUniqueID THREE = 912956111U;
                 static const AkUniqueID TWO = 678209053U;
             } // namespace SWITCH
         } // namespace MUSHROOMCHAINSWITCH
+
+        namespace MUSHROOMGROUNDMATSWITCH
+        {
+            static const AkUniqueID GROUP = 1426187460U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID DIRT = 2195636714U;
+                static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID STONE = 1216965916U;
+            } // namespace SWITCH
+        } // namespace MUSHROOMGROUNDMATSWITCH
 
         namespace PLAYERFALLSPEEDSWITCH
         {
@@ -170,7 +203,14 @@ namespace AK
         static const AkUniqueID MASTER_MUSIC = 1900298039U;
         static const AkUniqueID MASTER_NPC = 3591553651U;
         static const AkUniqueID MASTER_PLAYER = 2453119373U;
+        static const AkUniqueID MUSHROOM_BOUNCE = 4126136622U;
+        static const AkUniqueID MUSHROOM_GROW = 4011678951U;
+        static const AkUniqueID PLAYER_FALL = 2551268862U;
+        static const AkUniqueID PLAYER_JUMP = 1305133589U;
+        static const AkUniqueID PLAYER_LAND = 3629196698U;
         static const AkUniqueID PLAYER_LOCOMOTION = 1375983526U;
+        static const AkUniqueID PLAYER_LOCOMOTION_IMPACTS = 2940948846U;
+        static const AkUniqueID PLAYER_LOCOMOTION_SLIDE = 3614903352U;
     } // namespace BUSSES
 
     namespace AUX_BUSSES

@@ -73,6 +73,7 @@
 						<Switch Name="ONE" ID="{2CA1F23C-3631-4D84-A24C-BA92B4576B5F}"/>
 						<Switch Name="THREE" ID="{8F0B8B2F-D587-41F0-91AC-E73348720962}"/>
 						<Switch Name="TWO" ID="{67EE0532-BBA4-4045-BC84-F21BF1D91111}"/>
+						<Switch Name="MAX" ID="{8D269243-921F-490F-8C1C-481EB7D6F4C1}"/>
 					</ChildrenList>
 					<SwitchOnRTPC>
 						<GameParameterRef Name="RTPC_MUSHROOMCHAIN" ID="{B2B61BEE-9BEC-49C3-BC52-CF7B035BF6A7}"/>
@@ -93,12 +94,7 @@
 								</Point>
 								<Point>
 									<XPos>2</XPos>
-									<YPos>2</YPos>
-									<Flags>0</Flags>
-								</Point>
-								<Point>
-									<XPos>2.998</XPos>
-									<YPos>2</YPos>
+									<YPos>3</YPos>
 									<Flags>0</Flags>
 								</Point>
 								<Point>
@@ -108,6 +104,21 @@
 								</Point>
 								<Point>
 									<XPos>3</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>3.999</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>4</XPos>
+									<YPos>4</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>5</XPos>
 									<YPos>0</YPos>
 									<Flags>37</Flags>
 								</Point>
@@ -159,6 +170,118 @@
 							</PointList>
 						</Curve>
 					</SwitchOnRTPC>
+				</SwitchGroup>
+				<SwitchGroup Name="DISTANCESWITCH" ID="{FECA2F62-B408-42B0-BE21-9EE090A6DFE1}">
+					<PropertyList>
+						<Property Name="UseGameParameter" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Switch Name="ONE" ID="{5B2AF6AC-4724-4DCC-A6AB-C4853950AFED}"/>
+						<Switch Name="TWOFIVE" ID="{00BBFBB5-433D-4B68-A821-7592C312A01C}"/>
+						<Switch Name="FIVE" ID="{4FD9C42A-2166-49CC-9F7C-84EE855902E7}"/>
+						<Switch Name="TEN" ID="{2DDED09E-65E6-4E87-83EA-ECC8B45F0DF8}"/>
+						<Switch Name="FIFTEEN" ID="{0390486C-1873-4640-B963-77B420D1688B}"/>
+						<Switch Name="TWENTYFIVE" ID="{EA64D311-4FB3-4832-BEAF-EE0311F5FC05}"/>
+						<Switch Name="FIFTY" ID="{58976AC2-A3C7-4D20-A278-3428FB565061}"/>
+						<Switch Name="ONEHUNDRED" ID="{84A3AA1E-7D1F-4966-8979-21D6C1FD23E7}"/>
+					</ChildrenList>
+					<SwitchOnRTPC>
+						<GameParameterRef Name="RTPC_DISTANCE" ID="{48B81A29-08B7-45BA-9BBE-BCA64800530D}"/>
+						<Curve Name="" ID="{470AF860-4105-4475-BB97-DABAB31869C8}">
+							<PropertyList>
+								<Property Name="Flags" Type="int32" Value="65537"/>
+							</PropertyList>
+							<PointList>
+								<Point>
+									<XPos>0</XPos>
+									<YPos>1</YPos>
+									<Flags>5</Flags>
+								</Point>
+								<Point>
+									<XPos>2.499</XPos>
+									<YPos>1</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2.5</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>4.999</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>5</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>9.999</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>10</XPos>
+									<YPos>4</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>14.999</XPos>
+									<YPos>4</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>15</XPos>
+									<YPos>5</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>24.999</XPos>
+									<YPos>5</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>25</XPos>
+									<YPos>6</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>49.999</XPos>
+									<YPos>6</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>50</XPos>
+									<YPos>7</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>99.999</XPos>
+									<YPos>7</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>100</XPos>
+									<YPos>8</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>101</XPos>
+									<YPos>8</YPos>
+									<Flags>37</Flags>
+								</Point>
+							</PointList>
+						</Curve>
+					</SwitchOnRTPC>
+				</SwitchGroup>
+				<SwitchGroup Name="MUSHROOMGROUNDMATSWITCH" ID="{1DE9E77F-B956-4A75-9C88-F1C2C2DEEE5D}">
+					<ChildrenList>
+						<Switch Name="DIRT" ID="{855F7780-7D3D-4788-A94B-EB5D2321204E}"/>
+						<Switch Name="GRASS" ID="{E5FD6F15-50F5-4AA2-97FC-098927275C71}"/>
+						<Switch Name="STONE" ID="{FE47F7BE-5068-4364-B687-67875982FF4D}"/>
+					</ChildrenList>
 				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>

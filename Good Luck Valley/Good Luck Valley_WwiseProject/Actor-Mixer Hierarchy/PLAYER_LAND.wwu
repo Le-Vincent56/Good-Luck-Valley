@@ -2,8 +2,16 @@
 <WwiseDocument Type="WorkUnit" ID="{AF91DD23-6097-4C61-B08B-62AE82977729}" SchemaVersion="119" RootDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" ParentDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}">
 	<AudioObjects>
 		<WorkUnit Name="PLAYER_LAND" ID="{AF91DD23-6097-4C61-B08B-62AE82977729}" OwnerID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
 				<SwitchContainer Name="PLAYER_LAND_FALLSPEEDSWITCH" ID="{5BBB9B04-591F-42E5-B5A3-0473B356F866}" ShortID="968503196">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -12,7 +20,7 @@
 							<ObjectRef Name="SLOWFALL" ID="{55086A10-7959-452F-9767-C28CC1EBF297}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+							<ObjectRef Name="PLAYER_LAND" ID="{1FB244E9-50EB-41BB-8072-142C258BA48E}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 						</Reference>
 						<Reference Name="SwitchGroupOrStateGroup">
 							<ObjectRef Name="PLAYERFALLSPEEDSWITCH" ID="{E62C8679-B3AA-461E-A46E-FE5DAD0894E5}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
@@ -151,7 +159,7 @@
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-9</Value>
+										<Value>-11</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

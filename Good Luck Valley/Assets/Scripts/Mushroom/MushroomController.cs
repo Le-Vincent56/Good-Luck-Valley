@@ -1,7 +1,9 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Mushroom.States;
 using GoodLuckValley.Patterns.StateMachine;
+using GoodLuckValley.World.Tiles;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -15,10 +17,12 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private Animator animator;
         [SerializeField] private StaticCollisionHandler collisionHandler;
         [SerializeField] private MushroomInfo data;
-        [SerializeField] private MushroomSFXHandler sfxHandler;
+        [SerializeField] private MushroomSFXMaster sfxHandler;
+        [SerializeField] private DetectTileType detectTileType;
 
         [Header("Fields")]
         [SerializeField] private ShroomType shroomType;
+        [SerializeField] private TileType spawnTile;
         [SerializeField] private Vector2 velocity;
         [SerializeField] private bool bounceEntity;
         [SerializeField] private bool growing;
@@ -31,10 +35,14 @@ namespace GoodLuckValley.Mushroom
             animator = GetComponent<Animator>();
             collisionHandler = GetComponent<StaticCollisionHandler>();
             data = GetComponent<MushroomInfo>();
-            sfxHandler = GetComponent<MushroomSFXHandler>();
+            sfxHandler = GetComponent<MushroomSFXMaster>();
 
             // Set variables
             growing = true;
+
+            // Find tile type
+            detectTileType.RaycastStart = transform.position;
+            spawnTile = detectTileType.CheckTileType();
 
             // Declare states
             stateMachine = new StateMachine();
@@ -44,7 +52,7 @@ namespace GoodLuckValley.Mushroom
                 case ShroomType.Regular:
                     GrowState growState = new GrowState(this, animator, sfxHandler);
                     IdleState idleState = new IdleState(this, animator);
-                    BounceState bounceState = new BounceState(this, animator, sfxHandler);
+                    BounceState bounceState = new BounceState(this, animator);
 
                     // Define strict transitions
                     At(growState, idleState, new FuncPredicate(() => !growing));
@@ -59,7 +67,7 @@ namespace GoodLuckValley.Mushroom
                 case ShroomType.Quick:
                     GrowState quickGrowState = new GrowState(this, animator, sfxHandler);
                     IdleState quickIdleState = new IdleState(this, animator);
-                    BounceState quickBounceState = new BounceState(this, animator, sfxHandler);
+                    BounceState quickBounceState = new BounceState(this, animator);
 
                     // Define strict transitions
                     At(quickGrowState, quickIdleState, new FuncPredicate(() => !growing));
@@ -127,6 +135,12 @@ namespace GoodLuckValley.Mushroom
                 collisionHandler.collisions.Below = true;
             }
         }
+
+        /// <summary>
+        /// Get the tile type of the spawn location
+        /// </summary>
+        /// <returns>The TileType of the spawn location</returns>
+        public TileType GetSpawnTileType() => spawnTile;
 
         /// <summary>
         /// Stop the growing of the mushroom

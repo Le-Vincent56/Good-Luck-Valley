@@ -1,7 +1,6 @@
 using GoodLuckValley.World.Tiles;
 using UnityEngine;
 using AK.Wwise;
-using System.Threading;
 
 namespace GoodLuckValley.Audio.SFX
 {
@@ -27,7 +26,10 @@ namespace GoodLuckValley.Audio.SFX
         [SerializeField] private AK.Wwise.Event startGroundImpactsEvent;
         [SerializeField] private AK.Wwise.Event stopGroundImpactsEvent;
 
-        [Header("Play Land")]
+        [Header("Player Jump")]
+        [SerializeField] private AK.Wwise.Event jumpEvent;
+
+        [Header("Player Land")]
         [SerializeField] private AK.Wwise.Event landEvent;
 
         [Header("Player Fall")]
@@ -39,6 +41,10 @@ namespace GoodLuckValley.Audio.SFX
         [SerializeField] private AK.Wwise.Event startSlide;
         [SerializeField] private AK.Wwise.Event stopSlide;
         [SerializeField] private AK.Wwise.Event slideImpact;
+
+        [Header("Mushroom Bounce")]
+        [SerializeField] private RTPC bounceChainRTPC;
+        [SerializeField] private AK.Wwise.Event bounceEvent;
 
         private void Awake()
         {
@@ -113,6 +119,11 @@ namespace GoodLuckValley.Audio.SFX
         public void StopGroundImpacts() => stopGroundImpactsEvent.Post(gameObject);
 
         /// <summary>
+        /// Play the sound effect for jumping
+        /// </summary>
+        public void Jump() => jumpEvent.Post(gameObject);
+
+        /// <summary>
         /// Play the sound effect for landing
         /// </summary>
         public void Land() => landEvent.Post(gameObject);
@@ -120,7 +131,7 @@ namespace GoodLuckValley.Audio.SFX
         public void ResetLandCounter() => maxFallCounters = 0;
 
         /// <summary>
-        /// Play the sound effecting for falling
+        /// Start the sound effect for falling
         /// </summary>
         public void StartFall() => startFallEvent.Post(gameObject);
 
@@ -141,6 +152,19 @@ namespace GoodLuckValley.Audio.SFX
         {
             stopSlide.Post(gameObject);
             slideImpact.Post(gameObject);
+        }
+
+        /// <summary>
+        /// Play the sound effect for bouncing
+        /// </summary>
+        /// <param name="bounceCount"></param>
+        public void Bounce(int bounceCount)
+        {
+            // Set the bounce chain RTPC value for sweeteners
+            bounceChainRTPC.SetValue(gameObject, bounceCount);
+
+            // Play the bounce event
+            bounceEvent.Post(gameObject);
         }
 
         /// <summary>

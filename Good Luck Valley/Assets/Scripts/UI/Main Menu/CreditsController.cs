@@ -1,8 +1,3 @@
-using GoodLuckValley.Audio.Sound;
-using GoodLuckValley.UI;
-using GoodLuckValley.UI.MainMenu;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.UI.MainMenu
@@ -11,7 +6,6 @@ namespace GoodLuckValley.UI.MainMenu
     {
         #region REFERENCES
         [SerializeField] private MenuController menuController;
-        [SerializeField] private SoundData buttonSFX;
         #endregion
 
         /// <summary>
@@ -21,17 +15,6 @@ namespace GoodLuckValley.UI.MainMenu
         {
             // Go back to the Main Menu
             menuController.SetState(1);
-
-            PlayButtonSFX();
-        }
-
-        private void PlayButtonSFX()
-        {
-            // Play the button sound effect
-            SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(buttonSFX)
-                .WithRandomPitch()
-                .Play();
         }
     }
 }
