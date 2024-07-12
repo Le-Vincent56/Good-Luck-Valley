@@ -22,7 +22,8 @@ namespace GoodLuckValley.Player.States
             // Don't allow the player to peek
             player.SetCanPeek(false);
 
-            // TODO: Play the jumping sound effect
+            // Play the jump sound effect
+            sfx.Jump();
 
             // Play jump particles
             player.PlayParticles(0);

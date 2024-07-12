@@ -2,9 +2,15 @@
 <WwiseDocument Type="WorkUnit" ID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}" SchemaVersion="119" RootDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" ParentDocumentID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}">
 	<AudioObjects>
 		<WorkUnit Name="PLAYER_LOCOMOTION_IMPACTS" ID="{AAEE9B81-F4FC-4BC1-88ED-628D71F93330}" OwnerID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
 				<SwitchContainer Name="PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH" ID="{43D9D0F3-4A70-4040-BA82-3959BF628297}" ShortID="326372486">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="Pitch" Type="int32">
 							<ModifierList>
 								<ModifierInfo>
@@ -22,7 +28,7 @@
 							<ObjectRef Name="RUN" ID="{EA7C6930-8566-467A-AAC4-356489DF7D43}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+							<ObjectRef Name="PLAYER_LOCOMOTION_IMPACTS" ID="{A4606D64-AADE-43C9-8290-4680919CAC11}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 						</Reference>
 						<Reference Name="SwitchGroupOrStateGroup">
 							<ObjectRef Name="PLAYERSPEEDSWITCH" ID="{EDEFC7E6-3D41-42D5-AD6C-F7C27C6D6D67}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
@@ -50,7 +56,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<RandomSequenceContainer Name="WALK_DIRT_IMPACTS_CONTAINER" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}" ShortID="490179986">
+								<RandomSequenceContainer Name="PLAYER_WALK_IMPACTS_DIRT" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}" ShortID="490179986">
 									<PropertyList>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -316,7 +322,7 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="WALK_GRASS_IMPACTS_CONTAINER" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}" ShortID="514422914">
+								<RandomSequenceContainer Name="PLAYER_WALK_IMPACTS_GRASS" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}" ShortID="514422914">
 									<PropertyList>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -535,7 +541,7 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="WALK_STONE_IMPACTS_CONTAINER" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}" ShortID="789688258">
+								<RandomSequenceContainer Name="PLAYER_WALK_IMPACTS_STONE" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}" ShortID="789688258">
 									<PropertyList>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -758,32 +764,32 @@
 							<GroupingInfo>
 								<GroupingBehaviorList>
 									<GroupingBehavior>
-										<ItemRef Name="WALK_STONE_IMPACTS_CONTAINER" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}"/>
+										<ItemRef Name="PLAYER_WALK_IMPACTS_STONE" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
-										<ItemRef Name="WALK_DIRT_IMPACTS_CONTAINER" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}"/>
+										<ItemRef Name="PLAYER_WALK_IMPACTS_DIRT" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
-										<ItemRef Name="WALK_GRASS_IMPACTS_CONTAINER" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}"/>
+										<ItemRef Name="PLAYER_WALK_IMPACTS_GRASS" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}"/>
 									</GroupingBehavior>
 								</GroupingBehaviorList>
 								<GroupingList>
 									<Grouping>
 										<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
 										<ItemList>
-											<ItemRef Name="WALK_STONE_IMPACTS_CONTAINER" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}"/>
+											<ItemRef Name="PLAYER_WALK_IMPACTS_STONE" ID="{3E1CFC00-C419-477F-AB13-553BD152CCF9}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
 										<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
 										<ItemList>
-											<ItemRef Name="WALK_GRASS_IMPACTS_CONTAINER" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}"/>
+											<ItemRef Name="PLAYER_WALK_IMPACTS_GRASS" ID="{6FB4A456-059E-4754-8E79-DD5DF45AD9DC}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
 										<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
 										<ItemList>
-											<ItemRef Name="WALK_DIRT_IMPACTS_CONTAINER" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}"/>
+											<ItemRef Name="PLAYER_WALK_IMPACTS_DIRT" ID="{F37BE752-C300-44F9-A256-DB8A1C04CCE8}"/>
 										</ItemList>
 									</Grouping>
 								</GroupingList>
@@ -810,7 +816,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<RandomSequenceContainer Name="RUN_DIRT_IMPACTS_CONTAINER" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}" ShortID="66036947">
+								<RandomSequenceContainer Name="PLAYER_RUN_IMPACTS_DIRT" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}" ShortID="66036947">
 									<PropertyList>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -1057,7 +1063,7 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="RUN_GRASS_IMPACTS_CONTAINER" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}" ShortID="696657395">
+								<RandomSequenceContainer Name="PLAYER_RUN_IMPACTS_GRASS" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}" ShortID="696657395">
 									<PropertyList>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -1227,7 +1233,7 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="RUN_STONE_IMPACTS_CONTAINER" ID="{1B511215-9201-448B-A21E-D8334B5995B9}" ShortID="622678842">
+								<RandomSequenceContainer Name="PLAYER_RUN_IMPACTS_STONE" ID="{1B511215-9201-448B-A21E-D8334B5995B9}" ShortID="622678842">
 									<PropertyList>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
@@ -1428,32 +1434,32 @@
 							<GroupingInfo>
 								<GroupingBehaviorList>
 									<GroupingBehavior>
-										<ItemRef Name="RUN_GRASS_IMPACTS_CONTAINER" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}"/>
+										<ItemRef Name="PLAYER_RUN_IMPACTS_GRASS" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
-										<ItemRef Name="RUN_DIRT_IMPACTS_CONTAINER" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}"/>
+										<ItemRef Name="PLAYER_RUN_IMPACTS_DIRT" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
-										<ItemRef Name="RUN_STONE_IMPACTS_CONTAINER" ID="{1B511215-9201-448B-A21E-D8334B5995B9}"/>
+										<ItemRef Name="PLAYER_RUN_IMPACTS_STONE" ID="{1B511215-9201-448B-A21E-D8334B5995B9}"/>
 									</GroupingBehavior>
 								</GroupingBehaviorList>
 								<GroupingList>
 									<Grouping>
 										<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
 										<ItemList>
-											<ItemRef Name="RUN_STONE_IMPACTS_CONTAINER" ID="{1B511215-9201-448B-A21E-D8334B5995B9}"/>
+											<ItemRef Name="PLAYER_RUN_IMPACTS_STONE" ID="{1B511215-9201-448B-A21E-D8334B5995B9}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
 										<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
 										<ItemList>
-											<ItemRef Name="RUN_GRASS_IMPACTS_CONTAINER" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}"/>
+											<ItemRef Name="PLAYER_RUN_IMPACTS_GRASS" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
 										<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
 										<ItemList>
-											<ItemRef Name="RUN_DIRT_IMPACTS_CONTAINER" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}"/>
+											<ItemRef Name="PLAYER_RUN_IMPACTS_DIRT" ID="{CA48AC13-8373-45A8-B362-4BAF1663FBAA}"/>
 										</ItemList>
 									</Grouping>
 								</GroupingList>
@@ -1487,7 +1493,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<RandomSequenceContainer Name="CRAWL_DIRT_IMPACTS_CONTAINER" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}" ShortID="605374247">
+								<RandomSequenceContainer Name="PLAYER_CRAWL_IMPACTS_DIRT" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}" ShortID="605374247">
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
@@ -1522,6 +1528,36 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
+										<Sound Name="INTERVAL SILENCE" ID="{855A912B-8651-4A9D-B381-DC430FB7C7E3}" ShortID="8984781">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{48C5A31B-DD32-4C56-B791-EA7DFDC3A7D0}"/>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{A7B05AA6-0247-40E4-BCBA-D70D8F288AD0}" ShortID="567386646" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="0.235"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{A7B05AA6-0247-40E4-BCBA-D70D8F288AD0}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
 										<RandomSequenceContainer Name="DIRT_IMPACTS_LIGHT" ID="{46B339E9-C257-4F1E-BB7C-40C0AF32F5CA}" ShortID="423769528">
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="4"/>
@@ -1539,7 +1575,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+													<ObjectRef Name="PLAYER_LOCOMOTION_IMPACTS" ID="{A4606D64-AADE-43C9-8290-4680919CAC11}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -1724,36 +1760,6 @@
 												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
-										<Sound Name="INTERVAL SILENCE" ID="{855A912B-8651-4A9D-B381-DC430FB7C7E3}" ShortID="8984781">
-											<PropertyList>
-												<Property Name="Pitch" Type="int32">
-													<ModifierList>
-														<ModifierInfo>
-															<Modifier Name="" ID="{48C5A31B-DD32-4C56-B791-EA7DFDC3A7D0}"/>
-														</ModifierInfo>
-													</ModifierList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Silence" ID="{A7B05AA6-0247-40E4-BCBA-D70D8F288AD0}" ShortID="567386646" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
-													<PropertyList>
-														<Property Name="Length" Type="Real32" Value="0.235"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Silence" ID="{A7B05AA6-0247-40E4-BCBA-D70D8F288AD0}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 									<ObjectLists>
 										<ObjectList Name="Playlist">
@@ -1766,7 +1772,7 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="CRAWL_GRASS_IMPACTS_CONTAINER" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}" ShortID="815085311">
+								<RandomSequenceContainer Name="PLAYER_CRAWL_IMPACTS_GRASS" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}" ShortID="815085311">
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
@@ -1998,7 +2004,7 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="CRAWL_STONE_IMPACTS_CONTAINER" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}" ShortID="243985629">
+								<RandomSequenceContainer Name="PLAYER_CRAWL_IMPACTS_STONE" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}" ShortID="243985629">
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
@@ -2254,32 +2260,32 @@
 							<GroupingInfo>
 								<GroupingBehaviorList>
 									<GroupingBehavior>
-										<ItemRef Name="CRAWL_GRASS_IMPACTS_CONTAINER" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}"/>
+										<ItemRef Name="PLAYER_CRAWL_IMPACTS_GRASS" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
-										<ItemRef Name="CRAWL_STONE_IMPACTS_CONTAINER" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}"/>
+										<ItemRef Name="PLAYER_CRAWL_IMPACTS_STONE" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
-										<ItemRef Name="CRAWL_DIRT_IMPACTS_CONTAINER" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}"/>
+										<ItemRef Name="PLAYER_CRAWL_IMPACTS_DIRT" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}"/>
 									</GroupingBehavior>
 								</GroupingBehaviorList>
 								<GroupingList>
 									<Grouping>
 										<SwitchRef Name="STONE" ID="{42A4D538-702F-410F-9F68-41DF4E8055B2}"/>
 										<ItemList>
-											<ItemRef Name="CRAWL_STONE_IMPACTS_CONTAINER" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}"/>
+											<ItemRef Name="PLAYER_CRAWL_IMPACTS_STONE" ID="{AE443E6F-104E-498B-A9CC-E7BA3DDB3813}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
 										<SwitchRef Name="GRASS" ID="{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"/>
 										<ItemList>
-											<ItemRef Name="CRAWL_GRASS_IMPACTS_CONTAINER" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}"/>
+											<ItemRef Name="PLAYER_CRAWL_IMPACTS_GRASS" ID="{F5D34963-316E-4263-9AB0-5C9F37A861FC}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
 										<SwitchRef Name="DIRT" ID="{01370578-06CA-400C-8487-843841E77CBE}"/>
 										<ItemList>
-											<ItemRef Name="CRAWL_DIRT_IMPACTS_CONTAINER" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}"/>
+											<ItemRef Name="PLAYER_CRAWL_IMPACTS_DIRT" ID="{23155CC3-501F-4971-9ADE-49C8F2BF561A}"/>
 										</ItemList>
 									</Grouping>
 								</GroupingList>

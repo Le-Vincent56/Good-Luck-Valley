@@ -2,9 +2,20 @@
 <WwiseDocument Type="WorkUnit" ID="{E172693F-7C36-48A6-8AE6-F934425107C2}" SchemaVersion="119" RootDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" ParentDocumentID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}">
 	<AudioObjects>
 		<WorkUnit Name="PLAYER_FALL" ID="{E172693F-7C36-48A6-8AE6-F934425107C2}" OwnerID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
 				<SwitchContainer Name="PLAYER_FALL_FALLSPEEDSWITCH" ID="{31E709CF-C73B-4120-89FC-BED66176FD6C}" ShortID="12187337">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="InitialDelay" Type="Real64">
+							<ValueList>
+								<Value>0.15</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 					</PropertyList>
 					<ReferenceList>
@@ -15,7 +26,7 @@
 							<ObjectRef Name="SLOWFALL" ID="{55086A10-7959-452F-9767-C28CC1EBF297}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+							<ObjectRef Name="PLAYER_FALL" ID="{EE003B7D-0569-4299-9611-15DAA728AE9C}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 						</Reference>
 						<Reference Name="SwitchGroupOrStateGroup">
 							<ObjectRef Name="PLAYERFALLSPEEDSWITCH" ID="{E62C8679-B3AA-461E-A46E-FE5DAD0894E5}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
@@ -24,10 +35,12 @@
 					<ChildrenList>
 						<Sound Name="PLAYER_FALL_FASTFALL" ID="{4C87AC70-7BE1-4C6A-8DF9-A0176BBB0CB4}" ShortID="49038683">
 							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-7</Value>
+										<Value>-12</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -54,10 +67,12 @@
 						</Sound>
 						<Sound Name="PLAYER_FALL_SLOWMEDIUMFALL" ID="{3A22CC4B-226A-41BC-AFFF-662546D35A92}" ShortID="261605630">
 							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-9</Value>
+										<Value>-14</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

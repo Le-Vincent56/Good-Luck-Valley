@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{8871F238-FFDC-D5EC-FFEE-A1998A805CDA}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{512231AE-C9C6-6E1D-A801-7868B7C2C85F}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -19,6 +19,7 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
+				<Bus Id="1305133589" Name="PLAYER_JUMP"/>
 				<Bus Id="1375983526" Name="PLAYER_LOCOMOTION"/>
 				<Bus Id="1705038622" Name="AMBIENCE_2D"/>
 				<Bus Id="1721816425" Name="AMBIENCE_3D"/>
@@ -26,8 +27,14 @@
 				<Bus Id="1900298039" Name="MASTER_MUSIC"/>
 				<Bus Id="2228101040" Name="MASTER_MUSHROOM"/>
 				<Bus Id="2453119373" Name="MASTER_PLAYER"/>
+				<Bus Id="2551268862" Name="PLAYER_FALL"/>
+				<Bus Id="2940948846" Name="PLAYER_LOCOMOTION_IMPACTS"/>
 				<Bus Id="3591553651" Name="MASTER_NPC"/>
+				<Bus Id="3614903352" Name="PLAYER_LOCOMOTION_SLIDE"/>
+				<Bus Id="3629196698" Name="PLAYER_LAND"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="4011678951" Name="MUSHROOM_GROW"/>
+				<Bus Id="4126136622" Name="MUSHROOM_BOUNCE"/>
 				<Bus Id="4286911030" Name="MASTER_AMBIENCE"/>
 			</Busses>
 			<AuxBusses>
@@ -95,11 +102,19 @@
 						<Switch Id="4122393694" Name="CAVE"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="1426187460" Name="MUSHROOMGROUNDMATSWITCH">
+					<Switches>
+						<Switch Id="1216965916" Name="STONE"/>
+						<Switch Id="2195636714" Name="DIRT"/>
+						<Switch Id="4248645337" Name="GRASS"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="1980707854" Name="MUSHROOMCHAINSWITCH">
 					<GameParameterRef Id="1867215876"/>
 					<Switches>
 						<Switch Id="678209053" Name="TWO"/>
 						<Switch Id="912956111" Name="THREE"/>
+						<Switch Id="1048449613" Name="MAX"/>
 						<Switch Id="1064933119" Name="ONE"/>
 					</Switches>
 				</SwitchGroup>
@@ -126,9 +141,22 @@
 						<Switch Id="4248645337" Name="GRASS"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="3582311692" Name="DISTANCESWITCH">
+					<GameParameterRef Id="262290038"/>
+					<Switches>
+						<Switch Id="614582933" Name="FIFTY"/>
+						<Switch Id="787714852" Name="FIFTEEN"/>
+						<Switch Id="913095698" Name="TEN"/>
+						<Switch Id="1064933119" Name="ONE"/>
+						<Switch Id="1461002489" Name="ONEHUNDRED"/>
+						<Switch Id="2611770117" Name="FIVE"/>
+						<Switch Id="2688829901" Name="TWOFIVE"/>
+						<Switch Id="3772991054" Name="TWENTYFIVE"/>
+					</Switches>
+				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{29D200FD-2386-1CDE-5BA5-2DD460FCC132}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{3CFCBCAD-78F3-74B6-3D43-6CC944DBECA7}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -143,6 +171,10 @@
 				<File Id="27357454" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_04.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Hard/Grass/GRASS_IMPACT_HARD_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="52620900" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_03.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Grass/MUSHROOM_GROW_GRASS_03_818F3B66.wem</CachePath>
 				</File>
 				<File Id="59619569" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Land\Slow Fall\PLAYER_SLOWFALL_DIRT.wav</ShortName>
@@ -159,6 +191,10 @@
 				<File Id="86227556" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_05.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_05_818F3B66.wem</CachePath>
+				</File>
+				<File Id="86699260" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Bounce\Sweetener\MUSHROOM_BOUNCE_SWEETENER_02.wav</ShortName>
+					<CachePath>SFX/Mushroom/Bounce/Sweetener/MUSHROOM_BOUNCE_SWEETENER_02_818F3B66.wem</CachePath>
 				</File>
 				<File Id="90492262" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_06.wav</ShortName>
@@ -184,9 +220,21 @@
 					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_02.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_02_818F3B66.wem</CachePath>
 				</File>
+				<File Id="145212708" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Stone\PLAYER_JUMP_STONE_02.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Stone/PLAYER_JUMP_STONE_02_818F3B66.wem</CachePath>
+				</File>
+				<File Id="148344986" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_03.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Stone/MUSHROOM_GROW_STONE_03_818F3B66.wem</CachePath>
+				</File>
 				<File Id="164673736" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_03.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Light/Grass/GRASS_IMPACT_LIGHT_03_818F3B66.wem</CachePath>
+				</File>
+				<File Id="176600633" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Stone\PLAYER_JUMP_STONE_04.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Stone/PLAYER_JUMP_STONE_04_818F3B66.wem</CachePath>
 				</File>
 				<File Id="201240048" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TestFiles\SFX_TEST_BEEP_LOOP.wav</ShortName>
@@ -212,9 +260,17 @@
 					<ShortName>Player\Locomotion\Slide\STONE_SLIDE.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Slide/STONE_SLIDE_818F3B66.wem</CachePath>
 				</File>
+				<File Id="241136007" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Dirt\PLAYER_JUMP_DIRT_01.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Dirt/PLAYER_JUMP_DIRT_01_818F3B66.wem</CachePath>
+				</File>
 				<File Id="249687352" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERDROP.wav</ShortName>
 					<CachePath>SFX/Ambience/Beds/Cave/AMBIENCEBEDS_CAVE_WATERDROP_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="251322523" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Dirt\MUSHROOM_GROW_DIRT_03.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Dirt/MUSHROOM_GROW_DIRT_03_818F3B66.wem</CachePath>
 				</File>
 				<File Id="257794690" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_02.wav</ShortName>
@@ -232,9 +288,21 @@
 					<ShortName>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_06.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Light/Stone/STONE_IMPACT_LIGHT_06_818F3B66.wem</CachePath>
 				</File>
+				<File Id="313255239" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Stone\PLAYER_JUMP_STONE_01.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Stone/PLAYER_JUMP_STONE_01_818F3B66.wem</CachePath>
+				</File>
 				<File Id="334253804" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_04.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Light/Stone/STONE_IMPACT_LIGHT_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="335233594" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Dirt\PLAYER_JUMP_DIRT_02.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Dirt/PLAYER_JUMP_DIRT_02_818F3B66.wem</CachePath>
+				</File>
+				<File Id="337971226" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Stone\PLAYER_JUMP_STONE_05.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Stone/PLAYER_JUMP_STONE_05_818F3B66.wem</CachePath>
 				</File>
 				<File Id="338920558" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_04.wav</ShortName>
@@ -243,6 +311,10 @@
 				<File Id="345373450" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_05.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_05_818F3B66.wem</CachePath>
+				</File>
+				<File Id="349520910" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_01.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Stone/MUSHROOM_GROW_STONE_01_818F3B66.wem</CachePath>
 				</File>
 				<File Id="351805145" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_06.wav</ShortName>
@@ -284,6 +356,10 @@
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_02.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Slide/Slide Ends/Dirt/DIRT_SLIDE_END_02_818F3B66.wem</CachePath>
 				</File>
+				<File Id="459107449" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Grass\PLAYER_JUMP_GRASS_03.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Grass/PLAYER_JUMP_GRASS_03_818F3B66.wem</CachePath>
+				</File>
 				<File Id="461081991" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_02.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Hard/Grass/GRASS_IMPACT_HARD_02_818F3B66.wem</CachePath>
@@ -291,6 +367,10 @@
 				<File Id="465063943" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_01.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="470491804" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Dirt\MUSHROOM_GROW_DIRT_01.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Dirt/MUSHROOM_GROW_DIRT_01_818F3B66.wem</CachePath>
 				</File>
 				<File Id="471406975" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Stone\STONE_SLIDE_END_02.wav</ShortName>
@@ -300,9 +380,17 @@
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Grass\GRASS_SLIDE_END_01.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Slide/Slide Ends/Grass/GRASS_SLIDE_END_01_818F3B66.wem</CachePath>
 				</File>
+				<File Id="473071850" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_02.wav</ShortName>
+					<CachePath>SFX/Mushroom/Bounce/MUSHROOM_BOUNCE_NOISE_02_818F3B66.wem</CachePath>
+				</File>
 				<File Id="479254614" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\GRASS_SLIDE.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Slide/GRASS_SLIDE_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="480407674" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_02.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Stone/MUSHROOM_GROW_STONE_02_818F3B66.wem</CachePath>
 				</File>
 				<File Id="487826013" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_01.wav</ShortName>
@@ -360,6 +448,10 @@
 					<ShortName>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_04.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Hard/Dirt/DIRT_IMPACT_HARD_04_818F3B66.wem</CachePath>
 				</File>
+				<File Id="624125396" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Stone\PLAYER_JUMP_STONE_03.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Stone/PLAYER_JUMP_STONE_03_818F3B66.wem</CachePath>
+				</File>
 				<File Id="628581277" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Land\Slow Fall\PLAYER_SLOWFALL_GRASS.wav</ShortName>
 					<CachePath>SFX/Player/Land/Slow Fall/PLAYER_SLOWFALL_GRASS_818F3B66.wem</CachePath>
@@ -371,6 +463,10 @@
 				<File Id="647585239" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_03.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Hard/Grass/GRASS_IMPACT_HARD_03_818F3B66.wem</CachePath>
+				</File>
+				<File Id="648290525" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Dirt\PLAYER_JUMP_DIRT_03.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Dirt/PLAYER_JUMP_DIRT_03_818F3B66.wem</CachePath>
 				</File>
 				<File Id="660420232" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\DIRT_SLIDE.wav</ShortName>
@@ -396,6 +492,18 @@
 					<ShortName>Ambience\2D\Cave\Rock Crumbles\AMBIENCE2D_CAVE_ROCKCRUMBLE_05.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Cave/Rock Crumbles/AMBIENCE2D_CAVE_ROCKCRUMBLE_05_818F3B66.wem</CachePath>
 				</File>
+				<File Id="712988732" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Grass\PLAYER_JUMP_GRASS_01.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Grass/PLAYER_JUMP_GRASS_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="719128731" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_01.wav</ShortName>
+					<CachePath>SFX/Mushroom/Bounce/MUSHROOM_BOUNCE_NOISE_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="731454556" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_01.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Grass/MUSHROOM_GROW_GRASS_01_818F3B66.wem</CachePath>
+				</File>
 				<File Id="735615810" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_02.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Light/Grass/GRASS_IMPACT_LIGHT_02_818F3B66.wem</CachePath>
@@ -416,13 +524,33 @@
 					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_03.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Wind Noises/AMBIENCE2D_FOREST_WINDNOISE_03_818F3B66.wem</CachePath>
 				</File>
+				<File Id="787034995" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Grass\PLAYER_JUMP_GRASS_02.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Grass/PLAYER_JUMP_GRASS_02_818F3B66.wem</CachePath>
+				</File>
+				<File Id="796770390" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Bounce\Sweetener\MUSHROOM_BOUNCE_SWEETENER_03.wav</ShortName>
+					<CachePath>SFX/Mushroom/Bounce/Sweetener/MUSHROOM_BOUNCE_SWEETENER_03_818F3B66.wem</CachePath>
+				</File>
 				<File Id="815469409" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_01.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Tree Noises/AMBIENCE2D_FOREST_TREENOISE_01_818F3B66.wem</CachePath>
 				</File>
+				<File Id="817946572" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Bounce\Sweetener\MUSHROOM_BOUNCE_SWEETENER_01.wav</ShortName>
+					<CachePath>SFX/Mushroom/Bounce/Sweetener/MUSHROOM_BOUNCE_SWEETENER_01_818F3B66.wem</CachePath>
+				</File>
 				<File Id="825461371" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_04.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Insect Chirps/AMBIENCE2D_FOREST_INSECTCHIRP_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="826204051" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Grass\PLAYER_JUMP_GRASS_04.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Grass/PLAYER_JUMP_GRASS_04_818F3B66.wem</CachePath>
+				</File>
+				<File Id="842389699" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_02.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Grass/MUSHROOM_GROW_GRASS_02_818F3B66.wem</CachePath>
 				</File>
 				<File Id="844122803" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Grass\GRASS_SLIDE_END_02.wav</ShortName>
@@ -460,9 +588,17 @@
 					<ShortName>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_INSECTS.wav</ShortName>
 					<CachePath>SFX/Ambience/Beds/Forest/AMBIENCEBEDS_FOREST_INSECTS_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="942590505" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Dirt\PLAYER_JUMP_DIRT_04.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Dirt/PLAYER_JUMP_DIRT_04_818F3B66.wem</CachePath>
+				</File>
 				<File Id="949082360" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_01.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Hard/Stone/STONE_IMPACT_HARD_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="950606184" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Grow\Dirt\MUSHROOM_GROW_DIRT_02.wav</ShortName>
+					<CachePath>SFX/Mushroom/Grow/Dirt/MUSHROOM_GROW_DIRT_02_818F3B66.wem</CachePath>
 				</File>
 				<File Id="968818107" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERFLOW.wav</ShortName>
@@ -472,9 +608,17 @@
 					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_01.wav</ShortName>
 					<CachePath>SFX/Ambience/2D/Forest/Insect Chirps/AMBIENCE2D_FOREST_INSECTCHIRP_01_818F3B66.wem</CachePath>
 				</File>
+				<File Id="1002172523" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_03.wav</ShortName>
+					<CachePath>SFX/Mushroom/Bounce/MUSHROOM_BOUNCE_NOISE_03_818F3B66.wem</CachePath>
+				</File>
 				<File Id="1056800994" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Land\Slow Fall\PLAYER_SLOWFALL_STONE.wav</ShortName>
 					<CachePath>SFX/Player/Land/Slow Fall/PLAYER_SLOWFALL_STONE_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1057473577" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Jump\Grass\PLAYER_JUMP_GRASS_05.wav</ShortName>
+					<CachePath>SFX/Player/Jump/Grass/PLAYER_JUMP_GRASS_05_818F3B66.wem</CachePath>
 				</File>
 				<File Id="1058241660" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_01.wav</ShortName>
@@ -483,6 +627,10 @@
 				<File Id="1065273454" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_01.wav</ShortName>
 					<CachePath>SFX/Player/Locomotion/Impacts/Hard/Dirt/DIRT_IMPACT_HARD_01_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1073226493" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_04.wav</ShortName>
+					<CachePath>SFX/Mushroom/Bounce/MUSHROOM_BOUNCE_NOISE_04_818F3B66.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -572,6 +720,62 @@
 								<MediaRef Id="249687352"/>
 								<MediaRef Id="436027017"/>
 								<MediaRef Id="968818107"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="4286947103" Name="PLAY_MUSHROOM_BOUNCE">
+					<MediaRefs>
+						<MediaRef Id="473071850"/>
+						<MediaRef Id="719128731"/>
+						<MediaRef Id="1002172523"/>
+						<MediaRef Id="1073226493"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1980707854" Id="912956111"/>
+							<MediaRefs>
+								<MediaRef Id="796770390"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1980707854" Id="678209053"/>
+							<MediaRefs>
+								<MediaRef Id="86699260"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1980707854" Id="1064933119" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="817946572"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1531298894" Name="PLAY_MUSHROOM_GROW" MaxAttenuation="25">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1426187460" Id="4248645337" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="52620900"/>
+								<MediaRef Id="731454556"/>
+								<MediaRef Id="842389699"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1426187460" Id="2195636714"/>
+							<MediaRefs>
+								<MediaRef Id="251322523"/>
+								<MediaRef Id="470491804"/>
+								<MediaRef Id="950606184"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1426187460" Id="1216965916"/>
+							<MediaRefs>
+								<MediaRef Id="148344986"/>
+								<MediaRef Id="349520910"/>
+								<MediaRef Id="480407674"/>
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
@@ -756,6 +960,39 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="562256996" Name="PLAY_PLAYER_JUMP">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3260060478" Id="1216965916"/>
+							<MediaRefs>
+								<MediaRef Id="145212708"/>
+								<MediaRef Id="176600633"/>
+								<MediaRef Id="313255239"/>
+								<MediaRef Id="337971226"/>
+								<MediaRef Id="624125396"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3260060478" Id="4248645337" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="459107449"/>
+								<MediaRef Id="712988732"/>
+								<MediaRef Id="787034995"/>
+								<MediaRef Id="826204051"/>
+								<MediaRef Id="1057473577"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3260060478" Id="2195636714"/>
+							<MediaRefs>
+								<MediaRef Id="241136007"/>
+								<MediaRef Id="335233594"/>
+								<MediaRef Id="648290525"/>
+								<MediaRef Id="942590505"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
 				<Event Id="4249207015" Name="PLAY_PLAYER_LAND">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -906,6 +1143,7 @@
 				<Event Id="304008745" Name="STOP_TESTBEEP_LOOP_3D" MaxAttenuation="0"/>
 			</Events>
 			<GameParameters>
+				<GameParameter Id="1867215876" Name="RTPC_MUSHROOMCHAIN"/>
 				<GameParameter Id="2290256636" Name="RTPC_PLAYERFALLSPEED"/>
 				<GameParameter Id="2653406601" Name="RTPC_PLAYERSPEED"/>
 			</GameParameters>
@@ -914,6 +1152,22 @@
 					<Switches>
 						<Switch Id="491961918" Name="FOREST"/>
 						<Switch Id="4122393694" Name="CAVE"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1426187460" Name="MUSHROOMGROUNDMATSWITCH">
+					<Switches>
+						<Switch Id="1216965916" Name="STONE"/>
+						<Switch Id="2195636714" Name="DIRT"/>
+						<Switch Id="4248645337" Name="GRASS"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1980707854" Name="MUSHROOMCHAINSWITCH">
+					<GameParameterRef Id="1867215876"/>
+					<Switches>
+						<Switch Id="678209053" Name="TWO"/>
+						<Switch Id="912956111" Name="THREE"/>
+						<Switch Id="1048449613" Name="MAX"/>
+						<Switch Id="1064933119" Name="ONE"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2051106367" Name="PLAYERSPEEDSWITCH">
@@ -942,5 +1196,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{3CB62BAE-69A0-EADD-DD38-D59A7E696E95}</FileHash>
+	<FileHash>{C6134980-5AED-1C42-8621-F6FD8D8EAD71}</FileHash>
 </SoundBanksInfo>

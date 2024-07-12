@@ -2,8 +2,16 @@
 <WwiseDocument Type="WorkUnit" ID="{E04BB998-EF9A-4271-A412-9D3DFC63CA3C}" SchemaVersion="119">
 	<AudioObjects>
 		<WorkUnit Name="AMBIENCE" ID="{E04BB998-EF9A-4271-A412-9D3DFC63CA3C}" PersistMode="Standalone">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
 				<ActorMixer Name="AMBIENCEBEDS_MAIN_MIXER" ID="{A80E5693-7095-46B1-BC4C-BFD2A04D75DE}" ShortID="77709887">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -15,6 +23,8 @@
 					<ChildrenList>
 						<SwitchContainer Name="AMBIENCEBEDS_MAIN_BIOMESWITCH" ID="{AB7B40A5-6340-43EA-8AA6-5CFB2738082A}" ShortID="233095536">
 							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
@@ -264,6 +274,10 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="AMBIENCE2D_MAIN_MIXER" ID="{1778EDF0-6F76-4A29-891D-45F07705BDD4}" ShortID="912790238">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -275,6 +289,8 @@
 					<ChildrenList>
 						<SwitchContainer Name="AMBIENCE2D_MAIN_BIOMESWITCH" ID="{844F1E77-C6D1-46AE-9775-0D2114458E72}" ShortID="380242184">
 							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>

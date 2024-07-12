@@ -1,8 +1,4 @@
-using GoodLuckValley.Audio.Sound;
 using GoodLuckValley.Events;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,9 +9,6 @@ namespace GoodLuckValley.UI
         #region EVENTS
         [Header("Events")]
         [SerializeField] private GameEvent onSoftPause;
-
-        [Header("Fields")]
-        [SerializeField] private SoundData buttonSFX;
         #endregion
 
         public void Start()
@@ -30,11 +23,6 @@ namespace GoodLuckValley.UI
         public void ReturnToMenu()
         {
             SceneManager.LoadScene("Main Menu");
-
-            SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(buttonSFX)
-                .WithRandomPitch()
-                .Play();
         }
 
         /// <summary>

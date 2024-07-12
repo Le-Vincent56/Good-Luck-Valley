@@ -1191,6 +1191,10 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: d979ebb2384298340836d975c5ff88d4, type: 2}
+  jumpEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c48f95f07edc3a0458c244184ed5b1dc, type: 2}
   landEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -1219,6 +1223,14 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: b3975c68c48805b42831b1c74e806bea, type: 2}
+  bounceChainRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 64cc9542f96a8fe408447629184f19fd, type: 2}
+  bounceEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 29a047957eeda0d41a2a9b83a52c217e, type: 2}
 --- !u!114 &9186641651251701321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,19 +1354,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
-          Assembly-CSharp
-        m_MethodName: InitiateAndPlayEffect
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1220538795847296189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,19 +1374,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
         m_MethodName: ResetBounceCount
         m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
-          Assembly-CSharp
-        m_MethodName: StopEffect
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
