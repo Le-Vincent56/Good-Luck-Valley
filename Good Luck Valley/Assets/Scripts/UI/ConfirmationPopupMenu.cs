@@ -1,4 +1,3 @@
-using GoodLuckValley.Audio.Sound;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -7,7 +6,6 @@ namespace GoodLuckValley.UI
 {
     public class ConfirmationPopupMenu : MonoBehaviour
     {
-        [SerializeField] private SoundData buttonSFX;
         [SerializeField] private Text displayText;
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
@@ -35,28 +33,18 @@ namespace GoodLuckValley.UI
             {
                 DeactivateMenu();
                 confirmAction();
-                PlaySound();
             });
 
             cancelButton.onClick.AddListener(() =>
             {
                 DeactivateMenu();
                 cancelAction();
-                PlaySound();
             });
         }
 
         public void DeactivateMenu()
         {
             gameObject.SetActive(false);
-        }
-
-        public void PlaySound()
-        {
-            SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(buttonSFX)
-                .WithRandomPitch()
-                .Play();
         }
     }
 }

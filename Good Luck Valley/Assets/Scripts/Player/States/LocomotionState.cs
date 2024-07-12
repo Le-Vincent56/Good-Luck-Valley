@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,9 +6,9 @@ namespace GoodLuckValley.Player.States
 {
     public class LocomotionState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
 
-        public LocomotionState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        public LocomotionState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator) 
         {
             this.sfx = sfx;
         }
@@ -20,12 +21,10 @@ namespace GoodLuckValley.Player.States
 
             // Allow the player to peek
             player.SetCanPeek(true);
-        }
 
-        public override void Update()
-        {
-            // Update footstep sounds
-            sfx.Footsteps();
+            // Start playing ground impacts sounds with the run value for the speed RTPC
+            sfx.SetSpeedRTPC(sfx.RUN);
+            sfx.StartGroundImpacts();
         }
 
         public override void FixedUpdate()
@@ -40,7 +39,7 @@ namespace GoodLuckValley.Player.States
         public override void OnExit()
         {
             // Reset footstep sounds
-            sfx.ResetFootsteps();
+            sfx.StopGroundImpacts();
         }
     }
 }

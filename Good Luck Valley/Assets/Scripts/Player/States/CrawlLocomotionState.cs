@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
@@ -6,15 +7,15 @@ namespace GoodLuckValley.Player.States
 {
     public class CrawlLocomotionState : BaseState
     {
-        private readonly PlayerSFXHandler sfxHandler;
+        private readonly PlayerSFXMaster sfx;
         private DynamicCollisionHandler collisionHandler;
         private BoxCollider2D boxCollider;
 
-        public CrawlLocomotionState(PlayerController player, Animator animator, 
-            PlayerSFXHandler sfxHandler, BoxCollider2D boxCollider, 
+        public CrawlLocomotionState(PlayerController player, Animator animator,
+            PlayerSFXMaster sfx, BoxCollider2D boxCollider, 
             DynamicCollisionHandler collisionHandler) : base(player, animator)
         {
-            this.sfxHandler = sfxHandler;
+            this.sfx = sfx;
             this.boxCollider = boxCollider;
             this.collisionHandler = collisionHandler;
         }
@@ -33,11 +34,10 @@ namespace GoodLuckValley.Player.States
             boxCollider.offset = new Vector2(-0.05183601f, -0.4508255f);
             boxCollider.size = new Vector2(0.8475914f, 0.4697776f);
             collisionHandler.UpdateCollider();
-        }
 
-        public override void Update()
-        {
-            // TODO: Update slide sound
+            // Start playing footsteps with crawl RTPC values
+            sfx.SetSpeedRTPC(sfx.CRAWL);
+            sfx.StartGroundImpacts();
         }
 
         public override void FixedUpdate()
@@ -51,12 +51,13 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
-            // TODO: (Maybe) reset slide sound
-
             // Reset box collider
             boxCollider.offset = new Vector2(-0.009529829f, -0.1905082f);
             boxCollider.size = new Vector2(0.5014615f, 0.9904121f);
             collisionHandler.UpdateCollider();
+
+            // Stop ground impacts
+            sfx.StopGroundImpacts();
         }
     }
 }

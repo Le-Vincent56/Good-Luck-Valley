@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9986019, y: 1, z: 1}
+  m_LocalScale: {x: 0.9986018, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2414757590046708016}
@@ -352,7 +352,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 918238377
-  m_SortingLayer: 5
+  m_SortingLayer: 13
   m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: bf6740596ef39ff4492b138cb34518c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1109,7 +1109,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5934230490664107429}
-  - component: {fileID: 2016815691044445664}
+  - component: {fileID: 2980661001384484232}
+  - component: {fileID: 9186641651251701321}
+  - component: {fileID: 422088129986246710}
   m_Layer: 10
   m_Name: Player SFX
   m_TagString: Untagged
@@ -1132,7 +1134,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2414757590046708016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2016815691044445664
+--- !u!114 &2980661001384484232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1141,28 +1143,136 @@ MonoBehaviour:
   m_GameObject: {fileID: 4157728105775766138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb0fcd796566c54eae5d6f5f4a6249f, type: 3}
+  m_Script: {fileID: 11500000, guid: aacb0dd11382f7c4380220e373f859dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dirtFootsteps: {fileID: 11400000, guid: 0c084fe6a95ae724092d9957df61421c, type: 2}
-  grassFootsteps: {fileID: 11400000, guid: b1cfff12126f0f744b0d9dc7c19418d2, type: 2}
-  land: {fileID: 11400000, guid: e38a3360208e63f46beb699a0acd9522, type: 2}
-  fall: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  wallSlide: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  wallJump: {fileID: 11400000, guid: e7106fc55664d8a4297de35f5eba666b, type: 2}
-  jump: {fileID: 11400000, guid: 540ce535797723b48985d1888e96d54d, type: 2}
-  sporeThrow: {fileID: 11400000, guid: 68d99002a800ed541a1dde6c3c0ea2d0, type: 2}
+  CRAWL: 0.8
+  WALK: 2
+  RUN: 3.1
+  grassSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 6aa4b9c5f90a6384eae2bd4823759a99, type: 2}
+  dirtSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 2cd77ce1ff5f8784091ead2ec74a3dba, type: 2}
+  stoneSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 89d11f79f8cb8ee48ada7443c106a98c, type: 2}
   detectTileType:
     direction: 1
-    distance: 10
+    distance: 1
     dirtLayer:
       serializedVersion: 2
       m_Bits: 16384
     grassLayer:
       serializedVersion: 2
       m_Bits: 32768
-  footstepInterval: 0.4
-  footstepTimer: 0
+    stoneLayer:
+      serializedVersion: 2
+      m_Bits: 131072
+  speedRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: eba8e8fdc793ff244963b64fa052e567, type: 2}
+  startGroundImpactsEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d12b2a92b6fe8a5439bf34a18cc3a640, type: 2}
+  stopGroundImpactsEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d979ebb2384298340836d975c5ff88d4, type: 2}
+  jumpEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c48f95f07edc3a0458c244184ed5b1dc, type: 2}
+  landEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 0eabc4adc60844a4c9e39ac82c517f4f, type: 2}
+  fallSpeedRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 8e6fd7ac7cb52c748be46c01a245a6de, type: 2}
+  startFallEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 0c8fea7c7ecca44488b0c1ac9d845d74, type: 2}
+  stopFallEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 5e189a42749e04a4ba5446ca387d0e43, type: 2}
+  startSlide:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 69a3d967e57b3364a9125dc8e7e2b6c2, type: 2}
+  stopSlide:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: a6a1e5c16ac688d4a807a2838a45d07c, type: 2}
+  slideImpact:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: b3975c68c48805b42831b1c74e806bea, type: 2}
+  bounceChainRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 64cc9542f96a8fe408447629184f19fd, type: 2}
+  bounceEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 29a047957eeda0d41a2a9b83a52c217e, type: 2}
+--- !u!114 &9186641651251701321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4157728105775766138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b173b4261a9958948b2505120323c20d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ambientBed:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 637e55155fba9ba4a9136c1b8163caf4, type: 2}
+  ambient2D:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 3334a18483e109d4bb7bddc9013e2205, type: 2}
+--- !u!114 &422088129986246710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4157728105775766138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1b1832413f6ad4a9bf0f0d6f1ae8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &4251934024621643868
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,19 +1354,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
-          Assembly-CSharp
-        m_MethodName: InitiateAndPlayEffect
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1220538795847296189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1277,19 +1374,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounce, Assembly-CSharp
         m_MethodName: ResetBounceCount
         m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GoodLuckValley.VFX.ConstantParticleController,
-          Assembly-CSharp
-        m_MethodName: StopEffect
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1921,7 +2005,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2414757590046708016}
-  - component: {fileID: 8729480241898235974}
   - component: {fileID: 5731558841692214012}
   - component: {fileID: 456266487528382957}
   - component: {fileID: 3312724052698482696}
@@ -1959,8 +2042,8 @@ Transform:
   m_LocalScale: {x: 1.0014, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5936272026601382572}
   - {fileID: 3045553210023442063}
+  - {fileID: 5936272026601382572}
   - {fileID: 5934230490664107429}
   - {fileID: 1465558386990664987}
   - {fileID: 4520939286314282537}
@@ -1969,14 +2052,6 @@ Transform:
   - {fileID: 7971081741340313663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &8729480241898235974
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9047676686677396218}
-  m_Enabled: 1
 --- !u!61 &5731558841692214012
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2061,6 +2136,7 @@ MonoBehaviour:
   onSendPlayerController: {fileID: 11400000, guid: 348436666149729428e4fe07976cf182, type: 2}
   onPlayerTurn: {fileID: 11400000, guid: fbdc891029903794880c5adf4b1c0d20, type: 2}
   onSetCanPeek: {fileID: 11400000, guid: 3050c99c4ce29f941b36f4aa78ec7198, type: 2}
+  onPositionChange: {fileID: 11400000, guid: fa4a9ecb435726c4b8f980d5fb7ed651, type: 2}
   animator: {fileID: 0}
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   collisionHandler: {fileID: 0}

@@ -53,7 +53,6 @@ namespace GoodLuckValley.Cameras.Parallax
 
                 if(layer != null)
                 {
-                    layer.name = "Layer-" + i;
                     parallaxLayers.Add(layer);
                 }
             }

@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,9 +6,9 @@ namespace GoodLuckValley.Player.States
 {
     public class JumpState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
 
-        public JumpState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        public JumpState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator) 
         {
             this.sfx = sfx;
         }
@@ -21,7 +22,8 @@ namespace GoodLuckValley.Player.States
             // Don't allow the player to peek
             player.SetCanPeek(false);
 
-            // TODO: Play the jumping sound effect
+            // Play the jump sound effect
+            sfx.Jump();
 
             // Play jump particles
             player.PlayParticles(0);

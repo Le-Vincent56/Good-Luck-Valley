@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,10 +6,10 @@ namespace GoodLuckValley.Player.States
 {
     public class SlideState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
         private readonly float offset;
 
-        public SlideState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
+        public SlideState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator)
         {
             this.sfx = sfx;
             offset = 0.25f;
@@ -26,6 +27,9 @@ namespace GoodLuckValley.Player.States
 
             // Allow the player to peek
             player.SetCanPeek(true);
+
+            // Start the slide effect sound
+            sfx.StartSlide();
         }
 
         public override void Update()
@@ -47,7 +51,8 @@ namespace GoodLuckValley.Player.States
             // Reset slide transform
             animator.transform.localPosition = new Vector2(0, 0);
 
-            // TODO: (Maybe) reset slide sound
+            // Stop the slide effect sound
+            sfx.StopSlide();
         }
     }
 }

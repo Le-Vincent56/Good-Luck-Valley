@@ -165,8 +165,90 @@ VFXRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1169282353
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: -1
+--- !u!1 &2393977132422703790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2458691101811779271}
+  - component: {fileID: 3376387462962063917}
+  m_Layer: 0
+  m_Name: Level Transition Blur Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2458691101811779271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2393977132422703790}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.8786621, y: -1.2884216, z: 3.6656895}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2564207088907460535}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3376387462962063917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2393977132422703790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 1
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.383
+  m_Color: {r: 0.9748427, g: 0.774898, b: 0.42611042, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 0.45
+  m_LightVolumeIntensityEnabled: 0
+  m_ApplyToSortingLayers: 47dea1126de9eadda96531a3176bfec743d7a5bd77c4a058
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 1
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 0
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: -3.1356502, y: -0.9630003, z: 0}
+    m_Extent: {x: 14.716249, y: 17.018002, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 11.84
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -6.0112147, y: -6.140073, z: 0}
+  - {x: -0.2596879, y: -6.140073, z: 0}
+  - {x: -0.2596879, y: 4.21426, z: 0}
+  - {x: -6.0112157, y: 4.21426, z: 0}
 --- !u!1 &5501589801600847815
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +496,7 @@ VFXRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2134260475
-  m_SortingLayer: 6
+  m_SortingLayer: 14
   m_SortingOrder: 0
 --- !u!1 &9185506278507421167
 GameObject:
@@ -446,6 +528,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3236923730554801526}
+  - {fileID: 2458691101811779271}
   - {fileID: 3000571787093444110}
   - {fileID: 7684853069815110175}
   m_Father: {fileID: 0}
