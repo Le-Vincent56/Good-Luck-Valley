@@ -137,7 +137,7 @@ public class PlayerParticlesController : MonoBehaviour
     public void StopAirtimeBounceParticles()
     {
         bounceAirtimeVFX.Stop();
-        airtimeParticlesActive = false; 
+        airtimeParticlesActive = false;
     }
 
     #region HELPERS
