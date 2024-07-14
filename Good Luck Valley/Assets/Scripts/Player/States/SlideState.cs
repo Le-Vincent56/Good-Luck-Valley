@@ -27,6 +27,9 @@ namespace GoodLuckValley.Player.States
 
             // Allow the player to peek
             player.SetCanPeek(true);
+
+            // Start the slide effect sound
+            sfx.StartSlide();
         }
 
         public override void Update()
@@ -48,7 +51,8 @@ namespace GoodLuckValley.Player.States
             // Reset slide transform
             animator.transform.localPosition = new Vector2(0, 0);
 
-            // TODO: (Maybe) reset slide sound
+            // Stop the slide effect sound
+            sfx.StopSlide();
         }
     }
 }

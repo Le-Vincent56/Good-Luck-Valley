@@ -24,7 +24,7 @@ namespace GoodLuckValley.Player.States
             player.SetCanPeek(false);
 
             // Play the falling sound effect
-            sfx.Fall();
+            sfx.StartFall();
         }
 
         public override void FixedUpdate()

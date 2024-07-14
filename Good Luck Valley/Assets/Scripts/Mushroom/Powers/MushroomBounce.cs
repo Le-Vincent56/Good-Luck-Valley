@@ -1,7 +1,4 @@
-using GoodLuckValley.Audio.Sound;
 using GoodLuckValley.Events;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom
@@ -70,12 +67,8 @@ namespace GoodLuckValley.Mushroom
             switch (mushroomData.Type)
             {
                 case ShroomType.Regular:
-                    // Check the current bounce chain
-                    if (bounceCount < 3)
-                    {
-                        // Increment bounces
-                        bounceCount++;
-                    }
+                    // Increment bounces
+                    bounceCount++;
                     break;
 
                 case ShroomType.Quick:

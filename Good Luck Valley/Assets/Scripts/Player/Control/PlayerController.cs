@@ -449,6 +449,8 @@ namespace GoodLuckValley.Player.Control
                 }
             }
 
+            sfxHandler.SetFallSpeedRTPC(Mathf.Abs(velocity.y));
+
             // Show more underneath the player if they are falling
             if(velocity.y <= fallSpeedDampingChangeThreshold &&
                 !CameraManager.Instance.IsLerpingFallOffset && !CameraManager.Instance.LerpedFromPlayerFalling
@@ -672,7 +674,9 @@ namespace GoodLuckValley.Player.Control
             // Calculate bounce force
             Vector2 bounceVec = bounceData.BounceVector;
 
-            switch (bounceData.BounceCount)
+            int clampedBounceCount = Mathf.Clamp(bounceData.BounceCount, 1, 3);
+
+            switch (clampedBounceCount)
             {
                 case 2:
                     bounceVec *= this.data.secondBounceMult;
@@ -693,6 +697,9 @@ namespace GoodLuckValley.Player.Control
             // Apply bounce force
             velocity.x += bounceVec.x;
             velocity.y = bounceVec.y;
+
+            // Play the bounce sound
+            sfxHandler.Bounce(Mathf.Clamp(bounceData.BounceCount, 1, 4));
         }
         #endregion
 
