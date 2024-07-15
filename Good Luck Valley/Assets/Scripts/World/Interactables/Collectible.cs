@@ -7,6 +7,7 @@ using GoodLuckValley.World.AreaTriggers;
 
 namespace GoodLuckValley.World.Interactables
 {
+    [RequireComponent(typeof(AreaCollider))]
     public class Collectible : MonoBehaviour, IInteractable, IBind<CollectibleSaveData>
     {
         [Header("Events")]
@@ -23,7 +24,6 @@ namespace GoodLuckValley.World.Interactables
         #endregion
 
         #region PROPERTIES
-        private bool AlwaysApply { get; set; } = true;
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
         #endregion
 

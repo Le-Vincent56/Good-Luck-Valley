@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Journal
@@ -11,7 +9,7 @@ namespace GoodLuckValley.Journal
         Seiji = 2
     }
 
-    [CreateAssetMenu(fileName = "Note Data")]
+    [CreateAssetMenu(fileName = "Note Data", menuName = "Journal/Note Data")]
     public class NoteData : ScriptableObject
     {
         public int ID;          // Defines the placement in the journal
