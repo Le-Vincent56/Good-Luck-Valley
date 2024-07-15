@@ -1,6 +1,7 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.Blackboard;
 using GoodLuckValley.Patterns.ServiceLocator;
+using GoodLuckValley.VFX;
 using GoodLuckValley.World.Interactables;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ public class MushroomPickup : Collectible
     Blackboard playerBlackboard;
     BlackboardKey unlockedThrow;
     #endregion
+
+    [Space]
+    [SerializeField] private ShroomRoomLightController shroomRoomLightController;
 
     protected override void Start()
     {
@@ -35,6 +39,8 @@ public class MushroomPickup : Collectible
         // Update the blackboard
         if (playerBlackboard.TryGetValue(unlockedThrow, out bool blackboardValue))
             playerBlackboard.SetValue(unlockedThrow, true);
+
+        shroomRoomLightController.StartLightTransition();
 
         // Collect the collectible
         base.Interact();
