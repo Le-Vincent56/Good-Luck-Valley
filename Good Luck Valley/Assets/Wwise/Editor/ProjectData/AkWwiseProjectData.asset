@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 007e98e674735941bfc49f11c186cf34
     GuidInternal: 
-    m_lastTime: -8584805944953059863
+    m_lastTime: -8584814030738693009
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584805944972522005
+    m_lastTime: -8584808095500232773
     List:
     - name: AMBIENCE_2D
       guid: b45c581bfdea7f41a764d005cf137d6f
@@ -474,7 +474,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: cc31a129b26dbb4dbba2c92c4af23575
     GuidInternal: 
-    m_lastTime: -8584805944953102447
+    m_lastTime: -8584805507544731257
     List:
     - name: GAME_SOUNDBANK
       guid: 8c86ef3bfc27e3489e4ee297b6818463
@@ -502,7 +502,7 @@ MonoBehaviour:
     ParentPath: Events\AMBIENCE
     guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
     GuidInternal: 
-    m_lastTime: -8584805944989022449
+    m_lastTime: -8584809822781899595
     List:
     - name: PLAY_AMBIENCE2D_MAIN
       guid: af34d8c9ef38c84d934e63ba6df5ad2b
@@ -549,7 +549,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 05f602310328354a9fafb68074469f39
     GuidInternal: 
-    m_lastTime: -8584805944989022449
+    m_lastTime: -8584810764136560978
     List: []
   - PhysicalPath: Events\MUSHROOM.wwu
     PathAndIcons:
@@ -562,7 +562,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM
     guid: 929588ad419e5a4baaf6933db5f9386e
     GuidInternal: 
-    m_lastTime: -8584805944989022449
+    m_lastTime: -8584808094350406412
     List: []
   - PhysicalPath: Events\MUSHROOM_BOUNCE.wwu
     PathAndIcons:
@@ -578,7 +578,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM\MUSHROOM_BOUNCE
     guid: b8a1ccb3086a7944992a2683133ded0a
     GuidInternal: 
-    m_lastTime: -8584805944989012347
+    m_lastTime: -8584808142921053890
     List:
     - name: PLAY_MUSHROOM_BOUNCE
       guid: a3ead9b63e472247aff317e77470592f
@@ -614,7 +614,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM\MUSHROOM_GROW
     guid: 63f1d793e6cde64fb58bd1c74b3536ec
     GuidInternal: 
-    m_lastTime: -8584805944989012347
+    m_lastTime: -8584808065166953956
     List:
     - name: PLAY_MUSHROOM_GROW
       guid: 4f84bb3fa4ea134785988ec6ae1bf94e
@@ -636,6 +636,87 @@ MonoBehaviour:
       maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
+  - PhysicalPath: Events\MUSIC.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: MUSIC
+      ObjectType: 12
+      guid: 68ce404cc13d6a4bac1ae8b960532652
+    ParentPath: Events\MUSIC
+    guid: 68ce404cc13d6a4bac1ae8b960532652
+    GuidInternal: 
+    m_lastTime: -8584805363652766356
+    List:
+    - name: PAUSE_MUSIC
+      guid: 7e66b94c25384548a29082695e976a5a
+      id: 2735935537
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MUSIC
+        ObjectType: 12
+        guid: 68ce404cc13d6a4bac1ae8b960532652
+      - ElementName: PAUSE_MUSIC
+        ObjectType: 3
+        guid: 7e66b94c25384548a29082695e976a5a
+      Path: Events\MUSIC\PAUSE_MUSIC
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: PLAY_MUSIC
+      guid: b8172d184f2b4a4f8da32695014768ce
+      id: 2932040671
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MUSIC
+        ObjectType: 12
+        guid: 68ce404cc13d6a4bac1ae8b960532652
+      - ElementName: PLAY_MUSIC
+        ObjectType: 3
+        guid: b8172d184f2b4a4f8da32695014768ce
+      Path: Events\MUSIC\PLAY_MUSIC
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: RESUME_MUSIC
+      guid: 5b0fb289ec1ecf44a09a641d2410efe0
+      id: 2940177080
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MUSIC
+        ObjectType: 12
+        guid: 68ce404cc13d6a4bac1ae8b960532652
+      - ElementName: RESUME_MUSIC
+        ObjectType: 3
+        guid: 5b0fb289ec1ecf44a09a641d2410efe0
+      Path: Events\MUSIC\RESUME_MUSIC
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: STOP_MUSIC
+      guid: 65c447baccb1c446867f6f0c5fb563e7
+      id: 2837384057
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MUSIC
+        ObjectType: 12
+        guid: 68ce404cc13d6a4bac1ae8b960532652
+      - ElementName: STOP_MUSIC
+        ObjectType: 3
+        guid: 65c447baccb1c446867f6f0c5fb563e7
+      Path: Events\MUSIC\STOP_MUSIC
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\NPC.wwu
     PathAndIcons:
     - ElementName: Events
@@ -647,7 +728,7 @@ MonoBehaviour:
     ParentPath: Events\NPC
     guid: a965c74bb0d43f48bad3e29a7d314974
     GuidInternal: 
-    m_lastTime: -8584805944989012347
+    m_lastTime: -8584810749496903116
     List: []
   - PhysicalPath: Events\PLAYER.wwu
     PathAndIcons:
@@ -660,7 +741,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER
     guid: 8a0c6695ceca7445a1dd81f55040a8f6
     GuidInternal: 
-    m_lastTime: -8584805944989002366
+    m_lastTime: -8584808108824409912
     List: []
   - PhysicalPath: Events\PLAYER_FALL.wwu
     PathAndIcons:
@@ -676,7 +757,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_FALL
     guid: d266754dc0a13f46a91e1d2d193286c8
     GuidInternal: 
-    m_lastTime: -8584805944989002366
+    m_lastTime: -8584808777895611501
     List:
     - name: PLAY_PLAYER_FALL
       guid: b1507d308aa51b4c9dd6f80160656ab3
@@ -732,7 +813,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_JUMP
     guid: 7f3782927dbec44aad8847a67f62dfb4
     GuidInternal: 
-    m_lastTime: -8584805944989002366
+    m_lastTime: -8584808108795935228
     List:
     - name: PLAY_PLAYER_JUMP
       guid: 05b75e7c88649a4094ba22f0d94ac7ab
@@ -768,7 +849,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LAND
     guid: 3b84c33f4136254f80c7c1c31c947198
     GuidInternal: 
-    m_lastTime: -8584805944988992351
+    m_lastTime: -8584808930466878036
     List:
     - name: PLAY_PLAYER_LAND
       guid: e766654af4f68746b68ad5beba5721a3
@@ -804,7 +885,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION
     guid: 20e364ed47f038448910e839510ead58
     GuidInternal: 
-    m_lastTime: -8584805944988992351
+    m_lastTime: -8584809027944905203
     List: []
   - PhysicalPath: Events\PLAYER_LOCOMOTION_IMPACTS.wwu
     PathAndIcons:
@@ -823,7 +904,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_IMPACTS
     guid: 47ff901b1623154e844a0d6e6129166f
     GuidInternal: 
-    m_lastTime: -8584805944988992351
+    m_lastTime: -8584808963762057930
     List:
     - name: PLAY_PLAYER_IMPACTS
       guid: 043fe9bc4728c94aa2a076d28824c163
@@ -888,7 +969,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_SLIDE
     guid: d58d9328fdf0b44e99f3161fc6092a79
     GuidInternal: 
-    m_lastTime: -8584805944988982394
+    m_lastTime: -8584809635353875480
     List:
     - name: PLAY_PLAYER_SLIDE
       guid: 5d80db6e2c0ce746b435818550469bfa
@@ -970,7 +1051,7 @@ MonoBehaviour:
     ParentPath: Events\TEST_EVENTS
     guid: 9ffb27ff79586b48ad078162a3a94910
     GuidInternal: 
-    m_lastTime: -8584805944988982394
+    m_lastTime: -8584810739295416245
     List:
     - name: PLAY_TESTBEEP
       guid: b24da883f988f241af2d62fe91ccd987
@@ -1086,7 +1167,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3b98b877b8191e4d997b0521d7f4095a
     GuidInternal: 
-    m_lastTime: -8584805944988972348
+    m_lastTime: -8584808069634036362
     List:
     - name: RTPC_DISTANCE
       guid: 291ab848b708ba459bbebca64800530d
@@ -1170,7 +1251,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 69d3afc52636b3489a2889364a6f7f6c
     GuidInternal: 
-    m_lastTime: -8584805944953092435
+    m_lastTime: -8584805363210600966
     List:
     - name: STATES_AREA
       guid: 2a7680d205c8e246bf41abb4105e0034
@@ -1238,6 +1319,136 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
+    - name: STATES_FOREST_P1_CUES
+      guid: 0c1738740a92764ebbbd66b994f04b57
+      id: 1606666624
+      PathAndIcons:
+      - ElementName: States
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 69d3afc52636b3489a2889364a6f7f6c
+      - ElementName: STATES_FOREST_P1_CUES
+        ObjectType: 9
+        guid: 0c1738740a92764ebbbd66b994f04b57
+      Path: States\Default Work Unit\STATES_FOREST_P1_CUES
+      values:
+      - name: None
+        guid: cc49f6f13ecbae4e9e195e696983f236
+        id: 748895195
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_FOREST_P1_CUES
+          ObjectType: 9
+          guid: 0c1738740a92764ebbbd66b994f04b57
+        - ElementName: None
+          ObjectType: 8
+          guid: cc49f6f13ecbae4e9e195e696983f236
+      - name: STATE_FOREST_P1_END
+        guid: a90008227c945a488e656e8b12fc3b87
+        id: 506127700
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_FOREST_P1_CUES
+          ObjectType: 9
+          guid: 0c1738740a92764ebbbd66b994f04b57
+        - ElementName: STATE_FOREST_P1_END
+          ObjectType: 8
+          guid: a90008227c945a488e656e8b12fc3b87
+      - name: STATE_FOREST_P1_FADE
+        guid: e66bb5f3dddd4549a23b20a49b2a7f0c
+        id: 2025880267
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_FOREST_P1_CUES
+          ObjectType: 9
+          guid: 0c1738740a92764ebbbd66b994f04b57
+        - ElementName: STATE_FOREST_P1_FADE
+          ObjectType: 8
+          guid: e66bb5f3dddd4549a23b20a49b2a7f0c
+      - name: STATE_FOREST_P1_INTRO
+        guid: 7b7783c726d81c46854ca351a53f0fe5
+        id: 3438870713
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_FOREST_P1_CUES
+          ObjectType: 9
+          guid: 0c1738740a92764ebbbd66b994f04b57
+        - ElementName: STATE_FOREST_P1_INTRO
+          ObjectType: 8
+          guid: 7b7783c726d81c46854ca351a53f0fe5
+      - name: STATE_FOREST_P1_ONE
+        guid: e5b242b4feb72f40bd5f4bb74f627ff5
+        id: 4262636943
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_FOREST_P1_CUES
+          ObjectType: 9
+          guid: 0c1738740a92764ebbbd66b994f04b57
+        - ElementName: STATE_FOREST_P1_ONE
+          ObjectType: 8
+          guid: e5b242b4feb72f40bd5f4bb74f627ff5
+      - name: STATE_FOREST_P1_THREE
+        guid: 498a93b4da34794f9ecafe0d8ad78630
+        id: 665932511
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_FOREST_P1_CUES
+          ObjectType: 9
+          guid: 0c1738740a92764ebbbd66b994f04b57
+        - ElementName: STATE_FOREST_P1_THREE
+          ObjectType: 8
+          guid: 498a93b4da34794f9ecafe0d8ad78630
+      - name: STATE_FOREST_P1_TWO
+        guid: 58348742f52e1045af30dfdf168d9ee7
+        id: 123052653
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_FOREST_P1_CUES
+          ObjectType: 9
+          guid: 0c1738740a92764ebbbd66b994f04b57
+        - ElementName: STATE_FOREST_P1_TWO
+          ObjectType: 8
+          guid: 58348742f52e1045af30dfdf168d9ee7
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: STATES_GAME
       guid: c63fe4d5ec43204cb1950c524c7ab21a
       id: 708499520
@@ -1301,6 +1512,72 @@ MonoBehaviour:
         - ElementName: None
           ObjectType: 8
           guid: 88eb2c30d632a24f8f06b38958038c0e
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: STATES_PHASES
+      guid: 44ff2254c8e9df45b284929966e5b24c
+      id: 1702361322
+      PathAndIcons:
+      - ElementName: States
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 69d3afc52636b3489a2889364a6f7f6c
+      - ElementName: STATES_PHASES
+        ObjectType: 9
+        guid: 44ff2254c8e9df45b284929966e5b24c
+      Path: States\Default Work Unit\STATES_PHASES
+      values:
+      - name: None
+        guid: 7dbd12ecee9c704ea88575b20c751c10
+        id: 748895195
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_PHASES
+          ObjectType: 9
+          guid: 44ff2254c8e9df45b284929966e5b24c
+        - ElementName: None
+          ObjectType: 8
+          guid: 7dbd12ecee9c704ea88575b20c751c10
+      - name: STATE_PHASEONE
+        guid: 434e0226349ad044a103abc1c10f559f
+        id: 3548780380
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_PHASES
+          ObjectType: 9
+          guid: 44ff2254c8e9df45b284929966e5b24c
+        - ElementName: STATE_PHASEONE
+          ObjectType: 8
+          guid: 434e0226349ad044a103abc1c10f559f
+      - name: STATE_PHASETWO
+        guid: 43e20d43afd4ec44b7720f2aa5ec8a02
+        id: 3930281454
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 69d3afc52636b3489a2889364a6f7f6c
+        - ElementName: STATES_PHASES
+          ObjectType: 9
+          guid: 44ff2254c8e9df45b284929966e5b24c
+        - ElementName: STATE_PHASETWO
+          ObjectType: 8
+          guid: 43e20d43afd4ec44b7720f2aa5ec8a02
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -1416,7 +1693,7 @@ MonoBehaviour:
     ParentPath: Switches\Ambience Switches
     guid: 890d391daa6f444a8d35d51423e241e9
     GuidInternal: 
-    m_lastTime: -8584805944953082407
+    m_lastTime: -8584809841368303751
     List:
     - name: AMBIENCEBIOMESWITCH
       guid: c19da96055f49c4295064afcdee27ef8
@@ -1479,7 +1756,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: eec5568e802376459ca10605a1f0e57b
     GuidInternal: 
-    m_lastTime: -8584805944953082407
+    m_lastTime: -8584808061410331430
     List:
     - name: DISTANCESWITCH
       guid: 622fcafe08b4b042be219ee090a6dfe1
@@ -1985,11 +2262,11 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 68dcaa4aa9a20848a61ba85865fc3571
     GuidInternal: 
-    m_lastTime: -8584805944953059863
+    m_lastTime: -8584814030738763011
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 010000000500000008000000090000000a0000000c0000000d0000000f0000001700000018000000190000001a0000001b0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002a0000002e0000002f0000003000000036000000
-  AutoSyncSelection: 1
+  ExpandedWaapiItemIds: 05000000060000000d0000000e0000001e0000001f00000020000000210000002200000024000000b0010000b1010000b3010000
+  AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
   CurrentPluginConfig: 
