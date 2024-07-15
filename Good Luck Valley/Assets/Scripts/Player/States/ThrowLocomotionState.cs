@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,11 +6,11 @@ namespace GoodLuckValley.Player.States
 {
     public class ThrowLocomotionState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
         private float animationTimer;
         private bool Finished { get => animationTimer <= 0; }
 
-        public ThrowLocomotionState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
+        public ThrowLocomotionState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator)
         {
             this.sfx = sfx;
         }
@@ -27,13 +28,14 @@ namespace GoodLuckValley.Player.States
 
             // Set throwing again to false
             player.SetThrowingAgain(false);
+
+            // Update footstep sounds
+            sfx.SetSpeedRTPC(sfx.RUN);
+            sfx.StartGroundImpacts();
         }
 
         public override void Update()
         {
-            // Update footstep sounds
-            sfx.Footsteps();
-
             // Update timers
             if (animationTimer > 0)
                 animationTimer -= Time.deltaTime;
@@ -54,7 +56,7 @@ namespace GoodLuckValley.Player.States
         public override void OnExit()
         {
             // Reset footstep sounds
-            sfx.ResetFootsteps();
+            sfx.StopGroundImpacts();
 
             // Set throwing to false
             player.SetThrow(false);

@@ -1,4 +1,4 @@
-using GoodLuckValley.Audio.Sound;
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -6,9 +6,9 @@ namespace GoodLuckValley.Player.States
 {
     public class LandState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
 
-        public LandState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator)
+        public LandState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator)
         {
             this.sfx = sfx;
         }
@@ -32,6 +32,12 @@ namespace GoodLuckValley.Player.States
 
             // Handle player movement
             player.HandleMovement();
+        }
+
+        public override void OnExit()
+        {
+            // Reset fall counters
+            sfx.ResetLandCounter();
         }
     }
 }

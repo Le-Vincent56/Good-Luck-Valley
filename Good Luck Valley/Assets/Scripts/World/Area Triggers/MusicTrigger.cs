@@ -1,16 +1,39 @@
-using GoodLuckValley.Audio.Music;
-using GoodLuckValley.World.AreaTriggers;
+using System.Collections.Generic;
 using UnityEngine;
+using AK.Wwise;
+using GoodLuckValley.Audio.Music;
 
-namespace GoodLuckValley.AreaTriggers.Music
+namespace GoodLuckValley.World.AreaTriggers
 {
+    [RequireComponent(typeof(AreaCollider))]
     public class MusicTrigger : MonoBehaviour
     {
+        public enum Type
+        {
+            Play,
+            Stop,
+            Pause,
+            Resume,
+            StateChange
+        }
+
+        [SerializeField] private Type type;
         private AreaCollider areaCollider;
 
-        [Header("Fields")]
-        [SerializeField] private AudioClip transition;
-        [SerializeField] private AudioClip newLoop;
+        [SerializeField] private bool permanentChange;
+        [SerializeField] private List<State> statesToSet;
+
+        public Type TriggerType
+        {
+            get => type; 
+            set => type = value;
+        }
+
+        public bool PermanentChange
+        {
+            get => permanentChange;
+            set => permanentChange = value;
+        }
 
         private void Awake()
         {
@@ -29,13 +52,24 @@ namespace GoodLuckValley.AreaTriggers.Music
 
         private void TriggerEnter(GameObject other)
         {
-            // If the music is currently looping, stop looping
-            if (MusicManager.Instance.current.loop && MusicManager.Instance.canEnqueue)
-                MusicManager.Instance.current.loop = false;
+            switch (type)
+            {
+                case Type.Play:
+                    break;
 
-            MusicManager.Instance.AddToPlaylist(transition, true);
-            MusicManager.Instance.AddToPlaylist(newLoop);
-            MusicManager.Instance.canEnqueue = false;
+                case Type.Pause:
+                    break;
+
+                case Type.Stop:
+                    break;
+
+                case Type.StateChange:
+                    foreach(State state in statesToSet)
+                    {
+                        MusicManager.Instance.SetState(state, permanentChange);
+                    }
+                    break;
+            }
         }
     }
 }

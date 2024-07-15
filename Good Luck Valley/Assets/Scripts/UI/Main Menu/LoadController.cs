@@ -1,4 +1,3 @@
-using GoodLuckValley.Audio.Sound;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,6 @@ namespace GoodLuckValley.UI.MainMenu
         [SerializeField] private Image deleteProgressPanel;
         [SerializeField] private Image deleteProgressAnimation;
         [SerializeField] private Animator deleteProgressAnimator;
-        [SerializeField] private SoundData buttonSFX;
         private Dictionary<string, ConfirmationPopupMenu> popUps = new Dictionary<string, ConfirmationPopupMenu>();
         private SaveSlot selectedSlot;
 
@@ -98,12 +96,6 @@ namespace GoodLuckValley.UI.MainMenu
             {
                 menuController.LoadState.LoadData(selectedSlot);
             }
-
-            // Play the button sound effect
-            SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(buttonSFX)
-                .WithRandomPitch()
-                .Play();
         }
 
         /// <summary>
@@ -123,12 +115,6 @@ namespace GoodLuckValley.UI.MainMenu
                 },
                 () => { } // Cancel
             );
-            
-            // Play the button sound effect
-            SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(buttonSFX)
-                .WithRandomPitch()
-                .Play();
         }
 
         /// <summary>
@@ -147,12 +133,6 @@ namespace GoodLuckValley.UI.MainMenu
 
             // Go back to the Main Menu
             menuController.SetState(1);
-
-            // Play the button sound effect
-            SoundManager.Instance.CreateSoundBuilder()
-                .WithSoundData(buttonSFX)
-                .WithRandomPitch()
-                .Play();
         }
 
         /// <summary>

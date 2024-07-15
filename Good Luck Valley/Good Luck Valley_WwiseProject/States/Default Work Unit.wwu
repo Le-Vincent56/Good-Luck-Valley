@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}" SchemaVersion="119">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="STATES_GAME" ID="{D5E43FC6-43EC-4C20-B195-0C524C7AB21A}">
+					<ChildrenList>
+						<State Name="None" ID="{302CEB88-32D6-4FA2-8F06-B38958038C0E}"/>
+						<State Name="IN_GAME" ID="{E767F48B-6633-40A3-942F-EB186BB23D21}"/>
+						<State Name="IN_MENU" ID="{206FBDD7-D971-4F2D-80C3-65C74D62F355}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="STATES_PLAYER" ID="{B65B5215-2E65-4F68-8CF1-73D44A4317B1}">
+					<ChildrenList>
+						<State Name="None" ID="{BF8E5EB8-EE68-40B3-862A-DA004C7C6164}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="STATES_ROOM" ID="{E267853A-C4FD-49F7-A543-5B23E2F10E4F}">
+					<ChildrenList>
+						<State Name="None" ID="{85672C85-73F9-42F5-8807-CF079CA23944}"/>
+						<State Name="STATE_INDOOR" ID="{C20D63C6-7D87-404C-97AD-AD9B579A0702}"/>
+						<State Name="STATE_OUTDOOR" ID="{B8314DB3-9BE5-40AB-B630-7253E9D5D36E}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="STATES_AREA" ID="{D280762A-C805-46E2-BF41-ABB4105E0034}">
+					<ChildrenList>
+						<State Name="None" ID="{E9167E28-20D5-46D3-A80F-880793B44E35}"/>
+						<State Name="STATE_FOREST" ID="{58DC37AF-5AFF-4048-8A31-81FC4209378A}"/>
+						<State Name="STATE_CAVE" ID="{A61906DC-68A6-4A27-9EFD-9915C1BE43A4}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="STATES_PHASES" ID="{5422FF44-E9C8-45DF-B284-929966E5B24C}">
+					<ChildrenList>
+						<State Name="None" ID="{EC12BD7D-9CEE-4E70-A885-75B20C751C10}"/>
+						<State Name="STATE_PHASEONE" ID="{26024E43-9A34-44D0-A103-ABC1C10F559F}"/>
+						<State Name="STATE_PHASETWO" ID="{430DE243-D4AF-44EC-B772-0F2AA5EC8A02}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="STATES_FOREST_P1_CUES" ID="{7438170C-920A-4E76-BBBD-66B994F04B57}">
+					<ChildrenList>
+						<State Name="None" ID="{F1F649CC-CB3E-4EAE-9E19-5E696983F236}"/>
+						<State Name="STATE_FOREST_P1_INTRO" ID="{C783777B-D826-461C-854C-A351A53F0FE5}"/>
+						<State Name="STATE_FOREST_P1_ONE" ID="{B442B2E5-B7FE-402F-BD5F-4BB74F627FF5}"/>
+						<State Name="STATE_FOREST_P1_TWO" ID="{42873458-2EF5-4510-AF30-DFDF168D9EE7}"/>
+						<State Name="STATE_FOREST_P1_THREE" ID="{B4938A49-34DA-4F79-9ECA-FE0D8AD78630}"/>
+						<State Name="STATE_FOREST_P1_END" ID="{220800A9-947C-485A-8E65-6E8B12FC3B87}"/>
+						<State Name="STATE_FOREST_P1_FADE" ID="{F3B56BE6-DDDD-4945-A23B-20A49B2A7F0C}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using GoodLuckValley.Player.Control;
 using UnityEngine;
 
@@ -5,9 +6,9 @@ namespace GoodLuckValley.Player.States
 {
     public class FallState : BaseState
     {
-        private readonly PlayerSFXHandler sfx;
+        private readonly PlayerSFXMaster sfx;
 
-        public FallState(PlayerController player, Animator animator, PlayerSFXHandler sfx) : base(player, animator) 
+        public FallState(PlayerController player, Animator animator, PlayerSFXMaster sfx) : base(player, animator) 
         {
             this.sfx = sfx;
         }
@@ -23,7 +24,7 @@ namespace GoodLuckValley.Player.States
             player.SetCanPeek(false);
 
             // Play the falling sound effect
-            sfx.Fall();
+            sfx.StartFall();
         }
 
         public override void FixedUpdate()

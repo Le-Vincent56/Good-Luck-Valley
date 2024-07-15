@@ -8,7 +8,7 @@ using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
 using GoodLuckValley.Patterns.Blackboard;
-using GoodLuckValley.Patterns.ServiceLocator;
+using GoodLuckValley.Audio.SFX;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -23,6 +23,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private GameEvent onSendPlayerController;
         [SerializeField] private GameEvent onPlayerTurn;
         [SerializeField] private GameEvent onSetCanPeek;
+        [SerializeField] private GameEvent onPositionChange;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -30,7 +31,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private DynamicCollisionHandler collisionHandler;
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
-        [SerializeField] private PlayerSFXHandler sfxHandler;
+        [SerializeField] private PlayerSFXMaster sfxHandler;
         [SerializeField] private PlayerParticlesController particlesController;
         [SerializeField] private CameraFollowObject followObject;
         [SerializeField] private PlayerSaveHandler saveHandler;
@@ -92,7 +93,7 @@ namespace GoodLuckValley.Player.Control
             animator = GetComponentInChildren<Animator>();
             collisionHandler = GetComponent<DynamicCollisionHandler>();
             devTools = GetComponentInChildren<DevTools>();
-            sfxHandler = GetComponentInChildren<PlayerSFXHandler>();
+            sfxHandler = GetComponentInChildren<PlayerSFXMaster>();
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
             followObject = GetComponentInChildren<CameraFollowObject>();
             saveHandler = GetComponent<PlayerSaveHandler>();
@@ -258,6 +259,9 @@ namespace GoodLuckValley.Player.Control
 
             // Update timers
             UpdateTimers();
+
+            // Update player position
+            onPositionChange.Raise(this, (Vector2)transform.position);
 
             // Update the state machine
             stateMachine.Update();
@@ -444,6 +448,8 @@ namespace GoodLuckValley.Player.Control
                     velocity.y = -data.maxFallSpeed;
                 }
             }
+
+            sfxHandler.SetFallSpeedRTPC(Mathf.Abs(velocity.y));
 
             // Show more underneath the player if they are falling
             if(velocity.y <= fallSpeedDampingChangeThreshold &&
@@ -668,7 +674,9 @@ namespace GoodLuckValley.Player.Control
             // Calculate bounce force
             Vector2 bounceVec = bounceData.BounceVector;
 
-            switch (bounceData.BounceCount)
+            int clampedBounceCount = Mathf.Clamp(bounceData.BounceCount, 1, 3);
+
+            switch (clampedBounceCount)
             {
                 case 2:
                     bounceVec *= this.data.secondBounceMult;
@@ -689,6 +697,9 @@ namespace GoodLuckValley.Player.Control
             // Apply bounce force
             velocity.x += bounceVec.x;
             velocity.y = bounceVec.y;
+
+            // Play the bounce sound
+            sfxHandler.Bounce(Mathf.Clamp(bounceData.BounceCount, 1, 4));
         }
         #endregion
 

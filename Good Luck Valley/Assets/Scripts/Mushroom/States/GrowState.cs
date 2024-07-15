@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.SFX;
 using UnityEngine;
 
 namespace GoodLuckValley.Mushroom.States
@@ -6,9 +7,9 @@ namespace GoodLuckValley.Mushroom.States
     {
         private float growTimer;
         public bool Finished { get => growTimer <= 0; }
-        private readonly MushroomSFXHandler sfx;
+        private readonly MushroomSFXMaster sfx;
 
-        public GrowState(MushroomController mushroom, Animator animator, MushroomSFXHandler sfx) : base(mushroom, animator)
+        public GrowState(MushroomController mushroom, Animator animator, MushroomSFXMaster sfx) : base(mushroom, animator)
         {
             this.sfx = sfx;
         }
@@ -17,6 +18,9 @@ namespace GoodLuckValley.Mushroom.States
         {
             // Set the grow timer
             growTimer = 0.4f;
+
+            // Update the sfx switch based on the tile type
+            sfx.UpdateSwitch(mushroom.GetSpawnTileType());
 
             // Play the bounce sound effect
             sfx.Grow();

@@ -178,10 +178,10 @@ GameObject:
   - component: {fileID: 5503443787126337183}
   - component: {fileID: 9195738692500030815}
   - component: {fileID: 7542727283649586972}
-  - component: {fileID: 5369573696177444769}
   - component: {fileID: 5974221141365642111}
+  - component: {fileID: 5369573696177444769}
+  - component: {fileID: 3403284045830561682}
   - component: {fileID: -6309271185135199833}
-  - component: {fileID: 2310818449178217402}
   - component: {fileID: 5033029671093055471}
   - component: {fileID: 6303348709080136998}
   m_Layer: 9
@@ -365,27 +365,23 @@ MonoBehaviour:
   collisionHandler: {fileID: 0}
   data: {fileID: 0}
   sfxHandler: {fileID: 0}
+  detectTileType:
+    direction: 1
+    distance: 1
+    dirtLayer:
+      serializedVersion: 2
+      m_Bits: 16384
+    grassLayer:
+      serializedVersion: 2
+      m_Bits: 32768
+    stoneLayer:
+      serializedVersion: 2
+      m_Bits: 131072
   shroomType: 1
+  spawnTile: 0
   velocity: {x: 0, y: 0}
   bounceEntity: 0
   growing: 0
---- !u!114 &5369573696177444769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6546575361362329001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5abe41bc8cb8e444c88e0a7847f29d71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onRemoveShroom: {fileID: 11400000, guid: 8d3ca96fb0267124bbd372df72d2cf3e, type: 2}
-  removedByTimer: 1
-  durationTimer: 0.5
-  bounceBuffer: 0
-  onCooldown: 0
 --- !u!114 &5974221141365642111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +400,57 @@ MonoBehaviour:
   bounceForce: 0
   rotation: 0
   index: 0
+--- !u!114 &5369573696177444769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6546575361362329001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abe41bc8cb8e444c88e0a7847f29d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onRemoveShroom: {fileID: 11400000, guid: 8d3ca96fb0267124bbd372df72d2cf3e, type: 2}
+  removedByTimer: 1
+  durationTimer: 0.5
+  bounceBuffer: 0
+  onCooldown: 0
+--- !u!114 &3403284045830561682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6546575361362329001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495fa308d1fe2bf418029adfaa0e9d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grassSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 22959baba42eb9544940b20b258dc47a, type: 2}
+  dirtSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 1b5f013a78961c142bd4eb03e06087a7, type: 2}
+  stoneSwitch:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: cafee44a46ff77b46aa3aa2da35c2823, type: 2}
+  shroomGrowEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e09ec44d370b6324394837d27bb6819e, type: 2}
 --- !u!114 &-6309271185135199833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,22 +472,11 @@ MonoBehaviour:
     grassLayer:
       serializedVersion: 2
       m_Bits: 32768
+    stoneLayer:
+      serializedVersion: 2
+      m_Bits: 0
   grassParticle: {fileID: 4893773598448290702}
   dirtParticle: {fileID: 5890698683372785723}
---- !u!114 &2310818449178217402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6546575361362329001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939a0f19f8fd5a84091f63db49809c64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grow: {fileID: 11400000, guid: 40a89438e624a8e478f4b499fd1a647b, type: 2}
-  bounce: {fileID: 11400000, guid: e7106fc55664d8a4297de35f5eba666b, type: 2}
 --- !u!114 &5033029671093055471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,7 +528,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2101681771180253118, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5006922193867275429, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
       propertyPath: m_StartSeed
@@ -571,7 +607,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2101681771180253118, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5006922193867275429, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
       propertyPath: m_StartSeed
@@ -694,7 +730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7585116469709029358, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7585116469709029358, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
       propertyPath: m_SortingOrder

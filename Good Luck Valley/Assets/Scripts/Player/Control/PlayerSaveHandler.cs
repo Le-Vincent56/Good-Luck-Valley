@@ -40,7 +40,7 @@ namespace GoodLuckValley.Player.Control
             this.data = data;
             this.data.ID = ID;
 
-            if(applyData)
+            if (applyData)
                 transform.position = data.position;
         }
     }

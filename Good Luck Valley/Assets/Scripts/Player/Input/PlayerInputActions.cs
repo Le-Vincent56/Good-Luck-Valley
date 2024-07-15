@@ -181,6 +181,15 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Journal"",
+                    ""type"": ""Button"",
+                    ""id"": ""10cafb5b-9865-4679-86c6-7337d1663241"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -436,6 +445,17 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""ToggleDeveloperConsole"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1fe70e31-ae9c-4423-8532-b5afcb4ea9ad"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Journal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -511,6 +531,7 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_Crawl = m_PlayerControls.FindAction("Crawl", throwIfNotFound: true);
             m_PlayerControls_Scroll = m_PlayerControls.FindAction("Scroll", throwIfNotFound: true);
             m_PlayerControls_ToggleDeveloperConsole = m_PlayerControls.FindAction("ToggleDeveloperConsole", throwIfNotFound: true);
+            m_PlayerControls_OpenJournal = m_PlayerControls.FindAction("Open Journal", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
@@ -592,6 +613,7 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_Crawl;
         private readonly InputAction m_PlayerControls_Scroll;
         private readonly InputAction m_PlayerControls_ToggleDeveloperConsole;
+        private readonly InputAction m_PlayerControls_OpenJournal;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -613,6 +635,7 @@ namespace GoodLuckValley.Player.Input
             public InputAction @Crawl => m_Wrapper.m_PlayerControls_Crawl;
             public InputAction @Scroll => m_Wrapper.m_PlayerControls_Scroll;
             public InputAction @ToggleDeveloperConsole => m_Wrapper.m_PlayerControls_ToggleDeveloperConsole;
+            public InputAction @OpenJournal => m_Wrapper.m_PlayerControls_OpenJournal;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -673,6 +696,9 @@ namespace GoodLuckValley.Player.Input
                 @ToggleDeveloperConsole.started += instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.performed += instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.canceled += instance.OnToggleDeveloperConsole;
+                @OpenJournal.started += instance.OnOpenJournal;
+                @OpenJournal.performed += instance.OnOpenJournal;
+                @OpenJournal.canceled += instance.OnOpenJournal;
             }
 
             private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -728,6 +754,9 @@ namespace GoodLuckValley.Player.Input
                 @ToggleDeveloperConsole.started -= instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.performed -= instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.canceled -= instance.OnToggleDeveloperConsole;
+                @OpenJournal.started -= instance.OnOpenJournal;
+                @OpenJournal.performed -= instance.OnOpenJournal;
+                @OpenJournal.canceled -= instance.OnOpenJournal;
             }
 
             public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -810,6 +839,7 @@ namespace GoodLuckValley.Player.Input
             void OnCrawl(InputAction.CallbackContext context);
             void OnScroll(InputAction.CallbackContext context);
             void OnToggleDeveloperConsole(InputAction.CallbackContext context);
+            void OnOpenJournal(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

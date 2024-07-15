@@ -1,133 +1,63 @@
-using GoodLuckValley.Audio.Sound;
-using GoodLuckValley.Extensions;
 using GoodLuckValley.Patterns.Singletons;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace GoodLuckValley.Audio.Music
 {
     public class MusicManager : PersistentSingleton<MusicManager>
     {
-        private const float crossFadeTime = 1.0f;
-        private float fading;
-        public AudioSource current;
-        private readonly Queue<AudioClip> playlist = new Queue<AudioClip>();
-        private readonly Queue<bool> transitions = new Queue<bool>();
-        private int crossFadeCount = 0;
-        public bool canEnqueue;
+        [SerializeField] private AK.Wwise.Event startMusicEvent;
+        [SerializeField] private AK.Wwise.Event stopMusicEvent;
+        [SerializeField] private AK.Wwise.Event pauseMusicEvent;
+        [SerializeField] private AK.Wwise.Event resumeMusicEvent;
+        [SerializeField] private List<uint> changedStates;
 
-        [SerializeField] private List<AudioClip> initialPlaylist;
-        [SerializeField] private AudioMixerGroup musicMixerGroup;
-
-        private void Start()
+        protected override void Awake()
         {
-            canEnqueue = true;
+            base.Awake();
 
-            // Loop through each clip added in the initial playlist
-            foreach(AudioClip clip in initialPlaylist)
-            {
-                // Add the clips to the playlist
-                AddToPlaylist(clip);
-            }
-        }
-
-        private void Update()
-        {
-            // Handle any cross fading, but only one time
-            if(crossFadeCount <= 0)
-                HandleCrossFade();
-
-            // Check if the next track should be played
-            if (current && !current.isPlaying && playlist.Count > 0)
-            {
-                // Play the next track
-                PlayNextTrack();
-            }
+            Play();
         }
 
         /// <summary>
-        /// Add an AudioClip to the playlist
+        /// Play the music event
         /// </summary>
-        /// <param name="clip">The AudioClip to add to the playlist</param>
-        public void AddToPlaylist(AudioClip clip, bool isTransition = false)
+        public void Play() => startMusicEvent.Post(gameObject);
+
+        /// <summary>
+        /// Stop the music event
+        /// </summary>
+        public void Stop() => stopMusicEvent.Post(gameObject);
+
+        /// <summary>
+        /// Pause the music event
+        /// </summary>
+        public void Pause() => pauseMusicEvent.Post(gameObject);
+
+        /// <summary>
+        /// Resume the music event
+        /// </summary>
+        public void Resume() => resumeMusicEvent.Post(gameObject);
+
+        /// <summary>
+        /// Switch music event states
+        /// </summary>
+        /// <param name="state"></param>
+        public void SetState(AK.Wwise.State state, bool permanentChange = false)
         {
-            if (!canEnqueue) return;
-
-            // Enqueue the AudioClip
-            playlist.Enqueue(clip);
-            transitions.Enqueue(!isTransition);
-
-            // Check if any audio is playing
-            if(current == null)
+            // If the state to change is already in the permanent list, return
+            if (changedStates.Contains(state.Id))
             {
-                // If not, play the next track
-                PlayNextTrack();
+                return;
             }
-        }
 
-        /// <summary>
-        /// Play the next track in the playlist
-        /// </summary>
-        public void PlayNextTrack()
-        {
-            // Check if there's any AudioClip to dequeue
-            if(playlist.TryDequeue(out AudioClip nextTrack))
+            // Set the state value
+            state.SetValue();
+
+            // If noted as permanent, change the states
+            if(permanentChange)
             {
-                // If so, play the dequeue'd AudioClip
-                Play(nextTrack);
-            }
-        }
-
-        /// <summary>
-        /// Play an AudioClip
-        /// </summary>
-        /// <param name="clip">The AudioClip to play</param>
-        public void Play(AudioClip clip)
-        {
-            // Return if this AudioClip is already playing
-            if (current && current.clip == clip) return;
-
-            // Set the current AudioSource
-            current = gameObject.GetOrAdd<AudioSource>();
-            current.clip = clip;
-            current.outputAudioMixerGroup = musicMixerGroup;
-            current.loop = transitions.Dequeue();
-            current.volume = (crossFadeCount <= 0) ? 0f : 1f;
-            current.bypassListenerEffects = true;
-
-            // Play the current AudioSource
-            current.Play();
-
-            // Set the fading
-            fading = 0.001f;
-        }
-
-        /// <summary>
-        /// Handle the cross fading between the previous and current AudioSources
-        /// </summary>
-        private void HandleCrossFade()
-        {
-            // Return if the fading is done
-            if (fading <= 0f) return;
-
-            fading += Time.deltaTime;
-
-            float fraction = Mathf.Clamp01(fading / crossFadeTime);
-
-            // Logarithmic fade
-            float logFraction = fraction.ToLogarithmicFraction();
-
-            // If a current AudioSource is present, increase the volume
-            if (current) current.volume = logFraction;
-
-            // Check if the fraction is equal to/exceeded one
-            if(fraction >= 1)
-            {
-                // Set fading to 0
-                fading = 0.0f;
-
-                crossFadeCount++;
+                changedStates.Add(state.Id);
             }
         }
     }
