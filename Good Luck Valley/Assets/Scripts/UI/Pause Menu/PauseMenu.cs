@@ -54,6 +54,13 @@ namespace GoodLuckValley.UI
         }
 
         /// <summary>
+        /// Handle pause events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void OnPause(Component sender, object data) => TogglePause();
+
+        /// <summary>
         /// Toggle the pause menu
         /// </summary>
         /// <param name="sender"></param>
@@ -83,6 +90,7 @@ namespace GoodLuckValley.UI
             // Update paused for any listeners
             // Calls to:
             //  - PlayerInputHandler.SetPaused
+            //  - JournalUI.SetPaused
             onUpdatePaused.Raise(this, Paused);
         }
 
@@ -111,6 +119,7 @@ namespace GoodLuckValley.UI
             // Update paused for any listeners
             // Calls to:
             //  - PlayerInputHandler.SetPaused
+            //  - JournalUI.SetPaused
             onUpdatePaused.Raise(this, SoftPaused);
         }
 
