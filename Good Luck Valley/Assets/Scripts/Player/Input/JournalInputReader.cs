@@ -1,3 +1,4 @@
+using GoodLuckValley.Player.Control;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -6,7 +7,7 @@ using static GoodLuckValley.Player.Input.JournalInputActions;
 namespace GoodLuckValley.Player.Input
 {
     [CreateAssetMenu(fileName = "JournalInputReader", menuName = "Input/Journal Input Reader")]
-    public class JournalInputReader : ScriptableObject, IJournalControlsActions
+    public class JournalInputReader : ScriptableObject, IJournalControlsActions, IInputReader
     {
         JournalInputActions inputActions;
 

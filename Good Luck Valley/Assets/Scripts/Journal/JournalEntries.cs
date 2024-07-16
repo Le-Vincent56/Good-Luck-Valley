@@ -6,12 +6,12 @@ namespace GoodLuckValley.Journal
     [CreateAssetMenu(fileName = "Note Data", menuName = "Journal/Journal Entries Database")]
     public class JournalEntries : ScriptableObject
     {
-        public List<NoteData> Notes = new List<NoteData>();
-        public int Count { get => Notes.Count; }
+        public List<JournalEntryData> Entries = new List<JournalEntryData>();
+        public int Count { get => Entries.Count; }
 
         /// <summary>
         /// Sort the Journal entry database
         /// </summary>
-        public void Sort() => Notes.Sort((note1, note2) => note1.ID.CompareTo(note2.ID));
+        public void Sort() => Entries.Sort((note1, note2) => note1.ID.CompareTo(note2.ID));
     }
 }
