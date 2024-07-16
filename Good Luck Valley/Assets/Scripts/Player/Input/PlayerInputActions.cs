@@ -458,56 +458,6 @@ namespace GoodLuckValley.Player.Input
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""UI"",
-            ""id"": ""0394a4c8-4f01-462f-8a02-73d8422b661b"",
-            ""actions"": [
-                {
-                    ""name"": ""Start"",
-                    ""type"": ""Button"",
-                    ""id"": ""1edcc436-aaa1-4983-82ac-86d33e72e941"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""3cd5549d-15e5-4fd0-aabf-b547ce88fc0b"",
-                    ""path"": ""<Keyboard>/anyKey"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Start"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b92129ab-a493-442f-88a6-0471583894b0"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Start"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""65548503-24a4-4e23-8609-a5165aef51e0"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Start"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": []
@@ -532,9 +482,6 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_Scroll = m_PlayerControls.FindAction("Scroll", throwIfNotFound: true);
             m_PlayerControls_ToggleDeveloperConsole = m_PlayerControls.FindAction("ToggleDeveloperConsole", throwIfNotFound: true);
             m_PlayerControls_OpenJournal = m_PlayerControls.FindAction("Open Journal", throwIfNotFound: true);
-            // UI
-            m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-            m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -774,52 +721,6 @@ namespace GoodLuckValley.Player.Input
             }
         }
         public PlayerControlsActions @PlayerControls => new PlayerControlsActions(this);
-
-        // UI
-        private readonly InputActionMap m_UI;
-        private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-        private readonly InputAction m_UI_Start;
-        public struct UIActions
-        {
-            private @PlayerInputActions m_Wrapper;
-            public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Start => m_Wrapper.m_UI_Start;
-            public InputActionMap Get() { return m_Wrapper.m_UI; }
-            public void Enable() { Get().Enable(); }
-            public void Disable() { Get().Disable(); }
-            public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
-            public void AddCallbacks(IUIActions instance)
-            {
-                if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-                @Start.started += instance.OnStart;
-                @Start.performed += instance.OnStart;
-                @Start.canceled += instance.OnStart;
-            }
-
-            private void UnregisterCallbacks(IUIActions instance)
-            {
-                @Start.started -= instance.OnStart;
-                @Start.performed -= instance.OnStart;
-                @Start.canceled -= instance.OnStart;
-            }
-
-            public void RemoveCallbacks(IUIActions instance)
-            {
-                if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
-                    UnregisterCallbacks(instance);
-            }
-
-            public void SetCallbacks(IUIActions instance)
-            {
-                foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
-                    UnregisterCallbacks(item);
-                m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
-                AddCallbacks(instance);
-            }
-        }
-        public UIActions @UI => new UIActions(this);
         public interface IPlayerControlsActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -840,10 +741,6 @@ namespace GoodLuckValley.Player.Input
             void OnScroll(InputAction.CallbackContext context);
             void OnToggleDeveloperConsole(InputAction.CallbackContext context);
             void OnOpenJournal(InputAction.CallbackContext context);
-        }
-        public interface IUIActions
-        {
-            void OnStart(InputAction.CallbackContext context);
         }
     }
 }

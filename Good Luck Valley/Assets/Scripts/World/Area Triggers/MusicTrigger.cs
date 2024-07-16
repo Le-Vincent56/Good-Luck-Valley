@@ -21,7 +21,10 @@ namespace GoodLuckValley.World.AreaTriggers
         private AreaCollider areaCollider;
 
         [SerializeField] private bool permanentChange;
+        [SerializeField] private bool disableStates;
+
         [SerializeField] private List<State> statesToSet;
+        [SerializeField] private List<State> statesToDisable;
 
         public Type TriggerType
         {
@@ -64,9 +67,19 @@ namespace GoodLuckValley.World.AreaTriggers
                     break;
 
                 case Type.StateChange:
+                    // Set each state
                     foreach(State state in statesToSet)
                     {
                         MusicManager.Instance.SetState(state, permanentChange);
+                    }
+
+                    // If not disabling states, return
+                    if (!disableStates) return;
+
+                    // Disable states
+                    foreach(State state in statesToDisable)
+                    {
+                        MusicManager.Instance.DisableState(state);
                     }
                     break;
             }

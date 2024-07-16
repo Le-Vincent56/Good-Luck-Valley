@@ -14,14 +14,8 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private GameEvent onRecallAll;
         [SerializeField] private GameEvent onCancelThrow;
 
-        #region REFERENCES
         [Header("References")]
         [SerializeField] private InputReader input;
-        #endregion
-
-        #region FIELDS
-        private bool paused = false;
-        #endregion
 
         private void OnEnable()
         {
@@ -46,9 +40,6 @@ namespace GoodLuckValley.Mushroom
         /// <param name="canceled">If the button has been lifted</param>
         private void OnThrow(bool started, bool canceled)
         {
-            // Return if paused
-            if (paused) return;
-
             // Create data
             ContextData contextData = new ContextData(started, canceled);
 
@@ -65,7 +56,7 @@ namespace GoodLuckValley.Mushroom
         private void OnQuickBounce(bool started)
         {
             // Only handle if pressed once and the game is not paused
-            if (started && !paused)
+            if (started)
             {
                 // Quick bounce
                 // Calls to:
@@ -81,7 +72,7 @@ namespace GoodLuckValley.Mushroom
         private void OnRecallLast(bool started)
         {
             // Only handle if pressed once and the game is not paused
-            if (started && !paused)
+            if (started)
             {
                 // Recall last shroom
                 // Calls to:
@@ -97,7 +88,7 @@ namespace GoodLuckValley.Mushroom
         private void OnRecallAll(bool started)
         {
             // Only handle if pressed once and the game is not paused
-            if (started && !paused)
+            if (started)
             {
                 // Recall all shrooms
                 // Calls to:
@@ -111,16 +102,11 @@ namespace GoodLuckValley.Mushroom
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public void SetPaused(Component sender, object data)
+        public void OnCancelThrow(Component sender, object data)
         {
-            // Verify the correct data is being sent
-            if (data is not bool) return;
-
-            // Cast and set data
-            bool paused = (bool)data;
-            this.paused = paused;
-
             // Cancel throw
+            // Calls to:
+            //  - MushroomThrow.CancelThrow();
             onCancelThrow.Raise(this, null);
         }
     }

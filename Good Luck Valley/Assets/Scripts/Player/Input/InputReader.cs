@@ -1,3 +1,4 @@
+using GoodLuckValley.Player.Control;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -18,7 +19,7 @@ namespace GoodLuckValley.Player.Input
     }
 
     [CreateAssetMenu(fileName = "DefaultInputReader", menuName = "Input/Default Input Reader")]
-    public class InputReader : ScriptableObject, IPlayerControlsActions
+    public class InputReader : ScriptableObject, IPlayerControlsActions, IInputReader
     {
         public bool AllowControl { get; set; }
 

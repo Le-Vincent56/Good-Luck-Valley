@@ -10,7 +10,7 @@ namespace GoodLuckValley.Audio.Music
         [SerializeField] private AK.Wwise.Event stopMusicEvent;
         [SerializeField] private AK.Wwise.Event pauseMusicEvent;
         [SerializeField] private AK.Wwise.Event resumeMusicEvent;
-        [SerializeField] private List<uint> changedStates;
+        [SerializeField] private List<uint> disabledStates;
 
         protected override void Awake()
         {
@@ -45,20 +45,28 @@ namespace GoodLuckValley.Audio.Music
         /// <param name="state"></param>
         public void SetState(AK.Wwise.State state, bool permanentChange = false)
         {
-            // If the state to change is already in the permanent list, return
-            if (changedStates.Contains(state.Id))
-            {
-                return;
-            }
+            // If the state is in the disabled list, return
+            if (disabledStates.Contains(state.Id)) return;
 
             // Set the state value
             state.SetValue();
 
-            // If noted as permanent, change the states
+            // If noted as permanent, disable the state
             if(permanentChange)
-            {
-                changedStates.Add(state.Id);
-            }
+                DisableState(state);
+        }
+
+        /// <summary>
+        /// Disable a music event state
+        /// </summary>
+        /// <param name="state"></param>
+        public void DisableState(AK.Wwise.State state)
+        {
+            // If the state is already disabled, return
+            if (disabledStates.Contains(state.Id)) return;
+
+            // Add the state to the disabled states
+            disabledStates.Add(state.Id);
         }
     }
 }
