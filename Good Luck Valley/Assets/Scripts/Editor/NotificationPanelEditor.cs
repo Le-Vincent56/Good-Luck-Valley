@@ -1,10 +1,9 @@
 using UnityEditor;
 using GoodLuckValley.UI.Editor;
-using GoodLuckValley.Journal.UI;
 
-namespace GoodLuckValley.Journal.Editor
+namespace GoodLuckValley.UI.Notifications.Editor
 {
-    [CustomEditor(typeof(JournalUI))]
+    [CustomEditor(typeof(NotificationPanel))]
     public class NotificationPanelEditor : FadePanelEditorBase
     {
         public override void OnInspectorGUI()

@@ -45,10 +45,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoUnparentOnAwake: 1
-  onNewJournalEntryUnlocked: {fileID: 0}
+  onNotify: {fileID: 11400000, guid: 36f3ceaab39aee24fae8281f514b1a62, type: 2}
   entriesDatabase: {fileID: 11400000, guid: f4c5256547a3b754581535a298c8d03c, type: 2}
-  currentJournalEntry: {fileID: 0}
   unlockedEntries: []
+  journalEntryInProgress:
+    title: 
+    content: 
+    progress: 0
+    completed: 0
+  lastOpenedJournalEntry:
+    title: 
+    content: 
+    progress: 0
+    completed: 0
   notesCollectedNum: 0
   journalEntriesUnlocked: 0
   unlocked: 0

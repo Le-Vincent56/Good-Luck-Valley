@@ -8,10 +8,5 @@ namespace GoodLuckValley.Journal
     {
         public List<JournalEntryData> Entries = new List<JournalEntryData>();
         public int Count { get => Entries.Count; }
-
-        /// <summary>
-        /// Sort the Journal entry database
-        /// </summary>
-        public void Sort() => Entries.Sort((note1, note2) => note1.ID.CompareTo(note2.ID));
     }
 }
