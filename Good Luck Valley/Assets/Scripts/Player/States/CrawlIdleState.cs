@@ -30,6 +30,9 @@ namespace GoodLuckValley.Player.States
             boxCollider.offset = new Vector2(-0.05183601f, -0.4508255f);
             boxCollider.size = new Vector2(0.8475914f, 0.4697776f);
             collisionHandler.UpdateCollider();
+
+            // Adjust sprite position
+            animator.transform.position = new Vector2(animator.transform.position.x, animator.transform.position.y - 0.039f);
         }
 
         public override void FixedUpdate()
@@ -47,6 +50,9 @@ namespace GoodLuckValley.Player.States
             boxCollider.offset = new Vector2(-0.009529829f, -0.1905082f);
             boxCollider.size = new Vector2(0.5014615f, 0.9904121f);
             collisionHandler.UpdateCollider();
+
+            // Adjust sprite position
+            animator.transform.position = new Vector2(animator.transform.position.x, animator.transform.position.y + 0.039f);
         }
     }
 }
