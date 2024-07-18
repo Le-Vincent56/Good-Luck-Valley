@@ -1250,6 +1250,7 @@ GameObject:
   - component: {fileID: 2980661001384484232}
   - component: {fileID: 9186641651251701321}
   - component: {fileID: 422088129986246710}
+  - component: {fileID: 3537797775076818610}
   m_Layer: 10
   m_Name: Player SFX
   m_TagString: Untagged
@@ -1317,6 +1318,7 @@ MonoBehaviour:
     stoneLayer:
       serializedVersion: 2
       m_Bits: 131072
+  playingGroundImpacts: 0
   speedRTPC:
     idInternal: 0
     valueGuidInternal: 
@@ -1337,6 +1339,7 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 0eabc4adc60844a4c9e39ac82c517f4f, type: 2}
+  playingFall: 0
   fallSpeedRTPC:
     idInternal: 0
     valueGuidInternal: 
@@ -1349,6 +1352,7 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 5e189a42749e04a4ba5446ca387d0e43, type: 2}
+  playingSlide: 0
   startSlide:
     idInternal: 0
     valueGuidInternal: 
@@ -1411,6 +1415,34 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &3537797775076818610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4157728105775766138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 01b974d6d7463ed4da4194b27b28c217, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2980661001384484232}
+        m_TargetAssemblyTypeName: GoodLuckValley.Audio.SFX.PlayerSFXMaster, Assembly-CSharp
+        m_MethodName: StopConstantEvents
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4251934024621643868
 GameObject:
   m_ObjectHideFlags: 0

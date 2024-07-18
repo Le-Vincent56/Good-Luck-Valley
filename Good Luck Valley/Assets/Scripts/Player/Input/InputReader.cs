@@ -40,7 +40,7 @@ namespace GoodLuckValley.Player.Input
         public event UnityAction<bool> Crawl = delegate { };
         public event UnityAction<float> Scroll = delegate { };
         public event UnityAction<bool> DeveloperConsole = delegate { };
-        public event UnityAction<bool> OpenJournal = delegate { };
+        public event UnityAction<bool, bool> OpenJournal = delegate { };
 
         PlayerInputActions inputActions;
         public Vector3 Direction => inputActions.PlayerControls.Move.ReadValue<Vector2>();
@@ -250,11 +250,15 @@ namespace GoodLuckValley.Player.Input
         {
             if (context.started)
             {
-                OpenJournal.Invoke(context.started);
+                OpenJournal.Invoke(context.started, context.ReadValueAsButton());
+            }
+            else if(context.ReadValueAsButton())
+            {
+                OpenJournal.Invoke(true, context.ReadValueAsButton());
             }
             else if (context.canceled)
             {
-                OpenJournal.Invoke(context.started);
+                OpenJournal.Invoke(context.started, context.performed);
             }
         }
     }

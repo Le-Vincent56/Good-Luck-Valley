@@ -7,6 +7,9 @@ namespace GoodLuckValley.Cameras
 {
     public class CameraFade : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onTransitionBeginLate;
+
         [Header("References")]
         [SerializeField] private SpriteRenderer spriteRenderer;
 
@@ -91,6 +94,12 @@ namespace GoodLuckValley.Cameras
 
             // Update current alpha
             currentAlpha = targetAlpha;
+
+            // Trigger any late transition begin effects (what should happen AFTER the
+            // sceen turns black)
+            // Calls to:
+            //  - PlayerSFXMaster.StopConstantEvents();
+            onTransitionBeginLate.Raise(this, null);
 
             // Nullify the fade coroutine
             fadeCoroutine = null;

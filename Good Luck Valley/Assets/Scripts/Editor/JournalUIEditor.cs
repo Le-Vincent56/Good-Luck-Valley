@@ -5,7 +5,7 @@ using GoodLuckValley.Journal.UI;
 namespace GoodLuckValley.Journal.Editor
 {
     [CustomEditor(typeof(JournalUI))]
-    public class JournalUIEditor : FadePanelEditorBase
+    public class NotificationPanelEditor : FadePanelEditorBase
     {
         public override void OnInspectorGUI()
         {
