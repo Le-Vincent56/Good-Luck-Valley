@@ -15,8 +15,6 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            Debug.Log("Entering Locomotion State!");
-
             player.LearnControl("Move");
 
             animator.CrossFade(LocomotionHash, crossFadeDuration);
@@ -26,6 +24,12 @@ namespace GoodLuckValley.Player.States
 
             // Start playing ground impacts sounds with the run value for the speed RTPC
             sfx.SetSpeedRTPC(sfx.RUN);
+            sfx.StartGroundImpacts();
+        }
+
+        public override void Update()
+        {
+            // Start ground impacts if not started already
             sfx.StartGroundImpacts();
         }
 
@@ -40,8 +44,6 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
-            Debug.Log("Exiting Locomotion State!");
-
             // Reset footstep sounds
             sfx.StopGroundImpacts();
         }

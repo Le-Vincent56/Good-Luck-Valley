@@ -131,8 +131,6 @@ namespace GoodLuckValley.Audio.SFX
             // Exit case - if already playing ground impacts
             if (playingGroundImpacts) return;
 
-            Debug.Log("Starting ground impacts");
-
             startGroundImpactsEvent.Post(gameObject);
             playingGroundImpacts = true;
         }
@@ -144,8 +142,6 @@ namespace GoodLuckValley.Audio.SFX
         {
             // Exit case - if not already playing ground impacts
             if (!playingGroundImpacts) return;
-
-            Debug.Log("Stopping ground impacts");
 
             stopGroundImpactsEvent.Post(gameObject);
             playingGroundImpacts = false;
