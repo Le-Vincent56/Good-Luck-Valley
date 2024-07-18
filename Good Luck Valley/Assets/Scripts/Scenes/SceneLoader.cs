@@ -112,7 +112,7 @@ namespace GoodLuckValley.SceneManagement
 
             // Begin any transition effects
             // Calls to:
-            // - CameraFade.PlayFadeOut();
+            // - PlayerController.BeginPlayerTransition();
             onTransitionBegin.Raise(this, transitionDirection);
 
             await Task.Delay(TimeSpan.FromSeconds(transitionTime));

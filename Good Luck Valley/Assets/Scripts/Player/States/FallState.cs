@@ -27,6 +27,12 @@ namespace GoodLuckValley.Player.States
             sfx.StartFall();
         }
 
+        public override void Update()
+        {
+            // Play the falling sound effect if not already playing
+            sfx.StartFall();
+        }
+
         public override void FixedUpdate()
         {
             // Calculate velocity

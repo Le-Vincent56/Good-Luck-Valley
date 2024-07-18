@@ -5,13 +5,8 @@ namespace GoodLuckValley.Player.Control
 {
     public class PlayerSaveHandler : MonoBehaviour, IBind<PlayerSaveData>
     {
-        #region REFERENCES
         [SerializeField] private PlayerSaveData data;
-        #endregion
-
-        #region PROPERTIES
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
-        #endregion
 
         // Update is called once per frame
         void Update()

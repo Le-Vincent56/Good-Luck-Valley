@@ -38,6 +38,9 @@ namespace GoodLuckValley.Player.States
             // Start playing footsteps with crawl RTPC values
             sfx.SetSpeedRTPC(sfx.CRAWL);
             sfx.StartGroundImpacts();
+
+            // Adjust sprite position
+            animator.transform.position = new Vector2(animator.transform.position.x, animator.transform.position.y - 0.039f);
         }
 
         public override void FixedUpdate()
@@ -58,6 +61,9 @@ namespace GoodLuckValley.Player.States
 
             // Stop ground impacts
             sfx.StopGroundImpacts();
+
+            // Adjust sprite position
+            animator.transform.position = new Vector2(animator.transform.position.x, animator.transform.position.y + 0.039f);
         }
     }
 }

@@ -1,6 +1,7 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.UI;
+using GoodLuckValley.UI.Notifications;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,8 +40,10 @@ namespace GoodLuckValley.Journal.UI
         {
             base.Awake();
 
+            // Get the Inspect Window
             inspectWindow = GetComponentInChildren<InspectWindow>();
 
+            // Create the Sprite Hash Table
             spriteHashTable = new Dictionary<string, int>()
             {
                 { "J_0_H_P1", 0 },
@@ -81,19 +84,23 @@ namespace GoodLuckValley.Journal.UI
 
         private void Start()
         {
+            // Set the default input action
             onSetDefaultInputAction.Raise(this, null);
         }
 
         /// <summary>
         /// Open the Journal UI using input
         /// </summary>
-        public void OpenJournalInput(bool started)
+        public void OpenJournalInput(bool started, bool performed)
         {
             // Exit case - the button hasn't been lifted
             if (started) return;
 
             // Exit case - the Journal has not been unlocked
             if (!Journal.Instance.Unlocked) return;
+
+            // Exit case - if notification input is enabled
+            if (Journal.Instance.NotificationInput) return;
 
             // Pause the game if not paused already
             if (!PauseManager.Instance.IsSoftPaused)
@@ -115,11 +122,20 @@ namespace GoodLuckValley.Journal.UI
             // Set pressing "Escape" to close to true
             escToClose = true;
 
-            // Update the journal sprite
-            UpdateJournalSprite(Journal.Instance.GetCurrentIndex());
+            // Get the last opened index
+            int lastOpenedIndex = Journal.Instance.GetLastOpenedIndex();
+
+            // Update the Journal sprite
+            UpdateJournalSprite(lastOpenedIndex);
+
+            // Set the Journal Entry to read
+            inspectWindow.SetEntry(Journal.Instance.GetEntryAt(lastOpenedIndex));
 
             // Show the UI
             ShowUI();
+
+            // Set the Journal to open
+            Journal.Instance.SetJournalOpen(true);
         }
 
         /// <summary>
@@ -140,11 +156,20 @@ namespace GoodLuckValley.Journal.UI
             // Set pressing "Escape" to close to true
             escToClose = true;
 
-            // Update the journal sprite
-            UpdateJournalSprite(Journal.Instance.GetCurrentIndex());
+            // Get the last opened index
+            int lastOpenedIndex = Journal.Instance.GetLastOpenedIndex();
+
+            // Update the Journal sprite
+            UpdateJournalSprite(lastOpenedIndex);
+
+            // Set the Journal Entry to read
+            inspectWindow.SetEntry(Journal.Instance.GetEntryAt(lastOpenedIndex));
 
             // Show the UI
             ShowUI();
+
+            // Set the Journal to open
+            Journal.Instance.SetJournalOpen(true);
         }
 
         /// <summary>
@@ -169,11 +194,55 @@ namespace GoodLuckValley.Journal.UI
             // Set pressing "Escape" to close to true
             escToClose = true;
 
-            // Update the journal sprite
-            UpdateJournalSprite(Journal.Instance.GetCurrentIndex());
+            // Get the last opened index
+            int lastOpenedIndex = Journal.Instance.GetLastOpenedIndex();
+
+            // Update the Journal sprite
+            UpdateJournalSprite(lastOpenedIndex);
+
+            // Set the Journal Entry to read
+            inspectWindow.SetEntry(Journal.Instance.GetEntryAt(lastOpenedIndex));
 
             // Show the UI
             ShowUI();
+
+            // Set the Journal to open
+            Journal.Instance.SetJournalOpen(true);
+        }
+
+        /// <summary>
+        /// Open the Journal from a Notification
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void OpenJournalFromNotification(Component sender, object data)
+        {
+            // Verify that the event is being received from the correct sender
+            if (sender is not NotificationHandler || data is not int) return;
+
+            int sentPageIndex = (int)data;
+
+            // Notify that the Journal was not opened from the pause menu
+            fromPauseMenu = false;
+
+            // Calls to:
+            //  - PlayerInputHandler.EnableJournalInput()
+            onSetJournalInputAction.Raise(this, null);
+
+            // Set pressing "Escape" to close to true
+            escToClose = true;
+
+            // Update the Journal sprite
+            UpdateJournalSprite(sentPageIndex);
+            
+            // Set the Journal Entry to read
+            inspectWindow.SetEntry(Journal.Instance.GetEntryAt(sentPageIndex));
+
+            // Show the UI
+            ShowUI();
+
+            // Set the Journal to open
+            Journal.Instance.SetJournalOpen(true);
         }
 
         /// <summary>
@@ -205,7 +274,7 @@ namespace GoodLuckValley.Journal.UI
             }
 
             // Set the last opened journal entry
-            Journal.Instance.SetLastOpenedEntry(Journal.Instance.GetEntryAt(journalPageIndex));
+            Journal.Instance.SetLastOpenedEntry(journalPageIndex);
 
             // Reset variables
             fromPauseMenu = false;
@@ -213,6 +282,9 @@ namespace GoodLuckValley.Journal.UI
 
             // Hide the UI
             HideUI();
+
+            // Set the Journal to closed
+            Journal.Instance.SetJournalOpen(false);
         }
 
         /// <summary>

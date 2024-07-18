@@ -30,10 +30,16 @@ namespace GoodLuckValley.Journal
         /// <param name="content"></param>
         public void AddContent(string content) => this.content += $" {content}";
 
+        /// <summary>
+        /// Update the progress of the Journal Entry
+        /// </summary>
+        /// <param name="progress"></param>
         public void UpdateProgress(int progress)
         {
+            // Set the progress
             this.progress = progress;
 
+            // If three notes have been collected, complete the Journal Entry
             if (progress == 3)
                 Complete();
         }
