@@ -17,6 +17,7 @@ namespace GoodLuckValley.SceneManagement
         [SerializeField] private GameEvent onFadeIn;
         [SerializeField] private GameEvent onFadeOut;
         [SerializeField] private GameEvent onTransitionBegin;
+        [SerializeField] private GameEvent onTransitionBeginLate;
         [SerializeField] private GameEvent onTransitionEnd;
 
         [Header("References")]
@@ -121,6 +122,12 @@ namespace GoodLuckValley.SceneManagement
             // Calls to:
             // - CameraFade.PlayFadeOut();
             onFadeOut.Raise(this, null);
+
+            // Trigger any late transition begin effects (what should happen AFTER the
+            // sceen turns black)
+            // Calls to:
+            //  - PlayerSFXMaster.StopConstantEvents();
+            onTransitionBeginLate.Raise(this, null);
         }
 
         public void TransitionFadeOutOnly()

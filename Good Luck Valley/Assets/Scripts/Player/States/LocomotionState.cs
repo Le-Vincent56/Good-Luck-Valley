@@ -15,6 +15,8 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
+            Debug.Log("Entering Locomotion State!");
+
             player.LearnControl("Move");
 
             animator.CrossFade(LocomotionHash, crossFadeDuration);
@@ -38,6 +40,8 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
+            Debug.Log("Exiting Locomotion State!");
+
             // Reset footstep sounds
             sfx.StopGroundImpacts();
         }

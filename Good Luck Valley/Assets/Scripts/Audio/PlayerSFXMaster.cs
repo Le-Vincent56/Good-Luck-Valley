@@ -22,6 +22,7 @@ namespace GoodLuckValley.Audio.SFX
         private TileType currentTileType;
 
         [Header("Player Footsteps")]
+        [SerializeField] private bool playingGroundImpacts;
         [SerializeField] private RTPC speedRTPC;
         [SerializeField] private AK.Wwise.Event startGroundImpactsEvent;
         [SerializeField] private AK.Wwise.Event stopGroundImpactsEvent;
@@ -33,11 +34,13 @@ namespace GoodLuckValley.Audio.SFX
         [SerializeField] private AK.Wwise.Event landEvent;
 
         [Header("Player Fall")]
+        [SerializeField] private bool playingFall;
         [SerializeField] private RTPC fallSpeedRTPC;
         [SerializeField] private AK.Wwise.Event startFallEvent;
         [SerializeField] private AK.Wwise.Event stopFallEvent;
 
         [Header("Player Slide")]
+        [SerializeField] private bool playingSlide;
         [SerializeField] private AK.Wwise.Event startSlide;
         [SerializeField] private AK.Wwise.Event stopSlide;
         [SerializeField] private AK.Wwise.Event slideImpact;
@@ -77,6 +80,18 @@ namespace GoodLuckValley.Audio.SFX
             }
         }
 
+        public void StopConstantEvents(Component sender, object data)
+        {
+            if (playingGroundImpacts)
+                StopGroundImpacts();
+
+            if (playingFall)
+                StopFall();
+
+            if (playingSlide)
+                StopSlide();
+        }
+
         /// <summary>
         /// Set the value for the speed RTPC to control player impact sounds
         /// </summary>
@@ -111,12 +126,30 @@ namespace GoodLuckValley.Audio.SFX
         /// <summary>
         /// Start playing the sound effects for ground impacts
         /// </summary>
-        public void StartGroundImpacts() => startGroundImpactsEvent.Post(gameObject);
+        public void StartGroundImpacts()
+        {
+            // Exit case - if already playing ground impacts
+            if (playingGroundImpacts) return;
+
+            Debug.Log("Starting ground impacts");
+
+            startGroundImpactsEvent.Post(gameObject);
+            playingGroundImpacts = true;
+        }
 
         /// <summary>
         /// Stop playing the sound effect for ground impacts
         /// </summary>
-        public void StopGroundImpacts() => stopGroundImpactsEvent.Post(gameObject);
+        public void StopGroundImpacts()
+        {
+            // Exit case - if not already playing ground impacts
+            if (!playingGroundImpacts) return;
+
+            Debug.Log("Stopping ground impacts");
+
+            stopGroundImpactsEvent.Post(gameObject);
+            playingGroundImpacts = false;
+        }
 
         /// <summary>
         /// Play the sound effect for jumping
@@ -133,24 +166,50 @@ namespace GoodLuckValley.Audio.SFX
         /// <summary>
         /// Start the sound effect for falling
         /// </summary>
-        public void StartFall() => startFallEvent.Post(gameObject);
+        public void StartFall()
+        {
+            // Exit case - if already playing the fall sound
+            if (playingFall) return;
+
+            startFallEvent.Post(gameObject);
+            playingFall = true;
+        }
 
         /// <summary>
         /// Stop the falling sound effect
         /// </summary>
-        public void StopFall() => stopFallEvent.Post(gameObject);
+        public void StopFall()
+        {
+            // Exit case - if not already playing the fall sound
+            if (!playingFall) return;
+
+            stopFallEvent.Post(gameObject);
+            playingFall = false;
+        }
 
         /// <summary>
         /// Start the slide sound effect
         /// </summary>
-        public void StartSlide() => startSlide.Post(gameObject);
+        public void StartSlide()
+        {
+            // Exit case - if already playing the slide sound
+            if (playingSlide) return;
+
+            startSlide.Post(gameObject);
+            playingSlide = true;
+        }
 
         /// <summary>
         /// Stop the slide sound effect
         /// </summary>
         public void StopSlide()
         {
+            // Exit case - if not already playing the slide sound
+            if (!playingSlide) return;
+
             stopSlide.Post(gameObject);
+            playingSlide = false;
+
             slideImpact.Post(gameObject);
         }
 
