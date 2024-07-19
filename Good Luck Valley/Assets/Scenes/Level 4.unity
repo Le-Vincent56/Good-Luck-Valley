@@ -61605,7 +61605,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.29736742, w: 0.9547632}
   m_LocalPosition: {x: -0.09909439, y: -2.591011, z: -131.93529}
-  m_LocalScale: {x: 0.6887444, y: 0.6887444, z: 0.6887444}
+  m_LocalScale: {x: 0, y: 0, z: 0.6887444}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1336013805}
@@ -97112,12 +97112,11 @@ MonoBehaviour:
   prePickupLights: {fileID: 1336013804}
   postPickupLights: {fileID: 1576327593}
   mushroomPickupLights: {fileID: 396934195}
-  volumetricTransitionLight: {fileID: 0}
-  transitionTime: 0.75
-  maxLightIntensity: 40
-  maxLightRadius: 40
-  lightIntensityIncreaseSpeed: 1
-  lightRadiusIncreaseSpeed: 1
+  volumetricTransitionLight: {fileID: 271290144}
+  transitionTime: 4
+  maxLightIntensity: 10
+  lightIntensityIncreaseSpeed: 0.5
+  lightScaleIncreaseSpeed: 10
   pickupLightRotationSpeed: 3
 --- !u!1 &1357458033
 GameObject:
