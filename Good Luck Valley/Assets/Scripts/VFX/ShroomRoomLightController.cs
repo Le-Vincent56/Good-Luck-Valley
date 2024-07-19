@@ -10,6 +10,7 @@ namespace GoodLuckValley.VFX
         #region REFERENCE
         [SerializeField] private GameObject prePickupLights;
         [SerializeField] private GameObject postPickupLights;
+        [SerializeField] private GameObject mushroomPickupLights;
         [SerializeField] private Light2D volumetricTransitionLight;
         #endregion
 
@@ -19,8 +20,14 @@ namespace GoodLuckValley.VFX
         [SerializeField] private float maxLightRadius;
         [SerializeField] private float lightIntensityIncreaseSpeed;
         [SerializeField] private float lightRadiusIncreaseSpeed;
+        [SerializeField] private float pickupLightRotationSpeed;
         private float currentTransitionTime;
         #endregion
+
+        private void Update()
+        {
+            mushroomPickupLights.transform.Rotate(new Vector3(0, 0, Time.deltaTime * pickupLightRotationSpeed), Space.Self);
+        }
 
         public void StartLightTransition()
         {
@@ -31,6 +38,7 @@ namespace GoodLuckValley.VFX
         {
             Debug.Log("Swap Lights");
             prePickupLights.SetActive(false);
+            mushroomPickupLights.SetActive(false);
             postPickupLights.SetActive(true);
         }
 
