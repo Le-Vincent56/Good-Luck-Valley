@@ -175,8 +175,6 @@ namespace GoodLuckValley.UI.MainMenu
                 }
             }
 
-            
-
             // Await until all tasks are finished
             await Task.WhenAll(imageTasks);
             await Task.WhenAll(textTasks);

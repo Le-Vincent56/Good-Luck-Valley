@@ -10,17 +10,23 @@ namespace GoodLuckValley.VFX
         #region REFERENCE
         [SerializeField] private GameObject prePickupLights;
         [SerializeField] private GameObject postPickupLights;
+        [SerializeField] private GameObject mushroomPickupLights;
         [SerializeField] private Light2D volumetricTransitionLight;
         #endregion
 
         #region FIELDS
         [SerializeField] private float transitionTime;
         [SerializeField] private float maxLightIntensity;
-        [SerializeField] private float maxLightRadius;
         [SerializeField] private float lightIntensityIncreaseSpeed;
-        [SerializeField] private float lightRadiusIncreaseSpeed;
+        [SerializeField] private float lightScaleIncreaseSpeed;
+        [SerializeField] private float pickupLightRotationSpeed;
         private float currentTransitionTime;
         #endregion
+
+        private void Update()
+        {
+            mushroomPickupLights.transform.Rotate(new Vector3(0, 0, Time.deltaTime * pickupLightRotationSpeed), Space.Self);
+        }
 
         public void StartLightTransition()
         {
@@ -31,6 +37,7 @@ namespace GoodLuckValley.VFX
         {
             Debug.Log("Swap Lights");
             prePickupLights.SetActive(false);
+            mushroomPickupLights.SetActive(false);
             postPickupLights.SetActive(true);
         }
 
@@ -40,7 +47,12 @@ namespace GoodLuckValley.VFX
             {
                 currentTransitionTime += Time.deltaTime;
                 volumetricTransitionLight.intensity += Mathf.Lerp(0, maxLightIntensity, Time.deltaTime * lightIntensityIncreaseSpeed);
-                volumetricTransitionLight.pointLightOuterRadius += Mathf.Lerp(0, maxLightRadius, Time.deltaTime * lightRadiusIncreaseSpeed);
+                float xScale =  volumetricTransitionLight.gameObject.transform.localScale.x;
+                float yScale = volumetricTransitionLight.gameObject.transform.localScale.y;
+                volumetricTransitionLight.gameObject.transform.localScale = 
+                    new Vector3(xScale += (Time.deltaTime * lightScaleIncreaseSpeed),
+                                yScale += (Time.deltaTime * lightScaleIncreaseSpeed),
+                                0f);
 
                 yield return null;
             }
