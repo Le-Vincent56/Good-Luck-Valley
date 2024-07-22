@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace GoodLuckValley.UI.MainMenu
+namespace GoodLuckValley.UI.MainMenuOld
 {
     public class MenuController : MonoBehaviour
     {

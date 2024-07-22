@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenu
+namespace GoodLuckValley.UI.MainMenuOld
 {
     public class MenuLoadState : MenuState
     {

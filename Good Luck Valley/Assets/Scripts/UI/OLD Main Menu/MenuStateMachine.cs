@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.UI.MainMenu
+namespace GoodLuckValley.UI.MainMenuOld
 {
     public class MenuStateMachine
     {

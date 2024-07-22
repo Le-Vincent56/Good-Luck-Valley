@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenu
+namespace GoodLuckValley.UI.MainMenuOld
 {
     public class MenuInitialState : MenuState
     {
