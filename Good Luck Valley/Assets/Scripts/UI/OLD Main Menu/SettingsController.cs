@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GoodLuckValley.UI.MainMenu
+namespace GoodLuckValley.UI.MainMenuOld
 {
     public class SettingsController : MonoBehaviour
     {
