@@ -1,13 +1,13 @@
-using System.Collections;
+using GoodLuckValley.Patterns.StateMachine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenuOld
+namespace GoodLuckValley.UI.MainMenu
 {
-    public class MenuState
+    public class MenuState : IState
     {
         protected struct ImageData
         {
@@ -34,8 +34,8 @@ namespace GoodLuckValley.UI.MainMenuOld
         }
 
         #region REFERENCES
-        protected MenuController menu;
-        protected MenuStateMachine stateMachine;
+        protected TitleScreenController menu;
+        protected StateMachine stateMachine;
         protected GameObject uiObject;
         protected List<ImageData> imageDatas = new List<ImageData>();
         protected List<TextData> textDatas = new List<TextData>();
@@ -47,7 +47,7 @@ namespace GoodLuckValley.UI.MainMenuOld
         public GameObject UIObject { get { return uiObject; } set { uiObject = value; } }
         #endregion
 
-        public MenuState(MenuController menu, MenuStateMachine stateMachine, bool fadeInOut, GameObject uiObject)
+        public MenuState(TitleScreenController menu, StateMachine stateMachine, bool fadeInOut, GameObject uiObject)
         {
             this.menu = menu;
             this.stateMachine = stateMachine;
@@ -61,7 +61,7 @@ namespace GoodLuckValley.UI.MainMenuOld
         /// <summary>
         /// Enter a Menu State
         /// </summary>
-        public virtual async void Enter() 
+        public virtual async void OnEnter()
         {
             await Show();
         }
@@ -69,7 +69,7 @@ namespace GoodLuckValley.UI.MainMenuOld
         /// <summary>
         /// Exit a Menu State
         /// </summary>
-        public virtual async void Exit() 
+        public virtual async void OnExit()
         {
             await Hide();
         }
@@ -77,7 +77,12 @@ namespace GoodLuckValley.UI.MainMenuOld
         /// <summary>
         /// Update Menu State logic
         /// </summary>
-        public virtual void LogicUpdate() { }
+        public virtual void Update() { }
+
+        /// <summary>
+        /// Update the Menu State logic at a fixed rate
+        /// </summary>
+        public virtual void FixedUpdate() { }
 
         /// <summary>
         /// Coroutine to show the UI Object
@@ -160,7 +165,8 @@ namespace GoodLuckValley.UI.MainMenuOld
                 {
                     textTasks.Add(FadeInText(textData.Text, textData.Color, FadeDuration, activateAll));
                 }
-            } else
+            }
+            else
             {
                 // Add each image fade-in as a task
                 foreach (ImageData imageData in images)
@@ -190,7 +196,7 @@ namespace GoodLuckValley.UI.MainMenuOld
             List<Task> textTasks = new List<Task>();
 
             // Check whether or not to use the default elements
-            if(images == null || texts == null)
+            if (images == null || texts == null)
             {
                 // Add each image fade-out as a task
                 foreach (ImageData imageData in imageDatas)
@@ -203,7 +209,8 @@ namespace GoodLuckValley.UI.MainMenuOld
                 {
                     textTasks.Add(FadeOutText(textData.Text, textData.Color, FadeDuration, deactivateAll));
                 }
-            } else
+            }
+            else
             {
                 // Add each image fade-out as a task
                 foreach (ImageData imageData in images)
@@ -231,7 +238,7 @@ namespace GoodLuckValley.UI.MainMenuOld
         /// <returns></returns>
         protected async Task FadeInText(Text text, Color textColor, float duration, bool activate)
         {
-            if(!text.gameObject.activeSelf && activate) text.gameObject.SetActive(true);
+            if (!text.gameObject.activeSelf && activate) text.gameObject.SetActive(true);
 
             // Set the elapsed time
             float elapsedTime = 0f;
@@ -295,7 +302,7 @@ namespace GoodLuckValley.UI.MainMenuOld
             text.color = color;
 
             // De-activate the game object
-            if(deactivate) text.gameObject.SetActive(false);
+            if (deactivate) text.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -370,7 +377,7 @@ namespace GoodLuckValley.UI.MainMenuOld
             image.color = color;
 
             // De-activate the game object
-            if(deactivate) image.gameObject.SetActive(false);
+            if (deactivate) image.gameObject.SetActive(false);
         }
     }
 }
