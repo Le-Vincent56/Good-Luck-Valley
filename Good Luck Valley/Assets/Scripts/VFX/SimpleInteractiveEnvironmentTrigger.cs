@@ -12,10 +12,10 @@ public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
     #region FIELDS
     [SerializeField] private bool hasLight;
     [SerializeField] private bool hasParticle;
-    [SerializeField] private float totalReactiveTime;
     [SerializeField] private float currentReactiveTime;
     [SerializeField] private float maxIntensity;
     [SerializeField] private float maxIntensityHoldTime;
+    [SerializeField] private float intensityChangeSpeed;
     private bool coroutineActive;
     #endregion
 
@@ -58,10 +58,10 @@ public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
 
     private IEnumerator ReactiveIncrease()
     {
-        while (currentReactiveTime < totalReactiveTime)
+        while (reactiveLight.intensity < maxIntensity)
         {
-            currentReactiveTime += Time.deltaTime;
-            reactiveLight.intensity += Mathf.Lerp(0, maxIntensity, totalReactiveTime);
+            currentReactiveTime += Time.deltaTime * intensityChangeSpeed;
+            reactiveLight.intensity += Mathf.Lerp(0, maxIntensity, currentReactiveTime);
             yield return null;
         }
 
@@ -72,10 +72,10 @@ public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
 
     private IEnumerator ReactiveDecrease()
     {
-        while (currentReactiveTime > 0)
+        while (reactiveLight.intensity > 0)
         {
-            currentReactiveTime -= Time.deltaTime;
-            reactiveLight.intensity -= Mathf.Lerp(0, maxIntensity, totalReactiveTime);
+            currentReactiveTime -= Time.deltaTime * intensityChangeSpeed;
+            reactiveLight.intensity -= Mathf.Lerp(0, maxIntensity, currentReactiveTime);
             yield return null;
         }
 
