@@ -1,8 +1,11 @@
+using GoodLuckValley.World.AreaTriggers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.VFX;
+
+[RequireComponent(typeof(AreaCollider))]
 
 public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
 {
@@ -11,12 +14,76 @@ public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
     [SerializeField] private bool hasParticle;
     [SerializeField] private float totalReactiveTime;
     [SerializeField] private float currentReactiveTime;
+    [SerializeField] private float maxIntensity;
+    [SerializeField] private float maxIntensityHoldTime;
+    private bool coroutineActive;
     #endregion
 
     #region REFERENCES
-    [SerializeField] private Light2D sparkleLight;
+    [SerializeField] private Light2D reactiveLight;
     [SerializeField] private VisualEffect vfx;
+    private AreaCollider areaCollider;
     #endregion
 
+    private void Awake()
+    {
+        areaCollider = GetComponent<AreaCollider>();
+    }
 
+    private void OnEnable()
+    {
+        areaCollider.OnTriggerEnter += StartReactiveElement;
+    }
+
+    private void OnDisable()
+    {
+        areaCollider.OnTriggerEnter -= StartReactiveElement;
+    }
+
+    private void StartReactiveElement(GameObject hitObject)
+    {
+        if (!coroutineActive)
+        {
+            coroutineActive = true;
+            currentReactiveTime = 0;
+            reactiveLight.intensity = 0;
+
+            if (hasLight)
+                StartCoroutine(ReactiveIncrease());
+
+            if (hasParticle)
+                PlayParticle();
+        }
+    }
+
+    private IEnumerator ReactiveIncrease()
+    {
+        while (currentReactiveTime < totalReactiveTime)
+        {
+            currentReactiveTime += Time.deltaTime;
+            reactiveLight.intensity += Mathf.Lerp(0, maxIntensity, totalReactiveTime);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(maxIntensityHoldTime);
+
+        StartCoroutine(ReactiveDecrease());
+    }
+
+    private IEnumerator ReactiveDecrease()
+    {
+        while (currentReactiveTime > 0)
+        {
+            currentReactiveTime -= Time.deltaTime;
+            reactiveLight.intensity -= Mathf.Lerp(0, maxIntensity, totalReactiveTime);
+            yield return null;
+        }
+
+        coroutineActive = false;
+    }
+
+    private void PlayParticle()
+    {
+        vfx.Play();
+    }
 }
