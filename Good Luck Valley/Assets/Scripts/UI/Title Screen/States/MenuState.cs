@@ -10,7 +10,7 @@ namespace GoodLuckValley.UI.TitleScreen.States
 {
     public class MenuState : IState
     {
-        protected struct ImageData
+        public struct ImageData
         {
             public Image Image;
             public Color Color;
@@ -22,7 +22,7 @@ namespace GoodLuckValley.UI.TitleScreen.States
             }
         }
 
-        protected struct TextData
+        public struct TextData
         {
             public Text Text;
             public Color Color;

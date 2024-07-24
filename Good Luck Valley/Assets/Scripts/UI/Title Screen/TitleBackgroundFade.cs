@@ -8,7 +8,6 @@ namespace GoodLuckValley.UI.TitleScreen
     {
         private Image image;
         private Color color;
-        private float fadeTime;
         private bool active;
 
         private void Awake()
@@ -23,12 +22,6 @@ namespace GoodLuckValley.UI.TitleScreen
             invisible.a = 0f;
             image.color = invisible;
         }
-
-        /// <summary>
-        /// Set the fade time for the background fade
-        /// </summary>
-        /// <param name="fadeTime"></param>
-        public void SetFadeTime(float fadeTime) => this.fadeTime = fadeTime;
 
         /// <summary>
         /// Get whether or not the background fade is active

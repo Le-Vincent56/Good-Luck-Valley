@@ -73,7 +73,7 @@ namespace GoodLuckValley.UI
             Selected = false;
         }
 
-        public void Select()
+        public void Activate()
         {
             foreach(Image image in images)
             {

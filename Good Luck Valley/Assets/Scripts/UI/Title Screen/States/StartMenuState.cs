@@ -6,9 +6,10 @@ namespace GoodLuckValley.UI.TitleScreen.States
 {
     public class StartMenuState : MenuState
     {
-        TitleBackgroundFade backgroundFade;
+        private TitleBackgroundFade backgroundFade;
 
-        public StartMenuState(TitleScreenController menu, StateMachine stateMachine, bool fadeInOut, Exclusions exclusions, GameObject uiObject, MenuCursor cursor, TitleBackgroundFade backgroundFade)
+        public StartMenuState(TitleScreenController menu, StateMachine stateMachine, bool fadeInOut, Exclusions exclusions, GameObject uiObject, MenuCursor cursor, 
+            TitleBackgroundFade backgroundFade)
             : base(menu, stateMachine, fadeInOut, exclusions, uiObject, cursor)
         {
             this.backgroundFade = backgroundFade;
@@ -18,8 +19,8 @@ namespace GoodLuckValley.UI.TitleScreen.States
         {
             if (!uiObject.activeSelf) uiObject.SetActive(true);
 
-            // Activate the main menu cursors
-            cursor.ActivateCursors();
+            // Show the cursors
+            cursor.ShowCursors();
 
             // Check whether or not to fade
             if (FadeInOut)
@@ -32,6 +33,9 @@ namespace GoodLuckValley.UI.TitleScreen.States
                 await backgroundFade.Show(FadeDuration * 0.75f);
 
             await Show();
+
+            // Activate the main menu cursors
+            cursor.ActivateCursors();
         }
 
         public override async void OnExit()

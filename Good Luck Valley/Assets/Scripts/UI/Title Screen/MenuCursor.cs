@@ -20,9 +20,6 @@ namespace GoodLuckValley.UI.Menus
             {
                 cursor.Init();
             }
-
-            // Set the last selected cursor
-            lastSelectedCursor = cursorElements[0];
         }
 
         private void Update()
@@ -47,6 +44,22 @@ namespace GoodLuckValley.UI.Menus
         /// <summary>
         /// Activate the Main Menu cursors
         /// </summary>
+        public void ShowCursors()
+        {
+            // Select the last selected cursor
+            if (lastSelectedCursor != null)
+            {
+                // Activate the cursor's object
+                lastSelectedCursor.Activate();
+            }
+            // If it's null, select the start cursor
+            else
+            {
+                // Activate the cursor's object
+                cursorElements[0].Activate();
+            }
+        }
+
         public void ActivateCursors()
         {
             // Set active to true
@@ -55,18 +68,15 @@ namespace GoodLuckValley.UI.Menus
             // Select the last selected cursor
             if (lastSelectedCursor != null)
             {
-                // Set the selected game object
+                // Set the selected game object for the event system
                 EventSystem.current.SetSelectedGameObject(lastSelectedCursor.GetSelectable().gameObject);
-                lastSelectedCursor.Select();
             }
             // If it's null, select the start cursor
             else
             {
-                // Set the selected game object
+                // Set the selected game object for the event system
                 EventSystem.current.SetSelectedGameObject(cursorElements[0].GetSelectable().gameObject);
-                cursorElements[0].Select();
             }
-
         }
 
         /// <summary>
