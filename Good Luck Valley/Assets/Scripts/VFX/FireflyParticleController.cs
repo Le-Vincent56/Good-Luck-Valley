@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
+[ExecuteInEditMode]
 public class FireflyParticleController : MonoBehaviour
 {
     private VisualEffect fireflyVFX;
