@@ -8,7 +8,7 @@ namespace GoodLuckValley.Cameras.Parallax
     public class ParallaxBackground : MonoBehaviour
     {
         public ParallaxCamera parallaxCamera;
-        List<ParallaxLayer> parallaxLayers = new List<ParallaxLayer>();
+        [SerializeField] List<ParallaxLayer> parallaxLayers = new List<ParallaxLayer>();
 
         private void Start()
         {
