@@ -52,10 +52,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1637361601
+  m_SortingLayer: 15
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 9855ccfad7fa8e14aa9330ee471f46dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -158,8 +158,80 @@ MonoBehaviour:
     Part2: 1243960301
     Part3: 2024981398
     Part4: 2476021214
+  onDisablePlayerTimed: {fileID: 11400000, guid: 2a476a288cea91a448519d3c534eb937, type: 2}
   onTeachInteractable: {fileID: 11400000, guid: 2bd59caa71d9bf4449f32b6cb7e7c3d1, type: 2}
   onUnlockThrow: {fileID: 11400000, guid: 00b14fa1f7136d24ca18774f48cbc8c7, type: 2}
+  shakeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.7039107
+      outSlope: 1.7039107
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.13081941
+      value: 0.2229046
+      inSlope: 3.1592298
+      outSlope: 3.1592298
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.21524096
+      value: 0.61247194
+      inSlope: 5.158412
+      outSlope: 5.158412
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.26785475
+      value: 0.9124903
+      inSlope: 3.6100812
+      outSlope: 3.6100812
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3206893
+      value: 0.99268717
+      inSlope: 0.028285742
+      outSlope: 0.028285742
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.4613154
+      outSlope: -1.4613154
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pickupDuration: 6
+  pickupShakeIntensity: 3
+  playRumble:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 2d14850e2569c444491f19727dd6700b, type: 2}
+  stopRumble:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: be63d8d9ec5587f4d82d7dfdf315d97d, type: 2}
+  shroomRoomLightController: {fileID: 0}
 --- !u!114 &3145323784739220799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024

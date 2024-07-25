@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584805198879841805
+    m_lastTime: -8584796812425339299
     List:
     - name: AMBIENCE_2D
       guid: b45c581bfdea7f41a764d005cf137d6f
@@ -239,6 +239,26 @@ MonoBehaviour:
         ObjectType: 2
         guid: 6a3f5cae1cd6ac4fa3ba9bb24ecffdfb
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_MUSHROOM\MUSHROOM_GROW
+    - name: MUSHROOM_PICKUP
+      guid: 624b31f9ed892043b1ea5489b238d8bf
+      id: 1919967482
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 8f1b8c6611adc34c99866b8f5ed1dbac
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_MUSHROOM
+        ObjectType: 2
+        guid: 312a4f5a79c4ca4cbef6f9ef2aee6d4d
+      - ElementName: MUSHROOM_PICKUP
+        ObjectType: 2
+        guid: 624b31f9ed892043b1ea5489b238d8bf
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_MUSHROOM\MUSHROOM_PICKUP
     - name: PLAYER_FALL
       guid: 7d3b00ee69059942961115daa728ae9c
       id: 2551268862
@@ -562,7 +582,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM
     guid: 929588ad419e5a4baaf6933db5f9386e
     GuidInternal: 
-    m_lastTime: -8584805198879912548
+    m_lastTime: -8584796833931663702
     List: []
   - PhysicalPath: Events\MUSHROOM_BOUNCE.wwu
     PathAndIcons:
@@ -634,6 +654,62 @@ MonoBehaviour:
         guid: 4f84bb3fa4ea134785988ec6ae1bf94e
       Path: Events\MUSHROOM\MUSHROOM_GROW\PLAY_MUSHROOM_GROW
       maxAttenuation: 25
+      maxDuration: -1
+      minDuration: -1
+  - PhysicalPath: Events\MUSHROOM_PICKUP.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: MUSHROOM
+      ObjectType: 12
+      guid: 929588ad419e5a4baaf6933db5f9386e
+    - ElementName: MUSHROOM_PICKUP
+      ObjectType: 12
+      guid: c2cbc630640df3438efa5af7a17b7db3
+    ParentPath: Events\MUSHROOM\MUSHROOM_PICKUP
+    guid: c2cbc630640df3438efa5af7a17b7db3
+    GuidInternal: 
+    m_lastTime: -8584796814881727607
+    List:
+    - name: PLAY_MUSHROOM_PICKUP
+      guid: 7c1b610a60bfad4b949866872207529f
+      id: 195236087
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MUSHROOM
+        ObjectType: 12
+        guid: 929588ad419e5a4baaf6933db5f9386e
+      - ElementName: MUSHROOM_PICKUP
+        ObjectType: 12
+        guid: c2cbc630640df3438efa5af7a17b7db3
+      - ElementName: PLAY_MUSHROOM_PICKUP
+        ObjectType: 3
+        guid: 7c1b610a60bfad4b949866872207529f
+      Path: Events\MUSHROOM\MUSHROOM_PICKUP\PLAY_MUSHROOM_PICKUP
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: STOP_MUSHROOM_PICKUP
+      guid: fa38eee0b4722442b6c0a8c4908f7208
+      id: 3275097373
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MUSHROOM
+        ObjectType: 12
+        guid: 929588ad419e5a4baaf6933db5f9386e
+      - ElementName: MUSHROOM_PICKUP
+        ObjectType: 12
+        guid: c2cbc630640df3438efa5af7a17b7db3
+      - ElementName: STOP_MUSHROOM_PICKUP
+        ObjectType: 3
+        guid: fa38eee0b4722442b6c0a8c4908f7208
+      Path: Events\MUSHROOM\MUSHROOM_PICKUP\STOP_MUSHROOM_PICKUP
+      maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
   - PhysicalPath: Events\MUSIC.wwu
@@ -2265,7 +2341,7 @@ MonoBehaviour:
     m_lastTime: -8584805944953059863
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 2700000028000000090100000a01000077010000780100007c01000085010000c2020000c30200009a0400009b040000
+  ExpandedWaapiItemIds: 060000000b0000000e00000028000000090100000a01000077010000780100007c01000085010000c2020000c30200009a0400009b040000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
