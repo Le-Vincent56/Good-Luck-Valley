@@ -7,6 +7,7 @@ namespace GoodLuckValley.Persistence
     [Serializable]
     public class GameData
     {
+        public int Slot;
         public long LastUpdated;
         public string Name;
         public string CurrentLevelName;

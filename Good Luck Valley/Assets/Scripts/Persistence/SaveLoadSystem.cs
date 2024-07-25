@@ -108,11 +108,12 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Create a new game
         /// </summary>
-        public void NewGame()
+        public void NewGame(int slot)
         {
             // Create a base GameData object
             selectedData = new GameData
             {
+                Slot = slot,
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
                 CurrentLevelName = "Level 1",
                 playerSaveData = new PlayerSaveData(),

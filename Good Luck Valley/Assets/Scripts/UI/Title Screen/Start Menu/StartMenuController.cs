@@ -58,31 +58,34 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // Check if any data was loadded
             if (saveDatas.Count > 0)
             {
-                // Loop through the Save Slots
-                for (int i = 0; i < saveSlots.Count; i++)
+                // Loop through the save slots
+                for(int i = 0; i < saveSlots.Count; i++)
                 {
-                    // Guard against if the number of save slots if higher than
-                    // then number of GameDatas
-                    if (i < saveDatas.Count)
+                    // Default to empty slots
+                    saveSlots[i].ResetData();
+                    saveSlots[i].UpdateUI();
+
+                    // Loop through all of the datas
+                    for(int j = 0; j < saveDatas.Count; j++)
                     {
-                        // Parse date
-                        DateTime saveDate = DateTime.FromBinary(saveDatas[i].LastUpdated);
-                        string dateString = saveDate.ToString();
+                        // Check if the slots align
+                        if (saveSlots[i].Slot == saveDatas[j].Slot)
+                        {
+                            // Parse date
+                            DateTime saveDate = DateTime.FromBinary(saveDatas[j].LastUpdated);
+                            string dateString = saveDate.ToString();
 
-                        int notesCollected = saveDatas[i].journalSaveData.journalEntriesUnlocked;
-                        int notesTotal = 12;
-                        int percent = notesCollected / notesTotal;
+                            // Get the percentage of notes collected
+                            int notesCollected = saveDatas[j].journalSaveData.journalEntriesUnlocked;
+                            int notesTotal = 12;
+                            int percent = notesCollected / notesTotal;
 
-                        // TODO: Set data
-                        saveSlots[i].Name = saveDatas[i].Name;
+                            // Set the slot name
+                            saveSlots[saveDatas[j].Slot - 1].Name = saveDatas[j].Name;
 
-                        saveSlots[i].SetData(dateString, $"{percent}%");
-                    }
-                    else
-                    {
-                        // Update UI for empty slots
-                        saveSlots[i].ResetData();
-                        saveSlots[i].UpdateUI();
+                            // Set the data
+                            saveSlots[saveDatas[j].Slot - 1].SetData(dateString, $"{percent}%");
+                        }
                     }
                 }
             }
@@ -129,7 +132,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             if (saveSlots.Contains(saveSlot))
             {
                 // Start a new game
-                SaveLoadSystem.Instance.NewGame();
+                SaveLoadSystem.Instance.NewGame(saveSlot.Slot);
 
                 // Load the scene
                 SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
@@ -153,8 +156,12 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             }
         }
 
+        /// <summary>
+        /// Activate the delete popup
+        /// </summary>
         public void ActivateDeletePopup()
         {
+            // Set the state of the delete controller
             deleteController.SetState(deleteController.CONFIRMATION);
         }
 

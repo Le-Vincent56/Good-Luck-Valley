@@ -69,8 +69,6 @@ namespace GoodLuckValley.UI
             if (string.IsNullOrEmpty(time.text)) validData = false;
             if (string.IsNullOrEmpty(notes.text)) validData = false;
 
-            Debug.Log($"{gameObject.name} (validData): {validData}" );
-
             // Check which data to set
             if (validData)
             {
@@ -78,8 +76,6 @@ namespace GoodLuckValley.UI
                 withDataObject.SetActive(true);
 
                 isEmpty = false;
-
-                Debug.Log($"{gameObject.name}: Valid");
             }
             else
             {
@@ -87,8 +83,6 @@ namespace GoodLuckValley.UI
                 withoutDataObject.SetActive(true);
 
                 isEmpty = true;
-
-                Debug.Log($"{gameObject.name}: Invalid");
             }
         }
 
