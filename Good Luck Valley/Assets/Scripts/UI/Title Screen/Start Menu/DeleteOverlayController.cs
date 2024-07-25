@@ -9,7 +9,6 @@ namespace GoodLuckValley.UI.TitleScreen.Start
     public class DeleteOverlayController : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private TitleScreenController titleController;
         [SerializeField] private StartMenuController controller;
         [SerializeField] private GameObject deleteOverlayObject;
         [SerializeField] private GameObject deleteAnimatorObject;
@@ -31,7 +30,6 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // Get components
             controller = GetComponent<StartMenuController>();
             animator = deleteAnimatorObject.GetComponentInChildren<Animator>();
-            titleController = GetComponentInParent<TitleScreenController>();
 
             // Instantiate the UI lists for the popup
             popupMenu.InstantiateUILists();

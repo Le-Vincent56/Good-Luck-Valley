@@ -3,12 +3,16 @@ using UnityEngine;
 using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.UI.TitleScreen.Settings.Controls.States;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using GoodLuckValley.Player.Input;
 
 namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 {
     public class ControlsSettingController : SettingsController
     {
         [Header("References")]
+        [SerializeField] private InputKeyDictionary keysDict;
+        [SerializeField] private MenuInputReader menuInputReader;
         [SerializeField] private InputActionAsset inputActionAsset;
         [SerializeField] private GameObject rebindPopup;
 
@@ -38,6 +42,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             // Set the initial state
             stateMachine.SetState(idleState);
 
+            // Initialize each rebinding button
             foreach (RebindingButton rebindingButton in rebindingButtons)
             {
                 rebindingButton.Init(this);
@@ -63,31 +68,63 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// </summary>
         /// <param name="actionName"></param>
         /// <param name="bindingIndex"></param>
-        public void StartRebinding(string actionName, int bindingIndex)
+        public void StartRebinding(string actionName, int bindingIndex, RebindingButton rebindingButton)
         {
+            // Get the action name
             InputAction action = inputActionAsset.FindAction(actionName);
 
+            // Exit case - if the action doesn't exists
             if (action == null) return;
+
+            // Prevent navigation events
+            EventSystem.current.sendNavigationEvents = false;
+
+            // Disable menu input
+            menuInputReader.Disable();
 
             // Set binding to true
             binding = true;
 
             rebindingOperation = action.PerformInteractiveRebinding(bindingIndex)
+                .WithCancelingThrough("")
                 .OnMatchWaitForAnother(0.1f)
-                .OnComplete(operation => RebindComplete())
+                .OnComplete(operation => RebindComplete(action, bindingIndex, rebindingButton))
                 .Start();
         }
 
         /// <summary>
+        /// Cancel rebinding
+        /// </summary>
+        private void RebindCancel() => ResumeMenuOperations();
+
+        /// <summary>
         /// Finalize rebinding
         /// </summary>
-        private void RebindComplete()
+        private void RebindComplete(InputAction action, int bindingIndex, RebindingButton rebindingButton)
+        {
+            // Set the new binding button
+            rebindingButton.SetImage(keysDict.GetKey(action.bindings[bindingIndex].ToDisplayString()));
+
+            // Resume menu operations
+            ResumeMenuOperations();
+        }
+
+        /// <summary>
+        /// Resume normal menu operations
+        /// </summary>
+        private void ResumeMenuOperations()
         {
             // Set binding to false
             binding = false;
 
             // Dispose of the rebinding operation
             rebindingOperation.Dispose();
+
+            // Allow navigation events
+            EventSystem.current.sendNavigationEvents = true;
+
+            // Enable menu input
+            menuInputReader.Enable();
         }
 
         public void BackToSettings() => controller.SetState(controller.SETTINGS);

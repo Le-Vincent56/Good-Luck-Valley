@@ -3,6 +3,7 @@ using GoodLuckValley.Mushroom;
 using GoodLuckValley.Events;
 using GoodLuckValley.Player.Input;
 using UnityEngine.VFX;
+using System.Collections;
 
 namespace GoodLuckValley.UI
 {
@@ -84,6 +85,10 @@ namespace GoodLuckValley.UI
 
             // Show the line
             PlotTrajectory();
+
+            //Vector3[] points = new Vector3[lineRenderer.positionCount];
+            //lineRenderer.GetPositions(points);
+            //StartCoroutine(SpawnUIParticles(points));
         }
 
         public void ChangeMultiplier(float scrollDeltaY)
@@ -220,12 +225,6 @@ namespace GoodLuckValley.UI
                 // Otherwise, segments is set back to its original value of 300
                 segments = 300;
             }
-
-            for (int i = 0; i < segments; i++)
-            {
-                aimLineVFX.SetVector2("SpawnPosition", new Vector2(newPoints[i].x, newPoints[i].y));
-                aimLineVFX.Play();
-            }
         }
         
         /// <summary>
@@ -299,6 +298,8 @@ namespace GoodLuckValley.UI
             if (!lineRenderer) return;
 
             lineRenderer.positionCount = 0;
+            //aimLineVFX.Stop();
+            // Debug.Log("Deleting Line");
 
             // Hide the indicator
             // Calls to:
@@ -343,6 +344,8 @@ namespace GoodLuckValley.UI
             if (data is not bool) return;
 
             show = (bool)data;
+            //aimLineVFX.Play();
+            //Debug.Log("Showing Line");
         }
 
         /// <summary>
@@ -366,5 +369,14 @@ namespace GoodLuckValley.UI
         {
             this.cursorPosition = cursorPosition;
         }
+
+        //private IEnumerator SpawnUIParticles(Vector3[] points)
+        //{
+        //    for (int i = 0; i < points.Length; i++)
+        //    {
+        //        aimLineVFX.SetVector2("SpawnPosition", new Vector2(points[i].x, points[i].y));
+        //        yield return null;
+        //    }
+        //}
     }
 }
