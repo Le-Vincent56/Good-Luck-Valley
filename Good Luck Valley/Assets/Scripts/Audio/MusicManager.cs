@@ -14,8 +14,11 @@ namespace GoodLuckValley.Audio.Music
 
         protected override void Awake()
         {
-            base.Awake();
+            base.Awake();   
+        }
 
+        private void Start()
+        {
             Play();
         }
 
