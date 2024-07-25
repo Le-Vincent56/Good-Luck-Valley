@@ -74,8 +74,6 @@ namespace GoodLuckValley.UI
 
             // Tells the lineRenderer to use worldspace for defining segmentsx`
             lineRenderer.useWorldSpace = true;
-
-            lineRenderer.sortingLayerName = "UI";
         }
 
         private void Update()
