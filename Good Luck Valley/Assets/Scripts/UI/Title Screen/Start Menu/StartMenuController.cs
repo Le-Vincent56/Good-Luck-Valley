@@ -30,14 +30,14 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             deleteController= GetComponent<DeleteOverlayController>();
             saveSlots = GetComponentsInChildren<SaveSlot>(true).ToList();
 
-            // Set slot data
-            SetSlotData();
-
             // Initialize each save slot
             foreach (SaveSlot slot in saveSlots)
             {
                 slot.Init(this);
             }
+
+            // Set slot data
+            SetSlotData();
         }
 
         /// <summary>
@@ -199,6 +199,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
 
             // Reset the slot data to reflect changes
             SetSlotData();
+
+            // Move the cursor off of the delete button anbd back to the slot
+            EventSystem.current.SetSelectedGameObject(selectedSlot.gameObject);
 
             // Re-enable input
             inputReader.Enable();
