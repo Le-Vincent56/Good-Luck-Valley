@@ -53,6 +53,7 @@ namespace GoodLuckValley.Cameras
         private Coroutine lerpSlideOffsetCoroutine;
         private Coroutine panCameraCoroutine;
         private Coroutine peekCameraCoroutine;
+        private Coroutine shakeCameraCoroutine;
         private CinemachineFramingTransposer framingTransposer;
 
         public bool IsDefaultCam => activeCamera == virtualCameras[(int)CameraType.Default];
@@ -491,10 +492,6 @@ namespace GoodLuckValley.Cameras
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 
             startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
-
-            //startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
-            //currentTrackedObjectOffset = startingTrackedObjectOffset;
-            //targetTrackedObjectOffset = startingTrackedObjectOffset;
         }
 
         public void SwitchCamera(CameraType newCamera)
@@ -510,10 +507,54 @@ namespace GoodLuckValley.Cameras
 
             // Update the active framing composer
             framingTransposer = activeCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+        #endregion
 
-            //startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
-            //currentTrackedObjectOffset = startingTrackedObjectOffset;
-            //targetTrackedObjectOffset = startingTrackedObjectOffset;
+        #region CAMERA SHAKING
+        public void ShakeCamera(AnimationCurve shakeCurve, float duration, float intensity)
+        {
+            // Stop the coroutine if already running
+            if(shakeCameraCoroutine != null)
+                StopCoroutine(shakeCameraCoroutine);
+
+            shakeCameraCoroutine = StartCoroutine(ShakeCameraCoroutine(shakeCurve, duration, intensity));
+        }
+
+        private IEnumerator ShakeCameraCoroutine(AnimationCurve shakeCurve, float duration, float intensity)
+        {
+            float elapsedTime = 0f;
+
+            // Get the initial position of the camera
+            Vector2 originalOffset = (Vector2)framingTransposer.m_TrackedObjectOffset;
+
+            while(elapsedTime < duration)
+            {
+                // Increase the time
+                elapsedTime += Time.deltaTime;
+
+                // Calculate the normalized time
+                float normalizedTime = elapsedTime / duration;
+
+                // Evaluate the curve to get the current intensity multiplier
+                float curveIntensity = shakeCurve.Evaluate(normalizedTime);
+
+                // Calculate the current intensity
+                float currentIntensity = intensity * curveIntensity;
+
+                // Create a random shake offset
+                Vector2 shakeOffset = new Vector2(UnityEngine.Random.Range(-1f, 1f), 0) * currentIntensity;
+
+                // Apply the shake offset to the camera
+                framingTransposer.m_TrackedObjectOffset = originalOffset + shakeOffset;
+
+                yield return null;
+            }
+
+            // Reset the camera to its original position
+            framingTransposer.m_TrackedObjectOffset = originalOffset;
+
+            // Nullify the coroutine
+            shakeCameraCoroutine = null;
         }
         #endregion
     }
