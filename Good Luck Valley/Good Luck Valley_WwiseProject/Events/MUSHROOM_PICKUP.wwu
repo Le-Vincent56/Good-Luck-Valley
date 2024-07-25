@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{30C6CBC2-0D64-43F3-8EFA-5AF7A17B7DB3}" SchemaVersion="119" RootDocumentID="{AD889592-9E41-4B5A-AAF6-933DB5F9386E}" ParentDocumentID="{AD889592-9E41-4B5A-AAF6-933DB5F9386E}">
+	<Events>
+		<WorkUnit Name="MUSHROOM_PICKUP" ID="{30C6CBC2-0D64-43F3-8EFA-5AF7A17B7DB3}" OwnerID="{AD889592-9E41-4B5A-AAF6-933DB5F9386E}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="PLAY_MUSHROOM_PICKUP" ID="{0A611B7C-BF60-4BAD-9498-66872207529F}">
+					<ChildrenList>
+						<Action Name="" ID="{C9C3C90D-17AB-475D-86D9-1E52BAFD7A9C}" ShortID="145785631">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MUSHROOM_PICKUP" ID="{54BBAC3D-E55A-419C-B893-5179D7ABEA2E}" WorkUnitID="{C848EA7F-4CEC-4FD6-9090-C198CBA42C8F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="STOP_MUSHROOM_PICKUP" ID="{E0EE38FA-72B4-4224-B6C0-A8C4908F7208}"/>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
