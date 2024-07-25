@@ -65,21 +65,22 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
             // Medium Keys
             { "Tab", 51},
-            { "Left Alt", 52 },
-            { "Right Alt", 53 },
-            { "Left Shift", 54 },
-            { "Right Shift", 55 },
-            { "Left Control", 56 },
-            { "Right Control", 57 },
-            { "Escape", 58 },
+            { "Enter", 52 },
+            { "Left Alt", 53 },
+            { "Right Alt", 54 },
+            { "Left Shift", 55 },
+            { "Right Shift", 56 },
+            { "Left Control", 57 },
+            { "Right Control", 58 },
+            { "Escape", 59 },
 
             // Large keys
-            { "Space", 59 },
+            { "Space", 60 },
 
             // Mouse
-            { "LMB", 60 },
-            { "MMB", 61 },
-            { "RMB", 62 }
+            { "LMB", 61 },
+            { "MMB", 62 },
+            { "RMB", 63 }
         };
 
         public Sprite GetKey(string keyName) => KeyImages[Keys[keyName]];
