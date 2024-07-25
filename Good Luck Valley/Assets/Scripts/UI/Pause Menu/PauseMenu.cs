@@ -1,6 +1,7 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
+using GoodLuckValley.UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,14 @@ namespace GoodLuckValley.UI
         [Header("References")]
         [SerializeField] private InputReader input;
         [SerializeField] private PauseInputReader pauseInputReader;
+        [SerializeField] private MenuCursor cursors;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            cursors = GetComponent<MenuCursor>();
+        }
 
         private void OnEnable()
         {
@@ -65,6 +74,8 @@ namespace GoodLuckValley.UI
             // Toggle paused
             if(PauseManager.Instance.IsPaused)
             {
+                cursors.DeactivateCursors();
+
                 // Unpause the game
                 PauseManager.Instance.UnpauseGame();
 
@@ -77,6 +88,9 @@ namespace GoodLuckValley.UI
                 HideUI();
             } else
             {
+                cursors.ShowCursors();
+                cursors.ActivateCursors();
+
                 // Pause the game
                 PauseManager.Instance.PauseGame();
 

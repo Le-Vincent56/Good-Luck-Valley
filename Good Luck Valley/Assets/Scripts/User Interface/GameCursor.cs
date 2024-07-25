@@ -18,7 +18,7 @@ namespace GoodLuckValley.UI
         void Start()
         {
             // Set Unity cursor variables
-            Cursor.visible = true;
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
 
             cursorPosition = transform.position;
