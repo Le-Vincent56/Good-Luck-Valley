@@ -2,6 +2,7 @@ using UnityEngine;
 using GoodLuckValley.Mushroom;
 using GoodLuckValley.Events;
 using GoodLuckValley.Player.Input;
+using UnityEngine.VFX;
 
 namespace GoodLuckValley.UI
 {
@@ -15,6 +16,7 @@ namespace GoodLuckValley.UI
 
         [Header("References")]
         [SerializeField] private InputReader input;
+        [SerializeField] private VisualEffect aimLineVFX;
 
         private float width;
         private int segments;
@@ -217,6 +219,12 @@ namespace GoodLuckValley.UI
             {
                 // Otherwise, segments is set back to its original value of 300
                 segments = 300;
+            }
+
+            for (int i = 0; i < segments; i++)
+            {
+                aimLineVFX.SetVector2("SpawnPosition", new Vector2(newPoints[i].x, newPoints[i].y));
+                aimLineVFX.Play();
             }
         }
         

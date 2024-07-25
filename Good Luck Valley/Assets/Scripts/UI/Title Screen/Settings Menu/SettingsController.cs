@@ -6,7 +6,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings
     {
         [SerializeField] protected TitleScreenController controller;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             controller = GetComponentInParent<TitleScreenController>();
         }

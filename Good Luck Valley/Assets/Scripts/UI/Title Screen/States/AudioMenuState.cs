@@ -15,8 +15,8 @@ namespace GoodLuckValley.UI.TitleScreen.States
         {
             if (!uiObject.activeSelf) uiObject.SetActive(true);
 
-            // Activate the main menu cursors
-            cursor.ActivateCursors();
+            // Show the main menu cursors
+            cursor.ShowCursors();
 
             // Check whether or not to fade
             if (FadeInOut)
@@ -26,6 +26,9 @@ namespace GoodLuckValley.UI.TitleScreen.States
             }
 
             await Show();
+
+            // Activate the main menu cursors
+            cursor.ActivateCursors();
         }
 
         public override async void OnExit()

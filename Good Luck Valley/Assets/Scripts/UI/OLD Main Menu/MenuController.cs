@@ -81,7 +81,7 @@ namespace GoodLuckValley.UI.MainMenuOld
         public void NewGame()
         {
             // Start a new save file
-            SaveLoadSystem.Instance.NewGame();
+            //SaveLoadSystem.Instance.NewGame();
 
             // Load the scene
             SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);

@@ -117,7 +117,6 @@ namespace GoodLuckValley.UI.MainMenuOld
                 // Return to the main menu
                 menu.SetState(1);
             }
-            
         }
 
         /// <summary>
@@ -142,12 +141,12 @@ namespace GoodLuckValley.UI.MainMenuOld
                         DateTime saveDate = DateTime.FromBinary(saveDatas[i].LastUpdated);
                         string dateString = saveDate.ToString();
 
-                        // Set data
-                        saveSlots[i].SetData(
-                            saveDatas[i].Name,
-                            dateString,
-                            saveDatas[i].CurrentLevelName
-                        );
+                        //// Set data
+                        //saveSlots[i].SetData(
+                        //    saveDatas[i].Name,
+                        //    dateString,
+                        //    saveDatas[i].CurrentLevelName
+                        //);
                     }
                     else
                     {
@@ -241,7 +240,7 @@ namespace GoodLuckValley.UI.MainMenuOld
             if(saveSlots.Contains(saveSlot))
             {
                 // Start a new game
-                SaveLoadSystem.Instance.NewGame();
+                //SaveLoadSystem.Instance.NewGame();
 
                 // Load the scene
                 SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
