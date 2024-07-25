@@ -80,7 +80,6 @@ namespace GoodLuckValley.UI
 
                 // Allow the delete button to be selected
                 deleter.SetSelectable(true);
-                deleter.Show();
             }
             else
             {
@@ -92,7 +91,6 @@ namespace GoodLuckValley.UI
 
                 // Don't allow the delete button to be selected
                 deleter.SetSelectable(false);
-                deleter.Hide();
             }
         }
 
@@ -103,6 +101,7 @@ namespace GoodLuckValley.UI
         {
             time.text = string.Empty;
             notes.text = string.Empty;
+            saveName = string.Empty;
         }
 
         /// <summary>

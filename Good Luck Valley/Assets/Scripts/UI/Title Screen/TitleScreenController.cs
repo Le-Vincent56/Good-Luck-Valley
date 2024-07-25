@@ -31,7 +31,6 @@ namespace GoodLuckValley.UI.TitleScreen
         [SerializeField] private Exclusions[] exclusions = new Exclusions[7];
 
         private StateMachine stateMachine;
-        private StartMenuState startState;
 
         public int INIT { get => 0; }
         public int MAIN { get => 1; }
@@ -62,7 +61,7 @@ namespace GoodLuckValley.UI.TitleScreen
             // Construct states
             InitialMenuState initialState = new InitialMenuState(this, stateMachine, true, exclusions[INIT], screens[INIT], null);
             MainMenuState mainState = new MainMenuState(this, stateMachine, true, exclusions[MAIN], screens[MAIN], cursors[CURSOR_MAIN], backgroundFade);
-            startState = new StartMenuState(this, stateMachine, true, exclusions[START], screens[START], cursors[CURSOR_START], backgroundFade);
+            StartMenuState startState = new StartMenuState(this, stateMachine, true, exclusions[START], screens[START], cursors[CURSOR_START], backgroundFade);
             SettingsMenuState settingsState = new SettingsMenuState(this, stateMachine, true, exclusions[SETTINGS], screens[SETTINGS], cursors[CURSOR_SETTINGS_MAIN], backgroundFade);
             AudioMenuState audioState = new AudioMenuState(this, stateMachine, true, exclusions[AUDIO], screens[AUDIO], cursors[CURSOR_SETTINGS_AUDIO]);
             VideoMenuState videoState = new VideoMenuState(this, stateMachine, true, exclusions[VIDEO], screens[VIDEO], cursors[CURSOR_SETTINGS_VIDEO]);
@@ -70,6 +69,7 @@ namespace GoodLuckValley.UI.TitleScreen
 
             // Exclude certain elements
             //videoState.AddExcludeds(excludedGraphics);
+            startState.AddExcludeds(exclusions[START].Objects);
 
             // Set state transitions
             At(initialState, mainState, new FuncPredicate(() => state == MAIN));
@@ -90,6 +90,11 @@ namespace GoodLuckValley.UI.TitleScreen
 
             // Set the initial state
             stateMachine.SetState(initialState);
+        }
+
+        private void Start()
+        {
+            inputReader.Enable();
         }
 
         private void OnEnable()

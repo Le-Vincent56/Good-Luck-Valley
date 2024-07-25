@@ -142,6 +142,9 @@ namespace GoodLuckValley.Persistence
 
             // Save the data
             dataService.Save(selectedData);
+
+            // Refresh save data
+            RefreshSaveData();
         }
 
         /// <summary>

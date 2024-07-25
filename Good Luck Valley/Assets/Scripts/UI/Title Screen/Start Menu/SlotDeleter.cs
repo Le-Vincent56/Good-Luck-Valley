@@ -51,7 +51,11 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         public void Show()
         {
             // Exit case - If the save slot is empty
-            if (saveSlot.IsEmpty) return;
+            if (saveSlot.IsEmpty)
+            {
+                Hide();
+                return;
+            }
 
             Color currentColor = image.color;
             currentColor.a = 1f;
