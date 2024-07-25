@@ -1,14 +1,13 @@
 using GoodLuckValley.Patterns.StateMachine;
-using GoodLuckValley.UI.Menus;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.TitleScreen.States
+namespace GoodLuckValley.UI.TitleScreen.Settings.Controls.States
 {
-    public class MenuState : IState
+    public class ControlsState : IState
     {
         protected struct ImageData
         {
@@ -34,80 +33,48 @@ namespace GoodLuckValley.UI.TitleScreen.States
             }
         }
 
-        protected TitleScreenController menu;
-        protected StateMachine stateMachine;
-        protected GameObject uiObject;
-        protected MenuCursor cursor;
-        protected List<ImageData> imageDatas = new List<ImageData>();
-        protected List<TextData> textDatas = new List<TextData>();
-        protected List<Graphic> exclusionList = new List<Graphic>();
+        protected readonly ControlsSettingController controller;
+        protected readonly Animator animator;
+        protected readonly GameObject panel;
 
-        public bool FadeInOut { get; private set; }
-        public float FadeDuration { get; private set; }
-        public GameObject UIObject { get { return uiObject; } set { uiObject = value; } }
+        protected readonly List<ImageData> imageDatas;
+        protected readonly List<TextData> textDatas;
 
-        public MenuState(TitleScreenController menu, StateMachine stateMachine, bool fadeInOut, Exclusions exclusions, GameObject uiObject, MenuCursor cursor)
+        protected static readonly int IdleHash = Animator.StringToHash("Idle");
+        protected static readonly int BindingHash = Animator.StringToHash("Rebinding");
+
+        protected const float crossFadeDuration = 0.1f;
+
+        protected const float fadeTime = 0.2f;
+
+        public ControlsState(ControlsSettingController controller, GameObject panel)
         {
-            this.menu = menu;
-            this.stateMachine = stateMachine;
-            this.uiObject = uiObject;
-            this.cursor = cursor;
-            FadeInOut = fadeInOut;
-            FadeDuration = 0.3f;
+            imageDatas = new List<ImageData>();
+            textDatas = new List<TextData>();
 
-            AddExcludeds(exclusions.Objects);
+            this.controller = controller;
+            this.panel = panel;
+
+            animator = panel.GetComponentInChildren<Animator>();
 
             InstantiateUILists();
         }
 
-        /// <summary>
-        /// Enter a Menu State
-        /// </summary>
-        public virtual async void OnEnter()
+        public virtual void OnEnter()
         {
-            await Show();
         }
 
-        /// <summary>
-        /// Exit a Menu State
-        /// </summary>
-        public virtual async void OnExit()
+        public virtual void Update()
         {
-            await Hide();
         }
 
-        /// <summary>
-        /// Update Menu State logic
-        /// </summary>
-        public virtual void Update() { }
-
-        /// <summary>
-        /// Update the Menu State logic at a fixed rate
-        /// </summary>
-        public virtual void FixedUpdate() { }
-
-        /// <summary>
-        /// Add a list of excluded objects to the excluded list
-        /// </summary>
-        /// <param name="listOfExcluded">The list of objects to exclude</param>
-        public void AddExcludeds(List<Graphic> listOfExcluded)
+        public virtual void FixedUpdate()
         {
-            // Add all of the objects to the list of excluded objects
-            if(listOfExcluded != null)
-                exclusionList.AddRange(listOfExcluded);
         }
 
-        /// <summary>
-        /// Coroutine to show the UI Object
-        /// </summary>
-        /// <returns></returns>
-        protected virtual async Task Show(List<ImageData> images = null, List<TextData> texts = null, bool activateAll = true) { if (FadeInOut) await FadeIn(images, texts, activateAll); }
-
-        /// <summary>
-        /// Coroutine to hide the UI object
-        /// </summary>
-        /// <returns></returns>
-        protected virtual async Task Hide(List<ImageData> images = null, List<TextData> texts = null, bool deactivateAll = true) { if (FadeInOut) await FadeOut(images, texts, deactivateAll); }
+        public virtual void OnExit()
+        {
+        }
 
         /// <summary>
         /// Instantiate UI Lists
@@ -115,21 +82,19 @@ namespace GoodLuckValley.UI.TitleScreen.States
         public virtual void InstantiateUILists()
         {
             // Store images and texts into lists
-            List<Image> images = uiObject.GetComponentsInChildren<Image>(true).ToList();
-            List<Text> texts = uiObject.GetComponentsInChildren<Text>(true).ToList();
+            List<Image> images = panel.GetComponentsInChildren<Image>(true).ToList();
+            List<Text> texts = panel.GetComponentsInChildren<Text>(true).ToList();
 
             // Add ImageDatas
             foreach (Image image in images)
             {
-                if(!exclusionList.Contains(image))
-                    imageDatas.Add(new ImageData(image));
+                imageDatas.Add(new ImageData(image));
             }
 
             // Add TextDatas
             foreach (Text text in texts)
             {
-                if(!exclusionList.Contains(text))
-                    textDatas.Add(new TextData(text));
+                textDatas.Add(new TextData(text));
             }
         }
 
@@ -158,6 +123,18 @@ namespace GoodLuckValley.UI.TitleScreen.States
         }
 
         /// <summary>
+        /// Coroutine to show the keybind panel
+        /// </summary>
+        /// <returns></returns>
+        public async Task Show() => await FadeIn(imageDatas, textDatas, true);
+
+        /// <summary>
+        /// Coroutine to hide the keybind panel
+        /// </summary>
+        /// <returns></returns>
+        public async Task Hide() => await FadeOut(imageDatas, textDatas, false);
+
+        /// <summary>
         /// Fade in Images and Texts
         /// </summary>
         /// <returns></returns>
@@ -172,13 +149,13 @@ namespace GoodLuckValley.UI.TitleScreen.States
                 // Add each image fade-in as a task
                 foreach (ImageData imageData in imageDatas)
                 {
-                    imageTasks.Add(FadeInImage(imageData.Image, imageData.Color, FadeDuration, activateAll));
+                    imageTasks.Add(FadeInImage(imageData.Image, imageData.Color, fadeTime, activateAll));
                 }
 
                 // Add each text fade-in as a task
                 foreach (TextData textData in textDatas)
                 {
-                    textTasks.Add(FadeInText(textData.Text, textData.Color, FadeDuration, activateAll));
+                    textTasks.Add(FadeInText(textData.Text, textData.Color, fadeTime, activateAll));
                 }
             }
             else
@@ -186,13 +163,13 @@ namespace GoodLuckValley.UI.TitleScreen.States
                 // Add each image fade-in as a task
                 foreach (ImageData imageData in images)
                 {
-                    imageTasks.Add(FadeInImage(imageData.Image, imageData.Color, FadeDuration, activateAll));
+                    imageTasks.Add(FadeInImage(imageData.Image, imageData.Color, fadeTime, activateAll));
                 }
 
                 // Add each text fade-in as a task
                 foreach (TextData textData in texts)
                 {
-                    textTasks.Add(FadeInText(textData.Text, textData.Color, FadeDuration, activateAll));
+                    textTasks.Add(FadeInText(textData.Text, textData.Color, fadeTime, activateAll));
                 }
             }
 
@@ -216,13 +193,13 @@ namespace GoodLuckValley.UI.TitleScreen.States
                 // Add each image fade-out as a task
                 foreach (ImageData imageData in imageDatas)
                 {
-                    imageTasks.Add(FadeOutImage(imageData.Image, imageData.Color, FadeDuration, deactivateAll));
+                    imageTasks.Add(FadeOutImage(imageData.Image, imageData.Color, fadeTime, deactivateAll));
                 }
 
                 // Add each text fade-out as a task
                 foreach (TextData textData in textDatas)
                 {
-                    textTasks.Add(FadeOutText(textData.Text, textData.Color, FadeDuration, deactivateAll));
+                    textTasks.Add(FadeOutText(textData.Text, textData.Color, fadeTime, deactivateAll));
                 }
             }
             else
@@ -230,13 +207,13 @@ namespace GoodLuckValley.UI.TitleScreen.States
                 // Add each image fade-out as a task
                 foreach (ImageData imageData in images)
                 {
-                    imageTasks.Add(FadeOutImage(imageData.Image, imageData.Color, FadeDuration, deactivateAll));
+                    imageTasks.Add(FadeOutImage(imageData.Image, imageData.Color, fadeTime, deactivateAll));
                 }
 
                 // Add each text fade-out as a task
                 foreach (TextData textData in texts)
                 {
-                    textTasks.Add(FadeOutText(textData.Text, textData.Color, FadeDuration, deactivateAll));
+                    textTasks.Add(FadeOutText(textData.Text, textData.Color, fadeTime, deactivateAll));
                 }
             }
 

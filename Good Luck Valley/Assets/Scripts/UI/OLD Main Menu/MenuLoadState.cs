@@ -240,7 +240,7 @@ namespace GoodLuckValley.UI.MainMenuOld
             if(saveSlots.Contains(saveSlot))
             {
                 // Start a new game
-                SaveLoadSystem.Instance.NewGame();
+                //SaveLoadSystem.Instance.NewGame();
 
                 // Load the scene
                 SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);

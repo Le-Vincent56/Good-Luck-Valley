@@ -19,7 +19,7 @@ namespace GoodLuckValley.Persistence.Editor
 
             if(GUILayout.Button("New Game"))
             {
-                saveLoadSystem.NewGame();
+                saveLoadSystem.NewGame(1);
             }
 
             // Create a button to save the game

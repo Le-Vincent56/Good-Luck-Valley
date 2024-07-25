@@ -40,7 +40,7 @@ namespace GoodLuckValley.UI.MainMenuOld
 
                 // New Game
                 case 2:
-                    SaveLoadSystem.Instance.NewGame();
+                    //SaveLoadSystem.Instance.NewGame();
                     break;
 
                 // Load Game

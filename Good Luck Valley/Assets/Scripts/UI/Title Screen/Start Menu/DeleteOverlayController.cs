@@ -86,6 +86,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         /// <param name="state">The state to set to</param>
         public void SetState(int state) => this.state = state;
 
+        /// <summary>
+        /// Delete the selected slot's data
+        /// </summary>
         public void DeleteData() => controller.DeleteData(controller.SelectedSlot);
     }
 }
