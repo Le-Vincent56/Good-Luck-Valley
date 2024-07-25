@@ -17,7 +17,7 @@ namespace GoodLuckValley.UI
 
         [Header("References")]
         [SerializeField] private InputReader input;
-        [SerializeField] private VisualEffect aimLineVFX;
+        //[SerializeField] private VisualEffect aimLineVFX;
 
         private float width;
         private int segments;
