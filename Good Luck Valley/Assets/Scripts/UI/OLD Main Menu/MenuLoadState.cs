@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenu
+namespace GoodLuckValley.UI.MainMenuOld
 {
     public class MenuLoadState : MenuState
     {
@@ -117,7 +117,6 @@ namespace GoodLuckValley.UI.MainMenu
                 // Return to the main menu
                 menu.SetState(1);
             }
-            
         }
 
         /// <summary>
@@ -142,12 +141,12 @@ namespace GoodLuckValley.UI.MainMenu
                         DateTime saveDate = DateTime.FromBinary(saveDatas[i].LastUpdated);
                         string dateString = saveDate.ToString();
 
-                        // Set data
-                        saveSlots[i].SetData(
-                            saveDatas[i].Name,
-                            dateString,
-                            saveDatas[i].CurrentLevelName
-                        );
+                        //// Set data
+                        //saveSlots[i].SetData(
+                        //    saveDatas[i].Name,
+                        //    dateString,
+                        //    saveDatas[i].CurrentLevelName
+                        //);
                     }
                     else
                     {

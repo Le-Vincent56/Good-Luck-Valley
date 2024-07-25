@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenu
+namespace GoodLuckValley.UI.MainMenuOld
 {
     public class MenuState
     {
@@ -54,6 +54,8 @@ namespace GoodLuckValley.UI.MainMenu
             this.uiObject = uiObject;
             FadeInOut = fadeInOut;
             FadeDuration = 0.3f;
+
+            InstantiateUILists();
         }
 
         /// <summary>
@@ -61,8 +63,6 @@ namespace GoodLuckValley.UI.MainMenu
         /// </summary>
         public virtual async void Enter() 
         {
-            InstantiateUILists();
-
             await Show();
         }
 
