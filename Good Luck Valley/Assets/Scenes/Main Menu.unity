@@ -9629,7 +9629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bf07d7cd78eb84c923395770d524b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleController: {fileID: 1550696131}
   controller: {fileID: 0}
   deleteOverlayObject: {fileID: 1691270459}
   deleteAnimatorObject: {fileID: 1207963972}
@@ -9689,6 +9688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  startMenuController: {fileID: 670910756}
 --- !u!114 &683646473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21365,7 +21365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1415011066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23106,7 +23106,10 @@ MonoBehaviour:
   exclusions:
   - Objects: []
   - Objects: []
-  - Objects: []
+  - Objects:
+    - {fileID: 1630189327}
+    - {fileID: 1673189818}
+    - {fileID: 622089663}
   - Objects: []
   - Objects: []
   - Objects:
