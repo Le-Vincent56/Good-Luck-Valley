@@ -1146,6 +1146,52 @@ namespace GoodLuckValley.Player.Control
             if (sender is MushroomPickup)
                 ((MushroomPickup)sender).StopRumble();
         }
+
+        /// <summary>
+        /// Set player input
+        /// </summary>
+        /// <param name="enabled">True if player input should be enabled, false if otherwise</param>
+        public void SetPlayerInput(bool enabled)
+        {
+            // If enabled, enable input
+            if (enabled)
+                input.Enable();
+            // If not, disable input
+            else
+                input.Disable();
+        }
+
+        /// <summary>
+        /// Try to force a state change
+        /// </summary>
+        /// <param name="stateNum"></param>
+        public void TrySetState(int stateNum)
+        {
+            switch(stateNum)
+            {
+                // None
+                case 0:
+                    tryFastSlide = false;
+                    isWallSliding = false;
+                    isBouncing = false;
+                    isWallJumping = false;
+                    isThrowing = false; ;
+                    isThrowingAgain = false;
+                    isFastSliding = false;
+                    isCrawling = false;
+                    break;
+
+                // Idle
+                case 1:
+                    velocity = Vector2.zero;
+                    break;
+
+                // Slide
+                case 2:
+                    tryFastSlide = true;
+                    break;
+            }
+        }
         #endregion
     }
 }
