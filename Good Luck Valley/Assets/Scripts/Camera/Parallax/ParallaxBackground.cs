@@ -9,33 +9,50 @@ namespace GoodLuckValley.Cameras.Parallax
     {
         public ParallaxCamera parallaxCamera;
         [SerializeField] List<ParallaxLayer> parallaxLayers = new List<ParallaxLayer>();
+        private bool isSubscribed = false;
+        [SerializeField] private int timesMoved;
 
         private void Start()
         {
             // Get the parallax camera
             if (parallaxCamera == null)
                 parallaxCamera = Camera.main.gameObject.GetOrAdd<ParallaxCamera>();
-
-            // Subscribe to events
-            if (parallaxCamera != null)
-                parallaxCamera.OnCameraTranslate += Move;
+                
 
             // Set the layers
             SetLayers();
+
+            // Subscribe to events if not already subscribed
+            SubscribeToEvent();
         }
 
         private void OnEnable()
         {
-            // Subscribe to events
-            if (parallaxCamera != null)
-                parallaxCamera.OnCameraTranslate += Move;
+            // Subscribe to events if not already subscribed
+            SubscribeToEvent();
         }
 
         private void OnDisable()
         {
-            // Unsubscribe to events
-            if(parallaxCamera != null)
+            UnsubscribeFromEvent();
+        }
+
+        private void SubscribeToEvent()
+        {
+            if (!isSubscribed && parallaxCamera != null)
+            {
+                parallaxCamera.OnCameraTranslate += Move;
+                isSubscribed = true;
+            }
+        }
+
+        private void UnsubscribeFromEvent()
+        {
+            if (isSubscribed && parallaxCamera != null)
+            {
                 parallaxCamera.OnCameraTranslate -= Move;
+                isSubscribed = false;
+            }
         }
 
         /// <summary>
@@ -51,7 +68,7 @@ namespace GoodLuckValley.Cameras.Parallax
             {
                 ParallaxLayer layer = transform.GetChild(i).GetComponent<ParallaxLayer>();
 
-                if(layer != null)
+                if (layer != null)
                 {
                     parallaxLayers.Add(layer);
                 }
@@ -64,7 +81,8 @@ namespace GoodLuckValley.Cameras.Parallax
         /// <param name="delta">The base amount to move</param>
         private void Move(float delta)
         {
-           foreach(ParallaxLayer layer in parallaxLayers)
+            timesMoved++;
+            foreach (ParallaxLayer layer in parallaxLayers)
             {
                 layer.Move(delta);
             }
