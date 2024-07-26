@@ -31,6 +31,8 @@ namespace AK
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
         static const AkUniqueID RESUME_MUSIC = 2940177080U;
+        static const AkUniqueID STOP_AMBIENCE2D_MAIN = 1773902918U;
+        static const AkUniqueID STOP_AMBIENCEBED_MAIN = 3275901679U;
         static const AkUniqueID STOP_MUSHROOM_PICKUP = 3275097373U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID STOP_PLAYER_FALL = 3680109729U;
