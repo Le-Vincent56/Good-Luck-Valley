@@ -25,10 +25,7 @@ namespace GoodLuckValley.Audio.Music
 
         private void Start()
         {
-            foreach(AK.Wwise.State state in menuStates)
-            {
-                SetState(state);
-            }
+            SetMenuStates();
 
             Play();
         }
@@ -59,6 +56,20 @@ namespace GoodLuckValley.Audio.Music
         /// Resume the music event
         /// </summary>
         public void Resume() => resumeMusicEvent.Post(gameObject);
+
+        /// <summary>
+        /// Set the default menu states
+        /// </summary>
+        public void SetMenuStates(bool fromPause = false)
+        {
+            foreach (AK.Wwise.State state in menuStates)
+            {
+                SetState(state);
+            }
+
+            if (fromPause)
+                disabledStates.Clear();
+        }
 
         /// <summary>
         /// Switch music event states
