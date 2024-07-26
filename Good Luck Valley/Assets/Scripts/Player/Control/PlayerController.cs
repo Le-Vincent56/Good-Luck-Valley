@@ -649,12 +649,8 @@ namespace GoodLuckValley.Player.Control
         /// <param name="data"></param>
         public void Bounce(Component sender, object data)
         {
-            Debug.Log("Almost In!");
-
             // Check if the data is the correct type
             if (data is not MushroomBounce.BounceData) return;
-
-            Debug.Log("In!");
 
             // Cast data
             MushroomBounce.BounceData bounceData = (MushroomBounce.BounceData)data;

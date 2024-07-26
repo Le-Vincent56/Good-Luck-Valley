@@ -10,10 +10,13 @@ namespace GoodLuckValley.Cameras.Parallax
 
         private float prevPosition;
 
+        [SerializeField] private int timesMoved;
+
         private void Start()
         {
             // Set the previous position
             prevPosition = transform.position.x;
+            timesMoved = 0;
         }
 
         private void Update()
@@ -24,6 +27,7 @@ namespace GoodLuckValley.Cameras.Parallax
                 // Check if OnCameraTranslate is initialized
                 if(OnCameraTranslate != null)
                 {
+                    timesMoved++;
                     // Calculate the delta and invoke the action
                     float delta = prevPosition - transform.position.x;
                     OnCameraTranslate.Invoke(delta);

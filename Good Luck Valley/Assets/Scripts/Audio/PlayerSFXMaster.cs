@@ -52,13 +52,13 @@ namespace GoodLuckValley.Audio.SFX
         private void Awake()
         {
             // Set beginning tile type detection raycast
-            detectTileType.RaycastStart = transform.parent.position;
+            detectTileType.RaycastStart = transform.position;
         }
 
         private void Update()
         {
             // Update the current tile detected
-            detectTileType.RaycastStart = transform.parent.position;
+            detectTileType.RaycastStart = transform.position;
             currentTileType = detectTileType.CheckTileType();
 
             switch (currentTileType)

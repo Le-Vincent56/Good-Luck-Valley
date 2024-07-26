@@ -82,8 +82,6 @@ public class PlayerParticlesController : MonoBehaviour
 
     public void SetHardpoints(Component sender, object data)
     {
-        Debug.Log("setting hardpoints");
-
         // Verify that the correct data was sent
         if (data is not PlayerHardpointsContainer.Hardpoints) return;
 

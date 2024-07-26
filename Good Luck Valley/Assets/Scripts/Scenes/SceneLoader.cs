@@ -45,7 +45,7 @@ namespace GoodLuckValley.SceneManagement
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Check if transitioning into a scene
-            if(scene.name == sceneToLoad.name && isLoading)
+            if (scene.name == sceneToLoad.name && isLoading)
             {
                 if (scene.name != "Menu" && SaveLoadSystem.Instance.selectedData != null)
                 {
@@ -75,16 +75,16 @@ namespace GoodLuckValley.SceneManagement
                     onPrepareLevel.Raise(this, dataToSend);
                 }
 
-                // Start fading in
-                // Calls to:
-                // - CameraFade.PlayFadeIn();
-                onFadeIn.Raise(this, true);
-
                 if (scene.name != "Menu" && SaveLoadSystem.Instance.selectedData != null)
                 {
                     SaveLoadSystem.Instance.BindData(true);
                 }
             }
+
+            // Start fading in
+            // Calls to:
+            // - CameraFade.PlayFadeIn();
+            onFadeIn.Raise(this, true);
         }
 
         public void SetSceneToLoad(string sceneToLoad, TransitionType transitionType, int moveDirection, int loadIndex)
@@ -99,6 +99,14 @@ namespace GoodLuckValley.SceneManagement
             this.sceneToLoad.loadIndex = loadIndex;
 
             transitionDirection = moveDirection;
+        }
+
+        private void Start()
+        {
+            // Start fading in
+            // Calls to:
+            // - CameraFade.PlayFadeIn();
+            onFadeIn.Raise(this, true);
         }
 
         public async void BeginTransition()

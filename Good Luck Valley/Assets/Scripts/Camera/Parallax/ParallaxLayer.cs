@@ -17,7 +17,7 @@ namespace GoodLuckValley.Cameras.Parallax
             Vector3 newPos = transform.localPosition;
 
             // Change the x-value based on the given delta and parallax factor
-            newPos.x -= delta * parallaxFactor * Time.deltaTime;
+            newPos.x -= delta * (parallaxFactor / 10f);
 
             // Set the local transform
             transform.localPosition = newPos;
