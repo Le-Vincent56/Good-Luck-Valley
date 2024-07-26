@@ -19,16 +19,26 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
     {
         public InputBindingInfo bindingInfo;
         [SerializeField] private Button targetButton;
+        [SerializeField] private Image keyImage;
 
+        /// <summary>
+        /// Initialize the rebinding button
+        /// </summary>
+        /// <param name="controller"></param>
         public void Init(ControlsSettingController controller)
         {
             // Get component
             targetButton = GetComponent<Button>();
+            keyImage = GetComponent<Image>();
 
             // Add a click listener
-            targetButton.onClick.AddListener(() => controller.StartRebinding(bindingInfo.actionName, bindingInfo.bindingIndex));
-
-            Debug.Log(targetButton);
+            targetButton.onClick.AddListener(() => controller.StartRebinding(bindingInfo.actionName, bindingInfo.bindingIndex, this));
         }
+
+        /// <summary>
+        /// Set the binding imagae
+        /// </summary>
+        /// <param name="sprite"></param>
+        public void SetImage(Sprite sprite) => keyImage.sprite = sprite;
     }
 }

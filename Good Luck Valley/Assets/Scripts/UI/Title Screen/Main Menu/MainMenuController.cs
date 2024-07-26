@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using GoodLuckValley.UI.TitleScreen.Start;
 using UnityEngine;
 
 namespace GoodLuckValley.UI.TitleScreen.Main
@@ -7,6 +6,7 @@ namespace GoodLuckValley.UI.TitleScreen.Main
     public class MainMenuController : MonoBehaviour
     {
         [SerializeField] private TitleScreenController controller;
+        [SerializeField] private StartMenuController startMenuController;
 
         private void Awake()
         {
@@ -17,7 +17,12 @@ namespace GoodLuckValley.UI.TitleScreen.Main
         /// <summary>
         /// Activate the start menu
         /// </summary>
-        public void StartGame() => controller.SetState(controller.START);
+        public void StartGame()
+        {
+            controller.SetState(controller.START);
+
+            startMenuController.SetSlotData();
+        }
 
         /// <summary>
         /// Enter the settings menu

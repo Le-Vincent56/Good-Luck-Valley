@@ -72,17 +72,25 @@ namespace GoodLuckValley.UI
             // Check which data to set
             if (validData)
             {
+                // Switch to the "Without Data" object
                 withoutDataObject.SetActive(false);
                 withDataObject.SetActive(true);
 
                 isEmpty = false;
+
+                // Allow the delete button to be selected
+                deleter.SetSelectable(true);
             }
             else
             {
+                // Switch to the "With Data" object
                 withDataObject.SetActive(false);
                 withoutDataObject.SetActive(true);
 
                 isEmpty = true;
+
+                // Don't allow the delete button to be selected
+                deleter.SetSelectable(false);
             }
         }
 
@@ -93,6 +101,7 @@ namespace GoodLuckValley.UI
         {
             time.text = string.Empty;
             notes.text = string.Empty;
+            saveName = string.Empty;
         }
 
         /// <summary>

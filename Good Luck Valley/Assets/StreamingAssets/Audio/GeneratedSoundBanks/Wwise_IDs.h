@@ -18,6 +18,7 @@ namespace AK
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;
+        static const AkUniqueID PLAY_MUSHROOM_PICKUP = 195236087U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID PLAY_PLAYER_FALL = 1306343379U;
         static const AkUniqueID PLAY_PLAYER_IMPACTS = 2773402369U;
@@ -30,6 +31,7 @@ namespace AK
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
         static const AkUniqueID RESUME_MUSIC = 2940177080U;
+        static const AkUniqueID STOP_MUSHROOM_PICKUP = 3275097373U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID STOP_PLAYER_FALL = 3680109729U;
         static const AkUniqueID STOP_PLAYER_IMPACTS = 2961941791U;
@@ -87,6 +89,7 @@ namespace AK
             namespace STATE
             {
                 static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID STATE_INTRO = 1240403123U;
                 static const AkUniqueID STATE_PHASEONE = 3548780380U;
                 static const AkUniqueID STATE_PHASETWO = 3930281454U;
             } // namespace STATE
@@ -237,6 +240,7 @@ namespace AK
         static const AkUniqueID MASTER_PLAYER = 2453119373U;
         static const AkUniqueID MUSHROOM_BOUNCE = 4126136622U;
         static const AkUniqueID MUSHROOM_GROW = 4011678951U;
+        static const AkUniqueID MUSHROOM_PICKUP = 1919967482U;
         static const AkUniqueID PLAYER_FALL = 2551268862U;
         static const AkUniqueID PLAYER_JUMP = 1305133589U;
         static const AkUniqueID PLAYER_LAND = 3629196698U;

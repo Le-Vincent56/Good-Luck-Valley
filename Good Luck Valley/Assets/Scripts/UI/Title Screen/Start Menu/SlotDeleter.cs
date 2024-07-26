@@ -35,6 +35,12 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         }
 
         /// <summary>
+        /// Set whether or not the selectable is enabled
+        /// </summary>
+        /// <param name="selectable"></param>
+        public void SetSelectable(bool selectable) => this.selectable.enabled = selectable;
+
+        /// <summary>
         /// Delete the associated Save Slot data
         /// </summary>
         public void DeleteGame() => controller.ActivateDeletePopup();
@@ -45,7 +51,11 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         public void Show()
         {
             // Exit case - If the save slot is empty
-            if (saveSlot.IsEmpty) return;
+            if (saveSlot.IsEmpty)
+            {
+                Hide();
+                return;
+            }
 
             Color currentColor = image.color;
             currentColor.a = 1f;
