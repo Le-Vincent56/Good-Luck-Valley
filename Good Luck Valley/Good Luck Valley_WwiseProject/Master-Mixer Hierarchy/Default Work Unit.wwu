@@ -4,6 +4,13 @@
 		<WorkUnit Name="Default Work Unit" ID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}" PersistMode="Standalone">
 			<ChildrenList>
 				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+					<PropertyList>
+						<Property Name="BusVolume" Type="Real64">
+							<ValueList>
+								<Value>-3</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{E95A1757-0B23-4485-941A-8FE93E56A132}" WorkUnitID="{7294F35F-336E-4F5F-BFBB-8A2E7581C16D}"/>
@@ -25,13 +32,28 @@
 						</Bus>
 						<Bus Name="MASTER_NPC" ID="{75FB7574-7580-4FB4-B039-DEAF943C649B}"/>
 						<Bus Name="MASTER_AMBIENCE" ID="{3CDFE549-5C5B-428C-AB6F-DF9D18D38C8C}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ChildrenList>
 								<Bus Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}"/>
 								<Bus Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}"/>
 								<Bus Name="AMBIENCE_3D" ID="{A257F4A4-D6AC-480E-97D2-BBF7DDC5F645}"/>
 							</ChildrenList>
 						</Bus>
-						<Bus Name="MASTER_MUSIC" ID="{66327182-3D3A-47D6-B6C1-58308EC3F8FB}"/>
+						<Bus Name="MASTER_MUSIC" ID="{66327182-3D3A-47D6-B6C1-58308EC3F8FB}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+						</Bus>
 						<AuxBus Name="REVERBS" ID="{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}">
 							<ChildrenList>
 								<AuxBus Name="REVERB_LARGEROOM" ID="{033BE84F-2D9C-4675-B901-8439FB9A69C5}"/>
@@ -44,6 +66,7 @@
 							<ChildrenList>
 								<Bus Name="MUSHROOM_BOUNCE" ID="{E79F0ECB-3E40-4C89-92D7-4049E1C407DD}"/>
 								<Bus Name="MUSHROOM_GROW" ID="{AE5C3F6A-D61C-4FAC-A3BA-9BB24ECFFDFB}"/>
+								<Bus Name="MUSHROOM_PICKUP" ID="{F9314B62-89ED-4320-B1EA-5489B238D8BF}"/>
 							</ChildrenList>
 						</Bus>
 					</ChildrenList>

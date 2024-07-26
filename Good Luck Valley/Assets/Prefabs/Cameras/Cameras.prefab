@@ -483,6 +483,10 @@ MonoBehaviour:
   slideFollowLerpTime: 1.3
   slidePanDownTime: 1.6
   slidePanReturnTime: 0.6
+  startingPanTrackedObjectOffset: {x: 0, y: 0}
+  currentPanTrackedObjectOffset: {x: 0, y: 0}
+  targetPanTrackedObjectOffset: {x: 0, y: 0}
+  startingTrackedObjectOffset: {x: 0, y: 0}
 --- !u!114 &3490228112016692920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1166,6 +1170,7 @@ GameObject:
   - component: {fileID: 4351855214780289970}
   - component: {fileID: 6801582553727614479}
   - component: {fileID: 5120161407896806370}
+  - component: {fileID: 2282275683499954889}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1355,6 +1360,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDefaultListener: 1
   listenerId: 0
+--- !u!114 &2282275683499954889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151357047097989398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea716c602b3eff4e87efd2111822d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8631016808585721258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,7 +1401,7 @@ Transform:
   m_GameObject: {fileID: 8631016808585721258}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 13.76627}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 16, y: 9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1429,7 +1446,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -8930765
-  m_SortingLayer: 9
+  m_SortingLayer: 16
   m_SortingOrder: 500
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -1454,6 +1471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd1e3399c8cfee429ae5a02afbedc4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTransitionBeginLate: {fileID: 11400000, guid: 01b974d6d7463ed4da4194b27b28c217, type: 2}
   spriteRenderer: {fileID: 0}
   fadeDuration: 0.3
   currentAlpha: 0

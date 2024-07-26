@@ -1,3 +1,4 @@
+using GoodLuckValley.Journal.Persistence;
 using GoodLuckValley.Patterns.Singletons;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Interactables;
@@ -55,6 +56,7 @@ namespace GoodLuckValley.Persistence
         public void BindData(bool applyData = true)
         {
             Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData, applyData);
+            Bind<JournalSaveHandler, JournalSaveData>(selectedData.journalSaveData, applyData);
             Bind<GlobalDataSaveHandler, GlobalData>(selectedData.globalData, applyData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas, applyData);
         }
@@ -106,14 +108,16 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Create a new game
         /// </summary>
-        public void NewGame()
+        public void NewGame(int slot)
         {
             // Create a base GameData object
             selectedData = new GameData
             {
+                Slot = slot,
                 Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
-                CurrentLevelName = "Level 1.1",
+                CurrentLevelName = "Level 1",
                 playerSaveData = new PlayerSaveData(),
+                journalSaveData = new JournalSaveData(),
                 globalData = new GlobalData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
             };
@@ -138,6 +142,9 @@ namespace GoodLuckValley.Persistence
 
             // Save the data
             dataService.Save(selectedData);
+
+            // Refresh save data
+            RefreshSaveData();
         }
 
         /// <summary>

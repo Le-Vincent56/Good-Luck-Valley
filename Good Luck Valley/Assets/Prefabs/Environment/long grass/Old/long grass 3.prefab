@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 9302b4def21d220458907cc687b3fbca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cfb1ceeec11108a4f9963a8af1385c5c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +102,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windDirection: -1
   bendStrength: 3
-  directionMultiplier: 1
   verticalOffset: 0.6
 --- !u!114 &5802939037381595373
 MonoBehaviour:
@@ -116,16 +115,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9af583c20ff704faac0099842f807e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMultiplier: 0
-  currentMultiplier: 0
-  endingMultiplier: 5
-  speed: 0.01
-  setBendStrength: 0
-  nonWind: 0
-  testTrigger: 0
-  testEM: 0
-  testDir: 0
-  testSpeed: 0
+  windMaterial: {fileID: 0}
+  rustleMaterial: {fileID: 0}
+  withWind: 0
+  rustleStrength: 0
+  verticalOffset: 0
+  rustlePercent: 0
+  rustleOutSpeedScalar: 0
+  rustleInSpeedScalar: 0
 --- !u!114 &877394854783830402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -180,7 +178,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.17382812, y: 1.2070312}
+    oldSize: {x: 0.23046875, y: 1.0917969}
     newSize: {x: 0.89, y: 6.18}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

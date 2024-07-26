@@ -1,6 +1,7 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
+using GoodLuckValley.UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,37 +9,37 @@ namespace GoodLuckValley.UI
 {
     public class PauseMenu : FadePanel
     {
-        #region EVENTS
         [Header("Events")]
-        [SerializeField] private GameEvent onUpdatePaused;
-        #endregion
+        [SerializeField] private GameEvent onSetPauseInputAction;
+        [SerializeField] private GameEvent onSetDefaultInputAction;
+        [SerializeField] private GameEvent onOpenJournalMenu;
 
         [Header("References")]
         [SerializeField] private InputReader input;
+        [SerializeField] private PauseInputReader pauseInputReader;
+        [SerializeField] private MenuCursor cursors;
 
-        #region PROPERTIES
-        public bool Paused { get; private set; }
-        public bool SoftPaused { get; private set; }
-        #endregion
+        protected override void Awake()
+        {
+            base.Awake();
+
+            cursors = GetComponent<MenuCursor>();
+        }
 
         private void OnEnable()
         {
             input.Pause += OnPause;
+            pauseInputReader.Escape += OnPause;
         }
 
         private void OnDisable()
         {
             input.Pause -= OnPause;
+            pauseInputReader.Escape -= OnPause;
         }
 
         public void Start()
         {
-            // Set paused to false initially
-            Paused = false;
-
-            // Set soft paused to false initially
-            SoftPaused = false;
-
             // Hide the UI
             HideUIHard();
         }
@@ -54,6 +55,13 @@ namespace GoodLuckValley.UI
         }
 
         /// <summary>
+        /// Handle pause events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void OnPause(Component sender, object data) => TogglePause();
+
+        /// <summary>
         /// Toggle the pause menu
         /// </summary>
         /// <param name="sender"></param>
@@ -61,57 +69,68 @@ namespace GoodLuckValley.UI
         public void TogglePause()
         {
             // Don't pause if already soft paused
-            if (SoftPaused) return;
+            if (PauseManager.Instance.IsSoftPaused) return;
 
             // Toggle paused
-            Paused = !Paused;
-
-            // Set effects
-            if (Paused)
+            if(PauseManager.Instance.IsPaused)
             {
-                // Freeze time
-                Time.timeScale = 0f;
+                cursors.DeactivateCursors();
+
+                // Unpause the game
+                PauseManager.Instance.UnpauseGame();
+
+                // Set default input
+                // Calls to:
+                //  - PlayerInputHandler.EnableDefaultInput();
+                onSetDefaultInputAction.Raise(this, null);
+
+                // Hide the UI
+                HideUI();
+            } else
+            {
+                cursors.ShowCursors();
+                cursors.ActivateCursors();
+
+                // Pause the game
+                PauseManager.Instance.PauseGame();
+
+                // Set pause input
+                // Calls to:
+                //  - PlayerInputHandler.EnablePauseInput();
+                onSetPauseInputAction.Raise(this, null);
+
+                // Hide UI
                 ShowUI();
             }
-            else
-            {
-                // Resume time
-                Time.timeScale = 1f;
-                HideUI();
-            }
-
-            // Update paused for any listeners
-            // Calls to:
-            //  - PlayerInputHandler.SetPaused
-            onUpdatePaused.Raise(this, Paused);
         }
 
         /// <summary>
-        /// Toggle a soft pause
+        /// Toggle a soft pause (don't show UI)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
         public void ToggleSoftPause(Component sender, object data)
         {
-            // Toggle pause
-            SoftPaused = !SoftPaused;
-
-            // Only freeze time
-            if (SoftPaused)
+            // Toggle soft paused
+            if(PauseManager.Instance.IsSoftPaused)
             {
-                // Freeze time
-                Time.timeScale = 0f;
-            }
-            else
-            {
-                // Resume time
-                Time.timeScale = 1f;
-            }
+                // Unpause the game
+                PauseManager.Instance.SoftUnpauseGame();
 
-            // Update paused for any listeners
-            // Calls to:
-            //  - PlayerInputHandler.SetPaused
-            onUpdatePaused.Raise(this, SoftPaused);
+                // Set default input
+                // Calls to:
+                //  - PlayerInputHandler.EnableDefaultInput();
+                onSetDefaultInputAction.Raise(this, null);
+            } else
+            {
+                // Pause the game
+                PauseManager.Instance.SoftPauseGame();
+
+                // Set pause input
+                // Calls to:
+                //  - PlayerInputHandler.EnablePauseInput();
+                onSetPauseInputAction.Raise(this, null);
+            }
         }
 
         /// <summary>
@@ -121,6 +140,17 @@ namespace GoodLuckValley.UI
         {
             // Since only called from the menu, TogglePause will unpause
             TogglePause();
+        }
+
+        /// <summary>
+        /// Open the Journal from the Pause Menu
+        /// </summary>
+        public void OpenJournal()
+        {
+            // Open the Journal
+            // Calls to:
+            //  - JournalUI.OpenJournalMenu();
+            onOpenJournalMenu.Raise(this, null);
         }
 
         /// <summary>

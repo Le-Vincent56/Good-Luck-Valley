@@ -506,5 +506,11 @@ namespace GoodLuckValley.Entity
                 }
             }
         }
+
+        /// <summary>
+        /// Set the max slope angle
+        /// </summary>
+        /// <param name="angle">The angle to set</param>
+        public void SetMaxSlopeAngle(float angle) => maxSlopeAngle = angle;
     }
 }

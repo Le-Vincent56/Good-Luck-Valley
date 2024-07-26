@@ -1,3 +1,4 @@
+using GoodLuckValley.Player.Control;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -17,8 +18,8 @@ namespace GoodLuckValley.Player.Input
         }
     }
 
-    [CreateAssetMenu(fileName = "InputReader")]
-    public class InputReader : ScriptableObject, IPlayerControlsActions
+    [CreateAssetMenu(fileName = "DefaultInputReader", menuName = "Input/Default Input Reader")]
+    public class InputReader : ScriptableObject, IPlayerControlsActions, IInputReader
     {
         public bool AllowControl { get; set; }
 
@@ -39,6 +40,7 @@ namespace GoodLuckValley.Player.Input
         public event UnityAction<bool> Crawl = delegate { };
         public event UnityAction<float> Scroll = delegate { };
         public event UnityAction<bool> DeveloperConsole = delegate { };
+        public event UnityAction<bool, bool> OpenJournal = delegate { };
 
         PlayerInputActions inputActions;
         public Vector3 Direction => inputActions.PlayerControls.Move.ReadValue<Vector2>();
@@ -60,8 +62,18 @@ namespace GoodLuckValley.Player.Input
             }
 
             // Enable the input actions
-            inputActions.Enable();
+            Enable();
         }
+
+        /// <summary>
+        /// Enable the input actions map
+        /// </summary>
+        public void Enable() => inputActions.Enable();
+
+        /// <summary>
+        /// Disable the input actions map
+        /// </summary>
+        public void Disable() => inputActions.Disable();
 
         public void OnFastFall(InputAction.CallbackContext context)
         {
@@ -232,6 +244,22 @@ namespace GoodLuckValley.Player.Input
         public void OnToggleDeveloperConsole(InputAction.CallbackContext context)
         {
             DeveloperConsole.Invoke(context.started);
+        }
+
+        public void OnOpenJournal(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                OpenJournal.Invoke(context.started, context.ReadValueAsButton());
+            }
+            else if(context.ReadValueAsButton())
+            {
+                OpenJournal.Invoke(true, context.ReadValueAsButton());
+            }
+            else if (context.canceled)
+            {
+                OpenJournal.Invoke(context.started, context.performed);
+            }
         }
     }
 }

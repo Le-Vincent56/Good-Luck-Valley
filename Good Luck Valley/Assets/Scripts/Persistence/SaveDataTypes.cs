@@ -7,17 +7,14 @@ namespace GoodLuckValley.Persistence
     [Serializable]
     public class GameData
     {
+        public int Slot;
         public long LastUpdated;
         public string Name;
         public string CurrentLevelName;
         public PlayerSaveData playerSaveData;
+        public JournalSaveData journalSaveData;
         public GlobalData globalData;
         public List<CollectibleSaveData> collectibleSaveDatas;
-
-        public override string ToString()
-        {
-            return $"Player: {playerSaveData}\n";
-        }
     }
 
     [Serializable]
@@ -28,12 +25,7 @@ namespace GoodLuckValley.Persistence
 
         public PlayerSaveData()
         {
-            position = new Vector3(-21.242f, -46.16f, 0.0f);
-        }
-
-        public override string ToString()
-        {
-            return $"Position: {position}";
+            position = new Vector3(-122.7588f, 97.67071f, 0.0f);
         }
     }
 
@@ -60,6 +52,26 @@ namespace GoodLuckValley.Persistence
         public CollectibleSaveData()
         {
             collected = false;
+        }
+    }
+
+    [Serializable]
+    public class JournalSaveData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool unlocked;
+        public int progressingIndex;
+        public int lastOpenedIndex;
+        public int notesCollectedNum;
+        public int journalEntriesUnlocked;
+
+        public JournalSaveData()
+        {
+            unlocked = false;
+            progressingIndex = 0;
+            lastOpenedIndex = 0;
+            notesCollectedNum = 0;
+            journalEntriesUnlocked = 0;
         }
     }
 }

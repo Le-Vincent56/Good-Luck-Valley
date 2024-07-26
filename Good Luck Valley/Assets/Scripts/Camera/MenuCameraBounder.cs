@@ -19,8 +19,6 @@ namespace GoodLuckValley.Cameras
             cameraBounds = CalculateCameraBounds();
 
             onUpdateScreenBounds.Raise(this, cameraBounds);
-
-            Debug.LogError("TEST ERROR");
         }
 
         /// <summary>
