@@ -109,7 +109,6 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // If no slot is selected, return
             if (selectedSlot == null) return;
 
-            Debug.Log(selectedSlot.IsEmpty);
             // Start a new game on an empty slot
             if (selectedSlot.IsEmpty)
             {
