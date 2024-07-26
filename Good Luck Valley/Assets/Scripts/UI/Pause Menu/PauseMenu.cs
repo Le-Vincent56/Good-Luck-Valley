@@ -1,4 +1,5 @@
 using GoodLuckValley.Audio.Ambience;
+using GoodLuckValley.Audio.Music;
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
@@ -170,6 +171,8 @@ namespace GoodLuckValley.UI
         {
             // Stop ambience
             AmbienceManager.Instance.StopAmbience();
+
+            MusicManager.Instance.SetMenuStates(true);
 
             // Load the main menu scene
             SceneManager.LoadScene("Main Menu");

@@ -6,11 +6,17 @@ namespace GoodLuckValley.Audio.Music
 {
     public class MusicManager : PersistentSingleton<MusicManager>
     {
+        [Header("Wwise Events")]
         [SerializeField] private AK.Wwise.Event startMusicEvent;
         [SerializeField] private AK.Wwise.Event stopMusicEvent;
         [SerializeField] private AK.Wwise.Event pauseMusicEvent;
         [SerializeField] private AK.Wwise.Event resumeMusicEvent;
+
+        [Header("Fields")]
         [SerializeField] private List<uint> disabledStates;
+        [SerializeField] private bool isPlaying;
+
+        [SerializeField] private List<AK.Wwise.State> menuStates = new List<AK.Wwise.State>();
 
         protected override void Awake()
         {
@@ -19,13 +25,22 @@ namespace GoodLuckValley.Audio.Music
 
         private void Start()
         {
+            SetMenuStates();
+
             Play();
         }
 
         /// <summary>
         /// Play the music event
         /// </summary>
-        public void Play() => startMusicEvent.Post(gameObject);
+        public void Play()
+        {
+            if (isPlaying) return;
+
+            startMusicEvent.Post(gameObject);
+
+            isPlaying = true;
+        }
 
         /// <summary>
         /// Stop the music event
@@ -41,6 +56,20 @@ namespace GoodLuckValley.Audio.Music
         /// Resume the music event
         /// </summary>
         public void Resume() => resumeMusicEvent.Post(gameObject);
+
+        /// <summary>
+        /// Set the default menu states
+        /// </summary>
+        public void SetMenuStates(bool fromPause = false)
+        {
+            foreach (AK.Wwise.State state in menuStates)
+            {
+                SetState(state);
+            }
+
+            if (fromPause)
+                disabledStates.Clear();
+        }
 
         /// <summary>
         /// Switch music event states

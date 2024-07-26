@@ -79,8 +79,6 @@ namespace GoodLuckValley.SceneManagement
                 {
                     SaveLoadSystem.Instance.BindData(true);
                 }
-
-                Debug.Log("SceneLoader: On SceneLoaded");
             }
 
             // Start fading in
@@ -105,13 +103,10 @@ namespace GoodLuckValley.SceneManagement
 
         private void Start()
         {
-            Debug.Log("SceneLoader: Started");
-
             // Start fading in
             // Calls to:
             // - CameraFade.PlayFadeIn();
             onFadeIn.Raise(this, true);
-
         }
 
         public async void BeginTransition()
