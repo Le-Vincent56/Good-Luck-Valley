@@ -94,6 +94,8 @@ namespace GoodLuckValley.VFX
                                 0f);
                 yield return null;
             }
+
+            volumetricTransitionLight.gameObject.SetActive(false);
         }
     }
 }
