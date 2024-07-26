@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.Music;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.SceneManagement;
@@ -109,6 +110,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // If no slot is selected, return
             if (selectedSlot == null) return;
 
+            // Set game states
+            MusicManager.Instance.SetGameStates();
+
             // Start a new game on an empty slot
             if (selectedSlot.IsEmpty)
             {
@@ -149,6 +153,8 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             {
                 // Load the save file
                 SaveLoadSystem.Instance.LoadGame(saveSlot.Name);
+
+                SaveLoadSystem.Instance.Debug();
 
                 // Load the scene
                 SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);

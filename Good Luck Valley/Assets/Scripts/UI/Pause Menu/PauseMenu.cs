@@ -169,11 +169,6 @@ namespace GoodLuckValley.UI
         /// </summary>
         public void ReturnToMain()
         {
-            // Stop ambience
-            AmbienceManager.Instance.StopAmbience();
-
-            MusicManager.Instance.SetMenuStates(true);
-
             // Load the main menu scene
             SceneManager.LoadScene("Main Menu");
         }

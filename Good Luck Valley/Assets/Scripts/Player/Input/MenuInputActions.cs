@@ -186,6 +186,24 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AltModifier"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b2a4867-0e13-48b1-aab4-5500d51755b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShiftModifier"",
+                    ""type"": ""Button"",
+                    ""id"": ""92a3be87-ed54-4a13-92ba-621181db15ea"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -628,6 +646,28 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""OpenJournal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6bd2b42d-5832-4def-b2bf-ced166d3b15f"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AltModifier"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a77c6dee-cb0c-4d7d-9aee-570150fe7147"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShiftModifier"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -651,6 +691,8 @@ namespace GoodLuckValley.Player.Input
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
             m_UI_Escape = m_UI.FindAction("Escape", throwIfNotFound: true);
             m_UI_OpenJournal = m_UI.FindAction("OpenJournal", throwIfNotFound: true);
+            m_UI_AltModifier = m_UI.FindAction("AltModifier", throwIfNotFound: true);
+            m_UI_ShiftModifier = m_UI.FindAction("ShiftModifier", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -770,6 +812,8 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_UI_TrackedDeviceOrientation;
         private readonly InputAction m_UI_Escape;
         private readonly InputAction m_UI_OpenJournal;
+        private readonly InputAction m_UI_AltModifier;
+        private readonly InputAction m_UI_ShiftModifier;
         public struct UIActions
         {
             private @MenuInputActions m_Wrapper;
@@ -786,6 +830,8 @@ namespace GoodLuckValley.Player.Input
             public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
             public InputAction @Escape => m_Wrapper.m_UI_Escape;
             public InputAction @OpenJournal => m_Wrapper.m_UI_OpenJournal;
+            public InputAction @AltModifier => m_Wrapper.m_UI_AltModifier;
+            public InputAction @ShiftModifier => m_Wrapper.m_UI_ShiftModifier;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -831,6 +877,12 @@ namespace GoodLuckValley.Player.Input
                 @OpenJournal.started += instance.OnOpenJournal;
                 @OpenJournal.performed += instance.OnOpenJournal;
                 @OpenJournal.canceled += instance.OnOpenJournal;
+                @AltModifier.started += instance.OnAltModifier;
+                @AltModifier.performed += instance.OnAltModifier;
+                @AltModifier.canceled += instance.OnAltModifier;
+                @ShiftModifier.started += instance.OnShiftModifier;
+                @ShiftModifier.performed += instance.OnShiftModifier;
+                @ShiftModifier.canceled += instance.OnShiftModifier;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -871,6 +923,12 @@ namespace GoodLuckValley.Player.Input
                 @OpenJournal.started -= instance.OnOpenJournal;
                 @OpenJournal.performed -= instance.OnOpenJournal;
                 @OpenJournal.canceled -= instance.OnOpenJournal;
+                @AltModifier.started -= instance.OnAltModifier;
+                @AltModifier.performed -= instance.OnAltModifier;
+                @AltModifier.canceled -= instance.OnAltModifier;
+                @ShiftModifier.started -= instance.OnShiftModifier;
+                @ShiftModifier.performed -= instance.OnShiftModifier;
+                @ShiftModifier.canceled -= instance.OnShiftModifier;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -906,6 +964,8 @@ namespace GoodLuckValley.Player.Input
             void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
             void OnEscape(InputAction.CallbackContext context);
             void OnOpenJournal(InputAction.CallbackContext context);
+            void OnAltModifier(InputAction.CallbackContext context);
+            void OnShiftModifier(InputAction.CallbackContext context);
         }
     }
 }

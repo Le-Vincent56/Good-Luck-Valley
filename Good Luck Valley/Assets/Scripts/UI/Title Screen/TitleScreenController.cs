@@ -2,11 +2,12 @@ using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.UI.TitleScreen.States;
 using GoodLuckValley.UI.Menus;
+using GoodLuckValley.Audio.Music;
+using GoodLuckValley.Audio.Ambience;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-using GoodLuckValley.UI.TitleScreen.Settings;
 
 namespace GoodLuckValley.UI.TitleScreen
 {
@@ -95,6 +96,12 @@ namespace GoodLuckValley.UI.TitleScreen
         private void Start()
         {
             inputReader.Enable();
+
+            // Stop ambience
+            AmbienceManager.Instance.StopAmbience();
+
+            // Set menu states
+            MusicManager.Instance.SetMenuStates();
         }
 
         private void OnEnable()

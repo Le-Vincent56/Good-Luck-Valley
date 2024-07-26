@@ -19,6 +19,8 @@ namespace GoodLuckValley.Player.Input
         public event UnityAction<Vector2> ScrollWheel = delegate { };
         public event UnityAction<bool> Submit = delegate { };
         public event UnityAction<bool> Escape = delegate { };
+        public event UnityAction<bool> AltModifier = delegate { };
+        public event UnityAction<bool> ShiftModifier = delegate { };
 
         MenuInputActions inputActions;
 
@@ -113,7 +115,7 @@ namespace GoodLuckValley.Player.Input
 
         public void OnNavigate(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if(context.started)
             {
                 Navigate.Invoke(context.ReadValue<Vector2>());
             }
@@ -168,6 +170,38 @@ namespace GoodLuckValley.Player.Input
             else if (context.canceled)
             {
                 Escape.Invoke(context.started);
+            }
+        }
+
+        public void OnAltModifier(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                AltModifier.Invoke(context.started);
+            }
+            else if (context.performed)
+            {
+                AltModifier.Invoke(context.performed);
+            }
+            else if (context.canceled)
+            {
+                AltModifier.Invoke(context.started);
+            }
+        }
+
+        public void OnShiftModifier(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                ShiftModifier.Invoke(context.started);
+            }
+            else if (context.performed)
+            {
+                ShiftModifier.Invoke(context.performed);
+            }
+            else if (context.canceled)
+            {
+                ShiftModifier.Invoke(context.started);
             }
         }
 
