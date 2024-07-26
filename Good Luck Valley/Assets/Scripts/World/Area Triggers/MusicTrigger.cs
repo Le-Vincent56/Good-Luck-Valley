@@ -73,8 +73,6 @@ namespace GoodLuckValley.World.AreaTriggers
                         MusicManager.Instance.SetState(state, permanentChange);
                     }
 
-                    Debug.Log("Changed");
-
                     // If not disabling states, return
                     if (!disableStates) return;
 

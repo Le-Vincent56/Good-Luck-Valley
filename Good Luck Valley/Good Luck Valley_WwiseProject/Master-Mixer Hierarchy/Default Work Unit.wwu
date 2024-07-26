@@ -4,13 +4,6 @@
 		<WorkUnit Name="Default Work Unit" ID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}" PersistMode="Standalone">
 			<ChildrenList>
 				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
-					<PropertyList>
-						<Property Name="BusVolume" Type="Real64">
-							<ValueList>
-								<Value>-3</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{E95A1757-0B23-4485-941A-8FE93E56A132}" WorkUnitID="{7294F35F-336E-4F5F-BFBB-8A2E7581C16D}"/>
@@ -35,7 +28,7 @@
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>-7</Value>
+										<Value>-3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -45,15 +38,7 @@
 								<Bus Name="AMBIENCE_3D" ID="{A257F4A4-D6AC-480E-97D2-BBF7DDC5F645}"/>
 							</ChildrenList>
 						</Bus>
-						<Bus Name="MASTER_MUSIC" ID="{66327182-3D3A-47D6-B6C1-58308EC3F8FB}">
-							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-3</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-						</Bus>
+						<Bus Name="MASTER_MUSIC" ID="{66327182-3D3A-47D6-B6C1-58308EC3F8FB}"/>
 						<AuxBus Name="REVERBS" ID="{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}">
 							<ChildrenList>
 								<AuxBus Name="REVERB_LARGEROOM" ID="{033BE84F-2D9C-4675-B901-8439FB9A69C5}"/>

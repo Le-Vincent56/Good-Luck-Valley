@@ -35,6 +35,7 @@ Transform:
   - {fileID: 2406612474734773976}
   - {fileID: 8430173989626447553}
   - {fileID: 4877181800905658912}
+  - {fileID: 7012725149763332943}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &905434983551630786
@@ -223,6 +224,98 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4178013267333351348, guid: 2911bdd215113a04fbffac20b3d99107, type: 3}
   m_PrefabInstance: {fileID: 2980427281435862897}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4275874272985772343
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1610827323819237925}
+    m_Modifications:
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804704888227186148, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      propertyPath: m_Name
+      value: Ambience Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6804704888227186148, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7190358912606780370}
+  m_SourcePrefab: {fileID: 100100000, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+--- !u!4 &7012725149763332943 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6486521162294303352, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+  m_PrefabInstance: {fileID: 4275874272985772343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7294107311267198163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6804704888227186148, guid: 6f9c97f03efe0fd46a7a30550f57726b, type: 3}
+  m_PrefabInstance: {fileID: 4275874272985772343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7190358912606780370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7294107311267198163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1b1832413f6ad4a9bf0f0d6f1ae8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1001 &6067711772132673517
 PrefabInstance:
   m_ObjectHideFlags: 0

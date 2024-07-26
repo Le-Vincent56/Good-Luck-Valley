@@ -11,6 +11,7 @@ namespace GoodLuckValley.World.AreaTriggers
 
         [Header("Fields")]
         [SerializeField] private Switch biomeSwitch;
+        [SerializeField] private bool startAmbience;
 
         private void Awake()
         {
@@ -29,7 +30,10 @@ namespace GoodLuckValley.World.AreaTriggers
 
         private void ChangeAmbience(GameObject other)
         {
-            biomeSwitch.SetValue(other.GetComponentInChildren<AmbienceHandler>().gameObject);
+            biomeSwitch.SetValue(AmbienceManager.Instance.gameObject);
+
+            if (startAmbience)
+                AmbienceManager.Instance.StartAmbience();
         }
     }
 }
