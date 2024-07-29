@@ -25,6 +25,8 @@ namespace GoodLuckValley.UI.TitleScreen
 
         [Header("Fields")]
         [SerializeField] private int state;
+        [SerializeField] private int backState;
+        [SerializeField] private bool backable;
         [SerializeField] private bool tryingToChangeState;
         [SerializeField] private bool changingState;
         [SerializeField] private MenuCursor[] cursors = new MenuCursor[6];
@@ -107,6 +109,7 @@ namespace GoodLuckValley.UI.TitleScreen
         private void OnEnable()
         {
             inputReader.Start += InitializeMenu;
+            inputReader.Escape += Back;
         }
 
         private void OnDisable()
@@ -157,6 +160,30 @@ namespace GoodLuckValley.UI.TitleScreen
         /// Set the state of the Title Screen
         /// </summary>
         /// <param name="state"></param>
-        public void SetState(int state) => this.state = state;
+        public void SetState(int state)
+        {
+            // Set whether or not the state can be backtracked (press ESC)
+            if (state == MAIN || state == INIT)
+                backable = false;
+            else backable = true;
+
+            if (state == START || state == SETTINGS)
+                backState = MAIN;
+
+            if (state == AUDIO || state == VIDEO || state == CONTROLS)
+                backState = SETTINGS;
+
+            // Set the state
+            this.state = state;
+        }
+
+        public void Back(bool started)
+        {
+            // Exit case - if the key has not been lifted yet
+            if (started) return;
+
+            // Set the state to the back state
+            SetState(backState);
+        }
     }
 }
