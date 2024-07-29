@@ -37,8 +37,8 @@ public class PlayerParticlesController : MonoBehaviour
     [SerializeField] private BlackboardData playerBlackboard;
 
     [Header("Fields")]
-    [SerializeField] private float timeSinceLastParticle;
-    [SerializeField] private float timeBetweenParticles;
+    [SerializeField] private float timeSinceLastRunningParticle;
+    [SerializeField] private float timeBetweenRunningParticles;
     [SerializeField] private float minXVelocity;
     [SerializeField] private DetectTileType detectTileType;
     private PlayerController playerController;
@@ -100,15 +100,15 @@ public class PlayerParticlesController : MonoBehaviour
 
     private void HandleRunningParticles()
     {
-        if (timeSinceLastParticle < timeBetweenParticles)
+        if (timeSinceLastRunningParticle < timeBetweenRunningParticles)
         {
-            timeSinceLastParticle += Time.deltaTime;
+            timeSinceLastRunningParticle += Time.deltaTime;
         }
         else
         {
             //Debug.Log("Running Particles");
             PlayEffectBasedOnTileType(grassRunVFX, dirtRunVFX, runParticlesHardpoint.position);
-            timeSinceLastParticle = 0;
+            timeSinceLastRunningParticle = 0;
         }
 
     }
