@@ -75,6 +75,11 @@ namespace GoodLuckValley.SceneManagement
                     onPrepareLevel.Raise(this, dataToSend);
                 }
 
+                // Start fading in
+                // Calls to:
+                // - CameraFade.PlayFadeIn();
+                onFadeIn.Raise(this, true);
+
                 if (scene.name != "Menu" && SaveLoadSystem.Instance.selectedData != null)
                 {
                     SaveLoadSystem.Instance.BindData(true);

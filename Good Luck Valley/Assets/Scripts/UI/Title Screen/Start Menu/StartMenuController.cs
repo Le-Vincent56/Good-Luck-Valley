@@ -35,7 +35,10 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             {
                 slot.Init(this);
             }
+        }
 
+        private void Start()
+        {
             // Set slot data
             SetSlotData();
         }
