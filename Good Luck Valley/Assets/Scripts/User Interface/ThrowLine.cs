@@ -223,9 +223,6 @@ namespace GoodLuckValley.UI
                 // Otherwise, segments is set back to its original value of 300
                 segments = 300;
             }
-
-            //UpdateAnimationCurves(newPoints);
-            Debug.Log("New Point Count: " + newPoints.Length);
         }
         
         /// <summary>

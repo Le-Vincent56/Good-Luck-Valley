@@ -96,7 +96,7 @@ public class PlayerParticlesController : MonoBehaviour
         jumpParticlesHardpoint = hardpoints.Jump;
         landParticlesHardpoint = hardpoints.Land;
         bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
-    }
+    }   
 
     private void HandleRunningParticles()
     {
