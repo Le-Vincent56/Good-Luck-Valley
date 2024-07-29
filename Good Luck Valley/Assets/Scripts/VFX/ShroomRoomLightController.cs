@@ -85,7 +85,10 @@ namespace GoodLuckValley.VFX
             while (currentTransitionTime < deTransitionTime)
             {
                 currentTransitionTime += Time.deltaTime;
-                volumetricTransitionLight.intensity -= Mathf.Lerp(0, maxLightIntensity, Time.deltaTime * lightIntensityDecreaseSpeed);
+                if (volumetricTransitionLight.intensity > 0)
+                {
+                    volumetricTransitionLight.intensity -= Mathf.Lerp(0, maxLightIntensity, Time.deltaTime * lightIntensityDecreaseSpeed);
+                }
                 float xScale = volumetricTransitionLight.gameObject.transform.localScale.x;
                 float yScale = volumetricTransitionLight.gameObject.transform.localScale.y;
                 volumetricTransitionLight.gameObject.transform.localScale =

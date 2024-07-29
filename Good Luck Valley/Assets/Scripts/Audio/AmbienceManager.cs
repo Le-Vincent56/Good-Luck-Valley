@@ -40,7 +40,7 @@ namespace GoodLuckValley.Audio.Ambience
 
             // Post the stop ambient events
             stopAmbientBed.Post(gameObject);
-            ambient2D.Post(gameObject);
+            stopAmbient2D.Post(gameObject);
 
             // State not playing ambience
             isPlayingAmbience = false;
