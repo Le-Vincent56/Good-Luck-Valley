@@ -17,6 +17,7 @@ namespace GoodLuckValley.Audio.Music
         [SerializeField] private bool isPlaying;
 
         [SerializeField] private List<AK.Wwise.State> menuStates = new List<AK.Wwise.State>();
+        [SerializeField] private List<AK.Wwise.State> gameStates = new List<AK.Wwise.State>();
 
         protected override void Awake()
         {
@@ -69,6 +70,21 @@ namespace GoodLuckValley.Audio.Music
 
             if (fromPause)
                 disabledStates.Clear();
+        }
+
+
+        /// <summary>
+        /// Set game states
+        /// </summary>
+        public void SetGameStates()
+        {
+            // Clear the disabled states
+            disabledStates.Clear();
+
+            foreach(AK.Wwise.State state in gameStates)
+            {
+                SetState(state);
+            }
         }
 
         /// <summary>
