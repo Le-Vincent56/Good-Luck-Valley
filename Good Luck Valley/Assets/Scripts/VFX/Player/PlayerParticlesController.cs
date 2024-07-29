@@ -1,4 +1,6 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.World.Tiles;
 using System.Collections;
@@ -32,10 +34,11 @@ public class PlayerParticlesController : MonoBehaviour
     [Header("Bounce Airtime Particles")]
     [SerializeField] private VisualEffect bounceAirtimeVFX;
     [SerializeField] private Transform bounceAirtimeParticlesHardpoint;
+    [SerializeField] private BlackboardData playerBlackboard;
 
     [Header("Fields")]
-    [SerializeField] private float timeSinceLastParticle;
-    [SerializeField] private float timeBetweenParticles;
+    [SerializeField] private float timeSinceLastRunningParticle;
+    [SerializeField] private float timeBetweenRunningParticles;
     [SerializeField] private float minXVelocity;
     [SerializeField] private DetectTileType detectTileType;
     private PlayerController playerController;
@@ -93,19 +96,19 @@ public class PlayerParticlesController : MonoBehaviour
         jumpParticlesHardpoint = hardpoints.Jump;
         landParticlesHardpoint = hardpoints.Land;
         bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
-    }
+    }   
 
     private void HandleRunningParticles()
     {
-        if (timeSinceLastParticle < timeBetweenParticles)
+        if (timeSinceLastRunningParticle < timeBetweenRunningParticles)
         {
-            timeSinceLastParticle += Time.deltaTime;
+            timeSinceLastRunningParticle += Time.deltaTime;
         }
         else
         {
             //Debug.Log("Running Particles");
             PlayEffectBasedOnTileType(grassRunVFX, dirtRunVFX, runParticlesHardpoint.position);
-            timeSinceLastParticle = 0;
+            timeSinceLastRunningParticle = 0;
         }
 
     }
@@ -122,14 +125,24 @@ public class PlayerParticlesController : MonoBehaviour
         PlayEffectBasedOnTileType(grassLandVFX, dirtLandVFX, landParticlesHardpoint.position);
     }
 
-    public void HandleAirtimeBounceParticles()
+    public void HandleAirtimeBounceParticles(bool isQuickBounce)
     {
-        if (playerController.IsGrounded)
+        if (isQuickBounce)
         {
-            airtimeParticlesActive = true;
-            bounceAirtimeVFX.SetVector2("SpawnPosition", bounceAirtimeParticlesHardpoint.position);
-            bounceAirtimeVFX.Play();    
+            if (playerController.IsGrounded && playerBlackboard.entries[1].value == true)
+                ExecuteAirtimeParticles();
         }
+        else if (playerBlackboard.entries[1].value == true)
+        {
+            ExecuteAirtimeParticles();
+        }
+    }
+
+    private void ExecuteAirtimeParticles()
+    {
+        airtimeParticlesActive = true;
+        bounceAirtimeVFX.SetVector2("SpawnPosition", bounceAirtimeParticlesHardpoint.position);
+        bounceAirtimeVFX.Play();
     }
 
     public void StopAirtimeBounceParticles()

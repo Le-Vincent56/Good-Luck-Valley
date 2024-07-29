@@ -134,8 +134,9 @@ MonoBehaviour:
   landParticlesHardpoint: {fileID: 0}
   bounceAirtimeVFX: {fileID: 7040737533403282195}
   bounceAirtimeParticlesHardpoint: {fileID: 0}
-  timeSinceLastParticle: 0
-  timeBetweenParticles: 0.01
+  playerBlackboard: {fileID: 11400000, guid: 0648a381155bb3a43a15f320a979e46c, type: 2}
+  timeSinceLastRunningParticle: 0
+  timeBetweenRunningParticles: 0.1
   minXVelocity: 2
   detectTileType:
     direction: 1
@@ -146,6 +147,9 @@ MonoBehaviour:
     grassLayer:
       serializedVersion: 2
       m_Bits: 32768
+    stoneLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!114 &8949755954041655344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +232,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &7591630367027101870
 MonoBehaviour:
