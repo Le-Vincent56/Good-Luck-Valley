@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine.InputSystem;
 using System.Linq;
 using System;
+using UnityEngine;
 
 namespace GoodLuckValley.UI.TitleScreen.Editor
 {
@@ -10,24 +11,44 @@ namespace GoodLuckValley.UI.TitleScreen.Editor
     public class RebindingButtonEditor : UnityEditor.Editor
     {
         SerializedProperty bindingInfoProp;
+        SerializedProperty defaultInfoProp;
         SerializedProperty buttonProp;
+        SerializedProperty validRebind;
 
         private void OnEnable()
         {
             bindingInfoProp = serializedObject.FindProperty("bindingInfo");
+            defaultInfoProp = serializedObject.FindProperty("defaultBindingInfo");
             buttonProp = serializedObject.FindProperty("targetButton");
+            validRebind = serializedObject.FindProperty("validRebind");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
+            EditorGUILayout.ObjectField(buttonProp);
+            EditorGUILayout.Space(10f);
+
+            EditorGUILayout.LabelField("Binding Info", EditorStyles.boldLabel);
+            ShowBindingInfo(bindingInfoProp, "Action Map", "Action", "Binding");
+            EditorGUILayout.Space(10f);
+
+            EditorGUILayout.LabelField("Default Binding Info", EditorStyles.boldLabel);
+            ShowBindingInfo(defaultInfoProp, "Defualt Map", "Default Action", "Default Binding");
+            EditorGUILayout.Space(10f);
+
+            EditorGUILayout.PropertyField(validRebind);
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void ShowBindingInfo(SerializedProperty bindingInfoProp, string mapNamePopupString, string actionNamePopupName, string bindingName)
+        {
             SerializedProperty actionAssetProp = bindingInfoProp.FindPropertyRelative("actionAsset");
             SerializedProperty actionMapNameProp = bindingInfoProp.FindPropertyRelative("actionMapName");
             SerializedProperty actionNameProp = bindingInfoProp.FindPropertyRelative("actionName");
             SerializedProperty bindingIndexProp = bindingInfoProp.FindPropertyRelative("bindingIndex");
-
-            EditorGUILayout.ObjectField(buttonProp);
             EditorGUILayout.PropertyField(actionAssetProp);
 
             if (actionAssetProp.objectReferenceValue != null)
@@ -40,7 +61,7 @@ namespace GoodLuckValley.UI.TitleScreen.Editor
                 {
                     selectedActionMap = 0;
                 }
-                selectedActionMap = EditorGUILayout.Popup("Action Map", selectedActionMap, actionMapNames);
+                selectedActionMap = EditorGUILayout.Popup(mapNamePopupString, selectedActionMap, actionMapNames);
                 actionMapNameProp.stringValue = actionMapNames[selectedActionMap];
 
                 string[] actionNames = GetActionNames(actionAsset, actionMapNameProp.stringValue);
@@ -49,7 +70,7 @@ namespace GoodLuckValley.UI.TitleScreen.Editor
                 {
                     selectedAction = 0;
                 }
-                selectedAction = EditorGUILayout.Popup("Action", selectedAction, actionNames);
+                selectedAction = EditorGUILayout.Popup(actionNamePopupName, selectedAction, actionNames);
                 actionNameProp.stringValue = actionNames[selectedAction];
 
                 InputAction action = actionAsset.FindActionMap(actionMapNameProp.stringValue)?.FindAction(actionNameProp.stringValue);
@@ -60,11 +81,9 @@ namespace GoodLuckValley.UI.TitleScreen.Editor
                     {
                         bindingIndexProp.intValue = 0;
                     }
-                    bindingIndexProp.intValue = EditorGUILayout.Popup("Binding", bindingIndexProp.intValue, bindingOptions);
+                    bindingIndexProp.intValue = EditorGUILayout.Popup(bindingName, bindingIndexProp.intValue, bindingOptions);
                 }
             }
-
-            serializedObject.ApplyModifiedProperties();
         }
 
         private string[] GetActionMapNames(InputActionAsset actionAsset) => 

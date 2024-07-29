@@ -20,6 +20,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         [SerializeField] private SaveSlot selectedSlot;
 
         [Header("Fields")]
+        private const int stateNum = 2;
         [SerializeField] private List<SaveSlot> saveSlots;
 
         public SaveSlot SelectedSlot {  get { return selectedSlot; } } 
@@ -45,10 +46,31 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         }
 
         /// <summary>
+        /// Handle Back input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void BackInput(Component sender, object data)
+        {
+            // Verify that the correct data was sent
+            if (data is not int) return;
+
+            // Cast and compare data
+            if ((int)data == stateNum)
+            {
+                ReturnToMain();
+            }
+        }
+
+        /// <summary>
         /// Return to the Main Menu
         /// </summary>
         public void ReturnToMain() => controller.SetState(controller.MAIN);
 
+        /// <summary>
+        /// Set the selected save slot
+        /// </summary>
+        /// <param name="saveSlot"></param>
         public void SetSelectedSlot(SaveSlot saveSlot) => selectedSlot = saveSlot;
 
         /// <summary>

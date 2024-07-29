@@ -1,11 +1,13 @@
 using GoodLuckValley.Journal.Persistence;
 using GoodLuckValley.Patterns.Singletons;
 using GoodLuckValley.Player.Control;
+using GoodLuckValley.UI.TitleScreen.Settings.Controls;
 using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace GoodLuckValley.Persistence
@@ -25,8 +27,11 @@ namespace GoodLuckValley.Persistence
     {
         #region FIELDS
         [SerializeField] public GameData selectedData;
+        [SerializeField] public SettingsData settingsData;
+        [SerializeField] private InputActionAsset inputActions;
         Dictionary<string, GameData> saves;
-        IDataService dataService;
+        FileDataService dataService;
+        FileSettingsService settingsService;
         #endregion
 
         #region PROPERTIES
@@ -40,6 +45,7 @@ namespace GoodLuckValley.Persistence
 
             // Initialize the data service
             dataService = new FileDataService(new JsonSerializer());
+            settingsService = new FileSettingsService(new JsonSerializer());
 
             // Initialize the Saves dictionary
             saves = new Dictionary<string, GameData>();
@@ -48,6 +54,13 @@ namespace GoodLuckValley.Persistence
             {
                 saves[save] = dataService.Load(save);
             }
+
+            // Try to get a settings file
+            settingsData = settingsService.Load("PlayerSettings");
+
+            // If none found, create a new settings file
+            if (settingsData == null)
+                NewSettings();
         }
 
         /// <summary>
@@ -59,6 +72,11 @@ namespace GoodLuckValley.Persistence
             Bind<JournalSaveHandler, JournalSaveData>(selectedData.journalSaveData, applyData);
             Bind<GlobalDataSaveHandler, GlobalData>(selectedData.globalData, applyData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas, applyData);
+        }
+
+        public void BindSettings(bool applyData = true)
+        {
+            Bind<ControlsSettingController, ControlsData>(settingsData.Controls, applyData);
         }
 
         private void Bind<T, TData>(TData data, bool applyData = true) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
@@ -105,6 +123,18 @@ namespace GoodLuckValley.Persistence
             }
         }
 
+        public void NewSettings()
+        {
+            settingsData = new SettingsData
+            {
+
+                Name = "PlayerSettings",
+                Controls = new ControlsData(inputActions)
+            };
+
+            SaveSettings();
+        }
+
         /// <summary>
         /// Create a new game
         /// </summary>
@@ -146,6 +176,8 @@ namespace GoodLuckValley.Persistence
             // Refresh save data
             RefreshSaveData();
         }
+
+        public void SaveSettings() => settingsService.Save(settingsData);
 
         /// <summary>
         /// Load a game

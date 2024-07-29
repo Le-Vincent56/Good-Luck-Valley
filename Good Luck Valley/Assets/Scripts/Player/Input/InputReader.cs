@@ -35,7 +35,6 @@ namespace GoodLuckValley.Player.Input
         public event UnityAction<bool> DevTools = delegate { };
         public event UnityAction<bool> NoClip = delegate { };
         public event UnityAction<bool> UnlockPowers = delegate { };
-        public event UnityAction<bool> Look = delegate { };
         public event UnityAction<bool> FastSlide = delegate { };
         public event UnityAction<bool> Crawl = delegate { };
         public event UnityAction<float> Scroll = delegate { };
@@ -185,22 +184,6 @@ namespace GoodLuckValley.Player.Input
             if (!AllowControl) return;
 
             UnlockPowers.Invoke(context.started);
-        }
-
-        public void OnLook(InputAction.CallbackContext context)
-        {
-            if (!AllowControl) return;
-
-            Vector2 rawMovementInput = context.ReadValue<Vector2>();
-            NormLookY = (int)(rawMovementInput * Vector2.up).normalized.y;
-
-            if (context.started)
-            {
-                Look.Invoke(context.started);
-            } else if(context.canceled)
-            {
-                Look.Invoke(context.started);
-            }
         }
 
         public void OnFastSlide(InputAction.CallbackContext context)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 namespace GoodLuckValley.Persistence
@@ -28,6 +29,27 @@ namespace GoodLuckValley.Persistence
 
             return finalString;
         }
+    }
+
+    public class SettingsData
+    {
+        public string Name;
+        public ControlsData Controls;
+    }
+
+    [Serializable]
+    public class ControlsData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public string bindings;
+
+        public ControlsData(InputActionAsset inputActions)
+        {
+            inputActions.RemoveAllBindingOverrides();
+            bindings = inputActions.SaveBindingOverridesAsJson();
+        }
+
+        public ControlsData() { }
     }
 
     [Serializable]

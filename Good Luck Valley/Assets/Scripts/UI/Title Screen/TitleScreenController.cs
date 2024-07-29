@@ -8,6 +8,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using GoodLuckValley.Events;
+using GoodLuckValley.Persistence;
 
 namespace GoodLuckValley.UI.TitleScreen
 {
@@ -19,14 +21,15 @@ namespace GoodLuckValley.UI.TitleScreen
 
     public class TitleScreenController : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onMainMenuBack;
+
         [Header("References")]
         [SerializeField] private MenuInputReader inputReader;
         [SerializeField] private TitleBackgroundFade backgroundFade;
 
         [Header("Fields")]
         [SerializeField] private int state;
-        [SerializeField] private int backState;
-        [SerializeField] private bool backable;
         [SerializeField] private bool tryingToChangeState;
         [SerializeField] private bool changingState;
         [SerializeField] private MenuCursor[] cursors = new MenuCursor[6];
@@ -68,7 +71,7 @@ namespace GoodLuckValley.UI.TitleScreen
             SettingsMenuState settingsState = new SettingsMenuState(this, stateMachine, true, exclusions[SETTINGS], screens[SETTINGS], cursors[CURSOR_SETTINGS_MAIN], backgroundFade);
             AudioMenuState audioState = new AudioMenuState(this, stateMachine, true, exclusions[AUDIO], screens[AUDIO], cursors[CURSOR_SETTINGS_AUDIO]);
             VideoMenuState videoState = new VideoMenuState(this, stateMachine, true, exclusions[VIDEO], screens[VIDEO], cursors[CURSOR_SETTINGS_VIDEO]);
-            ControlsMenuState controlsState = new ControlsMenuState(this, stateMachine, true, exclusions[CONTROLS],screens[CONTROLS], cursors[CURSOR_SETTINGS_CONTROLS]);
+            ControlsMenuState controlsState = new ControlsMenuState(this, stateMachine, true, exclusions[CONTROLS], screens[CONTROLS], cursors[CURSOR_SETTINGS_CONTROLS]);
 
             // Exclude certain elements
             //videoState.AddExcludeds(excludedGraphics);
@@ -104,6 +107,9 @@ namespace GoodLuckValley.UI.TitleScreen
 
             // Set menu states
             MusicManager.Instance.SetMenuStates();
+
+            // Bind data
+            SaveLoadSystem.Instance.BindSettings(true);
         }
 
         private void OnEnable()
@@ -160,30 +166,14 @@ namespace GoodLuckValley.UI.TitleScreen
         /// Set the state of the Title Screen
         /// </summary>
         /// <param name="state"></param>
-        public void SetState(int state)
-        {
-            // Set whether or not the state can be backtracked (press ESC)
-            if (state == MAIN || state == INIT)
-                backable = false;
-            else backable = true;
-
-            if (state == START || state == SETTINGS)
-                backState = MAIN;
-
-            if (state == AUDIO || state == VIDEO || state == CONTROLS)
-                backState = SETTINGS;
-
-            // Set the state
-            this.state = state;
-        }
+        public void SetState(int state) => this.state = state;
 
         public void Back(bool started)
         {
             // Exit case - if the key has not been lifted yet
             if (started) return;
 
-            // Set the state to the back state
-            SetState(backState);
+            onMainMenuBack.Raise(this, state);
         }
     }
 }
