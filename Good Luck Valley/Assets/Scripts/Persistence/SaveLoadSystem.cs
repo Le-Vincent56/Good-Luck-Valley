@@ -1,7 +1,9 @@
 using GoodLuckValley.Journal.Persistence;
 using GoodLuckValley.Patterns.Singletons;
 using GoodLuckValley.Player.Control;
-using GoodLuckValley.UI.TitleScreen.Settings.Controls;
+using GoodLuckValley.UI.Settings.Audio;
+using GoodLuckValley.UI.Settings.Video;
+using GoodLuckValley.UI.Settings.Controls;
 using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections.Generic;
@@ -76,7 +78,9 @@ namespace GoodLuckValley.Persistence
 
         public void BindSettings(bool applyData = true)
         {
-            Bind<ControlsSettingController, ControlsData>(settingsData.Controls, applyData);
+            Bind<AudioSaveHandler, AudioData>(settingsData.Audio, applyData);
+            Bind<VideoSaveHandler, VideoData>(settingsData.Video, applyData);
+            Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls, applyData);
         }
 
         private void Bind<T, TData>(TData data, bool applyData = true) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
@@ -129,6 +133,8 @@ namespace GoodLuckValley.Persistence
             {
 
                 Name = "PlayerSettings",
+                Audio = new AudioData(),
+                Video = new VideoData(),
                 Controls = new ControlsData(inputActions)
             };
 
@@ -144,7 +150,7 @@ namespace GoodLuckValley.Persistence
             selectedData = new GameData
             {
                 Slot = slot,
-                Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
+                Name = $"Slot {Mathf.Clamp(GetSaveCount(), 1, 4)}",
                 CurrentLevelName = "Level 1",
                 playerSaveData = new PlayerSaveData(),
                 journalSaveData = new JournalSaveData(),

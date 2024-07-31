@@ -31,27 +31,6 @@ namespace GoodLuckValley.Persistence
         }
     }
 
-    public class SettingsData
-    {
-        public string Name;
-        public ControlsData Controls;
-    }
-
-    [Serializable]
-    public class ControlsData : ISaveable
-    {
-        [field: SerializeField] public SerializableGuid ID { get; set; }
-        public string bindings;
-
-        public ControlsData(InputActionAsset inputActions)
-        {
-            inputActions.RemoveAllBindingOverrides();
-            bindings = inputActions.SaveBindingOverridesAsJson();
-        }
-
-        public ControlsData() { }
-    }
-
     [Serializable]
     public class PlayerSaveData : ISaveable
     {

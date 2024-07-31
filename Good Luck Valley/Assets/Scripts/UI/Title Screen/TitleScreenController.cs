@@ -32,6 +32,8 @@ namespace GoodLuckValley.UI.TitleScreen
         [SerializeField] private int state;
         [SerializeField] private bool tryingToChangeState;
         [SerializeField] private bool changingState;
+        [SerializeField] private float backTimer = 0f;
+        [SerializeField] private float backBuffer = 0.3f;
         [SerializeField] private MenuCursor[] cursors = new MenuCursor[6];
         [SerializeField] private GameObject[] screens = new GameObject[7];
         [SerializeField] private Exclusions[] exclusions = new Exclusions[7];
@@ -74,7 +76,6 @@ namespace GoodLuckValley.UI.TitleScreen
             ControlsMenuState controlsState = new ControlsMenuState(this, stateMachine, true, exclusions[CONTROLS], screens[CONTROLS], cursors[CURSOR_SETTINGS_CONTROLS]);
 
             // Exclude certain elements
-            //videoState.AddExcludeds(excludedGraphics);
             startState.AddExcludeds(exclusions[START].Objects);
 
             // Set state transitions
@@ -121,10 +122,15 @@ namespace GoodLuckValley.UI.TitleScreen
         private void OnDisable()
         {
             inputReader.Start -= InitializeMenu;
+            inputReader.Escape -= Back;
         }
 
         private void Update()
         {
+            // Update the back timer
+            if (backTimer > 0f)
+                backTimer -= Time.deltaTime;
+
             // Update the state machine
             stateMachine.Update();
         }
@@ -168,10 +174,22 @@ namespace GoodLuckValley.UI.TitleScreen
         /// <param name="state"></param>
         public void SetState(int state) => this.state = state;
 
+        /// <summary>
+        /// Handle back input
+        /// </summary>
+        /// <param name="started"></param>
         public void Back(bool started)
         {
             // Exit case - if the key has not been lifted yet
             if (started) return;
+
+            // Exit case - if the back timer is not finished yet
+            if (backTimer > 0f) return;
+
+            // Set the back timer
+            backTimer = backBuffer;
+
+            Debug.Log("Escape input with buffer");
 
             onMainMenuBack.Raise(this, state);
         }

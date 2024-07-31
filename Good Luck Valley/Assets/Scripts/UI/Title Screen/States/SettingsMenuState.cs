@@ -1,6 +1,5 @@
 using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.UI.Menus;
-using GoodLuckValley.UI.TitleScreen.Settings;
 using UnityEngine;
 
 namespace GoodLuckValley.UI.TitleScreen.States

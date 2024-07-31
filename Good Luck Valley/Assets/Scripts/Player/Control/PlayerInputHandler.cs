@@ -16,7 +16,8 @@ namespace GoodLuckValley.Player.Control
         {
             Default,
             Journal,
-            Pause
+            Pause,
+            Menu
         }
 
         private List<IInputReader> inputReaders = new List<IInputReader>();
@@ -25,6 +26,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private InputReader defaultInputReader;
         [SerializeField] private JournalInputReader journalInputReader;
         [SerializeField] private PauseInputReader pauseInputReader;
+        [SerializeField] private MenuInputReader menuInputReader;
 
         [Header("Fields")]
         [SerializeField] private CurrentInputReader currentInputReader;
@@ -35,6 +37,7 @@ namespace GoodLuckValley.Player.Control
             inputReaders.Add(defaultInputReader);
             inputReaders.Add(journalInputReader);
             inputReaders.Add(pauseInputReader);
+            inputReaders.Add(menuInputReader);
         }
 
         private void Start()
@@ -68,6 +71,17 @@ namespace GoodLuckValley.Player.Control
 
             // Set the current reader for debugging
             currentInputReader = CurrentInputReader.Pause;
+        }
+
+        public void EnableMenuInput(Component sender, object data)
+        {
+            // Enable the current input reader
+            EnableInputReader(menuInputReader);
+
+            menuInputReader.SwitchToUIActionMap();
+
+            // Set the current reader for debugging
+            currentInputReader = CurrentInputReader.Menu;
         }
 
         /// <summary>

@@ -1,5 +1,3 @@
-using GoodLuckValley.Audio.Ambience;
-using GoodLuckValley.Audio.Music;
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
@@ -15,6 +13,8 @@ namespace GoodLuckValley.UI
         [SerializeField] private GameEvent onSetPauseInputAction;
         [SerializeField] private GameEvent onSetDefaultInputAction;
         [SerializeField] private GameEvent onOpenJournalMenu;
+        [SerializeField] private GameEvent onOpenSettingsMenu;
+        [SerializeField] private GameEvent onSetPauseBackground;
 
         [Header("References")]
         [SerializeField] private InputReader input;
@@ -86,6 +86,11 @@ namespace GoodLuckValley.UI
                 //  - PlayerInputHandler.EnableDefaultInput();
                 onSetDefaultInputAction.Raise(this, null);
 
+                // Remove the background
+                // Calls to:
+                // - PauseBackgroundFade.SetPauseBackground();
+                onSetPauseBackground.Raise(this, false);
+
                 // Hide the UI
                 HideUI();
             } else
@@ -100,6 +105,11 @@ namespace GoodLuckValley.UI
                 // Calls to:
                 //  - PlayerInputHandler.EnablePauseInput();
                 onSetPauseInputAction.Raise(this, null);
+
+                // Set the background
+                // Calls to:
+                // - PauseBackgroundFade.SetPauseBackground();
+                onSetPauseBackground.Raise(this, true);
 
                 // Hide UI
                 ShowUI();
@@ -155,6 +165,16 @@ namespace GoodLuckValley.UI
             onOpenJournalMenu.Raise(this, null);
         }
 
+        public void OpenSettings()
+        {
+            HideUI();
+
+            // Open the settings menu
+            // Calls to:
+            //  - 
+            onOpenSettingsMenu.Raise(this, null);
+        }
+
         /// <summary>
         /// Save from the Pause Menu
         /// </summary>
@@ -171,6 +191,15 @@ namespace GoodLuckValley.UI
         {
             // Load the main menu scene
             SceneManager.LoadScene("Main Menu");
+        }
+
+        public void ShowPauseMenu(Component sender, object data)
+        {
+            // Set the pause input action
+            onSetPauseInputAction.Raise(this, null);
+
+            // Show the UI
+            ShowUI();
         }
     }
 }
