@@ -42,6 +42,7 @@ public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
 
     private void StartReactiveElement(GameObject hitObject)
     {
+        Debug.Log("starting: " + coroutineActive);
         if (!coroutineActive)
         {
             coroutineActive = true;
@@ -64,6 +65,7 @@ public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
             reactiveLight.intensity += Mathf.Lerp(0, maxIntensity, currentReactiveTime);
             yield return null;
         }
+        currentReactiveTime = 0;
 
         yield return new WaitForSeconds(maxIntensityHoldTime);
 
@@ -74,7 +76,7 @@ public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
     {
         while (reactiveLight.intensity > 0)
         {
-            currentReactiveTime -= Time.deltaTime * intensityChangeSpeed;
+            currentReactiveTime += Time.deltaTime * intensityChangeSpeed;
             reactiveLight.intensity -= Mathf.Lerp(0, maxIntensity, currentReactiveTime);
             yield return null;
         }
