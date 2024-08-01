@@ -22,6 +22,10 @@ namespace GoodLuckValley.UI
         [SerializeField] private PauseInputReader pauseInputReader;
         [SerializeField] private MenuCursor cursors;
 
+        [Header("Fields")]
+        [SerializeField] private float backTime;
+        [SerializeField] private float backBuffer;
+
         protected override void Awake()
         {
             base.Awake();
@@ -47,14 +51,31 @@ namespace GoodLuckValley.UI
             HideUIHard();
         }
 
+        private void Update()
+        {
+            if(backTime > 0f)
+            {
+                backTime -= Time.unscaledDeltaTime;
+            }
+        }
+
         /// <summary>
         /// Handle pause input
         /// </summary>
         /// <param name="started">If the button has been pressed</param>
         public void OnPause(bool started)
         {
-            // If the button has been pressed, toggle pause
-            if (started) TogglePause();
+            // Exit case - if the button hasn't been released
+            if (started) return;
+
+            // Exit case - the input buffer hasn't completed
+            if (backTime > 0) return;
+
+            // Set the input buffer
+            backTime = backBuffer;
+
+            // Toggle the pause
+            TogglePause();
         }
 
         /// <summary>
@@ -62,7 +83,10 @@ namespace GoodLuckValley.UI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public void OnPause(Component sender, object data) => TogglePause();
+        public void OnPause(Component sender, object data)
+        {
+            TogglePause();
+        }
 
         /// <summary>
         /// Toggle the pause menu

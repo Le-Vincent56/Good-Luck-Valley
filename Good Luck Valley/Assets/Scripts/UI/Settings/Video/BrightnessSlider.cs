@@ -47,7 +47,7 @@ namespace GoodLuckValley.UI.Settings.Video
             colorAdjustments.postExposure.value = editedValue;
 
             // Update the display text
-            displayText.text = $"{value}";
+            displayText.text = $"{(int)value}";
         }
 
         public void LoadBrightness(float value)

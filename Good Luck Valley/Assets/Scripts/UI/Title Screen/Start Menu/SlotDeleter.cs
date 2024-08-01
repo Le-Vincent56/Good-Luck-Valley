@@ -22,13 +22,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             this.controller = controller;
             this.saveSlot = saveSlot;
 
-            // Check if the save slot is empty
-            if (saveSlot.IsEmpty)
-                // If so, there's no data to delete so do not allow the selectable to be interacted with
-                selectable.enabled = false;
-            else
-                // Otherwise, there is data that can be deleted, so allow button interaction
-                selectable.enabled = true;
+            selectable.enabled = false;
 
             // Hide the image
             Hide();
@@ -83,6 +77,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
 
             // Ensure that the save slot is selected
             controller.SetSelectedSlot(saveSlot);
+
+            // If selected, then set enabled to true
+            selectable.enabled = true;
         }
     }
 }
