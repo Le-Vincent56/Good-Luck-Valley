@@ -1,6 +1,7 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
+using GoodLuckValley.SceneManagement;
 using GoodLuckValley.UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -189,8 +190,7 @@ namespace GoodLuckValley.UI
         /// </summary>
         public void ReturnToMain()
         {
-            // Load the main menu scene
-            SceneManager.LoadScene("Main Menu");
+            SceneLoader.Instance.LoadMainMenu();
         }
 
         public void ShowPauseMenu(Component sender, object data)

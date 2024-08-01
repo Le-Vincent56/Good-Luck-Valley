@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2662449282943255865}
   - component: {fileID: 5461147684649599590}
   - component: {fileID: 3666483177070384686}
+  - component: {fileID: 150329239376761492}
   m_Layer: 0
   m_Name: Fade
   m_TagString: Untagged
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -8930765
   m_SortingLayer: 16
-  m_SortingOrder: 1
+  m_SortingOrder: 500
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
@@ -102,7 +103,6 @@ MonoBehaviour:
   onTransitionBeginLate: {fileID: 11400000, guid: 01b974d6d7463ed4da4194b27b28c217, type: 2}
   spriteRenderer: {fileID: 0}
   fadeDuration: 1
-  currentAlpha: 0
 --- !u!114 &5461147684649599590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +150,34 @@ MonoBehaviour:
       - m_Target: {fileID: 2662449282943255865}
         m_TargetAssemblyTypeName: GoodLuckValley.Cameras.CameraFade, Assembly-CSharp
         m_MethodName: PlayFadeOut
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &150329239376761492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835577161431597376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 7f59d24f10b064547b02360759081dc8, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2662449282943255865}
+        m_TargetAssemblyTypeName: GoodLuckValley.Cameras.CameraFade, Assembly-CSharp
+        m_MethodName: Blackout
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

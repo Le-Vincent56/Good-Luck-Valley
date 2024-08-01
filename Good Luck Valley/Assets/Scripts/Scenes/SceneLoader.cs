@@ -14,6 +14,7 @@ namespace GoodLuckValley.SceneManagement
     {
         [Header("Events")]
         [SerializeField] private GameEvent onPrepareLevel;
+        [SerializeField] private GameEvent onPreEntry;
         [SerializeField] private GameEvent onPrepareSettings;
         [SerializeField] private GameEvent onFadeIn;
         [SerializeField] private GameEvent onFadeOut;
@@ -68,9 +69,13 @@ namespace GoodLuckValley.SceneManagement
                     // Prepare the level
                     // Calls to:
                     //  - Player.PreparePlayerPosition();
-                    //  - CameraFade.Blackout();
                     onPrepareLevel.Raise(this, dataToSend);
                 }
+
+                // Activate pre-entry effects
+                // Calls to:
+                //  - CameraFade.Blackout();
+                onPreEntry.Raise(this, null);
 
                 // Prepare settings
                 // Calls to:
@@ -83,6 +88,14 @@ namespace GoodLuckValley.SceneManagement
             }
         }
 
+        private void Start()
+        {
+            // Start fading in
+            // Calls to:
+            // - CameraFade.PlayFadeIn();
+            onFadeIn.Raise(this, true);
+        }
+
         public void FinalizeLevel()
         {
             // Bind data
@@ -93,6 +106,7 @@ namespace GoodLuckValley.SceneManagement
             // Calls to:
             // - CameraFade.PlayFadeIn();
             onFadeIn.Raise(this, true);
+            
 
             if (SaveLoadSystem.Instance.settingsData != null)
                 SaveLoadSystem.Instance.BindSettings(true);
@@ -110,14 +124,6 @@ namespace GoodLuckValley.SceneManagement
             this.sceneToLoad.loadIndex = loadIndex;
 
             transitionDirection = moveDirection;
-        }
-
-        private void Start()
-        {
-            // Start fading in
-            // Calls to:
-            // - CameraFade.PlayFadeIn();
-            onFadeIn.Raise(this, true);
         }
 
         public async void BeginTransition()
@@ -167,6 +173,18 @@ namespace GoodLuckValley.SceneManagement
         {
             sceneToLoad.name = sceneName;
             fromMainMenu = true;
+
+            // Set loading
+            isLoading = true;
+
+            TransitionFadeOutOnly();
+        }
+
+        public void LoadMainMenu()
+        {
+            // Set the main menu as the scene to load
+            sceneToLoad.name = "Main Menu";
+            fromMainMenu = false;
 
             // Set loading
             isLoading = true;
