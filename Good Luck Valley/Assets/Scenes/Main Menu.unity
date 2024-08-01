@@ -2136,10 +2136,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fade
       objectReference: {fileID: 0}
-    - target: {fileID: 5415518184700405885, guid: 76eb3024d481ffa4aa51405270c558e7, type: 3}
-      propertyPath: m_SortingOrder
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 6137013327251919202, guid: 76eb3024d481ffa4aa51405270c558e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9875,6 +9871,11 @@ MonoBehaviour:
   popupMenu: {fileID: 1061698219}
   animator: {fileID: 0}
   deleteCursor: {fileID: 1273667413}
+  buttonsToDisable:
+  - {fileID: 1649665949}
+  - {fileID: 72040125}
+  - {fileID: 1851654221}
+  - {fileID: 645862665}
   state: 0
 --- !u!114 &670910759
 MonoBehaviour:
@@ -14351,6 +14352,8 @@ GameObject:
   - component: {fileID: 975611334}
   - component: {fileID: 975611333}
   - component: {fileID: 975611335}
+  - component: {fileID: 975611337}
+  - component: {fileID: 975611336}
   m_Layer: 5
   m_Name: Confirm Button
   m_TagString: Untagged
@@ -14463,6 +14466,46 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &975611336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975611331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &975611337
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975611331}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: -8930765
+  m_SortingOrder: 102
+  m_TargetDisplay: 0
 --- !u!1 &979095501
 GameObject:
   m_ObjectHideFlags: 0
@@ -22973,6 +23016,8 @@ GameObject:
   - component: {fileID: 1518223884}
   - component: {fileID: 1518223883}
   - component: {fileID: 1518223885}
+  - component: {fileID: 1518223887}
+  - component: {fileID: 1518223886}
   m_Layer: 5
   m_Name: Cancel Button
   m_TagString: Untagged
@@ -23085,6 +23130,46 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1518223886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518223881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1518223887
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518223881}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: -8930765
+  m_SortingOrder: 102
+  m_TargetDisplay: 0
 --- !u!1 &1519740134
 GameObject:
   m_ObjectHideFlags: 0

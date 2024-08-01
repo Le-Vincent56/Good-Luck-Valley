@@ -89,7 +89,7 @@ namespace GoodLuckValley.Cameras
                 spriteRenderer.color = color;
 
                 // Increase the progress
-                progress += rate * Time.deltaTime;
+                progress += rate * Time.unscaledDeltaTime;
 
                 yield return null;
             }
@@ -121,6 +121,8 @@ namespace GoodLuckValley.Cameras
             float progress = 0f;
             Color color = spriteRenderer.color;
 
+            Debug.Log($"Fade In Rate: {rate}");
+
             // Continue fading in the background
             while (progress < 1.0f)
             {
@@ -129,7 +131,7 @@ namespace GoodLuckValley.Cameras
                 spriteRenderer.color = color;
 
                 // Increase the progress
-                progress += rate * Time.deltaTime;
+                progress += rate * Time.unscaledDeltaTime;
 
                 yield return null;
             }
