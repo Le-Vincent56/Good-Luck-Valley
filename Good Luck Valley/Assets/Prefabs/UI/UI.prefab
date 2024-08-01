@@ -5194,6 +5194,7 @@ GameObject:
   - component: {fileID: 4139532672630641149}
   - component: {fileID: 7788582823912414169}
   - component: {fileID: 2793678050095125630}
+  - component: {fileID: 1129669760434801594}
   m_Layer: 5
   m_Name: Settings - Audio
   m_TagString: Untagged
@@ -5335,6 +5336,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.UI.TitleScreen.Settings.Audio.AudioSettingsController,
           Assembly-CSharp
         m_MethodName: BackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1129669760434801594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2238038339776951664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 7598c4bc95c7c344691617d00aa0da37, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4066915748705633176}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Settings.Audio.GameAudioSettingsController,
+          Assembly-CSharp
+        m_MethodName: Init
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9108,6 +9138,7 @@ GameObject:
   - component: {fileID: 4038792905828678319}
   - component: {fileID: 938344463729868800}
   - component: {fileID: 2929296174326884512}
+  - component: {fileID: 1698998407805418783}
   m_Layer: 5
   m_Name: Settings - Controls
   m_TagString: Untagged
@@ -9152,7 +9183,7 @@ MonoBehaviour:
   keysDict: {fileID: 11400000, guid: 54353ce13bbe92a4fa4d75a3a7351f5a, type: 2}
   menuInputReader: {fileID: 11400000, guid: 7556aba082017494693b9d2cd5c6a5c2, type: 2}
   inputActionAsset: {fileID: -944628639613478452, guid: 1489f33728e255a48863437b065355f0, type: 3}
-  playerKeybinder: {fileID: 0}
+  controlSaveHandler: {fileID: 0}
   duplicatesText: {fileID: 2797032177233887033}
   fadeDuration: 0.01
   binding: 0
@@ -9248,6 +9279,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.UI.TitleScreen.Settings.Controls.ControlsSettingController,
           Assembly-CSharp
         m_MethodName: BackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1698998407805418783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3648999340277323109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 7598c4bc95c7c344691617d00aa0da37, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2688150646875759988}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Settings.Controls.GameControlsSettingController,
+          Assembly-CSharp
+        m_MethodName: Init
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17458,6 +17518,7 @@ GameObject:
   - component: {fileID: 9144585061417248896}
   - component: {fileID: 4197807556547076522}
   - component: {fileID: 7898013242440437353}
+  - component: {fileID: 8611558066350499046}
   m_Layer: 5
   m_Name: Settings - Video
   m_TagString: Untagged
@@ -17574,6 +17635,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.UI.TitleScreen.Settings.VideoSettingsController,
           Assembly-CSharp
         m_MethodName: BackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8611558066350499046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6509971688441861321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 7598c4bc95c7c344691617d00aa0da37, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4789186759642007036}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Settings.Video.GameVideoSettingsController,
+          Assembly-CSharp
+        m_MethodName: Init
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

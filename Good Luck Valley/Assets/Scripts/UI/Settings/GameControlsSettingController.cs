@@ -18,7 +18,7 @@ namespace GoodLuckValley.UI.Settings.Controls
         [SerializeField] private InputKeyDictionary keysDict;
         [SerializeField] private MenuInputReader menuInputReader;
         [SerializeField] private InputActionAsset inputActionAsset;
-        [SerializeField] private ControlsSaveHandler playerKeybinder;
+        [SerializeField] private ControlsSaveHandler controlSaveHandler;
         [SerializeField] private Text duplicatesText;
 
         [Header("Fields")]
@@ -38,30 +38,8 @@ namespace GoodLuckValley.UI.Settings.Controls
 
         private void Awake()
         {
-            // Get components
-            controller = GetComponentInParent<GameSettingsMenu>();
-            playerKeybinder = GetComponent<ControlsSaveHandler>();
-
-            // Create state machine
-            stateMachine = new StateMachine();
-
-            // Initialize each rebinding button
-            foreach (GameRebindingButton rebindingButton in rebindingButtons)
-            {
-                rebindingButton.Init(this, inputActionAsset, keysDict);
-                animators.Add(rebindingButton.GetComponent<Animator>());
-            }
-
-            // Construct states
-            IdleControlsState idleState = new IdleControlsState(this, animators);
-            BindingControlsState bindingState = new BindingControlsState(this, animators);
-
-            // Set state transitions
-            At(idleState, bindingState, new FuncPredicate(() => binding));
-            At(bindingState, idleState, new FuncPredicate(() => !binding));
-
-            // Set the initial state
-            stateMachine.SetState(idleState);
+            // Initialize
+            Init(this, null);
         }
 
         private void Update()
@@ -329,7 +307,7 @@ namespace GoodLuckValley.UI.Settings.Controls
                 }
 
                 // Save player keybindings
-                playerKeybinder.SaveData();
+                controlSaveHandler.SaveData();
 
                 // Set the settings state
                 controller.SetState(controller.MAIN);
@@ -376,6 +354,44 @@ namespace GoodLuckValley.UI.Settings.Controls
             foreach(GameRebindingButton rebindingButton in rebindingButtons)
             {
                 rebindingButton.SetDefault(inputActionAsset, keysDict);
+            }
+        }
+
+        public void Init(Component sender, object data)
+        {
+            // Get components
+            if(controller == null)
+                controller = GetComponentInParent<GameSettingsMenu>();
+
+            if(controlSaveHandler == null)
+                controlSaveHandler = GetComponent<ControlsSaveHandler>();
+
+            // Clear the animators list
+            animators.Clear();
+
+            // Initialize each rebinding button
+            foreach (GameRebindingButton rebindingButton in rebindingButtons)
+            {
+                rebindingButton.Init(this, inputActionAsset, keysDict);
+                animators.Add(rebindingButton.GetComponent<Animator>());
+            }
+
+            // Create state machine if not created already
+            if (stateMachine == null)
+            {
+                // Initialize the state machine
+                stateMachine = new StateMachine();
+
+                // Construct states
+                IdleControlsState idleState = new IdleControlsState(this, animators);
+                BindingControlsState bindingState = new BindingControlsState(this, animators);
+
+                // Set state transitions
+                At(idleState, bindingState, new FuncPredicate(() => binding));
+                At(bindingState, idleState, new FuncPredicate(() => !binding));
+
+                // Set the initial state
+                stateMachine.SetState(idleState);
             }
         }
     }

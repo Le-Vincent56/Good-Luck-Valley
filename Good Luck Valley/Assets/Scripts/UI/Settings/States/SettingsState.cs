@@ -95,15 +95,7 @@ namespace GoodLuckValley.UI.Settings.States
         {
             // Add all of the objects to the list of excluded objects
             if(listOfExcluded != null)
-            {
-                Debug.Log("Adding excludeds!");
                 exclusionList.AddRange(listOfExcluded);
-                foreach(Graphic item in exclusionList)
-                {
-                    Debug.Log(item.name);
-                }
-            }
-                
         }
 
         /// <summary>

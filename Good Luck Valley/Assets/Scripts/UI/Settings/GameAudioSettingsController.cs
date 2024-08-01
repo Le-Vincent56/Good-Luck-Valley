@@ -13,20 +13,10 @@ namespace GoodLuckValley.UI.Settings.Audio
         [Header("Fields")]
         private const int stateNum = 4;
 
-        private void Awake()
-        {
-            // Get components
-            controller = GetComponentInParent<GameSettingsMenu>();
-            audioSaveHandler = GetComponent<AudioSaveHandler>();
-        }
-
         private void Start()
         {
-            // Initialize every slider
-            foreach(AudioBusSlider slider in audioBusSliders)
-            {
-                slider.Init();
-            }
+            // Initialize
+            Init(this, null);
         }
 
         /// <summary>
@@ -67,6 +57,27 @@ namespace GoodLuckValley.UI.Settings.Audio
             foreach(AudioBusSlider audioBusSlider in audioBusSliders)
             {
                 audioBusSlider.LoadVolume(100f);
+            }
+        }
+
+        /// <summary>
+        /// Initialize the menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void Init(Component sender, object data)
+        {
+            // Get components
+            if(controller == null)
+                controller = GetComponentInParent<GameSettingsMenu>();
+
+            if(audioSaveHandler == null)
+                audioSaveHandler = GetComponent<AudioSaveHandler>();
+
+            // Initialize every slider
+            foreach (AudioBusSlider slider in audioBusSliders)
+            {
+                slider.Init();
             }
         }
     }
