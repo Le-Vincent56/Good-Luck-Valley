@@ -5,87 +5,91 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.VFX;
 
-[RequireComponent(typeof(AreaCollider))]
-
-public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
+namespace GoodLuckValley.VFX
 {
-    #region FIELDS
-    [SerializeField] private bool hasLight;
-    [SerializeField] private bool hasParticle;
-    [SerializeField] private float currentReactiveTime;
-    [SerializeField] private float maxIntensity;
-    [SerializeField] private float maxIntensityHoldTime;
-    [SerializeField] private float intensityChangeSpeed;
-    private bool coroutineActive;
-    #endregion
 
-    #region REFERENCES
-    [SerializeField] private Light2D reactiveLight;
-    [SerializeField] private VisualEffect vfx;
-    private AreaCollider areaCollider;
-    #endregion
+    [RequireComponent(typeof(AreaCollider))]
 
-    private void Awake()
+    public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
     {
-        areaCollider = GetComponent<AreaCollider>();
-    }
+        #region FIELDS
+        [SerializeField] private bool hasLight;
+        [SerializeField] private bool hasParticle;
+        [SerializeField] private float currentReactiveTime;
+        [SerializeField] private float maxIntensity;
+        [SerializeField] private float maxIntensityHoldTime;
+        [SerializeField] private float intensityChangeSpeed;
+        private bool coroutineActive;
+        #endregion
 
-    private void OnEnable()
-    {
-        areaCollider.OnTriggerEnter += StartReactiveElement;
-    }
+        #region REFERENCES
+        [SerializeField] private Light2D reactiveLight;
+        [SerializeField] private VisualEffect vfx;
+        private AreaCollider areaCollider;
+        #endregion
 
-    private void OnDisable()
-    {
-        areaCollider.OnTriggerEnter -= StartReactiveElement;
-    }
-
-    private void StartReactiveElement(GameObject hitObject)
-    {
-        Debug.Log("starting: " + coroutineActive);
-        if (!coroutineActive)
+        private void Awake()
         {
-            coroutineActive = true;
+            areaCollider = GetComponent<AreaCollider>();
+        }
+
+        private void OnEnable()
+        {
+            areaCollider.OnTriggerEnter += StartReactiveElement;
+        }
+
+        private void OnDisable()
+        {
+            areaCollider.OnTriggerEnter -= StartReactiveElement;
+        }
+
+        private void StartReactiveElement(GameObject hitObject)
+        {
+            Debug.Log("starting: " + coroutineActive);
+            if (!coroutineActive)
+            {
+                coroutineActive = true;
+                currentReactiveTime = 0;
+                reactiveLight.intensity = 0;
+
+                if (hasLight)
+                    StartCoroutine(ReactiveIncrease());
+
+                if (hasParticle)
+                    PlayParticle();
+            }
+        }
+
+        private IEnumerator ReactiveIncrease()
+        {
+            while (reactiveLight.intensity < maxIntensity)
+            {
+                currentReactiveTime += Time.deltaTime * intensityChangeSpeed;
+                reactiveLight.intensity += Mathf.Lerp(0, maxIntensity, currentReactiveTime);
+                yield return null;
+            }
             currentReactiveTime = 0;
-            reactiveLight.intensity = 0;
 
-            if (hasLight)
-                StartCoroutine(ReactiveIncrease());
+            yield return new WaitForSeconds(maxIntensityHoldTime);
 
-            if (hasParticle)
-                PlayParticle();
+            StartCoroutine(ReactiveDecrease());
         }
-    }
 
-    private IEnumerator ReactiveIncrease()
-    {
-        while (reactiveLight.intensity < maxIntensity)
+        private IEnumerator ReactiveDecrease()
         {
-            currentReactiveTime += Time.deltaTime * intensityChangeSpeed;
-            reactiveLight.intensity += Mathf.Lerp(0, maxIntensity, currentReactiveTime);
-            yield return null;
+            while (reactiveLight.intensity > 0)
+            {
+                currentReactiveTime += Time.deltaTime * intensityChangeSpeed;
+                reactiveLight.intensity -= Mathf.Lerp(0, maxIntensity, currentReactiveTime);
+                yield return null;
+            }
+
+            coroutineActive = false;
         }
-        currentReactiveTime = 0;
 
-        yield return new WaitForSeconds(maxIntensityHoldTime);
-
-        StartCoroutine(ReactiveDecrease());
-    }
-
-    private IEnumerator ReactiveDecrease()
-    {
-        while (reactiveLight.intensity > 0)
+        private void PlayParticle()
         {
-            currentReactiveTime += Time.deltaTime * intensityChangeSpeed;
-            reactiveLight.intensity -= Mathf.Lerp(0, maxIntensity, currentReactiveTime);
-            yield return null;
+            vfx.Play();
         }
-
-        coroutineActive = false;
-    }
-
-    private void PlayParticle()
-    {
-        vfx.Play();
     }
 }

@@ -7,9 +7,10 @@ using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
-using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.Blackboard;   
 using GoodLuckValley.Audio.SFX;
 using System.Collections;
+using GoodLuckValley.VFX.Player;
 
 namespace GoodLuckValley.Player.Control
 {

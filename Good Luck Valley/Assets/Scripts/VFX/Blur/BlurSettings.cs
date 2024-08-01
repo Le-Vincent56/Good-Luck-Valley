@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 
-namespace GoodLuckValley.VFX
+namespace GoodLuckValley.VFX.Blur
 {
     [System.Serializable, VolumeComponentMenu("Blur")]
     public class BlurSettings : VolumeComponent, IPostProcessComponent
