@@ -12,43 +12,45 @@ namespace GoodLuckValley.Player.Tutorial
 
         [SerializeField] private bool bypassTutorials;
         [SerializeField] private InputReader input;
+        [SerializeField] private TutorialSaveHandler saveHandler;
 
-        Blackboard playerBlackboard;
-        BlackboardKey unlockedThrow;
+        private Blackboard playerBlackboard;
+        private BlackboardKey unlockedThrow;
 
-        Blackboard tutorialBlackboard;
-        BlackboardKey seenMoveTrigger;
-        BlackboardKey hasMoved;
-        BlackboardKey seenJumpTrigger;
-        BlackboardKey hasJumped;
-        BlackboardKey seenSlideTrigger;
-        BlackboardKey hasSlid;
-        BlackboardKey seenFastFallTrigger;
-        BlackboardKey hasFastFallen;
-        BlackboardKey seenCrawlTrigger;
-        BlackboardKey hasCrawled;
-        BlackboardKey seenInteractTrigger;
-        BlackboardKey hasInteracted;
-        BlackboardKey seenAimTrigger;
-        BlackboardKey hasAimed;
-        BlackboardKey seenThrowTrigger;
-        BlackboardKey hasThrown;
-        BlackboardKey seenPeekTrigger;
-        BlackboardKey hasPeeked;
-        BlackboardKey seenTotalRecallTrigger;
-        BlackboardKey hasTotalRecall;
-        BlackboardKey seenSingleRecallTrigger;
-        BlackboardKey hasSingleRecall;
-        BlackboardKey seenQuickBounceTrigger;
-        BlackboardKey hasQuickBounced;
-        BlackboardKey seenChainBounceTrigger;
-        BlackboardKey hasChainBounced;
+        private Blackboard tutorialBlackboard;
+        private BlackboardKey seenMoveTrigger;
+        private BlackboardKey hasMoved;
+        private BlackboardKey seenJumpTrigger;
+        private BlackboardKey hasJumped;
+        private BlackboardKey seenSlideTrigger;
+        private BlackboardKey hasSlid;
+        private BlackboardKey seenFastFallTrigger;
+        private BlackboardKey hasFastFallen;
+        private BlackboardKey seenCrawlTrigger;
+        private BlackboardKey hasCrawled;
+        private BlackboardKey seenInteractTrigger;
+        private BlackboardKey hasInteracted;
+        private BlackboardKey seenAimTrigger;
+        private BlackboardKey hasAimed;
+        private BlackboardKey seenThrowTrigger;
+        private BlackboardKey hasThrown;
+        private BlackboardKey seenPeekTrigger;
+        private BlackboardKey hasPeeked;
+        private BlackboardKey seenTotalRecallTrigger;
+        private BlackboardKey hasTotalRecall;
+        private BlackboardKey seenSingleRecallTrigger;
+        private BlackboardKey hasSingleRecall;
+        private BlackboardKey seenQuickBounceTrigger;
+        private BlackboardKey hasQuickBounced;
+        private BlackboardKey seenChainBounceTrigger;
+        private BlackboardKey hasChainBounced;
 
         // Start is called before the first frame update
         void Start()
         {
             // Get references
             UIHandler = GetComponent<TutorialUIHandler>();
+            saveHandler = GetComponent<TutorialSaveHandler>();
 
             // Get blackboards
             tutorialBlackboard = BlackboardController.Instance.GetBlackboard("Tutorial");
@@ -84,7 +86,7 @@ namespace GoodLuckValley.Player.Tutorial
             hasChainBounced = tutorialBlackboard.GetOrRegisterKey("HasChainBounced");
 
             // Set default values, for now
-            SetDefaultBlackboardValues(false);
+            //SetDefaultBlackboardValues(false);
         }
 
         private void OnEnable()
@@ -176,6 +178,9 @@ namespace GoodLuckValley.Player.Tutorial
                 default:
                     return;
             }
+
+            // Save data
+            saveHandler.SaveData();
         }
 
         public void TeachInteract(Component sender, object data) => TeachDefaultControl(seenInteractTrigger, hasInteracted, "Interact");

@@ -121,8 +121,6 @@ namespace GoodLuckValley.Cameras
             float progress = 0f;
             Color color = spriteRenderer.color;
 
-            Debug.Log($"Fade In Rate: {rate}");
-
             // Continue fading in the background
             while (progress < 1.0f)
             {

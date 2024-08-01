@@ -7,15 +7,13 @@ namespace GoodLuckValley.Player.Control
     public class PlayerSaveHandler : MonoBehaviour, IBind<PlayerSaveData>
     {
         [SerializeField] private PlayerSaveData data;
-        [SerializeField] private bool trySave;
-        [SerializeField] private bool fromSceneLoader;
-        [SerializeField] private float saveTimer;
-        [SerializeField] private float saveBuffer;
+        [SerializeField] private bool bindData;
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
 
-        private void Awake()
+        private void Start()
         {
-            SaveLoadSystem.Instance.BindData();
+            if(bindData)
+                SaveLoadSystem.Instance.BindData();
         }
 
         // Update is called once per frame
@@ -23,27 +21,6 @@ namespace GoodLuckValley.Player.Control
         {
             // Update save data
             UpdateSaveData();
-
-            //if (trySave)
-            //{
-            //    SaveLoadSystem.Instance.SaveGame();
-            //    trySave = false;
-            //    saveTimer = saveBuffer;
-            //    return;
-            //}
-
-            //if(saveTimer > 0)
-            //{
-            //    saveTimer -= Time.deltaTime;
-            //    return;
-            //}
-
-            //if(fromSceneLoader)
-            //{
-            //    SceneLoader.Instance.FinalizeLevel();
-            //    fromSceneLoader = false;
-            //    return;
-            //}
         }
 
         public void UpdateSaveData()
@@ -58,9 +35,6 @@ namespace GoodLuckValley.Player.Control
         public void LevelPositionUpdate()
         {
             UpdateSaveData();
-
-            trySave = true;
-            fromSceneLoader = true;
         }
 
         /// <summary>

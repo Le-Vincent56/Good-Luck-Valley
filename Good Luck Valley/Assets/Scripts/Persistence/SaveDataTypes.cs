@@ -16,6 +16,7 @@ namespace GoodLuckValley.Persistence
         public PlayerSaveData playerSaveData;
         public JournalSaveData journalSaveData;
         public GlobalData globalData;
+        public TutorialData tutorialData;
         public List<CollectibleSaveData> collectibleSaveDatas;
 
         public override string ToString()
@@ -26,6 +27,7 @@ namespace GoodLuckValley.Persistence
             finalString += playerSaveData.ToString() + "\n";
             finalString += journalSaveData.ToString() + "\n";
             finalString += globalData.ToString() + "\n";
+            finalString += tutorialData.ToString() + "\n";
 
             return finalString;
         }
@@ -116,6 +118,98 @@ namespace GoodLuckValley.Persistence
             finalString += $"Last Opened Index: {lastOpenedIndex}, ";
             finalString += $"Notes Collected: {notesCollectedNum}, ";
             finalString += $"Entries Unlocked: {journalEntriesUnlocked}";
+
+            return finalString;
+        }
+    }
+
+    [Serializable]
+    public class PowersData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool UnlockedThrow;
+        public bool UnlockedWallJump;
+    }
+
+    [Serializable]
+    public class TutorialData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool SeenMoveTrigger;
+        public bool SeenJumpTrigger;
+        public bool SeenSlideTrigger;
+        public bool SeenFastFallTrigger;
+        public bool SeenCrawlTrigger;
+        public bool SeenInteractTrigger;
+        public bool SeenAimTrigger;
+        public bool SeenThrowTrigger;
+        public bool SeenPeekTrigger;
+        public bool SeenTotalRecallTrigger;
+        public bool SeenSingleRecallTrigger;
+        public bool SeenQuickBounceTrigger;
+        public bool SeenChainBounceTrigger;
+        public bool Moved;
+        public bool Jumped;
+        public bool Slid;
+        public bool FastFallen;
+        public bool Crawled;
+        public bool Interacted;
+        public bool Aimed;
+        public bool Thrown;
+        public bool Peeked;
+        public bool TotalRecall;
+        public bool SingleRecall;
+        public bool QuickBounced;
+        public bool ChainBounced;
+
+        public TutorialData()
+        {
+            SeenMoveTrigger = false;
+            SeenJumpTrigger = false;
+            SeenSlideTrigger = false;
+            SeenFastFallTrigger = false;
+            SeenCrawlTrigger = false;
+            SeenInteractTrigger = false;
+            SeenAimTrigger = false;
+            SeenThrowTrigger = false;
+            SeenPeekTrigger = false;
+            SeenTotalRecallTrigger = false;
+            SeenSingleRecallTrigger = false;
+            SeenQuickBounceTrigger = false;
+            SeenChainBounceTrigger = false;
+
+            Moved = false;
+            Jumped = false;
+            Slid = false;
+            FastFallen = false;
+            Crawled = false;
+            Interacted = false;
+            Aimed = false;
+            Thrown = false;
+            Peeked = false;
+            TotalRecall = false;
+            SingleRecall = false;
+            QuickBounced = false;
+            ChainBounced = false;
+        }
+
+        public override string ToString()
+        {
+            string finalString = "";
+
+            finalString += $"Has Moved: {Moved}, ";
+            finalString += $"Has Jumped: {Jumped}, ";
+            finalString += $"Has Slid: {Slid}, ";
+            finalString += $"Has FastFallen: {FastFallen}, ";
+            finalString += $"Has Crawled: {Crawled}, ";
+            finalString += $"Has Interacted: {Interacted}, ";
+            finalString += $"Has Aimed: {Aimed}, ";
+            finalString += $"Has Thrown: {Thrown}, ";
+            finalString += $"Has Peeked: {Peeked}, ";
+            finalString += $"Has TotalRecall: {TotalRecall}, ";
+            finalString += $"Has SingleRecall: {SingleRecall}, ";
+            finalString += $"Has QuickBounced: {QuickBounced}, ";
+            finalString += $"Has ChainBounced: {ChainBounced}";
 
             return finalString;
         }

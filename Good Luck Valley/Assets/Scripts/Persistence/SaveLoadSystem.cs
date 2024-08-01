@@ -74,6 +74,7 @@ namespace GoodLuckValley.Persistence
             Bind<JournalSaveHandler, JournalSaveData>(selectedData.journalSaveData, applyData);
             Bind<GlobalDataSaveHandler, GlobalData>(selectedData.globalData, applyData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas, applyData);
+            Bind<TutorialSaveHandler, TutorialData>(selectedData.tutorialData, applyData);
         }
 
         public void BindSettings(bool applyData = true)
@@ -155,6 +156,7 @@ namespace GoodLuckValley.Persistence
                 playerSaveData = new PlayerSaveData(),
                 journalSaveData = new JournalSaveData(),
                 globalData = new GlobalData(),
+                tutorialData = new TutorialData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
             };
 
