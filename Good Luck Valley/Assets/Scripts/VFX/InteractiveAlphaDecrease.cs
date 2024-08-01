@@ -5,81 +5,84 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.VFX;
 
-[RequireComponent(typeof(AreaCollider))]
-
-public class InteractiveAlphaDecrease : MonoBehaviour
+namespace GoodLuckValley.VFX
 {
-    #region FIELDS
-    [SerializeField] private float currentAlphaChangeTime;
-    [SerializeField] private float alphaChangeSpeed;
-    private bool coroutineActive;
-    #endregion
+    [RequireComponent(typeof(AreaCollider))]
 
-    #region REFERENCES
-    private SpriteRenderer sprite;
-    private AreaCollider areaCollider;
-    #endregion
-
-    private void Awake()
+    public class InteractiveAlphaDecrease : MonoBehaviour
     {
-        areaCollider = GetComponent<AreaCollider>();
-        sprite = GetComponent<SpriteRenderer>();
-        coroutineActive = false;
-    }
+        #region FIELDS
+        [SerializeField] private float currentAlphaChangeTime;
+        [SerializeField] private float alphaChangeSpeed;
+        private bool coroutineActive;
+        #endregion
 
-    private void OnEnable()
-    {
-        areaCollider.OnTriggerEnter += StartAlphaChange;
-    }
-    private void OnDisable()
-    {
-        areaCollider.OnTriggerEnter -= StartAlphaChange;
-    }
+        #region REFERENCES
+        private SpriteRenderer sprite;
+        private AreaCollider areaCollider;
+        #endregion
 
-
-    private void StartAlphaChange(GameObject hitObject)
-    {
-        if (!coroutineActive)
+        private void Awake()
         {
-            coroutineActive = true;
-
-            StartCoroutine(AlphaFadeOut());
-        }
-    }
-
-    private IEnumerator AlphaFadeOut()
-    {
-        currentAlphaChangeTime = 0;
-        while (sprite.color.a > 0.0f)
-        {
-            float spriteAlpha = sprite.color.a;
-            currentAlphaChangeTime += alphaChangeSpeed * Time.deltaTime;
-
-            sprite.color = new Color(sprite.color.r, 
-                                     sprite.color.g, 
-                                     sprite.color.b, 
-                                     spriteAlpha -= Mathf.Lerp(0, 1, currentAlphaChangeTime));
-            yield return null;
+            areaCollider = GetComponent<AreaCollider>();
+            sprite = GetComponent<SpriteRenderer>();
+            coroutineActive = false;
         }
 
-        StartCoroutine(AlphaFadeIn());
-    }
-
-    private IEnumerator AlphaFadeIn()
-    {
-        currentAlphaChangeTime = 0;
-        while (sprite.color.a < 1.0f)
+        private void OnEnable()
         {
-            float spriteAlpha = sprite.color.a;
-            currentAlphaChangeTime += alphaChangeSpeed * Time.deltaTime;
-
-            sprite.color = new Color(sprite.color.r,
-                                     sprite.color.g,
-                                     sprite.color.b,
-                                     spriteAlpha += Mathf.Lerp(0, 1, currentAlphaChangeTime));
-            yield return null;
+            areaCollider.OnTriggerEnter += StartAlphaChange;
+        }
+        private void OnDisable()
+        {
+            areaCollider.OnTriggerEnter -= StartAlphaChange;
         }
 
-        coroutineActive = false;
+
+        private void StartAlphaChange(GameObject hitObject)
+        {
+            if (!coroutineActive)
+            {
+                coroutineActive = true;
+
+                StartCoroutine(AlphaFadeOut());
+            }
+        }
+
+        private IEnumerator AlphaFadeOut()
+        {
+            currentAlphaChangeTime = 0;
+            while (sprite.color.a > 0.0f)
+            {
+                float spriteAlpha = sprite.color.a;
+                currentAlphaChangeTime += alphaChangeSpeed * Time.deltaTime;
+
+                sprite.color = new Color(sprite.color.r,
+                                         sprite.color.g,
+                                         sprite.color.b,
+                                         spriteAlpha -= Mathf.Lerp(0, 1, currentAlphaChangeTime));
+                yield return null;
+            }
+
+            StartCoroutine(AlphaFadeIn());
+        }
+
+        private IEnumerator AlphaFadeIn()
+        {
+            currentAlphaChangeTime = 0;
+            while (sprite.color.a < 1.0f)
+            {
+                float spriteAlpha = sprite.color.a;
+                currentAlphaChangeTime += alphaChangeSpeed * Time.deltaTime;
+
+                sprite.color = new Color(sprite.color.r,
+                                         sprite.color.g,
+                                         sprite.color.b,
+                                         spriteAlpha += Mathf.Lerp(0, 1, currentAlphaChangeTime));
+                yield return null;
+            }
+
+            coroutineActive = false;
+        }
     }
 }

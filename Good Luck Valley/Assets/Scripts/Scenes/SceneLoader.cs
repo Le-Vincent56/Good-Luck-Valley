@@ -14,6 +14,8 @@ namespace GoodLuckValley.SceneManagement
     {
         [Header("Events")]
         [SerializeField] private GameEvent onPrepareLevel;
+        [SerializeField] private GameEvent onPreEntry;
+        [SerializeField] private GameEvent onPrepareSettings;
         [SerializeField] private GameEvent onFadeIn;
         [SerializeField] private GameEvent onFadeOut;
         [SerializeField] private GameEvent onTransitionBegin;
@@ -47,11 +49,6 @@ namespace GoodLuckValley.SceneManagement
             // Check if transitioning into a scene
             if (scene.name == sceneToLoad.name && isLoading)
             {
-                if (scene.name != "Menu" && SaveLoadSystem.Instance.selectedData != null)
-                {
-                    SaveLoadSystem.Instance.BindData(false);
-                }
-
                 if (!fromMainMenu)
                 {
                     // Set player position
@@ -71,20 +68,48 @@ namespace GoodLuckValley.SceneManagement
 
                     // Prepare the level
                     // Calls to:
-                    //  - Player.PreparePlayerPosition()
+                    //  - Player.PreparePlayerPosition();
                     onPrepareLevel.Raise(this, dataToSend);
                 }
 
-                if (scene.name != "Menu" && SaveLoadSystem.Instance.selectedData != null)
-                {
-                    SaveLoadSystem.Instance.BindData(true);
-                }
+                // Activate pre-entry effects
+                // Calls to:
+                //  - CameraFade.Blackout();
+                onPreEntry.Raise(this, null);
+
+                // Prepare settings
+                // Calls to:
+                //  - GameAudioSettingsController.Init();
+                //  - GameVideoSettingsController.Init();
+                //  - GameControlsSettingsController.Init();
+                onPrepareSettings.Raise(this, null);
+
+                FinalizeLevel();
             }
+        }
+
+        private void Start()
+        {
+            // Start fading in
+            // Calls to:
+            // - CameraFade.PlayFadeIn();
+            onFadeIn.Raise(this, true);
+        }
+
+        public void FinalizeLevel()
+        {
+            // Bind data
+            if (SaveLoadSystem.Instance.selectedData != null)
+                SaveLoadSystem.Instance.BindData(true);
 
             // Start fading in
             // Calls to:
             // - CameraFade.PlayFadeIn();
             onFadeIn.Raise(this, true);
+            
+
+            if (SaveLoadSystem.Instance.settingsData != null)
+                SaveLoadSystem.Instance.BindSettings(true);
         }
 
         public void SetSceneToLoad(string sceneToLoad, TransitionType transitionType, int moveDirection, int loadIndex)
@@ -99,14 +124,6 @@ namespace GoodLuckValley.SceneManagement
             this.sceneToLoad.loadIndex = loadIndex;
 
             transitionDirection = moveDirection;
-        }
-
-        private void Start()
-        {
-            // Start fading in
-            // Calls to:
-            // - CameraFade.PlayFadeIn();
-            onFadeIn.Raise(this, true);
         }
 
         public async void BeginTransition()
@@ -133,9 +150,6 @@ namespace GoodLuckValley.SceneManagement
 
         public void TransitionFadeOutOnly()
         {
-            // Set loading
-            isLoading = true;
-
             // Start fade out
             // Calls to:
             // - CameraFade.PlayFadeOut();
@@ -147,7 +161,6 @@ namespace GoodLuckValley.SceneManagement
         public async void EndTransition()
         {
             await Task.Delay(TimeSpan.FromSeconds(transitionTime));
-
             isLoading = false;
 
             // End any transition effects
@@ -160,6 +173,21 @@ namespace GoodLuckValley.SceneManagement
         {
             sceneToLoad.name = sceneName;
             fromMainMenu = true;
+
+            // Set loading
+            isLoading = true;
+
+            TransitionFadeOutOnly();
+        }
+
+        public void LoadMainMenu()
+        {
+            // Set the main menu as the scene to load
+            sceneToLoad.name = "Main Menu";
+            fromMainMenu = true;
+
+            // Set loading
+            isLoading = true;
 
             TransitionFadeOutOnly();
         }

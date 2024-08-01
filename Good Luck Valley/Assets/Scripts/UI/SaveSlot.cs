@@ -77,9 +77,6 @@ namespace GoodLuckValley.UI
                 withDataObject.SetActive(true);
 
                 isEmpty = false;
-
-                // Allow the delete button to be selected
-                deleter.SetSelectable(true);
             }
             else
             {
@@ -88,9 +85,6 @@ namespace GoodLuckValley.UI
                 withoutDataObject.SetActive(true);
 
                 isEmpty = true;
-
-                // Don't allow the delete button to be selected
-                deleter.SetSelectable(false);
             }
         }
 
@@ -112,6 +106,7 @@ namespace GoodLuckValley.UI
         {
             controller.SetSelectedSlot(this);
             deleter.Show();
+            deleter.SetSelectable(!isEmpty);
         }
 
         /// <summary>
@@ -122,6 +117,7 @@ namespace GoodLuckValley.UI
         {
             controller.SetSelectedSlot(null);
             deleter.Hide();
+            deleter.SetSelectable(false);
         }
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace GoodLuckValley.Persistence
 {
@@ -15,6 +17,18 @@ namespace GoodLuckValley.Persistence
         public JournalSaveData journalSaveData;
         public GlobalData globalData;
         public List<CollectibleSaveData> collectibleSaveDatas;
+
+        public override string ToString()
+        {
+            string finalString = "";
+
+            finalString += $"Slot: {1}, Name: {Name}, Level: {CurrentLevelName}\n";
+            finalString += playerSaveData.ToString() + "\n";
+            finalString += journalSaveData.ToString() + "\n";
+            finalString += globalData.ToString() + "\n";
+
+            return finalString;
+        }
     }
 
     [Serializable]
@@ -26,6 +40,15 @@ namespace GoodLuckValley.Persistence
         public PlayerSaveData()
         {
             position = new Vector3(-122.7588f, 97.67071f, 0.0f);
+        }
+
+        public override string ToString()
+        {
+            string finalString = "";
+
+            finalString += $"Position: {position}";
+
+            return finalString;
         }
     }
 
@@ -40,6 +63,16 @@ namespace GoodLuckValley.Persistence
         {
             unlockedThrow = false;
             unlockedWallJump = false;
+        }
+
+        public override string ToString()
+        {
+            string finalString = "";
+
+            finalString += $"Unlocked Throw: {unlockedThrow}, ";
+            finalString += $"Unlocked Wall Jump: {unlockedWallJump}";
+
+            return finalString;
         }
     }
 
@@ -72,6 +105,19 @@ namespace GoodLuckValley.Persistence
             lastOpenedIndex = 0;
             notesCollectedNum = 0;
             journalEntriesUnlocked = 0;
+        }
+
+        public override string ToString()
+        {
+            string finalString = "";
+
+            finalString += $"Unlocked Journal: {unlocked}, ";
+            finalString += $"Progressing Index: {progressingIndex}, ";
+            finalString += $"Last Opened Index: {lastOpenedIndex}, ";
+            finalString += $"Notes Collected: {notesCollectedNum}, ";
+            finalString += $"Entries Unlocked: {journalEntriesUnlocked}";
+
+            return finalString;
         }
     }
 }

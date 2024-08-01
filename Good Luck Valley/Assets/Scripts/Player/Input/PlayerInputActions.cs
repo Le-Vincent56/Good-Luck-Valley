@@ -138,15 +138,6 @@ namespace GoodLuckValley.Player.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""c3f0d9c5-225f-4d94-bc53-18caf4e85b7c"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Fast Slide"",
                     ""type"": ""Button"",
                     ""id"": ""f3278430-da7d-4b5b-8069-7e25869ef67f"",
@@ -205,28 +196,6 @@ namespace GoodLuckValley.Player.Input
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""f6be2d4a-fbce-4c41-9548-6a6bd748f9a3"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""b691705d-91bb-4e82-8730-947a2fec27d0"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""left"",
                     ""id"": ""93a4c792-7170-4831-8523-07b0ceb14b4b"",
                     ""path"": ""<Keyboard>/a"",
@@ -241,6 +210,28 @@ namespace GoodLuckValley.Player.Input
                     ""name"": ""right"",
                     ""id"": ""58c1e54b-f2c4-4bc4-aad6-68d1c4328bc8"",
                     ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""ec3dc3e0-1e08-4156-b75a-b22a01025554"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c3e0b928-10ae-4f28-be28-6efb26812c70"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -370,39 +361,6 @@ namespace GoodLuckValley.Player.Input
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""eea2cb55-5bb9-49ba-9a57-0980bbecc359"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""6fb79e01-6b2a-4ea4-8a0b-9de7c38b3cbf"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""373d69d1-f1b3-4e8d-9e5a-7a25dacab165"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""a2cfcfb2-9552-4b25-9bd8-b91dec178d2a"",
                     ""path"": ""<Keyboard>/leftShift"",
@@ -476,7 +434,6 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_DevTools = m_PlayerControls.FindAction("DevTools", throwIfNotFound: true);
             m_PlayerControls_NoClip = m_PlayerControls.FindAction("NoClip", throwIfNotFound: true);
             m_PlayerControls_UnlockPowers = m_PlayerControls.FindAction("UnlockPowers", throwIfNotFound: true);
-            m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
             m_PlayerControls_FastSlide = m_PlayerControls.FindAction("Fast Slide", throwIfNotFound: true);
             m_PlayerControls_Crawl = m_PlayerControls.FindAction("Crawl", throwIfNotFound: true);
             m_PlayerControls_Scroll = m_PlayerControls.FindAction("Scroll", throwIfNotFound: true);
@@ -555,7 +512,6 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_DevTools;
         private readonly InputAction m_PlayerControls_NoClip;
         private readonly InputAction m_PlayerControls_UnlockPowers;
-        private readonly InputAction m_PlayerControls_Look;
         private readonly InputAction m_PlayerControls_FastSlide;
         private readonly InputAction m_PlayerControls_Crawl;
         private readonly InputAction m_PlayerControls_Scroll;
@@ -577,7 +533,6 @@ namespace GoodLuckValley.Player.Input
             public InputAction @DevTools => m_Wrapper.m_PlayerControls_DevTools;
             public InputAction @NoClip => m_Wrapper.m_PlayerControls_NoClip;
             public InputAction @UnlockPowers => m_Wrapper.m_PlayerControls_UnlockPowers;
-            public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
             public InputAction @FastSlide => m_Wrapper.m_PlayerControls_FastSlide;
             public InputAction @Crawl => m_Wrapper.m_PlayerControls_Crawl;
             public InputAction @Scroll => m_Wrapper.m_PlayerControls_Scroll;
@@ -628,9 +583,6 @@ namespace GoodLuckValley.Player.Input
                 @UnlockPowers.started += instance.OnUnlockPowers;
                 @UnlockPowers.performed += instance.OnUnlockPowers;
                 @UnlockPowers.canceled += instance.OnUnlockPowers;
-                @Look.started += instance.OnLook;
-                @Look.performed += instance.OnLook;
-                @Look.canceled += instance.OnLook;
                 @FastSlide.started += instance.OnFastSlide;
                 @FastSlide.performed += instance.OnFastSlide;
                 @FastSlide.canceled += instance.OnFastSlide;
@@ -686,9 +638,6 @@ namespace GoodLuckValley.Player.Input
                 @UnlockPowers.started -= instance.OnUnlockPowers;
                 @UnlockPowers.performed -= instance.OnUnlockPowers;
                 @UnlockPowers.canceled -= instance.OnUnlockPowers;
-                @Look.started -= instance.OnLook;
-                @Look.performed -= instance.OnLook;
-                @Look.canceled -= instance.OnLook;
                 @FastSlide.started -= instance.OnFastSlide;
                 @FastSlide.performed -= instance.OnFastSlide;
                 @FastSlide.canceled -= instance.OnFastSlide;
@@ -735,7 +684,6 @@ namespace GoodLuckValley.Player.Input
             void OnDevTools(InputAction.CallbackContext context);
             void OnNoClip(InputAction.CallbackContext context);
             void OnUnlockPowers(InputAction.CallbackContext context);
-            void OnLook(InputAction.CallbackContext context);
             void OnFastSlide(InputAction.CallbackContext context);
             void OnCrawl(InputAction.CallbackContext context);
             void OnScroll(InputAction.CallbackContext context);

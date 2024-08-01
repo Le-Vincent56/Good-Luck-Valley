@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 007e98e674735941bfc49f11c186cf34
     GuidInternal: 
-    m_lastTime: -8584813964872784052
+    m_lastTime: -8584813964477305158
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584795986711503238
+    m_lastTime: -8584793429084461770
     List:
     - name: AMBIENCE_2D
       guid: b45c581bfdea7f41a764d005cf137d6f
@@ -144,10 +144,13 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_MUSHROOM
         ObjectType: 2
         guid: 312a4f5a79c4ca4cbef6f9ef2aee6d4d
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_MUSHROOM
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM
     - name: MASTER_MUSIC
       guid: 827132663a3dd647b6c158308ec3f8fb
       id: 1900298039
@@ -178,10 +181,13 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_NPC
         ObjectType: 2
         guid: 7475fb758075b44fb039deaf943c649b
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_NPC
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_NPC
     - name: MASTER_PLAYER
       guid: a42cae9d4858a34d9853165eb67fa107
       id: 2453119373
@@ -195,10 +201,30 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_PLAYER
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_PLAYER
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER
+    - name: MASTER_SFX
+      guid: 77b21887db047840ac4b77429e4bed7b
+      id: 3462011115
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 8f1b8c6611adc34c99866b8f5ed1dbac
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX
     - name: MUSHROOM_BOUNCE
       guid: cb0e9fe7403e894c92d74049e1c407dd
       id: 4126136622
@@ -212,13 +238,16 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_MUSHROOM
         ObjectType: 2
         guid: 312a4f5a79c4ca4cbef6f9ef2aee6d4d
       - ElementName: MUSHROOM_BOUNCE
         ObjectType: 2
         guid: cb0e9fe7403e894c92d74049e1c407dd
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_MUSHROOM\MUSHROOM_BOUNCE
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM\MUSHROOM_BOUNCE
     - name: MUSHROOM_GROW
       guid: 6a3f5cae1cd6ac4fa3ba9bb24ecffdfb
       id: 4011678951
@@ -232,13 +261,16 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_MUSHROOM
         ObjectType: 2
         guid: 312a4f5a79c4ca4cbef6f9ef2aee6d4d
       - ElementName: MUSHROOM_GROW
         ObjectType: 2
         guid: 6a3f5cae1cd6ac4fa3ba9bb24ecffdfb
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_MUSHROOM\MUSHROOM_GROW
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM\MUSHROOM_GROW
     - name: MUSHROOM_PICKUP
       guid: 624b31f9ed892043b1ea5489b238d8bf
       id: 1919967482
@@ -252,13 +284,16 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_MUSHROOM
         ObjectType: 2
         guid: 312a4f5a79c4ca4cbef6f9ef2aee6d4d
       - ElementName: MUSHROOM_PICKUP
         ObjectType: 2
         guid: 624b31f9ed892043b1ea5489b238d8bf
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_MUSHROOM\MUSHROOM_PICKUP
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM\MUSHROOM_PICKUP
     - name: PLAYER_FALL
       guid: 7d3b00ee69059942961115daa728ae9c
       id: 2551268862
@@ -272,13 +307,16 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_PLAYER
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
       - ElementName: PLAYER_FALL
         ObjectType: 2
         guid: 7d3b00ee69059942961115daa728ae9c
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_PLAYER\PLAYER_FALL
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_FALL
     - name: PLAYER_JUMP
       guid: 0a57585fc447ed47980518ef47110749
       id: 1305133589
@@ -292,13 +330,16 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_PLAYER
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
       - ElementName: PLAYER_JUMP
         ObjectType: 2
         guid: 0a57585fc447ed47980518ef47110749
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_PLAYER\PLAYER_JUMP
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_JUMP
     - name: PLAYER_LAND
       guid: e944b21feb50bb418072142c258ba48e
       id: 3629196698
@@ -312,13 +353,16 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_PLAYER
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
       - ElementName: PLAYER_LAND
         ObjectType: 2
         guid: e944b21feb50bb418072142c258ba48e
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_PLAYER\PLAYER_LAND
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_LAND
     - name: PLAYER_LOCOMOTION
       guid: 06a9eb4648eb6240ada361c3d531fff4
       id: 1375983526
@@ -332,13 +376,16 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_PLAYER
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
       - ElementName: PLAYER_LOCOMOTION
         ObjectType: 2
         guid: 06a9eb4648eb6240ada361c3d531fff4
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_PLAYER\PLAYER_LOCOMOTION
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_LOCOMOTION
     - name: PLAYER_LOCOMOTION_IMPACTS
       guid: 646d60a4deaac94382904680919cac11
       id: 2940948846
@@ -352,6 +399,9 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_PLAYER
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
@@ -361,7 +411,7 @@ MonoBehaviour:
       - ElementName: PLAYER_LOCOMOTION_IMPACTS
         ObjectType: 2
         guid: 646d60a4deaac94382904680919cac11
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_IMPACTS
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_IMPACTS
     - name: PLAYER_LOCOMOTION_SLIDE
       guid: 19f4b9f315214b49ac1ad49e30d628dd
       id: 3614903352
@@ -375,6 +425,9 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
       - ElementName: MASTER_PLAYER
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
@@ -384,7 +437,7 @@ MonoBehaviour:
       - ElementName: PLAYER_LOCOMOTION_SLIDE
         ObjectType: 2
         guid: 19f4b9f315214b49ac1ad49e30d628dd
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_SLIDE
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_SLIDE
     - name: REVERB_CAVE
       guid: d0cd66e8f4a68446b40d3eddd3952251
       id: 323187407
@@ -494,7 +547,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: cc31a129b26dbb4dbba2c92c4af23575
     GuidInternal: 
-    m_lastTime: -8584804715329559256
+    m_lastTime: -8584793429068826495
     List:
     - name: GAME_SOUNDBANK
       guid: 8c86ef3bfc27e3489e4ee297b6818463
@@ -522,7 +575,7 @@ MonoBehaviour:
     ParentPath: Events\AMBIENCE
     guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
     GuidInternal: 
-    m_lastTime: -8584795986711528340
+    m_lastTime: -8584793429084516822
     List:
     - name: PLAY_AMBIENCE2D_MAIN
       guid: af34d8c9ef38c84d934e63ba6df5ad2b
@@ -603,7 +656,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 05f602310328354a9fafb68074469f39
     GuidInternal: 
-    m_lastTime: -8584810524434298498
+    m_lastTime: -8584809869635875910
     List: []
   - PhysicalPath: Events\MUSHROOM.wwu
     PathAndIcons:
@@ -616,7 +669,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM
     guid: 929588ad419e5a4baaf6933db5f9386e
     GuidInternal: 
-    m_lastTime: -8584796732706009274
+    m_lastTime: -8584793429084516822
     List: []
   - PhysicalPath: Events\MUSHROOM_BOUNCE.wwu
     PathAndIcons:
@@ -632,7 +685,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM\MUSHROOM_BOUNCE
     guid: b8a1ccb3086a7944992a2683133ded0a
     GuidInternal: 
-    m_lastTime: -8584807927196795870
+    m_lastTime: -8584793429084506827
     List:
     - name: PLAY_MUSHROOM_BOUNCE
       guid: a3ead9b63e472247aff317e77470592f
@@ -668,7 +721,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM\MUSHROOM_GROW
     guid: 63f1d793e6cde64fb58bd1c74b3536ec
     GuidInternal: 
-    m_lastTime: -8584807927196785834
+    m_lastTime: -8584793429084506827
     List:
     - name: PLAY_MUSHROOM_GROW
       guid: 4f84bb3fa4ea134785988ec6ae1bf94e
@@ -704,7 +757,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM\MUSHROOM_PICKUP
     guid: c2cbc630640df3438efa5af7a17b7db3
     GuidInternal: 
-    m_lastTime: -8584796732706004248
+    m_lastTime: -8584793429084506827
     List:
     - name: PLAY_MUSHROOM_PICKUP
       guid: 7c1b610a60bfad4b949866872207529f
@@ -726,26 +779,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: STOP_MUSHROOM_PICKUP
-      guid: fa38eee0b4722442b6c0a8c4908f7208
-      id: 3275097373
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: MUSHROOM
-        ObjectType: 12
-        guid: 929588ad419e5a4baaf6933db5f9386e
-      - ElementName: MUSHROOM_PICKUP
-        ObjectType: 12
-        guid: c2cbc630640df3438efa5af7a17b7db3
-      - ElementName: STOP_MUSHROOM_PICKUP
-        ObjectType: 3
-        guid: fa38eee0b4722442b6c0a8c4908f7208
-      Path: Events\MUSHROOM\MUSHROOM_PICKUP\STOP_MUSHROOM_PICKUP
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
   - PhysicalPath: Events\MUSIC.wwu
     PathAndIcons:
     - ElementName: Events
@@ -757,7 +790,7 @@ MonoBehaviour:
     ParentPath: Events\MUSIC
     guid: 68ce404cc13d6a4bac1ae8b960532652
     GuidInternal: 
-    m_lastTime: -8584804715338865310
+    m_lastTime: -8584793429084496826
     List:
     - name: PAUSE_MUSIC
       guid: 7e66b94c25384548a29082695e976a5a
@@ -838,7 +871,7 @@ MonoBehaviour:
     ParentPath: Events\NPC
     guid: a965c74bb0d43f48bad3e29a7d314974
     GuidInternal: 
-    m_lastTime: -8584810524434288506
+    m_lastTime: -8584809869635865872
     List: []
   - PhysicalPath: Events\PLAYER.wwu
     PathAndIcons:
@@ -851,7 +884,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER
     guid: 8a0c6695ceca7445a1dd81f55040a8f6
     GuidInternal: 
-    m_lastTime: -8584807927196785834
+    m_lastTime: -8584793429084496826
     List: []
   - PhysicalPath: Events\PLAYER_FALL.wwu
     PathAndIcons:
@@ -867,7 +900,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_FALL
     guid: d266754dc0a13f46a91e1d2d193286c8
     GuidInternal: 
-    m_lastTime: -8584808745475480723
+    m_lastTime: -8584808751258365607
     List:
     - name: PLAY_PLAYER_FALL
       guid: b1507d308aa51b4c9dd6f80160656ab3
@@ -923,7 +956,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_JUMP
     guid: 7f3782927dbec44aad8847a67f62dfb4
     GuidInternal: 
-    m_lastTime: -8584807927196785834
+    m_lastTime: -8584793429084496826
     List:
     - name: PLAY_PLAYER_JUMP
       guid: 05b75e7c88649a4094ba22f0d94ac7ab
@@ -959,7 +992,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LAND
     guid: 3b84c33f4136254f80c7c1c31c947198
     GuidInternal: 
-    m_lastTime: -8584808745475480723
+    m_lastTime: -8584808751258365607
     List:
     - name: PLAY_PLAYER_LAND
       guid: e766654af4f68746b68ad5beba5721a3
@@ -995,7 +1028,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION
     guid: 20e364ed47f038448910e839510ead58
     GuidInternal: 
-    m_lastTime: -8584808745475470682
+    m_lastTime: -8584808751258355606
     List: []
   - PhysicalPath: Events\PLAYER_LOCOMOTION_IMPACTS.wwu
     PathAndIcons:
@@ -1014,7 +1047,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_IMPACTS
     guid: 47ff901b1623154e844a0d6e6129166f
     GuidInternal: 
-    m_lastTime: -8584808745475470682
+    m_lastTime: -8584808751258355606
     List:
     - name: PLAY_PLAYER_IMPACTS
       guid: 043fe9bc4728c94aa2a076d28824c163
@@ -1079,7 +1112,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_SLIDE
     guid: d58d9328fdf0b44e99f3161fc6092a79
     GuidInternal: 
-    m_lastTime: -8584809618343909120
+    m_lastTime: -8584809617805946242
     List:
     - name: PLAY_PLAYER_SLIDE
       guid: 5d80db6e2c0ce746b435818550469bfa
@@ -1161,7 +1194,7 @@ MonoBehaviour:
     ParentPath: Events\TEST_EVENTS
     guid: 9ffb27ff79586b48ad078162a3a94910
     GuidInternal: 
-    m_lastTime: -8584810524434278506
+    m_lastTime: -8584809869635855834
     List:
     - name: PLAY_TESTBEEP
       guid: b24da883f988f241af2d62fe91ccd987
@@ -1277,7 +1310,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3b98b877b8191e4d997b0521d7f4095a
     GuidInternal: 
-    m_lastTime: -8584807927196775834
+    m_lastTime: -8584793429084486827
     List:
     - name: RTPC_DISTANCE
       guid: 291ab848b708ba459bbebca64800530d
@@ -1349,6 +1382,75 @@ MonoBehaviour:
         ObjectType: 13
         guid: a34c3b0a74c53d428cc0d680ef6a0e75
       Path: Game Parameters\Default Work Unit\RTPC_PLAYERSPEED
+  - PhysicalPath: Game Parameters\Volume Controls.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Volume Controls
+      ObjectType: 12
+      guid: 50820c1c58e241448bded7fef6352002
+    ParentPath: Game Parameters\Volume Controls
+    guid: 50820c1c58e241448bded7fef6352002
+    GuidInternal: 
+    m_lastTime: -8584793429084486827
+    List:
+    - name: RTPC_AMBIENCE
+      guid: aad217a3282b2840807c21f6628310e5
+      id: 2972739263
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Volume Controls
+        ObjectType: 12
+        guid: 50820c1c58e241448bded7fef6352002
+      - ElementName: RTPC_AMBIENCE
+        ObjectType: 13
+        guid: aad217a3282b2840807c21f6628310e5
+      Path: Game Parameters\Volume Controls\RTPC_AMBIENCE
+    - name: RTPC_MASTER
+      guid: e42e96ff139e1747967610c9558da919
+      id: 3445598977
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Volume Controls
+        ObjectType: 12
+        guid: 50820c1c58e241448bded7fef6352002
+      - ElementName: RTPC_MASTER
+        ObjectType: 13
+        guid: e42e96ff139e1747967610c9558da919
+      Path: Game Parameters\Volume Controls\RTPC_MASTER
+    - name: RTPC_MUSIC
+      guid: 83ec132158bac841a2dd549483ef3815
+      id: 3709650428
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Volume Controls
+        ObjectType: 12
+        guid: 50820c1c58e241448bded7fef6352002
+      - ElementName: RTPC_MUSIC
+        ObjectType: 13
+        guid: 83ec132158bac841a2dd549483ef3815
+      Path: Game Parameters\Volume Controls\RTPC_MUSIC
+    - name: RTPC_SFX
+      guid: 29f044ff4ba4e241867798a476f50f4b
+      id: 3438452020
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Volume Controls
+        ObjectType: 12
+        guid: 50820c1c58e241448bded7fef6352002
+      - ElementName: RTPC_SFX
+        ObjectType: 13
+        guid: 29f044ff4ba4e241867798a476f50f4b
+      Path: Game Parameters\Volume Controls\RTPC_SFX
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     PathAndIcons:
@@ -1361,7 +1463,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 69d3afc52636b3489a2889364a6f7f6c
     GuidInternal: 
-    m_lastTime: -8584796624120714159
+    m_lastTime: -8584793429068816494
     List:
     - name: STATES_AREA
       guid: 2a7680d205c8e246bf41abb4105e0034
@@ -1819,7 +1921,7 @@ MonoBehaviour:
     ParentPath: Switches\Ambience Switches
     guid: 890d391daa6f444a8d35d51423e241e9
     GuidInternal: 
-    m_lastTime: -8584809672689606062
+    m_lastTime: -8584809617794849109
     List:
     - name: AMBIENCEBIOMESWITCH
       guid: c19da96055f49c4295064afcdee27ef8
@@ -1882,7 +1984,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: eec5568e802376459ca10605a1f0e57b
     GuidInternal: 
-    m_lastTime: -8584807927189726592
+    m_lastTime: -8584793429068816494
     List:
     - name: DISTANCESWITCH
       guid: 622fcafe08b4b042be219ee090a6dfe1
@@ -2388,10 +2490,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 68dcaa4aa9a20848a61ba85865fc3571
     GuidInternal: 
-    m_lastTime: -8584813964872784052
+    m_lastTime: -8584813964477305158
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 2b0000002c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

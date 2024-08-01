@@ -1,6 +1,7 @@
 using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.UI.Menus;
 using GoodLuckValley.UI.TitleScreen.Start.States;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         [SerializeField] private ConfirmationPopupMenu popupMenu;
         [SerializeField] private Animator animator;
         [SerializeField] private MenuCursor deleteCursor;
+        [SerializeField] private List<Button> buttonsToDisable = new List<Button>();
 
         [Header("Fields")]
         [SerializeField] private int state;
@@ -40,7 +42,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
 
             // Construct states
             IdleDeleteState idleState = new IdleDeleteState(this, animator, deleteOverlayObject, deleteAnimatorObject);
-            DeletePopupState popupState = new DeletePopupState(this, animator, deleteOverlayObject, deleteAnimatorObject, popupMenu, deleteCursor);
+            DeletePopupState popupState = new DeletePopupState(this, animator, deleteOverlayObject, deleteAnimatorObject, popupMenu, deleteCursor, buttonsToDisable);
             DeletingDeleteState deleteState = new DeletingDeleteState(this, animator, deleteOverlayObject, deleteAnimatorObject);
 
             // Set state transitions

@@ -2,11 +2,14 @@ using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.UI.TitleScreen.States;
 using GoodLuckValley.UI.Menus;
+using GoodLuckValley.Audio.Music;
+using GoodLuckValley.Audio.Ambience;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-using GoodLuckValley.UI.TitleScreen.Settings;
+using GoodLuckValley.Events;
+using GoodLuckValley.Persistence;
 
 namespace GoodLuckValley.UI.TitleScreen
 {
@@ -18,6 +21,9 @@ namespace GoodLuckValley.UI.TitleScreen
 
     public class TitleScreenController : MonoBehaviour
     {
+        [Header("Events")]
+        [SerializeField] private GameEvent onMainMenuBack;
+
         [Header("References")]
         [SerializeField] private MenuInputReader inputReader;
         [SerializeField] private TitleBackgroundFade backgroundFade;
@@ -26,6 +32,8 @@ namespace GoodLuckValley.UI.TitleScreen
         [SerializeField] private int state;
         [SerializeField] private bool tryingToChangeState;
         [SerializeField] private bool changingState;
+        [SerializeField] private float backTimer = 0f;
+        [SerializeField] private float backBuffer = 0.3f;
         [SerializeField] private MenuCursor[] cursors = new MenuCursor[6];
         [SerializeField] private GameObject[] screens = new GameObject[7];
         [SerializeField] private Exclusions[] exclusions = new Exclusions[7];
@@ -65,10 +73,9 @@ namespace GoodLuckValley.UI.TitleScreen
             SettingsMenuState settingsState = new SettingsMenuState(this, stateMachine, true, exclusions[SETTINGS], screens[SETTINGS], cursors[CURSOR_SETTINGS_MAIN], backgroundFade);
             AudioMenuState audioState = new AudioMenuState(this, stateMachine, true, exclusions[AUDIO], screens[AUDIO], cursors[CURSOR_SETTINGS_AUDIO]);
             VideoMenuState videoState = new VideoMenuState(this, stateMachine, true, exclusions[VIDEO], screens[VIDEO], cursors[CURSOR_SETTINGS_VIDEO]);
-            ControlsMenuState controlsState = new ControlsMenuState(this, stateMachine, true, exclusions[CONTROLS],screens[CONTROLS], cursors[CURSOR_SETTINGS_CONTROLS]);
+            ControlsMenuState controlsState = new ControlsMenuState(this, stateMachine, true, exclusions[CONTROLS], screens[CONTROLS], cursors[CURSOR_SETTINGS_CONTROLS]);
 
             // Exclude certain elements
-            //videoState.AddExcludeds(excludedGraphics);
             startState.AddExcludeds(exclusions[START].Objects);
 
             // Set state transitions
@@ -95,20 +102,35 @@ namespace GoodLuckValley.UI.TitleScreen
         private void Start()
         {
             inputReader.Enable();
+
+            // Stop ambience
+            AmbienceManager.Instance.StopAmbience();
+
+            // Set menu states
+            MusicManager.Instance.SetMenuStates();
+
+            // Bind data
+            SaveLoadSystem.Instance.BindSettings(true);
         }
 
         private void OnEnable()
         {
             inputReader.Start += InitializeMenu;
+            inputReader.Escape += Back;
         }
 
         private void OnDisable()
         {
             inputReader.Start -= InitializeMenu;
+            inputReader.Escape -= Back;
         }
 
         private void Update()
         {
+            // Update the back timer
+            if (backTimer > 0f)
+                backTimer -= Time.deltaTime;
+
             // Update the state machine
             stateMachine.Update();
         }
@@ -150,6 +172,32 @@ namespace GoodLuckValley.UI.TitleScreen
         /// Set the state of the Title Screen
         /// </summary>
         /// <param name="state"></param>
-        public void SetState(int state) => this.state = state;
+        public void SetState(int state)
+        {
+            // Set the state
+            this.state = state;
+
+            // Set the back timer to prevent escaping
+            backTimer = backBuffer;
+        }
+
+        /// <summary>
+        /// Handle back input
+        /// </summary>
+        /// <param name="started"></param>
+        public void Back(bool started)
+        {
+            // Exit case - if the key has not been lifted yet
+            if (started) return;
+
+            // Exit case - if the back timer is not finished yet
+            if (backTimer > 0f) return;
+
+            // Set the back timer
+            backTimer = backBuffer;
+
+            // Raise the event
+            onMainMenuBack.Raise(this, state);
+        }
     }
 }

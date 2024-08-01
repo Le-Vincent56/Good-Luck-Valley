@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio.Music;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.SceneManagement;
@@ -19,6 +20,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         [SerializeField] private SaveSlot selectedSlot;
 
         [Header("Fields")]
+        private const int stateNum = 2;
         [SerializeField] private List<SaveSlot> saveSlots;
 
         public SaveSlot SelectedSlot {  get { return selectedSlot; } } 
@@ -35,9 +37,31 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             {
                 slot.Init(this);
             }
+        }
 
+        private void Start()
+        {
             // Set slot data
             SetSlotData();
+        }
+
+        /// <summary>
+        /// Handle Back input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void BackInput(Component sender, object data)
+        {
+            // Verify that the correct data was sent
+            if (data is not int) return;
+
+            Debug.Log("Back input");
+
+            // Cast and compare data
+            if ((int)data == stateNum)
+            {
+                ReturnToMain();
+            }
         }
 
         /// <summary>
@@ -45,6 +69,10 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         /// </summary>
         public void ReturnToMain() => controller.SetState(controller.MAIN);
 
+        /// <summary>
+        /// Set the selected save slot
+        /// </summary>
+        /// <param name="saveSlot"></param>
         public void SetSelectedSlot(SaveSlot saveSlot) => selectedSlot = saveSlot;
 
         /// <summary>
@@ -108,6 +136,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         {
             // If no slot is selected, return
             if (selectedSlot == null) return;
+
+            // Set game states
+            MusicManager.Instance.SetGameStates();
 
             // Start a new game on an empty slot
             if (selectedSlot.IsEmpty)

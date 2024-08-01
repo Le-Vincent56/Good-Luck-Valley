@@ -33,7 +33,6 @@ namespace AK
         static const AkUniqueID RESUME_MUSIC = 2940177080U;
         static const AkUniqueID STOP_AMBIENCE2D_MAIN = 1773902918U;
         static const AkUniqueID STOP_AMBIENCEBED_MAIN = 3275901679U;
-        static const AkUniqueID STOP_MUSHROOM_PICKUP = 3275097373U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID STOP_PLAYER_FALL = 3680109729U;
         static const AkUniqueID STOP_PLAYER_IMPACTS = 2961941791U;
@@ -216,11 +215,15 @@ namespace AK
 
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID RTPC_AMBIENCE = 2972739263U;
         static const AkUniqueID RTPC_DISTANCE = 262290038U;
         static const AkUniqueID RTPC_FIREFLYCOUNT = 4221177039U;
+        static const AkUniqueID RTPC_MASTER = 3445598977U;
         static const AkUniqueID RTPC_MUSHROOMCHAIN = 1867215876U;
+        static const AkUniqueID RTPC_MUSIC = 3709650428U;
         static const AkUniqueID RTPC_PLAYERFALLSPEED = 2290256636U;
         static const AkUniqueID RTPC_PLAYERSPEED = 2653406601U;
+        static const AkUniqueID RTPC_SFX = 3438452020U;
     } // namespace GAME_PARAMETERS
 
     namespace BANKS
@@ -240,6 +243,7 @@ namespace AK
         static const AkUniqueID MASTER_MUSIC = 1900298039U;
         static const AkUniqueID MASTER_NPC = 3591553651U;
         static const AkUniqueID MASTER_PLAYER = 2453119373U;
+        static const AkUniqueID MASTER_SFX = 3462011115U;
         static const AkUniqueID MUSHROOM_BOUNCE = 4126136622U;
         static const AkUniqueID MUSHROOM_GROW = 4011678951U;
         static const AkUniqueID MUSHROOM_PICKUP = 1919967482U;
