@@ -36,8 +36,6 @@ namespace GoodLuckValley.UI.TitleScreen.States
 
             // Activate the main menu cursors
             cursor.ActivateCursors();
-
-            Debug.Log("Entered Start");
         }
 
         public override async void OnExit()
@@ -48,8 +46,6 @@ namespace GoodLuckValley.UI.TitleScreen.States
             await Hide();
 
             uiObject.SetActive(false);
-
-            Debug.Log("Exited Start");
         }
     }
 }

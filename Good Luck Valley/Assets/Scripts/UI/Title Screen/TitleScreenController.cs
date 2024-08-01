@@ -172,7 +172,14 @@ namespace GoodLuckValley.UI.TitleScreen
         /// Set the state of the Title Screen
         /// </summary>
         /// <param name="state"></param>
-        public void SetState(int state) => this.state = state;
+        public void SetState(int state)
+        {
+            // Set the state
+            this.state = state;
+
+            // Set the back timer to prevent escaping
+            backTimer = backBuffer;
+        }
 
         /// <summary>
         /// Handle back input
@@ -189,8 +196,7 @@ namespace GoodLuckValley.UI.TitleScreen
             // Set the back timer
             backTimer = backBuffer;
 
-            Debug.Log("Escape input with buffer");
-
+            // Raise the event
             onMainMenuBack.Raise(this, state);
         }
     }

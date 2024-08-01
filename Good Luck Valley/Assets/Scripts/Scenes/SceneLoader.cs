@@ -14,6 +14,7 @@ namespace GoodLuckValley.SceneManagement
     {
         [Header("Events")]
         [SerializeField] private GameEvent onPrepareLevel;
+        [SerializeField] private GameEvent onPrepareSettings;
         [SerializeField] private GameEvent onFadeIn;
         [SerializeField] private GameEvent onFadeOut;
         [SerializeField] private GameEvent onTransitionBegin;
@@ -66,21 +67,35 @@ namespace GoodLuckValley.SceneManagement
 
                     // Prepare the level
                     // Calls to:
-                    //  - Player.PreparePlayerPosition()
+                    //  - Player.PreparePlayerPosition();
+                    //  - CameraFade.Blackout();
                     onPrepareLevel.Raise(this, dataToSend);
                 }
 
-                // Start fading in
+                // Prepare settings
                 // Calls to:
-                // - CameraFade.PlayFadeIn();
-                onFadeIn.Raise(this, true);
+                //  - GameAudioSettingsController.Init();
+                //  - GameVideoSettingsController.Init();
+                //  - GameControlsSettingsController.Init();
+                onPrepareSettings.Raise(this, null);
 
-                if (SaveLoadSystem.Instance.selectedData != null)
-                    SaveLoadSystem.Instance.BindData(true);
-
-                if (SaveLoadSystem.Instance.settingsData != null)
-                    SaveLoadSystem.Instance.BindSettings(true);
+                FinalizeLevel();
             }
+        }
+
+        public void FinalizeLevel()
+        {
+            // Bind data
+            if (SaveLoadSystem.Instance.selectedData != null)
+                SaveLoadSystem.Instance.BindData(true);
+
+            // Start fading in
+            // Calls to:
+            // - CameraFade.PlayFadeIn();
+            onFadeIn.Raise(this, true);
+
+            if (SaveLoadSystem.Instance.settingsData != null)
+                SaveLoadSystem.Instance.BindSettings(true);
         }
 
         public void SetSceneToLoad(string sceneToLoad, TransitionType transitionType, int moveDirection, int loadIndex)

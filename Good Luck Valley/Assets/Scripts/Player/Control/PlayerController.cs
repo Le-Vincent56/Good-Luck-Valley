@@ -849,7 +849,7 @@ namespace GoodLuckValley.Player.Control
             manualMoveX = dir;
 
             // Force a save
-            saveHandler.ForceUpdate();
+            saveHandler.LevelPositionUpdate();
         }
 
         /// <summary>

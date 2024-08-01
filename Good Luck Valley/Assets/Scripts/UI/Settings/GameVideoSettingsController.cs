@@ -14,12 +14,8 @@ namespace GoodLuckValley.UI.Settings.Video
 
         private void Awake()
         {
-            // Get components
-            controller = GetComponentInParent<GameSettingsMenu>();
-            videoSaveHandler = GetComponent<VideoSaveHandler>();
-
-            // Initialize elements
-            brightnessSlider.Init();
+            // Initialize
+            Init(this, null);
         }
 
         /// <summary>
@@ -57,6 +53,24 @@ namespace GoodLuckValley.UI.Settings.Video
         public void ResetSettings()
         {
             brightnessSlider.LoadBrightness(50f);
+        }
+
+        /// <summary>
+        /// Initialize the menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void Init(Component sender, object data)
+        {
+            // Get components
+            if(controller == null)
+                controller = GetComponentInParent<GameSettingsMenu>();
+
+            if(videoSaveHandler == null)
+                videoSaveHandler = GetComponent<VideoSaveHandler>();
+
+            // Initialize elements
+            brightnessSlider.Init();
         }
     }
 }

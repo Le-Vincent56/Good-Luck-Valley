@@ -1386,6 +1386,7 @@ GameObject:
   - component: {fileID: 2562183388908153858}
   - component: {fileID: 802899610887366402}
   - component: {fileID: 7441215553069143048}
+  - component: {fileID: 7918528187437470378}
   m_Layer: 0
   m_Name: Fade Cover
   m_TagString: Untagged
@@ -1523,6 +1524,34 @@ MonoBehaviour:
       - m_Target: {fileID: 2562183388908153858}
         m_TargetAssemblyTypeName: GoodLuckValley.Cameras.CameraFade, Assembly-CSharp
         m_MethodName: PlayFadeIn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7918528187437470378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8631016808585721258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 822904cd24adaa146a0d9594fc902e3f, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2562183388908153858}
+        m_TargetAssemblyTypeName: GoodLuckValley.Cameras.CameraFade, Assembly-CSharp
+        m_MethodName: Blackout
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

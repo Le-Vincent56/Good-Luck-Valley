@@ -15,16 +15,22 @@ namespace GoodLuckValley.Cameras
 
         [Header("Fields")]
         [SerializeField] private float fadeDuration;
-        [SerializeField] private float currentAlpha;
         private Coroutine fadeCoroutine;
 
         private void Awake()
         {
             // Get components
             spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
-            // Set the current alpha
-            currentAlpha = spriteRenderer.color.a;
+        /// <summary>
+        /// Black out the fade camera
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void Blackout(Component sender, object data)
+        {
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
         }
 
         /// <summary>
@@ -34,14 +40,15 @@ namespace GoodLuckValley.Cameras
         /// <param name="data"></param>
         public void PlayFadeIn(Component sender, object data)
         {
+            // Stop and nullify any current fade coroutine
             if (fadeCoroutine != null)
+            {
                 StopCoroutine(fadeCoroutine);
+                fadeCoroutine = null;
+            }
 
-            // If there is boolean data sent and it is true, set the color opacity to full
-            if (data is bool newScene && newScene)
-                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
-
-            fadeCoroutine = StartCoroutine(Fade(0f, true));
+            // Start the fade in coroutine
+            fadeCoroutine = StartCoroutine(FadeIn());
         }
 
         /// <summary>
@@ -51,49 +58,45 @@ namespace GoodLuckValley.Cameras
         /// <param name="data"></param>
         public void PlayFadeOut(Component sender, object data)
         {
+            // Stop and nullify any current fade coroutine
             if (fadeCoroutine != null)
+            {
                 StopCoroutine(fadeCoroutine);
-
-            fadeCoroutine = StartCoroutine(Fade(1f, false));
+                fadeCoroutine = null;
+            }
+            
+            // Start the fade out coroutine
+            fadeCoroutine = StartCoroutine(FadeOut());
         }
 
         /// <summary>
-        /// Coroutine to handle fading
+        /// Coroutine for fading out
         /// </summary>
-        /// <param name="targetAlpha">The alpha  value (0-1) to fade towards</param>
         /// <returns></returns>
-        private IEnumerator Fade(float targetAlpha, bool fadeIn)
+        private IEnumerator FadeOut()
         {
-            
-            float startAlpha = spriteRenderer.color.a;
-            float elapsedTime = 0f;
+            // Set the initial progress data
+            float startAlpha = 0f;
+            float rate = 1f / fadeDuration;
+            float progress = 0f;
             Color color = spriteRenderer.color;
 
-            // Calculate the adjusted fade duration based on the current alpha
-            float adjustedFadeDuration = Mathf.Abs(targetAlpha - startAlpha) * fadeDuration;
-
-            while(elapsedTime < adjustedFadeDuration)
+            // Continue fading in the background
+            while (progress < 1.0f)
             {
-                // Increment elapsed time
-                elapsedTime += Time.deltaTime;
-
-                // Get time t
-                float t = elapsedTime / adjustedFadeDuration;
-
-                // Fade sprite color
-                color.a = Mathf.Lerp(startAlpha, targetAlpha, t);
+                // Lerp the alpha value
+                color.a = Mathf.Lerp(startAlpha, 1f, progress);
                 spriteRenderer.color = color;
 
-                // Run async
+                // Increase the progress
+                progress += rate * Time.deltaTime;
+
                 yield return null;
             }
 
-            // Ensure final values are set
-            color.a = targetAlpha;
+            // Set the final color
+            color.a = 1f;
             spriteRenderer.color = color;
-
-            // Update current alpha
-            currentAlpha = targetAlpha;
 
             // Trigger any late transition begin effects (what should happen AFTER the
             // sceen turns black)
@@ -101,15 +104,48 @@ namespace GoodLuckValley.Cameras
             //  - PlayerSFXMaster.StopConstantEvents();
             onTransitionBeginLate.Raise(this, null);
 
-            // Nullify the fade coroutine
-            fadeCoroutine = null;
+            // Change the scene
+            SceneLoader.Instance.ChangeScene();
+        }
+        
 
-            // Change the scene if fading out
-            if (!fadeIn)
-                SceneLoader.Instance.ChangeScene();
-            else
-                // End the transition if fading in
-                SceneLoader.Instance.EndTransition();
+        /// <summary>
+        /// Coroutine for fading in
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator FadeIn()
+        {
+            // Set initial progress data
+            float startAlpha = 1f;
+            float rate = 1f / fadeDuration;
+            float progress = 0f;
+            Color color = spriteRenderer.color;
+
+            // Continue fading in the background
+            while (progress < 1.0f)
+            {
+                // Lerp the alpha value
+                color.a = Mathf.Lerp(startAlpha, 0f, progress);
+                spriteRenderer.color = color;
+
+                // Increase the progress
+                progress += rate * Time.deltaTime;
+
+                yield return null;
+            }
+
+            // Set the final color
+            color.a = 0f;
+            spriteRenderer.color = color;
+
+            // Trigger any late transition begin effects (what should happen AFTER the
+            // sceen turns black)
+            // Calls to:
+            //  - PlayerSFXMaster.StopConstantEvents();
+            onTransitionBeginLate.Raise(this, null);
+
+            // End the transition
+            SceneLoader.Instance.EndTransition();
         }
     }
 }
