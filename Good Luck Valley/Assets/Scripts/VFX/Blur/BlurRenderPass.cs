@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace GoodLuckValley.VFX
+namespace GoodLuckValley.VFX.Blur
 {
     public class BlurRenderPass : ScriptableRenderPass
     {
