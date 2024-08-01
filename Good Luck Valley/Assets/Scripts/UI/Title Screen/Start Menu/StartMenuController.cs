@@ -55,6 +55,8 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // Verify that the correct data was sent
             if (data is not int) return;
 
+            Debug.Log("Back input");
+
             // Cast and compare data
             if ((int)data == stateNum)
             {

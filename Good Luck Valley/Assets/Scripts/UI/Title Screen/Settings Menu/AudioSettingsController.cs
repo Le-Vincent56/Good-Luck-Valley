@@ -1,3 +1,5 @@
+using GoodLuckValley.Persistence;
+using GoodLuckValley.UI.Settings.Audio;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,23 +7,47 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Audio
 {
     public class AudioSettingsController : SettingsController
     {
-        [Header("Referneces")]
+        [Header("References")]
         [SerializeField] private List<AudioBusSlider> audioBusSliders = new List<AudioBusSlider>();
+        [SerializeField] private AudioSaveHandler audioSaveHandler;
 
         [Header("Fields")]
         private const int stateNum = 4;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            // Get components
+            audioSaveHandler = GetComponent<AudioSaveHandler>();
+        }
 
         private void Start()
         {
             // Initialize every slider
             foreach(AudioBusSlider slider in audioBusSliders)
             {
-                slider.Init(this);
+                slider.Init();
             }
         }
 
-        public void BackToSettings() => controller.SetState(controller.SETTINGS);
+        /// <summary>
+        /// Handle going back to the main settings menu
+        /// </summary>
+        public void BackToSettings()
+        {
+            // Save settings
+            audioSaveHandler.SaveData();
 
+            // Set the state
+            controller.SetState(controller.SETTINGS);
+        }
+
+        /// <summary>
+        /// Handle back input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void BackInput(Component sender, object data)
         {
             // Verify that the correct data was sent
@@ -34,6 +60,16 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Audio
             }
         }
 
-        public void ResetSettings() { }
+        /// <summary>
+        /// Reset the audio settings to their defaults
+        /// </summary>
+        public void ResetSettings()
+        {
+            // Set each volume slider to 100
+            foreach(AudioBusSlider audioBusSlider in audioBusSliders)
+            {
+                audioBusSlider.LoadVolume(100f);
+            }
+        }
     }
 }

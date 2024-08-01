@@ -76,9 +76,10 @@ namespace GoodLuckValley.SceneManagement
                 onFadeIn.Raise(this, true);
 
                 if (SaveLoadSystem.Instance.selectedData != null)
-                {
                     SaveLoadSystem.Instance.BindData(true);
-                }
+
+                if (SaveLoadSystem.Instance.settingsData != null)
+                    SaveLoadSystem.Instance.BindSettings(true);
             }
         }
 

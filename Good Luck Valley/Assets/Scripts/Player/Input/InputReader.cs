@@ -244,5 +244,7 @@ namespace GoodLuckValley.Player.Input
                 OpenJournal.Invoke(context.started, context.performed);
             }
         }
+
+        public void LoadBindings(string bindingsJSON) => inputActions.LoadBindingOverridesFromJson(bindingsJSON);
     }
 }

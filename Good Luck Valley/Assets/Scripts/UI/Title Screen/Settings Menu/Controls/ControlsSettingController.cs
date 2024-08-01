@@ -7,18 +7,19 @@ using UnityEngine.EventSystems;
 using GoodLuckValley.Player.Input;
 using UnityEngine.UI;
 using System.Collections;
-using GoodLuckValley.Persistence;
+using GoodLuckValley.Player.Control;
+using GoodLuckValley.UI.Settings.Controls;
 
 namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 {
-    public class ControlsSettingController : SettingsController, IBind<ControlsData>
+    public class ControlsSettingController : SettingsController
     {
         [Header("References")]
         [SerializeField] private InputKeyDictionary keysDict;
         [SerializeField] private MenuInputReader menuInputReader;
         [SerializeField] private InputActionAsset inputActionAsset;
+        [SerializeField] private ControlsSaveHandler playerKeybinder;
         [SerializeField] private Text duplicatesText;
-        private ControlsData data;
 
         [Header("Fields")]
         private const int stateNum = 6;
@@ -26,7 +27,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         [SerializeField] private bool binding;
         [SerializeField] private int currentBindingButton;
         [SerializeField] private List<Animator> animators = new List<Animator>();
-        [SerializeField] private List<RebindingButton> rebindingButtons = new List<RebindingButton>();
+        [SerializeField] private List<TitleRebindingButton> rebindingButtons = new List<TitleRebindingButton>();
         private Coroutine duplicateFadeCoroutine;
 
         private StateMachine stateMachine;
@@ -34,19 +35,21 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
         public int CurrentRebindingButton { get => currentBindingButton; }
         public string LastRebindingAction { get; private set; }
-        [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
 
         protected override void Awake()
         {
             base.Awake();
 
+            // Get components
+            playerKeybinder = GetComponent<ControlsSaveHandler>();
+
             // Create state machine
             stateMachine = new StateMachine();
 
             // Initialize each rebinding button
-            foreach (RebindingButton rebindingButton in rebindingButtons)
+            foreach (TitleRebindingButton rebindingButton in rebindingButtons)
             {
-                rebindingButton.Init(this);
+                rebindingButton.Init(this, inputActionAsset, keysDict);
                 animators.Add(rebindingButton.GetComponent<Animator>());
             }
 
@@ -81,7 +84,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// </summary>
         /// <param name="actionName"></param>
         /// <param name="bindingIndex"></param>
-        public void StartRebinding(string actionName, int bindingIndex, RebindingButton rebindingButton)
+        public void StartRebinding(string actionName, int bindingIndex, TitleRebindingButton rebindingButton)
         {
             // Get the action name
             InputAction action = inputActionAsset.FindAction(actionName);
@@ -187,8 +190,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// <summary>
         /// Finalize a successful rebinding
         /// </summary>
-        private void RebindSuccessfulComplete(RebindingButton rebindingButton)
+        private void RebindSuccessfulComplete(TitleRebindingButton rebindingButton)
         {
+            rebindingButton.SetRebinded(false);
+
             // End the rebinding
             EndRebinding(rebindingButton);
 
@@ -202,8 +207,9 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// <param name="action"></param>
         /// <param name="bindingIndex"></param>
         /// <param name="rebindingButton"></param>
-        private void RebindFailedComplete(RebindingButton rebindingButton)
+        private void RebindFailedComplete(TitleRebindingButton rebindingButton)
         {
+            // Update whether or not the rebinding button has been rebinded
             rebindingButton.SetRebinded(true);
 
             // End the rebinding
@@ -216,10 +222,8 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// <summary>
         /// End the rebinding process
         /// </summary>
-        private void EndRebinding(RebindingButton rebindingButton)
+        private void EndRebinding(TitleRebindingButton rebindingButton)
         {
-            rebindingButton.SetRebinded(true);
-
             // Set binding to false
             binding = false;
 
@@ -274,7 +278,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// Get the current rebinding button
         /// </summary>
         /// <returns></returns>
-        public RebindingButton GetCurrentRebindingButton() => rebindingButtons[CurrentRebindingButton];
+        public TitleRebindingButton GetCurrentRebindingButton() => rebindingButtons[CurrentRebindingButton];
 
         /// <summary>
         /// Activate the current rebinding button's animator
@@ -289,7 +293,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         private bool CheckValidity()
         {
             // Loop through each rebinding button
-            foreach(RebindingButton rebindingButton in rebindingButtons)
+            foreach(TitleRebindingButton rebindingButton in rebindingButtons)
             {
                 // If the rebinding button has a valid rebind, return false
                 if (!rebindingButton.GetValidRebind())
@@ -319,13 +323,13 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
                 duplicateFadeCoroutine = StartCoroutine(FadeOutDuplicatesText());
 
                 // Set all rebinded buttons to false
-                foreach (RebindingButton rebindingButton in rebindingButtons)
+                foreach (TitleRebindingButton rebindingButton in rebindingButtons)
                 {
-                    rebindingButton.SetRebinded(false);
+                    rebindingButton.UpdateRebinded();
                 }
 
-                // Save binding data
-                SaveData();
+                // Save player keybindings
+                playerKeybinder.SaveData();
 
                 // Set the settings state
                 controller.SetState(controller.SETTINGS);
@@ -369,24 +373,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             }
 
             // Set the default settings for each rebinding button
-            foreach(RebindingButton rebindingButton in rebindingButtons)
+            foreach(TitleRebindingButton rebindingButton in rebindingButtons)
             {
                 rebindingButton.SetDefault(inputActionAsset, keysDict);
             }
-        }
-
-        public void SaveData()
-        {
-            data.bindings = inputActionAsset.SaveBindingOverridesAsJson();
-            SaveLoadSystem.Instance.SaveSettings();
-        }
-
-        public void Bind(ControlsData data, bool applyData = true)
-        {
-            this.data = data;
-            this.data.ID = data.ID;
-
-            inputActionAsset.LoadBindingOverridesFromJson(data.bindings);
         }
     }
 }

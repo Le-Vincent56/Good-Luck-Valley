@@ -1,47 +1,45 @@
+using GoodLuckValley.UI.Settings.Video;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.TitleScreen.Settings
+namespace GoodLuckValley.UI.TitleScreen.Settings.Video
 {
     public class VideoSettingsController : SettingsController
     {
         [Header("References")]
-        [SerializeField] private Slider brightnessSlider;
-        [SerializeField] private PostProcessVolume postProcessVolume;
-        private ColorAdjustments colorAdjustments;
+        [SerializeField] private VideoSaveHandler videoSaveHandler;
+        [SerializeField] private BrightnessSlider brightnessSlider;
 
         [Header("Fields")]
         private const int stateNum = 5;
 
-        //private void Start()
-        //{
-        //    if(postProcessVolume.profile.TryGetSettings(out colorAdjustments))
-        //    {
-        //        // TODO: Saved settings
-        //        // Set the slider's value to the saved brightness or default value
-        //        //float savedBrightness = PlayerPrefs.GetFloat("Brightness", 0);
-        //        //brightnessSlider.value = savedBrightness;
-        //        //UpdateBrightness(savedBrightness);
+        protected override void Awake()
+        {
+            base.Awake();
 
-        //        // Add a listener to the brightness slider
-        //        brightnessSlider.onValueChanged.AddListener(UpdateBrightness);
-        //    }
-        //}
+            // Get components
+            videoSaveHandler = GetComponent<VideoSaveHandler>();
 
-        //private void UpdateBrightness(float value)
-        //{
-        //    if(colorAdjustments != null)
-        //    {
-        //        colorAdjustments.postExposure.value = value;
+            // Initialize elements
+            brightnessSlider.Init();
+        }
 
-        //        // TODO: Save the brightness
-        //    }
-        //}
+        /// <summary>
+        /// Handle going back to the main settings menu
+        /// </summary>
+        public void BackToSettings()
+        {
+            // Save settings data
+            videoSaveHandler.SaveData();
 
-        public void BackToSettings() => controller.SetState(controller.SETTINGS);
+            // Set the settings state
+            controller.SetState(controller.SETTINGS);
+        }
 
+        /// <summary>
+        /// Handle back input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void BackInput(Component sender, object data)
         {
             // Verify that the correct data was sent
@@ -54,6 +52,12 @@ namespace GoodLuckValley.UI.TitleScreen.Settings
             }
         }
 
-        public void ResetSettings() { }
+        /// <summary>
+        /// Reset the video settings to their defaults
+        /// </summary>
+        public void ResetSettings()
+        {
+            brightnessSlider.LoadBrightness(50f);
+        }
     }
 }

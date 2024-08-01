@@ -716,16 +716,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Quick Bounce
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &53706440
 Animator:
   serializedVersion: 5
@@ -2395,16 +2391,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Recall Last
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &125298213
 Animator:
   serializedVersion: 5
@@ -3134,7 +3126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   controlSlider: {fileID: 0}
   displayText: {fileID: 1011109900}
   volumeRTPC:
@@ -4932,7 +4923,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 983169203}
+    m_SelectOnUp: {fileID: 983169205}
     m_SelectOnDown: {fileID: 115834799}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -5404,16 +5395,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Interact
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &332513490
 Animator:
   serializedVersion: 5
@@ -6812,6 +6799,7 @@ GameObject:
   - component: {fileID: 451824367}
   - component: {fileID: 451824369}
   - component: {fileID: 451824368}
+  - component: {fileID: 451824372}
   - component: {fileID: 451824370}
   - component: {fileID: 451824371}
   m_Layer: 5
@@ -6881,6 +6869,7 @@ MonoBehaviour:
   - {fileID: 932762676}
   - {fileID: 1523411581}
   - {fileID: 1453109338}
+  audioSaveHandler: {fileID: 0}
 --- !u!114 &451824370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6932,6 +6921,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &451824372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451824366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212cd53499330844589594d62de0addb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    masterVolume: 100
+    musicVolume: 100
+    ambienceVolume: 100
+    sfxVolume: 100
+  masterSlider: {fileID: 184014258}
+  musicSlider: {fileID: 932762676}
+  sfxSlider: {fileID: 1523411581}
+  ambienceSlider: {fileID: 1453109338}
+  <ID>k__BackingField:
+    Part1: 717968785
+    Part2: 1113349830
+    Part3: 333676446
+    Part4: 1625166900
 --- !u!1 &452126611
 GameObject:
   m_ObjectHideFlags: 0
@@ -9168,16 +9188,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Throw
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &634798465
 Animator:
   serializedVersion: 5
@@ -10922,16 +10938,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Open Journal
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &755566951
 Animator:
   serializedVersion: 5
@@ -11374,16 +11386,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Jump
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &780076836
 Animator:
   serializedVersion: 5
@@ -12093,6 +12101,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &817777771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 817777773}
+  - component: {fileID: 817777772}
+  m_Layer: 0
+  m_Name: Brightness Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &817777772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817777771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: b31b2a2ec4b2c6840b72e054ea646224, type: 2}
+--- !u!4 &817777773
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817777771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.577519, y: 1.0987055, z: -3.3200617}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &830885128
 GameObject:
   m_ObjectHideFlags: 0
@@ -13180,7 +13237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   controlSlider: {fileID: 0}
   displayText: {fileID: 77171882}
   volumeRTPC:
@@ -14065,16 +14121,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Fast Slide
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &959583197
 Animator:
   serializedVersion: 5
@@ -14495,7 +14547,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 983169202}
-  - component: {fileID: 983169203}
+  - component: {fileID: 983169205}
+  - component: {fileID: 983169204}
   m_Layer: 5
   m_Name: Brightness Slider
   m_TagString: Untagged
@@ -14525,7 +14578,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &983169203
+--- !u!114 &983169204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14534,7 +14587,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 983169201}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a117427c6f1f904aa4b5bc8f7e8df45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brightnessSlider: {fileID: 0}
+  displayText: {fileID: 1125960008}
+  postProcessVolume: {fileID: 11400000, guid: b31b2a2ec4b2c6840b72e054ea646224, type: 2}
+  colorAdjustments: {fileID: 0}
+--- !u!114 &983169205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983169201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921d0798ca2c44b48ad13555739aaeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -14570,12 +14639,18 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1638928244}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+  menuInputReader: {fileID: 11400000, guid: 7556aba082017494693b9d2cd5c6a5c2, type: 2}
+  normalStep: 1
+  applyAltMod: 0
+  altStep: 5
+  applyShiftMod: 0
+  shiftStep: 10
 --- !u!1 &987192863
 GameObject:
   m_ObjectHideFlags: 0
@@ -16460,16 +16535,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Recall All
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &1097262340
 Animator:
   serializedVersion: 5
@@ -16614,6 +16685,7 @@ GameObject:
   - component: {fileID: 1107837391}
   - component: {fileID: 1107837393}
   - component: {fileID: 1107837392}
+  - component: {fileID: 1107837395}
   - component: {fileID: 1107837394}
   m_Layer: 5
   m_Name: Settings - Video
@@ -16684,8 +16756,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  brightnessSlider: {fileID: 983169203}
-  postProcessVolume: {fileID: 0}
+  videoSaveHandler: {fileID: 0}
+  brightnessSlider: {fileID: 983169204}
 --- !u!114 &1107837394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16715,6 +16787,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1107837395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107837388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c1da6a6ed758b4c99be1d14ae03714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    brightness: 50
+  brightnessSlider: {fileID: 983169204}
+  <ID>k__BackingField:
+    Part1: 1279892122
+    Part2: 1270737158
+    Part3: 308844696
+    Part4: 3286357241
 --- !u!1 &1108069132
 GameObject:
   m_ObjectHideFlags: 0
@@ -17205,7 +17302,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 26
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -18397,16 +18494,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Crawl
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &1213276355
 Animator:
   serializedVersion: 5
@@ -20500,16 +20593,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Move
     bindingIndex: 1
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!114 &1334681917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21411,7 +21500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48470dd5947f6784490f685912ea4e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectable: {fileID: 983169203}
+  selectable: {fileID: 983169205}
   cursor: {fileID: 1383685191}
   selected: 0
   images: []
@@ -21886,6 +21975,7 @@ GameObject:
   - component: {fileID: 1415011066}
   - component: {fileID: 1415011068}
   - component: {fileID: 1415011067}
+  - component: {fileID: 1415011070}
   - component: {fileID: 1415011069}
   m_Layer: 5
   m_Name: Settings - Controls
@@ -21962,6 +22052,7 @@ MonoBehaviour:
   keysDict: {fileID: 11400000, guid: 54353ce13bbe92a4fa4d75a3a7351f5a, type: 2}
   menuInputReader: {fileID: 11400000, guid: 7556aba082017494693b9d2cd5c6a5c2, type: 2}
   inputActionAsset: {fileID: -944628639613478452, guid: 1489f33728e255a48863437b065355f0, type: 3}
+  playerKeybinder: {fileID: 0}
   duplicatesText: {fileID: 127879595}
   fadeDuration: 0.2
   binding: 0
@@ -21980,11 +22071,6 @@ MonoBehaviour:
   - {fileID: 53706439}
   - {fileID: 1097262339}
   - {fileID: 2034457594}
-  <ID>k__BackingField:
-    Part1: 274452698
-    Part2: 1131096981
-    Part3: 1748858558
-    Part4: 31649344
 --- !u!114 &1415011069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22014,6 +22100,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1415011070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415011065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1116231190eb81246bb3ea13fe007763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
+  inputActionAsset: {fileID: -944628639613478452, guid: 1489f33728e255a48863437b065355f0, type: 3}
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    bindings: 
+  <ID>k__BackingField:
+    Part1: 2453316011
+    Part2: 1181080316
+    Part3: 3984020625
+    Part4: 60208677
 --- !u!1 &1453109336
 GameObject:
   m_ObjectHideFlags: 0
@@ -22066,7 +22178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   controlSlider: {fileID: 0}
   displayText: {fileID: 515533868}
   volumeRTPC:
@@ -23134,7 +23245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   controlSlider: {fileID: 0}
   displayText: {fileID: 2015327271}
   volumeRTPC:
@@ -23470,16 +23580,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Move
     bindingIndex: 2
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &1536300915
 Animator:
   serializedVersion: 5
@@ -23732,6 +23838,8 @@ MonoBehaviour:
   state: 0
   tryingToChangeState: 0
   changingState: 0
+  backTimer: 0
+  backBuffer: 1
   cursors:
   - {fileID: 683646473}
   - {fileID: 670910757}
@@ -24857,8 +24965,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1111840586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -27992,16 +28100,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Fast Fall
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: 0}
-    actionMapName: 
-    actionName: 
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!114 &1879611317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28451,7 +28555,7 @@ RectTransform:
   m_Father: {fileID: 858019879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -30096,16 +30200,12 @@ MonoBehaviour:
     actionMapName: Player Controls
     actionName: Pause
     bindingIndex: 0
-  defaultBindingInfo:
-    actionAsset: {fileID: -944628639613478452, guid: 1489f33728e255a48863437b065355f0, type: 3}
-    actionMapName: Player Controls
-    actionName: Pause
-    bindingIndex: 0
   targetButton: {fileID: 0}
   multiElementSelector: {fileID: 0}
   animator: {fileID: 0}
   keyImage: {fileID: 0}
   validRebind: 0
+  rebinded: 0
 --- !u!95 &2034457595
 Animator:
   serializedVersion: 5
@@ -31440,3 +31540,4 @@ SceneRoots:
   - {fileID: 1229396917}
   - {fileID: 1503663616}
   - {fileID: 1237089540}
+  - {fileID: 817777773}
