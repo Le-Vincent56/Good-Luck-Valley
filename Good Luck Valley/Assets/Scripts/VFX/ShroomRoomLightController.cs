@@ -1,3 +1,4 @@
+using GoodLuckValley.Patterns.Blackboard;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace GoodLuckValley.VFX
         [SerializeField] private GameObject mushroomPickupLights;
         [SerializeField] private Light2D volumetricTransitionLight;
         [SerializeField] private VisualEffect pickupVFX;
+        [SerializeField] private BlackboardData playerBlackboard;
+        [SerializeField] private GameObject interactElements;
         #endregion
 
         #region FIELDS
@@ -34,6 +37,16 @@ namespace GoodLuckValley.VFX
         [SerializeField] private float lightIntensityDecreaseSpeed;
         [SerializeField] private float lightScaleDecreaseSpeed;
         #endregion
+
+        private void Awake()
+        {
+            if (playerBlackboard.entries[1].value == true)
+            {
+                prePickupLights.SetActive(false);
+                postPickupLights.SetActive(true);
+                interactElements.SetActive(false);
+            }
+        }
 
         private void Update()
         {
