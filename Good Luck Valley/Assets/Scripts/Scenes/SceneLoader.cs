@@ -184,7 +184,7 @@ namespace GoodLuckValley.SceneManagement
         {
             // Set the main menu as the scene to load
             sceneToLoad.name = "Main Menu";
-            fromMainMenu = false;
+            fromMainMenu = true;
 
             // Set loading
             isLoading = true;

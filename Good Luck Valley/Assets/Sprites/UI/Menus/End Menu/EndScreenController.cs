@@ -1,8 +1,10 @@
+using GoodLuckValley.Audio.Ambience;
+using GoodLuckValley.Audio.Music;
+using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.SceneManagement;
 using GoodLuckValley.UI.Menus;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace GoodLuckValley.UI.EndScreen
 {
@@ -22,6 +24,18 @@ namespace GoodLuckValley.UI.EndScreen
             cursors.ActivateCursors();
 
             inputReader.Enable();
+
+            AmbienceManager.Instance.StopAmbience();
+            MusicManager.Instance.SetMenuStates();
+        }
+
+        public void ResumePlaying()
+        {
+            // Set game states
+            MusicManager.Instance.SetGameStates();
+
+            // Load the scene
+            SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
         }
 
         public void BackToMain()

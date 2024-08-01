@@ -181,8 +181,6 @@ namespace GoodLuckValley.UI.TitleScreen.Start
                 // Load the save file
                 SaveLoadSystem.Instance.LoadGame(saveSlot.Name);
 
-                SaveLoadSystem.Instance.Debug();
-
                 // Load the scene
                 SceneLoader.Instance.EnterGame(SaveLoadSystem.Instance.selectedData.CurrentLevelName);
             }
