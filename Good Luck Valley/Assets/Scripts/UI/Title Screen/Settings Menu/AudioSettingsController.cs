@@ -20,12 +20,9 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Audio
 
             // Get components
             audioSaveHandler = GetComponent<AudioSaveHandler>();
-        }
 
-        private void Start()
-        {
             // Initialize every slider
-            foreach(AudioBusSlider slider in audioBusSliders)
+            foreach (AudioBusSlider slider in audioBusSliders)
             {
                 slider.Init();
             }

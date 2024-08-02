@@ -87,7 +87,7 @@ namespace GoodLuckValley.UI
                 isEmpty = true;
             }
 
-            deleter.Show();
+            deleter.Hide();
         }
 
         /// <summary>

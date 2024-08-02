@@ -8,6 +8,7 @@ using UnityEngine;
 public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
 {
     [SerializeField] private TutorialData data;
+    [SerializeField] private bool registered;
     private Blackboard tutorialBlackboard;
     private BlackboardKey seenMoveTrigger;
     private BlackboardKey seenJumpTrigger;
@@ -41,38 +42,8 @@ public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
 
     private void Start()
     {
-        // Initialize the blackboard
-        if(tutorialBlackboard == null)
-            tutorialBlackboard = BlackboardController.Instance.GetBlackboard("Tutorial");
-
-        // Register keys
-        seenMoveTrigger = tutorialBlackboard.GetOrRegisterKey("SeenMoveTrigger");
-        seenJumpTrigger = tutorialBlackboard.GetOrRegisterKey("SeenJumpTrigger");
-        seenSlideTrigger = tutorialBlackboard.GetOrRegisterKey("SeenSlideTrigger");
-        seenFastFallTrigger = tutorialBlackboard.GetOrRegisterKey("SeenFastFallTrigger");
-        seenCrawlTrigger = tutorialBlackboard.GetOrRegisterKey("SeenCrawlTrigger");
-        seenInteractTrigger = tutorialBlackboard.GetOrRegisterKey("SeenInteractTrigger");
-        seenAimTrigger = tutorialBlackboard.GetOrRegisterKey("SeenAimTrigger");
-        seenThrowTrigger = tutorialBlackboard.GetOrRegisterKey("SeenThrowTrigger");
-        seenPeekTrigger = tutorialBlackboard.GetOrRegisterKey("SeenPeekTrigger");
-        seenTotalRecallTrigger = tutorialBlackboard.GetOrRegisterKey("SeenTotalRecallTrigger");
-        seenSingleRecallTrigger = tutorialBlackboard.GetOrRegisterKey("SeenSingleRecallTrigger");
-        seenQuickBounceTrigger = tutorialBlackboard.GetOrRegisterKey("SeenQuickBounceTrigger");
-        seenChainBounceTrigger = tutorialBlackboard.GetOrRegisterKey("SeenChainBounceTrigger");
-
-        hasMoved = tutorialBlackboard.GetOrRegisterKey("HasMoved");
-        hasJumped = tutorialBlackboard.GetOrRegisterKey("HasJumped");
-        hasSlid = tutorialBlackboard.GetOrRegisterKey("HasSlid");
-        hasFastFallen = tutorialBlackboard.GetOrRegisterKey("HasFastFallen");
-        hasCrawled = tutorialBlackboard.GetOrRegisterKey("HasCrawled");
-        hasInteracted = tutorialBlackboard.GetOrRegisterKey("HasInteracted");
-        hasAimed = tutorialBlackboard.GetOrRegisterKey("HasAimed");
-        hasThrown = tutorialBlackboard.GetOrRegisterKey("HasThrown");
-        hasPeeked = tutorialBlackboard.GetOrRegisterKey("HasPeeked");
-        hasTotalRecall = tutorialBlackboard.GetOrRegisterKey("HasTotalRecall");
-        hasSingleRecall = tutorialBlackboard.GetOrRegisterKey("HasSingleRecall");
-        hasQuickBounced = tutorialBlackboard.GetOrRegisterKey("HasQuickBounced");
-        hasChainBounced = tutorialBlackboard.GetOrRegisterKey("HasChainBounced");
+        if(!registered)
+            RegisterKeys();
     }
 
     public void SaveData()
@@ -93,7 +64,6 @@ public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
         data.SeenSingleRecallTrigger = GetData(seenSingleRecallTrigger);
         data.SeenQuickBounceTrigger = GetData(seenQuickBounceTrigger);
         data.SeenChainBounceTrigger = GetData(seenChainBounceTrigger);
-
 
         data.Moved = GetData(hasMoved);
         data.Jumped = GetData(hasJumped);
@@ -128,6 +98,9 @@ public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
         this.data = data;
         this.data.ID = ID;
 
+        if (!registered)
+            RegisterKeys();
+
         if(applyData)
         {
             if (tutorialBlackboard == null)
@@ -161,5 +134,44 @@ public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
             tutorialBlackboard.SetValue(hasQuickBounced, data.QuickBounced);
             tutorialBlackboard.SetValue(hasChainBounced, data.ChainBounced);
         }
-    } 
+    }
+
+    private void RegisterKeys()
+    {
+        // Initialize the blackboard
+        if (tutorialBlackboard == null)
+            tutorialBlackboard = BlackboardController.Instance.GetBlackboard("Tutorial");
+
+        // Register keys
+        seenMoveTrigger = tutorialBlackboard.GetOrRegisterKey("SeenMoveTrigger");
+        seenJumpTrigger = tutorialBlackboard.GetOrRegisterKey("SeenJumpTrigger");
+        seenSlideTrigger = tutorialBlackboard.GetOrRegisterKey("SeenSlideTrigger");
+        seenFastFallTrigger = tutorialBlackboard.GetOrRegisterKey("SeenFastFallTrigger");
+        seenCrawlTrigger = tutorialBlackboard.GetOrRegisterKey("SeenCrawlTrigger");
+        seenInteractTrigger = tutorialBlackboard.GetOrRegisterKey("SeenInteractTrigger");
+        seenAimTrigger = tutorialBlackboard.GetOrRegisterKey("SeenAimTrigger");
+        seenThrowTrigger = tutorialBlackboard.GetOrRegisterKey("SeenThrowTrigger");
+        seenPeekTrigger = tutorialBlackboard.GetOrRegisterKey("SeenPeekTrigger");
+        seenTotalRecallTrigger = tutorialBlackboard.GetOrRegisterKey("SeenTotalRecallTrigger");
+        seenSingleRecallTrigger = tutorialBlackboard.GetOrRegisterKey("SeenSingleRecallTrigger");
+        seenQuickBounceTrigger = tutorialBlackboard.GetOrRegisterKey("SeenQuickBounceTrigger");
+        seenChainBounceTrigger = tutorialBlackboard.GetOrRegisterKey("SeenChainBounceTrigger");
+
+        hasMoved = tutorialBlackboard.GetOrRegisterKey("HasMoved");
+        hasJumped = tutorialBlackboard.GetOrRegisterKey("HasJumped");
+        hasSlid = tutorialBlackboard.GetOrRegisterKey("HasSlid");
+        hasFastFallen = tutorialBlackboard.GetOrRegisterKey("HasFastFallen");
+        hasCrawled = tutorialBlackboard.GetOrRegisterKey("HasCrawled");
+        hasInteracted = tutorialBlackboard.GetOrRegisterKey("HasInteracted");
+        hasAimed = tutorialBlackboard.GetOrRegisterKey("HasAimed");
+        hasThrown = tutorialBlackboard.GetOrRegisterKey("HasThrown");
+        hasPeeked = tutorialBlackboard.GetOrRegisterKey("HasPeeked");
+        hasTotalRecall = tutorialBlackboard.GetOrRegisterKey("HasTotalRecall");
+        hasSingleRecall = tutorialBlackboard.GetOrRegisterKey("HasSingleRecall");
+        hasQuickBounced = tutorialBlackboard.GetOrRegisterKey("HasQuickBounced");
+        hasChainBounced = tutorialBlackboard.GetOrRegisterKey("HasChainBounced");
+
+        // Set the save handler to registered
+        registered = true;
+    }
 }
