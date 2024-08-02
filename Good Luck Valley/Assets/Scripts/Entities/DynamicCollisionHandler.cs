@@ -118,7 +118,7 @@ namespace GoodLuckValley.Entity
         public void CheckCanStand(Vector2 velocity, float standCheckDist)
         {
             // Set direction and ray length
-            float rayLength = Mathf.Abs(velocity.y) + (standCheckDist + 0.15f) + skinWidth;
+            float rayLength = Mathf.Abs(velocity.y) + (standCheckDist) + skinWidth;
 
             for (int i = 0; i < verticalRayCount; i++)
             {
