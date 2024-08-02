@@ -75,12 +75,12 @@ namespace GoodLuckValley.VFX
             //Debug.Log("Damping");
             if (slowDown && bobCurrentSpeed > bobMinSpeed)
             {
-                Debug.Log("Slow down speed percent: " + positionPercent);
+                //Debug.Log("Slow down speed percent: " + positionPercent);
                 bobCurrentSpeed = (1 - positionPercent) * bobMaxSpeed;
             }
             else if (!slowDown && bobCurrentSpeed < bobMaxSpeed)
             {
-                Debug.Log("Speed speed percent: " + positionPercent);
+                //Debug.Log("Speed speed percent: " + positionPercent);
                 bobCurrentSpeed = (1 - positionPercent) * bobMaxSpeed;
             }
         }

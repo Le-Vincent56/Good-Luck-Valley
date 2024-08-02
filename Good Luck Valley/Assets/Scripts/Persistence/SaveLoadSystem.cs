@@ -162,6 +162,8 @@ namespace GoodLuckValley.Persistence
 
             // Save the game
             SaveGame(true);
+
+            Debug();
         }
 
         /// <summary>

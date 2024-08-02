@@ -86,6 +86,8 @@ namespace GoodLuckValley.UI
 
                 isEmpty = true;
             }
+
+            deleter.Show();
         }
 
         /// <summary>
@@ -115,7 +117,6 @@ namespace GoodLuckValley.UI
         /// <param name="eventData"></param>
         public void OnDeselect(BaseEventData eventData)
         {
-            controller.SetSelectedSlot(null);
             deleter.Hide();
             deleter.SetSelectable(false);
         }
