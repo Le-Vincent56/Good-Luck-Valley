@@ -194,7 +194,7 @@ namespace GoodLuckValley.Entity
                     currentLayer = collisions.Layer;
 
                     // Reset the last seen slope variables if detecting ground
-                    if(collisions.Layer == CollisionLayer.Ground)
+                    if (collisions.Layer == CollisionLayer.Ground)
                     {
                         collisions.LastSeenSlopeNormal = Vector2.zero;
                         collisions.LastSlopeVerticalDirection = 0;
