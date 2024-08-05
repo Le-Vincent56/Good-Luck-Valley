@@ -75,6 +75,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool tryFastSlide;
         [SerializeField] private bool isFastSliding;
         [SerializeField] private bool isCrawling;
+        [SerializeField] private bool isOnSlope;
 
         private Coroutine disableTimer;
         private Blackboard playerBlackboard;
@@ -549,7 +550,7 @@ namespace GoodLuckValley.Player.Control
             collisionHandler.collisions.PrevVelocity = velocity;
 
             // Handle collisions if necessary
-            if(velocity.y < 0f)
+            if (velocity.y < 0f)
                 collisionHandler.DescendSlope(ref velocity, tryFastSlide, this, data.fastSlopeScalar);
 
             // Set the facing direction
@@ -569,13 +570,13 @@ namespace GoodLuckValley.Player.Control
             collisionHandler.PredictGround(velocity, groundPredictionAmount);
 
             // Check if the player can stand
-            if(isCrawling)
+            if (isCrawling)
                 collisionHandler.CheckCanStand(velocity, standCheckDist);
 
             // Move
             transform.Translate(velocity);
 
-            if(standingOnPlatform)
+            if (standingOnPlatform)
             {
                 collisionHandler.collisions.Below = true;
             }

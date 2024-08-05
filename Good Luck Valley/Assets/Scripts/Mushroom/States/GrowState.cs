@@ -16,8 +16,8 @@ namespace GoodLuckValley.Mushroom.States
 
         public override void OnEnter()
         {
-            // Set the grow timer
-            growTimer = 0.4f;
+            animator.CrossFade(GrowHash, crossFadeDuration);
+            growTimer = animator.GetCurrentAnimatorStateInfo(0).length;
 
             // Update the sfx switch based on the tile type
             sfx.UpdateSwitch(mushroom.GetSpawnTileType());
