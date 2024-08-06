@@ -63,6 +63,9 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private int wallDirX;
         [SerializeField] private float timeToWallUnstick;
 
+        [Header("Fields - Fast Slide")]
+        [SerializeField] private float currentSlideScalar;
+
         [Header("Fields - Checks")]
         [SerializeField] private bool isGrounded;
         [SerializeField] private bool isWallSliding;
@@ -551,7 +554,7 @@ namespace GoodLuckValley.Player.Control
 
             // Handle collisions if necessary
             if (velocity.y < 0f)
-                collisionHandler.DescendSlope(ref velocity, tryFastSlide, this, data.fastSlopeScalar);
+                collisionHandler.DescendSlope(ref velocity, tryFastSlide, this, currentSlideScalar);
 
             // Set the facing direction
             if (velocity.x != 0f)
@@ -580,6 +583,18 @@ namespace GoodLuckValley.Player.Control
             {
                 collisionHandler.collisions.Below = true;
             }
+        }
+
+        public void CalculateSliding()
+        {
+            // Exit case - not fast sliding
+            if (!isFastSliding) return;
+
+            // Increase the slide speed
+            currentSlideScalar += data.slideAcceleration * Time.deltaTime;
+
+            // Clamp the slide scalar
+            currentSlideScalar = Mathf.Clamp(currentSlideScalar, 1f, data.maxFastSlideScalar);
         }
 
         #region JUMP HANDLING
@@ -965,8 +980,10 @@ namespace GoodLuckValley.Player.Control
 
             if (!started)
             {
+                // Reset slide variables
                 tryFastSlide = false;
                 isFastSliding = false;
+                currentSlideScalar = 1f;
             }
         }
 

@@ -42,6 +42,9 @@ namespace GoodLuckValley.Player.States
             // Calculate velocity
             player.CalculateVelocity();
 
+            // Calculate slide scalars
+            player.CalculateSliding();
+
             // Handle movement
             player.HandleMovement();
         }
