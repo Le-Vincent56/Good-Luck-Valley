@@ -402,9 +402,12 @@ namespace GoodLuckValley.Player.Control
             // Get the target speed
             if (!isWallJumping && !isSlopeBouncing)
             {
-                float targetSpeed = (!isCrawling) ? moveDirectionX * data.movementSpeed : moveDirectionX * data.crawlSpeed;
+                // Get the target speed (depending on if crawling or not)
+                float targetSpeed = (!isCrawling) 
+                    ? moveDirectionX * data.movementSpeed 
+                    : moveDirectionX * data.crawlSpeed;
 
-                // Smooth the target speed, taking in acceleration to account
+                // Smooth the target speed
                 velocity.x = Mathf.SmoothDamp(
                     velocity.x,
                     targetSpeed,
@@ -413,12 +416,18 @@ namespace GoodLuckValley.Player.Control
                 );
             }
 
+            // Handle movement when slope bouncing
             if(isSlopeBouncing)
             {
-                float targetSpeed = moveDirectionX * data.movementSpeed;
+                // Get the input speed
+                float inputSpeed = moveDirectionX * data.movementSpeed;
 
-                float adjustedSpeed = (Mathf.Sign(targetSpeed) == Mathf.Sign(velocity.x)) ? targetSpeed * 0.25f : targetSpeed;
+                // Adjust the speed depending on if moving in the same direction as the bounce
+                float adjustedSpeed = (Mathf.Sign(inputSpeed) == Mathf.Sign(velocity.x)) 
+                    ? inputSpeed * data.shroomSlopeInputScalar // Apply the scalar
+                    : inputSpeed; // Use the normal input speed
 
+                // Smooth the target speed
                 velocity.x = Mathf.SmoothDamp(
                     velocity.x,
                     adjustedSpeed + velocity.x,
