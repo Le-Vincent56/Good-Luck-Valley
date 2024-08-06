@@ -1,10 +1,14 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Journal;
 using GoodLuckValley.Persistence;
+using GoodLuckValley.Player.Control;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.SceneManagement;
 using GoodLuckValley.UI.Menus;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GoodLuckValley.UI
 {
@@ -37,12 +41,16 @@ namespace GoodLuckValley.UI
         {
             input.Pause += OnPause;
             pauseInputReader.Escape += OnPause;
+            pauseInputReader.Navigate += NavigateUI;
+            pauseInputReader.Submit += SubmitUI;
         }
 
         private void OnDisable()
         {
             input.Pause -= OnPause;
             pauseInputReader.Escape -= OnPause;
+            pauseInputReader.Navigate -= NavigateUI;
+            pauseInputReader.Submit -= SubmitUI;
         }
 
         public void Start()
@@ -184,6 +192,12 @@ namespace GoodLuckValley.UI
         /// </summary>
         public void OpenJournal()
         {
+            // Exit case - the Journal has not been unlocked yet
+            if (!Journal.Journal.Instance.Unlocked) return;
+
+            // Hide the UI
+            HideUI();
+
             // Open the Journal
             // Calls to:
             //  - JournalUI.OpenJournalMenu();
@@ -196,7 +210,7 @@ namespace GoodLuckValley.UI
 
             // Open the settings menu
             // Calls to:
-            //  - 
+            //  - GameSettingsMenu.OpenSettings();
             onOpenSettingsMenu.Raise(this, null);
         }
 
@@ -217,13 +231,85 @@ namespace GoodLuckValley.UI
             SceneLoader.Instance.LoadMainMenu();
         }
 
+        /// <summary>
+        /// Show the pause menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void ShowPauseMenu(Component sender, object data)
         {
             // Set the pause input action
+            // Calls to:
+            //  - PlayerInputHandler.EnablePauseInput();
             onSetPauseInputAction.Raise(this, null);
 
             // Show the UI
             ShowUI();
+        }
+
+        private void NavigateUI(Vector2 navigation)
+        {
+            GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+            if (currentSelected == null)
+            {
+                // If nothing is selected, select the first selectable element
+                Selectable firstSelectable = FindObjectOfType<Selectable>();
+                if (firstSelectable != null)
+                {
+                    EventSystem.current.SetSelectedGameObject(firstSelectable.gameObject);
+                }
+                return;
+            }
+
+            Selectable current = currentSelected.GetComponent<Selectable>();
+            Selectable next = null;
+
+            if (navigation.y > 0) next = current.FindSelectableOnUp();
+            else if (navigation.y < 0) next = current.FindSelectableOnDown();
+            else if (navigation.x < 0) next = current.FindSelectableOnLeft();
+            else if (navigation.x > 0) next = current.FindSelectableOnRight();
+
+            if (next != null)
+            {
+                EventSystem.current.SetSelectedGameObject(next.gameObject);
+            }
+        }
+
+        private void SubmitUI(bool started)
+        {
+            // Exit case - if the button hasn't been released yet
+            if (started) return;
+
+            // Get the currently selected object
+            GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+
+            // Exit case - if there is not a currently selected object
+            if (currentSelected == null) return;
+
+            // Try to get a selectable
+            Selectable selectable = currentSelected.GetComponent<Selectable>();
+
+            // Exit case - if no selectable is retrieved
+            if (selectable == null) return;
+
+            // Check if the selectable is a button
+            if (selectable is Button selectableButton)
+            {
+                // Cast and invoke
+                selectableButton.onClick.Invoke();
+            }
+            // Check if the selectable is a toggle
+            else if (selectable is Toggle selectableToggle)
+            {
+                // Cast and toggle
+                selectableToggle.isOn = !selectableToggle.isOn;
+            }
+            // Check if the selectable is a dropdown
+            else if (selectable is Dropdown dropdown)
+            {
+                // Show the dropdown
+                dropdown.Show();
+            }
         }
     }
 }

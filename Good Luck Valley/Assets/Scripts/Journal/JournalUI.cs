@@ -16,6 +16,7 @@ namespace GoodLuckValley.Journal.UI
         [SerializeField] private GameEvent onSetJournalInputAction;
         [SerializeField] private GameEvent onSetDefaultInputAction;
         [SerializeField] private GameEvent onSetPauseInputAction;
+        [SerializeField] private GameEvent onExitJournalToPause;
 
         [Header("References")]
         [SerializeField] private InputReader defaultInputReader;
@@ -266,6 +267,10 @@ namespace GoodLuckValley.Journal.UI
                 // Calls to:
                 //  - PlayerInputHandler.EnablePauseInput()
                 onSetPauseInputAction.Raise(this, null);
+
+                // Calls to:
+                //  - PauseMenu.ShowPauseMenu();
+                onExitJournalToPause.Raise(this, null);
             } else
             {
                 // Calls to:

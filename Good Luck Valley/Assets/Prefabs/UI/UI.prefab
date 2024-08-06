@@ -1635,6 +1635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSetMenuInput: {fileID: 11400000, guid: 200a4574573b2ac47946bc5b7e441f65, type: 2}
   onExitGameSettings: {fileID: 11400000, guid: b5a3700d27388ca4a9fd9553e2c7667b, type: 2}
+  input: {fileID: 11400000, guid: 7556aba082017494693b9d2cd5c6a5c2, type: 2}
   state: 0
   screens:
   - {fileID: 489998573342448069}
@@ -25098,6 +25099,7 @@ GameObject:
   - component: {fileID: 3973866261675511173}
   - component: {fileID: 7660492441972090376}
   - component: {fileID: 3727365777733442421}
+  - component: {fileID: 1145097986845200910}
   m_Layer: 5
   m_Name: Pause Menu
   m_TagString: Untagged
@@ -25276,6 +25278,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameEvent: {fileID: 11400000, guid: b5a3700d27388ca4a9fd9553e2c7667b, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1610377781365041869}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.PauseMenu, Assembly-CSharp
+        m_MethodName: ShowPauseMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1145097986845200910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8728961227052638958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 4d2bbf2038d1ef84b875e3ca37331225, type: 2}
   response:
     m_PersistentCalls:
       m_Calls:
@@ -26644,6 +26674,7 @@ MonoBehaviour:
   onSetJournalInputAction: {fileID: 11400000, guid: 3483c6db95a307846a6d93c044b8b5ca, type: 2}
   onSetDefaultInputAction: {fileID: 11400000, guid: 2670d4596effa8a479f9709760b8dc28, type: 2}
   onSetPauseInputAction: {fileID: 11400000, guid: 164856897c06b1a4d9b88257d9ae0f16, type: 2}
+  onExitJournalToPause: {fileID: 11400000, guid: 4d2bbf2038d1ef84b875e3ca37331225, type: 2}
   defaultInputReader: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
   journalInputReader: {fileID: 11400000, guid: 59ef7d524724a7e47a82c021c471e45c, type: 2}
   pauseInputReader: {fileID: 11400000, guid: 9b7ec129209b49d4c8e97751a8267f94, type: 2}

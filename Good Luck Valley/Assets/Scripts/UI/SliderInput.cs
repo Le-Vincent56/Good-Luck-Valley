@@ -111,6 +111,9 @@ namespace GoodLuckValley.UI.Elements
             // Exit case, there is no x input
             if (navigation.x == 0) return;
 
+            // Exit case - the slider is not selected
+            if (EventSystem.current.currentSelectedGameObject != gameObject) return;
+
             // Get the move direction
             MoveDirection moveDirection = (navigation.x < 0) ? MoveDirection.Left : MoveDirection.Right;
 

@@ -9788,7 +9788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6578453791765927406, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -5.483488
+      value: -5.48349
       objectReference: {fileID: 0}
     - target: {fileID: 7049431091636785503, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
       propertyPath: m_Name
@@ -9797,7 +9797,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8728961227052638958, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2118700645}
   m_SourcePrefab: {fileID: 100100000, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
 --- !u!1 &1429958612
 GameObject:
@@ -13303,7 +13306,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048551594}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
@@ -13489,6 +13492,50 @@ MonoBehaviour:
   - {fileID: 168008215}
   - {fileID: 1898894105}
   timesMoved: 81
+--- !u!1 &2118700636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8728961227052638958, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
+  m_PrefabInstance: {fileID: 1425196493}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2118700638 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1610377781365041869, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
+  m_PrefabInstance: {fileID: 1425196493}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118700636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04ad5cf1eb25d54c98769c4591a94d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2118700645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118700636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 4d2bbf2038d1ef84b875e3ca37331225, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2118700638}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.PauseMenu, Assembly-CSharp
+        m_MethodName: ShowPauseMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2121272765
 PrefabInstance:
   m_ObjectHideFlags: 0

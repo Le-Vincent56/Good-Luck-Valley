@@ -1,10 +1,12 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Patterns.StateMachine;
+using GoodLuckValley.Player.Input;
 using GoodLuckValley.UI.Menus;
 using GoodLuckValley.UI.Settings.States;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Settings
@@ -20,6 +22,9 @@ namespace GoodLuckValley.UI.Settings
         [Header("Events")]
         [SerializeField] private GameEvent onSetMenuInput;
         [SerializeField] private GameEvent onExitGameSettings;
+
+        [Header("References")]
+        [SerializeField] private MenuInputReader input;
 
         [Header("Fields")]
         [SerializeField] private int state;
@@ -65,6 +70,18 @@ namespace GoodLuckValley.UI.Settings
             stateMachine.SetState(emptyState);
         }
 
+        private void OnEnable()
+        {
+            input.Navigate += NavigateUI;
+            input.Submit += SubmitUI;
+        }
+
+        private void OnDisable()
+        {
+            input.Navigate -= NavigateUI;
+            input.Submit -= SubmitUI;
+        }
+
         private void Update()
         {
             // Update the state machine
@@ -106,6 +123,8 @@ namespace GoodLuckValley.UI.Settings
         public void OpenSettings(Component sender, object data)
         {
             // Enable menu input
+            // Calls to:
+            //  - PlayerInputHandler.EnableMenuInput();
             onSetMenuInput.Raise(this, null);
 
             state = MAIN;
@@ -117,7 +136,74 @@ namespace GoodLuckValley.UI.Settings
             state = EMPTY;
 
             // Show the pause menu
+            // Calls to:
+            //  - PauseMenu.ShowPauseMenu();
             onExitGameSettings.Raise(this, null);
+        }
+
+        private void NavigateUI(Vector2 navigation)
+        {
+            GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+            if (currentSelected == null)
+            {
+                // If nothing is selected, select the first selectable element
+                Selectable firstSelectable = FindObjectOfType<Selectable>();
+                if (firstSelectable != null)
+                {
+                    EventSystem.current.SetSelectedGameObject(firstSelectable.gameObject);
+                }
+                return;
+            }
+
+            Selectable current = currentSelected.GetComponent<Selectable>();
+            Selectable next = null;
+
+            if (navigation.y > 0) next = current.FindSelectableOnUp();
+            else if (navigation.y < 0) next = current.FindSelectableOnDown();
+            else if (navigation.x < 0) next = current.FindSelectableOnLeft();
+            else if (navigation.x > 0) next = current.FindSelectableOnRight();
+
+            if (next != null)
+            {
+                EventSystem.current.SetSelectedGameObject(next.gameObject);
+            }
+        }
+
+        private void SubmitUI(bool started)
+        {
+            // Exit case - if the button hasn't been released yet
+            if (started) return;
+
+            // Get the currently selected object
+            GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+
+            // Exit case - if there is not a currently selected object
+            if (currentSelected == null) return;
+
+            // Try to get a selectable
+            Selectable selectable = currentSelected.GetComponent<Selectable>();
+
+            // Exit case - if no selectable is retrieved
+            if (selectable == null) return;
+
+            // Check if the selectable is a button
+            if (selectable is Button selectableButton)
+            {
+                // Cast and invoke
+                selectableButton.onClick.Invoke();
+            }
+            // Check if the selectable is a toggle
+            else if (selectable is Toggle selectableToggle)
+            {
+                // Cast and toggle
+                selectableToggle.isOn = !selectableToggle.isOn;
+            }
+            // Check if the selectable is a dropdown
+            else if (selectable is Dropdown dropdown)
+            {
+                // Show the dropdown
+                dropdown.Show();
+            }
         }
     }
 }
