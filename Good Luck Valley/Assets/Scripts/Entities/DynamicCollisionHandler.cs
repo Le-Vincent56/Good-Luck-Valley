@@ -16,6 +16,7 @@ namespace GoodLuckValley.Entity
         Mushroom = 9,
         Player = 10,
         Decomposable = 12,
+        ShortSlope = 19,
     }
 
     [Serializable]
@@ -84,7 +85,8 @@ namespace GoodLuckValley.Entity
                 {8, CollisionLayer.Slope},
                 {9, CollisionLayer.Mushroom },
                 {10, CollisionLayer.Player },
-                {12, CollisionLayer.Decomposable }
+                {12, CollisionLayer.Decomposable },
+                {19, CollisionLayer.ShortSlope }
             };
         }
 

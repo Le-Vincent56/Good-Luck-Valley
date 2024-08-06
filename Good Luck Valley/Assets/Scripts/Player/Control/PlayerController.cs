@@ -63,10 +63,14 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private int wallDirX;
         [SerializeField] private float timeToWallUnstick;
 
+        [Header("Fields - Fast Slide")]
+        [SerializeField] private float currentSlideScalar;
+
         [Header("Fields - Checks")]
         [SerializeField] private bool isGrounded;
         [SerializeField] private bool isWallSliding;
         [SerializeField] private bool isBouncing;
+        [SerializeField] private bool isSlopeBouncing;
         [SerializeField] private bool isWallJumping;
         [SerializeField] private bool isAgainstWall;
         [SerializeField] private bool isThrowing;
@@ -396,7 +400,7 @@ namespace GoodLuckValley.Player.Control
             }
 
             // Get the target speed
-            if (!isWallJumping)
+            if (!isWallJumping && !isSlopeBouncing)
             {
                 float targetSpeed = (!isCrawling) ? moveDirectionX * data.movementSpeed : moveDirectionX * data.crawlSpeed;
 
@@ -404,6 +408,18 @@ namespace GoodLuckValley.Player.Control
                 velocity.x = Mathf.SmoothDamp(
                     velocity.x,
                     targetSpeed,
+                    ref xVelSmoothing,
+                    (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
+                );
+            }
+
+            if(isSlopeBouncing)
+            {
+                float targetSpeed = moveDirectionX * data.movementSpeed;
+
+                velocity.x = Mathf.SmoothDamp(
+                    velocity.x,
+                    targetSpeed + velocity.x,
                     ref xVelSmoothing,
                     (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
                 );
@@ -551,7 +567,7 @@ namespace GoodLuckValley.Player.Control
 
             // Handle collisions if necessary
             if (velocity.y < 0f)
-                collisionHandler.DescendSlope(ref velocity, tryFastSlide, this, data.fastSlopeScalar);
+                collisionHandler.DescendSlope(ref velocity, tryFastSlide, this, currentSlideScalar);
 
             // Set the facing direction
             if (velocity.x != 0f)
@@ -580,6 +596,18 @@ namespace GoodLuckValley.Player.Control
             {
                 collisionHandler.collisions.Below = true;
             }
+        }
+
+        public void CalculateSliding()
+        {
+            // Exit case - not fast sliding
+            if (!isFastSliding) return;
+
+            // Increase the slide speed
+            currentSlideScalar += data.slideAcceleration * Time.deltaTime;
+
+            // Clamp the slide scalar
+            currentSlideScalar = Mathf.Clamp(currentSlideScalar, 1f, data.maxFastSlideScalar);
         }
 
         #region JUMP HANDLING
@@ -642,6 +670,7 @@ namespace GoodLuckValley.Player.Control
         {
             // Set bouncing to false and update the events
             isBouncing = false;
+            isSlopeBouncing = false;
         }
 
         /// <summary>
@@ -674,6 +703,8 @@ namespace GoodLuckValley.Player.Control
 
             // Set bouncing to true
             isBouncing = true;
+
+            isSlopeBouncing = bounceData.Rotated;
 
             // Calculate bounce force
             Vector2 bounceVec = bounceData.BounceVector;
@@ -965,8 +996,10 @@ namespace GoodLuckValley.Player.Control
 
             if (!started)
             {
+                // Reset slide variables
                 tryFastSlide = false;
                 isFastSliding = false;
+                currentSlideScalar = 1f;
             }
         }
 
