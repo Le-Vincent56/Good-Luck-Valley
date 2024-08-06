@@ -25,6 +25,7 @@ namespace GoodLuckValley.UI.Elements
 
             menuInputReader.AltModifier += EnableAltModifier;
             menuInputReader.ShiftModifier += EnableShiftModifier;
+            menuInputReader.Navigate += NavigateSlider;
         }
 
         protected override void OnDisable()
@@ -33,33 +34,30 @@ namespace GoodLuckValley.UI.Elements
 
             menuInputReader.AltModifier -= EnableAltModifier;
             menuInputReader.ShiftModifier -= EnableShiftModifier;
+            menuInputReader.Navigate -= NavigateSlider;
         }
 
-        public override void OnMove(AxisEventData eventData)
+        /// <summary>
+        /// Adjust the slider value
+        /// </summary>
+        /// <param name="moveDirection"></param>
+        private void AdjustSliderValue(MoveDirection moveDirection)
         {
-            // Check if event data is moving left or right
-            if(eventData.moveDir == MoveDirection.Left || eventData.moveDir == MoveDirection.Right)
-            {
-                float step = normalStep;
+            float step = normalStep;
 
-                if (applyAltMod)
-                    step = altStep;
+            if (applyAltMod)
+                step = altStep;
 
-                if(applyShiftMod)
-                    step = shiftStep;
+            if (applyShiftMod)
+                step = shiftStep;
 
-                // Calculate in which direction to apply the value towards
-                float finalStep = (eventData.moveDir == MoveDirection.Left) 
-                    ? -step 
-                    : step;
+            // Calculate in which direction to apply the value towards
+            float finalStep = (moveDirection == MoveDirection.Left)
+                ? -step
+                : step;
 
-                // Apply the final value
-                value += finalStep;
-            } else
-            {
-                // Apply normal base movement if not moving left or right
-                base.OnMove(eventData);
-            }
+            // Apply the final value
+            value += finalStep;
         }
 
         /// <summary>
@@ -102,6 +100,22 @@ namespace GoodLuckValley.UI.Elements
                 // Don't apply the shift mod if not pressed
                 applyShiftMod = false;
             }
+        }
+
+        /// <summary>
+        /// Navigate the slider using input
+        /// </summary>
+        /// <param name="navigation"></param>
+        private void NavigateSlider(Vector2 navigation)
+        {
+            // Exit case, there is no x input
+            if (navigation.x == 0) return;
+
+            // Get the move direction
+            MoveDirection moveDirection = (navigation.x < 0) ? MoveDirection.Left : MoveDirection.Right;
+
+            // Adjust the slider value
+            AdjustSliderValue(moveDirection);
         }
     }
 }

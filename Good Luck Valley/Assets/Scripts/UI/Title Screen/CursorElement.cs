@@ -51,27 +51,9 @@ namespace GoodLuckValley.UI
             eventTrigger.triggers.Add(entry);
         }
 
-        private void OnSelect(BaseEventData eventData)
-        {
-            foreach (Image image in images)
-            {
-                image.enabled = true;
-            }
+        private void OnSelect(BaseEventData eventData) => Activate();
 
-            cursor.SetActive(true);
-            Selected = true;
-        }
-
-        private void OnDeselect(BaseEventData eventData)
-        {
-            foreach (Image image in images)
-            {
-                image.enabled = false;
-            }
-
-            cursor.SetActive(false);
-            Selected = false;
-        }
+        private void OnDeselect(BaseEventData eventData) => Deactivate();
 
         public void Activate()
         {
@@ -82,6 +64,17 @@ namespace GoodLuckValley.UI
 
             cursor.SetActive(true);
             Selected = true;
+        }
+
+        public void Deactivate()
+        {
+            foreach(Image image in images)
+            {
+                image.enabled = false;
+
+                cursor.SetActive(false);
+                Selected = false;
+            }
         }
 
         public Selectable GetSelectable() => selectable;

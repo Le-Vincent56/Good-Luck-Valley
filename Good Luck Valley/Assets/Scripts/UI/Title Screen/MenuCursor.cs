@@ -46,6 +46,12 @@ namespace GoodLuckValley.UI.Menus
         /// </summary>
         public void ShowCursors()
         {
+            // Deactivate the other cursors
+            foreach(CursorElement cursor in cursorElements)
+            {
+                cursor.Deactivate();
+            }
+
             // Select the last selected cursor
             if (lastSelectedCursor != null)
             {

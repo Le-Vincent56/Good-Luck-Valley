@@ -115,17 +115,14 @@ namespace GoodLuckValley.Player.Input
 
         public void OnNavigate(InputAction.CallbackContext context)
         {
-            if(context.started)
-            {
-                Navigate.Invoke(context.ReadValue<Vector2>());
-            }
+            Navigate.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnPoint(InputAction.CallbackContext context)
         {
             if (context.started)
             {
-                Navigate.Invoke(context.ReadValue<Vector2>());
+                Point.Invoke(context.ReadValue<Vector2>());
             }
         }
 
