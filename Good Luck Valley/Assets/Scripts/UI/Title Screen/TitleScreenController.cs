@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using System;
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
+using UnityEngine.EventSystems;
 
 namespace GoodLuckValley.UI.TitleScreen
 {
@@ -117,12 +118,16 @@ namespace GoodLuckValley.UI.TitleScreen
         {
             inputReader.Start += InitializeMenu;
             inputReader.Escape += Back;
+            inputReader.Navigate += NavigateUI;
+            inputReader.Submit += SubmitUI;
         }
 
         private void OnDisable()
         {
             inputReader.Start -= InitializeMenu;
             inputReader.Escape -= Back;
+            inputReader.Navigate -= NavigateUI;
+            inputReader.Submit -= SubmitUI;
         }
 
         private void Update()
@@ -198,6 +203,75 @@ namespace GoodLuckValley.UI.TitleScreen
 
             // Raise the event
             onMainMenuBack.Raise(this, state);
+        }
+
+        /// <summary>
+        /// Handle menu navigation with keys
+        /// </summary>
+        /// <param name="navigation"></param>
+        private void NavigateUI(Vector2 navigation)
+        {
+            GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+            if (currentSelected == null)
+            {
+                // If nothing is selected, select the first selectable element
+                Selectable firstSelectable = FindObjectOfType<Selectable>();
+                if (firstSelectable != null)
+                {
+                    EventSystem.current.SetSelectedGameObject(firstSelectable.gameObject);
+                }
+                return;
+            }
+
+            Selectable current = currentSelected.GetComponent<Selectable>();
+            Selectable next = null;
+
+            if (navigation.y > 0) next = current.FindSelectableOnUp();
+            else if (navigation.y < 0) next = current.FindSelectableOnDown();
+            else if (navigation.x < 0) next = current.FindSelectableOnLeft();
+            else if (navigation.x > 0) next = current.FindSelectableOnRight();
+
+            if (next != null)
+            {
+                EventSystem.current.SetSelectedGameObject(next.gameObject);
+            }
+        }
+
+        private void SubmitUI(bool started)
+        {
+            // Exit case - if the button hasn't been released yet
+            if (started) return;
+
+            // Get the currently selected object
+            GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+
+            // Exit case - if there is not a currently selected object
+            if (currentSelected == null) return;
+
+            // Try to get a selectable
+            Selectable selectable = currentSelected.GetComponent<Selectable>();
+
+            // Exit case - if no selectable is retrieved
+            if (selectable == null) return;
+
+            // Check if the selectable is a button
+            if (selectable is Button selectableButton)
+            {
+                // Cast and invoke
+                selectableButton.onClick.Invoke();
+            }
+            // Check if the selectable is a toggle
+            else if (selectable is Toggle selectableToggle)
+            {
+                // Cast and toggle
+                selectableToggle.isOn = !selectableToggle.isOn;
+            }
+            // Check if the selectable is a dropdown
+            else if (selectable is Dropdown dropdown) 
+            {
+                // Show the dropdown
+                dropdown.Show();
+            }
         }
     }
 }
