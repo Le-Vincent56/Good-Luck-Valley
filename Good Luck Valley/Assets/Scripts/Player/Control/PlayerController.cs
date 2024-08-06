@@ -417,9 +417,11 @@ namespace GoodLuckValley.Player.Control
             {
                 float targetSpeed = moveDirectionX * data.movementSpeed;
 
+                float adjustedSpeed = (Mathf.Sign(targetSpeed) == Mathf.Sign(velocity.x)) ? targetSpeed * 0.25f : targetSpeed;
+
                 velocity.x = Mathf.SmoothDamp(
                     velocity.x,
-                    targetSpeed + velocity.x,
+                    adjustedSpeed + velocity.x,
                     ref xVelSmoothing,
                     (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
                 );
