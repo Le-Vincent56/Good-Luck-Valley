@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using GoodLuckValley.Persistence;
 using GoodLuckValley.Patterns.Singletons;
 
 namespace GoodLuckValley.Patterns.Blackboard
@@ -35,17 +34,17 @@ namespace GoodLuckValley.Patterns.Blackboard
         private void Update()
         {
             // Iterate through each blackboard
-            for(int i = 0; i < blackboards.Length; i++)
-            {
-                // Check if the blackboard is dirty
-                if (!blackboards[i].Dirty) continue;
+            //for(int i = 0; i < blackboards.Length; i++)
+            //{
+            //    // Check if the blackboard is dirty
+            //    if (!blackboards[i].Dirty) continue;
 
-                // If it is, reflect the data back to the data object
-                blackboards[i].ReflectData(blackboardDatas[i]);
+            //    // If it is, reflect the data back to the data object
+            //    blackboards[i].ReflectData(blackboardDatas[i]);
 
-                // Clean the blackboard
-                blackboards[i].Dirty = false;
-            }
+            //    // Clean the blackboard
+            //    blackboards[i].Dirty = false;
+            //}
         }
 
         /// <summary>

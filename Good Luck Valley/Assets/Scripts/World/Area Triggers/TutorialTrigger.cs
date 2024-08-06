@@ -12,9 +12,11 @@ public class TutorialTrigger : MonoBehaviour
 
     [Header("Fields")]
     [SerializeField] private string tutorialKeyName;
+    [SerializeField] private string tutorialActionName;
     Dictionary<string, string> blackboardToName;
     protected Blackboard tutorialBlackboard;
     protected BlackboardKey seenTutorialKey;
+    protected BlackboardKey performedTutorialKey;
     private AreaCollider areaCollider;
 
     private void Awake()
@@ -59,6 +61,7 @@ public class TutorialTrigger : MonoBehaviour
 
         // Get/Register key
         seenTutorialKey = tutorialBlackboard.GetOrRegisterKey(tutorialKeyName);
+        performedTutorialKey = tutorialBlackboard.GetOrRegisterKey(tutorialActionName);
     }
 
     /// <summary>
@@ -67,9 +70,15 @@ public class TutorialTrigger : MonoBehaviour
     /// <param name="gameObject"></param>
     protected void ShowTutorial(GameObject gameObject)
     {
+        if(tutorialBlackboard.TryGetValue(performedTutorialKey, out bool performedValue))
+        {
+            // Exit case - the value has already been performed
+            if (performedValue) return;
+        }
+
         if (tutorialBlackboard.TryGetValue(seenTutorialKey, out bool blackboardValue))
         {
-            // If already true, return
+            // Exit case - already seen the trigger
             if (blackboardValue) return;
 
             // Set the trigger to have been seen
@@ -79,8 +88,8 @@ public class TutorialTrigger : MonoBehaviour
             if(tutorialKeyName == "SeenThrowTrigger")
             {
                 BlackboardKey hasAimedKey = tutorialBlackboard.GetOrRegisterKey("HasAimed");
-                if (tutorialBlackboard.TryGetValue(hasAimedKey, out bool blackboadValue))
-                    if (!blackboardValue) return;
+                if (tutorialBlackboard.TryGetValue(hasAimedKey, out bool seenAimedValue))
+                    if (!seenAimedValue) return;
             }
 
             // Show the tutorial UI

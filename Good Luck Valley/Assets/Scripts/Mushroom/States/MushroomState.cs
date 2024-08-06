@@ -10,6 +10,7 @@ namespace GoodLuckValley.Mushroom.States
 
         protected static readonly int IdleHash = Animator.StringToHash("Idle");
         protected static readonly int BounceHash = Animator.StringToHash("Bounce");
+        protected static readonly int GrowHash = Animator.StringToHash("Grow");
 
         protected const float crossFadeDuration = 0.1f;
 

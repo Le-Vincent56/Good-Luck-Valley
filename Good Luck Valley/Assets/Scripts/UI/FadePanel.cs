@@ -6,43 +6,83 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI
 {
+    public struct ImageData
+    {
+        public Image Image;
+        public Color Color;
+
+        public ImageData(Image image)
+        {
+            Image = image;
+            Color = image.color;
+        }
+    }
+
+    public struct TextData
+    {
+        public Text Text;
+        public Color Color;
+
+        public TextData(Text text)
+        {
+            Text = text;
+            Color = text.color;
+        }
+    }
+
     public class FadePanel : MonoBehaviour
     {
-        protected struct ImageData
-        {
-            public Image Image;
-            public Color Color;
-
-            public ImageData(Image image)
-            {
-                Image = image;
-                Color = image.color;
-            }
-        }
-
-        protected struct TextData
-        {
-            public Text Text;
-            public Color Color;
-
-            public TextData(Text text)
-            {
-                Text = text;
-                Color = text.color;
-            }
-        }
-
-        #region FIELDS
-        private float fadeDuration = 0.2f;
+        [HideInInspector, SerializeField] public bool exclusiveFade = false;
+        [HideInInspector, SerializeField] public float fadeDuration = 0.2f;
+        [HideInInspector, SerializeField] public List<GameObject> objectsToFade = new List<GameObject>();
         private List<ImageData> imageDatas = new List<ImageData>();
         private List<TextData> textDatas = new List<TextData>();
-        #endregion
+        private Coroutine fadeOutCoroutine;
+        private Coroutine fadeInCoroutine;
 
-        public void Awake()
+        public bool ExclusiveFade
         {
-            // Store images and texts into lists
-            List<Image> images = GetComponentsInChildren<Image>(true).ToList();
-            List<Text> texts = GetComponentsInChildren<Text>(true).ToList();
+            get => exclusiveFade;
+            set => exclusiveFade = value;
+        }
+
+        public float FadeDuration
+        {
+            get => fadeDuration;
+            set => fadeDuration = value;
+        }
+
+        public List<GameObject> ObjectsToFade
+        {
+            get => objectsToFade;
+            set => objectsToFade = value;
+        }
+
+        protected virtual void Awake()
+        {
+            List<Image> images = new List<Image>();
+            List<Text> texts = new List<Text>();
+
+            // Check if using an exclusive fade
+            if (exclusiveFade)
+            {
+                // Loop through each game object
+                foreach (GameObject objectToFade in objectsToFade)
+                {
+                    // Get the objects images and texts
+                    List<Image> localImages = objectToFade.GetComponentsInChildren<Image>(true).ToList();
+                    List<Text> localTexts = objectToFade.GetComponentsInChildren<Text>(true).ToList();
+
+                    // Add the images and texts
+                    images.AddRange(localImages);
+                    texts.AddRange(localTexts);
+                }
+            } else
+            {
+                // Store all images and texts into lists
+                images = GetComponentsInChildren<Image>(true).ToList();
+                texts = GetComponentsInChildren<Text>(true).ToList();
+            }
 
             // Add ImageDatas
             foreach (Image image in images)
@@ -57,9 +97,21 @@ namespace GoodLuckValley.UI
             }
         }
 
-        public void ShowUI() => StartCoroutine(FadeIn());
+        public virtual void ShowUI()
+        {
+            if(fadeOutCoroutine != null)
+                StopCoroutine(fadeOutCoroutine);
 
-        public void HideUI() => StartCoroutine(FadeOut());
+            fadeInCoroutine = StartCoroutine(FadeIn());
+        }
+
+        public virtual void HideUI()
+        {
+            if(fadeInCoroutine != null)
+                StopCoroutine(fadeInCoroutine);
+
+            fadeOutCoroutine = StartCoroutine(FadeOut());
+        }
 
         public void HideUIHard()
         {
@@ -171,5 +223,7 @@ namespace GoodLuckValley.UI
             // Deactivate the game object
             uiElement.gameObject.SetActive(false);
         }
+
+        public void SetFadeDuration(float fadeDuration) => this.fadeDuration = fadeDuration;
     }
 }

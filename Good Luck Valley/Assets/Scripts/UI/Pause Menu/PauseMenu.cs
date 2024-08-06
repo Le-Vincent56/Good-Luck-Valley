@@ -1,6 +1,8 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Player.Input;
+using GoodLuckValley.SceneManagement;
+using GoodLuckValley.UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,39 +10,53 @@ namespace GoodLuckValley.UI
 {
     public class PauseMenu : FadePanel
     {
-        #region EVENTS
         [Header("Events")]
-        [SerializeField] private GameEvent onUpdatePaused;
-        #endregion
+        [SerializeField] private GameEvent onSetPauseInputAction;
+        [SerializeField] private GameEvent onSetDefaultInputAction;
+        [SerializeField] private GameEvent onOpenJournalMenu;
+        [SerializeField] private GameEvent onOpenSettingsMenu;
+        [SerializeField] private GameEvent onSetPauseBackground;
 
         [Header("References")]
         [SerializeField] private InputReader input;
+        [SerializeField] private PauseInputReader pauseInputReader;
+        [SerializeField] private MenuCursor cursors;
 
-        #region PROPERTIES
-        public bool Paused { get; private set; }
-        public bool SoftPaused { get; private set; }
-        #endregion
+        [Header("Fields")]
+        [SerializeField] private float backTime;
+        [SerializeField] private float backBuffer;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            cursors = GetComponent<MenuCursor>();
+        }
 
         private void OnEnable()
         {
             input.Pause += OnPause;
+            pauseInputReader.Escape += OnPause;
         }
 
         private void OnDisable()
         {
             input.Pause -= OnPause;
+            pauseInputReader.Escape -= OnPause;
         }
 
         public void Start()
         {
-            // Set paused to false initially
-            Paused = false;
-
-            // Set soft paused to false initially
-            SoftPaused = false;
-
             // Hide the UI
             HideUIHard();
+        }
+
+        private void Update()
+        {
+            if(backTime > 0f)
+            {
+                backTime -= Time.unscaledDeltaTime;
+            }
         }
 
         /// <summary>
@@ -49,8 +65,27 @@ namespace GoodLuckValley.UI
         /// <param name="started">If the button has been pressed</param>
         public void OnPause(bool started)
         {
-            // If the button has been pressed, toggle pause
-            if (started) TogglePause();
+            // Exit case - if the button hasn't been released
+            if (started) return;
+
+            // Exit case - the input buffer hasn't completed
+            if (backTime > 0) return;
+
+            // Set the input buffer
+            backTime = backBuffer;
+
+            // Toggle the pause
+            TogglePause();
+        }
+
+        /// <summary>
+        /// Handle pause events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void OnPause(Component sender, object data)
+        {
+            TogglePause();
         }
 
         /// <summary>
@@ -61,57 +96,78 @@ namespace GoodLuckValley.UI
         public void TogglePause()
         {
             // Don't pause if already soft paused
-            if (SoftPaused) return;
+            if (PauseManager.Instance.IsSoftPaused) return;
 
             // Toggle paused
-            Paused = !Paused;
-
-            // Set effects
-            if (Paused)
+            if(PauseManager.Instance.IsPaused)
             {
-                // Freeze time
-                Time.timeScale = 0f;
+                cursors.DeactivateCursors();
+
+                // Unpause the game
+                PauseManager.Instance.UnpauseGame();
+
+                // Set default input
+                // Calls to:
+                //  - PlayerInputHandler.EnableDefaultInput();
+                onSetDefaultInputAction.Raise(this, null);
+
+                // Remove the background
+                // Calls to:
+                // - PauseBackgroundFade.SetPauseBackground();
+                onSetPauseBackground.Raise(this, false);
+
+                // Hide the UI
+                HideUI();
+            } else
+            {
+                cursors.ShowCursors();
+                cursors.ActivateCursors();
+
+                // Pause the game
+                PauseManager.Instance.PauseGame();
+
+                // Set pause input
+                // Calls to:
+                //  - PlayerInputHandler.EnablePauseInput();
+                onSetPauseInputAction.Raise(this, null);
+
+                // Set the background
+                // Calls to:
+                // - PauseBackgroundFade.SetPauseBackground();
+                onSetPauseBackground.Raise(this, true);
+
+                // Hide UI
                 ShowUI();
             }
-            else
-            {
-                // Resume time
-                Time.timeScale = 1f;
-                HideUI();
-            }
-
-            // Update paused for any listeners
-            // Calls to:
-            //  - PlayerInputHandler.SetPaused
-            onUpdatePaused.Raise(this, Paused);
         }
 
         /// <summary>
-        /// Toggle a soft pause
+        /// Toggle a soft pause (don't show UI)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
         public void ToggleSoftPause(Component sender, object data)
         {
-            // Toggle pause
-            SoftPaused = !SoftPaused;
-
-            // Only freeze time
-            if (SoftPaused)
+            // Toggle soft paused
+            if(PauseManager.Instance.IsSoftPaused)
             {
-                // Freeze time
-                Time.timeScale = 0f;
-            }
-            else
-            {
-                // Resume time
-                Time.timeScale = 1f;
-            }
+                // Unpause the game
+                PauseManager.Instance.SoftUnpauseGame();
 
-            // Update paused for any listeners
-            // Calls to:
-            //  - PlayerInputHandler.SetPaused
-            onUpdatePaused.Raise(this, SoftPaused);
+                // Set default input
+                // Calls to:
+                //  - PlayerInputHandler.EnableDefaultInput();
+                onSetDefaultInputAction.Raise(this, null);
+            } else
+            {
+                // Pause the game
+                PauseManager.Instance.SoftPauseGame();
+
+                // Set pause input
+                // Calls to:
+                //  - PlayerInputHandler.EnablePauseInput();
+                onSetPauseInputAction.Raise(this, null);
+            }
         }
 
         /// <summary>
@@ -121,6 +177,27 @@ namespace GoodLuckValley.UI
         {
             // Since only called from the menu, TogglePause will unpause
             TogglePause();
+        }
+
+        /// <summary>
+        /// Open the Journal from the Pause Menu
+        /// </summary>
+        public void OpenJournal()
+        {
+            // Open the Journal
+            // Calls to:
+            //  - JournalUI.OpenJournalMenu();
+            onOpenJournalMenu.Raise(this, null);
+        }
+
+        public void OpenSettings()
+        {
+            HideUI();
+
+            // Open the settings menu
+            // Calls to:
+            //  - 
+            onOpenSettingsMenu.Raise(this, null);
         }
 
         /// <summary>
@@ -137,8 +214,16 @@ namespace GoodLuckValley.UI
         /// </summary>
         public void ReturnToMain()
         {
-            // Load the main menu scene
-            SceneManager.LoadScene("Main Menu");
+            SceneLoader.Instance.LoadMainMenu();
+        }
+
+        public void ShowPauseMenu(Component sender, object data)
+        {
+            // Set the pause input action
+            onSetPauseInputAction.Raise(this, null);
+
+            // Show the UI
+            ShowUI();
         }
     }
 }

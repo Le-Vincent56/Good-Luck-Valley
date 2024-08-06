@@ -32,7 +32,7 @@ namespace GoodLuckValley.Mushroom
         private void Awake()
         {
             // Get components
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
             collisionHandler = GetComponent<StaticCollisionHandler>();
             data = GetComponent<MushroomInfo>();
             sfxHandler = GetComponent<MushroomSFXMaster>();

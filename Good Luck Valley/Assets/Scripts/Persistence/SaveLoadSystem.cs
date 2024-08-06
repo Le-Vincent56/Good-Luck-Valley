@@ -1,10 +1,15 @@
+using GoodLuckValley.Journal.Persistence;
 using GoodLuckValley.Patterns.Singletons;
 using GoodLuckValley.Player.Control;
+using GoodLuckValley.UI.Settings.Audio;
+using GoodLuckValley.UI.Settings.Video;
+using GoodLuckValley.UI.Settings.Controls;
 using GoodLuckValley.World.Interactables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace GoodLuckValley.Persistence
@@ -24,8 +29,11 @@ namespace GoodLuckValley.Persistence
     {
         #region FIELDS
         [SerializeField] public GameData selectedData;
+        [SerializeField] public SettingsData settingsData;
+        [SerializeField] private InputActionAsset inputActions;
         Dictionary<string, GameData> saves;
-        IDataService dataService;
+        FileDataService dataService;
+        FileSettingsService settingsService;
         #endregion
 
         #region PROPERTIES
@@ -39,6 +47,7 @@ namespace GoodLuckValley.Persistence
 
             // Initialize the data service
             dataService = new FileDataService(new JsonSerializer());
+            settingsService = new FileSettingsService(new JsonSerializer());
 
             // Initialize the Saves dictionary
             saves = new Dictionary<string, GameData>();
@@ -47,6 +56,13 @@ namespace GoodLuckValley.Persistence
             {
                 saves[save] = dataService.Load(save);
             }
+
+            // Try to get a settings file
+            settingsData = settingsService.Load("PlayerSettings");
+
+            // If none found, create a new settings file
+            if (settingsData == null)
+                NewSettings();
         }
 
         /// <summary>
@@ -55,8 +71,17 @@ namespace GoodLuckValley.Persistence
         public void BindData(bool applyData = true)
         {
             Bind<PlayerSaveHandler, PlayerSaveData>(selectedData.playerSaveData, applyData);
+            Bind<JournalSaveHandler, JournalSaveData>(selectedData.journalSaveData, applyData);
             Bind<GlobalDataSaveHandler, GlobalData>(selectedData.globalData, applyData);
             Bind<Collectible, CollectibleSaveData>(selectedData.collectibleSaveDatas, applyData);
+            Bind<TutorialSaveHandler, TutorialData>(selectedData.tutorialData, applyData);
+        }
+
+        public void BindSettings(bool applyData = true)
+        {
+            Bind<AudioSaveHandler, AudioData>(settingsData.Audio, applyData);
+            Bind<VideoSaveHandler, VideoData>(settingsData.Video, applyData);
+            Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls, applyData);
         }
 
         private void Bind<T, TData>(TData data, bool applyData = true) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
@@ -103,23 +128,42 @@ namespace GoodLuckValley.Persistence
             }
         }
 
+        public void NewSettings()
+        {
+            settingsData = new SettingsData
+            {
+
+                Name = "PlayerSettings",
+                Audio = new AudioData(),
+                Video = new VideoData(),
+                Controls = new ControlsData(inputActions)
+            };
+
+            SaveSettings();
+        }
+
         /// <summary>
         /// Create a new game
         /// </summary>
-        public void NewGame()
+        public void NewGame(int slot)
         {
             // Create a base GameData object
             selectedData = new GameData
             {
-                Name = $"Slot {Mathf.Clamp(GetSaveCount() + 1, 1, 4)}",
-                CurrentLevelName = "Level 1.1",
+                Slot = slot,
+                Name = $"Slot {Mathf.Clamp(GetSaveCount(), 1, 4)}",
+                CurrentLevelName = "Level 1",
                 playerSaveData = new PlayerSaveData(),
+                journalSaveData = new JournalSaveData(),
                 globalData = new GlobalData(),
+                tutorialData = new TutorialData(),
                 collectibleSaveDatas = new List<CollectibleSaveData>()
             };
 
             // Save the game
             SaveGame(true);
+
+            Debug();
         }
 
         /// <summary>
@@ -138,7 +182,12 @@ namespace GoodLuckValley.Persistence
 
             // Save the data
             dataService.Save(selectedData);
+
+            // Refresh save data
+            RefreshSaveData();
         }
+
+        public void SaveSettings() => settingsService.Save(settingsData);
 
         /// <summary>
         /// Load a game
@@ -152,7 +201,7 @@ namespace GoodLuckValley.Persistence
             // If no Current Level Name is given, default to a given scene
             if(String.IsNullOrWhiteSpace(selectedData.CurrentLevelName))
             {
-                selectedData.CurrentLevelName = "Level 1.1";
+                selectedData.CurrentLevelName = "Level 1";
             }
         }
 

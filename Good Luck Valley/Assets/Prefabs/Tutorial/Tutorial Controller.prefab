@@ -661,6 +661,7 @@ GameObject:
   - component: {fileID: 3305124003984140753}
   - component: {fileID: 3539233209270663999}
   - component: {fileID: 8868545345026904146}
+  - component: {fileID: 9012571709608298289}
   - component: {fileID: 3028930378881492060}
   - component: {fileID: 5932857440311227184}
   - component: {fileID: 7335290586426346253}
@@ -782,6 +783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bypassTutorials: 0
   input: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
+  saveHandler: {fileID: 0}
 --- !u!114 &8868545345026904146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,6 +810,37 @@ MonoBehaviour:
   - {fileID: 7114824749044707961}
   - {fileID: 476386757477854733}
   - {fileID: 8344565483442554269}
+--- !u!114 &9012571709608298289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3873661063623070081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a959972cf4ca33d4dbbe6431f175b234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    Moved: 0
+    Jumped: 0
+    Slid: 0
+    FastFallen: 0
+    Crawled: 0
+    Interacted: 0
+    Aimed: 0
+    Thrown: 0
+    Peeked: 0
+    TotalRecall: 0
+    SingleRecall: 0
+    QuickBounced: 0
+    ChainBounced: 0
 --- !u!114 &3028930378881492060
 MonoBehaviour:
   m_ObjectHideFlags: 0

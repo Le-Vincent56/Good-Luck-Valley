@@ -138,15 +138,6 @@ namespace GoodLuckValley.Player.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""c3f0d9c5-225f-4d94-bc53-18caf4e85b7c"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Fast Slide"",
                     ""type"": ""Button"",
                     ""id"": ""f3278430-da7d-4b5b-8069-7e25869ef67f"",
@@ -181,6 +172,15 @@ namespace GoodLuckValley.Player.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Journal"",
+                    ""type"": ""Button"",
+                    ""id"": ""10cafb5b-9865-4679-86c6-7337d1663241"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -194,28 +194,6 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""Move"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""f6be2d4a-fbce-4c41-9548-6a6bd748f9a3"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""b691705d-91bb-4e82-8730-947a2fec27d0"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
@@ -232,6 +210,28 @@ namespace GoodLuckValley.Player.Input
                     ""name"": ""right"",
                     ""id"": ""58c1e54b-f2c4-4bc4-aad6-68d1c4328bc8"",
                     ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""ec3dc3e0-1e08-4156-b75a-b22a01025554"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c3e0b928-10ae-4f28-be28-6efb26812c70"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -361,39 +361,6 @@ namespace GoodLuckValley.Player.Input
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""eea2cb55-5bb9-49ba-9a57-0980bbecc359"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""6fb79e01-6b2a-4ea4-8a0b-9de7c38b3cbf"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""373d69d1-f1b3-4e8d-9e5a-7a25dacab165"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""a2cfcfb2-9552-4b25-9bd8-b91dec178d2a"",
                     ""path"": ""<Keyboard>/leftShift"",
@@ -436,54 +403,15 @@ namespace GoodLuckValley.Player.Input
                     ""action"": ""ToggleDeveloperConsole"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""UI"",
-            ""id"": ""0394a4c8-4f01-462f-8a02-73d8422b661b"",
-            ""actions"": [
-                {
-                    ""name"": ""Start"",
-                    ""type"": ""Button"",
-                    ""id"": ""1edcc436-aaa1-4983-82ac-86d33e72e941"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""3cd5549d-15e5-4fd0-aabf-b547ce88fc0b"",
-                    ""path"": ""<Keyboard>/anyKey"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Start"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b92129ab-a493-442f-88a6-0471583894b0"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""1fe70e31-ae9c-4423-8532-b5afcb4ea9ad"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Start"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""65548503-24a4-4e23-8609-a5165aef51e0"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Start"",
+                    ""action"": ""Open Journal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -506,14 +434,11 @@ namespace GoodLuckValley.Player.Input
             m_PlayerControls_DevTools = m_PlayerControls.FindAction("DevTools", throwIfNotFound: true);
             m_PlayerControls_NoClip = m_PlayerControls.FindAction("NoClip", throwIfNotFound: true);
             m_PlayerControls_UnlockPowers = m_PlayerControls.FindAction("UnlockPowers", throwIfNotFound: true);
-            m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
             m_PlayerControls_FastSlide = m_PlayerControls.FindAction("Fast Slide", throwIfNotFound: true);
             m_PlayerControls_Crawl = m_PlayerControls.FindAction("Crawl", throwIfNotFound: true);
             m_PlayerControls_Scroll = m_PlayerControls.FindAction("Scroll", throwIfNotFound: true);
             m_PlayerControls_ToggleDeveloperConsole = m_PlayerControls.FindAction("ToggleDeveloperConsole", throwIfNotFound: true);
-            // UI
-            m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-            m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
+            m_PlayerControls_OpenJournal = m_PlayerControls.FindAction("Open Journal", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -587,11 +512,11 @@ namespace GoodLuckValley.Player.Input
         private readonly InputAction m_PlayerControls_DevTools;
         private readonly InputAction m_PlayerControls_NoClip;
         private readonly InputAction m_PlayerControls_UnlockPowers;
-        private readonly InputAction m_PlayerControls_Look;
         private readonly InputAction m_PlayerControls_FastSlide;
         private readonly InputAction m_PlayerControls_Crawl;
         private readonly InputAction m_PlayerControls_Scroll;
         private readonly InputAction m_PlayerControls_ToggleDeveloperConsole;
+        private readonly InputAction m_PlayerControls_OpenJournal;
         public struct PlayerControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -608,11 +533,11 @@ namespace GoodLuckValley.Player.Input
             public InputAction @DevTools => m_Wrapper.m_PlayerControls_DevTools;
             public InputAction @NoClip => m_Wrapper.m_PlayerControls_NoClip;
             public InputAction @UnlockPowers => m_Wrapper.m_PlayerControls_UnlockPowers;
-            public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
             public InputAction @FastSlide => m_Wrapper.m_PlayerControls_FastSlide;
             public InputAction @Crawl => m_Wrapper.m_PlayerControls_Crawl;
             public InputAction @Scroll => m_Wrapper.m_PlayerControls_Scroll;
             public InputAction @ToggleDeveloperConsole => m_Wrapper.m_PlayerControls_ToggleDeveloperConsole;
+            public InputAction @OpenJournal => m_Wrapper.m_PlayerControls_OpenJournal;
             public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -658,9 +583,6 @@ namespace GoodLuckValley.Player.Input
                 @UnlockPowers.started += instance.OnUnlockPowers;
                 @UnlockPowers.performed += instance.OnUnlockPowers;
                 @UnlockPowers.canceled += instance.OnUnlockPowers;
-                @Look.started += instance.OnLook;
-                @Look.performed += instance.OnLook;
-                @Look.canceled += instance.OnLook;
                 @FastSlide.started += instance.OnFastSlide;
                 @FastSlide.performed += instance.OnFastSlide;
                 @FastSlide.canceled += instance.OnFastSlide;
@@ -673,6 +595,9 @@ namespace GoodLuckValley.Player.Input
                 @ToggleDeveloperConsole.started += instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.performed += instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.canceled += instance.OnToggleDeveloperConsole;
+                @OpenJournal.started += instance.OnOpenJournal;
+                @OpenJournal.performed += instance.OnOpenJournal;
+                @OpenJournal.canceled += instance.OnOpenJournal;
             }
 
             private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -713,9 +638,6 @@ namespace GoodLuckValley.Player.Input
                 @UnlockPowers.started -= instance.OnUnlockPowers;
                 @UnlockPowers.performed -= instance.OnUnlockPowers;
                 @UnlockPowers.canceled -= instance.OnUnlockPowers;
-                @Look.started -= instance.OnLook;
-                @Look.performed -= instance.OnLook;
-                @Look.canceled -= instance.OnLook;
                 @FastSlide.started -= instance.OnFastSlide;
                 @FastSlide.performed -= instance.OnFastSlide;
                 @FastSlide.canceled -= instance.OnFastSlide;
@@ -728,6 +650,9 @@ namespace GoodLuckValley.Player.Input
                 @ToggleDeveloperConsole.started -= instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.performed -= instance.OnToggleDeveloperConsole;
                 @ToggleDeveloperConsole.canceled -= instance.OnToggleDeveloperConsole;
+                @OpenJournal.started -= instance.OnOpenJournal;
+                @OpenJournal.performed -= instance.OnOpenJournal;
+                @OpenJournal.canceled -= instance.OnOpenJournal;
             }
 
             public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -745,52 +670,6 @@ namespace GoodLuckValley.Player.Input
             }
         }
         public PlayerControlsActions @PlayerControls => new PlayerControlsActions(this);
-
-        // UI
-        private readonly InputActionMap m_UI;
-        private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-        private readonly InputAction m_UI_Start;
-        public struct UIActions
-        {
-            private @PlayerInputActions m_Wrapper;
-            public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Start => m_Wrapper.m_UI_Start;
-            public InputActionMap Get() { return m_Wrapper.m_UI; }
-            public void Enable() { Get().Enable(); }
-            public void Disable() { Get().Disable(); }
-            public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
-            public void AddCallbacks(IUIActions instance)
-            {
-                if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-                @Start.started += instance.OnStart;
-                @Start.performed += instance.OnStart;
-                @Start.canceled += instance.OnStart;
-            }
-
-            private void UnregisterCallbacks(IUIActions instance)
-            {
-                @Start.started -= instance.OnStart;
-                @Start.performed -= instance.OnStart;
-                @Start.canceled -= instance.OnStart;
-            }
-
-            public void RemoveCallbacks(IUIActions instance)
-            {
-                if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
-                    UnregisterCallbacks(instance);
-            }
-
-            public void SetCallbacks(IUIActions instance)
-            {
-                foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
-                    UnregisterCallbacks(item);
-                m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
-                AddCallbacks(instance);
-            }
-        }
-        public UIActions @UI => new UIActions(this);
         public interface IPlayerControlsActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -805,15 +684,11 @@ namespace GoodLuckValley.Player.Input
             void OnDevTools(InputAction.CallbackContext context);
             void OnNoClip(InputAction.CallbackContext context);
             void OnUnlockPowers(InputAction.CallbackContext context);
-            void OnLook(InputAction.CallbackContext context);
             void OnFastSlide(InputAction.CallbackContext context);
             void OnCrawl(InputAction.CallbackContext context);
             void OnScroll(InputAction.CallbackContext context);
             void OnToggleDeveloperConsole(InputAction.CallbackContext context);
-        }
-        public interface IUIActions
-        {
-            void OnStart(InputAction.CallbackContext context);
+            void OnOpenJournal(InputAction.CallbackContext context);
         }
     }
 }

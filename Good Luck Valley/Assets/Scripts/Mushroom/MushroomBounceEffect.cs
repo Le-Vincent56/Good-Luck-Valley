@@ -35,6 +35,11 @@ namespace GoodLuckValley.Mushroom
                     //transform.localScale = new Vector3(0.5f, 0.5f);
                     PlayBounceParticles(bounceData, 3);
                     break;
+
+                default:
+                    //transform.localScale = new Vector3(0.5f, 0.5f);
+                    PlayBounceParticles(bounceData, 3);
+                    break;
             }
         }
 

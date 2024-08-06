@@ -13,10 +13,13 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PAUSE_MUSIC = 2735935537U;
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;
+        static const AkUniqueID PLAY_MUSHROOM_PICKUP = 195236087U;
+        static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID PLAY_PLAYER_FALL = 1306343379U;
         static const AkUniqueID PLAY_PLAYER_IMPACTS = 2773402369U;
         static const AkUniqueID PLAY_PLAYER_JUMP = 562256996U;
@@ -27,6 +30,10 @@ namespace AK
         static const AkUniqueID PLAY_TESTBEEP_3D = 1681067324U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
+        static const AkUniqueID RESUME_MUSIC = 2940177080U;
+        static const AkUniqueID STOP_AMBIENCE2D_MAIN = 1773902918U;
+        static const AkUniqueID STOP_AMBIENCEBED_MAIN = 3275901679U;
+        static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID STOP_PLAYER_FALL = 3680109729U;
         static const AkUniqueID STOP_PLAYER_IMPACTS = 2961941791U;
         static const AkUniqueID STOP_PLAYER_SLIDE = 3309779001U;
@@ -48,6 +55,22 @@ namespace AK
             } // namespace STATE
         } // namespace STATES_AREA
 
+        namespace STATES_FOREST_P1_CUES
+        {
+            static const AkUniqueID GROUP = 1606666624U;
+
+            namespace STATE
+            {
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID STATE_FOREST_P1_END = 506127700U;
+                static const AkUniqueID STATE_FOREST_P1_FADE = 2025880267U;
+                static const AkUniqueID STATE_FOREST_P1_INTRO = 3438870713U;
+                static const AkUniqueID STATE_FOREST_P1_ONE = 4262636943U;
+                static const AkUniqueID STATE_FOREST_P1_THREE = 665932511U;
+                static const AkUniqueID STATE_FOREST_P1_TWO = 123052653U;
+            } // namespace STATE
+        } // namespace STATES_FOREST_P1_CUES
+
         namespace STATES_GAME
         {
             static const AkUniqueID GROUP = 708499520U;
@@ -59,6 +82,19 @@ namespace AK
                 static const AkUniqueID NONE = 748895195U;
             } // namespace STATE
         } // namespace STATES_GAME
+
+        namespace STATES_PHASES
+        {
+            static const AkUniqueID GROUP = 1702361322U;
+
+            namespace STATE
+            {
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID STATE_INTRO = 1240403123U;
+                static const AkUniqueID STATE_PHASEONE = 3548780380U;
+                static const AkUniqueID STATE_PHASETWO = 3930281454U;
+            } // namespace STATE
+        } // namespace STATES_PHASES
 
         namespace STATES_PLAYER
         {
@@ -179,11 +215,15 @@ namespace AK
 
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID RTPC_AMBIENCE = 2972739263U;
         static const AkUniqueID RTPC_DISTANCE = 262290038U;
         static const AkUniqueID RTPC_FIREFLYCOUNT = 4221177039U;
+        static const AkUniqueID RTPC_MASTER = 3445598977U;
         static const AkUniqueID RTPC_MUSHROOMCHAIN = 1867215876U;
+        static const AkUniqueID RTPC_MUSIC = 3709650428U;
         static const AkUniqueID RTPC_PLAYERFALLSPEED = 2290256636U;
         static const AkUniqueID RTPC_PLAYERSPEED = 2653406601U;
+        static const AkUniqueID RTPC_SFX = 3438452020U;
     } // namespace GAME_PARAMETERS
 
     namespace BANKS
@@ -203,8 +243,10 @@ namespace AK
         static const AkUniqueID MASTER_MUSIC = 1900298039U;
         static const AkUniqueID MASTER_NPC = 3591553651U;
         static const AkUniqueID MASTER_PLAYER = 2453119373U;
+        static const AkUniqueID MASTER_SFX = 3462011115U;
         static const AkUniqueID MUSHROOM_BOUNCE = 4126136622U;
         static const AkUniqueID MUSHROOM_GROW = 4011678951U;
+        static const AkUniqueID MUSHROOM_PICKUP = 1919967482U;
         static const AkUniqueID PLAYER_FALL = 2551268862U;
         static const AkUniqueID PLAYER_JUMP = 1305133589U;
         static const AkUniqueID PLAYER_LAND = 3629196698U;

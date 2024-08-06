@@ -7,8 +7,10 @@ using GoodLuckValley.Player.States;
 using GoodLuckValley.Entity;
 using GoodLuckValley.Events;
 using GoodLuckValley.Cameras;
-using GoodLuckValley.Patterns.Blackboard;
+using GoodLuckValley.Patterns.Blackboard;   
 using GoodLuckValley.Audio.SFX;
+using System.Collections;
+using GoodLuckValley.VFX.Player;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -73,7 +75,9 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool tryFastSlide;
         [SerializeField] private bool isFastSliding;
         [SerializeField] private bool isCrawling;
+        [SerializeField] private bool isOnSlope;
 
+        private Coroutine disableTimer;
         private Blackboard playerBlackboard;
         private BlackboardKey isCrawlingKey;
 
@@ -546,7 +550,7 @@ namespace GoodLuckValley.Player.Control
             collisionHandler.collisions.PrevVelocity = velocity;
 
             // Handle collisions if necessary
-            if(velocity.y < 0f)
+            if (velocity.y < 0f)
                 collisionHandler.DescendSlope(ref velocity, tryFastSlide, this, data.fastSlopeScalar);
 
             // Set the facing direction
@@ -566,13 +570,13 @@ namespace GoodLuckValley.Player.Control
             collisionHandler.PredictGround(velocity, groundPredictionAmount);
 
             // Check if the player can stand
-            if(isCrawling)
+            if (isCrawling)
                 collisionHandler.CheckCanStand(velocity, standCheckDist);
 
             // Move
             transform.Translate(velocity);
 
-            if(standingOnPlatform)
+            if (standingOnPlatform)
             {
                 collisionHandler.collisions.Below = true;
             }
@@ -847,7 +851,7 @@ namespace GoodLuckValley.Player.Control
             manualMoveX = dir;
 
             // Force a save
-            saveHandler.ForceUpdate();
+            saveHandler.LevelPositionUpdate();
         }
 
         /// <summary>
@@ -1090,6 +1094,105 @@ namespace GoodLuckValley.Player.Control
         {
             if (playerBlackboard.TryGetValue(key, out bool blackboardValue))
                 playerBlackboard.SetValue(key, value);
+        }
+
+        /// <summary>
+        /// Disable the player for a certain amount of time
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public void DisablePlayerTimed(Component sender, object data)
+        {
+            // Verify that the correct data is sent
+            if (data is not float) return;
+
+            // Cast the data
+            float disableDuration = (float)data;
+
+            // Disable input
+            input.Disable();
+
+            // Zero out velocity to prevent movement
+            velocity = Vector2.zero;
+
+            // If disable timer is not null, nullify it
+            if (disableTimer != null)
+                StopCoroutine(disableTimer);
+
+            // Start the disabled timer
+            disableTimer = StartCoroutine(DisableTimer(disableDuration, sender));
+        }
+
+        /// <summary>
+        /// Coroutine to wait for a specific duration before re-enabling input
+        /// </summary>
+        /// <param name="duration">The duration to wait before re-enabling input</param>
+        /// <returns></returns>
+        public IEnumerator DisableTimer(float duration, Component sender)
+        {
+            // Start a timer
+            float elapsedTime = 0f;
+
+            // Wait for the duration
+            while(elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            // Re-enable input
+            input.Enable();
+
+            // If the sender is a mushroom pickup, stop the rumble sound
+            if (sender is MushroomPickup)
+                ((MushroomPickup)sender).StopRumble();
+        }
+
+        /// <summary>
+        /// Set player input
+        /// </summary>
+        /// <param name="enabled">True if player input should be enabled, false if otherwise</param>
+        public void SetPlayerInput(bool enabled)
+        {
+            // If enabled, enable input
+            if (enabled)
+                input.Enable();
+            // If not, disable input
+            else
+                input.Disable();
+        }
+
+        /// <summary>
+        /// Try to force a state change
+        /// </summary>
+        /// <param name="stateNum"></param>
+        public void TrySetState(int stateNum)
+        {
+            switch(stateNum)
+            {
+                // None
+                case 0:
+                    tryFastSlide = false;
+                    isWallSliding = false;
+                    isBouncing = false;
+                    isWallJumping = false;
+                    isThrowing = false; ;
+                    isThrowingAgain = false;
+                    isFastSliding = false;
+                    isCrawling = false;
+                    break;
+
+                // Idle
+                case 1:
+                    velocity = Vector2.zero;
+                    break;
+
+                // Slide
+                case 2:
+                    tryFastSlide = true;
+                    break;
+            }
         }
         #endregion
     }

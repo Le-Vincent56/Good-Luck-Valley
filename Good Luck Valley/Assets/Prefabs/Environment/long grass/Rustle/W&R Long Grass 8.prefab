@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: dd0d94df0e9eae6449e4bc440493a795, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b052f18efe6af44aa59ba378ca04e25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +124,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24804688, y: 1.7851562}
+    oldSize: {x: 0.27734375, y: 1.2695312}
     newSize: {x: 1.27, y: 9.14}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068897488f673a94bb6d03ebf3d73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderType: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1536
@@ -169,7 +170,8 @@ MonoBehaviour:
   rustleStrength: 5
   verticalOffset: 0.8
   rustlePercent: 0
-  rustleSpeedScalar: 5
+  rustleOutSpeedScalar: 2
+  rustleInSpeedScalar: 1
 --- !u!114 &5304030531853461021
 MonoBehaviour:
   m_ObjectHideFlags: 0

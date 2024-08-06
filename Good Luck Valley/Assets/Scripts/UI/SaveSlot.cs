@@ -1,24 +1,46 @@
+using GoodLuckValley.UI.TitleScreen.Start;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GoodLuckValley.UI
 {
-    public class SaveSlot : MonoBehaviour
+    public class SaveSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
-        #region REFERENCES
-        [SerializeField] private Text dateText;
-        [SerializeField] private Text nameText;
-        [SerializeField] private Text levelText;
-        [SerializeField] private Text emptyText;
+        [Header("References")]
+        [SerializeField] private StartMenuController controller;
+        [SerializeField] private GameObject withDataObject;
+        [SerializeField] private Text time;
+        [SerializeField] private Text notes;
+        [SerializeField] private GameObject withoutDataObject;
+        [SerializeField] private SlotDeleter deleter;
+        
+
+        [Header("Fields")]
+        [SerializeField] private int slot;
+        [SerializeField] private string saveName;
         [SerializeField] private bool isEmpty;
 
-        public string Date { get { return dateText.text; } }
-        public string Name { get { return nameText.text; } }
-        public string Level { get { return levelText.text; } }
+        public GameObject WithDataObject { get { return withDataObject; } }
+        public Text Time { get { return time; } }
+        public Text Notes {  get { return notes; } }
+        public GameObject WithoutDataObject { get { return withoutDataObject; } }
+        public int Slot { get { return slot; } }
         public bool IsEmpty { get { return isEmpty; } }
-        #endregion
+        public string Name { get { return saveName; } set { saveName = value; } }
+
+        public void Init(StartMenuController controller)
+        {
+            this.controller = controller;
+            deleter.Init(this, controller);
+        }
+
+        /// <summary>
+        /// Start a game
+        /// </summary>
+        public void StartGame() => controller.StartGame();
 
         /// <summary>
         /// Set the UI Data
@@ -26,13 +48,13 @@ namespace GoodLuckValley.UI
         /// <param name="saveName">The name of the Save Slot</param>
         /// <param name="lastUpdated">When the Save Slot was last updated</param>
         /// <param name="levelName">The current level of the Save Slot</param>
-        public void SetData(string saveName, string lastUpdated, string levelName)
+        public void SetData(string playTime, string notesPercent)
         {
             // Set text
-            dateText.text = lastUpdated;
-            nameText.text = saveName;
-            levelText.text = levelName;
+            time.text = playTime;
+            notes.text = notesPercent;
 
+            // Update the UI
             UpdateUI();
         }
 
@@ -44,36 +66,28 @@ namespace GoodLuckValley.UI
             bool validData = true;
 
             // Check if any data was not sent
-            if (dateText.text == "Date") validData = false;
-            if (nameText.text.Contains("Save Slot")) validData = false;
-            if (levelText.text == "Level Name") validData = false;
+            if (string.IsNullOrEmpty(time.text)) validData = false;
+            if (string.IsNullOrEmpty(notes.text)) validData = false;
 
             // Check which data to set
             if (validData)
             {
-                // If all data is valid, set the saved data as text
-                dateText.gameObject.SetActive(true);
-                nameText.gameObject.SetActive(true);
-                levelText.gameObject.SetActive(true);
-
-                // Set the emptyText to be inactive
-                emptyText.gameObject.SetActive(false);
+                // Switch to the "Without Data" object
+                withoutDataObject.SetActive(false);
+                withDataObject.SetActive(true);
 
                 isEmpty = false;
             }
             else
             {
-                // If data is not valid, set all saved data Text's
-                // to be inactive
-                dateText.gameObject.SetActive(false);
-                nameText.gameObject.SetActive(false);
-                levelText.gameObject.SetActive(false);
-
-                // Set the emptyText to be active
-                emptyText.gameObject.SetActive(true);
+                // Switch to the "With Data" object
+                withDataObject.SetActive(false);
+                withoutDataObject.SetActive(true);
 
                 isEmpty = true;
             }
+
+            deleter.Hide();
         }
 
         /// <summary>
@@ -81,9 +95,30 @@ namespace GoodLuckValley.UI
         /// </summary>
         public void ResetData()
         {
-            dateText.text = "Date";
-            nameText.text = "Save Slot";
-            levelText.text = "Level Name";
+            time.text = string.Empty;
+            notes.text = string.Empty;
+            saveName = string.Empty;
+        }
+
+        /// <summary>
+        /// Handle select events
+        /// </summary>
+        /// <param name="eventData"></param>
+        public void OnSelect(BaseEventData eventData)
+        {
+            controller.SetSelectedSlot(this);
+            deleter.Show();
+            deleter.SetSelectable(!isEmpty);
+        }
+
+        /// <summary>
+        /// Handle deselect events
+        /// </summary>
+        /// <param name="eventData"></param>
+        public void OnDeselect(BaseEventData eventData)
+        {
+            deleter.Hide();
+            deleter.SetSelectable(false);
         }
     }
 }

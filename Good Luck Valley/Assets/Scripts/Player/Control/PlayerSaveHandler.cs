@@ -1,17 +1,20 @@
 using GoodLuckValley.Persistence;
+using GoodLuckValley.SceneManagement;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Control
 {
     public class PlayerSaveHandler : MonoBehaviour, IBind<PlayerSaveData>
     {
-        #region REFERENCES
         [SerializeField] private PlayerSaveData data;
-        #endregion
-
-        #region PROPERTIES
+        [SerializeField] private bool bindData;
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
-        #endregion
+
+        private void Start()
+        {
+            if(bindData)
+                SaveLoadSystem.Instance.BindData();
+        }
 
         // Update is called once per frame
         void Update()
@@ -29,7 +32,10 @@ namespace GoodLuckValley.Player.Control
         /// <summary>
         /// Force a save update
         /// </summary>
-        public void ForceUpdate() => UpdateSaveData();
+        public void LevelPositionUpdate()
+        {
+            UpdateSaveData();
+        }
 
         /// <summary>
         /// Bind Player data for persistence
@@ -41,7 +47,9 @@ namespace GoodLuckValley.Player.Control
             this.data.ID = ID;
 
             if (applyData)
+            {
                 transform.position = data.position;
+            }
         }
     }
 }

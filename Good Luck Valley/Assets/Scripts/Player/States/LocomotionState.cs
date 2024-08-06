@@ -27,6 +27,12 @@ namespace GoodLuckValley.Player.States
             sfx.StartGroundImpacts();
         }
 
+        public override void Update()
+        {
+            // Start ground impacts if not started already
+            sfx.StartGroundImpacts();
+        }
+
         public override void FixedUpdate()
         {
             // Calculate velocity
