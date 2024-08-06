@@ -25,6 +25,8 @@ namespace GoodLuckValley.Player.States
 
             // Handle player movement
             player.HandleMovement();
+
+            Debug.Log(player.Velocity);
         }
     }
 }

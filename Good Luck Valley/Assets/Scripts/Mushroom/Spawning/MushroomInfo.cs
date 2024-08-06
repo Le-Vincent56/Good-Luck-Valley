@@ -40,7 +40,8 @@ namespace GoodLuckValley.Mushroom
                     bounceForce = mushroomData.regularBounceForce;
                     Rotated = false;
 
-                    if(Mathf.Abs(rotation) == 45 || Mathf.Abs(rotation) == 135)
+                    if((Mathf.Abs(rotation) >= 43 && Mathf.Abs(rotation) <= 47) || 
+                        (Mathf.Abs(rotation) >= 133 && Mathf.Abs(rotation) <= 137))
                     {
                         bounceForce = mushroomData.regularSlopeBounceForce;
                         bounceDirection.x -= 0.2f;

@@ -70,6 +70,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool isGrounded;
         [SerializeField] private bool isWallSliding;
         [SerializeField] private bool isBouncing;
+        [SerializeField] private bool isSlopeBouncing;
         [SerializeField] private bool isWallJumping;
         [SerializeField] private bool isAgainstWall;
         [SerializeField] private bool isThrowing;
@@ -399,7 +400,7 @@ namespace GoodLuckValley.Player.Control
             }
 
             // Get the target speed
-            if (!isWallJumping)
+            if (!isWallJumping && !isSlopeBouncing)
             {
                 float targetSpeed = (!isCrawling) ? moveDirectionX * data.movementSpeed : moveDirectionX * data.crawlSpeed;
 
@@ -407,6 +408,18 @@ namespace GoodLuckValley.Player.Control
                 velocity.x = Mathf.SmoothDamp(
                     velocity.x,
                     targetSpeed,
+                    ref xVelSmoothing,
+                    (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
+                );
+            }
+
+            if(isSlopeBouncing)
+            {
+                float targetSpeed = moveDirectionX * data.movementSpeed;
+
+                velocity.x = Mathf.SmoothDamp(
+                    velocity.x,
+                    targetSpeed + velocity.x,
                     ref xVelSmoothing,
                     (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
                 );
@@ -657,6 +670,7 @@ namespace GoodLuckValley.Player.Control
         {
             // Set bouncing to false and update the events
             isBouncing = false;
+            isSlopeBouncing = false;
         }
 
         /// <summary>
@@ -689,6 +703,8 @@ namespace GoodLuckValley.Player.Control
 
             // Set bouncing to true
             isBouncing = true;
+
+            isSlopeBouncing = bounceData.Rotated;
 
             // Calculate bounce force
             Vector2 bounceVec = bounceData.BounceVector;
