@@ -50,7 +50,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             foreach (TitleRebindingButton rebindingButton in rebindingButtons)
             {
                 rebindingButton.Init(this, inputActionAsset, keysDict);
-                animators.Add(rebindingButton.GetComponent<Animator>());
+                animators.Add(rebindingButton.GetComponentInChildren<Animator>());
             }
 
             // Construct states

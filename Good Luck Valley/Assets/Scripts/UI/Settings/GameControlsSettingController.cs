@@ -373,7 +373,7 @@ namespace GoodLuckValley.UI.Settings.Controls
             foreach (GameRebindingButton rebindingButton in rebindingButtons)
             {
                 rebindingButton.Init(this, inputActionAsset, keysDict);
-                animators.Add(rebindingButton.GetComponent<Animator>());
+                animators.Add(rebindingButton.GetComponentInChildren<Animator>());
             }
 
             // Create state machine if not created already

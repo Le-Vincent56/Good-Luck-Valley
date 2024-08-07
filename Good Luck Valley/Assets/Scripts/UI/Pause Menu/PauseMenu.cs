@@ -206,6 +206,10 @@ namespace GoodLuckValley.UI
 
         public void OpenSettings()
         {
+            // Deactivate cursors
+            cursors.DeactivateCursors();
+
+            // Hide UI
             HideUI();
 
             // Open the settings menu
@@ -242,6 +246,9 @@ namespace GoodLuckValley.UI
             // Calls to:
             //  - PlayerInputHandler.EnablePauseInput();
             onSetPauseInputAction.Raise(this, null);
+
+            // Activate cursors
+            cursors.ActivateCursors();
 
             // Show the UI
             ShowUI();

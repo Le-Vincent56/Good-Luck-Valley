@@ -237,6 +237,10 @@ namespace GoodLuckValley.UI.TitleScreen
             }
         }
 
+        /// <summary>
+        /// Handle submit actions
+        /// </summary>
+        /// <param name="started"></param>
         private void SubmitUI(bool started)
         {
             // Exit case - if the button hasn't been released yet

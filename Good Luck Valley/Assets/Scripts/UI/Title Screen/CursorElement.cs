@@ -24,6 +24,7 @@ namespace GoodLuckValley.UI
             selected = false;
 
             AddEventTrigger(selectable.gameObject, EventTriggerType.Select, OnSelect);
+            AddEventTrigger(selectable.gameObject, EventTriggerType.PointerEnter, OnSelect);
             AddEventTrigger(selectable.gameObject, EventTriggerType.Deselect, OnDeselect);
 
             if(cursor.GetComponent<Image>() != null)
