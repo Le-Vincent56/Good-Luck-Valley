@@ -36,8 +36,15 @@ namespace GoodLuckValley.UI.Menus
             {
                 // Check if the cursor is selected
                 if (cursor.Selected)
+                {
                     // If so, set the last selected cursor to that cursor
                     lastSelectedCursor = cursor;
+                    EventSystem.current.SetSelectedGameObject(cursor.GetSelectable().gameObject);
+                } else
+                {
+                    // Deactivate any non-selected cursors
+                    cursor.Deactivate();
+                }
             }
         }
 

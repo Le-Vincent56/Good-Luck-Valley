@@ -34,8 +34,8 @@ namespace GoodLuckValley.UI.Settings.Controls
         {
             // Get component
             targetButton = GetComponent<Button>();
-            keyImage = GetComponent<Image>();
-            animator = GetComponent<Animator>();
+            keyImage = GetComponentInChildren<Image>();
+            animator = GetComponentInChildren<Animator>();
             multiElementSelector = GetComponent<MultiElementSelector>();
 
             // Set the animator update time to unscaled

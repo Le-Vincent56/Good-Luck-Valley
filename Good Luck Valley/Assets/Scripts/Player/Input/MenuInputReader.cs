@@ -120,10 +120,9 @@ namespace GoodLuckValley.Player.Input
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-            if (context.started)
-            {
-                Point.Invoke(context.ReadValue<Vector2>());
-            }
+            if (!context.performed) return;
+
+            Point.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnRightClick(InputAction.CallbackContext context)

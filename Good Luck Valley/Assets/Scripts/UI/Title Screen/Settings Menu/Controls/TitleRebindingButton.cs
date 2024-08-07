@@ -36,7 +36,15 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             // Get component
             targetButton = GetComponent<Button>();
             keyImage = GetComponent<Image>();
-            animator = GetComponent<Animator>();
+
+            if(keyImage == null)
+                keyImage = GetComponentInChildren<Image>();
+
+
+            animator = GetComponentInChildren<Animator>();
+            //if(animator == null)
+            //    animator = GetComponentInChildren<Animator>();
+
             multiElementSelector = GetComponent<MultiElementSelector>();
 
             validRebind = true;
