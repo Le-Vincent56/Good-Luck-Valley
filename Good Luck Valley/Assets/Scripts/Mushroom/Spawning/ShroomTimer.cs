@@ -16,12 +16,16 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private float durationTimer;
         [SerializeField] private float bounceBuffer;
         [SerializeField] private bool onCooldown;
+        [SerializeField] private bool tryingToRemove;
+        [SerializeField] private bool removeCalled;
         #endregion
 
         // Start is called before the first frame update
         void Start()
         {
             bounceBuffer = 0.1f;
+            tryingToRemove = false;
+            removeCalled = false;
         }
 
         // Update is called once per frame
@@ -32,6 +36,17 @@ namespace GoodLuckValley.Mushroom
 
             // Update shroom duration
             UpdateShroomDuration();
+
+            if(tryingToRemove)
+            {
+                // Remove the shroom
+                // Calls to:
+                //  - MushroomTracker.RemoveShroom()
+                onRemoveShroom.Raise(this, gameObject);
+
+                removeCalled = true;
+                tryingToRemove = false;
+            }
         }
 
         /// <summary>
@@ -57,12 +72,9 @@ namespace GoodLuckValley.Mushroom
         public void UpdateShroomDuration()
         {
             // Check if the shroom has lasted it's duration
-            if (durationTimer <= 0.0f)
+            if (durationTimer <= 0.0f && !removeCalled)
             {
-                // Remove the shroom
-                // Calls to:
-                //  - MushroomTracker.RemoveShroom()
-                onRemoveShroom.Raise(this, gameObject);
+                tryingToRemove = true;
                 return;
             }
 

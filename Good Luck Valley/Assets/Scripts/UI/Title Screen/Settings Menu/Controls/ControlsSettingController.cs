@@ -14,6 +14,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 {
     public class ControlsSettingController : SettingsController
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonGeneral;
+        [SerializeField] private AK.Wwise.Event playButtonReset;
+
         [Header("References")]
         [SerializeField] private InputKeyDictionary keysDict;
         [SerializeField] private MenuInputReader menuInputReader;
@@ -106,6 +110,9 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
             // Disable the action before rebinding
             action.Disable();
+
+            // Play the general button sound
+            playButtonGeneral.Post(gameObject);
 
             rebindingOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithCancelingThrough("")
@@ -379,6 +386,9 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             {
                 rebindingButton.SetDefault(inputActionAsset, keysDict);
             }
+
+            // Play the reset button sound
+            playButtonReset.Post(gameObject);
         }
     }
 }

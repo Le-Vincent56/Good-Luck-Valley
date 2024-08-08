@@ -16,6 +16,7 @@ namespace GoodLuckValley.Mushroom.States
 
         public override void OnEnter()
         {
+            // Start the animation and set the grow timer
             animator.CrossFade(GrowHash, crossFadeDuration);
             growTimer = animator.GetCurrentAnimatorStateInfo(0).length;
 

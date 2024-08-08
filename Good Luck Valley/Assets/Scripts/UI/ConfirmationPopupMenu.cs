@@ -33,6 +33,10 @@ namespace GoodLuckValley.UI
             }
         }
 
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonEnter;
+        [SerializeField] private AK.Wwise.Event playButtonExit;
+
         [SerializeField] private Text displayText;
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
@@ -59,19 +63,26 @@ namespace GoodLuckValley.UI
             // Assign the onClick listeners
             confirmButton.onClick.AddListener(() =>
             {
-                DeactivateMenu();
+                DeactivateMenu(true);
                 confirmAction();
             });
 
             cancelButton.onClick.AddListener(() =>
             {
-                DeactivateMenu();
+                DeactivateMenu(false);
                 cancelAction();
             });
         }
 
-        public async void DeactivateMenu()
+        public async void DeactivateMenu(bool enter)
         {
+            if(enter)
+                // Play the button enter sound
+                playButtonEnter.Post(gameObject);
+            else
+                // Play the button exit sound
+                playButtonExit.Post(gameObject);
+
             await Hide();
         }
 

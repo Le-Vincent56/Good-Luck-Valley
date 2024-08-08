@@ -244,7 +244,7 @@ namespace GoodLuckValley.UI.TitleScreen
             else if (navigation.x < 0) next = current.FindSelectableOnLeft();
             else if (navigation.x > 0) next = current.FindSelectableOnRight();
 
-            if (next != null)
+            if (next != null && next.interactable)
             {
                 playNavigate.Post(gameObject);
                 EventSystem.current.SetSelectedGameObject(next.gameObject);

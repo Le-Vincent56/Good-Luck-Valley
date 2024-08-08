@@ -6,6 +6,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
 {
     public class SlotDeleter : MonoBehaviour, ISelectHandler
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonGeneral;
+
         [Header("References")]
         [SerializeField] private StartMenuController controller;
         [SerializeField] private SaveSlot saveSlot;
@@ -22,7 +25,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             this.controller = controller;
             this.saveSlot = saveSlot;
 
-            selectable.enabled = false;
+            selectable.interactable = false;
 
             // Hide the image
             Hide();
@@ -32,12 +35,19 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         /// Set whether or not the selectable is enabled
         /// </summary>
         /// <param name="selectable"></param>
-        public void SetSelectable(bool selectable) => this.selectable.enabled = selectable;
+        public void SetSelectable(bool selectable) => this.selectable.interactable = selectable;
 
         /// <summary>
         /// Delete the associated Save Slot data
         /// </summary>
-        public void DeleteGame() => controller.ActivateDeletePopup();
+        public void DeleteGame()
+        {
+            // Play the button general sound
+            playButtonGeneral.Post(gameObject);
+
+            // Activate the delete popup
+            controller.ActivateDeletePopup();
+        }
 
         /// <summary>
         /// Show the Slot Delete image
@@ -79,7 +89,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             controller.SetSelectedSlot(saveSlot);
 
             // If selected, then set enabled to true
-            selectable.enabled = true;
+            selectable.interactable = true;
         }
     }
 }

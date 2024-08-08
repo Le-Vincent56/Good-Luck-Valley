@@ -17,6 +17,7 @@ namespace AK
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
+        static const AkUniqueID PLAY_MUSHROOM_DISSIPATE = 937795333U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;
         static const AkUniqueID PLAY_MUSHROOM_PICKUP = 195236087U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
@@ -254,6 +255,7 @@ namespace AK
         static const AkUniqueID MASTER_SFX = 3462011115U;
         static const AkUniqueID MASTER_UI = 1168632360U;
         static const AkUniqueID MUSHROOM_BOUNCE = 4126136622U;
+        static const AkUniqueID MUSHROOM_DISSIPATE = 1042698302U;
         static const AkUniqueID MUSHROOM_GROW = 4011678951U;
         static const AkUniqueID MUSHROOM_PICKUP = 1919967482U;
         static const AkUniqueID PLAYER_FALL = 2551268862U;

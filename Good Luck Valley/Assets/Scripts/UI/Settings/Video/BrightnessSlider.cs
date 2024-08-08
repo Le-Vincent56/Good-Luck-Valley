@@ -8,11 +8,17 @@ namespace GoodLuckValley.UI.Settings.Video
 {
     public class BrightnessSlider : MonoBehaviour
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playSlider;
+
         [Header("References")]
         [SerializeField] private SliderInput brightnessSlider;
         [SerializeField] private Text displayText;
         [SerializeField] private VolumeProfile postProcessVolume;
         [SerializeField] private ColorAdjustments colorAdjustments;
+
+        [Header("Fields")]
+        [SerializeField] private bool loaded;
 
         /// <summary>
         /// Initialize the brightness slider
@@ -29,6 +35,9 @@ namespace GoodLuckValley.UI.Settings.Video
 
                 brightnessSlider.onValueChanged.AddListener(UpdateBrightness);
             }
+
+            // Set loaded to false
+            loaded = false;
         }
 
         /// <summary>
@@ -48,6 +57,11 @@ namespace GoodLuckValley.UI.Settings.Video
 
             // Update the display text
             displayText.text = $"{(int)value}";
+
+            // Check if the game object is active and data is already loaded
+            if (gameObject.activeSelf && loaded)
+                // Play the slider sound
+                playSlider.Post(gameObject);
         }
 
         public void LoadBrightness(float value)
@@ -57,6 +71,9 @@ namespace GoodLuckValley.UI.Settings.Video
 
             // Update the slider
             brightnessSlider.SetValueWithoutNotify(value);
+
+            // Set loaded to true
+            loaded = true;
         }
 
         /// <summary>

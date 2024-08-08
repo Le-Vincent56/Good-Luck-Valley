@@ -26,6 +26,7 @@ namespace GoodLuckValley.Mushroom
         [SerializeField] private Vector2 velocity;
         [SerializeField] private bool bounceEntity;
         [SerializeField] private bool growing;
+        [SerializeField] private bool dissipating;
 
         private StateMachine stateMachine;
 
@@ -53,12 +54,14 @@ namespace GoodLuckValley.Mushroom
                     GrowState growState = new GrowState(this, animator, sfxHandler);
                     IdleState idleState = new IdleState(this, animator);
                     BounceState bounceState = new BounceState(this, animator);
+                    DissipateState dissipateState = new DissipateState(this, animator, sfxHandler);
 
                     // Define strict transitions
                     At(growState, idleState, new FuncPredicate(() => !growing));
                     At(growState, bounceState, new FuncPredicate(() => bounceEntity));
                     At(idleState, bounceState, new FuncPredicate(() => bounceEntity));
                     At(bounceState, idleState, new FuncPredicate(() => !bounceEntity));
+                    Any(dissipateState, new FuncPredicate(() => dissipating));
 
                     // Set the initial state
                     stateMachine.SetState(growState);
@@ -68,12 +71,14 @@ namespace GoodLuckValley.Mushroom
                     GrowState quickGrowState = new GrowState(this, animator, sfxHandler);
                     IdleState quickIdleState = new IdleState(this, animator);
                     BounceState quickBounceState = new BounceState(this, animator);
+                    DissipateState quickDissipateState = new DissipateState(this, animator, sfxHandler);
 
                     // Define strict transitions
                     At(quickGrowState, quickIdleState, new FuncPredicate(() => !growing));
                     At(quickGrowState, quickBounceState, new FuncPredicate(() => bounceEntity));
                     At(quickIdleState, quickBounceState, new FuncPredicate(() => bounceEntity));
                     At(quickBounceState, quickIdleState, new FuncPredicate(() => !bounceEntity));
+                    Any(quickDissipateState, new FuncPredicate(() => dissipating));
 
                     // Set the initial state
                     stateMachine.SetState(quickGrowState);
@@ -101,7 +106,20 @@ namespace GoodLuckValley.Mushroom
             stateMachine.FixedUpdate();
         }
 
+        /// <summary>
+        /// Add a transition from one State to another given a certain condition
+        /// </summary>
+        /// <param name="from">The State to define the transition from</param>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the Transition</param>
         private void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
+
+        /// <summary>
+        /// Add a transition from any State to another one given a certain condition
+        /// </summary>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the transition</param>
+        private void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
         public void CheckCollisions()
         {
@@ -151,5 +169,7 @@ namespace GoodLuckValley.Mushroom
         /// Reset the bounce
         /// </summary>
         public void ResetBounce() => bounceEntity = false;
+
+        public void Dissipate() => dissipating = true;
     }
 }

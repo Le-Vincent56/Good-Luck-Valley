@@ -6,13 +6,16 @@ using UnityEngine.EventSystems;
 using GoodLuckValley.Player.Input;
 using UnityEngine.UI;
 using System.Collections;
-using GoodLuckValley.Player.Control;
 using GoodLuckValley.UI.Settings.Controls.States;
 
 namespace GoodLuckValley.UI.Settings.Controls
 {
     public class GameControlsSettingController : MonoBehaviour
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonReset;
+        [SerializeField] private AK.Wwise.Event playButtonGeneral;
+
         [Header("References")]
         [SerializeField] private GameSettingsMenu controller;
         [SerializeField] private InputKeyDictionary keysDict;
@@ -83,6 +86,9 @@ namespace GoodLuckValley.UI.Settings.Controls
 
             // Disable the action before rebinding
             action.Disable();
+
+            // Play the general button sound
+            playButtonGeneral.Post(gameObject);
 
             rebindingOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithCancelingThrough("")
@@ -355,6 +361,9 @@ namespace GoodLuckValley.UI.Settings.Controls
             {
                 rebindingButton.SetDefault(inputActionAsset, keysDict);
             }
+
+            // Play the reset button sound
+            playButtonReset.Post(gameObject);
         }
 
         public void Init(Component sender, object data)

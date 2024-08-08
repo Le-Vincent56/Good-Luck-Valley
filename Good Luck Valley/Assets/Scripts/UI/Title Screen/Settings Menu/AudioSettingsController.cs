@@ -7,6 +7,9 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Audio
 {
     public class AudioSettingsController : SettingsController
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonReset;
+
         [Header("References")]
         [SerializeField] private List<AudioBusSlider> audioBusSliders = new List<AudioBusSlider>();
         [SerializeField] private AudioSaveHandler audioSaveHandler;
@@ -67,6 +70,9 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Audio
             {
                 audioBusSlider.LoadVolume(100f);
             }
+
+            // Play the reset button sound
+            playButtonReset.Post(gameObject);
         }
     }
 }
