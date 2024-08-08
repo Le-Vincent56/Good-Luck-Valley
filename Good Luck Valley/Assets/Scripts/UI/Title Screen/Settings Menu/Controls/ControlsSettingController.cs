@@ -120,6 +120,8 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
                     if (CheckDuplicateBindings(action, bindingIndex))
                     {
+                        Debug.Log($"Action Name: {action.bindings[bindingIndex].name}, {action.bindings[bindingIndex].overridePath}");
+
                         // Remove any binding overrides
                         action.RemoveBindingOverride(bindingIndex);
 

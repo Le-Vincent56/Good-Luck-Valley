@@ -22,6 +22,11 @@ namespace GoodLuckValley.UI.TitleScreen
 
     public class TitleScreenController : MonoBehaviour
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playNavigate;
+        [SerializeField] private AK.Wwise.Event playButtonEnter;
+        [SerializeField] private AK.Wwise.Event playButtonExit;
+
         [Header("Events")]
         [SerializeField] private GameEvent onMainMenuBack;
 
@@ -179,6 +184,14 @@ namespace GoodLuckValley.UI.TitleScreen
         /// <param name="state"></param>
         public void SetState(int state)
         {
+            // Compare states
+            if (state > this.state)
+                // If greater, play the enter sound
+                playButtonEnter.Post(gameObject);
+            else if(state < this.state)
+                // If less, then play exit sound
+                playButtonExit.Post(gameObject);
+
             // Set the state
             this.state = state;
 
@@ -233,6 +246,7 @@ namespace GoodLuckValley.UI.TitleScreen
 
             if (next != null)
             {
+                playNavigate.Post(gameObject);
                 EventSystem.current.SetSelectedGameObject(next.gameObject);
             }
         }
