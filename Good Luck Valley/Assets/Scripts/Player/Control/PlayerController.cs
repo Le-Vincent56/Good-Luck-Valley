@@ -11,6 +11,7 @@ using GoodLuckValley.Patterns.Blackboard;
 using GoodLuckValley.Audio.SFX;
 using System.Collections;
 using GoodLuckValley.VFX.Player;
+using GoodLuckValley.VFX.Particles;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -37,6 +38,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerParticlesController particlesController;
         [SerializeField] private CameraFollowObject followObject;
         [SerializeField] private PlayerSaveHandler saveHandler;
+        [SerializeField] private ReactiveBurstParticleController burstParticlesController;
 
         [Header("Fields - Physics")]
         [SerializeField] private float gravity;
@@ -1099,6 +1101,23 @@ namespace GoodLuckValley.Player.Control
         /// <param name="particleType">An int representing the particle type (0 for Jump, 1 for Land)</param>
         public void PlayParticles(int particleType)
         {
+
+            if (burstParticlesController == null) return;
+
+            // Handle particle types
+            switch (particleType)
+            {
+                case 0:
+                    //particlesController.HandleJumpParticles();
+                    burstParticlesController.HandleJumpParticles();
+                    break;
+
+                case 1:
+                    //particlesController.HandleLandParticles();
+                    burstParticlesController.HandleLandParticles();
+                    break;
+            }
+
             // If there is no set particles controller, return
             if (particlesController == null) return;
 
