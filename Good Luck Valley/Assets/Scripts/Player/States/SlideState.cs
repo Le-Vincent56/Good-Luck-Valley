@@ -32,11 +32,6 @@ namespace GoodLuckValley.Player.States
             sfx.StartSlide();
         }
 
-        public override void Update()
-        {
-            // TODO: Update slide sound
-        }
-
         public override void FixedUpdate()
         {
             // Calculate velocity
@@ -56,6 +51,9 @@ namespace GoodLuckValley.Player.States
 
             // Stop the slide effect sound
             sfx.StopSlide();
+
+            // End slide
+            player.EndSlide();
         }
     }
 }
