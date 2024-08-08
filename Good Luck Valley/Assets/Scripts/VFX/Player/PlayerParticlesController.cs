@@ -95,8 +95,6 @@ namespace GoodLuckValley.VFX.Player
 
             // Set data
             runParticlesHardpoint = hardpoints.Run;
-            jumpParticlesHardpoint = hardpoints.Jump;
-            landParticlesHardpoint = hardpoints.Land;
             bounceAirtimeParticlesHardpoint = hardpoints.Bounce;
         }
 

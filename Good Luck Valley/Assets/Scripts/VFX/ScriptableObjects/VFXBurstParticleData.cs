@@ -19,10 +19,15 @@ namespace GoodLuckValley.VFX.ScriptableObjects
         [SerializeField] public float maxLifetime;
         [SerializeField] public float minSize;
         [SerializeField] public float maxSize;
+        [SerializeField] public float minStartingAngle;
+        [SerializeField] public float maxStartingAngle;
+        [SerializeField] public Vector3 minPositionOffset;
+        [SerializeField] public Vector3 maxPositionOffset;
 
         [Header("Update")]
         [SerializeField] public float gravity;
-        [SerializeField] public float linearDragCoefficient;
+        [SerializeField] public float minLinearDragCoefficient;
+        [SerializeField] public float maxLinearDragCoefficient;
         [SerializeField] public float turbulenceIntensity;
         [SerializeField] public float turbulenceDrag;
         [SerializeField] public float turbulenceFrequency;

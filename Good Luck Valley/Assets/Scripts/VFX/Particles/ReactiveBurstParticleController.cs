@@ -40,6 +40,8 @@ namespace GoodLuckValley.VFX.Particles
         #region FIELDS
         [SerializeField] private ActiveParticle activeParticle;
         private bool setRunningData;
+        private Transform feetHardpoint;
+        private Transform chestHardpoint;
 
         [Header("Grass Running Particle Fields")]
         [SerializeField] private float minRunningParticleVelocity;
@@ -71,7 +73,7 @@ namespace GoodLuckValley.VFX.Particles
                             runningParticlesCurrentTime > timeBetweenParticles)
                         {
                             SetVFXData(grassRunningData);
-                            SetVFXSpawnPosition(playerController.transform.position);
+                            SetVFXSpawnPosition(feetHardpoint.position);
                             burstParticleVFX.Play();
                             runningParticlesCurrentTime = 0;
                         }
@@ -80,7 +82,7 @@ namespace GoodLuckValley.VFX.Particles
                     case ActiveParticle.GrassLanding:
                         // Play GL particle
                         SetVFXData(grassJumpData);
-                        SetVFXSpawnPosition(playerController.transform.position);
+                        SetVFXSpawnPosition(feetHardpoint.position);
                         burstParticleVFX.Play();
                         ResetToRunningParticle();
                         break;
@@ -88,7 +90,7 @@ namespace GoodLuckValley.VFX.Particles
                     case ActiveParticle.GrassJumping:
                         Debug.Log("Playing grass jump");
                         SetVFXData(grassJumpData);
-                        SetVFXSpawnPosition(playerController.transform.position);
+                        SetVFXSpawnPosition(feetHardpoint.position);
                         burstParticleVFX.Play();
                         activeParticle = ActiveParticle.None;
                         break;
@@ -132,10 +134,13 @@ namespace GoodLuckValley.VFX.Particles
             burstParticleVFX.SetFloat("Max Lifetime", data.maxLifetime);
             burstParticleVFX.SetFloat("Min Size", data.minSize);
             burstParticleVFX.SetFloat("Max Size", data.maxSize);
+            burstParticleVFX.SetFloat("Min Starting Angle", data.minStartingAngle);
+            burstParticleVFX.SetFloat("Max Starting Angle", data.maxStartingAngle);    
 
             // Update
             burstParticleVFX.SetFloat("Gravity", data.gravity);
-            burstParticleVFX.SetFloat("Linear Drag Coefficient", data.linearDragCoefficient);
+            burstParticleVFX.SetFloat("Min Linear Drag Coefficient", data.minLinearDragCoefficient);
+            burstParticleVFX.SetFloat("Max Linear Drag Coefficient", data.maxLinearDragCoefficient);
             burstParticleVFX.SetFloat("Turb Intensity", data.turbulenceIntensity);
             burstParticleVFX.SetFloat("Turb Drag", data.turbulenceDrag);
             burstParticleVFX.SetFloat("Turb Frequency", data.turbulenceFrequency);
@@ -208,6 +213,13 @@ namespace GoodLuckValley.VFX.Particles
         public void InitializePC(Component sender, object data)
         {
             playerController = (PlayerController)data;
+        }
+
+        public void InitializeHardpoints(Component sender, object data)
+        {
+            PlayerHardpointsContainer.Hardpoints hardpoints = (PlayerHardpointsContainer.Hardpoints)data;
+            feetHardpoint = hardpoints.Run;
+            chestHardpoint = hardpoints.Bounce;
         }
     }
 }

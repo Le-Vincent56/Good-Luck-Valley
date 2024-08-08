@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 380370530}
   - component: {fileID: 380370529}
   - component: {fileID: 380370531}
+  - component: {fileID: 380370532}
   m_Layer: 0
   m_Name: Burst Particle Controller
   m_TagString: Untagged
@@ -257,7 +258,7 @@ Transform:
   m_GameObject: {fileID: 380370526}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.606, y: -46.454002, z: -0.02633615}
+  m_LocalPosition: {x: 2.606, y: -46.454002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -299,10 +300,10 @@ VisualEffect:
       - m_Value: 0.4
         m_Name: Max Size
         m_Overridden: 1
-      - m_Value: 1
+      - m_Value: 0.5
         m_Name: Max X Velocity
         m_Overridden: 1
-      - m_Value: 4
+      - m_Value: 2
         m_Name: Max Y Velocity
         m_Overridden: 1
       - m_Value: 1
@@ -314,10 +315,10 @@ VisualEffect:
       - m_Value: 0.3
         m_Name: Min Size
         m_Overridden: 1
-      - m_Value: -1.5
+      - m_Value: -0.5
         m_Name: Min X Velocity
         m_Overridden: 1
-      - m_Value: 3
+      - m_Value: 1
         m_Name: Min Y Velocity
         m_Overridden: 1
       - m_Value: 5
@@ -332,12 +333,27 @@ VisualEffect:
       - m_Value: 1
         m_Name: Turb Intensity
         m_Overridden: 1
+      - m_Value: 360
+        m_Name: Max Starting Angle
+        m_Overridden: 1
+      - m_Value: 7
+        m_Name: Min Linear Drag Coefficient
+        m_Overridden: 1
+      - m_Value: 9
+        m_Name: Max Linear Drag Coefficient
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 9, y: -45.04, z: -0.02633615}
+      - m_Value: {x: 9, y: -45.04, z: 0}
         m_Name: SpawnPosition
+        m_Overridden: 1
+      - m_Value: {x: -0.25, y: 0, z: 0}
+        m_Name: Min Position Offset
+        m_Overridden: 1
+      - m_Value: {x: 0.25, y: 0.5, z: 0}
+        m_Name: Max Position Offset
         m_Overridden: 1
     m_Vector4f:
       m_Array: []
@@ -485,6 +501,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GoodLuckValley.VFX.Particles.ReactiveBurstParticleController,
           Assembly-CSharp
         m_MethodName: InitializePC
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &380370532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380370526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 8325c2a329bfea04a907085227941bc7, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 380370527}
+        m_TargetAssemblyTypeName: GoodLuckValley.VFX.Particles.ReactiveBurstParticleController,
+          Assembly-CSharp
+        m_MethodName: InitializeHardpoints
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9709,6 +9754,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6578453791765927406, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5.48349
+      objectReference: {fileID: 0}
     - target: {fileID: 6829087279219676937, guid: cb15061eace5fe64195ea00596ecdc0a, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -10020,6 +10069,14 @@ PrefabInstance:
     - target: {fileID: 7215556231266280211, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
       propertyPath: timeBetweenParticles
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433651813274011594, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.095
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433651813274011594, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.966
       objectReference: {fileID: 0}
     - target: {fileID: 9047676686677396218, guid: 113caeb97e763424ca3eed2b8d90fbd9, type: 3}
       propertyPath: m_Name
