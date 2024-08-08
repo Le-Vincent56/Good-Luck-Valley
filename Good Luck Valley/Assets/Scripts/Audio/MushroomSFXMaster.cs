@@ -14,6 +14,9 @@ namespace GoodLuckValley.Audio.SFX
         [Header("Mushroom Grow")]
         [SerializeField] private AK.Wwise.Event shroomGrowEvent;
 
+        [Header("Mushroom Dissipate")]
+        [SerializeField] private AK.Wwise.Event shroomDissipateEvent;
+
         public void UpdateSwitch(TileType tileType)
         {
             switch (tileType)
@@ -33,5 +36,7 @@ namespace GoodLuckValley.Audio.SFX
         }
 
         public void Grow() => shroomGrowEvent.Post(gameObject);
+
+        public void Dissipate() => shroomDissipateEvent.Post(gameObject);
     }
 }

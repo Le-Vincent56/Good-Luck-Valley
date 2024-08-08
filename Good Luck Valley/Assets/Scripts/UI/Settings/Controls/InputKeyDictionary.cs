@@ -82,7 +82,9 @@ namespace GoodLuckValley.UI.Settings.Controls
             // Mouse
             { "LMB", 64 },
             { "MMB", 65 },
-            { "RMB", 66 }
+            { "RMB", 66 },
+            { "Forward", 67 },
+            { "Back", 68 }
         };
 
         public Sprite GetKey(string keyName) => KeyImages[Keys[keyName]];

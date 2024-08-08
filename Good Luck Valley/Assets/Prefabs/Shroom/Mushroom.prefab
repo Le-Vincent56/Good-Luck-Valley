@@ -415,6 +415,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0}
   bounceEntity: 0
   growing: 0
+  dissipating: 0
 --- !u!114 &5369573696177444769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +433,8 @@ MonoBehaviour:
   durationTimer: 0
   bounceBuffer: 0
   onCooldown: 0
+  tryingToRemove: 0
+  removeCalled: 0
 --- !u!114 &5974221141365642111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,6 +487,10 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: e09ec44d370b6324394837d27bb6819e, type: 2}
+  shroomDissipateEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: a9488e518adb02e469721ab9e404e51e, type: 2}
 --- !u!114 &-6309271185135199833
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,6 +14,11 @@ namespace GoodLuckValley.UI
 {
     public class PauseMenu : FadePanel
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonEnter;
+        [SerializeField] private AK.Wwise.Event playButtonExit;
+        [SerializeField] private AK.Wwise.Event playNavigate;
+
         [Header("Events")]
         [SerializeField] private GameEvent onSetPauseInputAction;
         [SerializeField] private GameEvent onSetDefaultInputAction;
@@ -185,6 +190,9 @@ namespace GoodLuckValley.UI
         {
             // Since only called from the menu, TogglePause will unpause
             TogglePause();
+
+            // Play the button enter sound
+            playButtonEnter.Post(gameObject);
         }
 
         /// <summary>
@@ -202,6 +210,9 @@ namespace GoodLuckValley.UI
             // Calls to:
             //  - JournalUI.OpenJournalMenu();
             onOpenJournalMenu.Raise(this, null);
+
+            // Play the button enter sound
+            playButtonEnter.Post(gameObject);
         }
 
         public void OpenSettings()
@@ -216,6 +227,9 @@ namespace GoodLuckValley.UI
             // Calls to:
             //  - GameSettingsMenu.OpenSettings();
             onOpenSettingsMenu.Raise(this, null);
+
+            // Play the button enter sound
+            playButtonEnter.Post(gameObject);
         }
 
         /// <summary>
@@ -225,6 +239,9 @@ namespace GoodLuckValley.UI
         {
             // Save the game
             SaveLoadSystem.Instance.SaveGame();
+
+            // Play the button enter sound
+            playButtonEnter.Post(gameObject);
         }
 
         /// <summary>
@@ -233,6 +250,9 @@ namespace GoodLuckValley.UI
         public void ReturnToMain()
         {
             SceneLoader.Instance.LoadMainMenu();
+
+            // Play the button exit sound
+            playButtonExit.Post(gameObject);
         }
 
         /// <summary>
@@ -276,9 +296,12 @@ namespace GoodLuckValley.UI
             else if (navigation.x < 0) next = current.FindSelectableOnLeft();
             else if (navigation.x > 0) next = current.FindSelectableOnRight();
 
-            if (next != null)
+            if (next != null && next.interactable)
             {
                 EventSystem.current.SetSelectedGameObject(next.gameObject);
+
+                // Play the navigate sound
+                playNavigate.Post(gameObject);
             }
         }
 

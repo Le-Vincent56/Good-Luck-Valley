@@ -4,6 +4,9 @@ namespace GoodLuckValley.UI.Settings.Video
 {
     public class GameVideoSettingsController : MonoBehaviour
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonReset;
+
         [Header("References")]
         [SerializeField] private GameSettingsMenu controller;
         [SerializeField] private VideoSaveHandler videoSaveHandler;
@@ -52,7 +55,11 @@ namespace GoodLuckValley.UI.Settings.Video
         /// </summary>
         public void ResetSettings()
         {
+            // Set brightness to 50
             brightnessSlider.LoadBrightness(50f);
+
+            // Play the reset button sound
+            playButtonReset.Post(gameObject);
         }
 
         /// <summary>

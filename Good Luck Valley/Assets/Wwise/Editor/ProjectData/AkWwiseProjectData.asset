@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584784799267582336
+    m_lastTime: -8584784654229874724
     List:
     - name: AMBIENCE_2D
       guid: b45c581bfdea7f41a764d005cf137d6f
@@ -268,6 +268,29 @@ MonoBehaviour:
         ObjectType: 2
         guid: cb0e9fe7403e894c92d74049e1c407dd
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM\MUSHROOM_BOUNCE
+    - name: MUSHROOM_DISSIPATE
+      guid: 9f2909cebdea544cbb6f6346b2a93182
+      id: 1042698302
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 8f1b8c6611adc34c99866b8f5ed1dbac
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
+      - ElementName: MASTER_MUSHROOM
+        ObjectType: 2
+        guid: 312a4f5a79c4ca4cbef6f9ef2aee6d4d
+      - ElementName: MUSHROOM_DISSIPATE
+        ObjectType: 2
+        guid: 9f2909cebdea544cbb6f6346b2a93182
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM\MUSHROOM_DISSIPATE
     - name: MUSHROOM_GROW
       guid: 6a3f5cae1cd6ac4fa3ba9bb24ecffdfb
       id: 4011678951
@@ -781,7 +804,7 @@ MonoBehaviour:
     ParentPath: Events\MUSHROOM
     guid: 929588ad419e5a4baaf6933db5f9386e
     GuidInternal: 
-    m_lastTime: -8584786405564081796
+    m_lastTime: -8584784654051469849
     List: []
   - PhysicalPath: Events\MUSHROOM_BOUNCE.wwu
     PathAndIcons:
@@ -817,6 +840,42 @@ MonoBehaviour:
         guid: a3ead9b63e472247aff317e77470592f
       Path: Events\MUSHROOM\MUSHROOM_BOUNCE\PLAY_MUSHROOM_BOUNCE
       maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+  - PhysicalPath: Events\MUSHROOM_DISSIPATE.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: MUSHROOM
+      ObjectType: 12
+      guid: 929588ad419e5a4baaf6933db5f9386e
+    - ElementName: MUSHROOM_DISSIPATE
+      ObjectType: 12
+      guid: d2f9b9332077144e87eebc61bac3d43f
+    ParentPath: Events\MUSHROOM\MUSHROOM_DISSIPATE
+    guid: d2f9b9332077144e87eebc61bac3d43f
+    GuidInternal: 
+    m_lastTime: -8584784653960508147
+    List:
+    - name: PLAY_MUSHROOM_DISSIPATE
+      guid: bb16182f2faf924faf19916e65589831
+      id: 937795333
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MUSHROOM
+        ObjectType: 12
+        guid: 929588ad419e5a4baaf6933db5f9386e
+      - ElementName: MUSHROOM_DISSIPATE
+        ObjectType: 12
+        guid: d2f9b9332077144e87eebc61bac3d43f
+      - ElementName: PLAY_MUSHROOM_DISSIPATE
+        ObjectType: 3
+        guid: bb16182f2faf924faf19916e65589831
+      Path: Events\MUSHROOM\MUSHROOM_DISSIPATE\PLAY_MUSHROOM_DISSIPATE
+      maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
   - PhysicalPath: Events\MUSHROOM_GROW.wwu
@@ -2842,7 +2901,7 @@ MonoBehaviour:
     m_lastTime: -8584811326622686658
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 050000002200000023000000
+  ExpandedWaapiItemIds: 050000000c0000000f0000001600000018000000220000002300000024000000260000004c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

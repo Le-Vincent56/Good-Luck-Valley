@@ -45,7 +45,7 @@ namespace GoodLuckValley.Mushroom
         public void RemoveFirstShroom(List<GameObject> mushroomList)
         {
             // Destroy the first shroom object
-            Destroy(mushroomList[0]);
+            mushroomList[0].GetComponent<MushroomController>().Dissipate();
 
             // Remove the first shroom from the list
             mushroomList.RemoveAt(0);
@@ -100,9 +100,9 @@ namespace GoodLuckValley.Mushroom
             // Get the index of the mushroom
             int index = mushrooms.IndexOf(mushroom);
 
-            // Destroy the mushroom at that index
+            // Decompose the mushroom at that index
             // and remove it from the list
-            Destroy(mushrooms[index]);
+            mushrooms[index].GetComponent<MushroomController>().Dissipate();
             mushrooms.RemoveAt(index);
 
             // Re-arrange indexes
@@ -122,8 +122,8 @@ namespace GoodLuckValley.Mushroom
             // Check if there are any mushrooms to recall
             if (mushrooms.Count < 1) return;
 
-            // If so, destroy the last mushroom and remove it from the list
-            Destroy(mushrooms[mushrooms.Count - 1]);
+            // Decompose the last mushroom
+            mushrooms[mushrooms.Count - 1].GetComponent<MushroomController>().Dissipate();
             mushrooms.RemoveAt(mushrooms.Count - 1);
 
             // Re-arrange indexes
@@ -144,7 +144,9 @@ namespace GoodLuckValley.Mushroom
             foreach(GameObject mushroom in mushrooms)
             {
                 // Destroy the mushroom
-                if (mushroom != null) Destroy(mushroom);
+                if (mushroom != null)
+                    // Decompose each mushroom
+                    mushroom.GetComponent<MushroomController>().Dissipate();
             }
 
             // Clear the list

@@ -19,6 +19,11 @@ namespace GoodLuckValley.UI.Settings
 
     public class GameSettingsMenu : MonoBehaviour
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonEnter;
+        [SerializeField] private AK.Wwise.Event playButtonExit;
+        [SerializeField] private AK.Wwise.Event playNavigate;
+
         [Header("Events")]
         [SerializeField] private GameEvent onSetMenuInput;
         [SerializeField] private GameEvent onExitGameSettings;
@@ -106,7 +111,21 @@ namespace GoodLuckValley.UI.Settings
         /// Set the state of the Title Screen
         /// </summary>
         /// <param name="state"></param>
-        public void SetState(int state) => this.state = state;
+        public void SetState(int state)
+        {
+            // Check in which direction the state change is going
+            if(state > this.state)
+            {
+                // If going to a higher state, play the button enter sound
+                playButtonEnter.Post(gameObject);
+            } else if(state < this.state)
+            {
+                // If going to a lower state, play the button exit sound
+                playButtonExit.Post(gameObject);
+            }
+
+            this.state = state;
+        }
 
         /// <summary>
         /// Handle back input
@@ -163,9 +182,13 @@ namespace GoodLuckValley.UI.Settings
             else if (navigation.x < 0) next = current.FindSelectableOnLeft();
             else if (navigation.x > 0) next = current.FindSelectableOnRight();
 
-            if (next != null)
+            if (next != null && next.interactable)
             {
+                // Select the next game object
                 EventSystem.current.SetSelectedGameObject(next.gameObject);
+
+                // Play the navigate sound
+                playNavigate.Post(gameObject);
             }
         }
 

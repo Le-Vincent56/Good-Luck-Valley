@@ -5,9 +5,13 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Video
 {
     public class VideoSettingsController : SettingsController
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonReset;
+
         [Header("References")]
         [SerializeField] private VideoSaveHandler videoSaveHandler;
         [SerializeField] private BrightnessSlider brightnessSlider;
+        [SerializeField] private SubtitlesToggle subtitlesToggle;
 
         [Header("Fields")]
         private const int stateNum = 5;
@@ -21,6 +25,7 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Video
 
             // Initialize elements
             brightnessSlider.Init();
+            subtitlesToggle.Init();
         }
 
         /// <summary>
@@ -57,7 +62,11 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Video
         /// </summary>
         public void ResetSettings()
         {
+            // Reset the brightness to 50
             brightnessSlider.LoadBrightness(50f);
+
+            // Play the reset button sound
+            playButtonReset.Post(gameObject);
         }
     }
 }

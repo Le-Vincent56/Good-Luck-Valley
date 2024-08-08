@@ -13,6 +13,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
 {
     public class StartMenuController : MonoBehaviour
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event playButtonEnter;
+
         [Header("References")]
         [SerializeField] private MenuInputReader inputReader;
         [SerializeField] private TitleScreenController controller;
@@ -54,6 +57,14 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         {
             // Verify that the correct data was sent
             if (data is not int) return;
+
+            // Check if the delete confirmation popup is open
+            if(deleteController.GetState() == deleteController.POPUP)
+            {
+                // Set the popup to idle and return
+                deleteController.SetState(deleteController.IDLE);
+                return;
+            }
 
             // Cast and compare data
             if ((int)data == stateNum)
@@ -135,6 +146,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // If no slot is selected, return
             if (selectedSlot == null) return;
 
+            // Disable input
+            inputReader.Disable();
+
             // Set game states
             MusicManager.Instance.SetGameStates();
 
@@ -148,6 +162,9 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             {
                 LoadData(selectedSlot);
             }
+
+            // Play enter sound
+            playButtonEnter.Post(gameObject);
         }
 
         /// <summary>
@@ -190,7 +207,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         public void ActivateDeletePopup()
         {
             // Set the state of the delete controller
-            deleteController.SetState(deleteController.CONFIRMATION);
+            deleteController.SetState(deleteController.POPUP);
         }
 
         /// <summary>

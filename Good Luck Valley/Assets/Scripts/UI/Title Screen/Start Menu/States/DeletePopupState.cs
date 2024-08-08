@@ -62,6 +62,10 @@ namespace GoodLuckValley.UI.TitleScreen.Start.States
             // Deactivate the cursors
             cursors.DeactivateCursors();
 
+            // Deactivate the popup if currently enabled
+            if (popup.enabled)
+                popup.DeactivateMenu(false);
+
             // Re-enable buttons
             foreach(Button button in buttonsToDisable)
             {

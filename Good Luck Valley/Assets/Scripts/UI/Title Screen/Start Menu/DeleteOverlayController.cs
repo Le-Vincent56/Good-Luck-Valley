@@ -24,7 +24,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         private StateMachine stateMachine;
 
         public int IDLE { get => 0; }
-        public int CONFIRMATION { get => 1; }
+        public int POPUP { get => 1; }
         public int DELETING { get => 2; }
 
         private void Awake()
@@ -46,7 +46,7 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             DeletingDeleteState deleteState = new DeletingDeleteState(this, animator, deleteOverlayObject, deleteAnimatorObject);
 
             // Set state transitions
-            At(idleState, popupState, new FuncPredicate(() => state == CONFIRMATION));
+            At(idleState, popupState, new FuncPredicate(() => state == POPUP));
             At(popupState, idleState, new FuncPredicate(() => state == IDLE));
             At(popupState, deleteState, new FuncPredicate(() => state == DELETING));
             At(deleteState, idleState, new FuncPredicate(() => state == IDLE));
@@ -85,6 +85,12 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         /// </summary>
         /// <param name="state">The state to set to</param>
         public void SetState(int state) => this.state = state;
+
+        /// <summary>
+        /// Get the delete overlay state
+        /// </summary>
+        /// <returns></returns>
+        public int GetState() => state;
 
         /// <summary>
         /// Delete the selected slot's data

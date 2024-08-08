@@ -28,7 +28,12 @@ namespace GoodLuckValley.Journal
         /// Add content to the Journal Entry
         /// </summary>
         /// <param name="content"></param>
-        public void AddContent(string content) => this.content += $" {content}";
+        public void AddContent(string content)
+        {
+            if (progress >= 1) this.content += $"\n";
+
+            this.content += $"\n{content}";
+        }
 
         /// <summary>
         /// Update the progress of the Journal Entry

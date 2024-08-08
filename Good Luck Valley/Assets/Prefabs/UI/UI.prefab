@@ -1785,6 +1785,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cacf325c39672374cb9842df1ef47850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButtonEnter:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d6b747769b4d7ff4b8521b47ddcd7eaa, type: 2}
+  playButtonExit:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7124fd3f7d1756a449561dca26a63d98, type: 2}
+  playNavigate:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 25f6ca6e0301b784fbb0b159b3eba7f3, type: 2}
   onSetMenuInput: {fileID: 11400000, guid: 200a4574573b2ac47946bc5b7e441f65, type: 2}
   onExitGameSettings: {fileID: 11400000, guid: b5a3700d27388ca4a9fd9553e2c7667b, type: 2}
   input: {fileID: 11400000, guid: 7556aba082017494693b9d2cd5c6a5c2, type: 2}
@@ -5158,12 +5170,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlSlider: {fileID: 0}
-  displayText: {fileID: 8709785389539768772}
   volumeRTPC:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 554449792daf052448f4cba93179c3b9, type: 2}
+  playSlider:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c4f55eb24fe6fa84eb5e28be199d2dde, type: 2}
+  controlSlider: {fileID: 0}
+  displayText: {fileID: 8709785389539768772}
+  loaded: 0
 --- !u!223 &4651260793771560457
 Canvas:
   m_ObjectHideFlags: 0
@@ -5988,6 +6005,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d2d064524a1dd4f935b54e17dc62de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButtonReset:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 1377197b04de0cc4d834fc9419e6b718, type: 2}
   controller: {fileID: 0}
   audioBusSliders:
   - {fileID: 2259498927887819871}
@@ -6977,12 +6998,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlSlider: {fileID: 0}
-  displayText: {fileID: 933059287414118249}
   volumeRTPC:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 93b3c92576009ed4eb1f1ab1155f1c82, type: 2}
+  playSlider:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c4f55eb24fe6fa84eb5e28be199d2dde, type: 2}
+  controlSlider: {fileID: 0}
+  displayText: {fileID: 933059287414118249}
+  loaded: 0
 --- !u!223 &6217467381495143827
 Canvas:
   m_ObjectHideFlags: 0
@@ -8181,12 +8207,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlSlider: {fileID: 0}
-  displayText: {fileID: 3597992807997385316}
   volumeRTPC:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 9d770193330520d4a8ddb26966013eed, type: 2}
+  playSlider:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c4f55eb24fe6fa84eb5e28be199d2dde, type: 2}
+  controlSlider: {fileID: 0}
+  displayText: {fileID: 3597992807997385316}
+  loaded: 0
 --- !u!223 &5745114704463819866
 Canvas:
   m_ObjectHideFlags: 0
@@ -9858,6 +9889,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4951bf7df8e57554a86143a3d85900d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButtonReset:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 1377197b04de0cc4d834fc9419e6b718, type: 2}
+  playButtonGeneral:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 69e97cdc48350864e864554dd7d79318, type: 2}
   controller: {fileID: 0}
   keysDict: {fileID: 11400000, guid: 54353ce13bbe92a4fa4d75a3a7351f5a, type: 2}
   menuInputReader: {fileID: 11400000, guid: 7556aba082017494693b9d2cd5c6a5c2, type: 2}
@@ -12811,12 +12850,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd29c59cc7bbf614d92f3f4e87e71625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlSlider: {fileID: 0}
-  displayText: {fileID: 5869643593838586592}
   volumeRTPC:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: bfe5bc213c68e0846809016028792a10, type: 2}
+  playSlider:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c4f55eb24fe6fa84eb5e28be199d2dde, type: 2}
+  controlSlider: {fileID: 0}
+  displayText: {fileID: 5869643593838586592}
+  loaded: 0
 --- !u!223 &917877104821441628
 Canvas:
   m_ObjectHideFlags: 0
@@ -17919,6 +17963,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0409d5ecef9d58e419220bf1c37c2aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButtonReset:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 1377197b04de0cc4d834fc9419e6b718, type: 2}
   controller: {fileID: 0}
   videoSaveHandler: {fileID: 0}
   brightnessSlider: {fileID: 8151849038908006953}
@@ -22961,6 +23009,7 @@ GameObject:
   - component: {fileID: 4940644555243112567}
   - component: {fileID: 2975099554961278861}
   - component: {fileID: 1234592612323212627}
+  - component: {fileID: 8560728548103732137}
   m_Layer: 5
   m_Name: Subtitles Checkbox
   m_TagString: Untagged
@@ -23074,6 +23123,27 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &8560728548103732137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7943019163113142575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358bc9608b5cff349a4a490c13560bb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playToggleOn:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 5a1b7d497230b2d4aaa340cb1eba2c75, type: 2}
+  playToggleOff:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ca642e1f148863044ba3d91157fc1c79, type: 2}
+  toggle: {fileID: 0}
 --- !u!1 &7956498290970460122
 GameObject:
   m_ObjectHideFlags: 0
@@ -24704,10 +24774,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a117427c6f1f904aa4b5bc8f7e8df45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playSlider:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c4f55eb24fe6fa84eb5e28be199d2dde, type: 2}
   brightnessSlider: {fileID: 0}
   displayText: {fileID: 6830318080188175961}
   postProcessVolume: {fileID: 11400000, guid: b31b2a2ec4b2c6840b72e054ea646224, type: 2}
   colorAdjustments: {fileID: 0}
+  loaded: 0
 --- !u!1 &8488880080562795415
 GameObject:
   m_ObjectHideFlags: 0
@@ -25316,6 +25391,18 @@ MonoBehaviour:
   exclusiveFade: 0
   fadeDuration: 0.2
   objectsToFade: []
+  playButtonEnter:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d6b747769b4d7ff4b8521b47ddcd7eaa, type: 2}
+  playButtonExit:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7124fd3f7d1756a449561dca26a63d98, type: 2}
+  playNavigate:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 25f6ca6e0301b784fbb0b159b3eba7f3, type: 2}
   onSetPauseInputAction: {fileID: 11400000, guid: 164856897c06b1a4d9b88257d9ae0f16, type: 2}
   onSetDefaultInputAction: {fileID: 11400000, guid: 2670d4596effa8a479f9709760b8dc28, type: 2}
   onOpenJournalMenu: {fileID: 11400000, guid: 84a095a48e9425b4bba102b35929b599, type: 2}
