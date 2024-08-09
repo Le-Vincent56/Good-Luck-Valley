@@ -1009,6 +1009,9 @@ namespace GoodLuckValley.Player.Control
 
             if (!started)
             {
+                // Reset slide variables
+                tryFastSlide = false;
+
                 EndSlide();
             }
         }
@@ -1077,8 +1080,6 @@ namespace GoodLuckValley.Player.Control
 
         public void EndSlide()
         {
-            // Reset slide variables
-            tryFastSlide = false;
             isFastSliding = false;
             currentSlideScalar = 1f;
         }
