@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System.Collections;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.UI.Settings.Controls;
+using UnityEngine.Rendering;
 
 namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 {
@@ -127,8 +128,6 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
                     if (CheckDuplicateBindings(action, bindingIndex))
                     {
-                        Debug.Log($"Action Name: {action.bindings[bindingIndex].name}, {action.bindings[bindingIndex].overridePath}");
-
                         // Remove any binding overrides
                         action.RemoveBindingOverride(bindingIndex);
 
@@ -161,6 +160,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
                 if(binding.action == newBinding.action)
                     continue;
 
+                // If the action is Moving Up and set to W (only used for dev tools), ignore FOR NOW
+                if (binding.name == "up" && binding.effectivePath == "<Keyboard>/w")
+                    continue;
+
                 // Check if the control at the binding is the same as the new one
                 if (binding.effectivePath == newBinding.effectivePath)
                 {
@@ -185,6 +188,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
                     // If the action is the same as the one being rebinded, continue
                     if (action.actionMap.bindings[i].name == newBinding.name)
                         continue;
+
+                    // If the action is Moving Up and set to W (only used for dev tools), ignore FOR NOW
+                    if (action.actionMap.bindings[i].name == "up" && action.actionMap.bindings[i].effectivePath == "<Keyboard>/w")
+                        continue;
                     
                     // Return true if the bindings are the same
                     if (action.actionMap.bindings[i].effectivePath == newBinding.effectivePath)
@@ -208,6 +215,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
             // Set a valid rebind
             rebindingButton.SetValidRebind(true);
+
+            // Update whether or not the rebinding button has been rebinded
+            // (or has been attempted to be rebinded)
+            rebindingButton.UpdateRebinded();
         }
 
         /// <summary>
@@ -246,6 +257,11 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             menuInputReader.Enable();
         }
 
+        /// <summary>
+        /// Coroutine to fade in the duplicate warning
+        /// </summary>
+        /// <param name="targetAlpha"></param>
+        /// <returns></returns>
         private IEnumerator FadeInDuplicatesText(float targetAlpha)
         {
             // If the game object is disabled, enable it
@@ -263,6 +279,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             }
         }
 
+        /// <summary>
+        /// Coroutine to fade out the duplicate warning
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator FadeOutDuplicatesText()
         {
             float elapsedTime = 0f;
@@ -299,6 +319,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// </summary>
         public void DeactivateRebindingButtonAnimator() => GetCurrentRebindingButton().DisableAnimator();
 
+        /// <summary>
+        /// Check the validity of each rebinding button
+        /// </summary>
+        /// <returns></returns>
         private bool CheckValidity()
         {
             // Loop through each rebinding button
@@ -356,6 +380,11 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             }
         }
 
+        /// <summary>
+        /// Handle back input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void BackInput(Component sender, object data)
         {
             // Verify that the correct data was sent

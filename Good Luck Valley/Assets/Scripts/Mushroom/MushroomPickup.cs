@@ -10,7 +10,6 @@ public class MushroomPickup : Collectible
     #region EVENTS
     [Header("Events")]
     [SerializeField] private GameEvent onDisablePlayerTimed;
-    [SerializeField] private GameEvent onTeachInteractable;
     [SerializeField] private GameEvent onUnlockThrow;
 
     [Header("Fields")]
@@ -46,9 +45,6 @@ public class MushroomPickup : Collectible
 
         // Shake the camera
         CameraManager.Instance.ShakeCamera(shakeCurve, pickupDuration, pickupShakeIntensity);
-
-        // Teach interactable
-        onTeachInteractable.Raise(this, null);
 
         // Update the blackboard
         if (playerBlackboard.TryGetValue(unlockedThrow, out bool blackboardValue))
