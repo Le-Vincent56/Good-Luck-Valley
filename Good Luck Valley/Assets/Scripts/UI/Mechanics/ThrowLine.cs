@@ -359,6 +359,12 @@ namespace GoodLuckValley.UI
             DeleteLine();
         }
 
+        public void DisableLineTransition(Component sender, object data)
+        {
+            show = false;
+            DeleteLine();
+        }
+
         /// <summary>
         /// Set cursor position
         /// </summary>

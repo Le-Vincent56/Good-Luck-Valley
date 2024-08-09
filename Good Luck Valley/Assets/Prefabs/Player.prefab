@@ -106,64 +106,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &213908535049713053
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3345855467023928956}
-  - component: {fileID: 5259507677530097701}
-  m_Layer: 10
-  m_Name: Keybinder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3345855467023928956
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213908535049713053}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2414757590046708016}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5259507677530097701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213908535049713053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1116231190eb81246bb3ea13fe007763, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputReader: {fileID: 11400000, guid: 99c798e546fd5774c91279c1638725b4, type: 2}
-  inputActionAsset: {fileID: -944628639613478452, guid: 1489f33728e255a48863437b065355f0, type: 3}
-  data:
-    <ID>k__BackingField:
-      Part1: 0
-      Part2: 0
-      Part3: 0
-      Part4: 0
-    bindings: 
-  <ID>k__BackingField:
-    Part1: 2453316011
-    Part2: 1181080316
-    Part3: 3984020625
-    Part4: 60208677
 --- !u!1 &589847039867995421
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +969,7 @@ GameObject:
   - component: {fileID: 4901939304220155657}
   - component: {fileID: 6677754103167983493}
   - component: {fileID: 9059221507850477663}
+  - component: {fileID: 1747734009096074176}
   m_Layer: 0
   m_Name: Line
   m_TagString: Untagged
@@ -1287,6 +1230,34 @@ MonoBehaviour:
       - m_Target: {fileID: 8556021875766829226}
         m_TargetAssemblyTypeName: GoodLuckValley.UI.ThrowLine, Assembly-CSharp
         m_MethodName: GetSpawnData
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1747734009096074176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580228890345776939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8ce384fd4fe7245bffa51cd54cc0f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 1790b0c16c32f9840a8190d205cf7751, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8556021875766829226}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.ThrowLine, Assembly-CSharp
+        m_MethodName: DisableLine
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2215,7 +2186,6 @@ Transform:
   m_LocalScale: {x: 1.0014, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3345855467023928956}
   - {fileID: 3045553210023442063}
   - {fileID: 5936272026601382572}
   - {fileID: 5934230490664107429}
