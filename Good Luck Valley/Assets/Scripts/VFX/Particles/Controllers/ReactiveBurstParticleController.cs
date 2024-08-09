@@ -16,6 +16,8 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         DirtRunning,
         DirtJumping,
         DirtLanding,
+        ShroomGrow,
+        ShroomBounce,
         None
     }
 
@@ -69,6 +71,8 @@ namespace GoodLuckValley.VFX.Particles.Controllers
             // Check to make sure the necessary references are not null
             if (playerController != null && runHardpoint != null && bounceHardpoint != null)
             {
+                TileType tileType = tileTypeDetector.GetTileType();
+
                 // Check currently active particle
                 switch (activeParticle)
                 {
@@ -88,7 +92,7 @@ namespace GoodLuckValley.VFX.Particles.Controllers
                             Mathf.Abs(playerController.Velocity.x) > minRunningParticleVelocity &&
                             runningParticlesCurrentTime > timeBetweenParticles)
                         {
-                            // Set the VFX data to use the grass running data
+                            // Send VFX data
                             SendVFXData(grassRunningData);
 
                             // Set the VFX spawn position
@@ -104,8 +108,8 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass landing particle active
                     case ActiveParticle.GrassLanding:
-                        // Set the VFX data to use the grass landing data
-                        SendVFXData(grassJumpData);
+                        // Send VFX data
+                        SendVFXData(grassLandData);
 
                         // Set the VFX spawn position
                         SendVFXSpawnPosition(landHardpoint.position);    
@@ -119,7 +123,7 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass jumping particle active
                     case ActiveParticle.GrassJumping:
-                        // Set the VFX data to use the grass jumping data
+                        // Send VFX data
                         SendVFXData(grassJumpData);
 
                         // If player is moving above minimum velocity, use the jump hardpoint (offset in front of player to account for speed)
@@ -136,16 +140,64 @@ namespace GoodLuckValley.VFX.Particles.Controllers
                         HandleRunningParticles();
                         break;
 
-                    // Dirt running particle active
+                    // Grass running particle active
                     case ActiveParticle.DirtRunning:
+                        // Increment running particles time using deltaTime
+                        runningParticlesCurrentTime += Time.deltaTime;
+
+                        // Ensure player is grounded,
+                        //  moving above the minimum velocity,
+                        //  and there has been enough time between running particles to spawn one
+                        if (playerController.IsGrounded &&
+                            Mathf.Abs(playerController.Velocity.x) > minRunningParticleVelocity &&
+                            runningParticlesCurrentTime > timeBetweenParticles)
+                        {
+                            // Send VFX data
+                            SendVFXData(dirtRunningData);
+
+                            // Set the VFX spawn position
+                            SendVFXSpawnPosition(runHardpoint.position);
+
+                            // Play the particle
+                            burstParticleVFX.Play();
+
+                            // Reset the running time
+                            runningParticlesCurrentTime = 0;
+                        }
                         break;
 
-                    // Dirt landing particle active
+                    // Grass landing particle active
                     case ActiveParticle.DirtLanding:
+                        // Send VFX data
+                        SendVFXData(dirtLandData);
+
+                        // Set the VFX spawn position
+                        SendVFXSpawnPosition(landHardpoint.position);
+
+                        // Play the particle
+                        burstParticleVFX.Play();
+
+                        // Reset to the running particle
+                        HandleRunningParticles();
                         break;
 
-                    // Dirt jumping particle active
+                    // Grass jumping particle active
                     case ActiveParticle.DirtJumping:
+                        // Send VFX data
+                        SendVFXData(dirtJumpData);
+
+                        // If player is moving above minimum velocity, use the jump hardpoint (offset in front of player to account for speed)
+                        //  if not, use the land one (directly under player)
+                        if (Mathf.Abs(playerController.Velocity.x) > minRunningParticleVelocity)
+                            SendVFXSpawnPosition(jumpHardpoint.position);
+                        else
+                            SendVFXSpawnPosition(landHardpoint.position);
+
+                        // Play the particle
+                        burstParticleVFX.Play();
+
+                        // Reset to the running particle
+                        HandleRunningParticles();
                         break;
                 }
             }
@@ -161,7 +213,7 @@ namespace GoodLuckValley.VFX.Particles.Controllers
                 return;
             }
             // If running data has not already been sent, it will be now, set bool to true
-            else if ((activeParticle == ActiveParticle.GrassRunning || activeParticle == ActiveParticle.DirtRunning))
+            else if (activeParticle == ActiveParticle.GrassRunning || activeParticle == ActiveParticle.DirtRunning)
             {
                 lastSentWasRunningData = true;
             }
@@ -220,19 +272,11 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         /// </summary>
         public void HandleJumpParticles()
         {
-            // Checks the tile type beneath player
-            switch (tileTypeDetector.GetTileType())
+            switch(tileTypeDetector.GetTileType())
             {
-                // If none, do nothing
-                case TileType.None: break;
-
-                // If grass, set active particle to grass jumping
                 case TileType.Grass:
                     activeParticle = ActiveParticle.GrassJumping;
-
                     break;
-
-                // If dirt, set active particle to dirt jumping
                 case TileType.Dirt:
                     activeParticle = ActiveParticle.DirtJumping;
                     break;
@@ -244,19 +288,11 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         /// </summary>
         public void HandleLandParticles()
         {
-            // Checks the tile type beneath player
             switch (tileTypeDetector.GetTileType())
             {
-                // If none, do nothing
-                case TileType.None: break;
-
-                // If grass, set active particle to grass landing
                 case TileType.Grass:
                     activeParticle = ActiveParticle.GrassLanding;
-
                     break;
-
-                // If dirt, set active particle to dirt landing
                 case TileType.Dirt:
                     activeParticle = ActiveParticle.DirtLanding;
                     break;
@@ -268,19 +304,11 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         /// </summary>
         private void HandleRunningParticles()
         {
-            // Checks the tile type beneath player
             switch (tileTypeDetector.GetTileType())
             {
-                // If none, do nothing
-                case TileType.None: break;
-
-                // If grass, set active particle to grass running
-                case TileType.Grass:
+                case TileType.Grass:    
                     activeParticle = ActiveParticle.GrassRunning;
-
                     break;
-
-                // If dirt, set active particle to dirt running
                 case TileType.Dirt:
                     activeParticle = ActiveParticle.DirtRunning;
                     break;

@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6098387773395764a972bdd0bf6c065c, type: 3}
-  m_Name: GrassLandingParticleData
+  m_Name: DirtLandingParticleData
   m_EditorClassIdentifier: 
-  spawnCount: 5
-  minXVelocity: -3
-  maxXVelocity: 3
-  minYVelocity: 1
-  maxYVelocity: 2
+  spawnCount: 15
+  minXVelocity: -4
+  maxXVelocity: 4
+  minYVelocity: 0
+  maxYVelocity: 1
   minLifetime: 1
   maxLifetime: 1.2
-  minSize: 0.3
-  maxSize: 0.4
+  minSize: 0.1
+  maxSize: 0.2
   minStartingAngle: 0
-  maxStartingAngle: 360
-  minPositionOffset: {x: -0.25, y: 0, z: 0}
-  maxPositionOffset: {x: 0.25, y: 0.25, z: 0}
-  gravity: -4.5
+  maxStartingAngle: 0
+  minPositionOffset: {x: -0.1, y: 0, z: 0}
+  maxPositionOffset: {x: 0.1, y: 0.2, z: 0}
+  gravity: 2
   minLinearDragCoefficient: 7
   maxLinearDragCoefficient: 9
   turbulenceIntensity: 1
@@ -34,7 +34,7 @@ MonoBehaviour:
   addZAngle: 0.1
   minAddAngleScalar: 1
   maxAddAngleScalar: 5
-  mainTex: {fileID: 2800000, guid: b187712591118124a9c29c7c2485dc46, type: 3}
+  mainTex: {fileID: 2800000, guid: 6c408c954f00e8740b438f5af7c07572, type: 3}
   multiplySizeOverLife:
     serializedVersion: 2
     m_Curve:
@@ -48,8 +48,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.8
-      value: 1
+      time: 0.20277101
+      value: 0.99842834
       inSlope: -0.0015728833
       outSlope: -0.0015728833
       tangentMode: 0
@@ -70,8 +70,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   colorOverLife:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 0}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.31792173, g: 0.19061497, b: 0.10572131, a: 0}
+    key1: {r: 0.32156864, g: 0.1882353, b: 0.101960786, a: 0.5647059}
     key2: {r: 0, g: 0, b: 0, a: 0.3529412}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
