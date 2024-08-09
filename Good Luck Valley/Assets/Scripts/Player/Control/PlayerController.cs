@@ -1212,10 +1212,6 @@ namespace GoodLuckValley.Player.Control
 
             // Re-enable input
             input.Enable();
-
-            // If the sender is a mushroom pickup, stop the rumble sound
-            if (sender is MushroomPickup)
-                ((MushroomPickup)sender).StopRumble();
         }
 
         /// <summary>

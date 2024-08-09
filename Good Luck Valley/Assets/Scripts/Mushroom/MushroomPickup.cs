@@ -20,7 +20,6 @@ public class MushroomPickup : Collectible
 
     [Header("Wwise")]
     [SerializeField] private AK.Wwise.Event playRumble;
-    [SerializeField] private AK.Wwise.Event stopRumble;
 
     Blackboard playerBlackboard;
     BlackboardKey unlockedThrow;
@@ -55,11 +54,12 @@ public class MushroomPickup : Collectible
         if (playerBlackboard.TryGetValue(unlockedThrow, out bool blackboardValue))
             playerBlackboard.SetValue(unlockedThrow, true);
 
+        // Unlock the throw
+        onUnlockThrow.Raise(this, null);
+
         shroomRoomLightController.StartLightTransition();
 
         // Collect the collectible
         base.Interact();
     }
-
-    public void StopRumble() => stopRumble.Post(gameObject);
 }
