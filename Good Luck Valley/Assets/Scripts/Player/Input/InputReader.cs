@@ -190,9 +190,9 @@ namespace GoodLuckValley.Player.Input
         {
             if (!AllowControl) return;
 
-            if (context.started)
+            if (context.performed)
             {
-                FastSlide.Invoke(context.started);
+                FastSlide.Invoke(context.performed);
             }
             else if (context.canceled)
             {
