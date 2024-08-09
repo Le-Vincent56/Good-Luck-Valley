@@ -3,6 +3,7 @@ using GoodLuckValley.World.AreaTriggers;
 using GoodLuckValley.Events;
 namespace GoodLuckValley.Cameras
 {
+    [RequireComponent(typeof(AreaCollider))]
     public class CameraControlTrigger : MonoBehaviour
     {
         public enum Direction
