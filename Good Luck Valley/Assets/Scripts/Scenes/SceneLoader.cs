@@ -89,6 +89,7 @@ namespace GoodLuckValley.SceneManagement
                 //  - GameControlsSettingsController.Init();
                 onPrepareSettings.Raise(this, null);
 
+                // Finalize the level transition
                 FinalizeLevel();
             }
         }
@@ -101,6 +102,9 @@ namespace GoodLuckValley.SceneManagement
             onFadeIn.Raise(this, true);
         }
 
+        /// <summary>
+        /// Finalize the level transition
+        /// </summary>
         public void FinalizeLevel()
         {
             // Start fading in
@@ -110,38 +114,45 @@ namespace GoodLuckValley.SceneManagement
 
             if (SaveLoadSystem.Instance.settingsData != null)
                 SaveLoadSystem.Instance.BindSettings(true);
-
-            StartTransitionTimer();
         }
 
-        private async void StartTransitionTimer()
-        {
-            await Task.Delay(TimeSpan.FromSeconds(transitionTime));
-
-            isLoading = false;
-        }
-
+        /// <summary>
+        /// Set the scene to load
+        /// </summary>
+        /// <param name="sceneToLoad"></param>
+        /// <param name="transitionType"></param>
+        /// <param name="moveDirection"></param>
+        /// <param name="loadIndex"></param>
         public void SetSceneToLoad(string sceneToLoad, TransitionType transitionType, int moveDirection, int loadIndex)
         {
+            // Set the name of the scene
             this.sceneToLoad.name = sceneToLoad;
 
+            // Check what kind of Transition Type it is
             if (transitionType == TransitionType.Entrance)
                 this.sceneToLoad.type = TransitionType.Exit;
             else
                 this.sceneToLoad.type = TransitionType.Entrance;
 
+            // Set the load index
             this.sceneToLoad.loadIndex = loadIndex;
 
+            // Set the transition direction
             transitionDirection = moveDirection;
         }
 
+        /// <summary>
+        /// Begin the scene transition
+        /// </summary>
         public async void BeginTransition()
         {
             // Set previous scene
             previousScene = SceneManager.GetActiveScene().name;
 
+            // Set loading to true
             isLoading = true;
 
+            // Notify that it's not from the main menu
             fromMainMenu = false;
 
             // Begin any transition effects
@@ -149,6 +160,7 @@ namespace GoodLuckValley.SceneManagement
             // - PlayerController.BeginPlayerTransition();
             onTransitionBegin.Raise(this, transitionDirection);
 
+            // Wait for the transition time
             await Task.Delay(TimeSpan.FromSeconds(transitionTime));
 
             // Start fade out
@@ -157,6 +169,9 @@ namespace GoodLuckValley.SceneManagement
             onFadeOut.Raise(this, null);
         }
 
+        /// <summary>
+        /// Have a fade-out only transition
+        /// </summary>
         public void TransitionFadeOutOnly()
         {
             // Start fade out
@@ -165,18 +180,32 @@ namespace GoodLuckValley.SceneManagement
             onFadeOut.Raise(this, null);
         }
 
+        /// <summary>
+        /// Change the scene
+        /// </summary>
         public void ChangeScene() => SceneManager.LoadScene(sceneToLoad.name, LoadSceneMode.Single);
 
+        /// <summary>
+        /// End the scene transition
+        /// </summary>
         public async void EndTransition()
         {
+            // Wait for the transition time
             await Task.Delay(TimeSpan.FromSeconds(transitionTime));
 
             // End any transition effects
             // Calls to:
-            //  -
+            //  - PlayerController.EndPlayerTransition();
             onTransitionEnd.Raise(this, null);
+
+            // Set loading to false
+            isLoading = false;
         }
 
+        /// <summary>
+        /// Scene transition specifically for entering the game from the main menu
+        /// </summary>
+        /// <param name="sceneName"></param>
         public void EnterGame(string sceneName)
         {
             sceneToLoad.name = sceneName;
@@ -188,6 +217,9 @@ namespace GoodLuckValley.SceneManagement
             TransitionFadeOutOnly();
         }
 
+        /// <summary>
+        /// Scene transition specifically for going to the main menu
+        /// </summary>
         public void LoadMainMenu()
         {
             // Set the main menu as the scene to load

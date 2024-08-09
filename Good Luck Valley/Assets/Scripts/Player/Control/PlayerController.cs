@@ -80,6 +80,7 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private bool isFastSliding;
         [SerializeField] private bool isCrawling;
         [SerializeField] private bool isOnSlope;
+        [SerializeField] private bool isHoldingSlide;
 
         private Coroutine disableTimer;
         private Blackboard playerBlackboard;
@@ -91,6 +92,7 @@ namespace GoodLuckValley.Player.Control
 
         public bool IsGrounded { get { return isGrounded; } }
         public bool IsFastSliding { get { return isFastSliding; } set { isFastSliding = value; } }
+        public bool IsTryingFastSlide { get { return tryFastSlide; } set { tryFastSlide = value; } }
         public bool IsCrawling { get { return isCrawling; } set { isCrawling = value; } }
         public Vector2 Velocity { get { return velocity; } }
         public (Vector2 Offset, Vector2 Size) CrawlingCollider { get; private set; }
@@ -997,16 +999,19 @@ namespace GoodLuckValley.Player.Control
         /// <summary>
         /// Handle fast slide input
         /// </summary>
-        /// <param name="started"></param>
-        public void OnFastSlide(bool started)
+        /// <param name="performed"></param>
+        public void OnFastSlide(bool performed)
         {
-            if (started)
+            if (performed)
             {
+                isHoldingSlide = true;
                 tryFastSlide = true;
             }
 
-            if (!started)
+            if (!performed)
             {
+                isHoldingSlide = false;
+
                 EndSlide();
             }
         }
@@ -1075,8 +1080,12 @@ namespace GoodLuckValley.Player.Control
 
         public void EndSlide()
         {
+            // Check if holding the slide input
+            if(!isHoldingSlide)
+                // If not, then stop trying to fast slide
+                tryFastSlide = false;
+
             // Reset slide variables
-            tryFastSlide = false;
             isFastSliding = false;
             currentSlideScalar = 1f;
         }
@@ -1179,10 +1188,6 @@ namespace GoodLuckValley.Player.Control
 
             // Re-enable input
             input.Enable();
-
-            // If the sender is a mushroom pickup, stop the rumble sound
-            if (sender is MushroomPickup)
-                ((MushroomPickup)sender).StopRumble();
         }
 
         /// <summary>

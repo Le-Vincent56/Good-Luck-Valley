@@ -46,6 +46,9 @@ public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
             RegisterKeys();
     }
 
+    /// <summary>
+    /// Save tutorial data
+    /// </summary>
     public void SaveData()
     {
         if (tutorialBlackboard == null)
@@ -80,6 +83,11 @@ public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
         data.ChainBounced = GetData(hasChainBounced);
     }
 
+    /// <summary>
+    /// Retrieve data from a Blackboard using a Key
+    /// </summary>
+    /// <param name="key">The Key of the value to retrieve from the Blackboard</param>
+    /// <returns>A boolean value</returns>
     private bool GetData(BlackboardKey key)
     {
         // Try to get the value out of the blackboard
@@ -93,19 +101,24 @@ public class TutorialSaveHandler : MonoBehaviour, IBind<TutorialData>
         return false;
     }
 
+    /// <summary>
+    /// Bind tutorial data
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="applyData"></param>
     public void Bind(TutorialData data, bool applyData = true)
     {
         this.data = data;
         this.data.ID = ID;
 
+        // Register keys if they have not been registered already
         if (!registered)
             RegisterKeys();
 
+        // Check whether or not to apply data
         if(applyData)
         {
-            if (tutorialBlackboard == null)
-                tutorialBlackboard = BlackboardController.Instance.GetBlackboard("Tutorial");
-
+            // Apply Blackboard values
             tutorialBlackboard.SetValue(seenMoveTrigger, data.SeenMoveTrigger);
             tutorialBlackboard.SetValue(seenJumpTrigger, data.SeenJumpTrigger);
             tutorialBlackboard.SetValue(seenSlideTrigger, data.SeenSlideTrigger);
