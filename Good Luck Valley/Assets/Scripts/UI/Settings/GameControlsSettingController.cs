@@ -135,6 +135,10 @@ namespace GoodLuckValley.UI.Settings.Controls
                 if(binding.action == newBinding.action)
                     continue;
 
+                // If the action is Moving Up and set to W (only used for dev tools), ignore FOR NOW
+                if (binding.name == "up" && binding.effectivePath == "<Keyboard>/w")
+                    continue;
+
                 // Check if the control at the binding is the same as the new one
                 if (binding.effectivePath == newBinding.effectivePath)
                 {
@@ -159,7 +163,11 @@ namespace GoodLuckValley.UI.Settings.Controls
                     // If the action is the same as the one being rebinded, continue
                     if (action.actionMap.bindings[i].name == newBinding.name)
                         continue;
-                    
+
+                    // If the action is Moving Up and set to W (only used for dev tools), ignore FOR NOW
+                    if (action.actionMap.bindings[i].name == "up" && action.actionMap.bindings[i].effectivePath == "<Keyboard>/w")
+                        continue;
+
                     // Return true if the bindings are the same
                     if (action.actionMap.bindings[i].effectivePath == newBinding.effectivePath)
                         return true;
@@ -183,6 +191,10 @@ namespace GoodLuckValley.UI.Settings.Controls
 
             // Set a valid rebind
             rebindingButton.SetValidRebind(true);
+
+            // Update whether or not the rebinding button has been rebinded
+            // (or has been attempted to be rebinded)
+            rebindingButton.UpdateRebinded();
         }
 
         /// <summary>

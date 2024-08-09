@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System.Collections;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.UI.Settings.Controls;
+using UnityEngine.Rendering;
 
 namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 {
@@ -127,8 +128,6 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
                     if (CheckDuplicateBindings(action, bindingIndex))
                     {
-                        Debug.Log($"Action Name: {action.bindings[bindingIndex].name}, {action.bindings[bindingIndex].overridePath}");
-
                         // Remove any binding overrides
                         action.RemoveBindingOverride(bindingIndex);
 
@@ -161,6 +160,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
                 if(binding.action == newBinding.action)
                     continue;
 
+                // If the action is Moving Up and set to W (only used for dev tools), ignore FOR NOW
+                if (binding.name == "up" && binding.effectivePath == "<Keyboard>/w")
+                    continue;
+
                 // Check if the control at the binding is the same as the new one
                 if (binding.effectivePath == newBinding.effectivePath)
                 {
@@ -184,6 +187,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
                 {
                     // If the action is the same as the one being rebinded, continue
                     if (action.actionMap.bindings[i].name == newBinding.name)
+                        continue;
+
+                    // If the action is Moving Up and set to W (only used for dev tools), ignore FOR NOW
+                    if (action.actionMap.bindings[i].name == "up" && action.actionMap.bindings[i].effectivePath == "<Keyboard>/w")
                         continue;
                     
                     // Return true if the bindings are the same
@@ -244,6 +251,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
             // Enable menu input
             menuInputReader.Enable();
+
+            // Update whether or not the rebinding button has been rebinded
+            // (or has been attempted to be rebinded)
+            rebindingButton.UpdateRebinded();
         }
 
         private IEnumerator FadeInDuplicatesText(float targetAlpha)
