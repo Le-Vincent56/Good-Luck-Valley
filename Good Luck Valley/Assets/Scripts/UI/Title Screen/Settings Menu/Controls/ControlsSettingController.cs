@@ -215,6 +215,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
             // Set a valid rebind
             rebindingButton.SetValidRebind(true);
+
+            // Update whether or not the rebinding button has been rebinded
+            // (or has been attempted to be rebinded)
+            rebindingButton.UpdateRebinded();
         }
 
         /// <summary>
@@ -251,10 +255,6 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
 
             // Enable menu input
             menuInputReader.Enable();
-
-            // Update whether or not the rebinding button has been rebinded
-            // (or has been attempted to be rebinded)
-            rebindingButton.UpdateRebinded();
         }
 
         /// <summary>
