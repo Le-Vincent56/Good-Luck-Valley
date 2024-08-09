@@ -111,7 +111,7 @@ namespace GoodLuckValley.SceneManagement
             if (SaveLoadSystem.Instance.settingsData != null)
                 SaveLoadSystem.Instance.BindSettings(true);
 
-            StartTransitionTimer();
+            //StartTransitionTimer();
         }
 
         private async void StartTransitionTimer()
@@ -173,8 +173,11 @@ namespace GoodLuckValley.SceneManagement
 
             // End any transition effects
             // Calls to:
-            //  -
+            //  - PlayerController.EndPlayerTransition();
             onTransitionEnd.Raise(this, null);
+
+            // Set loading to false
+            isLoading = false;
         }
 
         public void EnterGame(string sceneName)
