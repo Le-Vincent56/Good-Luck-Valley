@@ -233,6 +233,11 @@ namespace GoodLuckValley.UI.Settings.Controls
             menuInputReader.Enable();
         }
 
+        /// <summary>
+        /// Coroutine to fade in the duplicate warning
+        /// </summary>
+        /// <param name="targetAlpha"></param>
+        /// <returns></returns>
         private IEnumerator FadeInDuplicatesText(float targetAlpha)
         {
             // If the game object is disabled, enable it
@@ -250,6 +255,10 @@ namespace GoodLuckValley.UI.Settings.Controls
             }
         }
 
+        /// <summary>
+        /// Coroutine to fade out the duplicate warning
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator FadeOutDuplicatesText()
         {
             float elapsedTime = 0f;
@@ -286,6 +295,10 @@ namespace GoodLuckValley.UI.Settings.Controls
         /// </summary>
         public void DeactivateRebindingButtonAnimator() => GetCurrentRebindingButton().DisableAnimator();
 
+        /// <summary>
+        /// Check the validity of each rebinding button
+        /// </summary>
+        /// <returns></returns>
         private bool CheckValidity()
         {
             // Loop through each rebinding button
@@ -343,6 +356,11 @@ namespace GoodLuckValley.UI.Settings.Controls
             }
         }
 
+        /// <summary>
+        /// Handle back input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void BackInput(Component sender, object data)
         {
             // Verify that the correct data was sent
@@ -378,6 +396,11 @@ namespace GoodLuckValley.UI.Settings.Controls
             playButtonReset.Post(gameObject);
         }
 
+        /// <summary>
+        /// Initialize the controller
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void Init(Component sender, object data)
         {
             // Get components

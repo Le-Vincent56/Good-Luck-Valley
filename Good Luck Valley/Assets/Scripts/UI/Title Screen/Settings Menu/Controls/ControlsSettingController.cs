@@ -257,6 +257,11 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             rebindingButton.UpdateRebinded();
         }
 
+        /// <summary>
+        /// Coroutine to fade in the duplicate warning
+        /// </summary>
+        /// <param name="targetAlpha"></param>
+        /// <returns></returns>
         private IEnumerator FadeInDuplicatesText(float targetAlpha)
         {
             // If the game object is disabled, enable it
@@ -274,6 +279,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             }
         }
 
+        /// <summary>
+        /// Coroutine to fade out the duplicate warning
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator FadeOutDuplicatesText()
         {
             float elapsedTime = 0f;
@@ -310,6 +319,10 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
         /// </summary>
         public void DeactivateRebindingButtonAnimator() => GetCurrentRebindingButton().DisableAnimator();
 
+        /// <summary>
+        /// Check the validity of each rebinding button
+        /// </summary>
+        /// <returns></returns>
         private bool CheckValidity()
         {
             // Loop through each rebinding button
@@ -367,6 +380,11 @@ namespace GoodLuckValley.UI.TitleScreen.Settings.Controls
             }
         }
 
+        /// <summary>
+        /// Handle back input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public void BackInput(Component sender, object data)
         {
             // Verify that the correct data was sent
