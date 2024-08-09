@@ -72,9 +72,7 @@ namespace GoodLuckValley.Mushroom
                     break;
 
                 case ShroomType.Quick:
-                    // Set the bounce count to one - can't chain on 
-                    // quick shrooms
-                    bounceCount = 1;
+                    // Don't do anything, as it should preserve the bounce count
                     break;
 
                 case ShroomType.Wall:
