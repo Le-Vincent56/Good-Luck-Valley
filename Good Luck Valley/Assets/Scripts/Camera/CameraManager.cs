@@ -65,6 +65,7 @@ namespace GoodLuckValley.Cameras
         public bool LerpedFromPlayerSliding { get; set; }
         public bool LerpingOffsets { get => IsLerpingFallOffset || IsLerpingSlideOffset; }
         public float FallSpeedDampingChangeThreshold { get { return fallSpeedDampingChangeThreshold; } }
+        public CinemachineVirtualCamera GetActiveCamera { get { return activeCamera; } }
 
         protected override void Awake()
         {
