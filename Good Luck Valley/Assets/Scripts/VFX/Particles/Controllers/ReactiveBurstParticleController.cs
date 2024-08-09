@@ -2,13 +2,12 @@ using GoodLuckValley.Events;
 using GoodLuckValley.Player.Control;
 using GoodLuckValley.VFX.ScriptableObjects;
 using GoodLuckValley.World.Tiles;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-namespace GoodLuckValley.VFX.Particles
+namespace GoodLuckValley.VFX.Particles.Controllers
 {
+    // Enum for currently active particle
     enum ActiveParticle
     {
         GrassRunning,
@@ -25,6 +24,7 @@ namespace GoodLuckValley.VFX.Particles
         #region REFERENCES
         [Header("General")]
         [SerializeField] private ParticleControllerDetectTileType tileTypeDetector;
+        [SerializeField] private GameEvent onRequestHardpoints;
         private VisualEffect burstParticleVFX;
         private PlayerController playerController;
 
@@ -39,9 +39,11 @@ namespace GoodLuckValley.VFX.Particles
 
         #region FIELDS
         [SerializeField] private ActiveParticle activeParticle;
-        private bool setRunningData;
-        private Transform feetHardpoint;
-        private Transform chestHardpoint;
+        private bool lastSentWasRunningData;
+        private Transform runHardpoint;
+        private Transform bounceHardpoint;
+        private Transform landHardpoint;
+        private Transform jumpHardpoint;
 
         [Header("Grass Running Particle Fields")]
         [SerializeField] private float minRunningParticleVelocity;
@@ -55,77 +57,124 @@ namespace GoodLuckValley.VFX.Particles
             burstParticleVFX = GetComponent<VisualEffect>();
         }
 
+        private void Start()
+        {
+            // If the hardpoints were not set during awake calls, request them now
+            if (runHardpoint == null)
+                onRequestHardpoints.Raise(null, null);
+        }
+
         private void Update()
         {
-            if (playerController != null)
+            // Check to make sure the necessary references are not null
+            if (playerController != null && runHardpoint != null && bounceHardpoint != null)
             {
+                // Check currently active particle
                 switch (activeParticle)
                 {
+                    // No particle active
                     case ActiveParticle.None:
-                        Debug.Log("NO PARTICLE ACTIVE");
                         break;
 
+                    // Grass running particle active
                     case ActiveParticle.GrassRunning:
+                        // Increment running particles time using deltaTime
                         runningParticlesCurrentTime += Time.deltaTime;
 
+                        // Ensure player is grounded,
+                        //  moving above the minimum velocity,
+                        //  and there has been enough time between running particles to spawn one
                         if (playerController.IsGrounded &&
                             Mathf.Abs(playerController.Velocity.x) > minRunningParticleVelocity &&
                             runningParticlesCurrentTime > timeBetweenParticles)
                         {
-                            SetVFXData(grassRunningData);
-                            SetVFXSpawnPosition(feetHardpoint.position);
+                            // Set the VFX data to use the grass running data
+                            SendVFXData(grassRunningData);
+
+                            // Set the VFX spawn position
+                            SendVFXSpawnPosition(runHardpoint.position);
+
+                            // Play the particle
                             burstParticleVFX.Play();
+                            
+                            // Reset the running time
                             runningParticlesCurrentTime = 0;
                         }
                         break;
 
+                    // Grass landing particle active
                     case ActiveParticle.GrassLanding:
-                        // Play GL particle
-                        SetVFXData(grassJumpData);
-                        SetVFXSpawnPosition(feetHardpoint.position);
+                        // Set the VFX data to use the grass landing data
+                        SendVFXData(grassJumpData);
+
+                        // Set the VFX spawn position
+                        SendVFXSpawnPosition(landHardpoint.position);    
+
+                        // Play the particle
                         burstParticleVFX.Play();
-                        ResetToRunningParticle();
+
+                        // Reset to the running particle
+                        HandleRunningParticles();
                         break;
 
+                    // Grass jumping particle active
                     case ActiveParticle.GrassJumping:
-                        Debug.Log("Playing grass jump");
-                        SetVFXData(grassJumpData);
-                        SetVFXSpawnPosition(feetHardpoint.position);
+                        // Set the VFX data to use the grass jumping data
+                        SendVFXData(grassJumpData);
+
+                        // If player is moving above minimum velocity, use the jump hardpoint (offset in front of player to account for speed)
+                        //  if not, use the land one (directly under player)
+                        if (Mathf.Abs(playerController.Velocity.x) > minRunningParticleVelocity)
+                            SendVFXSpawnPosition(jumpHardpoint.position);
+                        else
+                            SendVFXSpawnPosition(landHardpoint.position);
+
+                        // Play the particle
                         burstParticleVFX.Play();
-                        activeParticle = ActiveParticle.None;
+
+                        // Reset to the running particle
+                        HandleRunningParticles();
                         break;
 
+                    // Dirt running particle active
                     case ActiveParticle.DirtRunning:
                         break;
 
+                    // Dirt landing particle active
                     case ActiveParticle.DirtLanding:
                         break;
 
+                    // Dirt jumping particle active
                     case ActiveParticle.DirtJumping:
                         break;
                 }
             }
         }
 
-        private void SetVFXData(VFXBurstParticleData data)
+        #region SENDING DATA TO GPU
+        private void SendVFXData(VFXBurstParticleData data)
         {
-            if ((activeParticle == ActiveParticle.GrassRunning || activeParticle == ActiveParticle.DirtRunning) && setRunningData)
+            // If the current particle is a running particle and the running particle data has already been sent
+            if ((activeParticle == ActiveParticle.GrassRunning || activeParticle == ActiveParticle.DirtRunning) && lastSentWasRunningData)
             {
+                // If so, return
                 return;
             }
+            // If running data has not already been sent, it will be now, set bool to true
             else if ((activeParticle == ActiveParticle.GrassRunning || activeParticle == ActiveParticle.DirtRunning))
             {
-                setRunningData = true;
+                lastSentWasRunningData = true;
             }
+            // Otherwise we are setting different data, so the last sent data was not running data
             else
             {
-                setRunningData = false;
+                lastSentWasRunningData = false;
             }
 
-            // Spawn
+            // Spawn data
             burstParticleVFX.SetFloat("SpawnCount", data.spawnCount);
 
-            // Initialize
+            // Initialize data
             burstParticleVFX.SetFloat("Min X Velocity", data.minXVelocity);
             burstParticleVFX.SetFloat("Max X Velocity", data.maxXVelocity);
             burstParticleVFX.SetFloat("Min Y Velocity", data.minYVelocity);
@@ -137,7 +186,7 @@ namespace GoodLuckValley.VFX.Particles
             burstParticleVFX.SetFloat("Min Starting Angle", data.minStartingAngle);
             burstParticleVFX.SetFloat("Max Starting Angle", data.maxStartingAngle);    
 
-            // Update
+            // Update data
             burstParticleVFX.SetFloat("Gravity", data.gravity);
             burstParticleVFX.SetFloat("Min Linear Drag Coefficient", data.minLinearDragCoefficient);
             burstParticleVFX.SetFloat("Max Linear Drag Coefficient", data.maxLinearDragCoefficient);
@@ -148,78 +197,131 @@ namespace GoodLuckValley.VFX.Particles
             burstParticleVFX.SetFloat("Min Add Angle Scalar", data.minAddAngleScalar);
             burstParticleVFX.SetFloat("Max Add Angle Scalar", data.maxAddAngleScalar);
 
-            // Output
+            // Output data
             burstParticleVFX.SetTexture("MainTex", data.mainTex);
             burstParticleVFX.SetAnimationCurve("Mult Size / Life", data.multiplySizeOverLife);
             burstParticleVFX.SetGradient("Color / Life", data.colorOverLife);
         }
 
+        /// <summary>
+        /// Sends the spawn position information to the GPU
+        /// </summary>
+        /// <param name="position"> The position to spawn the particle at </param>
+        private void SendVFXSpawnPosition(Vector3 position)
+        {
+            // Sets vector 3 data
+            burstParticleVFX.SetVector3("SpawnPosition", position);
+        }
+        #endregion
+
+        #region TILE TYPE DETECTION
+        /// <summary>
+        /// Handles detection and setting active particle information for jump particles
+        /// </summary>
         public void HandleJumpParticles()
         {
-            Debug.Log("Jump Particles!");   
+            // Checks the tile type beneath player
             switch (tileTypeDetector.GetTileType())
             {
+                // If none, do nothing
                 case TileType.None: break;
+
+                // If grass, set active particle to grass jumping
                 case TileType.Grass:
                     activeParticle = ActiveParticle.GrassJumping;
-                    Debug.Log("grass jump");
 
                     break;
+
+                // If dirt, set active particle to dirt jumping
                 case TileType.Dirt:
                     activeParticle = ActiveParticle.DirtJumping;
-                    Debug.Log("dirt jump");
                     break;
             }
         }
 
+        /// <summary>
+        /// Handles detection and setting active particle information for land particles
+        /// </summary>
         public void HandleLandParticles()
         {
-            Debug.Log("Land Particles!");
+            // Checks the tile type beneath player
             switch (tileTypeDetector.GetTileType())
             {
+                // If none, do nothing
                 case TileType.None: break;
+
+                // If grass, set active particle to grass landing
                 case TileType.Grass:
                     activeParticle = ActiveParticle.GrassLanding;
-                    Debug.Log("grass land");
 
                     break;
+
+                // If dirt, set active particle to dirt landing
                 case TileType.Dirt:
                     activeParticle = ActiveParticle.DirtLanding;
-                    Debug.Log("dirt land");
                     break;
             }
         }
 
-        private void ResetToRunningParticle()
+        /// <summary>
+        /// Handles detection and setting active particle information for running particles
+        /// </summary>
+        private void HandleRunningParticles()
         {
+            // Checks the tile type beneath player
             switch (tileTypeDetector.GetTileType())
             {
+                // If none, do nothing
                 case TileType.None: break;
+
+                // If grass, set active particle to grass running
                 case TileType.Grass:
                     activeParticle = ActiveParticle.GrassRunning;
 
                     break;
+
+                // If dirt, set active particle to dirt running
                 case TileType.Dirt:
                     activeParticle = ActiveParticle.DirtRunning;
                     break;
             }
         }
+        #endregion
 
-        private void SetVFXSpawnPosition(Vector3 position)
-        {
-            burstParticleVFX.SetVector3("SpawnPosition", position);
-        }
-
+        #region INITIALIZE REFERENCES
+        /// <summary>
+        /// Initializes the player controller
+        /// </summary>
+        /// <param name="sender"> Component that sent the data </param>
+        /// <param name="data"> Data being sent </param>
         public void InitializePC(Component sender, object data)
         {
+            // Return if sent data is not PC
+            if (data is not PlayerController) return;
+
+            // Initialize PC to sent data
             playerController = (PlayerController)data;
         }
 
+        /// <summary>
+        /// Initializes the hardpoints
+        /// </summary>
+        /// <param name="sender"> Component that sent the data </param>
+        /// <param name="data"> Data being sent </param>
         public void InitializeHardpoints(Component sender, object data)
         {
+            // Return if data is not hardpoints
+            if (data is not PlayerHardpointsContainer.Hardpoints) return;
+
+            // Get hardpoint object from data
             PlayerHardpointsContainer.Hardpoints hardpoints = (PlayerHardpointsContainer.Hardpoints)data;
-            feetHardpoint = hardpoints.Run;
-            chestHardpoint = hardpoints.Bounce;
+            
+            // Assign hardpoints to appropriate values in data
+            runHardpoint = hardpoints.Run;
+            bounceHardpoint = hardpoints.Bounce;
+            jumpHardpoint = hardpoints.Jump;
+            landHardpoint = hardpoints.Land;
         }
+        #endregion
     }
 }

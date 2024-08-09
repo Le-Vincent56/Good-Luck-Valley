@@ -10,8 +10,7 @@ using GoodLuckValley.Cameras;
 using GoodLuckValley.Patterns.Blackboard;   
 using GoodLuckValley.Audio.SFX;
 using System.Collections;
-using GoodLuckValley.VFX.Player;
-using GoodLuckValley.VFX.Particles;
+using GoodLuckValley.VFX.Particles.Controllers;
 
 namespace GoodLuckValley.Player.Control
 {
@@ -35,7 +34,6 @@ namespace GoodLuckValley.Player.Control
         [SerializeField] private PlayerData data;
         [SerializeField] private DevTools devTools;
         [SerializeField] private PlayerSFXMaster sfxHandler;
-        [SerializeField] private PlayerParticlesController particlesController;
         [SerializeField] private CameraFollowObject followObject;
         [SerializeField] private PlayerSaveHandler saveHandler;
         [SerializeField] private ReactiveBurstParticleController burstParticlesController;
@@ -1106,7 +1104,6 @@ namespace GoodLuckValley.Player.Control
         /// <param name="particleType">An int representing the particle type (0 for Jump, 1 for Land)</param>
         public void PlayParticles(int particleType)
         {
-
             if (burstParticlesController == null) return;
 
             // Handle particle types
@@ -1122,35 +1119,6 @@ namespace GoodLuckValley.Player.Control
                     burstParticlesController.HandleLandParticles();
                     break;
             }
-
-            // If there is no set particles controller, return
-            if (particlesController == null) return;
-
-            // Handle particle types
-            switch(particleType)
-            {
-                case 0:
-                    particlesController.HandleJumpParticles();
-                    break;
-
-                case 1:
-                    particlesController.HandleLandParticles();
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Receive the player's particle controller
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public void ReceiveParticlesController(Component sender, object data)
-        {
-            // Verify that the correct data is sent
-            if (data is not PlayerParticlesController) return;
-
-            // Cast and set data
-            particlesController = (PlayerParticlesController)data;
         }
 
         /// <summary>
