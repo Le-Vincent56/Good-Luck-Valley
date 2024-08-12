@@ -35,6 +35,14 @@ namespace GoodLuckValley.Mushroom
             if (collisionHandler.collisions.Above || collisionHandler.collisions.Below ||
                 collisionHandler.collisions.Left || collisionHandler.collisions.Right)
             {
+                // Check if hitting another shroom
+                if(collisionHandler.collisions.Layer == CollisionLayer.Mushroom)
+                {
+                    // Destroy the spore and return
+                    Destroy(gameObject);
+                    return;
+                }
+
                 // Exit case - a spawn has already happened
                 if (spawnConfirmed) return;
 
