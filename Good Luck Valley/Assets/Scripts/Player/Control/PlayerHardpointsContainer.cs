@@ -26,7 +26,6 @@ namespace GoodLuckValley.Player.Control
 
         private void Awake()
         {
-            Debug.Log("pen15");
             // Get all hardpoints
             Transform[] allHardpoints = GetComponentsInChildren<Transform>();
 

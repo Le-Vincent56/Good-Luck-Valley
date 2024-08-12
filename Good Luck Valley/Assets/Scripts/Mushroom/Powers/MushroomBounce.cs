@@ -11,13 +11,15 @@ namespace GoodLuckValley.Mushroom
             public bool Rotated;
             public int BounceCount;
             public int Index;
+            public GameObject Mushroom;
 
-            public BounceData(Vector2 bounceVector, bool rotated, int bounceCount, int index)
+            public BounceData(Vector2 bounceVector, bool rotated, int bounceCount, int index, GameObject mushroom)
             {
                 BounceVector = bounceVector;
                 Rotated = rotated;
                 BounceCount = bounceCount;
                 Index = index;
+                Mushroom = mushroom;
             }
         }
 
@@ -84,7 +86,8 @@ namespace GoodLuckValley.Mushroom
                 mushroomData.GetBounceVector(),
                 mushroomData.Rotated,
                 bounceCount,
-                mushroomData.Index
+                mushroomData.Index,
+                mushroomData.gameObject
             );
 
             // Set bounce variables
