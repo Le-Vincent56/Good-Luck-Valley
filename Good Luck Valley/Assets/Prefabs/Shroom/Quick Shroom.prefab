@@ -124,9 +124,6 @@ Transform:
   m_Children:
   - {fileID: 5382996792323597941}
   - {fileID: 2675573507742285369}
-  - {fileID: 8258222788782509248}
-  - {fileID: 7754213051953141051}
-  - {fileID: 8775727563929849486}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5990685005819130301
@@ -300,6 +297,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0}
   bounceEntity: 0
   growing: 0
+  dissipating: 0
 --- !u!114 &5974221141365642111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +333,8 @@ MonoBehaviour:
   durationTimer: 0.5
   bounceBuffer: 0
   onCooldown: 0
+  tryingToRemove: 0
+  removeCalled: 0
 --- !u!114 &3403284045830561682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +369,10 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: e09ec44d370b6324394837d27bb6819e, type: 2}
+  shroomDissipateEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
 --- !u!114 &-6309271185135199833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,8 +397,8 @@ MonoBehaviour:
     stoneLayer:
       serializedVersion: 2
       m_Bits: 0
-  grassParticle: {fileID: 4893773598448290702}
-  dirtParticle: {fileID: 5890698683372785723}
+  grassParticle: {fileID: 0}
+  dirtParticle: {fileID: 0}
 --- !u!114 &5033029671093055471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7aad79ff9505743b6e1943c63a2eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shroomBounceParticles: {fileID: 1855069169296342587}
+  shroomBounceParticles: {fileID: 0}
 --- !u!114 &6303348709080136998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,245 +522,3 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!1001 &474571336787195691
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6054020073250618936}
-    m_Modifications:
-    - target: {fileID: 2101681771180253118, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_SortingLayer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5006922193867275429, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_StartSeed
-      value: 2377183
-      objectReference: {fileID: 0}
-    - target: {fileID: 5006922193867275429, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_InitialEventNameOverriden
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168283610646442302, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_Name
-      value: Shroom Grow Leaves
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.46000004
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
---- !u!2083052967 &4893773598448290702 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 5006922193867275429, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-  m_PrefabInstance: {fileID: 474571336787195691}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8775727563929849486 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9178232295384742309, guid: 307ca4d46dcf9184e87cfec8f64a1a54, type: 3}
-  m_PrefabInstance: {fileID: 474571336787195691}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1496283640482606238
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6054020073250618936}
-    m_Modifications:
-    - target: {fileID: 2101681771180253118, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_SortingLayer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5006922193867275429, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_StartSeed
-      value: 2377183
-      objectReference: {fileID: 0}
-    - target: {fileID: 5006922193867275429, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_InitialEventNameOverriden
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168283610646442302, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_Name
-      value: Shroom Grow Dirt
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
---- !u!2083052967 &5890698683372785723 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 5006922193867275429, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-  m_PrefabInstance: {fileID: 1496283640482606238}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7754213051953141051 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9178232295384742309, guid: e3cfbcd346c1e2240b1bfe6a3c47e3cf, type: 3}
-  m_PrefabInstance: {fileID: 1496283640482606238}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8180225103824635696
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6054020073250618936}
-    m_Modifications:
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.044
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.144
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5371226646640959218, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_Name
-      value: Mushroom Bounce Particles
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585116469709029358, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_SortingLayer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585116469709029358, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585116469709029358, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1169282353
-      objectReference: {fileID: 0}
-    - target: {fileID: 7770388298496943015, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7437590853358127221, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
---- !u!2083052967 &1855069169296342587 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 7510729778402212107, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-  m_PrefabInstance: {fileID: 8180225103824635696}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8258222788782509248 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 224870724150070256, guid: 84ae89b6f37ec034597c0745cb0b9472, type: 3}
-  m_PrefabInstance: {fileID: 8180225103824635696}
-  m_PrefabAsset: {fileID: 0}
