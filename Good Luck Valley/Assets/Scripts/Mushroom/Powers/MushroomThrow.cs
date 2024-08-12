@@ -42,6 +42,7 @@ namespace GoodLuckValley.Mushroom
 
         [Header("Prefabs")]
         [SerializeField] private GameObject spore;
+        [SerializeField] private GameObject spawnCollider;
         #endregion
 
         [Header("Fields")]
