@@ -8075,6 +8075,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+--- !u!114 &186096021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2101943485941398509, guid: eab8fc055f1eb6345a54c645b8785810, type: 3}
+  m_PrefabInstance: {fileID: 186096020}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136d760915cb2c442a3989f813105d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &190911881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100548,6 +100559,17 @@ Transform:
   - {fileID: 1208273208}
   m_Father: {fileID: 909834311}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1638777512 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4881561948965803793, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
+  m_PrefabInstance: {fileID: 7894388022017507512}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf10930b5fb2f344da8a1a4e0cfdcc3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1641412383
 GameObject:
   m_ObjectHideFlags: 0
@@ -126673,16 +126695,8 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3589773063726912241, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
-      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3589773063726912241, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[5].m_Name
       value: KillBox_size
-      objectReference: {fileID: 0}
-    - target: {fileID: 3589773063726912241, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
-      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
-      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 3589773063726912241, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[5].m_Value.x
@@ -126708,10 +126722,22 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3863552709671596126, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4041607799474666945, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
       propertyPath: m_PropertySheet.m_NamedObject.m_Array.Array.data[0].m_Value
       value: 
       objectReference: {fileID: 2800000, guid: b187712591118124a9c29c7c2485dc46, type: 3}
+    - target: {fileID: 4502589222148253631, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
+      propertyPath: parallaxCamera
+      value: 
+      objectReference: {fileID: 1461210787}
+    - target: {fileID: 4502589222148253631, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
+      propertyPath: parallaxLayers.Array.data[0]
+      value: 
+      objectReference: {fileID: 1638777512}
     - target: {fileID: 4631745260430937800, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -126844,6 +126870,10 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.m_ColorSpace
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7562391919636844226, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
+      propertyPath: cameraManager
+      value: 
+      objectReference: {fileID: 186096021}
     - target: {fileID: 7746307858782875909, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -127013,8 +127043,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9085512265309325051, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
-      propertyPath: m_SortingOrder
-      value: 346
+      propertyPath: m_SortingLayer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9203192507378137042, guid: a2efd728f8db8a94e8d62d7d22c702de, type: 3}
       propertyPath: m_Enabled

@@ -37,6 +37,8 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         [SerializeField] private VFXBurstParticleData dirtRunningData;
         [SerializeField] private VFXBurstParticleData dirtLandData;
         [SerializeField] private VFXBurstParticleData dirtJumpData;
+        [SerializeField] private VFXBurstParticleData shroomBounceData;
+        [SerializeField] private VFXBurstParticleData shroomSpawnData;
         #endregion
 
         #region FIELDS
