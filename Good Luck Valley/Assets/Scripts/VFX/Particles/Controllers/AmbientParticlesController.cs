@@ -8,8 +8,10 @@ public class AmbientParticlesController : MonoBehaviour
 {
     #region REFERENCES
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private VisualEffect ambientVFXFG;
-    [SerializeField] private VisualEffect ambientVFXMG;
+    [SerializeField] private VisualEffect ambientDustFG;
+    [SerializeField] private VisualEffect ambientDustMG;
+    [SerializeField] private VisualEffect ambientLeavesFG;
+    [SerializeField] private VisualEffect ambientLeavesMG;
     #endregion
 
     #region FIELDS
@@ -34,10 +36,22 @@ public class AmbientParticlesController : MonoBehaviour
         Vector3 maxPosition = CalculateMaxPosition(activeCameraPosition, activeCameraOrthoSize, aspectRatio);
 
         // Send information to VFX graphs
-        ambientVFXFG.SetVector3("Min Position", minPosition);
-        ambientVFXFG.SetVector3("Max Position", maxPosition);
-        ambientVFXMG.SetVector3("Min Position", minPosition);
-        ambientVFXMG.SetVector3("Max Position", maxPosition);
+        ambientDustFG.SetVector3("Min Position", minPosition);
+        ambientDustFG.SetVector3("Max Position", maxPosition);
+        ambientDustMG.SetVector3("Min Position", minPosition);
+        ambientDustMG.SetVector3("Max Position", maxPosition);
+
+        // Update min and max positions Y values before sending them to the leaves so that the leaves always fall from above
+        maxPosition.y = minPosition.y;
+        minPosition.y -= 2.0f;
+
+        // Update min and max positions X values before sending them to the leaves so that the leaves start falling earlier
+        //maxPosition.x += maxPosition.x;
+        //minPosition.x -= minPosition.x;
+        ambientLeavesFG.SetVector3("Min Position", minPosition);
+        ambientLeavesFG.SetVector3("Max Position", maxPosition);
+        ambientLeavesMG.SetVector3("Min Position", minPosition);
+        ambientLeavesMG.SetVector3("Max Position", maxPosition);
     }
 
     /// <summary>
