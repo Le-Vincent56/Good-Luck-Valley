@@ -4,7 +4,6 @@ namespace GoodLuckValley.Journal
 {
     public enum Tab
     {
-        Anari = 0,
         Hana = 1,
         Seiji = 2
     }

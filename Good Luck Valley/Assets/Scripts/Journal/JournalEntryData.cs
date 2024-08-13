@@ -2,12 +2,6 @@ using UnityEngine;
 
 namespace GoodLuckValley.Journal
 {
-    public enum Tab
-    {
-        Hana = 0,
-        Seiji = 1
-    }
-
     [CreateAssetMenu(fileName = "EntryData", menuName = "Journal/Entry Data")]
     public class JournalEntryData : ScriptableObject
     {

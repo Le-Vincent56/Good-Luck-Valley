@@ -1,13 +1,10 @@
 using GoodLuckValley.Events;
-using GoodLuckValley.Journal;
 using GoodLuckValley.Persistence;
-using GoodLuckValley.Player.Control;
 using GoodLuckValley.Player.Input;
 using GoodLuckValley.SceneManagement;
 using GoodLuckValley.UI.Menus;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GoodLuckValley.UI
