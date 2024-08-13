@@ -8,8 +8,8 @@ public class AmbientParticlesController : MonoBehaviour
 {
     #region REFERENCES
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private VisualEffect ambientDusFG;
-    [SerializeField] private VisualEffect ambientDustMG;
+    [SerializeField] private VisualEffect ambientVFXFG;
+    [SerializeField] private VisualEffect ambientVFXMG;
     #endregion
 
     #region FIELDS
@@ -34,10 +34,10 @@ public class AmbientParticlesController : MonoBehaviour
         Vector3 maxPosition = CalculateMaxPosition(activeCameraPosition, activeCameraOrthoSize, aspectRatio);
 
         // Send information to VFX graphs
-        ambientDustMG.SetVector3("Min Position", minPosition);
-        ambientDustMG.SetVector3("Max Position", maxPosition);
-        ambientDusFG.SetVector3("Min Position", minPosition);
-        ambientDusFG.SetVector3("Max Position", maxPosition);
+        ambientVFXFG.SetVector3("Min Position", minPosition);
+        ambientVFXFG.SetVector3("Max Position", maxPosition);
+        ambientVFXMG.SetVector3("Min Position", minPosition);
+        ambientVFXMG.SetVector3("Max Position", maxPosition);
     }
 
     /// <summary>
