@@ -1,4 +1,6 @@
 trackSelection = true
+refreshSearchWindowsInPlayMode = false
+pickerAdvancedUI = false
 fetchPreview = true
 defaultFlags = 0
 keepOpen = false
@@ -7,30 +9,24 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.DD5CDD96" = ""
-	"OpenInspectorPreview.DD5CDD96" = "0"
-	"currentGroup.DD5CDD96" = "scene"
-	"last_search.DA949528" = "aliasing"
-	"OpenInspectorPreview.DA949528" = "0"
-	"currentGroup.DA949528" = "all"
 }
 providers = {
-	adb = {
+	profilermarkers = {
 		active = false
-		priority = 2500
-		defaultAction = null
-	}
-	asset = {
-		active = true
-		priority = 25
-		defaultAction = null
-	}
-	store = {
-		active = true
 		priority = 100
 		defaultAction = null
 	}
 	find = {
+		active = true
+		priority = 25
+		defaultAction = null
+	}
+	scene = {
+		active = true
+		priority = 50
+		defaultAction = null
+	}
+	asset = {
 		active = true
 		priority = 25
 		defaultAction = null
@@ -41,7 +37,7 @@ providers = {
 		defaultAction = null
 	}
 	packages = {
-		active = true
+		active = false
 		priority = 90
 		defaultAction = null
 	}
@@ -50,23 +46,34 @@ providers = {
 		priority = 100
 		defaultAction = null
 	}
-	scene = {
-		active = true
-		priority = 50
+	store = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+	adb = {
+		active = false
+		priority = 2500
 		defaultAction = null
 	}
 }
 objectSelectors = {
 }
 recentSearches = [
+	"h: t=MeshFilter vertices>=1024"
+	""
+	"h: #m_sortinglayerid=1169282353"
 ]
 searchItemFavorites = [
 ]
 savedSearchesSortOrder = 0
 showSavedSearchPanel = false
+hideTabs = false
 expandedQueries = [
 ]
 queryBuilder = false
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""
+minIndexVariations = 2
+findProviderIndexHelper = true
