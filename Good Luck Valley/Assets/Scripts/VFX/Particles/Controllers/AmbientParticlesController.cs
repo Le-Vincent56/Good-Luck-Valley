@@ -35,26 +35,29 @@ public class AmbientParticlesController : MonoBehaviour
         Vector3 minPosition = CalculateMinPosition(activeCameraPosition, activeCameraOrthoSize, aspectRatio);
         Vector3 maxPosition = CalculateMaxPosition(activeCameraPosition, activeCameraOrthoSize, aspectRatio);
 
-        // Send information to VFX graphs
-        ambientDustFG.SetVector3("Min Position", minPosition);
-        ambientDustFG.SetVector3("Max Position", maxPosition);
-        ambientDustMG.SetVector3("Min Position", minPosition);
-        ambientDustMG.SetVector3("Max Position", maxPosition);
-
-        if (ambientLeavesFG != null && ambientLeavesMG != null)
+        if (ambientDustFG != null && ambientDustMG != null)
         {
-            // Update min and max positions Y values before sending them to the leaves so that the leaves always fall from above
-            maxPosition.y = minPosition.y;
-            minPosition.y -= 2.0f;
-
-            // Update min and max positions X values before sending them to the leaves so that the leaves start falling earlier
-            //maxPosition.x += maxPosition.x;
-            //minPosition.x -= minPosition.x;
-            ambientLeavesFG.SetVector3("Min Position", minPosition);
-            ambientLeavesFG.SetVector3("Max Position", maxPosition);
-            ambientLeavesMG.SetVector3("Min Position", minPosition);
-            ambientLeavesMG.SetVector3("Max Position", maxPosition);
+            // Send information to VFX graphs
+            ambientDustFG.SetVector3("Min Position", minPosition);
+            ambientDustFG.SetVector3("Max Position", maxPosition);
+            ambientDustMG.SetVector3("Min Position", minPosition);
+            ambientDustMG.SetVector3("Max Position", maxPosition);
         }
+
+        //if (ambientLeavesFG != null && ambientLeavesMG != null)
+        //{
+        //    // Update min and max positions Y values before sending them to the leaves so that the leaves always fall from above
+        //    maxPosition.y = minPosition.y;
+        //    minPosition.y -= 2.0f;
+
+        //    // Update min and max positions X values before sending them to the leaves so that the leaves start falling earlier
+        //    //maxPosition.x += maxPosition.x;
+        //    //minPosition.x -= minPosition.x;
+        //    ambientLeavesFG.SetVector3("Min Position", minPosition);
+        //    ambientLeavesFG.SetVector3("Max Position", maxPosition);
+        //    ambientLeavesMG.SetVector3("Min Position", minPosition);
+        //    ambientLeavesMG.SetVector3("Max Position", maxPosition);
+        //} 
     }
 
     /// <summary>

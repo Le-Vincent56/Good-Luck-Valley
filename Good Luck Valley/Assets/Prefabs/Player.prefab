@@ -954,6 +954,62 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1953206311660800882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4909122945700967114}
+  - component: {fileID: 8869459419463630354}
+  m_Layer: 10
+  m_Name: Reactive Particles Helper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4909122945700967114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953206311660800882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.37, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2414757590046708016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8869459419463630354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953206311660800882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcf8f7f92dcabe4894ade06e50ec9c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectTileType:
+    direction: 1
+    distance: 1
+    dirtLayer:
+      serializedVersion: 2
+      m_Bits: 16384
+    grassLayer:
+      serializedVersion: 2
+      m_Bits: 32768
+    stoneLayer:
+      serializedVersion: 2
+      m_Bits: 131072
 --- !u!1 &3580228890345776939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,6 +2138,7 @@ MonoBehaviour:
   onDisableThrowUI: {fileID: 11400000, guid: e0a7f9ab0fa9fcd48b31fdc7416c6637, type: 2}
   onSetThrowing: {fileID: 11400000, guid: 3647b2556ce5d7d45b212ad55127053e, type: 2}
   spore: {fileID: 1470045706857144608, guid: dec2852c561ebf04ab3e0da5b0c3bd06, type: 3}
+  spawnCollider: {fileID: 0}
   throwDirection: {x: 0, y: 0}
   finalSpawnInfo:
     Position: {x: 0, y: 0, z: 0}
@@ -2259,6 +2316,7 @@ Transform:
   - {fileID: 416913286538467804}
   - {fileID: 7971081741340313663}
   - {fileID: 2474995064768397209}
+  - {fileID: 4909122945700967114}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5731558841692214012
