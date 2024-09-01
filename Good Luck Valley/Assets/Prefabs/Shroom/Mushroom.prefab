@@ -285,8 +285,6 @@ GameObject:
   - component: {fileID: 5369573696177444769}
   - component: {fileID: 5974221141365642111}
   - component: {fileID: 1403705782761454458}
-  - component: {fileID: -6309271185135199833}
-  - component: {fileID: 4808731997126908849}
   - component: {fileID: 5764269286927581324}
   - component: {fileID: 6009065020559999204}
   m_Layer: 9
@@ -488,45 +486,6 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: a9488e518adb02e469721ab9e404e51e, type: 2}
---- !u!114 &-6309271185135199833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6546575361362329001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa57f61cba1883b4a97f90f30638051f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectTileType:
-    direction: 1
-    distance: 10
-    dirtLayer:
-      serializedVersion: 2
-      m_Bits: 16384
-    grassLayer:
-      serializedVersion: 2
-      m_Bits: 32768
-    stoneLayer:
-      serializedVersion: 2
-      m_Bits: 0
-  grassParticle: {fileID: 0}
-  dirtParticle: {fileID: 0}
---- !u!114 &4808731997126908849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6546575361362329001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df7aad79ff9505743b6e1943c63a2eff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shroomBounceParticles: {fileID: 0}
 --- !u!114 &5764269286927581324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,7 +502,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4808731997126908849}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoodLuckValley.Mushroom.MushroomBounceEffect, Assembly-CSharp
         m_MethodName: ApplyEffect
         m_Mode: 0

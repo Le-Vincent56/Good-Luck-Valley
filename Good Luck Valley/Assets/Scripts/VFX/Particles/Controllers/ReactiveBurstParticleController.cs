@@ -38,8 +38,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         [SerializeField] private VFXBurstParticleData dirtRunningData;
         [SerializeField] private VFXBurstParticleData dirtLandData;
         [SerializeField] private VFXBurstParticleData dirtJumpData;
-        [SerializeField] private VFXBurstParticleData shroomBounceData;
-        [SerializeField] private VFXBurstParticleData shroomSpawnData;
         #endregion
 
         #region FIELDS
@@ -49,7 +47,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         private Transform bounceHardpoint;
         private Transform landHardpoint;
         private Transform jumpHardpoint;
-        private GameObject activeMushroom;
 
         [Header("Grass Running Particle Fields")]
         [SerializeField] private float minRunningParticleVelocity;
@@ -60,6 +57,7 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         private void Awake()
         {
             activeParticle = ActiveParticle.None;
+            HandleRunningParticles();
             burstParticleVFX = GetComponent<VisualEffect>();
         }
 
@@ -73,6 +71,9 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         private void Update()
         {
             // Check to make sure the necessary references are not null
+            Debug.Log("player controller: " + playerController);
+            Debug.Log("run hp: " + runHardpoint);
+            Debug.Log("bounce hp: " + bounceHardpoint);
             if (playerController != null && runHardpoint != null && bounceHardpoint != null)
             {
                 // Check currently active particle
@@ -84,6 +85,8 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass running particle active
                     case ActiveParticle.GrassRunning:
+                        Debug.Log("gras running");
+
                         // Increment running particles time using deltaTime
                         runningParticlesCurrentTime += Time.deltaTime;
 
@@ -110,6 +113,8 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass landing particle active
                     case ActiveParticle.GrassLanding:
+                        Debug.Log("gras landing");
+
                         // Send VFX data
                         SendVFXData(grassLandData);
 
@@ -125,6 +130,7 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass jumping particle active
                     case ActiveParticle.GrassJumping:
+
                         // Send VFX data
                         SendVFXData(grassJumpData);
 
@@ -144,6 +150,7 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass running particle active
                     case ActiveParticle.DirtRunning:
+
                         // Increment running particles time using deltaTime
                         runningParticlesCurrentTime += Time.deltaTime;
 
@@ -194,34 +201,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
                             SendVFXSpawnPosition(jumpHardpoint.position);
                         else
                             SendVFXSpawnPosition(landHardpoint.position);
-
-                        // Play the particle
-                        burstParticleVFX.Play();
-
-                        // Reset to the running particle
-                        HandleRunningParticles();
-                        break;
-
-                    case ActiveParticle.ShroomGrow:
-                        // Send VFX data
-                        SendVFXData(shroomSpawnData);
-
-                        // Send the VFX spawn position
-                        SendVFXSpawnPosition(activeMushroom.transform.position);
-
-                        // Play the particle
-                        burstParticleVFX.Play();
-
-                        // Reset to the running particle
-                        HandleRunningParticles();
-                        break;
-
-                    case ActiveParticle.ShroomBounce:
-                        // Send VFX data
-                        SendVFXData(shroomBounceData);
-
-                        // Send the VFX spawn position
-                        SendVFXSpawnPosition(activeMushroom.transform.position);
 
                         // Play the particle
                         burstParticleVFX.Play();
@@ -318,16 +297,19 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         /// </summary>
         public void HandleLandParticles()
         {
+            Debug.Log("landing");
             // Check tile type
             switch (tileTypeDetector.GetTileType())
             {
                 // Set to grass if grass tile detected
                 case TileType.Grass:
+                    Debug.Log("gr");
                     activeParticle = ActiveParticle.GrassLanding;
                     break;
 
                 // Set to dirt if dirt tile detected
                 case TileType.Dirt:
+                    Debug.Log("dr");
                     activeParticle = ActiveParticle.DirtLanding;
                     break;
             }
@@ -338,11 +320,13 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         /// </summary>
         private void HandleRunningParticles()
         {
+            Debug.Log("running");
+
             // Check tile type
             switch (tileTypeDetector.GetTileType())
             {
                 // Set to grass if grass tile detected
-                case TileType.Grass:    
+                case TileType.Grass:
                     activeParticle = ActiveParticle.GrassRunning;
                     break;
 
@@ -352,43 +336,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
                     break;
             }
         }
-        #endregion
-
-        #region MUSHROOM PARTICLES HANDLERS
-        /// <summary>
-        /// Handles setting active particle information for shroom bounce particles via game event
-        /// </summary>
-        /// <param name="sender"> The component sending the event information </param>
-        /// <param name="data"> The data being sent </param>
-        public void HandleShroomBounceParticles(Component sender, object data)
-        {
-            MushroomBounce.BounceData bounceData = (MushroomBounce.BounceData)data;
-            activeMushroom = bounceData.Mushroom;
-            activeParticle = ActiveParticle.ShroomBounce;
-        }
-
-        /// <summary>
-        /// Handles tile detection and setting active particle information for shroom bounce particles via game event
-        /// </summary>
-        /// <param name="sender"> The component sending the event information </param>
-        /// <param name="data"> The data being sent </param>
-        public void HandleShroomSpawnParticles(Component sender, object data)
-        {
-            Debug.Log("shroom grow particle: " + data);
-            activeMushroom = (GameObject)data;
-            switch (tileTypeDetector.GetTileType())
-            {
-                case TileType.Grass:
-                    // Set particle to grass
-                    activeParticle = ActiveParticle.ShroomGrow;
-                    break;
-                case TileType.Dirt:
-                    // Set particle to dirt
-                    activeParticle = ActiveParticle.ShroomGrow;
-                    break;
-            }
-        }
-
         #endregion
 
         #region INITIALIZE REFERENCES

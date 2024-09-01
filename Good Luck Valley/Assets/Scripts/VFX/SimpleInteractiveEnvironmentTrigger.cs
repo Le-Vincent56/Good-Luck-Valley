@@ -1,3 +1,4 @@
+using GoodLuckValley.Events;
 using GoodLuckValley.World.AreaTriggers;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +11,28 @@ namespace GoodLuckValley.VFX
 
     [RequireComponent(typeof(AreaCollider))]
 
+
+
     public class SimpleInteractiveEnvironmentTrigger : MonoBehaviour
     {
+        public enum PlantType
+        {
+            Blue,
+            Purple
+        }
+
+        public struct InteractiveEnvironmentData
+        {
+            public Vector3 Position;
+            public PlantType PlantType;
+
+            public InteractiveEnvironmentData(Vector3 position, PlantType plantType)
+            {
+                Position = position;
+                PlantType = plantType;
+            }
+        }
+
         #region FIELDS
         [SerializeField] private bool hasLight;
         [SerializeField] private bool hasParticle;
@@ -19,12 +40,13 @@ namespace GoodLuckValley.VFX
         [SerializeField] private float maxIntensity;
         [SerializeField] private float maxIntensityHoldTime;
         [SerializeField] private float intensityChangeSpeed;
+        [SerializeField] private PlantType plantType;
         private bool coroutineActive;
         #endregion
 
         #region REFERENCES
         [SerializeField] private Light2D reactiveLight;
-        [SerializeField] private VisualEffect vfx;
+        [SerializeField] private GameEvent onPlayEnvironmentParticle;
         private AreaCollider areaCollider;
         #endregion
 
@@ -89,7 +111,8 @@ namespace GoodLuckValley.VFX
 
         private void PlayParticle()
         {
-            vfx.Play();
+            InteractiveEnvironmentData interactiveEnvironmentData = new InteractiveEnvironmentData(transform.position, plantType);
+            onPlayEnvironmentParticle.Raise(this, interactiveEnvironmentData);
         }
     }
 }
