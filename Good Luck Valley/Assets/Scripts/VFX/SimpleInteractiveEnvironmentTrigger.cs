@@ -111,7 +111,7 @@ namespace GoodLuckValley.VFX
 
         private void PlayParticle()
         {
-            InteractiveEnvironmentData interactiveEnvironmentData = new InteractiveEnvironmentData(transform.position, plantType);
+            InteractiveEnvironmentData interactiveEnvironmentData = new InteractiveEnvironmentData(reactiveLight.transform.position, plantType);
             onPlayEnvironmentParticle.Raise(this, interactiveEnvironmentData);
         }
     }
