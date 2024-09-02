@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6098387773395764a972bdd0bf6c065c, type: 3}
   m_Name: BlueInteractivePlantParticleData
   m_EditorClassIdentifier: 
-  spawnCount: 0
+  spawnCount: 5
   minXVelocity: 0
   maxXVelocity: 0
   minYVelocity: 0
-  maxYVelocity: 0
-  minLifetime: 0
-  maxLifetime: 0
-  minSize: 0
-  maxSize: 0
+  maxYVelocity: 0.3
+  minLifetime: 1
+  maxLifetime: 1.5
+  minSize: 0.2
+  maxSize: 0.3
   minStartingAngle: 0
   maxStartingAngle: 0
-  minPositionOffset: {x: 0, y: 0, z: 0}
-  maxPositionOffset: {x: 0, y: 0, z: 0}
-  gravity: 0
+  minPositionOffset: {x: -0.1, y: -0.1, z: 0}
+  maxPositionOffset: {x: 0.1, y: 0.1, z: 0}
+  gravity: 1
   minLinearDragCoefficient: 0
   maxLinearDragCoefficient: 0
   turbulenceIntensity: 0
@@ -34,18 +34,54 @@ MonoBehaviour:
   addZAngle: 0
   minAddAngleScalar: 0
   maxAddAngleScalar: 0
-  mainTex: {fileID: 0}
+  mainTex: {fileID: 2800000, guid: 6c408c954f00e8740b438f5af7c07572, type: 3}
   multiplySizeOverLife:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.25
+      value: 0.25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.80574423
+      value: 0.096435875
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   colorOverLife:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 0.5803922, g: 0.81568635, b: 0.86274517, a: 0}
+    key1: {r: 0.5803922, g: 0.81568635, b: 0.86274517, a: 0.78431374}
+    key2: {r: 0, g: 0, b: 0, a: 0.5882353}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
@@ -60,9 +96,9 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
+    atime1: 6554
+    atime2: 52428
+    atime3: 65535
     atime4: 0
     atime5: 0
     atime6: 0
@@ -70,4 +106,4 @@ MonoBehaviour:
     m_Mode: 0
     m_ColorSpace: -1
     m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
+    m_NumAlphaKeys: 4
