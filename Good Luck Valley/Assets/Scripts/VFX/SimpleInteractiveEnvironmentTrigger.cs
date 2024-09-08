@@ -67,7 +67,6 @@ namespace GoodLuckValley.VFX
 
         private void StartReactiveElement(GameObject hitObject)
         {
-            Debug.Log("starting: " + coroutineActive);
             if (!coroutineActive)
             {
                 coroutineActive = true;

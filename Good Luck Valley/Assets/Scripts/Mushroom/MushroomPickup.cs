@@ -48,7 +48,10 @@ public class MushroomPickup : Collectible
 
         // Update the blackboard
         if (playerBlackboard.TryGetValue(unlockedThrow, out bool blackboardValue))
+        {
+            Debug.Log("setting unblkocjk throiw to true");
             playerBlackboard.SetValue(unlockedThrow, true);
+        }
 
         // Unlock the throw
         onUnlockThrow.Raise(this, null);
