@@ -7,14 +7,23 @@ namespace GoodLuckValley.Level
 {
     public class SignLoader : MonoBehaviour
     {
-        [SerializeField] private BlackboardData playerBlackboardData;
+        #region REFERENCES
         [SerializeField] private GameObject beforeCave;
         [SerializeField] private GameObject afterCave;
+        #endregion
+
+        #region FIELDS
+        private Blackboard playerBlackboard;
+        private BlackboardKey unlockedThrow;
+        #endregion
 
         private void Awake()
         {
+            playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
+            unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
+
             // Check if the player has the mushroom from the blackboard data
-            if (playerBlackboardData.entries[1].value == true)
+            if (playerBlackboard.TryGetValue(unlockedThrow, out bool unlockedThrowValue))
             {
                 // If so, activate the 'after cave' signs
                 ActivateSigns(false, true);

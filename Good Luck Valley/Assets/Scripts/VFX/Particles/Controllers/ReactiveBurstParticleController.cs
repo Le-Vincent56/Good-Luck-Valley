@@ -71,9 +71,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         private void Update()
         {
             // Check to make sure the necessary references are not null
-            Debug.Log("player controller: " + playerController);
-            Debug.Log("run hp: " + runHardpoint);
-            Debug.Log("bounce hp: " + bounceHardpoint);
             if (playerController != null && runHardpoint != null && bounceHardpoint != null)
             {
                 // Check currently active particle
@@ -85,7 +82,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass running particle active
                     case ActiveParticle.GrassRunning:
-                        Debug.Log("gras running");
 
                         // Increment running particles time using deltaTime
                         runningParticlesCurrentTime += Time.deltaTime;
@@ -113,7 +109,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
 
                     // Grass landing particle active
                     case ActiveParticle.GrassLanding:
-                        Debug.Log("gras landing");
 
                         // Send VFX data
                         SendVFXData(grassLandData);
@@ -297,19 +292,16 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         /// </summary>
         public void HandleLandParticles()
         {
-            Debug.Log("landing");
             // Check tile type
             switch (tileTypeDetector.GetTileType())
             {
                 // Set to grass if grass tile detected
                 case TileType.Grass:
-                    Debug.Log("gr");
                     activeParticle = ActiveParticle.GrassLanding;
                     break;
 
                 // Set to dirt if dirt tile detected
                 case TileType.Dirt:
-                    Debug.Log("dr");
                     activeParticle = ActiveParticle.DirtLanding;
                     break;
             }
@@ -320,8 +312,6 @@ namespace GoodLuckValley.VFX.Particles.Controllers
         /// </summary>
         private void HandleRunningParticles()
         {
-            Debug.Log("running");
-
             // Check tile type
             switch (tileTypeDetector.GetTileType())
             {

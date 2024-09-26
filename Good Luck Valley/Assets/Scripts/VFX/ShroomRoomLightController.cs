@@ -61,7 +61,6 @@ namespace GoodLuckValley.VFX
 
         private void SwapLights() 
         {
-            Debug.Log("Swap Lights");
             prePickupLights.SetActive(false);
             postPickupLights.SetActive(true);
             pickupVFX.Stop();

@@ -30,11 +30,9 @@ public class InteractiveEnvironmentParticlesController : MonoBehaviour
         {
             case SimpleInteractiveEnvironmentTrigger.PlantType.Blue:
                 SendVFXDataToGPU(bluePlantParticleData);
-                Debug.Log("blue");
                 break;
             case SimpleInteractiveEnvironmentTrigger.PlantType.Purple:
                 SendVFXDataToGPU(purplePlantParticleData);
-                Debug.Log("purple");
                 break;
         }
         upwardsBurstParticle.Play();
