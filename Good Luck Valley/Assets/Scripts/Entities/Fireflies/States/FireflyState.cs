@@ -1,22 +1,14 @@
 using GoodLuckValley.Patterns.StateMachine;
-using UnityEngine;
 
-namespace GoodLuckValley.Entities.Fireflies
+namespace GoodLuckValley.Entities.Fireflies.States
 {
     public class FireflyState : IState
     {
-        protected readonly FireflyController fireflies;
-        protected readonly Animator animator;
+        protected readonly Firefly firefly;
 
-        protected static readonly int IdleHash = Animator.StringToHash("Idle");
-        protected static readonly int FollowHash = Animator.StringToHash("Bounce");
-
-        protected const float crossFadeDuration = 0.1f;
-
-        public FireflyState(FireflyController fireflies, Animator animator)
+        public FireflyState(Firefly firefly)
         {
-            this.fireflies = fireflies;
-            this.animator = animator;
+            this.firefly = firefly;
         }
 
         public virtual void FixedUpdate()

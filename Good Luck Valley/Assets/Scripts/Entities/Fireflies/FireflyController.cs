@@ -1,5 +1,4 @@
 using GoodLuckValley.Events;
-using GoodLuckValley.Mushroom;
 using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.Patterns.Visitor;
 using GoodLuckValley.World.Interactables;
@@ -44,9 +43,9 @@ namespace GoodLuckValley.Entities.Fireflies
 
             // Declare states
             stateMachine = new StateMachine();
-            IdleState idleState = new IdleState(this, animator);
-            FollowState followState = new FollowState(this, animator);
-            RetreatState retreatState = new RetreatState(this, animator);
+            GroupIdleState idleState = new GroupIdleState(this, animator);
+            GroupFollowState followState = new GroupFollowState(this, animator);
+            GroupRetreatState retreatState = new GroupRetreatState(this, animator);
 
             // Define strict transitions
             At(idleState, followState, new FuncPredicate(() => followTarget != null));
