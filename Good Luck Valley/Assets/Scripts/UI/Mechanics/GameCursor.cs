@@ -12,6 +12,8 @@ namespace GoodLuckValley.UI
 
         [Header("Fields")]
         [SerializeField] private Vector2 cursorPosition;
+        [SerializeField] private Vector3 initialScale;
+        [SerializeField] private float initialOrthographicSize;
         [SerializeField] private Bounds cursorBounds;
 
         // Start is called before the first frame update
@@ -22,6 +24,8 @@ namespace GoodLuckValley.UI
             Cursor.lockState = CursorLockMode.Confined;
 
             cursorPosition = transform.position;
+            initialScale = transform.localScale;
+            initialOrthographicSize = Camera.main.orthographicSize;
         }
 
         // Update is called once per frame
@@ -38,6 +42,13 @@ namespace GoodLuckValley.UI
                     Mouse.current.position.ReadValue().y
                 )
             );
+
+            // Get the scale factor
+            float scaleFactor = Camera.main.orthographicSize / initialOrthographicSize;
+
+            // If so, multiply by the scale factor
+            transform.localScale = initialScale * scaleFactor;
+
 
             // Check cursor bounds based on the player
             CheckCursorBoundsPlayer();
