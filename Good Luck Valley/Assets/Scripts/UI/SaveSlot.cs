@@ -22,6 +22,7 @@ namespace GoodLuckValley.UI
         [SerializeField] private int slot;
         [SerializeField] private string saveName;
         [SerializeField] private bool isEmpty;
+        [SerializeField] private bool active;
 
         public GameObject WithDataObject { get { return withDataObject; } }
         public Text Time { get { return time; } }
@@ -35,6 +36,7 @@ namespace GoodLuckValley.UI
         {
             this.controller = controller;
             deleter.Init(this, controller);
+            active = true;
         }
 
         /// <summary>
@@ -101,11 +103,24 @@ namespace GoodLuckValley.UI
         }
 
         /// <summary>
+        /// Enable the button
+        /// </summary>
+        public void Enable() => active = true;
+
+        /// <summary>
+        /// Disable the button
+        /// </summary>
+        public void Disable() => active = false;
+
+        /// <summary>
         /// Handle select events
         /// </summary>
         /// <param name="eventData"></param>
         public void OnSelect(BaseEventData eventData)
         {
+            // Exit case - if not active
+            if (!active) return;
+
             controller.SetSelectedSlot(this);
             deleter.Show();
             deleter.SetSelectable(!isEmpty);
@@ -117,6 +132,9 @@ namespace GoodLuckValley.UI
         /// <param name="eventData"></param>
         public void OnDeselect(BaseEventData eventData)
         {
+            // Exit case - if not active
+            if (!active) return;
+
             deleter.Hide();
             deleter.SetSelectable(false);
         }
