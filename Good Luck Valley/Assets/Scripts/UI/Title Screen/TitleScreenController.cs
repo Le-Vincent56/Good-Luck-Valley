@@ -272,6 +272,9 @@ namespace GoodLuckValley.UI.TitleScreen
             // Exit case - if no selectable is retrieved
             if (selectable == null) return;
 
+            // Exit case - if the selectable is not interactable
+            if (!selectable.interactable) return;
+
             // Check if the selectable is a button
             if (selectable is Button selectableButton)
             {

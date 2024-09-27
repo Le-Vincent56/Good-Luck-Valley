@@ -149,6 +149,18 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // Disable input
             inputReader.Disable();
 
+            // Disable the other save slots
+            foreach (SaveSlot saveSlot in saveSlots)
+            {
+                // Skip over the selected slot
+                if (saveSlot == selectedSlot) continue;
+
+                saveSlot.Disable();
+            }
+
+            // Disable the current event system
+            EventSystem.current.enabled = false;
+
             // Set game states
             MusicManager.Instance.SetGameStates();
 
@@ -208,6 +220,12 @@ namespace GoodLuckValley.UI.TitleScreen.Start
         {
             // Set the state of the delete controller
             deleteController.SetState(deleteController.POPUP);
+
+            // Disable all the save slots
+            foreach(SaveSlot slot in saveSlots)
+            {
+                slot.Disable();
+            }
         }
 
         /// <summary>
@@ -247,6 +265,12 @@ namespace GoodLuckValley.UI.TitleScreen.Start
 
             // Move the cursor off of the delete button anbd back to the slot
             EventSystem.current.SetSelectedGameObject(selectedSlot.gameObject);
+
+            // Enable the save slots
+            foreach(SaveSlot saveSlot in saveSlots)
+            {
+                saveSlot.Enable();
+            }
 
             // Re-enable input
             inputReader.Enable();

@@ -1,4 +1,5 @@
 using GoodLuckValley.Extensions;
+using GoodLuckValley.UI.Menus;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,14 +20,21 @@ namespace GoodLuckValley.UI
 
         public bool Selected { get => selected; set => selected = value; }
 
-        public void Init()
+        /// <summary>
+        /// Initialize the Cursor
+        /// </summary>
+        /// <param name="manager"></param>
+        public void Init(MenuCursor manager)
         {
+            // Set variables
             selected = false;
 
+            // Set event triggers
             AddEventTrigger(selectable.gameObject, EventTriggerType.Select, OnSelect);
             AddEventTrigger(selectable.gameObject, EventTriggerType.PointerEnter, OnSelect);
             AddEventTrigger(selectable.gameObject, EventTriggerType.Deselect, OnDeselect);
 
+            // Verify Image component(s)
             if(cursor.GetComponent<Image>() != null)
             {
                 images.Add(cursor.GetComponent<Image>());
@@ -36,6 +44,9 @@ namespace GoodLuckValley.UI
             }
         }
 
+        /// <summary>
+        /// Add an event trigger to the Cursor
+        /// </summary>
         private void AddEventTrigger(GameObject target, EventTriggerType eventType, UnityEngine.Events.UnityAction<BaseEventData> callback)
         {
             // Get or add an event trigger from the target component
@@ -52,10 +63,27 @@ namespace GoodLuckValley.UI
             eventTrigger.triggers.Add(entry);
         }
 
-        private void OnSelect(BaseEventData eventData) => Activate();
+        /// <summary>
+        /// Handle Cursor functionality on select
+        /// </summary>
+        /// <param name="eventData"></param>
+        private void OnSelect(BaseEventData eventData)
+        {
+            // Exit case - if the selectable is not interactable
+            if (!selectable.interactable) return;
 
+            Activate();
+        }
+
+        /// <summary>
+        /// Handle Cursor functionality on deselect
+        /// </summary>
+        /// <param name="eventData"></param>
         private void OnDeselect(BaseEventData eventData) => Deactivate();
 
+        /// <summary>
+        /// Activate the Cursor
+        /// </summary>
         public void Activate()
         {
             foreach(Image image in images)
@@ -67,6 +95,9 @@ namespace GoodLuckValley.UI
             Selected = true;
         }
 
+        /// <summary>
+        /// Deactivate the Cursor
+        /// </summary>
         public void Deactivate()
         {
             foreach(Image image in images)
@@ -78,6 +109,10 @@ namespace GoodLuckValley.UI
             }
         }
 
+        /// <summary>
+        /// Get the associated Selectable
+        /// </summary>
+        /// <returns></returns>
         public Selectable GetSelectable() => selectable;
     }
 }
