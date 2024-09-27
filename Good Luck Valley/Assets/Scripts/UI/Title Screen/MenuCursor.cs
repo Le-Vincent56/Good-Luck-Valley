@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus
 {
@@ -11,6 +12,8 @@ namespace GoodLuckValley.UI.Menus
         [SerializeField] private CursorElement lastSelectedCursor;
         [SerializeField] private List<CursorElement> cursorElements = new List<CursorElement>();
 
+        public bool Active { get => active; }
+
         private void Awake()
         {
             // Set active to false
@@ -18,7 +21,7 @@ namespace GoodLuckValley.UI.Menus
 
             foreach (CursorElement cursor in cursorElements)
             {
-                cursor.Init();
+                cursor.Init(this);
             }
         }
 
@@ -26,6 +29,9 @@ namespace GoodLuckValley.UI.Menus
         {
             // Exit case - if not active
             if (!active) return;
+
+            // Exit case - if the Event system is null or is not enabled
+            if (EventSystem.current == null || !EventSystem.current.enabled) return;
 
             // Prevent any cases where there would be no cursor selected
             if (lastSelectedCursor != null && EventSystem.current.currentSelectedGameObject == null)

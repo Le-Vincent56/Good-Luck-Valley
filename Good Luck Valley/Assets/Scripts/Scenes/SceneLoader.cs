@@ -54,19 +54,19 @@ namespace GoodLuckValley.SceneManagement
                 if (SaveLoadSystem.Instance.selectedData != null)
                     SaveLoadSystem.Instance.BindData(true);
 
+                // Set player position
+                Vector3 playerPos;
+                if (sceneToLoad.type == TransitionType.Entrance)
+                {
+                    playerPos = levelData.GetLevelData(sceneToLoad.name).Entrances[sceneToLoad.loadIndex];
+                }
+                else
+                {
+                    playerPos = levelData.GetLevelData(sceneToLoad.name).Exits[sceneToLoad.loadIndex];
+                }
+
                 if (!fromMainMenu)
                 {
-                    // Set player position
-                    Vector3 playerPos;
-                    if (sceneToLoad.type == TransitionType.Entrance)
-                    {
-                        playerPos = levelData.GetLevelData(sceneToLoad.name).Entrances[sceneToLoad.loadIndex];
-                    }
-                    else
-                    {
-                        playerPos = levelData.GetLevelData(sceneToLoad.name).Exits[sceneToLoad.loadIndex];
-                    }
-
                     (Vector2 pos, int dir) dataToSend;
                     dataToSend.pos = playerPos;
                     dataToSend.dir = transitionDirection;

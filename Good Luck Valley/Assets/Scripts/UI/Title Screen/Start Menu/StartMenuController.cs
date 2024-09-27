@@ -149,6 +149,18 @@ namespace GoodLuckValley.UI.TitleScreen.Start
             // Disable input
             inputReader.Disable();
 
+            // Disable the other save slots
+            foreach (SaveSlot saveSlot in saveSlots)
+            {
+                // Skip over the selected slot
+                if (saveSlot == selectedSlot) continue;
+
+                saveSlot.Disable();
+            }
+
+            // Disable the current event system
+            EventSystem.current.enabled = false;
+
             // Set game states
             MusicManager.Instance.SetGameStates();
 

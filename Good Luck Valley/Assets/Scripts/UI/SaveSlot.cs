@@ -42,7 +42,14 @@ namespace GoodLuckValley.UI
         /// <summary>
         /// Start a game
         /// </summary>
-        public void StartGame() => controller.StartGame();
+        public void StartGame()
+        {
+            // Exit case - if the Save Slot is not active
+            if (!active) return;
+
+            // Start the game
+            controller.StartGame();
+        }
 
         /// <summary>
         /// Set the UI Data
