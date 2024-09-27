@@ -8,9 +8,8 @@ namespace GoodLuckValley.Level
     public class PitPlatformController : MonoBehaviour
     {
         #region REFERENCES
-        [SerializeField] private GameObject postMushroomGrid;
-        [SerializeField] private GameObject postMushroomPlatformAssets;
-        [SerializeField] private GameObject preMushroomGrid;
+        [SerializeField] private GameObject postMushroomObject;
+        [SerializeField] private GameObject preMushroomObject;
         #endregion
 
         #region FIELDS
@@ -22,8 +21,9 @@ namespace GoodLuckValley.Level
         {
             playerBlackboard = BlackboardController.Instance.GetBlackboard("Player");
             unlockedThrow = playerBlackboard.GetOrRegisterKey("UnlockedThrow");
-
-            if (playerBlackboard.TryGetValue(unlockedThrow, out bool unlockedThrowValue))
+            Debug.Log(playerBlackboard);
+            playerBlackboard.TryGetValue(unlockedThrow, out bool unlockedThrowValue);
+            if (unlockedThrowValue)
             {
                 ShowPlatforms();
             }
@@ -31,12 +31,10 @@ namespace GoodLuckValley.Level
 
         private void ShowPlatforms()
         {
-            if (postMushroomGrid != null)
-                postMushroomGrid.SetActive(true);
-            if (postMushroomPlatformAssets != null)
-                postMushroomPlatformAssets.SetActive(true);
-            if (preMushroomGrid != null)
-                preMushroomGrid.SetActive(false);
+            if (postMushroomObject != null)
+                postMushroomObject.SetActive(!postMushroomObject.activeSelf);
+            if (preMushroomObject != null)
+                preMushroomObject.SetActive(!preMushroomObject.activeSelf);
         }
     }
 }
