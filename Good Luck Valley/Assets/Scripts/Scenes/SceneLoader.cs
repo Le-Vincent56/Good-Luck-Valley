@@ -54,27 +54,31 @@ namespace GoodLuckValley.SceneManagement
                 if (SaveLoadSystem.Instance.selectedData != null)
                     SaveLoadSystem.Instance.BindData(true);
 
-                // Set player position
-                Vector3 playerPos;
-                if (sceneToLoad.type == TransitionType.Entrance)
-                {
-                    playerPos = levelData.GetLevelData(sceneToLoad.name).Entrances[sceneToLoad.loadIndex];
-                }
-                else
-                {
-                    playerPos = levelData.GetLevelData(sceneToLoad.name).Exits[sceneToLoad.loadIndex];
-                }
-
                 if (!fromMainMenu)
                 {
-                    (Vector2 pos, int dir) dataToSend;
-                    dataToSend.pos = playerPos;
-                    dataToSend.dir = transitionDirection;
+                    Vector3 playerPos;
+                    LevelDataContainer retrievedLevelData = levelData.GetLevelData(sceneToLoad.name);
 
-                    // Prepare the level
-                    // Calls to:
-                    //  - Player.PreparePlayerPosition();
-                    onPrepareLevel.Raise(this, dataToSend);
+                    if(retrievedLevelData != null)
+                    {
+                        if (sceneToLoad.type == TransitionType.Entrance)
+                        {
+                            playerPos = retrievedLevelData.Entrances[sceneToLoad.loadIndex];
+                        }
+                        else
+                        {
+                            playerPos = retrievedLevelData.Exits[sceneToLoad.loadIndex];
+                        }
+
+                        (Vector2 pos, int dir) dataToSend;
+                        dataToSend.pos = playerPos;
+                        dataToSend.dir = transitionDirection;
+
+                        // Prepare the level
+                        // Calls to:
+                        //  - Player.PreparePlayerPosition();
+                        onPrepareLevel.Raise(this, dataToSend);
+                    }
                 }
 
                 // Activate pre-entry effects

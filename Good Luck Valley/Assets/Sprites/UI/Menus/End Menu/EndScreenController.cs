@@ -5,6 +5,7 @@ using GoodLuckValley.Player.Input;
 using GoodLuckValley.SceneManagement;
 using GoodLuckValley.UI.Menus;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GoodLuckValley.UI.EndScreen
 {
