@@ -59,7 +59,7 @@ namespace GoodLuckValley.SceneManagement
                     Vector3 playerPos;
                     LevelDataContainer retrievedLevelData = levelData.GetLevelData(sceneToLoad.name);
 
-                    if(retrievedLevelData != null)
+                    if (retrievedLevelData != null)
                     {
                         if (sceneToLoad.type == TransitionType.Entrance)
                         {
