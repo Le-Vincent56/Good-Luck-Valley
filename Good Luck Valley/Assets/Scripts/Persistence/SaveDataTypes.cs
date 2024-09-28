@@ -1,3 +1,4 @@
+using GoodLuckValley.Journal;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -95,6 +96,7 @@ namespace GoodLuckValley.Persistence
     {
         [field: SerializeField] public SerializableGuid ID { get; set; }
         public bool unlocked;
+        public List<JournalEntry> unlockedEntries;
         public int progressingIndex;
         public int lastOpenedIndex;
         public int notesCollectedNum;
@@ -103,6 +105,7 @@ namespace GoodLuckValley.Persistence
         public JournalSaveData()
         {
             unlocked = false;
+            unlockedEntries = new List<JournalEntry>();
             progressingIndex = 0;
             lastOpenedIndex = 0;
             notesCollectedNum = 0;

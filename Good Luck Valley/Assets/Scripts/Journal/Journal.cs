@@ -31,8 +31,6 @@ namespace GoodLuckValley.Journal
         protected override void Awake()
         {
             base.Awake();
-
-            unlockedEntries = new List<JournalEntry>();
         }
 
         /// <summary>
@@ -42,6 +40,9 @@ namespace GoodLuckValley.Journal
         {
             // Set unlocked to true
             unlocked = true;
+
+            // Reset the entries list
+            unlockedEntries = new List<JournalEntry>();
             
             // Set the Journal Entries unlocked to 0
             journalEntriesUnlocked = 0;
@@ -230,5 +231,17 @@ namespace GoodLuckValley.Journal
         /// </summary>
         /// <param name="notificationInput">True if notification input is enabled, false if not</param>
         public void SetNotificationInput(bool notificationInput) => this.notificationInput = notificationInput;
+
+        /// <summary>
+        /// Get the list of unlocked Entries
+        /// </summary>
+        /// /// <returns>The list of unlocked Journal Entries</returns>
+        public List<JournalEntry> GetUnlockedEntriesList() => unlockedEntries;
+
+        /// <summary>
+        /// Set the list of unlocked Entries
+        /// </summary>
+        /// <param name="unlockedEntries">The list of unlocked Journal Entries to set</param>
+        public void SetUnlockedEntriesList(List<JournalEntry> unlockedEntries) => this.unlockedEntries = unlockedEntries;
     }
 }

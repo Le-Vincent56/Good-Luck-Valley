@@ -21,6 +21,7 @@ namespace GoodLuckValley.Journal.Persistence
         public void UpdateSaveData()
         {
             data.unlocked = Journal.Instance.Unlocked;
+            data.unlockedEntries = Journal.Instance.GetUnlockedEntriesList();
             data.progressingIndex = Journal.Instance.GetCurrentIndex();
             data.lastOpenedIndex = Journal.Instance.GetLastOpenedIndex();
             data.notesCollectedNum = Journal.Instance.GetNumOfNotesCollected();
@@ -44,6 +45,7 @@ namespace GoodLuckValley.Journal.Persistence
             if (applyData)
             {
                 Journal.Instance.SetUnlocked(data.unlocked);
+                Journal.Instance.SetUnlockedEntriesList(data.unlockedEntries);
                 Journal.Instance.SetProgressingEntry(data.progressingIndex);
                 Journal.Instance.SetLastOpenedEntry(data.lastOpenedIndex);
                 Journal.Instance.SetNotesCollectedNum(data.notesCollectedNum);
