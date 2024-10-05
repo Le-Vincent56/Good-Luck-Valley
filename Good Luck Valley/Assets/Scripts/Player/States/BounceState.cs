@@ -9,7 +9,7 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            animator.CrossFade(FallHash, crossFadeDuration);
+            animator.CrossFade(BounceHash, crossFadeDuration);
 
             // Don't allow the player to peek
             player.SetCanPeek(false);
@@ -25,6 +25,12 @@ namespace GoodLuckValley.Player.States
 
             // Handle player movement
             player.HandleMovement();
+        }
+
+        public override void OnExit()
+        {
+            // Allow movement control (for slope bouncing)
+            player.AllowMovementControl(true);
         }
     }
 }

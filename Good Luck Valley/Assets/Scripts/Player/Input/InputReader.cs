@@ -22,6 +22,7 @@ namespace GoodLuckValley.Player.Input
     public class InputReader : ScriptableObject, IPlayerControlsActions, IInputReader
     {
         public bool AllowControl { get; set; }
+        public bool AllowMovementControl { get; set; }
 
         public event UnityAction<Vector2> Move = delegate { };
         public event UnityAction<bool> Jump = delegate { };
@@ -51,9 +52,10 @@ namespace GoodLuckValley.Player.Input
         void OnEnable()
         {
             AllowControl = true;
+            AllowMovementControl = true;
 
             // Check if the input actions have been set
-            if(inputActions == null)
+            if (inputActions == null)
             {
                 // If not, create a new one and set callbacks
                 inputActions = new PlayerInputActions();
@@ -110,13 +112,6 @@ namespace GoodLuckValley.Player.Input
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!AllowControl)
-            {
-                NormMoveX = 0;
-                NormMoveY = 0;
-                return;
-            }
-
             Vector2 rawMovementInput = context.ReadValue<Vector2>();
             Move.Invoke(rawMovementInput);
 

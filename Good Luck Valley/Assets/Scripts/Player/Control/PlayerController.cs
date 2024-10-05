@@ -254,7 +254,7 @@ namespace GoodLuckValley.Player.Control
         private void Update()
         {
             // Update movement direction
-            if (input.AllowControl)
+            if (input.AllowControl && input.AllowMovementControl)
                 moveDirectionX = input.NormMoveX;
             else
                 moveDirectionX = manualMoveX;
@@ -413,26 +413,6 @@ namespace GoodLuckValley.Player.Control
                 velocity.x = Mathf.SmoothDamp(
                     velocity.x,
                     targetSpeed,
-                    ref xVelSmoothing,
-                    (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
-                );
-            }
-
-            // Handle movement when slope bouncing
-            if(isSlopeBouncing)
-            {
-                // Get the input speed
-                float inputSpeed = moveDirectionX * data.movementSpeed;
-
-                // Adjust the speed depending on if moving in the same direction as the bounce
-                float adjustedSpeed = (Mathf.Sign(inputSpeed) == Mathf.Sign(velocity.x)) 
-                    ? inputSpeed * data.shroomSlopeInputScalar // Apply the scalar
-                    : inputSpeed; // Use the normal input speed
-
-                // Smooth the target speed
-                velocity.x = Mathf.SmoothDamp(
-                    velocity.x,
-                    adjustedSpeed + velocity.x,
                     ref xVelSmoothing,
                     (collisionHandler.collisions.Below) ? data.accelerationTimeGround : data.accelerationTimeAir
                 );
@@ -717,6 +697,7 @@ namespace GoodLuckValley.Player.Control
             // Set bouncing to true
             isBouncing = true;
 
+            // Check if on a slope
             isSlopeBouncing = bounceData.Rotated;
 
             // Calculate bounce force
@@ -743,8 +724,24 @@ namespace GoodLuckValley.Player.Control
             }
 
             // Apply bounce force
-            velocity.x += bounceVec.x;
-            velocity.y = bounceVec.y;
+            if (isSlopeBouncing)
+            {
+                Debug.Log("Slope Bouncing");
+                Debug.Log("Velocity-X before: " + velocity.x);
+                Debug.Log("Velocity-Y before: " + velocity.y);
+
+                // Don't allow movement controls for easier bounce
+                AllowMovementControl(false);
+                velocity.x = bounceVec.x;
+                velocity.y = bounceVec.y;
+
+                Debug.Log("Velocity-X after: " + velocity.x);
+                Debug.Log("Velocity-Y after: " + velocity.y);
+            } else
+            {
+                velocity.x += bounceVec.x;
+                velocity.y = bounceVec.y;
+            }
 
             // Play the bounce sound
             sfxHandler.Bounce(Mathf.Clamp(bounceData.BounceCount, 1, 4));
@@ -1202,6 +1199,21 @@ namespace GoodLuckValley.Player.Control
             // If not, disable input
             else
                 input.Disable();
+        }
+
+        /// <summary>
+        /// Set whether to allow all player controls
+        /// </summary>
+        /// <param name="allowControl"></param>
+        public void AllowAllControls(bool allowControl) => input.AllowControl = allowControl;
+
+        /// <summary>
+        /// Set whether to allow the player to move
+        /// </summary>
+        /// <param name="allowMovementControl"></param>
+        public void AllowMovementControl(bool allowMovementControl)
+        {
+            input.AllowMovementControl = allowMovementControl;
         }
 
         /// <summary>

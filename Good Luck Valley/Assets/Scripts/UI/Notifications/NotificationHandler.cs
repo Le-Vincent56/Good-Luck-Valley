@@ -39,7 +39,7 @@ namespace GoodLuckValley.UI.Notifications
         [SerializeField] private float currentNotificationTime;
         [SerializeField] private float dequeuingProgress;
         [SerializeField] private float dequeueTime;
-        [SerializeField] private bool tryingToOpen;
+        [SerializeField] private bool canOpen;
         [SerializeField] private float holdInputProgress;
         [SerializeField] private float holdInputTime;
 
@@ -72,8 +72,6 @@ namespace GoodLuckValley.UI.Notifications
                 // If not, then get the first notification in the queue
                 currentNotification = notificationQueue.Peek();
                 Journal.Journal.Instance.SetNotificationInput(true);
-
-                holdInputProgress = 0f;
             }
 
             // Check if the notification is finished
@@ -86,45 +84,6 @@ namespace GoodLuckValley.UI.Notifications
 
             // Update the current notification
             currentNotification.Update(Time.deltaTime);
-
-            // Check if trying to open and have not yet held for the appropriate
-            // amount of time
-            if(tryingToOpen && holdInputProgress < holdInputTime)
-            {
-                // Add to the held input progress
-                holdInputProgress += Time.deltaTime;
-                
-                // Reset the notification timer
-                currentNotification.ResetTimer();
-
-                // Update the radial progress of the current notification
-                currentNotification.UpdateRadialProgress(holdInputProgress / holdInputTime);
-            } 
-            // Check if trying to open and have successfully held for the appropriate amount
-            // of time
-            else if(tryingToOpen && holdInputProgress >= holdInputTime)
-            {
-                // Open the current notification
-                onOpenJournalNotification.Raise(this, currentNotification.JournalPageIndex);
-
-                // Reset the radial
-                holdInputProgress = 0f;
-                currentNotification.UpdateRadialProgress(holdInputProgress);
-
-                // Clear the notification (force clear)
-                ClearNotification(true);
-
-                return;
-            }
-            // Check if not trying to open, but held input progress was above 0
-            else if(!tryingToOpen && holdInputProgress > 0)
-            {
-                // Subtract from the held input progress
-                holdInputProgress -= Time.deltaTime;
-
-                // Update the radial progress of the current notification
-                currentNotification.UpdateRadialProgress(holdInputProgress / holdInputTime);
-            }
 
             // Get the time for debuggin
             currentNotificationTime = currentNotification.GetTime();
@@ -237,15 +196,14 @@ namespace GoodLuckValley.UI.Notifications
         {
             if (!Journal.Journal.Instance.NotificationInput) return;
 
-            if(!started && !performed)
-            {
-                tryingToOpen = false;
-                notificationPanel.SetKeyUnpressed();
-            } else if(performed && holdInputProgress < holdInputTime)
-            {
-                tryingToOpen = true;
-                notificationPanel.SetKeyPressed();
-            }
+            // Exit case - the button hasn't been lifted
+            if (started) return;
+
+            // Open the journal notification
+            onOpenJournalNotification.Raise(this, currentNotification.JournalPageIndex);
+
+            // Force clear the notification
+            ClearNotification(true);
         }
     }
 }
