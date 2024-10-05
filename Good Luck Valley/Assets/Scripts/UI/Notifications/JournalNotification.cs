@@ -99,17 +99,6 @@ namespace GoodLuckValley.UI.Notifications
         }
 
         /// <summary>
-        /// Update the radial progress of the held key
-        /// </summary>
-        /// <param name="progressTotal">The total progress done</param>
-        public void UpdateRadialProgress(float progressTotal) => notificationPanel.UpdateProgress(progressTotal);
-
-        /// <summary>
-        /// Reset the timer
-        /// </summary>
-        public void ResetTimer() => timer = 0f;
-
-        /// <summary>
         /// Get the current time of the timer
         /// </summary>
         /// <returns>The current timer value</returns>

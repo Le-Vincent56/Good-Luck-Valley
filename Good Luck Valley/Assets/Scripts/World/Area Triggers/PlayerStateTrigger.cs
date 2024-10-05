@@ -1,7 +1,4 @@
-using GoodLuckValley.Audio.Music;
-using GoodLuckValley.Entity;
 using GoodLuckValley.Player.Control;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GoodLuckValley.World.AreaTriggers

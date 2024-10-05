@@ -10,9 +10,7 @@ namespace GoodLuckValley.UI.Notifications
         [Header("References")]
         [SerializeField] private Text headerText;
         [SerializeField] private Text descriptorText;
-        [SerializeField] private FadePanel radial;
         [SerializeField] private Image keyPressImage;
-        [SerializeField] private RadialProgress radialProgress;
         private bool hidden;
 
         // Down the line, think about having a ScriptableObject that holds a list for each sprite,
@@ -25,9 +23,6 @@ namespace GoodLuckValley.UI.Notifications
         protected override void Awake()
         {
             base.Awake();
-
-            // Set the fade duration to sync with the Notification Panel
-            radial.SetFadeDuration(fadeDuration);
         }
 
         public void SetText(string headerText, string descriptorText)
@@ -43,7 +38,6 @@ namespace GoodLuckValley.UI.Notifications
         {
             hidden = false;
             base.ShowUI();
-            radial.ShowUI();
         }
 
         /// <summary>
@@ -52,33 +46,7 @@ namespace GoodLuckValley.UI.Notifications
         public override void HideUI()
         {
             base.HideUI();
-            radial.HideUI();
             hidden = true;
-        }
-
-        /// <summary>
-        /// Update the progress of the radial progress fill
-        /// </summary>
-        /// <param name="progressTotal">The total amount of progress done</param>
-        public void UpdateProgress(float progressTotal) => radialProgress.UpdateProgress(progressTotal);
-
-        /// <summary>
-        /// Set the "Key Pressed" sprite
-        /// </summary>
-        public void SetKeyPressed()
-        {
-            if(keyPressImage.sprite != pressedImage)
-                keyPressImage.sprite = pressedImage;
-
-        }
-
-        /// <summary>
-        /// Set the "Key Unpressed" sprite
-        /// </summary>
-        public void SetKeyUnpressed()
-        {
-            if (keyPressImage.sprite != unpressedImage)
-                keyPressImage.sprite = unpressedImage;
         }
     }
 }

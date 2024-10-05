@@ -90,6 +90,14 @@ namespace GoodLuckValley.Entity
             };
         }
 
+        /// <summary>
+        /// Set the facing direction
+        /// </summary>
+        public void SetFacingDirection(int facingDirection) => collisions.FacingDirection = facingDirection;
+
+        /// <summary>
+        /// Predict how far the ground is
+        /// </summary>
         public void PredictGround(Vector2 velocity, float predictAmount)
         {
             // Set direction and ray length
@@ -117,6 +125,9 @@ namespace GoodLuckValley.Entity
             }
         }
 
+        /// <summary>
+        /// Check whether or not the player can stand out of a crawl
+        /// </summary>
         public void CheckCanStand(Vector2 velocity, float standCheckDist)
         {
             // Set direction and ray length
