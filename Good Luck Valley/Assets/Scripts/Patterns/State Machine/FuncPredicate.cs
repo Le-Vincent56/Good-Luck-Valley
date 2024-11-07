@@ -11,6 +11,9 @@ namespace GoodLuckValley.Patterns.StateMachine
             this.func = func;
         }
 
+        /// <summary>
+        /// Evaluate the predicate
+        /// </summary>
         public bool Evaluate() => func.Invoke();
     }
 }

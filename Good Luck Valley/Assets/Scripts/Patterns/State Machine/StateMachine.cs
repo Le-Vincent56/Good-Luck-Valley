@@ -40,6 +40,11 @@ namespace GoodLuckValley.Patterns.StateMachine
         }
 
         /// <summary>
+        /// Get the current State of the StateMachine
+        /// </summary>
+        public IState GetState() => current.State;
+
+        /// <summary>
         /// Change States within the StateMachine
         /// </summary>
         /// <param name="state">The State to change to</param>
@@ -69,7 +74,7 @@ namespace GoodLuckValley.Patterns.StateMachine
         private ITransition GetTransition()
         {
             // First, Loop through each Transition
-            foreach(ITransition transition in anyTransitions)
+            foreach (ITransition transition in anyTransitions)
             {
                 // If any of the conditions of the Transition evaluate
                 // to true, return it
@@ -78,11 +83,11 @@ namespace GoodLuckValley.Patterns.StateMachine
             }
 
             // Loop through the Transitions of the current State
-            foreach(ITransition transition in current.Transitions)
+            foreach (ITransition transition in current.Transitions)
             {
                 // If any of the conditions of the Transition evaluate
                 // to true, return it
-                if(transition.Condition.Evaluate()) 
+                if (transition.Condition.Evaluate())
                     return transition;
             }
 
@@ -99,6 +104,21 @@ namespace GoodLuckValley.Patterns.StateMachine
         {
             GetOrAddNode(from).AddTransition(GetOrAddNode(to).State, condition);
         }
+
+        /// <summary>
+        /// Add a transition from one State to another given a certain condition
+        /// </summary>
+        /// <param name="from">The State to define the transition from</param>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the Transition</param>
+        public void At(IState from, IState to, IPredicate condition) => AddTransition(from, to, condition);
+
+        /// <summary>
+        /// Add a transition from any State to another one given a certain condition
+        /// </summary>
+        /// <param name="to">The State to define the transition to</param>
+        /// <param name="condition">The condition of the transition</param>
+        public void Any(IState to, IPredicate condition) => AddAnyTransition(to, condition);
 
         /// <summary>
         /// Add a Transition to the StateMachine's Transitions List
@@ -122,7 +142,7 @@ namespace GoodLuckValley.Patterns.StateMachine
             StateNode node = nodes.GetValueOrDefault(state.GetType());
 
             // Check if the StateNode exists in the dictionary
-            if(node == null)
+            if (node == null)
             {
                 // If not, then add the StateNode to the dictionary
                 node = new StateNode(state);

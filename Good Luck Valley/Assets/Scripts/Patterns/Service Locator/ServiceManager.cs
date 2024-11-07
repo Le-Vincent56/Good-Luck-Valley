@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,89 +6,84 @@ namespace GoodLuckValley.Patterns.ServiceLocator
 {
     public class ServiceManager
     {
-        readonly Dictionary<Type, object> services = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> services = new();
         public IEnumerable<object> RegisteredServices => services.Values;
 
         /// <summary>
-        /// Register a service to the Service Manager
+        /// Try to get a service
         /// </summary>
-        /// <typeparam name="T">The type of the service</typeparam>
-        /// <param name="service">The service to register</param>
-        /// <returns>The ServiceManager where the service was registered to</returns>
-        public ServiceManager Register<T>(T service)
-        {
-            Type type = typeof(T);
-
-            // Try to add the service
-            if(!services.TryAdd(type, service))
-            {
-                // Log if the service is already registered
-                Debug.LogError($"ServiceManager.Register: Service of type {type.FullName} already registered");
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// Register a service to the Service Manager
-        /// </summary>
-        /// <param name="type">The type of the service</param>
-        /// <param name="service">The service to register</param>
-        /// <returns>The ServiceManager where the service was registered to</returns>
-        public ServiceManager Register(Type type, object service)
-        {
-            // Verify that the type corresponds with the service
-            if(!type.IsInstanceOfType(service))
-            {
-                throw new ArgumentException("Type of service does not match type of service interface", nameof(service));
-            }
-
-            // Try to add the service
-            if(!services.TryAdd(type, service))
-            {
-                // Log if the service is already registered
-                Debug.LogError($"ServiceManager.Register: Service of type {type.FullName} already registered");
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// Get a service of type T from the ServiceManager
-        /// </summary>
-        /// <typeparam name="T">The type of the service</typeparam>
-        /// <returns>The service as type T</returns>
-        public T Get<T>() where T : class
-        {
-            // Get the type fo the service
-            Type type = typeof(T);
-
-            // Try to get the service
-            if(services.TryGetValue(type, out object obj))
-            {
-                // Return the service as type T
-                return obj as T;
-            }
-
-            throw new ArgumentException($"ServiceManager.Get: Service of type {type.FullName} not registered");
-        }
-
         public bool TryGet<T>(out T service) where T : class
         {
             // Get the type of the service
             Type type = typeof(T);
-            
-            // Try to get the service
+
+            // Check if the service type exists in the dictionary
             if (services.TryGetValue(type, out object obj))
             {
-                // Return the service as type T
+                // If so, set the service and return successful
                 service = obj as T;
                 return true;
             }
 
-            // Otherwise, set the service to null and return false
+            // If no type was found, set the service to null
+            // and return unsuccessful
             service = null;
             return false;
+        }
+
+        /// <summary>
+        /// Get a service
+        /// </summary>
+        public T Get<T>() where T : class
+        {
+            // Get the type of the service
+            Type type = typeof(T);
+
+            // Check if the service type exists in the dictionary
+            if (services.TryGetValue(type, out object obj))
+            {
+                // If so, return the service
+                return obj as T;
+            }
+
+            // If no type was found, throw an exception
+            throw new ArgumentException($"ServiceManager.Get(): Service of type '{type.FullName}' not registered");
+        }
+
+        /// <summary>
+        /// Register a service to the Service Manager
+        /// </summary>
+        public ServiceManager Register<T>(T service)
+        {
+            Type type = typeof(T);
+
+            // Check if adding the service was unsuccessful
+            if (!services.TryAdd(type, service))
+                // Debug an error
+                Debug.LogError($"ServiceManager.Register(): Service of type '{type.FullName}' already registered");
+
+            // If it was successful, return this object
+            return this;
+        }
+
+        /// <summary>
+        /// Register a service to the Service Manager
+        /// </summary>
+        public ServiceManager Register(Type type, object service)
+        {
+            // Check if the type is the same type as the service
+            if (!type.IsInstanceOfType(service))
+                // If not, throw an exception
+                throw new ArgumentException($"ServiceManager.Register(): " +
+                    $"Type of service does not match type of service interface", nameof(service));
+
+            // Check if adding the service was unsuccessful
+            if (!services.TryAdd(type, service))
+                // Debug an error
+                Debug.LogError($"ServiceManager.Register(): Service of type '{type.FullName}' already registered");
+
+            // If it was successful, return this object
+            return this;
         }
     }
 }

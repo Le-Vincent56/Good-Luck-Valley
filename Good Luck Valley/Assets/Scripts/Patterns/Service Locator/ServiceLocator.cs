@@ -1,7 +1,8 @@
-using GoodLuckValley.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GoodLuckValley.Extensions.GameObject;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,129 +12,150 @@ namespace GoodLuckValley.Patterns.ServiceLocator
     {
         private static ServiceLocator global;
         private static Dictionary<Scene, ServiceLocator> sceneContainers;
-        private static List<GameObject> tmpSceneGameObjects;
+        private static List<GameObject> tempSceneGameObjects;
+        private readonly ServiceManager services = new();
 
-        private readonly ServiceManager services = new ServiceManager();
+        const string k_globalServiceLocatorName = "Service Locator [Global]";
+        const string k_sceneServiceLocatorName = "Service Locator [Scene]";
 
-        private const string k_globalServiceLocatorName = "ServiceLocator [Global]";
-        private const string k_sceneServiceLocatorName = "ServiceLocator [Scene]";
+        private void OnDestroy()
+        {
+            // Check if this Service Locator was the global one
+            if (this == global)
+                // If so, nullify the global Service Locator
+                global = null;
+            // Check if this Service Locator is attached to a scene
+            else if (sceneContainers.ContainsValue(this))
+                // If so, remove the Service Locator from its scene
+                sceneContainers.Remove(gameObject.scene);
+        }
 
+        /// <summary>
+        /// Configure the Service Locator for global use
+        /// </summary>
+        internal void ConfigureAsGlobal(bool dontDestroyOnLoad)
+        {
+            // Check if the Service Locator is already configured as global
+            if (global == this)
+            {
+                // Debug
+                Debug.LogWarning("ServiceLocator.ConfigureAsGlobal(): " +
+                    "Already configurted as global", this);
+            }
+            // Check if the Service Locator exists, but does not equal this Service Locator
+            else if (global != null)
+            {
+                // Debug
+                Debug.LogError("ServiceLocator.ConfigureAsGlobal(): " +
+                    "Another ServiceLocator is already configured as global", this);
+            }
+            else
+            {
+                // Configure this service locator for global use
+                global = this;
 
+                // Verify to not destroy on load
+                if (dontDestroyOnLoad) DontDestroyOnLoad(gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Configure the Service Locator for scene use
+        /// </summary>
+        internal void ConfigureForScene()
+        {
+            // Get the current scene
+            Scene scene = gameObject.scene;
+
+            // Exit case - if the scene containers already contains this scene
+            if (sceneContainers.ContainsKey(scene))
+            {
+                Debug.LogError("ServiceLocator.ConfigureForScene(): " +
+                    "Another ServiceLocator is already configured for this scene", this);
+
+                return;
+            }
+
+            // Link this Service Locator to the current scene
+            sceneContainers.Add(scene, this);
+        }
+
+        /// <summary>
+        /// Get the Global Service Locator instance; creates a new one if none exists
+        /// </summary>
         public static ServiceLocator Global
         {
             get
             {
+                // Exit case - if there is already a global Service Locator
                 if (global != null) return global;
 
-                // Find the first Service Locator Global Bootstrapper
-                if (FindFirstObjectByType<ServiceLocatorGlobalBootstrapper>() is { } found) {
-                    // Initialize it and return it
+                // Try to find a Global Service Locator
+                if (FindFirstObjectByType<ServiceLocatorGlobal>() is { } found)
+                {
+                    // If found, bootstrap it
                     found.BootstrapOnDemand();
                     return global;
                 }
 
-                // Otherwise, create a container and add the Service locator Global Bootstrapper and initialize it
+                // Create a new game object
                 GameObject container = new GameObject(k_globalServiceLocatorName, typeof(ServiceLocator));
-                container.AddComponent<ServiceLocatorGlobalBootstrapper>().BootstrapOnDemand();
+
+                // Add a global Service Locator component and bootstrap it
+                container.AddComponent<ServiceLocatorGlobal>().BootstrapOnDemand();
 
                 return global;
             }
         }
 
         /// <summary>
-        /// Configure the Serivce Locator as global
+        /// Returns the Service Locator configured for the scene of a given MonoBehaviour; falls back to the Global Service Locator
         /// </summary>
-        /// <param name="dontDestroyOnLoad">Whether or not to destroy on load or not</param>
-        internal void ConfigureAsGlobal(bool dontDestroyOnLoad)
+        public static ServiceLocator ForSceneOf(MonoBehaviour mb)
         {
-            if (global == this)
+            Scene scene = mb.gameObject.scene;
+
+            // Check if a scene Service Locator exists for this scene and if it is not the same as the given MonoBehaviour
+            if (sceneContainers.TryGetValue(scene, out ServiceLocator container) && container != mb)
+                // If so, return the found Service Locator
+                return container;
+
+            // Clear the temporary scene GameObjects
+            tempSceneGameObjects.Clear();
+
+            // Store all of the root GameOjects
+            scene.GetRootGameObjects(tempSceneGameObjects);
+
+            // Loop through each root GameObject where a scene Service Locator exists
+            foreach (GameObject gameObject in
+                tempSceneGameObjects.Where(gameObject => gameObject.GetComponent<ServiceLocatorScene>() != null))
             {
-                Debug.LogWarning("ServiceLocator.ConfigureAsGlobal: Already configured as global", this);
+                // Check if the GameObject has a valid scene bootstrapper commponent and the attached Service Locator
+                // is not the same as the given MonoBehaviour
+                if (gameObject.TryGetComponent(out ServiceLocatorScene bootstrapper) && bootstrapper.Container != mb)
+                {
+                    // Bootstrap the Service Locator and return it
+                    bootstrapper.BootstrapOnDemand();
+                    return bootstrapper.Container;
+                }
             }
-            else if (global != null)
-            {
-                Debug.LogError("ServiceLocator.ConfigureAsGlobal: Another ServiceLocator is already configured as global", this);
-            }
-            else
-            {
-                global = this;
-                if (dontDestroyOnLoad) DontDestroyOnLoad(gameObject);
-            }
+
+            // If nothing was found, return the global Service Locator
+            return Global;
         }
 
         /// <summary>
-        /// Configure the Service Locator for a scene
+        /// Gets the closest Service Locator instance to the provided MonoBehaviour in the hierarchy, the
+        /// Service Locator for its scene, or the global Service Locator
         /// </summary>
-        internal void ConfigureForScene()
-        {
-            // Get the current scene
-            Scene scene = gameObject.scene;
-            
-            // Check if another ServiceLocator is already configured for the current scene
-            if(sceneContainers.ContainsKey(scene))
-            {
-                Debug.LogError("SerivceLocator.ConfigureForScene: Another ServiceLocator is already configured for this scene", this);
-                return;
-            }
-
-            // Add the ServiceLocator and configure it to the current scene
-            sceneContainers.Add(scene, this);
-        }
-
-        /// <summary>
-        /// Try to get a ServiceLocator with priority on the parent GameObject of a MonoBehaviour
-        /// </summary>
-        /// <param name="mb">The Monobehaviour to check the parents of</param>
-        /// <returns></returns>
         public static ServiceLocator For(MonoBehaviour mb)
         {
             return mb.GetComponentInParent<ServiceLocator>().OrNull() ?? ForSceneOf(mb) ?? Global;
         }
 
         /// <summary>
-        /// Try to get a ServiceLocator from a Scene of a given MonoBehaviour
+        /// Registers a service to the Service Locator using the service's type
         /// </summary>
-        /// <param name="mb">The MonoBehaviour to check the scene for</param>
-        /// <returns></returns>
-        public static ServiceLocator ForSceneOf(MonoBehaviour mb)
-        {
-            // Get the current scene of the GameObject
-            Scene scene = mb.gameObject.scene;
-
-            if(sceneContainers.TryGetValue(scene, out ServiceLocator container) && container != mb)
-            {
-                return container;
-            }
-
-            // Clear all temporary scene GameObjects
-            tmpSceneGameObjects.Clear();
-
-            // Get all of the root game objects and store them
-            scene.GetRootGameObjects(tmpSceneGameObjects);
-
-            // Iterate through each game object that has a Service Locator Scene Bootstrapper
-            foreach (GameObject gameObject in tmpSceneGameObjects.Where(gameObject => gameObject.GetComponent<ServiceLocatorSceneBootstrapper>() != null))
-            {
-                // Try to get a Service Locator Scene Bootstrapper and check if the container of that Bootstrapper does not equal
-                // the given MonoBehaviour
-                if (gameObject.TryGetComponent(out ServiceLocatorSceneBootstrapper bootstrapper) && bootstrapper.Container != mb)
-                {
-                    // If so, initialize the Bootstrapper and return the ServiceLocator
-                    bootstrapper.BootstrapOnDemand();
-                    return bootstrapper.Container;
-                }
-            }
-
-            // Use the global if a Service Locator Scene Bootstrapper could not be found
-            return Global;
-        }
-
-        /// <summary>
-        /// Register a service with the Service Locator
-        /// </summary>
-        /// <typeparam name="T">The type of the service to register</typeparam>
-        /// <param name="service">The service to register</param>
-        /// <returns>The Service Locator that registered the service</returns>
         public ServiceLocator Register<T>(T service)
         {
             services.Register(service);
@@ -141,11 +163,8 @@ namespace GoodLuckValley.Patterns.ServiceLocator
         }
 
         /// <summary>
-        /// Register a service with the Service Locator
+        /// Registers a service to the Service Locator using a specific type
         /// </summary>
-        /// <param name="type">The type of the service to register</param>
-        /// <param name="service">The service to register</param>
-        /// <returns>The Service Locator that registered the service</returns>
         public ServiceLocator Register(Type type, object service)
         {
             services.Register(type, service);
@@ -153,115 +172,112 @@ namespace GoodLuckValley.Patterns.ServiceLocator
         }
 
         /// <summary>
-        /// Try to get a service from the Service Locator
+        /// Gets a service of a specific type coupled with the Service Locator
         /// </summary>
-        /// <typeparam name="T">The type of the service</typeparam>
-        /// <param name="service">The service to get</param>
-        /// <returns>The Service Locator that located the service</returns>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="service"></param>
+        /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public ServiceLocator Get<T>(out T service) where T : class
         {
-            // Try to get the service from the Service Manager
+            // Check if the service could be successfully retrieved
             if (TryGetService(out service)) return this;
 
-            // Try to get the service from the hierarchy
-            if(TryGetNextInHierarchy(out ServiceLocator container))
+            // Check if a Service Locator could be found through the hierarchy
+            if (TryGetNextInHierarchy(out ServiceLocator container))
             {
+                // If so, get and set the service
                 container.Get(out service);
                 return this;
             }
 
-            throw new ArgumentException($"ServiceLocator.Get: Service of type {typeof(T).FullName} not registered");
+            // If no service of the required type is found, throw an error
+            throw new ArgumentException($"ServiceLocator.Get(): Service of type '{typeof(T).FullName}' not registered");
+        }
+
+        /// <summary>
+        /// Get an isolated instance of a service of a specific type
+        /// </summary>
+        public T Get<T>() where T : class
+        {
+            // Get the type of the service
+            Type type = typeof(T);
+
+            // State a null service
+            T service = null;
+
+            // Check if the service could be successfully retrieved
+            if (TryGetService(type, out service))
+                // If so, return it
+                return service;
+
+            // Check if the Service Locator could be succesfully retrieved through the hierarchy
+            if (TryGetNextInHierarchy(out ServiceLocator container))
+                // If so, return it
+                return container.Get<T>();
+
+            throw new ArgumentException($"ServiceLocator.Get(): Could not resolve type '{typeof(T).FullName}'");
         }
 
         /// <summary>
         /// Try to get a service from the Service Locator
         /// </summary>
-        /// <typeparam name="T">The type of the service</typeparam>
-        /// <returns>The found service of type T</returns>
-        /// <exception cref="ArgumentException"></exception>
-        public T Get<T>() where T : class
-        {
-            Type type = typeof(T);
-
-            // Try to get the service from the Service Manager
-            if (TryGetService(type, out T service)) return service;
-
-            // Try to get the service from the Hierarchy
-            if (TryGetNextInHierarchy(out ServiceLocator container))
-                return container.Get<T>();
-
-            throw new ArgumentException($"Could not resolve type '{typeof(T).FullName}'.");
-        }
+        private bool TryGetService<T>(out T service) where T : class => services.TryGet(out service);
 
         /// <summary>
-        /// Try to get a service from the Service Manager
+        /// Try to get s service from the Service Locator using a specific type
         /// </summary>
-        /// <typeparam name="T">The type of the service to get</typeparam>
-        /// <param name="service">The retrieved service</param>
-        /// <returns>True if the service was successfully retrieved, false if otherwise</returns>
-        bool TryGetService<T>(out T service) where T : class
-        {
-            return services.TryGet(out service);
-        }
-
-        bool TryGetService<T>(Type type, out T service) where T : class
-        {
-            return services.TryGet(out service);
-        }
+        private bool TryGetService<T>(Type type, out T service) where T : class => services.TryGet(out service);
 
         /// <summary>
-        /// Try to get a service throughout the hierarchy
+        /// Try to get the next Service Locator found in the hierarchy
         /// </summary>
-        /// <param name="container">The Service Locator holding the service</param>
-        /// <returns>True if the service has been found, false if otherwise</returns>
-        bool TryGetNextInHierarchy(out ServiceLocator container)
+        private bool TryGetNextInHierarchy(out ServiceLocator container)
         {
-            // Check if we are at the global level
-            if(this == global)
+            // Check if this Service Locator is the global one
+            if (this == global)
             {
-                // Set the container to null and return false
-                // because a service has not yet been found
-                // and there's no further check in the hierarchy
+                // If so, set the container to null and return
+                // unsuccessful
                 container = null;
                 return false;
             }
 
-            // Go through the hierarchy (from parent, to scene, to global) and check for a Service Locator
+            // Check if the parent object has a Service Locator for this scene and set it
             container = transform.parent.OrNull()?.GetComponentInParent<ServiceLocator>().OrNull() ?? ForSceneOf(this);
+
+            // Return whether or not a Service Locator was found
             return container != null;
         }
 
-        private void OnDestroy()
-        {
-            if(this == global)
-            {
-                global = null;
-            } else if(sceneContainers.ContainsValue(this))
-            {
-                sceneContainers.Remove(gameObject.scene);
-            }
-        }
-
+        /// <summary>
+        /// Reset static structures
+        /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetStatics()
+        private static void ResetStatics()
         {
             global = null;
             sceneContainers = new Dictionary<Scene, ServiceLocator>();
-            tmpSceneGameObjects = new List<GameObject>();
+            tempSceneGameObjects = new List<GameObject>();
         }
 
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem("GameObject/ServiceLocator/Add Global")]
-        static void AddGlobal()
+        /// <summary>
+        /// Create a global Service Locator object
+        /// </summary>
+        [MenuItem("GameObject/ServiceLocator/Add Global")]
+        private static void AddGlobal()
         {
-            GameObject gameObject = new GameObject(k_globalServiceLocatorName, typeof(ServiceLocatorGlobalBootstrapper));
+            GameObject go = new GameObject(k_globalServiceLocatorName, typeof(ServiceLocatorGlobal));
         }
 
-        [UnityEditor.MenuItem("GameObject/ServiceLocator/Add Scene")]
-        static void AddScene()
+        [MenuItem("GameObject/ServiceLocator/Add Scene")]
+        /// <summary>
+        /// Create a scene Service Locator object
+        /// </summary>
+        private static void AddScene()
         {
-            GameObject gameObject = new GameObject(k_sceneServiceLocatorName, typeof(ServiceLocatorSceneBootstrapper));
+            GameObject go = new GameObject(k_sceneServiceLocatorName, typeof(ServiceLocatorScene));
         }
 #endif
     }

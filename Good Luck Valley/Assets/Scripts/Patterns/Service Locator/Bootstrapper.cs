@@ -1,7 +1,5 @@
-using GoodLuckValley.Extensions;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using GoodLuckValley.Extensions.GameObject;
 
 namespace GoodLuckValley.Patterns.ServiceLocator
 {
@@ -9,46 +7,32 @@ namespace GoodLuckValley.Patterns.ServiceLocator
     [RequireComponent(typeof(ServiceLocator))]
     public abstract class Bootstrapper : MonoBehaviour
     {
-        bool hasBeenBootstrapped;
-        ServiceLocator container;
+        private ServiceLocator container;
+        private bool hasBeenBootstrapped;
 
         internal ServiceLocator Container => container.OrNull() ?? (container = GetComponent<ServiceLocator>());
 
-        private void Awake() => BootstrapOnDemand();
+        private void Awake()
+        {
+            BootstrapOnDemand();
+        }
 
         /// <summary>
-        /// Initialize the Bootstrapper
+        /// Force the bootstrap
         /// </summary>
         public void BootstrapOnDemand()
         {
+            // Exit case - if already been bootstrapped
             if (hasBeenBootstrapped) return;
+
+            // Bootstrap
             hasBeenBootstrapped = true;
             Bootstrap();
         }
 
         /// <summary>
-        /// Configure the ServiceLocator
+        /// Bootstrap the Service Locator
         /// </summary>
         protected abstract void Bootstrap();
-    }
-
-    [AddComponentMenu("ServiceLocator/ServiceLocator - Global")]
-    public class ServiceLocatorGlobalBootstrapper : Bootstrapper
-    {
-        [SerializeField] bool dontDestroyOnLoad = true;
-
-        protected override void Bootstrap()
-        {
-            Container.ConfigureAsGlobal(dontDestroyOnLoad);
-        }
-    }
-
-    [AddComponentMenu("ServiceLocator/ServiceLocator - Scene")]
-    public class ServiceLocatorSceneBootstrapper : Bootstrapper
-    {
-        protected override void Bootstrap()
-        {
-            Container.ConfigureForScene();
-        }
     }
 }
