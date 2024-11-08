@@ -46,6 +46,15 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crawl"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b668509-fdd1-4d12-8fdc-7ba5e20b8b11"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -114,6 +123,17 @@ namespace GoodLuckValley.Input.Actions
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dea0369b-17a4-4329-81b7-ffc821ad92c1"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crawl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -124,6 +144,7 @@ namespace GoodLuckValley.Input.Actions
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+            m_Player_Crawl = m_Player.FindAction("Crawl", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -187,12 +208,14 @@ namespace GoodLuckValley.Input.Actions
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
+        private readonly InputAction m_Player_Crawl;
         public struct PlayerActions
         {
             private @GameplayActions m_Wrapper;
             public PlayerActions(@GameplayActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
+            public InputAction @Crawl => m_Wrapper.m_Player_Crawl;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -208,6 +231,9 @@ namespace GoodLuckValley.Input.Actions
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Crawl.started += instance.OnCrawl;
+                @Crawl.performed += instance.OnCrawl;
+                @Crawl.canceled += instance.OnCrawl;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -218,6 +244,9 @@ namespace GoodLuckValley.Input.Actions
                 @Jump.started -= instance.OnJump;
                 @Jump.performed -= instance.OnJump;
                 @Jump.canceled -= instance.OnJump;
+                @Crawl.started -= instance.OnCrawl;
+                @Crawl.performed -= instance.OnCrawl;
+                @Crawl.canceled -= instance.OnCrawl;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -239,6 +268,7 @@ namespace GoodLuckValley.Input.Actions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnCrawl(InputAction.CallbackContext context);
         }
     }
 }

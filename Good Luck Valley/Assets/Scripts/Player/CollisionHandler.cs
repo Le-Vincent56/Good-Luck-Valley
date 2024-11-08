@@ -8,7 +8,7 @@ public class CollisionHandler
     public enum ColliderMode
     {
         Standard,
-        Crouching,
+        Crawling,
         Airborne
     }
 
@@ -60,14 +60,14 @@ public class CollisionHandler
         airborneCollider.sharedMaterial = controller.RB.sharedMaterial;
 
         // Set the collider mode
-        SetColliderMode(ColliderMode.Standard);
+        SetColliderMode(ColliderMode.Airborne);
     }
 
     public void CalculateCollisions()
     {
         Physics2D.queriesStartInColliders = false;
 
-        var isGroundedThisFrame = PerformRay(RayPoint);
+        bool isGroundedThisFrame = PerformRay(RayPoint);
 
         if (!isGroundedThisFrame)
         {
@@ -142,7 +142,7 @@ public class CollisionHandler
                 boxCollider.size = controller.CharacterSize.StandingColliderSize;
                 boxCollider.offset = controller.CharacterSize.StandingColliderCenter;
                 break;
-            case ColliderMode.Crouching:
+            case ColliderMode.Crawling:
                 boxCollider.size = controller.CharacterSize.CrouchColliderSize;
                 boxCollider.offset = controller.CharacterSize.CrouchingColliderCenter;
                 break;

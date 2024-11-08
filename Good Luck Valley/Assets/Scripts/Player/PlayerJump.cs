@@ -41,7 +41,7 @@ namespace GoodLuckValley.Player
                 controller.Time < timeLeftGrounded + controller.Stats.CoyoteTime;
         }
 
-        private bool CanAirJump { get => controller.Collisions.Grounded && airJumpsRemaining > 0; }
+        private bool CanAirJump { get => !controller.Collisions.Grounded && airJumpsRemaining > 0; }
         //private bool CanWallJump
         //{
         //    get => controller.Collisions.Grounded &&
@@ -64,11 +64,7 @@ namespace GoodLuckValley.Player
         /// </summary>
         public void CalculateJump()
         {
-            Debug.Log($"Has Buffered Jump: {HasBufferedJump}" +
-                $"\nJump to Consume: {jumpToConsume}" +
-                $"\nCan Stand: {controller.Crouch.CanStand}");
-
-            if((jumpToConsume || HasBufferedJump) && controller.Crouch.CanStand)
+            if((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
             {
                 //if (CanWallJump) ExecuteJump(JumpType.WallJump);
                 if (controller.Collisions.Grounded) ExecuteJump(JumpType.Jump);

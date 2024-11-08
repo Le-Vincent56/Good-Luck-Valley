@@ -23,7 +23,7 @@ namespace GoodLuckValley.Player
         private CollisionHandler collisionHandler;
         private FrameData frameData;
         private PlayerJump jump;
-        private PlayerCrouch crouch;
+        private PlayerCrawl crawl;
 
         [SerializeField] private GeneratedCharacterSize characterSize;
         private bool cachedQueryMode;
@@ -50,7 +50,7 @@ namespace GoodLuckValley.Player
         public CollisionHandler Collisions { get => collisionHandler; }
         public FrameData FrameData { get => frameData; }
         public PlayerJump Jump { get => jump; }
-        public PlayerCrouch Crouch { get => crouch; }
+        public PlayerCrawl Crawl { get => crawl; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
@@ -88,6 +88,9 @@ namespace GoodLuckValley.Player
             orchestrator.SetPlayer(this);
         }
 
+        /// <summary>
+        /// Set up the PlayerController
+        /// </summary>
         private void Setup()
         {
             // Generate the character size
@@ -101,6 +104,9 @@ namespace GoodLuckValley.Player
             // Initialize the Rigidbody2D
             rb = GetComponent<Rigidbody2D>();
             rb.hideFlags = HideFlags.NotEditable;
+            rb.freezeRotation = true;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
             // Get the Colliders
             boxCollider = GetComponent<BoxCollider2D>();
@@ -114,7 +120,7 @@ namespace GoodLuckValley.Player
 
             // Initialize movement components
             jump ??= new PlayerJump(this);
-            crouch ??= new PlayerCrouch(this);
+            crawl ??= new PlayerCrawl(this);
 
             input.Enable();
         }
@@ -134,6 +140,9 @@ namespace GoodLuckValley.Player
             // Set time variables
             this.delta = delta;
 
+            // Remove transient velocity
+            RemoveTransientVelocity();
+
             // Set frame data
             frameData.Set();
 
@@ -147,15 +156,19 @@ namespace GoodLuckValley.Player
             jump.CalculateJump();
 
             // Move
+            TraceGround();
             Move();
 
             // Calculate crouch
-            crouch.CalculateCrouch();
+            crawl.CalculateCrawl();
 
             // Clean the frame data
             frameData.Clean();
         }
 
+        /// <summary>
+        /// Calculate the direction of movement
+        /// </summary>
         private void CalculateDirection()
         {
             // Get the direction of movement
@@ -186,6 +199,9 @@ namespace GoodLuckValley.Player
             Velocity = newVelocity;
         }
 
+        /// <summary>
+        /// Move the player
+        /// </summary>
         private void Move()
         {
             // Check if there is force to apply this frame
@@ -215,23 +231,28 @@ namespace GoodLuckValley.Player
             float targetSpeed = FrameData.HasInput ? Stats.BaseSpeed : 0;
 
             // Check if crouching
-            if(crouch.Crouching)
+            if(crawl.Crawling)
             {
                 // Slow the player down to the crouch speed
-                float crouchPoint = Mathf.InverseLerp(0, Stats.CrouchSlowDownTime, time - crouch.TimeStartedCrouching);
+                float crouchPoint = Mathf.InverseLerp(0, Stats.CrouchSlowDownTime, time - crawl.TimeStartedCrawling);
                 targetSpeed *= Mathf.Lerp(1, Stats.CrouchSpeedModifier, crouchPoint);
             }
 
+            // Calculate the step of movement
             float step = FrameData.HasInput ? Stats.Acceleration : Stats.Friction;
 
+            // Get the x-direction of movement
             Vector2 xDirection = FrameData.HasInput ? direction : Velocity.normalized;
 
+            // Check if the trimmed velocity and the direction are moving in opposite directions
             if (Vector3.Dot(FrameData.TrimmedVelocity, direction) < 0) 
+                // If so, apply the correction multiplier
                 step *= Stats.DirectionCorrectionMultiplier;
 
             Vector2 newVelocity;
             step *= delta;
 
+            // Check if grounded
             if(Collisions.Grounded)
             {
                 // Calculate the speed of movement
@@ -252,6 +273,7 @@ namespace GoodLuckValley.Player
             } 
             else
             {
+                // Apply air friction
                 step *= Stats.AirFrictionMultiplier;
 
                 //if (_wallJumpInputNerfPoint < 1 && (int)Mathf.Sign(xDir.x) == (int)Mathf.Sign(_wallDirectionForJump))
@@ -260,24 +282,86 @@ namespace GoodLuckValley.Player
                 //    else xDir.x *= _wallJumpInputNerfPoint;
                 //}
 
+                // Set the new velocity
                 float targetX = Mathf.MoveTowards(FrameData.TrimmedVelocity.x, xDirection.x * targetSpeed, step);
                 newVelocity = new Vector2(targetX, rb.velocity.y);
             }
 
+            // Set the new velocity with any additional velocities
             SetVelocity((newVelocity + FrameData.AdditionalFrameVelocities()) * currentFrameSpeedModifier);
+        }
+
+        /// <summary>
+        /// Trace the ground underneath the Player
+        /// </summary>
+        private void TraceGround()
+        {
+            // Check if grounded and if not within jump clearance
+            if(Collisions.Grounded && !Jump.IsWithinJumpClearance)
+            {
+                // Get the distanc from the ground
+                float distanceFromGround = CharacterSize.StepHeight - Collisions.GroundHit.distance;
+
+                // Check if there's still distance to travel
+                if(distanceFromGround != 0)
+                {
+                    // Get the movement vector to travel the distance
+                    Vector2 requiredMove = Vector2.zero;
+                    requiredMove.y += distanceFromGround;
+
+                    // CHeck if using velocity as the PositionCorrectionMode
+                    if (Stats.PositionCorrectionMode is PositionCorrectionMode.Velocity)
+                        // Add the correction to teh transient velocity
+                        FrameData.TransientVelocity = requiredMove / delta;
+                    else
+                        // Move immediately
+                        immediateMove = requiredMove;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove transient velocities from the last frame
+        /// </summary>
+        private void RemoveTransientVelocity()
+        {
+            Vector2 currentVelocity = rb.velocity;
+            Vector2 velocityBeforeReduction = currentVelocity;
+
+            // Subtract the current velocity from the previous frame's transient velocity
+            currentVelocity -= FrameData.PreviousTotalTransientVelocity;
+
+            // Set the current velocity
+            SetVelocity(currentVelocity);
+
+            // Zero out frame transient velocities
+            FrameData.TransientVelocity = Vector2.zero;
+            FrameData.PreviousTotalTransientVelocity = Vector2.zero;
+
+            float decay = Stats.Friction * Stats.AirFrictionMultiplier * Stats.ExternalVelocityDecayRate;
+            if ((velocityBeforeReduction.x < 0 && decayingTransientVelocity.x < velocityBeforeReduction.x) ||
+                (velocityBeforeReduction.x > 0 && decayingTransientVelocity.x > velocityBeforeReduction.x) ||
+                (velocityBeforeReduction.y < 0 && decayingTransientVelocity.y < velocityBeforeReduction.y) ||
+                (velocityBeforeReduction.y > 0 && decayingTransientVelocity.y > velocityBeforeReduction.y)) decay *= 5;
+
+            // Set the decaying transient velocity
+            decayingTransientVelocity = Vector2.MoveTowards(decayingTransientVelocity, Vector2.zero, decay);
+
+            // Zero out immediate move
+            immediateMove = Vector2.zero;
         }
 
         private void OnDrawGizmos()
         {
             if (!debug) return;
 
-            var pos = (Vector2)transform.position;
+            Vector2 pos = (Vector2)transform.position;
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(pos + Vector2.up * characterSize.Height / 2, new Vector3(characterSize.Width, characterSize.Height));
             Gizmos.color = Color.magenta;
 
-            var rayStart = pos + Vector2.up * characterSize.StepHeight;
-            var rayDir = Vector3.down * characterSize.StepHeight;
+            Vector2 rayStart = pos + Vector2.up * characterSize.StepHeight;
+            Vector3 rayDir = Vector3.down * characterSize.StepHeight;
             Gizmos.DrawRay(rayStart, rayDir);
             foreach (float offset in Collisions.GenerateRayOffsets())
             {
@@ -287,7 +371,6 @@ namespace GoodLuckValley.Player
 
             //Gizmos.color = Color.yellow;
             //Gizmos.DrawWireCube(pos + (Vector2)_wallDetectionBounds.center, _wallDetectionBounds.size);
-
 
             Gizmos.color = Color.black;
             Gizmos.DrawRay(Collisions.RayPoint, Vector3.right);

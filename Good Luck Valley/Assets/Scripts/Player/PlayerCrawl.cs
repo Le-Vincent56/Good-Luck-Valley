@@ -2,17 +2,27 @@ using UnityEngine;
 
 namespace GoodLuckValley.Player
 {
-    public class PlayerCrouch
+    public class PlayerCrawl
     {
         private PlayerController controller;
-        private bool crouching;
-        private float timeStartedCrouching;
-        public bool Crouching { get => crouching; }
-        private bool CrouchPressed => controller.FrameData.Input.Move.y < -controller.Stats.VerticalDeadZoneThreshold;
+        private bool crawling;
+        private float timeStartedCrawling;
+        public bool Crawling { get => crawling; }
+        private bool CrawlPressed
+        {
+            get
+            {
+                return 
+                (
+                    controller.FrameData.Input.Move.y < -controller.Stats.VerticalDeadZoneThreshold ||
+                    controller.FrameData.Input.Crawling
+                 );
+            }
+        }
         public bool CanStand => IsStandingPosClear(controller.RB.position + controller.CharacterSize.StandingColliderCenter);
-        public float TimeStartedCrouching { get => timeStartedCrouching; }
+        public float TimeStartedCrawling { get => timeStartedCrawling; }
 
-        public PlayerCrouch(PlayerController controller)
+        public PlayerCrawl(PlayerController controller)
         {
             this.controller = controller;
         }
@@ -41,30 +51,30 @@ namespace GoodLuckValley.Player
         /// <summary>
         /// Calculate whether or not the player should be crouching
         /// </summary>
-        public void CalculateCrouch()
+        public void CalculateCrawl()
         {
             // Exit case - if crouching is not allowed
             if (!controller.Stats.AllowCrouching) return;
 
-            if (!crouching && CrouchPressed && controller.Collisions.Grounded)
-                ToggleCrouching(true);
-            else if (crouching && (!CrouchPressed && !controller.Collisions.Grounded))
-                ToggleCrouching(false);
+            if (!crawling && CrawlPressed && controller.Collisions.Grounded)
+                ToggleCrawling(true);
+            else if (crawling && (!CrawlPressed && !controller.Collisions.Grounded))
+                ToggleCrawling(false);
         }
 
         /// <summary>
         /// Toggle crouching for the player
         /// </summary>
-        private void ToggleCrouching(bool shouldCrouch)
+        private void ToggleCrawling(bool shouldCrouch)
         {
             // Check if the Player should crouch
             if(shouldCrouch)
             {
                 // Set the time the player started crouching
-                timeStartedCrouching = controller.Time;
+                timeStartedCrawling = controller.Time;
 
                 // Start crouching
-                crouching = true;
+                crawling = true;
             } 
             else
             {
@@ -72,13 +82,13 @@ namespace GoodLuckValley.Player
                 if (!CanStand) return;
                 
                 // Stop crouching
-                crouching = false;
+                crawling = false;
             }
 
             // Verify the collider mode
             controller.Collisions.SetColliderMode(
-                crouching 
-                ? CollisionHandler.ColliderMode.Crouching 
+                crawling 
+                ? CollisionHandler.ColliderMode.Crawling 
                 : CollisionHandler.ColliderMode.Standard
             );
         }

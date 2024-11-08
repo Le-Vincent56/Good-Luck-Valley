@@ -1,6 +1,5 @@
 using GoodLuckValley.Input;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 namespace GoodLuckValley.Player
 {
@@ -20,6 +19,18 @@ namespace GoodLuckValley.Player
         public bool HasInput { get => hasInputThisFrame; }
         public Vector2 TrimmedVelocity { get => trimmedFrameVelocity;  }
         public Vector2 Position { get => framePosition; }
+        public Vector2 TransientVelocity 
+        {
+            get => frameTransientVelocity;
+            set => frameTransientVelocity = value; 
+        }
+
+        public Vector2 PreviousTotalTransientVelocity 
+        { 
+            get => lastFrameTotalTransientVelocity; 
+            set => lastFrameTotalTransientVelocity = value;  
+        }
+
         public Vector2 ForceToApply { get => frameForceToApply; }
 
         public FrameData(PlayerController controller)
