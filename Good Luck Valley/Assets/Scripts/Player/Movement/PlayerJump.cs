@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
-namespace GoodLuckValley.Player
+namespace GoodLuckValley.Player.Movement
 {
+    [Serializable]
     public class PlayerJump
     {
         public enum JumpType
@@ -16,13 +18,13 @@ namespace GoodLuckValley.Player
 
         private const float JUMP_CLEARANCE_TIME = 0.25f;
         private float lastJumpExecutedTime;
-        private bool bufferedJumpUsable;
-        private bool jumpToConsume;
+        [SerializeField] private bool bufferedJumpUsable;
+        [SerializeField] private bool jumpToConsume;
         private float timeJumpWasPressed;
-        private bool endedJumpEarly;
-        private int airJumpsRemaining;
+        [SerializeField] private bool endedJumpEarly;
+        [SerializeField] private int airJumpsRemaining;
         private bool wallJumpCoyoteUsable;
-        private bool coyoteUsable;
+        [SerializeField] private bool coyoteUsable;
         private float timeLeftGrounded;
         private float returnWallInputLossAfter;
 

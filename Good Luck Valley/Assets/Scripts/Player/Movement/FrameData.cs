@@ -1,7 +1,7 @@
 using GoodLuckValley.Input;
 using UnityEngine;
 
-namespace GoodLuckValley.Player
+namespace GoodLuckValley.Player.Movement
 {
     public class FrameData
     {

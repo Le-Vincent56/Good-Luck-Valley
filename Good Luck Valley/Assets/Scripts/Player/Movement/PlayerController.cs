@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 using GoodLuckValley.World.Physics;
 using GoodLuckValley.Patterns.ServiceLocator;
 
-namespace GoodLuckValley.Player
+namespace GoodLuckValley.Player.Movement
 {
     public class PlayerController : SerializedMonoBehaviour, IPhysicsObject
     {
@@ -22,10 +22,10 @@ namespace GoodLuckValley.Player
         // Movement components
         private CollisionHandler collisionHandler;
         private FrameData frameData;
-        private PlayerJump jump;
-        private PlayerCrawl crawl;
+        [SerializeField] private PlayerJump jump;
+        [SerializeField] private PlayerCrawl crawl;
 
-        [SerializeField] private GeneratedCharacterSize characterSize;
+        private GeneratedCharacterSize characterSize;
         private bool cachedQueryMode;
         private bool cachedQueryTriggers;
         public const float GRAVITY_SCALE = 1;
@@ -112,15 +112,15 @@ namespace GoodLuckValley.Player
             boxCollider = GetComponent<BoxCollider2D>();
             airborneCollider = GetComponent<CapsuleCollider2D>();
 
-            frameData ??= new FrameData(this);
+            frameData = new FrameData(this);
 
             // Initialize the Collision Handler
             collisionHandler ??= new CollisionHandler(this, boxCollider, airborneCollider);
             collisionHandler.Setup();
 
             // Initialize movement components
-            jump ??= new PlayerJump(this);
-            crawl ??= new PlayerCrawl(this);
+            jump = new PlayerJump(this);
+            crawl = new PlayerCrawl(this);
 
             input.Enable();
         }
@@ -358,8 +358,11 @@ namespace GoodLuckValley.Player
             Vector2 pos = (Vector2)transform.position;
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(pos + Vector2.up * characterSize.Height / 2, new Vector3(characterSize.Width, characterSize.Height));
-            Gizmos.color = Color.magenta;
 
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(pos + Vector2.up * characterSize.CrouchingHeight / 2, new Vector3(characterSize.Width, characterSize.CrouchingHeight));
+
+            Gizmos.color = Color.magenta;
             Vector2 rayStart = pos + Vector2.up * characterSize.StepHeight;
             Vector3 rayDir = Vector3.down * characterSize.StepHeight;
             Gizmos.DrawRay(rayStart, rayDir);

@@ -1,25 +1,17 @@
+using System;
 using UnityEngine;
 
-namespace GoodLuckValley.Player
+namespace GoodLuckValley.Player.Movement
 {
+    [Serializable]
     public class PlayerCrawl
     {
         private PlayerController controller;
-        private bool crawling;
+        [SerializeField] private bool crawling;
         private float timeStartedCrawling;
         public bool Crawling { get => crawling; }
-        private bool CrawlPressed
-        {
-            get
-            {
-                return 
-                (
-                    controller.FrameData.Input.Move.y < -controller.Stats.VerticalDeadZoneThreshold ||
-                    controller.FrameData.Input.Crawling
-                 );
-            }
-        }
-        public bool CanStand => IsStandingPosClear(controller.RB.position + controller.CharacterSize.StandingColliderCenter);
+        private bool CrawlPressed { get => controller.FrameData.Input.Crawling; }
+        public bool CanStand { get => IsStandingPosClear(controller.RB.position + controller.CharacterSize.StandingColliderCenter); }
         public float TimeStartedCrawling { get => timeStartedCrawling; }
 
         public PlayerCrawl(PlayerController controller)
@@ -58,7 +50,7 @@ namespace GoodLuckValley.Player
 
             if (!crawling && CrawlPressed && controller.Collisions.Grounded)
                 ToggleCrawling(true);
-            else if (crawling && (!CrawlPressed && !controller.Collisions.Grounded))
+            else if (crawling && (!CrawlPressed || !controller.Collisions.Grounded))
                 ToggleCrawling(false);
         }
 
