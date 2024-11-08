@@ -1,4 +1,5 @@
 using GoodLuckValley.Input.Actions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -6,6 +7,13 @@ using static GoodLuckValley.Input.Actions.GameplayActions;
 
 namespace GoodLuckValley.Input
 {
+    public struct FrameInput
+    {
+        public Vector2 Move;
+        public bool JumpDown;
+        public bool JumpHeld;
+    }
+
     [CreateAssetMenu(fileName = "Game Input Reader", menuName = "Input/Game Input Reader")]
     public class GameInputReader : ScriptableObject, IPlayerActions, IInputReader
     {
@@ -40,6 +48,19 @@ namespace GoodLuckValley.Input
         public void Disable() => inputActions.Disable();
 
         /// <summary>
+        /// Retrieve input from this frame
+        /// </summary>
+        public FrameInput RetrieveFrameInput()
+        {
+            return new FrameInput()
+            {
+                Move = inputActions.Player.Move.ReadValue<Vector2>(),
+                JumpDown = inputActions.Player.Jump.WasPressedThisFrame(),
+                JumpHeld = inputActions.Player.Jump.IsPressed()
+            };
+        }
+
+        /// <summary>
         /// Callback function to handle Movement input
         /// </summary>
         public void OnMove(InputAction.CallbackContext context)
@@ -54,11 +75,6 @@ namespace GoodLuckValley.Input
             NormMoveX = (int)(rawMovementInput * Vector2.right).normalized.x;
             NormMoveY = (int)(rawMovementInput * Vector2.up).normalized.y;
         }
-
-        /// <summary>
-        /// Get whether or not the Jump key is pressed
-        /// </summary>
-        public bool IsJumpKeyPressed() => inputActions.Player.Jump.IsPressed();
 
         /// <summary>
         /// Callback function to handle Jump input
