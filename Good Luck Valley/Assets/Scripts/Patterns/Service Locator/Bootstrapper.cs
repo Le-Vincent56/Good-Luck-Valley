@@ -1,5 +1,5 @@
 using UnityEngine;
-using GoodLuckValley.Extensions.GameObject;
+using GoodLuckValley.Extensions.GameObjects;
 
 namespace GoodLuckValley.Patterns.ServiceLocator
 {
