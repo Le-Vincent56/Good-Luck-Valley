@@ -1,5 +1,4 @@
 using GoodLuckValley.Input.Actions;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -52,7 +51,7 @@ namespace GoodLuckValley.Input
         /// </summary>
         public FrameInput RetrieveFrameInput()
         {
-            return new FrameInput()
+            return new FrameInput
             {
                 Move = inputActions.Player.Move.ReadValue<Vector2>(),
                 JumpDown = inputActions.Player.Jump.WasPressedThisFrame(),

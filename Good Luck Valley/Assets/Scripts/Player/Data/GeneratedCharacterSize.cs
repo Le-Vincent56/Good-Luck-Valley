@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Data
 {
+    [Serializable]
     public struct GeneratedCharacterSize
     {
         // Standing

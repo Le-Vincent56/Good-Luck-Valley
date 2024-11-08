@@ -10,6 +10,7 @@ namespace GoodLuckValley.Player.Data
         Immediate
     }
 
+    [CreateAssetMenu(fileName = "Player Stats", menuName = "Data/Player Stats")]
     public class PlayerStats : ScriptableObject
     {
         // Setup

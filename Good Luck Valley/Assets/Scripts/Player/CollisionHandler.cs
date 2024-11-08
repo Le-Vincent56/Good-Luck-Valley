@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class CollisionHandler
 {
-    private enum ColliderMode
+    public enum ColliderMode
     {
         Standard,
         Crouching,
         Airborne
     }
 
-    private PlayerController playerController;
+    private PlayerController controller;
     private BoxCollider2D boxCollider;
     private CapsuleCollider2D airborneCollider;
 
@@ -21,41 +21,49 @@ public class CollisionHandler
     private RaycastHit2D groundHit;
     private bool grounded;
     private float currentStepDownLength;
-    private float GrounderLength => playerController.CharacterSize.StepHeight + SKIN_WIDTH;
 
-    private Vector2 RayPoint => playerController.FramePosition + playerController.Up * (playerController.CharacterSize.StepHeight + SKIN_WIDTH);
+    private float GrounderLength => controller.CharacterSize.StepHeight + SKIN_WIDTH;
+
+    public Vector2 RayPoint => controller.FrameData.Position + controller.Up * (controller.CharacterSize.StepHeight + SKIN_WIDTH);
+
+    public bool Grounded { get => grounded; }
+    public RaycastHit2D GroundHit { get => groundHit; }
+    public Vector2 GroundNormal { get => groundHit.normal; }
+    public float CurrentStepDownLength { get => currentStepDownLength; set => currentStepDownLength = value; }
+    public float SkinWidth { get => SKIN_WIDTH; }
 
     public CollisionHandler(
-        PlayerController playerController,
+        PlayerController controller,
         BoxCollider2D boxCollider, 
         CapsuleCollider2D airborneCollider
     )
     {
-        this.playerController = playerController;
+        this.controller = controller;
         this.boxCollider = boxCollider;
         this.airborneCollider = airborneCollider;
     }
 
-    private void Setup()
+    public void Setup()
     {
         // Primary collider
-        boxCollider = playerController.GetComponent<BoxCollider2D>();
+        boxCollider = controller.GetComponent<BoxCollider2D>();
         boxCollider.edgeRadius = CharacterSize.COLLIDER_EDGE_RADIUS;
         boxCollider.hideFlags = HideFlags.NotEditable;
-        boxCollider.sharedMaterial = playerController.RB.sharedMaterial;
+        boxCollider.sharedMaterial = controller.RB.sharedMaterial;
         boxCollider.enabled = true;
 
         // Airborne collider
-        airborneCollider = playerController.GetComponent<CapsuleCollider2D>();
+        airborneCollider = controller.GetComponent<CapsuleCollider2D>();
         airborneCollider.hideFlags = HideFlags.NotEditable;
-        airborneCollider.size = new Vector2(playerController.CharacterSize.Width - SKIN_WIDTH * 2, playerController.CharacterSize.Height - SKIN_WIDTH * 2);
-        airborneCollider.offset = new Vector2(0, playerController.CharacterSize.Height / 2);
-        airborneCollider.sharedMaterial = playerController.RB.sharedMaterial;
+        airborneCollider.size = new Vector2(controller.CharacterSize.Width - SKIN_WIDTH * 2, controller.CharacterSize.Height - SKIN_WIDTH * 2);
+        airborneCollider.offset = new Vector2(0, controller.CharacterSize.Height / 2);
+        airborneCollider.sharedMaterial = controller.RB.sharedMaterial;
 
-        SetColliderMode(ColliderMode.Airborne);
+        // Set the collider mode
+        SetColliderMode(ColliderMode.Standard);
     }
 
-    private void CalculateCollisions()
+    public void CalculateCollisions()
     {
         Physics2D.queriesStartInColliders = false;
 
@@ -65,7 +73,7 @@ public class CollisionHandler
         {
             foreach (float offset in GenerateRayOffsets())
             {
-                isGroundedThisFrame = PerformRay(RayPoint + playerController.Right * offset) || PerformRay(RayPoint - playerController.Right * offset);
+                isGroundedThisFrame = PerformRay(RayPoint + controller.Right * offset) || PerformRay(RayPoint - controller.Right * offset);
                 if (isGroundedThisFrame) break;
             }
         }
@@ -73,14 +81,14 @@ public class CollisionHandler
         if (isGroundedThisFrame && !grounded) ToggleGrounded(true);
         else if (!isGroundedThisFrame && grounded) ToggleGrounded(false);
 
-        Physics2D.queriesStartInColliders = playerController.CachedQueryMode;
+        Physics2D.queriesStartInColliders = controller.CachedQueryMode;
 
         bool PerformRay(Vector2 point)
         {
-            groundHit = Physics2D.Raycast(point, -playerController.Up, GrounderLength + currentStepDownLength, playerController.Stats.CollisionLayers);
+            groundHit = Physics2D.Raycast(point, -controller.Up, GrounderLength + currentStepDownLength, controller.Stats.CollisionLayers);
             if (!groundHit) return false;
 
-            if (Vector2.Angle(groundHit.normal, playerController.Up) > playerController.Stats.MaxWalkableSlope)
+            if (Vector2.Angle(groundHit.normal, controller.Up) > controller.Stats.MaxWalkableSlope)
             {
                 return false;
             }
@@ -89,9 +97,9 @@ public class CollisionHandler
         }
     }
 
-    private IEnumerable<float> GenerateRayOffsets()
+    public IEnumerable<float> GenerateRayOffsets()
     {
-        var extent = playerController.CharacterSize.StandingColliderSize.x / 2 - playerController.CharacterSize.RayInset;
+        var extent = controller.CharacterSize.StandingColliderSize.x / 2 - controller.CharacterSize.RayInset;
         var offsetAmount = extent / RAY_SIDE_COUNT;
         for (var i = 1; i < RAY_SIDE_COUNT + 1; i++)
         {
@@ -105,38 +113,38 @@ public class CollisionHandler
         if (grounded)
         {
             //GroundedChanged?.Invoke(true, _lastFrameY);
-            //playerController.RB.gravityScale = 0;
-            //SetVelocity(_trimmedFrameVelocity);
-            //_constantForce.force = Vector2.zero;
-            //currentStepDownLength = playerController.CharacterSize.StepHeight;
+            controller.RB.gravityScale = 0;
+            controller.SetVelocity(controller.FrameData.TrimmedVelocity);
+            controller.ConstantForce.force = Vector2.zero;
+            currentStepDownLength = controller.CharacterSize.StepHeight;
             //_canDash = true;
-            //_coyoteUsable = true;
-            //_bufferedJumpUsable = true;
-            //ResetAirJumps();
+            controller.Jump.CoyoteUsable = true;
+            controller.Jump.BufferedJumpUsable = true;
+            controller.Jump.ResetAirJumps();
             SetColliderMode(ColliderMode.Standard);
         }
         else
         {
             //GroundedChanged?.Invoke(false, 0);
-            //_timeLeftGrounded = _time;
-            //playerController.RB.gravityScale = GRAVITY_SCALE;
+            controller.Jump.TimeLeftGrounded = controller.Time;
+            controller.RB.gravityScale = controller.GravityScale;
             SetColliderMode(ColliderMode.Airborne);
         }
     }
 
-    private void SetColliderMode(ColliderMode mode)
+    public void SetColliderMode(ColliderMode mode)
     {
         airborneCollider.enabled = mode == ColliderMode.Airborne;
 
         switch (mode)
         {
             case ColliderMode.Standard:
-                boxCollider.size = playerController.CharacterSize.StandingColliderSize;
-                boxCollider.offset = playerController.CharacterSize.StandingColliderCenter;
+                boxCollider.size = controller.CharacterSize.StandingColliderSize;
+                boxCollider.offset = controller.CharacterSize.StandingColliderCenter;
                 break;
             case ColliderMode.Crouching:
-                boxCollider.size = playerController.CharacterSize.CrouchColliderSize;
-                boxCollider.offset = playerController.CharacterSize.CrouchingColliderCenter;
+                boxCollider.size = controller.CharacterSize.CrouchColliderSize;
+                boxCollider.offset = controller.CharacterSize.CrouchingColliderCenter;
                 break;
             case ColliderMode.Airborne:
                 break;
