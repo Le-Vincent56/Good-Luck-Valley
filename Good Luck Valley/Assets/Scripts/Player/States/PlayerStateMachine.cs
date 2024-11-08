@@ -21,7 +21,10 @@ namespace GoodLuckValley
         {
             // Get components
             controller = GetComponent<PlayerController>();
-            animator = GetComponent<AnimationController>();
+            animator = GetComponentInChildren<AnimationController>();
+
+            // Initialize the animator
+            animator.Initialize(controller);
 
             // Initialize the super State Machine
             superMachine = new StateMachine();

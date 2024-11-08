@@ -1,9 +1,6 @@
 using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace GoodLuckValley
 {
@@ -36,7 +33,8 @@ namespace GoodLuckValley
 
         public override void OnEnter()
         {
-
+            // Enter the idle animation
+            animator.EnterIdle();
         }
     }
 
@@ -48,19 +46,35 @@ namespace GoodLuckValley
 
         public override void OnEnter()
         {
-
+            // Enter the locomotion animation
+            animator.EnterLocomotion();
         }
     }
 
-    public class CrawlState : SubState
+    public class CrawlIdleState : SubState
     {
-        public CrawlState(PlayerController controller, AnimationController animator)
+        public CrawlIdleState(PlayerController controller, AnimationController animator)
             : base(controller, animator)
         { }
 
         public override void OnEnter()
         {
+            // Enter the crawl idle animation
+            animator.EnterCrawlIdle();
+        }
+    }
 
+    public class CrawlLocomotionState : SubState
+    {
+        public CrawlLocomotionState(PlayerController controller, AnimationController animator) 
+            : base(controller, animator)
+        {
+        }
+
+        public override void OnEnter()
+        {
+            // Enter the crawl locomotion animation
+            animator.EnterCrawlLocomotion();
         }
     }
 

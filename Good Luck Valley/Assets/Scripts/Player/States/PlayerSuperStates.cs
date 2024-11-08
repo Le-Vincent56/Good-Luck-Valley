@@ -1,7 +1,6 @@
 using GoodLuckValley.Patterns.StateMachine;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
-using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
@@ -41,7 +40,8 @@ namespace GoodLuckValley.Player.States
     {
         private IdleState idle;
         private LocomotionState locomotion;
-        private CrawlState crawling;
+        private CrawlIdleState crawlingIdle;
+        private CrawlLocomotionState crawlingLocomotion;
         private SlideState sliding;
 
         public GroundedState(PlayerController controller, AnimationController animator)
@@ -62,20 +62,28 @@ namespace GoodLuckValley.Player.States
             // Create states
             idle = new IdleState(controller, animator);
             locomotion = new LocomotionState(controller, animator);
-            crawling = new CrawlState(controller, animator);
+            crawlingIdle = new CrawlIdleState(controller, animator);
+            crawlingLocomotion = new CrawlLocomotionState(controller, animator);
             sliding = new SlideState(controller, animator);
 
             // Define state transitions
             subStates.At(idle, locomotion, new FuncPredicate(() => controller.RB.velocity.x != 0));
-            subStates.At(idle, crawling, new FuncPredicate(() => controller.Crawl.Crawling));
+            subStates.At(idle, crawlingIdle, new FuncPredicate(() => controller.Crawl.Crawling));
+            subStates.At(idle, crawlingLocomotion, new FuncPredicate(() => controller.Crawl.Crawling && controller.RB.velocity.x != 0));
             //subStates.At(idle, sliding, new FuncPredicate(() => sliding));
 
             subStates.At(locomotion, idle, new FuncPredicate(() => controller.RB.velocity.x == 0));
-            subStates.At(locomotion, crawling, new FuncPredicate(() => controller.Crawl.Crawling));
+            subStates.At(locomotion, crawlingIdle, new FuncPredicate(() => controller.Crawl.Crawling && controller.RB.velocity.x == 0));
+            subStates.At(locomotion, crawlingLocomotion, new FuncPredicate(() => controller.Crawl.Crawling && controller.RB.velocity.x != 0));
             //subStates.At(locomotion, sliding, new FuncPredicate(() => sliding));
 
-            subStates.At(crawling, idle, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x == 0));
-            subStates.At(crawling, locomotion, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x != 0));
+            subStates.At(crawlingIdle, idle, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x == 0));
+            subStates.At(crawlingIdle, locomotion, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x != 0));
+            subStates.At(crawlingIdle, crawlingLocomotion, new FuncPredicate(() => controller.RB.velocity.x != 0));
+
+            subStates.At(crawlingLocomotion, idle, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x == 0));
+            subStates.At(crawlingLocomotion, locomotion, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x != 0));
+            subStates.At(crawlingLocomotion, crawlingIdle, new FuncPredicate(() => controller.RB.velocity.x == 0));
 
             // Set the initial state
             subStates.SetState(idle);
@@ -87,6 +95,12 @@ namespace GoodLuckValley.Player.States
         public JumpState(PlayerController controller, AnimationController animator)
             : base(controller, animator)
         { }
+
+        public override void OnEnter()
+        {
+            // Enter the jump animation
+            animator.EnterJump();
+        }
 
         public override void SetupSubStateMachine() { }
     }
@@ -102,6 +116,9 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
+            // Enter the fall animation
+            animator.EnterFall();
+
             // Set the normal fall as the default state
             subStates.SetState(normalFall);
         }
