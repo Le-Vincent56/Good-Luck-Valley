@@ -1,4 +1,5 @@
 using GoodLuckValley.Player.Movement;
+using System;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Animation
@@ -8,6 +9,7 @@ namespace GoodLuckValley.Player.Animation
         private PlayerController playerController;
         private Animator animator;
         [SerializeField] private float crossFadeDuration;
+        private float lastFacingXDirection;
 
         private static readonly int IDLE_HASH = Animator.StringToHash("Idle");
         private static readonly int LOCOMOTION_HASH = Animator.StringToHash("Locomotion");
@@ -42,8 +44,24 @@ namespace GoodLuckValley.Player.Animation
         /// </summary>
         private void CheckFacingDirection()
         {
+            // Get an x-velocity from the Player's input
+            float xVelocity = playerController.FrameData.Input.Move.x;
+            float directionToFace;
+
+            // Check if the Player is idle and there's a stored facing direction
+            if(xVelocity == 0 && lastFacingXDirection != 0)
+                // Set the last facing x-direction
+                directionToFace = lastFacingXDirection;
+            else
+            {
+                // Set the direction of input as the facing direction
+                directionToFace = Mathf.Sign(xVelocity); ;
+                lastFacingXDirection = directionToFace;
+            }
+
+            // Apply the direction to face
             Vector3 scale = transform.localScale;
-            scale.x = Mathf.Sign(playerController.RB.velocity.x);
+            scale.x = directionToFace;
             transform.localScale = scale;
         }
 
