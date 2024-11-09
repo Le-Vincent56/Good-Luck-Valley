@@ -89,11 +89,6 @@ namespace GoodLuckValley.Player.Movement
                 groundHit = Physics2D.Raycast(point, -controller.Up, GrounderLength + currentStepDownLength, controller.Stats.CollisionLayers);
                 if (!groundHit) return false;
 
-                if (Vector2.Angle(groundHit.normal, controller.Up) > controller.Stats.MaxWalkableSlope)
-                {
-                    return false;
-                }
-
                 return true;
             }
         }
@@ -122,6 +117,7 @@ namespace GoodLuckValley.Player.Movement
                 controller.Jump.CoyoteUsable = true;
                 controller.Jump.BufferedJumpUsable = true;
                 controller.Jump.ResetAirJumps();
+                controller.Slide.SlideJumping = false;
                 SetColliderMode(ColliderMode.Standard);
             }
             else

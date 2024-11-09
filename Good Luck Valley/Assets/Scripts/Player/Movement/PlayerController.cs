@@ -24,6 +24,7 @@ namespace GoodLuckValley.Player.Movement
         private FrameData frameData;
         [SerializeField] private PlayerJump jump;
         [SerializeField] private PlayerCrawl crawl;
+        [SerializeField] private PlayerSlide slide;
 
         private GeneratedCharacterSize characterSize;
         private bool cachedQueryMode;
@@ -51,6 +52,7 @@ namespace GoodLuckValley.Player.Movement
         public FrameData FrameData { get => frameData; }
         public PlayerJump Jump { get => jump; }
         public PlayerCrawl Crawl { get => crawl; }
+        public PlayerSlide Slide { get => slide; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
@@ -121,6 +123,7 @@ namespace GoodLuckValley.Player.Movement
             // Initialize movement components
             jump = new PlayerJump(this);
             crawl = new PlayerCrawl(this);
+            slide = new PlayerSlide(this);
 
             input.Enable();
         }
@@ -154,6 +157,7 @@ namespace GoodLuckValley.Player.Movement
 
             // Calculate movement components
             jump.CalculateJump();
+            slide.CalculateSliding();
 
             // Move
             TraceGround();
@@ -182,7 +186,7 @@ namespace GoodLuckValley.Player.Movement
 
                 // Check if the angle is less than the max walkable slope
                 if (angle < Stats.MaxWalkableSlope) 
-                    // Set the direction to slide down it
+                    // Set the angle to walk on the slope
                     direction.y = direction.x * -collisionHandler.GroundNormal.x / collisionHandler.GroundNormal.y;
             }
 
@@ -239,15 +243,15 @@ namespace GoodLuckValley.Player.Movement
             if(crawl.Crawling)
             {
                 // Slow the player down to the crouch speed
-                float crouchPoint = Mathf.InverseLerp(0, Stats.CrouchSlowDownTime, time - crawl.TimeStartedCrawling);
-                targetSpeed *= Mathf.Lerp(1, Stats.CrouchSpeedModifier, crouchPoint);
+                float crawlPoint = Mathf.InverseLerp(0, Stats.CrouchSlowDownTime, time - crawl.TimeStartedCrawling);
+                targetSpeed *= Mathf.Lerp(1, Stats.CrouchSpeedModifier, crawlPoint);
             }
 
             // Calculate the step of movement
-            float step = FrameData.HasInput ? Stats.Acceleration : Stats.Friction;
+            float step = (FrameData.HasInput && !Slide.Sliding) ? Stats.Acceleration : Stats.Friction;
 
             // Get the x-direction of movement
-            Vector2 xDirection = FrameData.HasInput ? direction : Velocity.normalized;
+            Vector2 xDirection = (FrameData.HasInput && !Slide.Sliding) ? direction : Velocity.normalized;
 
             // Check if the trimmed velocity and the direction are moving in opposite directions
             if (Vector3.Dot(FrameData.TrimmedVelocity, direction) < 0) 
@@ -278,8 +282,11 @@ namespace GoodLuckValley.Player.Movement
             } 
             else
             {
+                // Check the air friction type
+                float airFrictionType = Slide.SlideJumping ? Stats.SlideJumpFriction : Stats.AirFrictionMultiplier;
+
                 // Apply air friction
-                step *= Stats.AirFrictionMultiplier;
+                step *= airFrictionType;
 
                 //if (_wallJumpInputNerfPoint < 1 && (int)Mathf.Sign(xDir.x) == (int)Mathf.Sign(_wallDirectionForJump))
                 //{
@@ -343,7 +350,11 @@ namespace GoodLuckValley.Player.Movement
             FrameData.TransientVelocity = Vector2.zero;
             FrameData.PreviousTotalTransientVelocity = Vector2.zero;
 
-            float decay = Stats.Friction * Stats.AirFrictionMultiplier * Stats.ExternalVelocityDecayRate;
+            // Check the air friction type
+            float airFrictionType = Slide.Sliding ? Stats.SlideJumpFriction : Stats.AirFrictionMultiplier;
+
+            float decay = Stats.Friction * airFrictionType * Stats.ExternalVelocityDecayRate;
+
             if ((velocityBeforeReduction.x < 0 && decayingTransientVelocity.x < velocityBeforeReduction.x) ||
                 (velocityBeforeReduction.x > 0 && decayingTransientVelocity.x > velocityBeforeReduction.x) ||
                 (velocityBeforeReduction.y < 0 && decayingTransientVelocity.y < velocityBeforeReduction.y) ||
@@ -362,10 +373,10 @@ namespace GoodLuckValley.Player.Movement
 
             Vector2 pos = (Vector2)transform.position;
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(pos + Vector2.up * characterSize.Height / 2, new Vector3(characterSize.Width, characterSize.Height));
+            Gizmos.DrawWireCube(pos + Vector2.up * characterSize.Height / 2f, new Vector3(characterSize.Width, characterSize.Height));
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(pos + Vector2.up * characterSize.CrouchingHeight / 2, new Vector3(characterSize.Width, characterSize.CrouchingHeight));
+            Gizmos.DrawWireCube(pos + Vector2.up * characterSize.CrouchingHeight / 2f, new Vector3(characterSize.Width, characterSize.CrouchingHeight));
 
             Gizmos.color = Color.magenta;
             Vector2 rayStart = pos + Vector2.up * characterSize.StepHeight;
@@ -382,6 +393,9 @@ namespace GoodLuckValley.Player.Movement
 
             Gizmos.color = Color.black;
             Gizmos.DrawRay(Collisions.RayPoint, Vector3.right);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(pos + Vector2.up * characterSize.Height / 2f, direction);
         }
     }
 }

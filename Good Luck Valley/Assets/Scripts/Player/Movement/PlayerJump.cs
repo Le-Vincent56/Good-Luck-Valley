@@ -12,6 +12,7 @@ namespace GoodLuckValley.Player.Movement
             WallJump,
             Coyote,
             AirJump,
+            SlideJump
         }
 
         private PlayerController controller;
@@ -69,7 +70,11 @@ namespace GoodLuckValley.Player.Movement
             if((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
             {
                 //if (CanWallJump) ExecuteJump(JumpType.WallJump);
-                if (controller.Collisions.Grounded) ExecuteJump(JumpType.Jump);
+                if (controller.Collisions.Grounded)
+                {
+                    if (controller.Slide.Sliding) ExecuteJump(JumpType.SlideJump);
+                    else ExecuteJump(JumpType.Jump);
+                }
                 else if (CanUseCoyote) ExecuteJump(JumpType.Coyote);
                 else if (CanAirJump) ExecuteJump(JumpType.AirJump);
             }
@@ -102,13 +107,20 @@ namespace GoodLuckValley.Player.Movement
             controller.Collisions.CurrentStepDownLength = 0;
 
             // Check if jumping normally or using coyote time
-            if(jumpType is JumpType.Jump or JumpType.Coyote)
+            if(jumpType is JumpType.Jump or JumpType.Coyote or JumpType.SlideJump)
             {
                 // Disable coyote time
                 coyoteUsable = false;
 
                 // Add jump force
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.JumpPower));
+
+                // Check to notify slide jumping
+                if (jumpType is JumpType.SlideJump)
+                {
+                    controller.Slide.SlideJumping = true;
+                }
+                else controller.Slide.SlideJumping = false;
             }
             // Otherwise, check if jumping in mid-air
             else if (jumpType is JumpType.AirJump)

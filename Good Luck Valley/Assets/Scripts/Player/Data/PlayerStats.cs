@@ -28,16 +28,26 @@ namespace GoodLuckValley.Player.Data
         public PositionCorrectionMode PositionCorrectionMode = PositionCorrectionMode.Velocity;
 
         // Movement
-        [Header("Movement"), Space] public float BaseSpeed = 9;
+        [Header("Movement"), Space] 
+        public float BaseSpeed = 9;
         public float Acceleration = 50;
         public float Friction = 30;
         public float AirFrictionMultiplier = 0.5f;
         public float DirectionCorrectionMultiplier = 3f;
         public float MaxWalkableSlope = 50;
+
+        [Header("Fall"), Space]
         public float FastFallMultiplier = 2f;
 
+        // Slide
+        [Header("Slide"), Space]
+        public float ForcedSlideForce = 0.4f;
+        public float ManualSlideForce = 0.6f;
+        public float SlideJumpFriction = 0.5f;
+
         // Jump
-        [Header("Jump"), Space] public float ExtraConstantGravity = 40;
+        [Header("Jump"), Space] 
+        public float ExtraConstantGravity = 40;
         public float BufferedJumpTime = 0.15f;
         public float CoyoteTime = 0.15f;
         public float JumpPower = 20;
@@ -45,19 +55,22 @@ namespace GoodLuckValley.Player.Data
         public int MaxAirJumps = 1;
 
         // Dash
-        [Header("Dash"), Space] public bool AllowDash = true;
+        [Header("Dash"), Space] 
+        public bool AllowDash = true;
         public float DashVelocity = 50;
         public float DashDuration = 0.2f;
         public float DashCooldown = 1.5f;
         public float DashEndHorizontalMultiplier = 0.5f;
 
         // Dash
-        [Header("Crouch"), Space] public bool AllowCrouching;
+        [Header("Crouch"), Space] 
+        public bool AllowCrouching;
         public float CrouchSlowDownTime = 0.5f;
         public float CrouchSpeedModifier = 0.5f;
 
         // Walls
-        [Header("Walls"), Space] public bool AllowWalls;
+        [Header("Walls"), Space] 
+        public bool AllowWalls;
         public LayerMask ClimbableLayer;
         public float WallJumpTotalInputLossTime = 0.2f;
         public float WallJumpInputLossReturnTime = 0.5f;
@@ -71,7 +84,8 @@ namespace GoodLuckValley.Player.Data
         public float WallDetectorRange = 0.1f;
 
         // Ladders
-        [Header("Ladders"), Space] public bool AllowLadders;
+        [Header("Ladders"), Space] 
+        public bool AllowLadders;
         public double LadderCooldownTime = 0.15f;
         public bool AutoAttachToLadders = true;
         public bool SnapToLadders = true;
@@ -83,7 +97,8 @@ namespace GoodLuckValley.Player.Data
         public float LadderShimmySpeedMultiplier = 0.5f;
 
         // Moving Platforms
-        [Header("Moving Platforms"), Space] public float NegativeYVelocityNegation = 0.2f;
+        [Header("Moving Platforms"), Space] 
+        public float NegativeYVelocityNegation = 0.2f;
         public float ExternalVelocityDecayRate = 0.1f;
 
         private void OnValidate()

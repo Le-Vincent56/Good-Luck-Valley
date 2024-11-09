@@ -70,20 +70,27 @@ namespace GoodLuckValley.Player.States
             subStates.At(idle, locomotion, new FuncPredicate(() => controller.RB.velocity.x != 0));
             subStates.At(idle, crawlingIdle, new FuncPredicate(() => controller.Crawl.Crawling));
             subStates.At(idle, crawlingLocomotion, new FuncPredicate(() => controller.Crawl.Crawling && controller.RB.velocity.x != 0));
-            //subStates.At(idle, sliding, new FuncPredicate(() => sliding));
+            subStates.At(idle, sliding, new FuncPredicate(() => controller.Slide.Sliding));
 
             subStates.At(locomotion, idle, new FuncPredicate(() => controller.RB.velocity.x == 0));
             subStates.At(locomotion, crawlingIdle, new FuncPredicate(() => controller.Crawl.Crawling && controller.RB.velocity.x == 0));
             subStates.At(locomotion, crawlingLocomotion, new FuncPredicate(() => controller.Crawl.Crawling && controller.RB.velocity.x != 0));
-            //subStates.At(locomotion, sliding, new FuncPredicate(() => sliding));
+            subStates.At(locomotion, sliding, new FuncPredicate(() => controller.Slide.Sliding));
 
             subStates.At(crawlingIdle, idle, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x == 0));
             subStates.At(crawlingIdle, locomotion, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x != 0));
             subStates.At(crawlingIdle, crawlingLocomotion, new FuncPredicate(() => controller.RB.velocity.x != 0));
+            subStates.At(crawlingIdle, sliding, new FuncPredicate(() => controller.Slide.Sliding));
 
             subStates.At(crawlingLocomotion, idle, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x == 0));
             subStates.At(crawlingLocomotion, locomotion, new FuncPredicate(() => !controller.Crawl.Crawling && controller.RB.velocity.x != 0));
             subStates.At(crawlingLocomotion, crawlingIdle, new FuncPredicate(() => controller.RB.velocity.x == 0));
+            subStates.At(crawlingLocomotion, sliding, new FuncPredicate(() => controller.Slide.Sliding));
+
+            subStates.At(sliding, idle, new FuncPredicate(() => !controller.Slide.Sliding && controller.RB.velocity.x == 0));
+            subStates.At(sliding, locomotion, new FuncPredicate(() => !controller.Slide.Sliding && controller.RB.velocity.x != 0));
+            subStates.At(sliding, crawlingIdle, new FuncPredicate(() => !controller.Slide.Sliding && controller.Crawl.Crawling && controller.RB.velocity.x == 0));
+            subStates.At(sliding, crawlingLocomotion, new FuncPredicate(() => !controller.Slide.Sliding && controller.Crawl.Crawling && controller.RB.velocity.x == 0));
 
             // Set the initial state
             subStates.SetState(idle);

@@ -86,7 +86,7 @@ namespace GoodLuckValley
 
         public override void OnEnter()
         {
-
+            animator.EnterSlide();
         }
     }
 

@@ -1,5 +1,4 @@
 using GoodLuckValley.Player.Movement;
-using System;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Animation
@@ -15,6 +14,7 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int LOCOMOTION_HASH = Animator.StringToHash("Locomotion");
         private static readonly int CRAWL_IDLE_HASH = Animator.StringToHash("Crawl Idle");
         private static readonly int CRAWL_LOCOMOTION_HASH = Animator.StringToHash("Crawl Locomotion");
+        private static readonly int SLIDE_HASH = Animator.StringToHash("Slide");
         private static readonly int JUMP_HASH = Animator.StringToHash("Jump");
         private static readonly int WALL_SLIDE_HASH = Animator.StringToHash("Wall Slide");
         private static readonly int FALL_HASH = Animator.StringToHash("Fall");
@@ -22,8 +22,6 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int WALL_JUMP_HASH = Animator.StringToHash("Wall Jump");
         private static readonly int THROW_IDLE_HASH = Animator.StringToHash("Throw Idle");
         private static readonly int THROW_LOCOMOTION_HASH = Animator.StringToHash("Throw Locomotion");
-        
-        private static readonly int SLIDE_HASH = Animator.StringToHash("Slide");
 
         private void Update()
         {
@@ -44,19 +42,28 @@ namespace GoodLuckValley.Player.Animation
         /// </summary>
         private void CheckFacingDirection()
         {
-            // Get an x-velocity from the Player's input
-            float xVelocity = playerController.FrameData.Input.Move.x;
             float directionToFace;
 
-            // Check if the Player is idle and there's a stored facing direction
-            if(xVelocity == 0 && lastFacingXDirection != 0)
-                // Set the last facing x-direction
-                directionToFace = lastFacingXDirection;
-            else
+            // Check if sliding
+            if (playerController.Slide.Sliding)
             {
-                // Set the direction of input as the facing direction
-                directionToFace = Mathf.Sign(xVelocity); ;
-                lastFacingXDirection = directionToFace;
+                // If so, face the direction to slide in
+                directionToFace = Mathf.Sign(playerController.Collisions.GroundNormal.x);
+            } else
+            {
+                // Get an x-velocity from the Player's input
+                float xVelocity = playerController.FrameData.Input.Move.x;
+
+                // Check if the Player is idle and there's a stored facing direction
+                if (xVelocity == 0 && lastFacingXDirection != 0)
+                    // Set the last facing x-direction
+                    directionToFace = lastFacingXDirection;
+                else
+                {
+                    // Set the direction of input as the facing direction
+                    directionToFace = Mathf.Sign(xVelocity); ;
+                    lastFacingXDirection = directionToFace;
+                }
             }
 
             // Apply the direction to face
@@ -70,6 +77,7 @@ namespace GoodLuckValley.Player.Animation
         public void EnterLocomotion() => animator.CrossFade(LOCOMOTION_HASH, crossFadeDuration);
         public void EnterCrawlIdle() => animator.CrossFade(CRAWL_IDLE_HASH, crossFadeDuration);
         public void EnterCrawlLocomotion() => animator.CrossFade(CRAWL_LOCOMOTION_HASH, crossFadeDuration);
+        public void EnterSlide() => animator.CrossFade(SLIDE_HASH, crossFadeDuration);
         public void EnterJump() => animator.CrossFade(JUMP_HASH, crossFadeDuration);
         public void EnterFall() => animator.CrossFade(FALL_HASH, crossFadeDuration);
     }
