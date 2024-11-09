@@ -98,7 +98,7 @@ namespace GoodLuckValley
 
         public override void OnEnter()
         {
-
+            controller.SetGravityScale(controller.InitialGravityScale);
         }
     }
 
@@ -110,7 +110,7 @@ namespace GoodLuckValley
 
         public override void OnEnter()
         {
-
+            controller.SetGravityScale(controller.InitialGravityScale * controller.Stats.FastFallMultiplier);
         }
     }
 }

@@ -128,7 +128,7 @@ namespace GoodLuckValley.Player.Movement
             {
                 //GroundedChanged?.Invoke(false, 0);
                 controller.Jump.TimeLeftGrounded = controller.Time;
-                controller.RB.gravityScale = controller.GravityScale;
+                controller.RB.gravityScale = controller.InitialGravityScale;
                 SetColliderMode(ColliderMode.Airborne);
             }
         }

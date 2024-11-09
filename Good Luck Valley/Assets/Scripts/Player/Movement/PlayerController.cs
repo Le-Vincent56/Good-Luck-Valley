@@ -54,7 +54,7 @@ namespace GoodLuckValley.Player.Movement
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
-        public float GravityScale { get => GRAVITY_SCALE; }
+        public float InitialGravityScale { get => GRAVITY_SCALE; }
 
         public float Time { get => time; }
 
@@ -198,6 +198,11 @@ namespace GoodLuckValley.Player.Movement
             rb.velocity = newVelocity;
             Velocity = newVelocity;
         }
+
+        /// <summary>
+        /// Set the gravity scale of the PlayerController
+        /// </summary>
+        public void SetGravityScale(float gravityScale) => rb.gravityScale = gravityScale;
 
         /// <summary>
         /// Move the player

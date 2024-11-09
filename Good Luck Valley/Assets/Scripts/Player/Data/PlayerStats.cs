@@ -34,6 +34,7 @@ namespace GoodLuckValley.Player.Data
         public float AirFrictionMultiplier = 0.5f;
         public float DirectionCorrectionMultiplier = 3f;
         public float MaxWalkableSlope = 50;
+        public float FastFallMultiplier = 2f;
 
         // Jump
         [Header("Jump"), Space] public float ExtraConstantGravity = 40;
