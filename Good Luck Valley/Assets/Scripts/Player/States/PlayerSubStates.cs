@@ -78,18 +78,6 @@ namespace GoodLuckValley
         }
     }
 
-    public class SlideState : SubState
-    {
-        public SlideState(PlayerController controller, AnimationController animator)
-            : base(controller, animator)
-        { }
-
-        public override void OnEnter()
-        {
-            animator.EnterSlide();
-        }
-    }
-
     public class NormalFallState : SubState
     {
         public NormalFallState(PlayerController controller, AnimationController animator)

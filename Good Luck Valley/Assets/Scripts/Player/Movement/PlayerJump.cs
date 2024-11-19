@@ -70,11 +70,7 @@ namespace GoodLuckValley.Player.Movement
             if((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
             {
                 //if (CanWallJump) ExecuteJump(JumpType.WallJump);
-                if (controller.Collisions.Grounded)
-                {
-                    if (controller.Slide.Sliding) ExecuteJump(JumpType.SlideJump);
-                    else ExecuteJump(JumpType.Jump);
-                }
+                if (controller.Collisions.Grounded) ExecuteJump(JumpType.Jump);
                 else if (CanUseCoyote) ExecuteJump(JumpType.Coyote);
                 else if (CanAirJump) ExecuteJump(JumpType.AirJump);
             }
@@ -114,13 +110,6 @@ namespace GoodLuckValley.Player.Movement
 
                 // Add jump force
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.JumpPower));
-
-                // Check to notify slide jumping
-                if (jumpType is JumpType.SlideJump)
-                {
-                    controller.Slide.SlideJumping = true;
-                }
-                else controller.Slide.SlideJumping = false;
             }
             // Otherwise, check if jumping in mid-air
             else if (jumpType is JumpType.AirJump)

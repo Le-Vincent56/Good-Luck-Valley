@@ -24,7 +24,6 @@ namespace GoodLuckValley.Player.Movement
         private FrameData frameData;
         [SerializeField] private PlayerJump jump;
         [SerializeField] private PlayerCrawl crawl;
-        [SerializeField] private PlayerSlide slide;
 
         private GeneratedCharacterSize characterSize;
         private bool cachedQueryMode;
@@ -52,7 +51,6 @@ namespace GoodLuckValley.Player.Movement
         public FrameData FrameData { get => frameData; }
         public PlayerJump Jump { get => jump; }
         public PlayerCrawl Crawl { get => crawl; }
-        public PlayerSlide Slide { get => slide; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
@@ -123,7 +121,6 @@ namespace GoodLuckValley.Player.Movement
             // Initialize movement components
             jump = new PlayerJump(this);
             crawl = new PlayerCrawl(this);
-            slide = new PlayerSlide(this);
 
             input.Enable();
         }
@@ -157,7 +154,6 @@ namespace GoodLuckValley.Player.Movement
 
             // Calculate movement components
             jump.CalculateJump();
-            slide.CalculateSliding();
 
             // Move
             TraceGround();
@@ -248,10 +244,10 @@ namespace GoodLuckValley.Player.Movement
             }
 
             // Calculate the step of movement
-            float step = (FrameData.HasInput && !Slide.Sliding) ? Stats.Acceleration : Stats.Friction;
+            float step = FrameData.HasInput ? Stats.Acceleration : Stats.Friction;
 
             // Get the x-direction of movement
-            Vector2 xDirection = (FrameData.HasInput && !Slide.Sliding) ? direction : Velocity.normalized;
+            Vector2 xDirection = FrameData.HasInput ? direction : Velocity.normalized;
 
             // Check if the trimmed velocity and the direction are moving in opposite directions
             if (Vector3.Dot(FrameData.TrimmedVelocity, direction) < 0) 
@@ -282,11 +278,7 @@ namespace GoodLuckValley.Player.Movement
             } 
             else
             {
-                // Check the air friction type
-                float airFrictionType = Slide.SlideJumping ? Stats.SlideJumpFriction : Stats.AirFrictionMultiplier;
-
-                // Apply air friction
-                step *= airFrictionType;
+                step *= Stats.AirFrictionMultiplier;
 
                 //if (_wallJumpInputNerfPoint < 1 && (int)Mathf.Sign(xDir.x) == (int)Mathf.Sign(_wallDirectionForJump))
                 //{
@@ -350,10 +342,8 @@ namespace GoodLuckValley.Player.Movement
             FrameData.TransientVelocity = Vector2.zero;
             FrameData.PreviousTotalTransientVelocity = Vector2.zero;
 
-            // Check the air friction type
-            float airFrictionType = Slide.Sliding ? Stats.SlideJumpFriction : Stats.AirFrictionMultiplier;
-
-            float decay = Stats.Friction * airFrictionType * Stats.ExternalVelocityDecayRate;
+            // Get the decay factor
+            float decay = Stats.Friction * Stats.AirFrictionMultiplier * Stats.ExternalVelocityDecayRate;
 
             if ((velocityBeforeReduction.x < 0 && decayingTransientVelocity.x < velocityBeforeReduction.x) ||
                 (velocityBeforeReduction.x > 0 && decayingTransientVelocity.x > velocityBeforeReduction.x) ||

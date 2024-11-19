@@ -39,12 +39,6 @@ namespace GoodLuckValley.Player.Data
         [Header("Fall"), Space]
         public float FastFallMultiplier = 2f;
 
-        // Slide
-        [Header("Slide"), Space]
-        public float ForcedSlideForce = 0.4f;
-        public float ManualSlideForce = 0.6f;
-        public float SlideJumpFriction = 0.5f;
-
         // Jump
         [Header("Jump"), Space] 
         public float ExtraConstantGravity = 40;
