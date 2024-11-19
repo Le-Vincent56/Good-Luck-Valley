@@ -22,6 +22,7 @@ namespace GoodLuckValley.Input
         public event UnityAction<bool> Jump = delegate { };
         public event UnityAction<bool> Crawl = delegate { };
         public event UnityAction<bool> Slide = delegate { };
+        public event UnityAction<bool> Bounce = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -61,7 +62,6 @@ namespace GoodLuckValley.Input
                 JumpDown = inputActions.Player.Jump.WasPressedThisFrame(),
                 JumpHeld = inputActions.Player.Jump.IsPressed(),
                 Crawling = inputActions.Player.Crawl.IsPressed(),
-                Sliding = inputActions.Player.Slide.IsPressed()
             };
         }
 
@@ -121,19 +121,22 @@ namespace GoodLuckValley.Input
             }
         }
 
-        public void OnSlide(InputAction.CallbackContext context)
+        /// <summary>
+        /// Callback function to handle Bounce input
+        /// </summary>
+        public void OnBounce(InputAction.CallbackContext context)
         {
             // Check the context phase
             switch (context.phase)
             {
                 // If starting, invoke with true
                 case InputActionPhase.Started:
-                    Slide.Invoke(true);
+                    Bounce.Invoke(true);
                     break;
 
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
-                    Slide.Invoke(false);
+                    Bounce.Invoke(false);
                     break;
             }
         }

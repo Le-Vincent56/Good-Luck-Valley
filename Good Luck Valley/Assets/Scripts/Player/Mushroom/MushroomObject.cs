@@ -1,0 +1,100 @@
+using GoodLuckValley.Patterns.StateMachine;
+using GoodLuckValley.Player.Movement;
+using UnityEngine;
+
+namespace GoodLuckValley.Player.Mushroom
+{
+    public class MushroomObject : MonoBehaviour
+    {
+        private Animator animator;
+        private StateMachine stateMachine;
+
+        [Header("Bounce")]
+        [SerializeField] private float bounceForce;
+        [SerializeField] private float maxBounceForce;
+
+        [Header("Status")]
+        [SerializeField] private bool bounceEntity;
+        [SerializeField] private bool growing;
+        [SerializeField] private bool dissipating;
+
+        /// <summary>
+        /// Initialize the Mushroom Object
+        /// </summary>
+        public void Initialize()
+        {
+            // Get components
+            animator = GetComponent<Animator>();
+
+            // Initialize the State Machine
+            stateMachine = new StateMachine();
+
+            // Create states
+            GrowState growState = new GrowState(this, animator);
+            IdleState idleState = new IdleState(this, animator);
+            BounceState bounceState = new BounceState(this, animator);
+            DissipateState dissipateState = new DissipateState(this, animator);
+
+            // Define state transitions
+            stateMachine.At(growState, idleState, new FuncPredicate(() => !growing));
+            stateMachine.At(growState, bounceState, new FuncPredicate(() => bounceEntity));
+            stateMachine.At(idleState, bounceState, new FuncPredicate(() => bounceEntity));
+            stateMachine.At(bounceState, idleState, new FuncPredicate(() => !bounceEntity));
+            stateMachine.Any(dissipateState, new FuncPredicate(() => dissipating));
+
+            // Set an initial state
+            stateMachine.SetState(growState);
+        }
+
+        private void Update()
+        {
+            // Update the State Machine
+            stateMachine?.Update();
+        }
+
+        private void FixedUpdate()
+        {
+            // Update the State Machine
+            stateMachine?.FixedUpdate();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!collision.TryGetComponent(out PlayerController controller)) return;
+
+            // Store the posiiton and a container for the force
+            Vector2 force = controller.Up;
+
+            // Clamp the force to the max bounce force
+            force = Vector2.ClampMagnitude(force * bounceForce, maxBounceForce);
+
+            Debug.Log(force);
+
+            // Add the bounce force to the player
+            controller.FrameData.AddForce(force, true, true);
+
+            // Set bouncing
+            bounceEntity = true;
+        }
+
+        /// <summary>
+        /// Stop growing the Mushroom
+        /// </summary>
+        public void StopGrowing() => growing = false;
+
+        /// <summary>
+        /// Stop Bouncing the Mushroom
+        /// </summary>
+        public void StopBouncing() => bounceEntity = false;
+
+        /// <summary>
+        /// Start Dissipating the Mushroom
+        /// </summary>
+        public void StartDissipating() => dissipating = true;
+
+        /// <summary>
+        /// Destroy the Mushroom
+        /// </summary>
+        public void DestroyMushroom() => Destroy(gameObject);
+    }
+}

@@ -57,9 +57,9 @@ namespace GoodLuckValley.Input.Actions
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Slide"",
+                    ""name"": ""Bounce"",
                     ""type"": ""Button"",
-                    ""id"": ""6f5b4c1a-7fc7-49c7-b917-c6a791e44ada"",
+                    ""id"": ""69c08395-c188-4d93-9901-beb19504d843"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -146,12 +146,12 @@ namespace GoodLuckValley.Input.Actions
                 },
                 {
                     ""name"": """",
-                    ""id"": ""77bd72c7-3bf7-458f-ac1a-b4dbdad09ed7"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""id"": ""15ad3c9b-ace3-4b70-9531-ac2c15ab8557"",
+                    ""path"": ""<Keyboard>/t"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Slide"",
+                    ""action"": ""Bounce"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -165,7 +165,7 @@ namespace GoodLuckValley.Input.Actions
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Crawl = m_Player.FindAction("Crawl", throwIfNotFound: true);
-            m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
+            m_Player_Bounce = m_Player.FindAction("Bounce", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -230,7 +230,7 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_Crawl;
-        private readonly InputAction m_Player_Slide;
+        private readonly InputAction m_Player_Bounce;
         public struct PlayerActions
         {
             private @GameplayActions m_Wrapper;
@@ -238,7 +238,7 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @Crawl => m_Wrapper.m_Player_Crawl;
-            public InputAction @Slide => m_Wrapper.m_Player_Slide;
+            public InputAction @Bounce => m_Wrapper.m_Player_Bounce;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -257,9 +257,9 @@ namespace GoodLuckValley.Input.Actions
                 @Crawl.started += instance.OnCrawl;
                 @Crawl.performed += instance.OnCrawl;
                 @Crawl.canceled += instance.OnCrawl;
-                @Slide.started += instance.OnSlide;
-                @Slide.performed += instance.OnSlide;
-                @Slide.canceled += instance.OnSlide;
+                @Bounce.started += instance.OnBounce;
+                @Bounce.performed += instance.OnBounce;
+                @Bounce.canceled += instance.OnBounce;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -273,9 +273,9 @@ namespace GoodLuckValley.Input.Actions
                 @Crawl.started -= instance.OnCrawl;
                 @Crawl.performed -= instance.OnCrawl;
                 @Crawl.canceled -= instance.OnCrawl;
-                @Slide.started -= instance.OnSlide;
-                @Slide.performed -= instance.OnSlide;
-                @Slide.canceled -= instance.OnSlide;
+                @Bounce.started -= instance.OnBounce;
+                @Bounce.performed -= instance.OnBounce;
+                @Bounce.canceled -= instance.OnBounce;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -298,7 +298,7 @@ namespace GoodLuckValley.Input.Actions
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnCrawl(InputAction.CallbackContext context);
-            void OnSlide(InputAction.CallbackContext context);
+            void OnBounce(InputAction.CallbackContext context);
         }
     }
 }
