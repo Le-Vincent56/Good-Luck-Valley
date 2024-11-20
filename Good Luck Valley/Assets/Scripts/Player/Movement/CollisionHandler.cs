@@ -1,9 +1,11 @@
 using GoodLuckValley.Player.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
 {
+    [Serializable]
     public class CollisionHandler
     {
         public enum ColliderMode
@@ -20,7 +22,7 @@ namespace GoodLuckValley.Player.Movement
         private const float SKIN_WIDTH = 0.02f;
         private const int RAY_SIDE_COUNT = 5;
         private RaycastHit2D groundHit;
-        private bool grounded;
+        [SerializeField] private bool grounded;
         private float currentStepDownLength;
 
         private float GrounderLength => controller.CharacterSize.StepHeight + SKIN_WIDTH;
@@ -145,7 +147,7 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Toggle whether or not the player is grounded
         /// </summary>
-        private void ToggleGrounded(bool grounded)
+        public void ToggleGrounded(bool grounded)
         {
             this.grounded = grounded;
             if (grounded)

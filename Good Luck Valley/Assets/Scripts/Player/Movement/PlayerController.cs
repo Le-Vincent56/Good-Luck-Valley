@@ -20,7 +20,7 @@ namespace GoodLuckValley.Player.Movement
         private CapsuleCollider2D airborneCollider;
 
         // Movement components
-        private CollisionHandler collisionHandler;
+        [SerializeField] private CollisionHandler collisionHandler;
         private FrameData frameData;
         [SerializeField] private PlayerJump jump;
         [SerializeField] private PlayerCrawl crawl;
@@ -119,7 +119,7 @@ namespace GoodLuckValley.Player.Movement
             frameData = new FrameData(this);
 
             // Initialize the Collision Handler
-            collisionHandler ??= new CollisionHandler(this, boxCollider, airborneCollider);
+            collisionHandler = new CollisionHandler(this, boxCollider, airborneCollider);
             collisionHandler.Setup();
 
             // Initialize movement components
@@ -152,7 +152,8 @@ namespace GoodLuckValley.Player.Movement
             frameData.Set();
 
             // Calculate collisions
-            collisionHandler.CalculateCollisions();
+            if(bounce.CanDetectGround)
+                collisionHandler.CalculateCollisions();
 
             // Calculate the direction of movement
             CalculateDirection();

@@ -1,3 +1,4 @@
+using GoodLuckValley.Timers;
 using System;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
@@ -10,13 +11,25 @@ namespace GoodLuckValley.Player.Movement
         private PlayerController controller;
         [SerializeField] private bool bouncing;
         [SerializeField] private bool canSlowFall;
+        [SerializeField] private bool canDetectGround;
+        private CountdownTimer ignoreDetectionTimer;
 
         public bool Bouncing { get => bouncing; set => bouncing = value; }
         public bool CanSlowFall { get => canSlowFall; set => canSlowFall = value; }
+        public bool CanDetectGround { get => canDetectGround; }
 
         public PlayerBounce(PlayerController controller)
         {
             this.controller = controller;
+
+            canDetectGround = true;
+
+            // Create the timer
+            ignoreDetectionTimer = new CountdownTimer(controller.Stats.BounceIgnoreDetectionTime);
+
+            // Set timer callbacks
+            ignoreDetectionTimer.OnTimerStart += () => canDetectGround = false;
+            ignoreDetectionTimer.OnTimerStop += () => canDetectGround = true;
         }
 
         /// <summary>
@@ -28,7 +41,6 @@ namespace GoodLuckValley.Player.Movement
             if (bouncing && controller.RB.velocity.y < 0 && !controller.Collisions.Grounded)
             {
                 // Stop bouncing
-                bouncing = false;
                 canSlowFall = true;
             }
         }
@@ -41,10 +53,16 @@ namespace GoodLuckValley.Player.Movement
             // Exit case - already bouncing
             if (bouncing) return;
 
+            // Prepare the controller variables
             controller.SetVelocity(controller.FrameData.TrimmedVelocity);
-            controller.RB.gravityScale = controller.InitialGravityScale;
-            controller.ExtraConstantGravity = controller.Stats.BounceConstantGravity;
             bouncing = true;
+
+            // Start the ignore detection timer
+            ignoreDetectionTimer.Reset();
+            ignoreDetectionTimer.Start();
+
+            // Set not-grounded
+            controller.Collisions.ToggleGrounded(false);
 
             // Add the bounce force to the player
             controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower));

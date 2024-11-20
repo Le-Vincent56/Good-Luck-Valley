@@ -54,6 +54,7 @@ namespace GoodLuckValley.Player.Data
 
         [Header("Bounce"), Space]
         public float BouncePower = 10f;
+        public float BounceIgnoreDetectionTime = 0.2f;
 
         // Dash
         [Header("Dash"), Space] 

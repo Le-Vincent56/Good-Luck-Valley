@@ -111,6 +111,10 @@ namespace GoodLuckValley.Player.States
         {
             // Enter the Bounce animation
             animator.EnterBounce();
+
+            // Set controller variables
+            controller.RB.gravityScale = controller.InitialGravityScale;
+            controller.ExtraConstantGravity = controller.Stats.BounceConstantGravity;
         }
 
         public override void OnExit()
