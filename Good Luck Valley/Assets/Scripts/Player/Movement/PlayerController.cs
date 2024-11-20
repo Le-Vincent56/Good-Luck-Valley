@@ -24,11 +24,13 @@ namespace GoodLuckValley.Player.Movement
         private FrameData frameData;
         [SerializeField] private PlayerJump jump;
         [SerializeField] private PlayerCrawl crawl;
+        [SerializeField] private PlayerBounce bounce;
 
         private GeneratedCharacterSize characterSize;
         private bool cachedQueryMode;
         private bool cachedQueryTriggers;
         public const float GRAVITY_SCALE = 1;
+        private float extraConstantGravity;
 
         private float delta;
         private float time;
@@ -51,10 +53,12 @@ namespace GoodLuckValley.Player.Movement
         public FrameData FrameData { get => frameData; }
         public PlayerJump Jump { get => jump; }
         public PlayerCrawl Crawl { get => crawl; }
+        public PlayerBounce Bounce { get => bounce; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
         public float InitialGravityScale { get => GRAVITY_SCALE; }
+        public float ExtraConstantGravity { get => extraConstantGravity; set => extraConstantGravity = value; }
 
         public float Time { get => time; }
 
@@ -121,6 +125,7 @@ namespace GoodLuckValley.Player.Movement
             // Initialize movement components
             jump = new PlayerJump(this);
             crawl = new PlayerCrawl(this);
+            bounce = new PlayerBounce(this);
 
             input.Enable();
         }
@@ -154,6 +159,7 @@ namespace GoodLuckValley.Player.Movement
 
             // Calculate movement components
             jump.CalculateJump();
+            bounce.CalculateBounce();
 
             // Move
             TraceGround();
@@ -226,7 +232,7 @@ namespace GoodLuckValley.Player.Movement
 
             // Calculate the extra force
             Vector2 extraForce = new Vector2(0,
-                Collisions.Grounded ? 0 : -Stats.ExtraConstantGravity * endJumpEarlyMult
+                Collisions.Grounded ? 0 : -extraConstantGravity * endJumpEarlyMult
             );
 
             // Add the extra force to the ConstantForce2D

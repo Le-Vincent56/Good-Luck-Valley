@@ -16,8 +16,8 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int CRAWL_LOCOMOTION_HASH = Animator.StringToHash("Crawl Locomotion");
         private static readonly int JUMP_HASH = Animator.StringToHash("Jump");
         private static readonly int WALL_SLIDE_HASH = Animator.StringToHash("Wall Slide");
-        private static readonly int FALL_HASH = Animator.StringToHash("Fall");
         private static readonly int BOUNCE_HASH = Animator.StringToHash("Bounce");
+        private static readonly int FALL_HASH = Animator.StringToHash("Fall");
         private static readonly int WALL_JUMP_HASH = Animator.StringToHash("Wall Jump");
         private static readonly int THROW_IDLE_HASH = Animator.StringToHash("Throw Idle");
         private static readonly int THROW_LOCOMOTION_HASH = Animator.StringToHash("Throw Locomotion");
@@ -69,6 +69,7 @@ namespace GoodLuckValley.Player.Animation
         public void EnterCrawlIdle() => animator.CrossFade(CRAWL_IDLE_HASH, crossFadeDuration);
         public void EnterCrawlLocomotion() => animator.CrossFade(CRAWL_LOCOMOTION_HASH, crossFadeDuration);
         public void EnterJump() => animator.CrossFade(JUMP_HASH, crossFadeDuration);
+        public void EnterBounce() => animator.CrossFade(BOUNCE_HASH, crossFadeDuration);
         public void EnterFall() => animator.CrossFade(FALL_HASH, crossFadeDuration);
     }
 }

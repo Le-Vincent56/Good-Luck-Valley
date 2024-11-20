@@ -36,17 +36,24 @@ namespace GoodLuckValley.Player.Data
         public float DirectionCorrectionMultiplier = 3f;
         public float MaxWalkableSlope = 50;
 
+        [Header("Gravity")]
+        public float JumpConstantGravity = 20f;
+        public float BounceConstantGravity = 5f;
+
         [Header("Fall"), Space]
         public float FastFallMultiplier = 2f;
+        public float SlowFallMultiplier = 0.75f;
 
         // Jump
         [Header("Jump"), Space] 
-        public float ExtraConstantGravity = 40;
         public float BufferedJumpTime = 0.15f;
         public float CoyoteTime = 0.15f;
         public float JumpPower = 20;
         public float EndJumpEarlyExtraForceMultiplier = 3;
         public int MaxAirJumps = 1;
+
+        [Header("Bounce"), Space]
+        public float BouncePower = 10f;
 
         // Dash
         [Header("Dash"), Space] 

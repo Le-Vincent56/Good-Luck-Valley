@@ -9,10 +9,6 @@ namespace GoodLuckValley.Player.Mushroom
         private Animator animator;
         private StateMachine stateMachine;
 
-        [Header("Bounce")]
-        [SerializeField] private float bounceForce;
-        [SerializeField] private float maxBounceForce;
-
         [Header("Status")]
         [SerializeField] private bool bounceEntity;
         [SerializeField] private bool growing;
@@ -62,16 +58,7 @@ namespace GoodLuckValley.Player.Mushroom
         {
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
-            // Store the posiiton and a container for the force
-            Vector2 force = controller.Up;
-
-            // Clamp the force to the max bounce force
-            force = Vector2.ClampMagnitude(force * bounceForce, maxBounceForce);
-
-            Debug.Log(force);
-
-            // Add the bounce force to the player
-            controller.FrameData.AddForce(force, true, true);
+            controller.Bounce.PrepareBounce();
 
             // Set bouncing
             bounceEntity = true;

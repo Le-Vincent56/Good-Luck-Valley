@@ -44,6 +44,9 @@ namespace GoodLuckValley.Player.Movement
             this.airborneCollider = airborneCollider;
         }
 
+        /// <summary>
+        /// Set up the Collision Handler
+        /// </summary>
         public void Setup()
         {
             // Primary collider
@@ -64,45 +67,84 @@ namespace GoodLuckValley.Player.Movement
             SetColliderMode(ColliderMode.Airborne);
         }
 
+        /// <summary>
+        /// Calculate collisions
+        /// </summary>
         public void CalculateCollisions()
         {
+            // Set the Physics2D query
             Physics2D.queriesStartInColliders = false;
 
+            // Check if grounded in this frame
             bool isGroundedThisFrame = PerformRay(RayPoint);
 
+            // Check if not grounded
             if (!isGroundedThisFrame)
             {
+                // Generate more rays and iterate through them
                 foreach (float offset in GenerateRayOffsets())
                 {
+                    // Check if any of the rays hve detected ground
                     isGroundedThisFrame = PerformRay(RayPoint + controller.Right * offset) || PerformRay(RayPoint - controller.Right * offset);
+                    
+                    // Exit case - if any rays have detected ground
                     if (isGroundedThisFrame) break;
                 }
             }
 
-            if (isGroundedThisFrame && !grounded) ToggleGrounded(true);
-            else if (!isGroundedThisFrame && grounded) ToggleGrounded(false);
+            // Check if currently grounded, but not grounded before
+            if (isGroundedThisFrame && !grounded) 
+                // Set grounded
+                ToggleGrounded(true);
+            // Check if currently not grounded, but was grounded
+            else if (!isGroundedThisFrame && grounded) 
+                // Set not grounded
+                ToggleGrounded(false);
 
+            // Reset the Physics2D query
             Physics2D.queriesStartInColliders = controller.CachedQueryMode;
-
-            bool PerformRay(Vector2 point)
-            {
-                groundHit = Physics2D.Raycast(point, -controller.Up, GrounderLength + currentStepDownLength, controller.Stats.CollisionLayers);
-                if (!groundHit) return false;
-
-                return true;
-            }
         }
 
+        /// <summary>
+        /// Cast a ray to detect the ground
+        /// </summary>
+        private bool PerformRay(Vector2 point)
+        {
+            // Cast a ray to detect the ground
+            groundHit = Physics2D.Raycast(point, -controller.Up, GrounderLength + currentStepDownLength, controller.Stats.CollisionLayers);
+
+            // Debug
+            Debug.DrawRay(point, -controller.Up * (GrounderLength + currentStepDownLength), Color.red);
+
+            // If no ground detected, return false
+            if (!groundHit) return false;
+
+            // If ground detected, return true
+            return true;
+        }
+
+        /// <summary>
+        /// Generate an enumerable set of rays based on offsets
+        /// </summary>
         public IEnumerable<float> GenerateRayOffsets()
         {
-            var extent = controller.CharacterSize.StandingColliderSize.x / 2 - controller.CharacterSize.RayInset;
-            var offsetAmount = extent / RAY_SIDE_COUNT;
-            for (var i = 1; i < RAY_SIDE_COUNT + 1; i++)
+            // Get the extent of the rays
+            float extent = controller.CharacterSize.StandingColliderSize.x / 2 - controller.CharacterSize.RayInset;
+            
+            // Get the offset amount
+            float offsetAmount = extent / RAY_SIDE_COUNT;
+            
+            // Iterate through the amount of rays
+            for (int i = 1; i < RAY_SIDE_COUNT + 1; i++)
             {
+                // Multiple the ray by the offset
                 yield return offsetAmount * i;
             }
         }
 
+        /// <summary>
+        /// Toggle whether or not the player is grounded
+        /// </summary>
         private void ToggleGrounded(bool grounded)
         {
             this.grounded = grounded;
@@ -113,10 +155,10 @@ namespace GoodLuckValley.Player.Movement
                 controller.SetVelocity(controller.FrameData.TrimmedVelocity);
                 controller.ConstantForce.force = Vector2.zero;
                 currentStepDownLength = controller.CharacterSize.StepHeight;
-                //_canDash = true;
                 controller.Jump.CoyoteUsable = true;
                 controller.Jump.BufferedJumpUsable = true;
                 controller.Jump.ResetAirJumps();
+                controller.Bounce.CanSlowFall = false;
                 SetColliderMode(ColliderMode.Standard);
             }
             else
@@ -128,6 +170,9 @@ namespace GoodLuckValley.Player.Movement
             }
         }
 
+        /// <summary>
+        /// Set the collider mode for the Player
+        /// </summary>
         public void SetColliderMode(ColliderMode mode)
         {
             airborneCollider.enabled = mode == ColliderMode.Airborne;

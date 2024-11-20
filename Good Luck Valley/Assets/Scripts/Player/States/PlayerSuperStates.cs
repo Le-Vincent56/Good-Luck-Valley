@@ -94,8 +94,28 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            // Enter the jump animation
+            // Enter the Jump animation
             animator.EnterJump();
+        }
+
+        public override void SetupSubStateMachine() { }
+    }
+
+    public class BounceState : SuperState
+    {
+        public BounceState(PlayerController controller, AnimationController animator)
+            : base(controller, animator)
+        { }
+
+        public override void OnEnter()
+        {
+            // Enter the Bounce animation
+            animator.EnterBounce();
+        }
+
+        public override void OnExit()
+        {
+            controller.Bounce.Bouncing = false;
         }
 
         public override void SetupSubStateMachine() { }
@@ -105,6 +125,7 @@ namespace GoodLuckValley.Player.States
     {
         private NormalFallState normalFall;
         private FastFallState fastFall;
+        private SlowFallState slowFall;
 
         public FallState(PlayerController controller, AnimationController animator)
             : base(controller, animator)
@@ -127,10 +148,13 @@ namespace GoodLuckValley.Player.States
             // Create states
             normalFall = new NormalFallState(controller, animator);
             fastFall = new FastFallState(controller, animator);
+            slowFall = new SlowFallState(controller, animator);
 
             // Define state transitions
             subStates.At(normalFall, fastFall, new FuncPredicate(() => controller.FrameData.Input.Move.y < 0));
             subStates.At(fastFall, normalFall, new FuncPredicate(() => controller.FrameData.Input.Move.y == 0));
+            subStates.At(normalFall, slowFall, new FuncPredicate(() => controller.Bounce.CanSlowFall && controller.FrameData.Input.SlowFalling));
+            subStates.At(slowFall, normalFall, new FuncPredicate(() => !controller.Bounce.CanSlowFall || !controller.FrameData.Input.SlowFalling));
 
             // Set an initial state
             subStates.SetState(normalFall);

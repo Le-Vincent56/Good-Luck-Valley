@@ -13,6 +13,7 @@ namespace GoodLuckValley.Input
         public bool JumpHeld;
         public bool Crawling;
         public bool Sliding;
+        public bool SlowFalling;
     }
 
     [CreateAssetMenu(fileName = "Game Input Reader", menuName = "Input/Game Input Reader")]
@@ -23,6 +24,7 @@ namespace GoodLuckValley.Input
         public event UnityAction<bool> Crawl = delegate { };
         public event UnityAction<bool> Slide = delegate { };
         public event UnityAction<bool> Bounce = delegate { };
+        public event UnityAction<bool> SlowFall = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -62,6 +64,7 @@ namespace GoodLuckValley.Input
                 JumpDown = inputActions.Player.Jump.WasPressedThisFrame(),
                 JumpHeld = inputActions.Player.Jump.IsPressed(),
                 Crawling = inputActions.Player.Crawl.IsPressed(),
+                SlowFalling = inputActions.Player.SlowFall.IsPressed()
             };
         }
 
@@ -137,6 +140,23 @@ namespace GoodLuckValley.Input
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
                     Bounce.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnSlowFall(InputAction.CallbackContext context)
+        {
+            // Check the context phase
+            switch (context.phase)
+            {
+                // If starting, invoke with true
+                case InputActionPhase.Started:
+                    SlowFall.Invoke(true);
+                    break;
+
+                // If canceled, invoke with false
+                case InputActionPhase.Canceled:
+                    SlowFall.Invoke(false);
                     break;
             }
         }

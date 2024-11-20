@@ -92,13 +92,51 @@ namespace GoodLuckValley
 
     public class FastFallState : SubState
     {
+        private float initialConstantGravity;
+
         public FastFallState(PlayerController controller, AnimationController animator)
             : base(controller, animator)
         { }
 
         public override void OnEnter()
         {
+            // Store the initial constant gravity
             controller.SetGravityScale(controller.InitialGravityScale * controller.Stats.FastFallMultiplier);
+
+            // Set gravity
+            initialConstantGravity = controller.ExtraConstantGravity;
+            controller.ExtraConstantGravity = initialConstantGravity * controller.Stats.FastFallMultiplier;
+        }
+
+        public override void OnExit()
+        {
+            // Reset the initial constant gravity
+            controller.ExtraConstantGravity = initialConstantGravity;
+        }
+    }
+
+    public class SlowFallState : SubState
+    {
+        private float initialConstantGravity;
+
+        public SlowFallState(PlayerController controller, AnimationController animator) 
+            : base(controller, animator) 
+        { }
+
+        public override void OnEnter()
+        {
+            // Store the initial constant gravity
+            initialConstantGravity = controller.ExtraConstantGravity;
+
+            // Set gravity
+            controller.SetGravityScale(controller.InitialGravityScale * controller.Stats.SlowFallMultiplier);
+            controller.ExtraConstantGravity = initialConstantGravity * controller.Stats.SlowFallMultiplier;
+        }
+
+        public override void OnExit()
+        {
+            // Reset the initial constant gravity
+            controller.ExtraConstantGravity = initialConstantGravity;
         }
     }
 }
