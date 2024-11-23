@@ -1089,6 +1089,8 @@ MonoBehaviour:
     SerializationNodes: []
   input: {fileID: 11400000, guid: df561a269a9d9eb4ea51591ed37766c3, type: 2}
   stats: {fileID: 11400000, guid: f7f3de1a23dc2a04a93c4b7d3261e49c, type: 2}
+  collisionHandler:
+    grounded: 0
   jump:
     bufferedJumpUsable: 0
     jumpToConsume: 0
@@ -1097,6 +1099,10 @@ MonoBehaviour:
     coyoteUsable: 0
   crawl:
     crawling: 0
+  bounce:
+    bouncing: 0
+    canSlowFall: 0
+    canDetectGround: 1
   debug: 1
 --- !u!247 &1664486275
 ConstantForce2D:
@@ -1170,6 +1176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mushroomPrefab: {fileID: 2388533029364849747, guid: 8fab84b586e4bcb4b815bfe283fe7455, type: 3}
   inputReader: {fileID: 11400000, guid: df561a269a9d9eb4ea51591ed37766c3, type: 2}
+  debug: 1
   castDistance: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -15,6 +15,8 @@ namespace GoodLuckValley.Player.Mushroom
 
         [Header("Variables")]
         [SerializeField] private float castDistance;
+        private Bounds bounds;
+        private Vector2 castPosition;
 
         private void Awake()
         {
@@ -23,7 +25,7 @@ namespace GoodLuckValley.Player.Mushroom
             playerController = GetComponentInParent<PlayerController>();
 
             // Get the raycast point
-            Bounds bounds = boxCollider.bounds;
+            bounds = boxCollider.bounds;
             castPoint = new Vector2(bounds.center.x, bounds.min.y);
         }
 
@@ -46,7 +48,7 @@ namespace GoodLuckValley.Player.Mushroom
             // Exit case - if the button is lifted
             if (!started) return;
 
-            Vector2 castPosition = (Vector2)transform.position;
+            castPosition = (Vector2)transform.position;
             castPosition.y = castPoint.y;
 
             // Raycast beneath the player
@@ -89,6 +91,12 @@ namespace GoodLuckValley.Player.Mushroom
 
             // Initalize the Mushroom Object
             shroom.GetComponent<MushroomObject>().Initialize();
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (castPosition != null && castPosition != Vector2.zero)
+                Debug.DrawRay(castPosition, -playerController.Up * castDistance, Color.cyan);
         }
     }
 }

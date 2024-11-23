@@ -156,7 +156,7 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""15ad3c9b-ace3-4b70-9531-ac2c15ab8557"",
-                    ""path"": ""<Keyboard>/t"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -178,7 +178,24 @@ namespace GoodLuckValley.Input.Actions
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard and Mouse"",
+            ""bindingGroup"": ""Keyboard and Mouse"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
@@ -322,6 +339,15 @@ namespace GoodLuckValley.Input.Actions
             }
         }
         public PlayerActions @Player => new PlayerActions(this);
+        private int m_KeyboardandMouseSchemeIndex = -1;
+        public InputControlScheme KeyboardandMouseScheme
+        {
+            get
+            {
+                if (m_KeyboardandMouseSchemeIndex == -1) m_KeyboardandMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard and Mouse");
+                return asset.controlSchemes[m_KeyboardandMouseSchemeIndex];
+            }
+        }
         public interface IPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
