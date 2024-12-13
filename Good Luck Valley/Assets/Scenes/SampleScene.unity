@@ -1100,6 +1100,7 @@ MonoBehaviour:
     crawling: 0
   bounce:
     bouncing: 0
+    bouncePrepped: 0
     canSlowFall: 0
     canDetectGround: 1
   debug: 1
@@ -1175,7 +1176,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mushroomPrefab: {fileID: 2388533029364849747, guid: 8fab84b586e4bcb4b815bfe283fe7455, type: 3}
   inputReader: {fileID: 11400000, guid: df561a269a9d9eb4ea51591ed37766c3, type: 2}
-  castDistance: 0.5
+  castDistance: 1
+  nonShroomableLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
