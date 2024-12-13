@@ -10,6 +10,7 @@ namespace GoodLuckValley.Player.Movement
     {
         private PlayerController controller;
         [SerializeField] private bool bouncing;
+        [SerializeField] private bool bouncePrepped;
         [SerializeField] private bool canSlowFall;
         [SerializeField] private bool canDetectGround;
         private CountdownTimer ignoreDetectionTimer;
@@ -43,6 +44,13 @@ namespace GoodLuckValley.Player.Movement
                 // Stop bouncing
                 canSlowFall = true;
             }
+            // Otherwise check if not bouncing, but a bounce is prepped
+            else if(!bouncing && bouncePrepped)
+            {
+                // Execute the bounce
+                bouncing = true;
+                ExecuteBounce();
+            }
         }
 
         /// <summary>
@@ -50,12 +58,19 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void PrepareBounce()
         {
-            // Exit case - already bouncing
-            if (bouncing) return;
+            // Exit case - already a bounce prepped
+            if (bouncePrepped) return;
 
+            bouncePrepped = true;
+        }
+
+        /// <summary>
+        /// Execute the bounce
+        /// </summary>
+        public void ExecuteBounce()
+        {
             // Prepare the controller variables
             controller.SetVelocity(controller.FrameData.TrimmedVelocity);
-            bouncing = true;
 
             // Start the ignore detection timer
             ignoreDetectionTimer.Reset();
@@ -66,6 +81,15 @@ namespace GoodLuckValley.Player.Movement
 
             // Add the bounce force to the player
             controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower));
+        }
+
+        /// <summary>
+        /// Reset bounce variables
+        /// </summary>
+        public void ResetBounce()
+        {
+            bouncing = false;
+            bouncePrepped = false;
         }
     }
 }

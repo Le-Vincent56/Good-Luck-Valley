@@ -1,4 +1,4 @@
-using GoodLuckValley.Patterns.StateMachine;
+using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
 

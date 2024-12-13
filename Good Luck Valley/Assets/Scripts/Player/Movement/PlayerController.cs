@@ -5,7 +5,7 @@ using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
 using GoodLuckValley.World.Physics;
-using GoodLuckValley.Patterns.ServiceLocator;
+using GoodLuckValley.Architecture.ServiceLocator;
 
 namespace GoodLuckValley.Player.Movement
 {

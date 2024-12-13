@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using GoodLuckValley.Utilities.PredefinedAssembly;
-using GoodLuckValley.Patterns.EventBus;
+using GoodLuckValley.Architecture.EventBus;
 
 namespace GoodLuckValley.Utilities.EventBus
 {

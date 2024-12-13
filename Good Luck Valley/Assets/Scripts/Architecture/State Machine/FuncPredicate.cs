@@ -1,6 +1,6 @@
 using System;
 
-namespace GoodLuckValley.Patterns.StateMachine
+namespace GoodLuckValley.Architecture.StateMachine
 {
     public class FuncPredicate : IPredicate
     {

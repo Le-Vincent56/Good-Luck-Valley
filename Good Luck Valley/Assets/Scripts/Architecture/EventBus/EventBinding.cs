@@ -1,6 +1,6 @@
 using System;
 
-namespace GoodLuckValley.Patterns.EventBus
+namespace GoodLuckValley.Architecture.EventBus
 {
     internal interface IEventBinding<T>
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GoodLuckValley.Patterns.ServiceLocator
+namespace GoodLuckValley.Architecture.ServiceLocator
 {
     [AddComponentMenu("Service Locator/Global Service Locator")]
     public class ServiceLocatorGlobal : Bootstrapper

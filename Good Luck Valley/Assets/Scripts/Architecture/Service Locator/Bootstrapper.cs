@@ -1,7 +1,7 @@
 using UnityEngine;
 using GoodLuckValley.Extensions.GameObjects;
 
-namespace GoodLuckValley.Patterns.ServiceLocator
+namespace GoodLuckValley.Architecture.ServiceLocator
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(ServiceLocator))]

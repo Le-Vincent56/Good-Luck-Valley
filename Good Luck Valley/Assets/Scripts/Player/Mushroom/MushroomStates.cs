@@ -1,4 +1,4 @@
-using GoodLuckValley.Patterns.StateMachine;
+using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Timers;
 using UnityEngine;
 
@@ -47,6 +47,12 @@ namespace GoodLuckValley.Player.Mushroom
             growTimer.OnTimerStop += () => mushroomObject.StopGrowing();
             growTimer.Start();
         }
+
+        public override void OnExit()
+        {
+            // Dispose the Timer
+            growTimer.Dispose();
+        }
     }
 
     public class IdleState : MushroomState
@@ -57,7 +63,6 @@ namespace GoodLuckValley.Player.Mushroom
         {
             animator.CrossFade(IdleHash, crossFadeDuration);
         }
-
     }
 
     public class BounceState : MushroomState
@@ -76,6 +81,12 @@ namespace GoodLuckValley.Player.Mushroom
             bounceTimer.OnTimerStop += () => mushroomObject.StopBouncing();
             bounceTimer.Start();
         }
+
+        public override void OnExit()
+        {
+            // Dispose the Timer
+            bounceTimer.Dispose();
+        }
     }
 
     public class DissipateState : MushroomState
@@ -87,12 +98,18 @@ namespace GoodLuckValley.Player.Mushroom
         public override void OnEnter()
         {
             // Cross fade into the animation
-            animator.CrossFade(BounceHash, crossFadeDuration);
+            animator.CrossFade(DissipateHash, crossFadeDuration);
 
             // Create a timer that sets the mushroom to idle after the animation
             dissipateTimer = new CountdownTimer(animator.GetCurrentAnimatorStateInfo(0).length);
             dissipateTimer.OnTimerStop += () => mushroomObject.DestroyMushroom();
             dissipateTimer.Start();
+        }
+
+        public override void OnExit()
+        {
+            // Dispose the Timer
+            dissipateTimer.Dispose();
         }
     }
 }

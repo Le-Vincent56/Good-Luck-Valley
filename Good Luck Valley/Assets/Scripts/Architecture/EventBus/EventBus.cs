@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GoodLuckValley.Patterns.EventBus
+namespace GoodLuckValley.Architecture.EventBus
 {
     public static class EventBus<T> where T : IEvent
     {

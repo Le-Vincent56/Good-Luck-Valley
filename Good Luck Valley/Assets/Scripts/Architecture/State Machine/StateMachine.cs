@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Patterns.StateMachine
+namespace GoodLuckValley.Architecture.StateMachine
 {
     public class StateMachine
     {

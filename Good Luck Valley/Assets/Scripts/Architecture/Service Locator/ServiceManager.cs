@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley.Patterns.ServiceLocator
+namespace GoodLuckValley.Architecture.ServiceLocator
 {
     public class ServiceManager
     {

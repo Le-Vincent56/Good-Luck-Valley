@@ -1,4 +1,4 @@
-namespace GoodLuckValley.Patterns.StateMachine
+namespace GoodLuckValley.Architecture.StateMachine
 {
     public class Transition : ITransition
     {

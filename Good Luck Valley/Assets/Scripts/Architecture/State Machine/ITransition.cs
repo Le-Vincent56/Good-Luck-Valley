@@ -1,4 +1,4 @@
-namespace GoodLuckValley.Patterns.StateMachine
+namespace GoodLuckValley.Architecture.StateMachine
 {
     /// <summary>
     /// A Transition requires a State to go to

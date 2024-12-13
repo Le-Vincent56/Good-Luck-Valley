@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
 using UnityEngine;
@@ -10,23 +11,18 @@ namespace GoodLuckValley.Player.Mushroom
         [SerializeField] private GameObject mushroomPrefab;
         [SerializeField] private GameInputReader inputReader;
         private PlayerController playerController;
-        private BoxCollider2D boxCollider;
-        private Vector2 castPoint;
+
+        public Optional<MushroomObject> Mushroom { get; private set; } = Optional<MushroomObject>.None();
 
         [Header("Variables")]
         [SerializeField] private float castDistance;
-        private Bounds bounds;
+        [SerializeField] private LayerMask nonShroomableLayers;
         private Vector2 castPosition;
 
         private void Awake()
         {
             // Get components
-            boxCollider = GetComponentInParent<BoxCollider2D>();
             playerController = GetComponentInParent<PlayerController>();
-
-            // Get the raycast point
-            bounds = boxCollider.bounds;
-            castPoint = new Vector2(bounds.center.x, bounds.min.y);
         }
 
         private void OnEnable()
@@ -49,9 +45,19 @@ namespace GoodLuckValley.Player.Mushroom
             if (!started) return;
 
             castPosition = (Vector2)transform.position;
-            castPosition.y = castPoint.y;
 
-            // Raycast beneath the player
+            // Raycast beneath the player to check for non-shroomable layers
+            RaycastHit2D checkCast = Physics2D.Raycast(
+                castPosition,
+                -playerController.Up,
+                castDistance,
+                nonShroomableLayers
+            );
+
+            // Exit case - has hit a non-shroomable layer
+            if (checkCast) return;
+
+            // Raycast beneath the player to check for shroomable layers
             RaycastHit2D bounceCast = Physics2D.Raycast(
                 castPosition, 
                 -playerController.Up, 
@@ -90,13 +96,17 @@ namespace GoodLuckValley.Player.Mushroom
             shroom.transform.position = spawnPoint;
 
             // Initalize the Mushroom Object
-            shroom.GetComponent<MushroomObject>().Initialize();
-        }
+            MushroomObject mushroomObj = shroom.GetComponent<MushroomObject>();
+            mushroomObj.Initialize();
 
-        private void OnDrawGizmos()
-        {
-            if (castPosition != null && castPosition != Vector2.zero)
-                Debug.DrawRay(castPosition, -playerController.Up * castDistance, Color.cyan);
+            // Dissipate any current Mushrooms
+            Mushroom.Match(
+                onValue: mushroom => { mushroom.StartDissipating(); return 0; }, // Start dissipating the mushroom
+                onNoValue: () => { return 0; } // Do nothing
+            );
+
+            // Set the Mushroom
+            Mushroom = Optional<MushroomObject>.Some(mushroomObj);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace GoodLuckValley.Patterns.StateMachine
+namespace GoodLuckValley.Architecture.StateMachine
 {
     /// <summary>
     /// A Predicate is an expression that returns true or false depending

@@ -1,4 +1,4 @@
-using GoodLuckValley.Patterns.ServiceLocator;
+using GoodLuckValley.Architecture.ServiceLocator;
 using UnityEngine;
 
 namespace GoodLuckValley.World.Physics

@@ -1,4 +1,4 @@
-using GoodLuckValley.Patterns.StateMachine;
+using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
 
@@ -22,12 +22,13 @@ namespace GoodLuckValley.Player.States
 
         public virtual void Update()
         {
+            // Update the sub-State Machine
             subStates?.Update();
         }
 
         public virtual void FixedUpdate()
         {
-            // Update the sub-StateMachine
+            // Update the sub-State Machine
             subStates?.FixedUpdate();
         }
 
@@ -119,7 +120,8 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
-            controller.Bounce.Bouncing = false;
+            // Reset bounce variables
+            controller.Bounce.ResetBounce();
         }
 
         public override void SetupSubStateMachine() { }

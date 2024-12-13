@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GoodLuckValley.Patterns.ServiceLocator
+namespace GoodLuckValley.Architecture.ServiceLocator
 {
     public class ServiceLocator : MonoBehaviour
     {
