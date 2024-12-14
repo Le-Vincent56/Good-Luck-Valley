@@ -202,7 +202,7 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void SetVelocity(Vector2 newVelocity)
         {
-            rb.velocity = newVelocity;
+            rb.linearVelocity = newVelocity;
             Velocity = newVelocity;
         }
 
@@ -220,7 +220,7 @@ namespace GoodLuckValley.Player.Movement
             if(FrameData.ForceToApply != Vector2.zero)
             {
                 // Add the additional frame velocities and force
-                rb.velocity += FrameData.AdditionalFrameVelocities();
+                rb.linearVelocity += FrameData.AdditionalFrameVelocities();
                 rb.AddForce(FrameData.ForceToApply * rb.mass, ForceMode2D.Impulse);
 
                 return;
@@ -295,7 +295,7 @@ namespace GoodLuckValley.Player.Movement
 
                 // Set the new velocity
                 float targetX = Mathf.MoveTowards(FrameData.TrimmedVelocity.x, xDirection.x * targetSpeed, step);
-                newVelocity = new Vector2(targetX, rb.velocity.y);
+                newVelocity = new Vector2(targetX, rb.linearVelocity.y);
             }
 
             // Set the new velocity with any additional velocities
@@ -310,7 +310,7 @@ namespace GoodLuckValley.Player.Movement
             // Check if grounded and if not within jump clearance
             if(Collisions.Grounded && !Jump.IsWithinJumpClearance)
             {
-                // Get the distanc from the ground
+                // Get the distance from the ground
                 float distanceFromGround = CharacterSize.StepHeight - Collisions.GroundHit.distance;
 
                 // Check if there's still distance to travel
@@ -336,7 +336,7 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         private void RemoveTransientVelocity()
         {
-            Vector2 currentVelocity = rb.velocity;
+            Vector2 currentVelocity = rb.linearVelocity;
             Vector2 velocityBeforeReduction = currentVelocity;
 
             // Subtract the current velocity from the previous frame's transient velocity

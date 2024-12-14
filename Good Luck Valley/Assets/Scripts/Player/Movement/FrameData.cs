@@ -72,7 +72,7 @@ namespace GoodLuckValley.Player.Movement
             hasInputThisFrame = frameInput.Move.x != 0;
 
             // Set the PlayerController's velocity and the trimmed velocity
-            controller.Velocity = controller.RB.velocity;
+            controller.Velocity = controller.RB.linearVelocity;
             trimmedFrameVelocity = new Vector2(controller.Velocity.x, 0);
         }
 

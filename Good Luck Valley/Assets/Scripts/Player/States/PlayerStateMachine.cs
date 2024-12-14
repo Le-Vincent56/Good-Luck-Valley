@@ -36,18 +36,18 @@ namespace GoodLuckValley
             FallState falling = new FallState(controller, animator);
 
             // Define state transitions
-            superMachine.At(grounded, jumping, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Bounce.Bouncing && controller.RB.velocity.y > 0));
-            superMachine.At(grounded, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.velocity.y < 0));
-            superMachine.At(grounded, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.velocity.y > 0));
+            superMachine.At(grounded, jumping, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
+            superMachine.At(grounded, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0));
+            superMachine.At(grounded, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
 
             superMachine.At(jumping, grounded, new FuncPredicate(() => controller.Collisions.Grounded));
-            superMachine.At(jumping, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.velocity.y < 0));
+            superMachine.At(jumping, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0));
 
-            superMachine.At(bouncing, falling, new FuncPredicate(() => controller.RB.velocity.y < 0));
+            superMachine.At(bouncing, falling, new FuncPredicate(() => controller.RB.linearVelocity.y < 0));
             superMachine.At(bouncing, grounded, new FuncPredicate(() => controller.Collisions.Grounded));
 
             superMachine.At(falling, grounded, new FuncPredicate(() => controller.Collisions.Grounded));
-            superMachine.At(falling, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.velocity.y > 0));
+            superMachine.At(falling, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
 
             // Set the initial state
             superMachine.SetState(falling);

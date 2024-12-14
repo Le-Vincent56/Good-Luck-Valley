@@ -105,7 +105,7 @@ namespace GoodLuckValley.Player.Data
 
         private void OnValidate()
         {
-            PlayerController[] potentialPlayer = FindObjectsOfType<PlayerController>();
+            PlayerController[] potentialPlayer = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
             foreach (PlayerController player in potentialPlayer)
             {
                 player.OnValidate();
