@@ -25,11 +25,12 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private PlayerJump jump;
         [SerializeField] private PlayerCrawl crawl;
         [SerializeField] private PlayerBounce bounce;
+        [SerializeField] private PlayerWallJump wallJump;
 
         private GeneratedCharacterSize characterSize;
         private bool cachedQueryMode;
         private bool cachedQueryTriggers;
-        public const float GRAVITY_SCALE = 1;
+        public const float GRAVITY_SCALE = 1f;
         private float extraConstantGravity;
 
         private float delta;
@@ -54,17 +55,19 @@ namespace GoodLuckValley.Player.Movement
         public PlayerJump Jump { get => jump; }
         public PlayerCrawl Crawl { get => crawl; }
         public PlayerBounce Bounce { get => bounce; }
+        public PlayerWallJump WallJump { get => wallJump; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
         public float InitialGravityScale { get => GRAVITY_SCALE; }
         public float ExtraConstantGravity { get => extraConstantGravity; set => extraConstantGravity = value; }
 
+        public float Delta { get => delta; }
         public float Time { get => time; }
 
         public Vector2 Velocity { get; set; }
         public Vector2 ImmediateMove { get => immediateMove; }
-        public Vector2 DecayingTransientVelocity { get => decayingTransientVelocity; }
+        public Vector2 DecayingTransientVelocity { get => decayingTransientVelocity; set => decayingTransientVelocity = value; }
         public Vector2 Direction { get => direction; set => direction = value; }
 
         public Vector2 Up { get; set; }
@@ -101,10 +104,6 @@ namespace GoodLuckValley.Player.Movement
             characterSize = stats.CharacterSize.GenerateCharacterSize();
             cachedQueryMode = Physics2D.queriesStartInColliders;
 
-            //_wallDetectionBounds = new Bounds(
-            //    new Vector3(0, characterSize.Height / 2),
-            //    new Vector3(characterSize.StandingColliderSize.x + CharacterSize.COLLIDER_EDGE_RADIUS * 2 + Stats.WallDetectorRange, characterSize.Height - 0.1f));
-
             // Initialize the Rigidbody2D
             rb = GetComponent<Rigidbody2D>();
             rb.hideFlags = HideFlags.NotEditable;
@@ -126,6 +125,7 @@ namespace GoodLuckValley.Player.Movement
             jump = new PlayerJump(this);
             crawl = new PlayerCrawl(this);
             bounce = new PlayerBounce(this);
+            wallJump = new PlayerWallJump(this);
 
             input.Enable();
         }
@@ -159,6 +159,7 @@ namespace GoodLuckValley.Player.Movement
             CalculateDirection();
 
             // Calculate movement components
+            wallJump.CalculateWalls();
             jump.CalculateJump();
             bounce.CalculateBounce();
 
@@ -226,6 +227,28 @@ namespace GoodLuckValley.Player.Movement
                 return;
             }
 
+            // Check if on a wall
+            if (wallJump.IsOnWall)
+            {
+                // Zero out the constant force
+                constForce.force = Vector2.zero;
+
+                // Create a container for the wall velocity
+                float wallVelocity;
+
+                // Check if holding downwards
+                if (FrameData.Input.Move.y < 0) 
+                    // Set wall velocity to the wall climb speed
+                    wallVelocity = FrameData.Input.Move.y * Stats.WallClimbSpeed;
+                else 
+                    // Otherwise, set a fall speed
+                    wallVelocity = Mathf.MoveTowards(Mathf.Min(Velocity.y, 0), -Stats.WallClimbSpeed, Stats.WallFallAcceleration * delta);
+
+                // Set the velocity
+                SetVelocity(new Vector2(rb.linearVelocity.x, wallVelocity));
+                return;
+            }
+
             // Store a multiplier if the jump ended early
             float endJumpEarlyMult = Jump.EndedJumpEarly && Velocity.y > 0
                 ? Stats.EndJumpEarlyExtraForceMultiplier
@@ -287,11 +310,18 @@ namespace GoodLuckValley.Player.Movement
             {
                 step *= Stats.AirFrictionMultiplier;
 
-                //if (_wallJumpInputNerfPoint < 1 && (int)Mathf.Sign(xDir.x) == (int)Mathf.Sign(_wallDirectionForJump))
-                //{
-                //    if (_time < _returnWallInputLossAfter) xDir.x = -_wallDirectionForJump;
-                //    else xDir.x *= _wallJumpInputNerfPoint;
-                //}
+                // Check if the wall jump input nerf point is less than 1 and if the directions of the wall jump match
+                if (wallJump.WallJumpInputNerfPoint < 1 && (int)Mathf.Sign(xDirection.x) == (int)Mathf.Sign(wallJump.WallDirectionForJump))
+                {
+                    // Check if the time is less than the time to return wall input
+                    if (time < wallJump.ReturnWallInputLossAfter) 
+                        // Set the direction to the opposite of the wall direction for jumping
+                        xDirection.x = -wallJump.WallDirectionForJump;
+                    // Otherwise
+                    else 
+                        // Multiply the x-drection by the wall jump input nerf point
+                        xDirection.x *= wallJump.WallJumpInputNerfPoint;
+                }
 
                 // Set the new velocity
                 float targetX = Mathf.MoveTowards(FrameData.TrimmedVelocity.x, xDirection.x * targetSpeed, step);
@@ -322,7 +352,7 @@ namespace GoodLuckValley.Player.Movement
 
                     // CHeck if using velocity as the PositionCorrectionMode
                     if (Stats.PositionCorrectionMode is PositionCorrectionMode.Velocity)
-                        // Add the correction to teh transient velocity
+                        // Add the correction to the transient velocity
                         FrameData.TransientVelocity = requiredMove / delta;
                     else
                         // Move immediately
@@ -385,8 +415,8 @@ namespace GoodLuckValley.Player.Movement
                 Gizmos.DrawRay(rayStart + Vector2.left * offset, rayDir);
             }
 
-            //Gizmos.color = Color.yellow;
-            //Gizmos.DrawWireCube(pos + (Vector2)_wallDetectionBounds.center, _wallDetectionBounds.size);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(pos + (Vector2)wallJump.WallDetectionBounds.center, wallJump.WallDetectionBounds.size);
 
             Gizmos.color = Color.black;
             Gizmos.DrawRay(Collisions.RayPoint, Vector3.right);

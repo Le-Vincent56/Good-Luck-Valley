@@ -71,5 +71,7 @@ namespace GoodLuckValley.Player.Animation
         public void EnterJump() => animator.CrossFade(JUMP_HASH, crossFadeDuration);
         public void EnterBounce() => animator.CrossFade(BOUNCE_HASH, crossFadeDuration);
         public void EnterFall() => animator.CrossFade(FALL_HASH, crossFadeDuration);
+        public void EnterWallSlide() => animator.CrossFade(WALL_SLIDE_HASH, crossFadeDuration);
+        public void EnterWallJump() => animator.CrossFade(WALL_JUMP_HASH, crossFadeDuration);
     }
 }

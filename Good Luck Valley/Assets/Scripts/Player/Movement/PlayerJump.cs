@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
@@ -24,10 +25,8 @@ namespace GoodLuckValley.Player.Movement
         private float timeJumpWasPressed;
         [SerializeField] private bool endedJumpEarly;
         [SerializeField] private int airJumpsRemaining;
-        private bool wallJumpCoyoteUsable;
         [SerializeField] private bool coyoteUsable;
         private float timeLeftGrounded;
-        private float returnWallInputLossAfter;
 
         public bool IsWithinJumpClearance { get => lastJumpExecutedTime + JUMP_CLEARANCE_TIME > controller.Time; }
         private bool HasBufferedJump
@@ -45,11 +44,6 @@ namespace GoodLuckValley.Player.Movement
         }
 
         private bool CanAirJump { get => !controller.Collisions.Grounded && airJumpsRemaining > 0; }
-        //private bool CanWallJump
-        //{
-        //    get => controller.Collisions.Grounded &&
-        //        isOnWall
-        //}
         public bool BufferedJumpUsable { get => bufferedJumpUsable; set => bufferedJumpUsable = value; }
         public bool JumpToConsume { get => jumpToConsume; set => jumpToConsume = value; }
         public float TimeJumpWasPressed { get => timeJumpWasPressed; set => timeJumpWasPressed = value; }
@@ -69,8 +63,8 @@ namespace GoodLuckValley.Player.Movement
         {
             if((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
             {
-                //if (CanWallJump) ExecuteJump(JumpType.WallJump);
-                if (controller.Collisions.Grounded) ExecuteJump(JumpType.Jump);
+                if (controller.WallJump.CanWallJump) ExecuteJump(JumpType.WallJump);
+                else if (controller.Collisions.Grounded) ExecuteJump(JumpType.Jump);
                 else if (CanUseCoyote) ExecuteJump(JumpType.Coyote);
                 else if (CanAirJump) ExecuteJump(JumpType.AirJump);
             }
@@ -86,6 +80,11 @@ namespace GoodLuckValley.Player.Movement
             {
                 endedJumpEarly = true;
             }
+
+            // Check if the time has surpassed the time to return wall input loss
+            if (controller.Time > controller.WallJump.ReturnWallInputLossAfter)
+                // Change the wall jump input nerf point
+                controller.WallJump.WallJumpInputNerfPoint = Mathf.MoveTowards(controller.WallJump.WallJumpInputNerfPoint, 1, controller.Delta / controller.Stats.WallJumpInputLossReturnTime);
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace GoodLuckValley.Player.Movement
             controller.ExtraConstantGravity = controller.Stats.JumpConstantGravity;
 
             // Check if jumping normally or using coyote time
-            if(jumpType is JumpType.Jump or JumpType.Coyote or JumpType.SlideJump)
+            if(jumpType is JumpType.Jump or JumpType.Coyote)
             {
                 // Disable coyote time
                 coyoteUsable = false;
@@ -124,7 +123,8 @@ namespace GoodLuckValley.Player.Movement
             // Otherwise, check if performing a wall jump
             else if(jumpType is JumpType.WallJump)
             {
-                // TODO: Wall stuff
+                // Execute the wall jump
+                controller.WallJump.ExecuteWallJump();
             }
 
             //controller.Jumped?.Invoke(jumpType);

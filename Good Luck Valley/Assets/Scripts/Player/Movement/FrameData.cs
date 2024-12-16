@@ -63,7 +63,7 @@ namespace GoodLuckValley.Player.Movement
 
             // Set PlayerController direction vectors
             controller.Up = new Vector2(-Mathf.Sin(rotation), Mathf.Cos(rotation));
-            controller.Right = new Vector2(-controller.Up.y, -controller.Up.x);
+            controller.Right = new Vector2(controller.Up.y, -controller.Up.x);
 
             // Get the frame position
             framePosition = controller.RB.position;
@@ -79,10 +79,10 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Add a force to apply this frame
         /// </summary>
-        public void AddForce(Vector2 force, bool resetY = false)
+        public void AddForce(Vector2 force, bool resetVelocity = false)
         {
-            if (resetY)
-                controller.SetVelocity(TrimmedVelocity);
+            if (resetVelocity)
+                controller.SetVelocity(Vector2.zero);
 
             // Add the force to the frame force to apply
             frameForceToApply += force;

@@ -2,7 +2,7 @@ using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.Player.States
 {
     public class SubState : IState
     {
@@ -75,6 +75,30 @@ namespace GoodLuckValley
         {
             // Enter the crawl locomotion animation
             animator.EnterCrawlLocomotion();
+        }
+    }
+
+    public class NormalJumpState : SubState
+    {
+        public NormalJumpState(PlayerController controller, AnimationController animator)
+            : base(controller, animator)
+        { }
+
+        public override void OnEnter()
+        {
+            animator.EnterJump();
+        }
+    }
+
+    public class WallJumpState : SubState
+    {
+        public WallJumpState(PlayerController controller, AnimationController animator)
+            : base(controller, animator) 
+        { }
+
+        public override void OnEnter()
+        {
+            animator.EnterWallJump();
         }
     }
 

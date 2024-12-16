@@ -87,19 +87,50 @@ namespace GoodLuckValley.Player.States
         }
     }
 
+    public class WallState : SuperState
+    {
+        public WallState(PlayerController controller, AnimationController animator)
+            : base(controller, animator)
+        { }
+
+        public override void OnEnter()
+        {
+            animator.EnterWallSlide();
+        }
+
+        public override void SetupSubStateMachine() { }
+    }
+
     public class JumpState : SuperState
     {
+        private NormalJumpState normalJump;
+        private WallJumpState wallJump;
+
         public JumpState(PlayerController controller, AnimationController animator)
             : base(controller, animator)
         { }
 
         public override void OnEnter()
         {
-            // Enter the Jump animation
-            animator.EnterJump();
+            // Set the normal jump on default
+            subStates.SetState(normalJump);
         }
 
-        public override void SetupSubStateMachine() { }
+        public override void SetupSubStateMachine() 
+        {
+            // Initialize state machine
+            subStates = new StateMachine();
+
+            // Create states
+            normalJump = new NormalJumpState(controller, animator);
+            wallJump = new WallJumpState(controller, animator);
+
+            // Define state transitions
+            subStates.At(normalJump, wallJump, new FuncPredicate(() => controller.WallJump.IsWallJumping));
+
+            // Set the initial state
+            subStates.SetState(normalJump);
+        }
     }
 
     public class BounceState : SuperState
