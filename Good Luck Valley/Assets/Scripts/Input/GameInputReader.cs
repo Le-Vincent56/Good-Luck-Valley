@@ -31,6 +31,10 @@ namespace GoodLuckValley.Input
 
         private GameplayActions inputActions;
 
+        private void OnEnable() => Enable();
+
+        private void OnDisable() => Disable();
+
         /// <summary>
         /// Enable the input actions
         /// </summary>
