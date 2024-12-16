@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GoodLuckValley.Cameras
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class CameraPriorityTrigger : MonoBehaviour
+    public class OneWayCameraPriorityTrigger : MonoBehaviour
     {
         private CameraController cameraController;
         [SerializeField] private CinemachineVirtualCamera cameraToPrioritize;
