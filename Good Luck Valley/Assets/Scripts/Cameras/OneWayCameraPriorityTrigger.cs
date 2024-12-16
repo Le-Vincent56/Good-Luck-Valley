@@ -17,7 +17,7 @@ namespace GoodLuckValley.Cameras
             cameraController = ServiceLocator.ForSceneOf(this).Get<CameraController>();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerExit2D(Collider2D collision)
         {
             // Exit case - the collider does not have a PlayerController attached
             if (!collision.GetComponent<PlayerController>()) return;
