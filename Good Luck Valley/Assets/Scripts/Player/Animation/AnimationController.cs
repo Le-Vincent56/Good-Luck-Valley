@@ -22,8 +22,25 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int THROW_IDLE_HASH = Animator.StringToHash("Throw Idle");
         private static readonly int THROW_LOCOMOTION_HASH = Animator.StringToHash("Throw Locomotion");
 
+        private void OnEnable()
+        {
+            // Exit case - there's no PlayerController
+            if (playerController == null) return;
+
+            playerController.WallJump.OnWallJump += CorrectFacingDirection;
+        }
+
+        private void OnDisable()
+        {
+            // Exit case - there's no PlayerController
+            if (playerController == null) return;
+
+            playerController.WallJump.OnWallJump -= CorrectFacingDirection;
+        }
+
         private void Update()
         {
+            // Check the facing direction of the sprite
             CheckFacingDirection();
         }
 
@@ -34,6 +51,9 @@ namespace GoodLuckValley.Player.Animation
         {
             this.playerController = playerController;
             animator = GetComponent<Animator>();
+
+            // Subscribe to events
+            playerController.WallJump.OnWallJump += CorrectFacingDirection;
         }
 
         /// <summary>
@@ -42,6 +62,18 @@ namespace GoodLuckValley.Player.Animation
         private void CheckFacingDirection()
         {
             float directionToFace;
+
+            // Check if wall jumping
+            if (playerController.WallJump.IsOnWall)
+            {
+                directionToFace = playerController.WallJump.WallDirectionThisFrame;
+
+                Vector3 wallScale = transform.localScale;
+                wallScale.x = directionToFace;
+                transform.localScale = wallScale;
+
+                return;
+            }
 
             // Get an x-velocity from the Player's input
             float xVelocity = playerController.FrameData.Input.Move.x;
@@ -61,6 +93,20 @@ namespace GoodLuckValley.Player.Animation
             Vector3 scale = transform.localScale;
             scale.x = directionToFace;
             transform.localScale = scale;
+        }
+
+        /// <summary>
+        /// Manually correct the facing direction
+        /// </summary>
+        private void CorrectFacingDirection(int directionToFace)
+        {
+            // Apply the direction to face
+            Vector3 scale = transform.localScale;
+            scale.x = directionToFace;
+            transform.localScale = scale;
+
+            // Set the last facing direction
+            lastFacingXDirection = directionToFace;
         }
 
         // Animation Entering Functions

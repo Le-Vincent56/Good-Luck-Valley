@@ -246,18 +246,21 @@ namespace GoodLuckValley.Player.Movement
 
                 // Set the velocity
                 SetVelocity(new Vector2(rb.linearVelocity.x, wallVelocity));
+
                 return;
             }
 
-            // Store a multiplier if the jump ended early
-            float endJumpEarlyMult = Jump.EndedJumpEarly && Velocity.y > 0
-                ? Stats.EndJumpEarlyExtraForceMultiplier
-                : 1;
-
             // Calculate the extra force
-            Vector2 extraForce = new Vector2(0,
-                Collisions.Grounded ? 0 : -extraConstantGravity * endJumpEarlyMult
-            );
+            Vector2 extraForce = new Vector2(
+                0, 
+                Collisions.Grounded 
+                    ? 0 
+                    : -extraConstantGravity * 
+                      (Jump.EndedJumpEarly && Velocity.y > 0 
+                          ? Stats.EndJumpEarlyExtraForceMultiplier 
+                          : 1
+                      )
+             );
 
             // Add the extra force to the ConstantForce2D
             constForce.force = extraForce * rb.mass;
@@ -388,7 +391,7 @@ namespace GoodLuckValley.Player.Movement
                 (velocityBeforeReduction.y > 0 && decayingTransientVelocity.y > velocityBeforeReduction.y)) decay *= 5;
 
             // Set the decaying transient velocity
-            decayingTransientVelocity = Vector2.MoveTowards(decayingTransientVelocity, Vector2.zero, decay);
+            decayingTransientVelocity = Vector2.MoveTowards(decayingTransientVelocity, Vector2.zero, decay * delta);
 
             // Zero out immediate move
             immediateMove = Vector2.zero;

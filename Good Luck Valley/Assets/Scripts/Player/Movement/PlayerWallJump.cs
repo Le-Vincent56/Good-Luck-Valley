@@ -23,6 +23,7 @@ namespace GoodLuckValley.Player.Movement
         private float returnWallInputLossAfter;
         private float wallJumpInputNerfPoint;
         private event Action<bool> OnWallGrabChanged = delegate { };
+        public event Action<int> OnWallJump = delegate { };
 
         public Bounds WallDetectionBounds { get => wallDetectionBounds; }
         public bool IsOnWall { get => isOnWall; }
@@ -41,6 +42,7 @@ namespace GoodLuckValley.Player.Movement
         public float ReturnWallInputLossAfter { get => returnWallInputLossAfter; set => returnWallInputLossAfter = value; }
         public float WallJumpInputNerfPoint { get => wallJumpInputNerfPoint; set => wallJumpInputNerfPoint = value; }
         public bool IsWallJumping { get => isWallJumping; set => isWallJumping = value; }
+        public int WallDirectionThisFrame { get => wallDirectionThisFrame; }
 
         public PlayerWallJump(PlayerController controller)
         {
@@ -103,7 +105,7 @@ namespace GoodLuckValley.Player.Movement
             if (!controller.Stats.AllowWalls) return;
 
             // Get the raycast direction
-            float rayDir = isOnWall ? wallDirection : controller.Direction.x;
+            float rayDir = isOnWall ? wallDirection : wallDirectionThisFrame;
 
             // Cast to a potential wall
             bool hasHitWall = DetectWallCast(rayDir);
@@ -147,8 +149,10 @@ namespace GoodLuckValley.Player.Movement
         {
             return Physics2D.BoxCast(
                 controller.FrameData.Position + (Vector2)wallDetectionBounds.center, 
-                new Vector2(controller.CharacterSize.StandingColliderSize.x - controller.Collisions.SkinWidth, 
-                wallDetectionBounds.size.y), 
+                new Vector2(
+                    controller.CharacterSize.StandingColliderSize.x - controller.Collisions.SkinWidth, 
+                    wallDetectionBounds.size.y
+                ), 
                 0, 
                 new Vector2(dir, 0), 
                 controller.Stats.WallDetectorRange,
@@ -178,6 +182,9 @@ namespace GoodLuckValley.Player.Movement
             {
                 controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallPushPower);
             }
+
+            // Invoke the wall jump
+            OnWallJump.Invoke(wallDirectionForJump * -1);
         }
     }
 }

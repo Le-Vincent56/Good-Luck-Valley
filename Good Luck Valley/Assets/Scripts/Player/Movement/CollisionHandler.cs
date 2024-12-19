@@ -1,6 +1,7 @@
 using GoodLuckValley.Player.Data;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
@@ -120,6 +121,12 @@ namespace GoodLuckValley.Player.Movement
 
             // If no ground detected, return false
             if (!groundHit) return false;
+
+            // Check if the angle from the ground hit normal and the up vector is greater than the max walkable slope
+            if (Vector2.Angle(groundHit.normal, controller.Up) > controller.Stats.MaxWalkableSlope)
+            {
+                return false;
+            }
 
             // If ground detected, return true
             return true;
