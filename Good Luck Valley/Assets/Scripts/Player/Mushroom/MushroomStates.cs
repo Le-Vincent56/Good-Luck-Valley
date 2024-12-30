@@ -101,7 +101,7 @@ namespace GoodLuckValley.Player.Mushroom
             animator.CrossFade(DissipateHash, crossFadeDuration);
 
             // Create a timer that sets the mushroom to idle after the animation
-            dissipateTimer = new CountdownTimer(animator.GetCurrentAnimatorStateInfo(0).length);
+            dissipateTimer = new CountdownTimer(0.5f);
             dissipateTimer.OnTimerStop += () => mushroomObject.DestroyMushroom();
             dissipateTimer.Start();
         }
