@@ -1,6 +1,7 @@
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
+using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
@@ -124,10 +125,8 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            // Store the initial constant gravity
+            // Set the gravity scale
             controller.SetGravityScale(controller.InitialGravityScale * controller.Stats.FastFallMultiplier);
-
-            // Set gravity
             initialConstantGravity = controller.ExtraConstantGravity;
             controller.ExtraConstantGravity = initialConstantGravity * controller.Stats.FastFallMultiplier;
         }
@@ -149,11 +148,9 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            // Store the initial constant gravity
-            initialConstantGravity = controller.ExtraConstantGravity;
-
             // Set gravity
             controller.SetGravityScale(controller.InitialGravityScale * controller.Stats.SlowFallMultiplier);
+            initialConstantGravity = controller.ExtraConstantGravity;
             controller.ExtraConstantGravity = initialConstantGravity * controller.Stats.SlowFallMultiplier;
         }
 

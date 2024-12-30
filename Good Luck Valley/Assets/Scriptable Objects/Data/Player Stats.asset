@@ -29,7 +29,7 @@ MonoBehaviour:
   PositionCorrectionMode: 0
   BaseSpeed: 5
   Acceleration: 100
-  Friction: 300
+  Friction: 70
   AirFrictionMultiplier: 0.5
   DirectionCorrectionMultiplier: 3
   MaxWalkableSlope: 46
@@ -52,15 +52,15 @@ MonoBehaviour:
   AllowCrouching: 1
   CrouchSlowDownTime: 0.1
   CrouchSpeedModifier: 0.2
-  AllowWalls: 0
+  AllowWalls: 1
   ClimbableLayer:
     serializedVersion: 2
     m_Bits: 1024
   WallJumpTotalInputLossTime: 0.2
   WallJumpInputLossReturnTime: 0.5
   RequireInputPush: 0
-  WallJumpPower: {x: 20, y: 18}
-  WallPushPower: {x: 20, y: 18}
+  WallJumpPower: {x: 18, y: 13}
+  WallPushPower: {x: 18, y: 13}
   WallClimbSpeed: 5
   WallFallAcceleration: 5
   WallPopForce: 10

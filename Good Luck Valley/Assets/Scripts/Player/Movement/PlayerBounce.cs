@@ -39,7 +39,7 @@ namespace GoodLuckValley.Player.Movement
         public void CalculateBounce()
         {
             // Check if bouncing and descending
-            if (bouncing && controller.RB.linearVelocity.y < 0 && !controller.Collisions.Grounded)
+            if (bouncing)
             {
                 // Stop bouncing
                 canSlowFall = true;
