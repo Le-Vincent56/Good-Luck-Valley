@@ -1,6 +1,6 @@
-using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Mushroom
@@ -12,7 +12,7 @@ namespace GoodLuckValley.Player.Mushroom
         [SerializeField] private GameInputReader inputReader;
         private PlayerController playerController;
 
-        public Optional<MushroomObject> Mushroom { get; private set; } = Optional<MushroomObject>.None();
+        private List<MushroomObject> mushrooms;
 
         [Header("Variables")]
         [SerializeField] private float castDistance;
@@ -23,6 +23,9 @@ namespace GoodLuckValley.Player.Mushroom
         {
             // Get components
             playerController = GetComponentInParent<PlayerController>();
+
+            // Initialize the list
+            mushrooms = new List<MushroomObject>();
         }
 
         private void OnEnable()
@@ -99,14 +102,21 @@ namespace GoodLuckValley.Player.Mushroom
             MushroomObject mushroomObj = shroom.GetComponent<MushroomObject>();
             mushroomObj.Initialize();
 
-            // Dissipate any current Mushrooms
-            Mushroom.Match(
-                onValue: mushroom => { mushroom.StartDissipating(); return 0; }, // Start dissipating the mushroom
-                onNoValue: () => { return 0; } // Do nothing
-            );
+            // Check if there are Mushrooms stored - this is necessary because there might be 
+            // Mushrooms dissipating while another Mushroom is spawning, so this allows them
+            // time to dissipate before being deleted
+            if(mushrooms.Count > 0)
+            {
+                // Iterate through each mushroom
+                foreach(MushroomObject mushroom in mushrooms)
+                {
+                    // Dissipate the mushroom
+                    mushroom.StartDissipating();
+                }
+            }
 
-            // Set the Mushroom
-            Mushroom = Optional<MushroomObject>.Some(mushroomObj);
+            // Add the Mushroom to the list
+            mushrooms.Add(mushroomObj);
         }
     }
 }

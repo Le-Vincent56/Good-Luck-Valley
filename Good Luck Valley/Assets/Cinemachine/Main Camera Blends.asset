@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CustomBlends:
   - m_From: Follow Camera
-    m_To: Room Camera
+    m_To: Right Room Camera
     m_Blend:
       m_Style: 1
       m_Time: 5
@@ -24,11 +24,33 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: Room Camera
+  - m_From: Right Room Camera
     m_To: Follow Camera
     m_Blend:
       m_Style: 1
       m_Time: 4
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Follow Camera
+    m_To: Wall Jump Room Camera
+    m_Blend:
+      m_Style: 4
+      m_Time: 1
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Wall Jump Room Camera
+    m_To: Follow Camera
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
