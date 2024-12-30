@@ -1,6 +1,6 @@
 using GoodLuckValley.Player.Data;
+using GoodLuckValley.Timers;
 using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
@@ -25,6 +25,8 @@ namespace GoodLuckValley.Player.Movement
         private event Action<bool> OnWallGrabChanged = delegate { };
         public event Action<int> OnWallJump = delegate { };
 
+        private CountdownTimer disableMovementTimer;
+
         public Bounds WallDetectionBounds { get => wallDetectionBounds; }
         public bool IsOnWall { get => isOnWall; }
         public bool CanWallJump 
@@ -44,7 +46,7 @@ namespace GoodLuckValley.Player.Movement
         public bool IsWallJumping { get => isWallJumping; set => isWallJumping = value; }
         public int WallDirectionThisFrame { get => wallDirectionThisFrame; }
 
-        public PlayerWallJump(PlayerController controller)
+        public PlayerWallJump(PlayerController controller, float disableMovementTime)
         {
             this.controller = controller;
 
@@ -54,6 +56,11 @@ namespace GoodLuckValley.Player.Movement
                 new Vector3(controller.CharacterSize.StandingColliderSize.x + CharacterSize.COLLIDER_EDGE_RADIUS * 2 + controller.Stats.WallDetectorRange, 
                     controller.CharacterSize.Height - 0.1f)
             );
+
+            // Initialize the disable movement timer
+            disableMovementTimer = new CountdownTimer(disableMovementTime);
+            disableMovementTimer.OnTimerStart += () => controller.Input.Disable();
+            disableMovementTimer.OnTimerStop += () => controller.Input.Enable();
         }
 
         /// <summary>
@@ -185,6 +192,9 @@ namespace GoodLuckValley.Player.Movement
 
             // Invoke the wall jump
             OnWallJump.Invoke(wallDirectionForJump * -1);
+
+            // Start the disable movement timer
+            disableMovementTimer.Start();
         }
     }
 }

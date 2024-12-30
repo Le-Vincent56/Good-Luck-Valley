@@ -46,6 +46,7 @@ namespace GoodLuckValley.Player.Movement
 
         [SerializeField] private bool debug;
 
+        public GameInputReader Input { get => input; }
         public PlayerStats Stats { get => stats; }
         public Rigidbody2D RB { get => rb; }
         public ConstantForce2D ConstantForce { get => constForce; }
@@ -125,7 +126,7 @@ namespace GoodLuckValley.Player.Movement
             jump = new PlayerJump(this);
             crawl = new PlayerCrawl(this);
             bounce = new PlayerBounce(this);
-            wallJump = new PlayerWallJump(this);
+            wallJump = new PlayerWallJump(this, stats.WallJumpDisableTime);
 
             input.Enable();
         }
