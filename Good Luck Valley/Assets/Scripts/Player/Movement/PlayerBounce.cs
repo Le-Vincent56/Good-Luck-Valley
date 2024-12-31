@@ -45,8 +45,9 @@ namespace GoodLuckValley.Player.Movement
                 // Stop bouncing
                 canSlowFall = true;
             }
-            // Otherwise check if not bouncing, but a bounce is prepped
-            else if(!bouncing && bouncePrepped)
+
+            // Check if not bouncing, but a bounce is prepped
+            if(!bouncing && bouncePrepped)
             {
                 // Execute the bounce
                 bouncing = true;
@@ -63,6 +64,14 @@ namespace GoodLuckValley.Player.Movement
             if (bouncePrepped) return;
 
             bouncePrepped = true;
+
+            // Start the ignore detection timer
+            ignoreDetectionTimer.Start();
+
+            // Set not-grounded
+            controller.Collisions.ToggleGrounded(false);
+
+            Debug.Log("Bounce Prepped");
         }
 
         /// <summary>
@@ -70,12 +79,6 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void ExecuteBounce()
         {
-            // Start the ignore detection timer
-            ignoreDetectionTimer.Start();
-
-            // Set not-grounded
-            controller.Collisions.ToggleGrounded(false);
-
             // Add the bounce force to the player
             controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
 
@@ -91,6 +94,8 @@ namespace GoodLuckValley.Player.Movement
         {
             bouncing = false;
             bouncePrepped = false;
+
+            Debug.Log("Bounce Reset");
         }
     }
 }

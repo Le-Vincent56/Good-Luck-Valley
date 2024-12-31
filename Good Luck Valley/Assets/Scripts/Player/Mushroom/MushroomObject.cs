@@ -58,6 +58,7 @@ namespace GoodLuckValley.Player.Mushroom
         {
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
+            // Prepare a bounce
             controller.Bounce.PrepareBounce();
 
             // Set bouncing
