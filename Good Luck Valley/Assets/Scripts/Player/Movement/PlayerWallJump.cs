@@ -24,9 +24,6 @@ namespace GoodLuckValley.Player.Movement
         private float wallJumpInputNerfPoint;
         private event Action<bool> OnWallGrabChanged = delegate { };
         public event Action<int> OnWallJump = delegate { };
-
-        private CountdownTimer disableMovementTimer;
-
         public Bounds WallDetectionBounds { get => wallDetectionBounds; }
         public bool IsOnWall { get => isOnWall; }
         public bool CanWallJump 
@@ -46,7 +43,7 @@ namespace GoodLuckValley.Player.Movement
         public bool IsWallJumping { get => isWallJumping; set => isWallJumping = value; }
         public int WallDirectionThisFrame { get => wallDirectionThisFrame; }
 
-        public PlayerWallJump(PlayerController controller, float disableMovementTime)
+        public PlayerWallJump(PlayerController controller)
         {
             this.controller = controller;
 
@@ -56,11 +53,6 @@ namespace GoodLuckValley.Player.Movement
                 new Vector3(controller.CharacterSize.StandingColliderSize.x + CharacterSize.COLLIDER_EDGE_RADIUS * 2 + controller.Stats.WallDetectorRange, 
                     controller.CharacterSize.Height - 0.1f)
             );
-
-            // Initialize the disable movement timer
-            disableMovementTimer = new CountdownTimer(disableMovementTime);
-            disableMovementTimer.OnTimerStart += () => controller.Input.Disable();
-            disableMovementTimer.OnTimerStop += () => controller.Input.Enable();
         }
 
         /// <summary>
@@ -79,6 +71,8 @@ namespace GoodLuckValley.Player.Movement
                 controller.Jump.BufferedJumpUsable = true;
                 wallJumpCoyoteUsable = true;
                 wallDirection = wallDirectionThisFrame;
+                controller.Bounce.CanSlowFall = false;
+                controller.Bounce.ResetBounce();
             }
             // Otherwise
             else
@@ -94,9 +88,6 @@ namespace GoodLuckValley.Player.Movement
                 {
                     controller.FrameData.AddForce(new Vector2(0, controller.Stats.WallPopForce), true);
                 }
-
-                // Reset the air jumps to allow
-                controller.Jump.ResetAirJumps();
             }
 
             // Call the event
@@ -181,20 +172,10 @@ namespace GoodLuckValley.Player.Movement
             ReturnWallInputLossAfter = controller.Time + controller.Stats.WallJumpTotalInputLossTime;
             wallDirectionForJump = wallDirectionThisFrame;
 
-            if (isOnWall || IsPushingAgainstWall)
-            {
-                controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallJumpPower);
-            }
-            else
-            {
-                controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallPushPower);
-            }
+            controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallJumpPower);
 
             // Invoke the wall jump
             OnWallJump.Invoke(wallDirectionForJump * -1);
-
-            // Start the disable movement timer
-            disableMovementTimer.Start();
         }
     }
 }

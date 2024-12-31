@@ -15,7 +15,8 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private bool canDetectGround;
         private CountdownTimer ignoreDetectionTimer;
 
-        public bool Bouncing { get => bouncing; set => bouncing = value; }
+        public bool Bouncing { get => bouncing || bouncePrepped; set => bouncing = value; }
+        public bool FromBounce { get => bouncing || bouncePrepped || canSlowFall; }
         public bool CanSlowFall { get => canSlowFall; set => canSlowFall = value; }
         public bool CanDetectGround { get => canDetectGround; }
 
@@ -73,7 +74,6 @@ namespace GoodLuckValley.Player.Movement
             controller.SetVelocity(controller.FrameData.TrimmedVelocity);
 
             // Start the ignore detection timer
-            ignoreDetectionTimer.Reset();
             ignoreDetectionTimer.Start();
 
             // Set not-grounded

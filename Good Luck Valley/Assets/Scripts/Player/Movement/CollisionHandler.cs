@@ -166,7 +166,6 @@ namespace GoodLuckValley.Player.Movement
                 currentStepDownLength = controller.CharacterSize.StepHeight;
                 controller.Jump.CoyoteUsable = true;
                 controller.Jump.BufferedJumpUsable = true;
-                controller.Jump.ResetAirJumps();
                 controller.WallJump.IsWallJumping = false;
                 controller.Bounce.CanSlowFall = false;
                 SetColliderMode(ColliderMode.Standard);

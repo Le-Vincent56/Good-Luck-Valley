@@ -1,4 +1,6 @@
+using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Player.Movement;
+using GoodLuckValley.Potentiates;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Animation
@@ -7,6 +9,7 @@ namespace GoodLuckValley.Player.Animation
     {
         private PlayerController playerController;
         private Animator animator;
+        private SpriteRenderer spriteRenderer;
         [SerializeField] private float crossFadeDuration;
         private float lastFacingXDirection;
 
@@ -22,12 +25,15 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int THROW_IDLE_HASH = Animator.StringToHash("Throw Idle");
         private static readonly int THROW_LOCOMOTION_HASH = Animator.StringToHash("Throw Locomotion");
 
+        private EventBinding<PotentiateFeedback> onPotentiateFeedback;
+
         private void OnEnable()
         {
             // Exit case - there's no PlayerController
             if (playerController == null) return;
 
             playerController.WallJump.OnWallJump += CorrectFacingDirection;
+            EventBus<PotentiateFeedback>.Register(onPotentiateFeedback);
         }
 
         private void OnDisable()
@@ -36,6 +42,7 @@ namespace GoodLuckValley.Player.Animation
             if (playerController == null) return;
 
             playerController.WallJump.OnWallJump -= CorrectFacingDirection;
+            EventBus<PotentiateFeedback>.Deregister(onPotentiateFeedback);
         }
 
         private void Update()
@@ -49,11 +56,16 @@ namespace GoodLuckValley.Player.Animation
         /// </summary>
         public void Initialize(PlayerController playerController)
         {
+            // Get and set components
             this.playerController = playerController;
             animator = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
 
             // Subscribe to events
             playerController.WallJump.OnWallJump += CorrectFacingDirection;
+
+            onPotentiateFeedback = new EventBinding<PotentiateFeedback>(ChangeColor);
+            EventBus<PotentiateFeedback>.Register(onPotentiateFeedback);
         }
 
         /// <summary>
@@ -107,6 +119,11 @@ namespace GoodLuckValley.Player.Animation
 
             // Set the last facing direction
             lastFacingXDirection = directionToFace;
+        }
+
+        public void ChangeColor(PotentiateFeedback eventData)
+        {
+            spriteRenderer.color = eventData.Color;
         }
 
         // Animation Entering Functions

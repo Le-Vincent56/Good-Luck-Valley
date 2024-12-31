@@ -7,6 +7,7 @@ namespace GoodLuckValley
     public class CameraController : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera[] virtualCameras;
+        [SerializeField] private CinemachineVirtualCamera initialCamera;
 
         private void Awake()
         {
@@ -17,13 +18,18 @@ namespace GoodLuckValley
             ServiceLocator.ForSceneOf(this).Register(this);
         }
 
+        private void Start()
+        {
+            initialCamera.gameObject.SetActive(true);
+        }
+
         /// <summary>
         /// Prioritize a Camera
         /// </summary>
         public void PrioritizeCamera(CinemachineVirtualCamera camToPrioritize)
         {
             // Set the priority of the camera to higher
-            camToPrioritize.Priority = 10;
+            camToPrioritize.gameObject.SetActive(true);
 
             // Iterate through each virtual camera
             foreach (CinemachineVirtualCamera cam in virtualCameras)
@@ -31,8 +37,7 @@ namespace GoodLuckValley
                 // Check if the cameras are not equal
                 if (camToPrioritize != cam)
                 {
-                    // Set to a lower priority
-                    cam.Priority = 5;
+                    cam.gameObject.SetActive(false);
 
                     continue;
                 }

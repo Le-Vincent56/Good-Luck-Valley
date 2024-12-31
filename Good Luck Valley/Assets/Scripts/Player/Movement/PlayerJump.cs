@@ -1,5 +1,5 @@
+using GoodLuckValley.Potentiates;
 using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
@@ -12,10 +12,11 @@ namespace GoodLuckValley.Player.Movement
             Jump,
             WallJump,
             Coyote,
-            AirJump,
+            TimeJump,
             SlideJump
         }
 
+        private PotentiateHandler potentiateHandler;
         private PlayerController controller;
 
         private const float JUMP_CLEARANCE_TIME = 0.25f;
@@ -24,7 +25,7 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private bool jumpToConsume;
         private float timeJumpWasPressed;
         [SerializeField] private bool endedJumpEarly;
-        [SerializeField] private int airJumpsRemaining;
+        [SerializeField] private bool hasTimeJump;
         [SerializeField] private bool coyoteUsable;
         private float timeLeftGrounded;
 
@@ -43,17 +44,20 @@ namespace GoodLuckValley.Player.Movement
                 controller.Time < timeLeftGrounded + controller.Stats.CoyoteTime;
         }
 
-        private bool CanAirJump { get => !controller.Collisions.Grounded && airJumpsRemaining > 0; }
+        public bool HasTimeJump { get => hasTimeJump; }
+        private bool CanTimeJump { get => !controller.Collisions.Grounded && hasTimeJump; }
         public bool BufferedJumpUsable { get => bufferedJumpUsable; set => bufferedJumpUsable = value; }
         public bool JumpToConsume { get => jumpToConsume; set => jumpToConsume = value; }
         public float TimeJumpWasPressed { get => timeJumpWasPressed; set => timeJumpWasPressed = value; }
         public bool EndedJumpEarly { get => endedJumpEarly; }
         public bool CoyoteUsable { get => coyoteUsable; set => coyoteUsable = value; }
         public float TimeLeftGrounded { get => timeLeftGrounded; set => timeLeftGrounded = value; }
+        public bool IsJumping { get; set; }
 
-        public PlayerJump(PlayerController controller)
+        public PlayerJump(PlayerController controller, PotentiateHandler potentiateHandler)
         {
             this.controller = controller;
+            this.potentiateHandler = potentiateHandler;
         }
 
         /// <summary>
@@ -64,9 +68,9 @@ namespace GoodLuckValley.Player.Movement
             if((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
             {
                 if (controller.WallJump.CanWallJump) ExecuteJump(JumpType.WallJump);
-                else if (controller.Collisions.Grounded) ExecuteJump(JumpType.Jump);
-                else if (CanUseCoyote) ExecuteJump(JumpType.Coyote);
-                else if (CanAirJump) ExecuteJump(JumpType.AirJump);
+                else if (controller.Collisions.Grounded && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Jump);
+                else if (CanUseCoyote && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Coyote);
+                else if (CanTimeJump) ExecuteJump(JumpType.TimeJump);
             }
 
             // Check if the jump ended early
@@ -92,6 +96,9 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         private void ExecuteJump(JumpType jumpType)
         {
+            Debug.Log($"Executing Jump: {jumpType}" +
+                $"\nFromBounce: {controller.Bounce.Bouncing}");
+
             // Set the PlayerController's velocity using the trimmed frame velocity
             controller.SetVelocity(controller.FrameData.TrimmedVelocity);
 
@@ -103,7 +110,7 @@ namespace GoodLuckValley.Player.Movement
             controller.ExtraConstantGravity = controller.Stats.JumpConstantGravity;
 
             // Check if jumping normally or using coyote time
-            if(jumpType is JumpType.Jump or JumpType.Coyote)
+            if (jumpType is JumpType.Jump or JumpType.Coyote)
             {
                 // Disable coyote time
                 coyoteUsable = false;
@@ -112,13 +119,16 @@ namespace GoodLuckValley.Player.Movement
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.JumpPower));
             }
             // Otherwise, check if jumping in mid-air
-            else if (jumpType is JumpType.AirJump)
+            else if (jumpType is JumpType.TimeJump)
             {
-                // Reduce the amount of air jumps remaining
-                airJumpsRemaining--;
+                // Remove the time jump
+                hasTimeJump = false;
 
                 // Add jump force
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.JumpPower));
+
+                // Deplete the last potentiate
+                potentiateHandler.DepletePotentiate();
             }
             // Otherwise, check if performing a wall jump
             else if(jumpType is JumpType.WallJump)
@@ -131,8 +141,13 @@ namespace GoodLuckValley.Player.Movement
         }
 
         /// <summary>
-        /// Reset the amount of air jumps the Player has
+        /// Add a Time Jump
         /// </summary>
-        public void ResetAirJumps() => airJumpsRemaining = controller.Stats.MaxAirJumps;
+        public void AddTimeJump() => hasTimeJump = true;
+
+        /// <summary>
+        /// Remove a Time Jump
+        /// </summary>
+        public void RemoveTimeJump() => hasTimeJump = false;
     }
 }

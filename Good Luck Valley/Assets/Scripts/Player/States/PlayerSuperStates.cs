@@ -131,6 +131,12 @@ namespace GoodLuckValley.Player.States
             // Set the initial state
             subStates.SetState(normalJump);
         }
+
+        public override void OnExit()
+        {
+            // Set jumping to false
+            controller.Jump.IsJumping = false;
+        }
     }
 
     public class BounceState : SuperState

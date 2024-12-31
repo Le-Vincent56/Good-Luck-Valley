@@ -84,7 +84,6 @@ namespace GoodLuckValley.Player.Data
         public float WallPopForce = 10;
         public float WallCoyoteTime = 0.3f;
         public float WallDetectorRange = 0.1f;
-        public float WallJumpDisableTime = 0.35f;
 
         // Ladders
         [Header("Ladders"), Space] 

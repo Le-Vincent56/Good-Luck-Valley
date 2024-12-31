@@ -6,6 +6,7 @@ using System;
 using Sirenix.OdinInspector;
 using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Potentiates;
 
 namespace GoodLuckValley.Player.Movement
 {
@@ -18,6 +19,7 @@ namespace GoodLuckValley.Player.Movement
         private ConstantForce2D constForce;
         private BoxCollider2D boxCollider;
         private CapsuleCollider2D airborneCollider;
+        private PotentiateHandler potentiateHandler;
 
         // Movement components
         [SerializeField] private CollisionHandler collisionHandler;
@@ -82,6 +84,7 @@ namespace GoodLuckValley.Player.Movement
         {
             // Get the constant force component
             constForce = GameObjectExtensions.GetOrAdd<ConstantForce2D>(gameObject);
+            potentiateHandler = GameObjectExtensions.GetOrAdd<PotentiateHandler>(gameObject);
 
             // Set up the player controller
             Setup();
@@ -123,10 +126,10 @@ namespace GoodLuckValley.Player.Movement
             collisionHandler.Setup();
 
             // Initialize movement components
-            jump = new PlayerJump(this);
+            jump = new PlayerJump(this, potentiateHandler);
             crawl = new PlayerCrawl(this);
             bounce = new PlayerBounce(this);
-            wallJump = new PlayerWallJump(this, stats.WallJumpDisableTime);
+            wallJump = new PlayerWallJump(this);
 
             input.Enable();
         }
@@ -160,9 +163,9 @@ namespace GoodLuckValley.Player.Movement
             CalculateDirection();
 
             // Calculate movement components
+            bounce.CalculateBounce();
             wallJump.CalculateWalls();
             jump.CalculateJump();
-            bounce.CalculateBounce();
 
             // Move
             TraceGround();
