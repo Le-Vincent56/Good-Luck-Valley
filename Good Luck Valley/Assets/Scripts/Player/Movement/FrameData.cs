@@ -79,10 +79,22 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Add a force to apply this frame
         /// </summary>
-        public void AddForce(Vector2 force, bool resetVelocity = false)
+        public void AddForce(Vector2 force, bool resetVelocity = false, bool resetYOnly = false)
         {
+            // Check if resetting velocity
             if (resetVelocity)
-                controller.SetVelocity(Vector2.zero);
+            {
+                // Check if resetting only the Y component
+                if(resetYOnly)
+                {
+                    // Set the trimmed frame velocity
+                    controller.SetVelocity(trimmedFrameVelocity);
+                } else
+                {
+                    // Set the velocity to 0
+                    controller.SetVelocity(Vector2.zero);
+                }
+            }
 
             // Add the force to the frame force to apply
             frameForceToApply += force;

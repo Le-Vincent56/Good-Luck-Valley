@@ -20,6 +20,7 @@ namespace GoodLuckValley.Player.Movement
         private BoxCollider2D boxCollider;
         private CapsuleCollider2D airborneCollider;
         private PotentiateHandler potentiateHandler;
+        private PlayerStateMachine stateMachine;
 
         // Movement components
         [SerializeField] private CollisionHandler collisionHandler;
@@ -85,6 +86,7 @@ namespace GoodLuckValley.Player.Movement
             // Get the constant force component
             constForce = GameObjectExtensions.GetOrAdd<ConstantForce2D>(gameObject);
             potentiateHandler = GameObjectExtensions.GetOrAdd<PotentiateHandler>(gameObject);
+            stateMachine = GameObjectExtensions.GetOrAdd<PlayerStateMachine>(gameObject);
 
             // Set up the player controller
             Setup();
@@ -136,6 +138,9 @@ namespace GoodLuckValley.Player.Movement
 
         public void TickUpdate(float delta, float time)
         {
+            // Update the state machine
+            stateMachine.TickUpdate();
+
             // Set time variables
             this.delta = delta;
             this.time = time;
@@ -146,6 +151,9 @@ namespace GoodLuckValley.Player.Movement
 
         public void TickFixedUpdate(float delta)
         {
+            // Update the state machine
+            stateMachine.TickFixedUpdate();
+
             // Set time variables
             this.delta = delta;
 
@@ -163,9 +171,9 @@ namespace GoodLuckValley.Player.Movement
             CalculateDirection();
 
             // Calculate movement components
-            bounce.CalculateBounce();
             wallJump.CalculateWalls();
             jump.CalculateJump();
+            bounce.CalculateBounce();
 
             // Move
             TraceGround();
@@ -174,8 +182,24 @@ namespace GoodLuckValley.Player.Movement
             // Calculate crouch
             crawl.CalculateCrawl();
 
+            if (debug)
+                DebugMovement();
+
             // Clean the frame data
             frameData.Clean();
+        }
+
+        private void DebugMovement()
+        {
+            Debug.Log($"Movement Debug: " +
+                $"\nVelocity: {Velocity}" +
+                $"\nDecaying Transient Velocity: {DecayingTransientVelocity}" +
+                $"\nTransient Velocity: {FrameData.TransientVelocity}" +
+                $"\nExtra Constant Gravity: {extraConstantGravity}" +
+                $"\nForce to Apply: {FrameData.ForceToApply}" +
+                $"\nAdditional Frame Velocities: {FrameData.AdditionalFrameVelocities()}" +
+                $"\nConstant Force: {constForce.force}"
+            );
         }
 
         /// <summary>
@@ -260,7 +284,7 @@ namespace GoodLuckValley.Player.Movement
                 Collisions.Grounded 
                     ? 0 
                     : -extraConstantGravity * 
-                      (Jump.EndedJumpEarly && Velocity.y > 0 
+                      (Jump.EndedJumpEarly && Velocity.y > 0 && !Bounce.Bouncing
                           ? Stats.EndJumpEarlyExtraForceMultiplier 
                           : 1
                       )

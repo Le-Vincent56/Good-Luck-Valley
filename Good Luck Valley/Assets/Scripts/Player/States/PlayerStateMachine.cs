@@ -47,7 +47,8 @@ namespace GoodLuckValley
             superMachine.At(jumping, grounded, new FuncPredicate(() => controller.Collisions.Grounded));
             superMachine.At(jumping, wallSliding, new FuncPredicate(() => controller.WallJump.IsOnWall));
             superMachine.At(jumping, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0));
-            
+            superMachine.At(jumping, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
+
             superMachine.At(bouncing, grounded, new FuncPredicate(() => controller.Collisions.Grounded));
             superMachine.At(bouncing, wallSliding, new FuncPredicate(() => controller.WallJump.IsOnWall));
             superMachine.At(bouncing, falling, new FuncPredicate(() => controller.RB.linearVelocity.y < 0));
@@ -60,7 +61,7 @@ namespace GoodLuckValley
             superMachine.SetState(falling);
         }
 
-        private void Update()
+        public void TickUpdate()
         {
             // Update the super State Machine
             superMachine.Update();
@@ -73,7 +74,7 @@ namespace GoodLuckValley
             currentSubState = (superMachine.GetState() as SuperState).subStates?.GetState().ToString().Replace("GoodLuckValley.Player.States.", "");
         }
 
-        private void FixedUpdate()
+        public void TickFixedUpdate()
         {
             // Update the super State Machine
             superMachine.FixedUpdate();

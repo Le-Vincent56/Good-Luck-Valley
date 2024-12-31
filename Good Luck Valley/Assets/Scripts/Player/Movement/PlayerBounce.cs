@@ -70,9 +70,6 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void ExecuteBounce()
         {
-            // Prepare the controller variables
-            controller.SetVelocity(controller.FrameData.TrimmedVelocity);
-
             // Start the ignore detection timer
             ignoreDetectionTimer.Start();
 
@@ -80,7 +77,11 @@ namespace GoodLuckValley.Player.Movement
             controller.Collisions.ToggleGrounded(false);
 
             // Add the bounce force to the player
-            controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower));
+            controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
+
+            Debug.Log($"Executed Bounce: " +
+                    $"\nTotal Velocity: {controller.Velocity}" +
+                    $"\nTrimmed Velocity: {controller.FrameData.TrimmedVelocity}");
         }
 
         /// <summary>

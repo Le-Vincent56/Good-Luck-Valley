@@ -114,6 +114,10 @@ namespace GoodLuckValley.Player.States
         {
             // Set the normal jump on default
             subStates.SetState(normalJump);
+
+            // Set controller variables
+            controller.RB.gravityScale = controller.InitialGravityScale;
+            controller.ExtraConstantGravity = controller.Stats.JumpConstantGravity;
         }
 
         public override void SetupSubStateMachine() 
@@ -130,12 +134,6 @@ namespace GoodLuckValley.Player.States
 
             // Set the initial state
             subStates.SetState(normalJump);
-        }
-
-        public override void OnExit()
-        {
-            // Set jumping to false
-            controller.Jump.IsJumping = false;
         }
     }
 
