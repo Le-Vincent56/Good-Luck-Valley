@@ -100,6 +100,9 @@ namespace GoodLuckValley.Player.Movement
             frameForceToApply += force;
         }
 
+        /// <summary>
+        /// Calculate any additional velocities for the frame
+        /// </summary>
         public Vector2 AdditionalFrameVelocities()
         {
             if (controller.ImmediateMove.sqrMagnitude > controller.Collisions.SkinWidth)

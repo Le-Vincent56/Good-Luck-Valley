@@ -1,6 +1,5 @@
 using GoodLuckValley.Timers;
 using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
@@ -51,7 +50,9 @@ namespace GoodLuckValley.Player.Movement
             {
                 // Execute the bounce
                 bouncing = true;
-                ExecuteBounce();
+
+                // Add the bounce force to the player
+                controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
             }
         }
 
@@ -70,21 +71,6 @@ namespace GoodLuckValley.Player.Movement
 
             // Set not-grounded
             controller.Collisions.ToggleGrounded(false);
-
-            Debug.Log("Bounce Prepped");
-        }
-
-        /// <summary>
-        /// Execute the bounce
-        /// </summary>
-        public void ExecuteBounce()
-        {
-            // Add the bounce force to the player
-            controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
-
-            Debug.Log($"Executed Bounce: " +
-                    $"\nTotal Velocity: {controller.Velocity}" +
-                    $"\nTrimmed Velocity: {controller.FrameData.TrimmedVelocity}");
         }
 
         /// <summary>
@@ -94,8 +80,6 @@ namespace GoodLuckValley.Player.Movement
         {
             bouncing = false;
             bouncePrepped = false;
-
-            Debug.Log("Bounce Reset");
         }
     }
 }

@@ -25,6 +25,7 @@ namespace GoodLuckValley.Input
         public event UnityAction<bool> Slide = delegate { };
         public event UnityAction<bool> Bounce = delegate { };
         public event UnityAction<bool> SlowFall = delegate { };
+        public event UnityAction<bool> Interact = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -148,6 +149,9 @@ namespace GoodLuckValley.Input
             }
         }
 
+        /// <summary>
+        /// Callback function to handle Slow Fall input
+        /// </summary>
         public void OnSlowFall(InputAction.CallbackContext context)
         {
             // Check the context phase
@@ -161,6 +165,25 @@ namespace GoodLuckValley.Input
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
                     SlowFall.Invoke(false);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Callback function to handle Interact input
+        /// </summary>
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            // Check the context phase
+            switch (context.phase)
+            {
+                // If starting, invoke with true
+                case InputActionPhase.Started:
+                    Interact.Invoke(true);
+                    break;
+                // If canceled, invoke with false
+                case InputActionPhase.Canceled:
+                    Interact.Invoke(false);
                     break;
             }
         }

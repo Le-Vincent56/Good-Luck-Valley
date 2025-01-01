@@ -73,6 +73,15 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""3af34733-ab7d-4bba-bd64-d1828586af0c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +183,17 @@ namespace GoodLuckValley.Input.Actions
                     ""action"": ""Slow Fall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""019e78b3-5578-40fa-830e-c3d8c039b79f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -204,6 +224,7 @@ namespace GoodLuckValley.Input.Actions
             m_Player_Crawl = m_Player.FindAction("Crawl", throwIfNotFound: true);
             m_Player_Bounce = m_Player.FindAction("Bounce", throwIfNotFound: true);
             m_Player_SlowFall = m_Player.FindAction("Slow Fall", throwIfNotFound: true);
+            m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         }
 
         ~@GameplayActions()
@@ -275,6 +296,7 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_Player_Crawl;
         private readonly InputAction m_Player_Bounce;
         private readonly InputAction m_Player_SlowFall;
+        private readonly InputAction m_Player_Interact;
         public struct PlayerActions
         {
             private @GameplayActions m_Wrapper;
@@ -284,6 +306,7 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @Crawl => m_Wrapper.m_Player_Crawl;
             public InputAction @Bounce => m_Wrapper.m_Player_Bounce;
             public InputAction @SlowFall => m_Wrapper.m_Player_SlowFall;
+            public InputAction @Interact => m_Wrapper.m_Player_Interact;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -308,6 +331,9 @@ namespace GoodLuckValley.Input.Actions
                 @SlowFall.started += instance.OnSlowFall;
                 @SlowFall.performed += instance.OnSlowFall;
                 @SlowFall.canceled += instance.OnSlowFall;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -327,6 +353,9 @@ namespace GoodLuckValley.Input.Actions
                 @SlowFall.started -= instance.OnSlowFall;
                 @SlowFall.performed -= instance.OnSlowFall;
                 @SlowFall.canceled -= instance.OnSlowFall;
+                @Interact.started -= instance.OnInteract;
+                @Interact.performed -= instance.OnInteract;
+                @Interact.canceled -= instance.OnInteract;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -360,6 +389,7 @@ namespace GoodLuckValley.Input.Actions
             void OnCrawl(InputAction.CallbackContext context);
             void OnBounce(InputAction.CallbackContext context);
             void OnSlowFall(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
         }
     }
 }
