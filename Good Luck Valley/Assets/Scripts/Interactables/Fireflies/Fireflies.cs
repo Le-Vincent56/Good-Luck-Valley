@@ -99,10 +99,6 @@ namespace GoodLuckValley.Interactables.Fireflies
                 // Decelerate as it approaches the target
                 float targetSpeed = Mathf.Lerp(0, maxSpeed, distance / decelerationDistance);
                 currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, delta / accelerationTime);
-
-                Debug.Log($"Decelerating: " +
-                    $"\nTarget Speed: {targetSpeed}" +
-                    $"\nCurrent Speed: {currentSpeed}");
             }
 
             // Move the object
