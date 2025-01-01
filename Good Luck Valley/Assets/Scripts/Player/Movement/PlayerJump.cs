@@ -114,10 +114,6 @@ namespace GoodLuckValley.Player.Movement
 
                 // Add jump force
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.JumpPower));
-
-                Debug.Log($"Executed Jump: " +
-                    $"\nTotal Velocity: {controller.Velocity}" +
-                    $"\nTrimmed Velocity: {controller.FrameData.TrimmedVelocity}");
             }
             // Otherwise, check if jumping in mid-air
             else if (jumpType is JumpType.TimeJump)

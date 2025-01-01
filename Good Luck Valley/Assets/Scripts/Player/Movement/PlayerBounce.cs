@@ -1,6 +1,5 @@
 using GoodLuckValley.Timers;
 using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
@@ -45,12 +44,15 @@ namespace GoodLuckValley.Player.Movement
                 // Stop bouncing
                 canSlowFall = true;
             }
-            // Otherwise check if not bouncing, but a bounce is prepped
-            else if(!bouncing && bouncePrepped)
+
+            // Check if not bouncing, but a bounce is prepped
+            if(!bouncing && bouncePrepped)
             {
                 // Execute the bounce
                 bouncing = true;
-                ExecuteBounce();
+
+                // Add the bounce force to the player
+                controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
             }
         }
 
@@ -63,25 +65,12 @@ namespace GoodLuckValley.Player.Movement
             if (bouncePrepped) return;
 
             bouncePrepped = true;
-        }
 
-        /// <summary>
-        /// Execute the bounce
-        /// </summary>
-        public void ExecuteBounce()
-        {
             // Start the ignore detection timer
             ignoreDetectionTimer.Start();
 
             // Set not-grounded
             controller.Collisions.ToggleGrounded(false);
-
-            // Add the bounce force to the player
-            controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
-
-            Debug.Log($"Executed Bounce: " +
-                    $"\nTotal Velocity: {controller.Velocity}" +
-                    $"\nTrimmed Velocity: {controller.FrameData.TrimmedVelocity}");
         }
 
         /// <summary>
