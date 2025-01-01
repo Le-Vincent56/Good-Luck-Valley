@@ -2,10 +2,8 @@ using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Fireflies.States
 {
-    public class FireflyLocomotionState : FireflyState
+    public class FireflyWanderState : FireflyState
     {
-        private Vector2 offset;
-
         private readonly float maxSpeed;
         private readonly float acceleration;
         private readonly float decelerationDistance;
@@ -13,7 +11,7 @@ namespace GoodLuckValley.Interactables.Fireflies.States
         private Vector2 targetPosition;
         private float currentSpeed;
 
-        public FireflyLocomotionState(Firefly firefly, float maxSpeed, float acceleration, float decelerationDistance) : base(firefly)
+        public FireflyWanderState(Firefly firefly, float maxSpeed, float acceleration, float decelerationDistance) : base(firefly)
         {
             // Set variables
             this.maxSpeed = maxSpeed;
@@ -24,15 +22,12 @@ namespace GoodLuckValley.Interactables.Fireflies.States
 
         public override void OnEnter()
         {
-            // Get a random offset within 
-            offset = firefly.Group.GetRandomOffset();
+            // Get a new position
+            targetPosition = firefly.Group.GetRandomPositionInCircle();
         }
 
         public override void Update()
         {
-            // Update the target position to the offset position within the circle
-            targetPosition = firefly.Group.GetOffsetPosition(offset);
-
             // Get the distance to the target position
             float distanceToTarget = Vector2.Distance(firefly.transform.position, targetPosition);
 

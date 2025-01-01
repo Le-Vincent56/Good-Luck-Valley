@@ -52,7 +52,12 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Get a random position within the circle
         /// </summary>
-        public Vector2 GetRandomPositionInCircle()
+        public Vector2 GetRandomPositionInCircle() => circleCenter + GetRandomOffset();
+
+        /// <summary>
+        /// Get a random offset within the circle
+        /// </summary>
+        public Vector2 GetRandomOffset()
         {
             // Get a random direction within the circle
             Vector2 randomDirection = Random.insideUnitCircle.normalized;
@@ -60,8 +65,13 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Get a random distance
             float randomDistance = Random.Range(0.1f, circleRadius);
 
-            return circleCenter + randomDirection * randomDistance;
+            return randomDirection * randomDistance;
         }
+
+        /// <summary>
+        /// Get the position within the circle using an offset
+        /// </summary>
+        public Vector2 GetOffsetPosition(Vector2 offset) => circleCenter + offset;
 
         private void OnDrawGizmosSelected()
         {

@@ -167,7 +167,7 @@ namespace GoodLuckValley.Player.Movement
                 controller.Jump.CoyoteUsable = true;
                 controller.Jump.BufferedJumpUsable = true;
                 controller.WallJump.IsWallJumping = false;
-                controller.Bounce.CanSlowFall = false;
+                controller.Bounce.ResetBounce();
                 SetColliderMode(ColliderMode.Standard);
             }
             else
