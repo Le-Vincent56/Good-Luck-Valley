@@ -80,6 +80,7 @@ namespace GoodLuckValley.Player.Movement
         {
             bouncing = false;
             bouncePrepped = false;
+            canSlowFall = false;
         }
     }
 }

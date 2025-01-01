@@ -71,7 +71,6 @@ namespace GoodLuckValley.Player.Movement
                 controller.Jump.BufferedJumpUsable = true;
                 wallJumpCoyoteUsable = true;
                 wallDirection = wallDirectionThisFrame;
-                controller.Bounce.CanSlowFall = false;
                 controller.Bounce.ResetBounce();
             }
             // Otherwise

@@ -16,7 +16,12 @@ namespace GoodLuckValley.Interactables.Fireflies.States
 
             // Create the wait Countdown Timer
             waitTimer = new CountdownTimer(waitTimeMin);
-            waitTimer.OnTimerStop += () => this.firefly.SetToMove(true);
+            waitTimer.OnTimerStop += () =>
+            {
+                // Set the Firefly to wander
+                firefly.Wandering = true;
+                firefly.Idle = false;
+            };
         }
 
         ~FireflyIdleState()
