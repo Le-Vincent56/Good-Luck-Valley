@@ -24,8 +24,6 @@ namespace GoodLuckValley.Interactables.Fireflies
 
             // Fade in the Fruit and allow interaction
             FadeInteractable(1f, fadeDuration, () => canInteract = true);
-
-            Debug.Log("Fruit Used!");
         }
     }
 }

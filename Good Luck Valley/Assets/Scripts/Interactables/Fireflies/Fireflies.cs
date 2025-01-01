@@ -4,7 +4,9 @@ using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Interactables.Fireflies.States;
 using GoodLuckValley.World.Physics;
+using TMPro;
 using UnityEngine;
+using static Sirenix.OdinInspector.Editor.Internal.FastDeepCopier;
 
 namespace GoodLuckValley.Interactables.Fireflies
 {
@@ -17,9 +19,8 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private Vector2 velocity;
         [SerializeField] private float currentSpeed;
         [SerializeField] private float maxSpeed;
-        [SerializeField] private float accelerationTime = 1f; // Time to reach max speed
-        [SerializeField] private float decelerationTime = 0.25f;
-        [SerializeField] private float decelerationDistance = 3f; // Distance to start decelerating
+        [SerializeField] private float acceleration = 1f;
+        [SerializeField] private float decelerationDistance = 3f;
 
         [Header("Checks")]
         [SerializeField] private int channel;
@@ -68,6 +69,7 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Exit case - there's no Target
             if (target == null) return;
 
+            // Move towards the target
             MoveTowardsTarget(delta);
         }
 
@@ -79,36 +81,36 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Move towards the Target
         /// </summary>
-        /// <param name="delta"></param>
         private void MoveTowardsTarget(float delta)
         {
-            // Calculate the direction to the target
-            Vector3 direction = (target.position - transform.position).normalized;
+            /// Get the distance to the target position
+            float distanceToTarget = Vector2.Distance(transform.position, target.position);
 
-            // Calculate distance to the target
-            float distance = Vector2.Distance(transform.position, target.position);
-
-            // Adjust speed based on acceleration or deceleration
-            if (distance > decelerationDistance)
+            // Check if within deceleration distance
+            if (distanceToTarget < decelerationDistance)
             {
-                // Accelerate to max speed
-                currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, delta / accelerationTime);
+                // Decelerate to the current speed
+                float t = distanceToTarget / decelerationDistance;
+                currentSpeed = Mathf.Lerp(0, maxSpeed, t);
             }
-            else if(distance >= 0.1f)
+            else
             {
-                // Decelerate as it approaches the target
-                float targetSpeed = Mathf.Lerp(0, maxSpeed, distance / decelerationDistance);
-                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, delta / accelerationTime);
+                // Accelerate the current speed
+                currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, acceleration * delta);
             }
 
-            // Move the object
-            transform.position += currentSpeed * delta * direction;
+            // Move the firefly to the target position
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                target.position,
+                currentSpeed * delta
+            );
 
-            // Check if the object has reached the target
-            if (distance < 0.1f)
+            // Check if within stopping distance
+            if (Vector2.Distance(transform.position, target.position) < 0.01f)
             {
-                // Set the current speed to 0 and set placed
-                currentSpeed = 0;
+                // Set the current speed to 0
+                currentSpeed = 0f;
             }
         }
 
@@ -169,7 +171,6 @@ namespace GoodLuckValley.Interactables.Fireflies
         public void Follow(Transform target)
         {
             this.target = target;
-            Debug.Log($"Firefly Target Set: {this.target}");
         }
 
         /// <summary>

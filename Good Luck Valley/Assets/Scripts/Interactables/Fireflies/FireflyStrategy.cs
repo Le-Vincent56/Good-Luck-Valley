@@ -38,8 +38,6 @@ namespace GoodLuckValley.Interactables.Fireflies
                 }
             );
 
-            Debug.Log($"Interacted with FIreflies: {success}");
-
             // Return the success state
             return success;
         }

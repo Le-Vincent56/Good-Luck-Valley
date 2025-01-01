@@ -20,8 +20,6 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Set the FireflyHandler to have a Fruit
             handler.FireflyHandler.SetFruit(parent);
 
-            Debug.Log("Fruit collected");
-
             return true;
         }
     }
