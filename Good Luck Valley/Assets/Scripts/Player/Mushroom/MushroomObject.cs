@@ -56,6 +56,10 @@ namespace GoodLuckValley.Player.Mushroom
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            // Exit case - the Mushroom is dissipating
+            if (dissipating) return;
+
+            // Exit case - the colliding object is not the Player
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
             // Prepare a bounce

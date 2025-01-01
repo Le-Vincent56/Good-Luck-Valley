@@ -50,6 +50,11 @@ namespace GoodLuckValley.Editors
         /// </summary>
         private void RandomizeValues()
         {
+            //firefly.transform.position = new Vector3(
+            //    firefly.transform.position.x, 
+            //    firefly.transform.position.y, 
+            //    Random.Range(-2f, 2f)
+            //);
             firefly.MaxSpeed = Random.Range(maxSpeedMin, maxSpeedMax);
             firefly.Acceleration = Random.Range(accelerationMin, accelerationMax);
             firefly.DecelerationDistance = Random.Range(delecerationMin, delecerationMax);
