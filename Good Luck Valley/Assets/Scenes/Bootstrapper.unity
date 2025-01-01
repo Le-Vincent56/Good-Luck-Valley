@@ -423,16 +423,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac40bbe313cb0f44bf5c4b6198cd0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneIndexToLoad: 0
   loadingImage: {fileID: 1007266713}
   sceneGroups:
-  - GroupName: Sample Scene Group
+  - GroupName: Vincent Scene Group
     Scenes:
     - Reference:
         asset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
         guid: 8c9cfa26abfee488c85f1582747f6a02
       SceneType: 0
-  - GroupName: Test Scene Group
-    Scenes: []
+  - GroupName: Owen Scene Group
+    Scenes:
+    - Reference:
+        asset: {fileID: 102900000, guid: a5de52e8c8a88c74290a815d7e66e3a2, type: 3}
+        guid: a5de52e8c8a88c74290a815d7e66e3a2
+      SceneType: 0
   fadeDuration: 2
 --- !u!4 &946757790
 Transform:

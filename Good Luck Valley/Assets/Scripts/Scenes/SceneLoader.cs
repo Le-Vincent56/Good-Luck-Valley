@@ -8,6 +8,7 @@ namespace GoodLuckValley.Scenes
     public class SceneLoader : MonoBehaviour
     {
         [Header("References")]
+        [SerializeField] private int sceneIndexToLoad;
         [SerializeField] private Image loadingImage;
         [SerializeField] private SceneGroup[] sceneGroups;
 
@@ -21,7 +22,7 @@ namespace GoodLuckValley.Scenes
 
         private async void Start()
         {
-            await LoadSceneGroup(0);
+            await LoadSceneGroup(sceneIndexToLoad);
         }
 
         private void OnEnable()
