@@ -24,7 +24,7 @@ namespace GoodLuckValley.Interactables.Fireflies
                     fruit.Use(handler);
 
                     // Get the Fireflies to follow the Player
-                    parent.Follow(handler.transform);
+                    parent.Follow(handler.Controller.FollowTransform);
 
                     // Set successful
                     success = true;

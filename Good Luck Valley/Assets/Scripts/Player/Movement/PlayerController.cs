@@ -10,11 +10,12 @@ using GoodLuckValley.Potentiates;
 
 namespace GoodLuckValley.Player.Movement
 {
-    public class PlayerController : SerializedMonoBehaviour, IPhysicsObject
+    public class PlayerController : MonoBehaviour, IPhysicsObject
     {
         // References
         [SerializeField] private GameInputReader input;
         [SerializeField] private PlayerStats stats;
+        [SerializeField] private Transform followTransform;
         private Rigidbody2D rb;
         private ConstantForce2D constForce;
         private BoxCollider2D boxCollider;
@@ -51,6 +52,7 @@ namespace GoodLuckValley.Player.Movement
 
         public GameInputReader Input { get => input; }
         public PlayerStats Stats { get => stats; }
+        public Transform FollowTransform { get => followTransform; }
         public Rigidbody2D RB { get => rb; }
         public ConstantForce2D ConstantForce { get => constForce; }
 
