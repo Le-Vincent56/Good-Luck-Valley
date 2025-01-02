@@ -12,6 +12,7 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private bool bouncePrepped;
         [SerializeField] private bool canSlowFall;
         [SerializeField] private bool canDetectGround;
+        private float yContactValue;
         private CountdownTimer ignoreDetectionTimer;
 
         public bool Bouncing { get => bouncing || bouncePrepped; set => bouncing = value; }
@@ -45,8 +46,11 @@ namespace GoodLuckValley.Player.Movement
                 bouncing = true;
                 bouncePrepped = false;
 
+                // Calculate the bounce force based on yContactValue
+                float bouncePower = Mathf.Lerp(controller.Stats.MaxBouncePower, controller.Stats.MinBouncePower, yContactValue);
+
                 // Add the bounce force to the player
-                controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
+                controller.FrameData.AddForce(new Vector2(0, bouncePower), true, true);
             }
 
             // Check if bouncing and descending
@@ -63,12 +67,13 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Prepare variables for the bounce
         /// </summary>
-        public void PrepareBounce()
+        public void PrepareBounce(float yContactValue)
         {
             // Exit case - already a bounce prepped or the ignore detection timer is runn
             if (bouncePrepped || !canDetectGround) return;
 
             bouncePrepped = true;
+            this.yContactValue = yContactValue;
 
             // Start the ignore detection timer
             ignoreDetectionTimer.Start();

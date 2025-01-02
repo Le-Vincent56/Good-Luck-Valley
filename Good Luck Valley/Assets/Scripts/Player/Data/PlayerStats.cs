@@ -53,7 +53,8 @@ namespace GoodLuckValley.Player.Data
         public int MaxAirJumps = 1;
 
         [Header("Bounce"), Space]
-        public float BouncePower = 10f;
+        public float MaxBouncePower = 10f;
+        public float MinBouncePower = 10f;
         public float BounceIgnoreDetectionTime = 0.2f;
 
         // Dash

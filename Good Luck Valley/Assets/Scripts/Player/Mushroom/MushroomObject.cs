@@ -62,8 +62,18 @@ namespace GoodLuckValley.Player.Mushroom
             // Exit case - the colliding object is not the Player
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
+            // Get the point of contact
+            Vector2 contactPoint = collision.ClosestPoint(transform.position);
+
+            // Calculate local bounds coordinates
+            Bounds bounds = GetComponent<Collider2D>().bounds;
+            Vector2 localPoint = new Vector2(
+                (contactPoint.x - bounds.min.x) / bounds.size.x,
+                (contactPoint.y - bounds.min.y) / bounds.size.y
+            );
+
             // Prepare a bounce
-            controller.Bounce.PrepareBounce();
+            controller.Bounce.PrepareBounce(localPoint.y);
 
             // Set bouncing
             bounceEntity = true;
