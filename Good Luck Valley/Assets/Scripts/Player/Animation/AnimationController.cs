@@ -1,6 +1,7 @@
 using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Potentiates;
+using GoodLuckValley.Timers;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Animation
@@ -11,7 +12,9 @@ namespace GoodLuckValley.Player.Animation
         private Animator animator;
         private SpriteRenderer spriteRenderer;
         [SerializeField] private float crossFadeDuration;
+        private bool updateFacingDirection;
         private float lastFacingXDirection;
+        private CountdownTimer correctFacingTimer;
 
         private static readonly int IDLE_HASH = Animator.StringToHash("Idle");
         private static readonly int LOCOMOTION_HASH = Animator.StringToHash("Locomotion");
@@ -26,27 +29,28 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int THROW_LOCOMOTION_HASH = Animator.StringToHash("Throw Locomotion");
 
         private EventBinding<PotentiateFeedback> onPotentiateFeedback;
+        private EventBinding<ForceDirectionChange> onForceDirectionChange;
 
         private void OnEnable()
         {
-            // Exit case - there's no PlayerController
-            if (playerController == null) return;
-
-            playerController.WallJump.OnWallJump += CorrectFacingDirection;
+            onPotentiateFeedback = new EventBinding<PotentiateFeedback>(ChangeColor);
             EventBus<PotentiateFeedback>.Register(onPotentiateFeedback);
+
+            onForceDirectionChange = new EventBinding<ForceDirectionChange>(ForceDirectionChange);
+            EventBus<ForceDirectionChange>.Register(onForceDirectionChange);
         }
 
         private void OnDisable()
         {
-            // Exit case - there's no PlayerController
-            if (playerController == null) return;
-
-            playerController.WallJump.OnWallJump -= CorrectFacingDirection;
             EventBus<PotentiateFeedback>.Deregister(onPotentiateFeedback);
+            EventBus<ForceDirectionChange>.Deregister(onForceDirectionChange);
         }
 
         private void Update()
         {
+            // Exit case - should not update the facing direction
+            if (!updateFacingDirection) return;
+
             // Check the facing direction of the sprite
             CheckFacingDirection();
         }
@@ -61,10 +65,15 @@ namespace GoodLuckValley.Player.Animation
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-            // Subscribe to events
-            playerController.WallJump.OnWallJump += CorrectFacingDirection;
+            // Set variables
+            updateFacingDirection = true;
 
-            onPotentiateFeedback = new EventBinding<PotentiateFeedback>(ChangeColor);
+            // Create Countdown Timer
+            correctFacingTimer = new CountdownTimer(0.1f);
+            correctFacingTimer.OnTimerStart += () => updateFacingDirection = false;
+            correctFacingTimer.OnTimerStop += () => updateFacingDirection = true;
+
+            
             EventBus<PotentiateFeedback>.Register(onPotentiateFeedback);
         }
 
@@ -110,15 +119,21 @@ namespace GoodLuckValley.Player.Animation
         /// <summary>
         /// Manually correct the facing direction
         /// </summary>
-        private void CorrectFacingDirection(int directionToFace)
+        public void ForceDirectionChange(ForceDirectionChange eventData)
         {
             // Apply the direction to face
             Vector3 scale = transform.localScale;
-            scale.x = directionToFace;
+            scale.x = eventData.DirectionToFace;
             transform.localScale = scale;
 
             // Set the last facing direction
-            lastFacingXDirection = directionToFace;
+            lastFacingXDirection = eventData.DirectionToFace;
+
+            // Exit case - should not buffer the update
+            if (!eventData.BufferUpdate) return;
+
+            // Start the correct facing timer
+            correctFacingTimer.Start();
         }
 
         public void ChangeColor(PotentiateFeedback eventData)

@@ -1,5 +1,6 @@
+using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Data;
-using GoodLuckValley.Timers;
 using System;
 using UnityEngine;
 
@@ -170,11 +171,12 @@ namespace GoodLuckValley.Player.Movement
             wallJumpInputNerfPoint = 0;
             ReturnWallInputLossAfter = controller.Time + controller.Stats.WallJumpTotalInputLossTime;
             wallDirectionForJump = wallDirectionThisFrame;
+            isWallJumping = true;
 
             controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallJumpPower);
 
             // Invoke the wall jump
-            OnWallJump.Invoke(wallDirectionForJump * -1);
+            EventBus<ForceDirectionChange>.Raise(new ForceDirectionChange { DirectionToFace = wallDirectionThisFrame * -1, BufferUpdate = true });
         }
     }
 }
