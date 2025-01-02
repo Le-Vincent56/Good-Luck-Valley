@@ -1,11 +1,14 @@
+using GoodLuckValley.Architecture.Optionals;
+using UnityEngine;
+
 namespace GoodLuckValley.Interactables.Fireflies
 {
-    public class FireflyStrategy : InteractableStrategy
+    public class LanternStrategy : InteractableStrategy
     {
-        private readonly Fireflies parent;
-
-        public FireflyStrategy(Fireflies parent)
+        private readonly Lantern parent;
+        public LanternStrategy(Lantern parent)
         {
+            // Set the parent Interactable
             this.parent = parent;
         }
 
@@ -15,17 +18,17 @@ namespace GoodLuckValley.Interactables.Fireflies
             bool success = false;
 
             // Check if the Firefly Handler has a fruit
-            handler.FireflyHandler.GetFruit().Match(
-                onValue: fruit =>
+            handler.FireflyHandler.GetFireflies().Match(
+                onValue: fireflies =>
                 {
                     // If there's a Fruit, use it
-                    fruit.Use(handler);
+                    fireflies.Follow(parent.transform);
 
-                    // Get the Fireflies to follow the Player
-                    parent.Follow(handler.Controller.FollowTransform);
+                    // Remove the Fireflies from the Firefly Handler
+                    handler.FireflyHandler.SetFireflies(Optional<Fireflies>.NoValue);
 
-                    // Set the fireflies to the Firefly Handler
-                    handler.FireflyHandler.SetFireflies(parent);
+                    // Activate the lantern
+                    parent.Activate();
 
                     // Set successful
                     success = true;

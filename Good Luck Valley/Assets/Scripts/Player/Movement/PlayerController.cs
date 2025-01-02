@@ -3,7 +3,6 @@ using GoodLuckValley.Extensions.GameObjects;
 using GoodLuckValley.Player.Data;
 using UnityEngine;
 using System;
-using Sirenix.OdinInspector;
 using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;

@@ -35,6 +35,12 @@ namespace GoodLuckValley.Scenes
             manager.OnSceneGroupLoaded -= () => HandleLoading(false);
         }
 
+        private void OnDestroy()
+        {
+            // Kill the Fade Tween
+            fadeTween?.Kill();
+        }
+
         /// <summary>
         /// Load a Scene Group
         /// </summary>

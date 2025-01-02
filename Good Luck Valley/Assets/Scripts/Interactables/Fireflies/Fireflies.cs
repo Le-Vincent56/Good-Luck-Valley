@@ -4,9 +4,7 @@ using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Interactables.Fireflies.States;
 using GoodLuckValley.World.Physics;
-using TMPro;
 using UnityEngine;
-using static Sirenix.OdinInspector.Editor.Internal.FastDeepCopier;
 
 namespace GoodLuckValley.Interactables.Fireflies
 {
@@ -23,7 +21,6 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private float decelerationDistance = 3f;
 
         [Header("Checks")]
-        [SerializeField] private int channel;
         [SerializeField] private bool pendingPlacement;
         [SerializeField] private bool placed;
 
@@ -111,6 +108,14 @@ namespace GoodLuckValley.Interactables.Fireflies
             {
                 // Set the current speed to 0
                 currentSpeed = 0f;
+
+                // Check if pending placement
+                if(pendingPlacement)
+                {
+                    // Finalize the placement
+                    pendingPlacement = false;
+                    placed = true;
+                }
             }
         }
 
@@ -124,11 +129,11 @@ namespace GoodLuckValley.Interactables.Fireflies
 
             // Declare states
             GroupIdleState idleState = new GroupIdleState(this);
-            GroupLocomotionState locomotionState = new GroupLocomotionState(this, physicsOrchestrator);
+            GroupFollowState followState = new GroupFollowState(this, physicsOrchestrator);
 
             // Define state transitions
-            stateMachine.At(idleState, locomotionState, new FuncPredicate(() => target != null));
-            stateMachine.At(locomotionState, idleState, new FuncPredicate(() => target == null && placed));
+            stateMachine.At(idleState, followState, new FuncPredicate(() => target != null));
+            stateMachine.At(followState, idleState, new FuncPredicate(() => placed));
 
             // Set an initial state
             stateMachine.SetState(idleState);
@@ -168,9 +173,14 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Set a target for the Fireflies to follow
         /// </summary>
-        public void Follow(Transform target)
+        public void Follow(Transform target, bool finalDestination = false)
         {
             this.target = target;
+
+            // Exit case - the target is not the final destination
+            if (!finalDestination) return;
+
+            pendingPlacement = true;
         }
 
         /// <summary>

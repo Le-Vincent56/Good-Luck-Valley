@@ -76,11 +76,11 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Reset bounce variables
         /// </summary>
-        public void ResetBounce()
+        public void ResetBounce(bool canSlowFall = false)
         {
             bouncing = false;
             bouncePrepped = false;
-            canSlowFall = false;
+            this.canSlowFall = canSlowFall;
         }
     }
 }

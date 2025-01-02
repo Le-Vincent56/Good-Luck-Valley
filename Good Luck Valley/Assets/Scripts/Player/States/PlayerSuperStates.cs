@@ -156,7 +156,7 @@ namespace GoodLuckValley.Player.States
         public override void OnExit()
         {
             // Reset bounce variables
-            controller.Bounce.ResetBounce();
+            controller.Bounce.ResetBounce(true);
         }
 
         public override void SetupSubStateMachine() { }
