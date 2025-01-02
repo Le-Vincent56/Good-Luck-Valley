@@ -2,16 +2,16 @@ using GoodLuckValley.World.Physics;
 
 namespace GoodLuckValley.Interactables.Fireflies.States
 {
-    public class GroupLocomotionState : GroupState
+    public class GroupFollowState : GroupState
     {
         private readonly PhysicsOrchestrator physicsOrchestrator;
 
-        public GroupLocomotionState(Fireflies controller, PhysicsOrchestrator physicsOrchestrator) : base(controller) 
+        public GroupFollowState(Fireflies controller, PhysicsOrchestrator physicsOrchestrator) : base(controller) 
         {
             this.physicsOrchestrator = physicsOrchestrator;
         }
 
-        ~GroupLocomotionState()
+        ~GroupFollowState()
         {
             // Deregister from the Physics Orchestrator
             physicsOrchestrator.Deregister(controller);
