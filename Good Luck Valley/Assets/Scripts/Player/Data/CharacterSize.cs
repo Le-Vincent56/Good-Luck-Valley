@@ -55,7 +55,7 @@ namespace GoodLuckValley.Player.Data
 
             // Set the crouching collider data
             characterSize.CrouchingHeight = CrouchHeight;
-            characterSize.CrouchColliderSize = new Vector2(characterSize.Width - COLLIDER_EDGE_RADIUS * 2, characterSize.CrouchingHeight - characterSize.StepHeight);
+            characterSize.CrouchColliderSize = new Vector2(characterSize.Width - COLLIDER_EDGE_RADIUS * 2, characterSize.CrouchingHeight - characterSize.StepHeight - COLLIDER_EDGE_RADIUS * 2);
             characterSize.CrouchingColliderCenter = new Vector2(0, characterSize.CrouchingHeight - characterSize.CrouchColliderSize.y / 2 - COLLIDER_EDGE_RADIUS);
 
             return characterSize;
