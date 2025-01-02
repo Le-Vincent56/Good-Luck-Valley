@@ -183,9 +183,6 @@ namespace GoodLuckValley.Player.Movement
             // Calculate crouch
             crawl.CalculateCrawl();
 
-            if (debug)
-                DebugMovement();
-
             // Clean the frame data
             frameData.Clean();
         }
