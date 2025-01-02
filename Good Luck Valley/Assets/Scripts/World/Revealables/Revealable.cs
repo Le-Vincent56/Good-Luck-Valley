@@ -46,12 +46,16 @@ namespace GoodLuckValley
             // Exit case - the event channel does not match the Revealable channel
             if (eventData.Channel != channel) return;
 
+            // Enable the tilemap
             tilemapCollider.enabled = true;
 
             // Fade in the Revealable
             Fade(1f, fadeDuration);
         }
 
+        /// <summary>
+        /// Handle Tweening for the Tilemap's opacity
+        /// </summary>
         private void Fade(float endValue, float fadeDuration, TweenCallback onComplete = null)
         {
             // Kill the Fade Tween if it exists
