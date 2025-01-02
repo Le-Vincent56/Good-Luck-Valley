@@ -38,21 +38,25 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void CalculateBounce()
         {
-            // Check if bouncing and descending
-            if (bouncing)
-            {
-                // Stop bouncing
-                canSlowFall = true;
-            }
-
             // Check if not bouncing, but a bounce is prepped
-            if(!bouncing && bouncePrepped)
+            if (!bouncing && bouncePrepped)
             {
-                // Execute the bounce
+                // Set variables
                 bouncing = true;
+                bouncePrepped = false;
 
                 // Add the bounce force to the player
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.BouncePower), true, true);
+            }
+
+            // Check if bouncing and descending
+            else if (bouncing && controller.Velocity.y < 0f)
+            {
+                // Stop bouncing
+                bouncing = false;
+
+                // Allow slow falling
+                canSlowFall = true;
             }
         }
 
@@ -61,8 +65,8 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void PrepareBounce()
         {
-            // Exit case - already a bounce prepped
-            if (bouncePrepped) return;
+            // Exit case - already a bounce prepped or the ignore detection timer is runn
+            if (bouncePrepped || !canDetectGround) return;
 
             bouncePrepped = true;
 
