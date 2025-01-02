@@ -153,12 +153,6 @@ namespace GoodLuckValley.Player.States
             controller.ExtraConstantGravity = controller.Stats.BounceConstantGravity;
         }
 
-        public override void OnExit()
-        {
-            // Reset bounce variables
-            controller.Bounce.ResetBounce(true);
-        }
-
         public override void SetupSubStateMachine() { }
     }
 
