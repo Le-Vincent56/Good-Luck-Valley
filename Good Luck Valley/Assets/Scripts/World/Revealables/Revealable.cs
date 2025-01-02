@@ -9,6 +9,7 @@ namespace GoodLuckValley
     public class Revealable : MonoBehaviour
     {
         private Tilemap tilemap;
+        private TilemapCollider2D tilemapCollider;
 
         [Header("Channel")]
         [SerializeField] private int channel;
@@ -23,6 +24,7 @@ namespace GoodLuckValley
         {
             // Get the tilemap
             tilemap = GetComponent<Tilemap>();
+            tilemapCollider = GetComponent<TilemapCollider2D>();
         }
 
         private void OnEnable()
@@ -43,12 +45,34 @@ namespace GoodLuckValley
         {
             // Exit case - the event channel does not match the Revealable channel
             if (eventData.Channel != channel) return;
+
+            tilemapCollider.enabled = true;
+
+            // Fade in the Revealable
+            Fade(1f, fadeDuration);
         }
 
         private void Fade(float endValue, float fadeDuration, TweenCallback onComplete = null)
         {
             // Kill the Fade Tween if it exists
             fadeTween?.Kill();
+
+            // Get the current color of the Tilemap
+            Color currentColor = tilemap.color;
+
+            // Tween the alpha channel of the Tilemap's color
+            fadeTween = DOTween.To(
+                () => tilemap.color,
+                x => tilemap.color = x,
+                new Color(currentColor.r, currentColor.g, currentColor.b, endValue),
+                fadeDuration
+            );
+
+            // Exit case - there's no completion action
+            if (onComplete == null) return;
+
+            // Hook up completion actions
+            fadeTween.onComplete += onComplete;
         }
     }
 }

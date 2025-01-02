@@ -5223,6 +5223,7 @@ GameObject:
   - component: {fileID: 1638431866}
   - component: {fileID: 1638431865}
   - component: {fileID: 1638431867}
+  - component: {fileID: 1638431868}
   m_Layer: 0
   m_Name: Hidden Tiles
   m_TagString: Untagged
@@ -5426,7 +5427,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638431863}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -5457,6 +5458,20 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &1638431868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638431863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156e6d7a63c13c54d90470e1c5cc4c05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  channel: 0
+  fadeDuration: 1
 --- !u!4 &1664486270 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2895395885423321209, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
