@@ -2,11 +2,14 @@ using DG.Tweening;
 using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Interactables.Fireflies.Events;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace GoodLuckValley
 {
     public class Revealable : MonoBehaviour
     {
+        private Tilemap tilemap;
+
         [Header("Channel")]
         [SerializeField] private int channel;
 
@@ -15,6 +18,12 @@ namespace GoodLuckValley
         private Tween fadeTween;
 
         private EventBinding<ActivateLantern> onActivateLantern;
+
+        private void Awake()
+        {
+            // Get the tilemap
+            tilemap = GetComponent<Tilemap>();
+        }
 
         private void OnEnable()
         {
