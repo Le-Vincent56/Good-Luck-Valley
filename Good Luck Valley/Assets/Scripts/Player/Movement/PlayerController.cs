@@ -229,8 +229,12 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void SetVelocity(Vector2 newVelocity)
         {
+            Debug.Log($"Velocity Before Setting: {Velocity}");
+
             rb.linearVelocity = newVelocity;
             Velocity = newVelocity;
+
+            Debug.Log($"Set New Velocity: {newVelocity}");
         }
 
         /// <summary>
