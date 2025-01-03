@@ -9,10 +9,13 @@ namespace GoodLuckValley.Player.Movement
         private PlayerController controller;
         [SerializeField] private bool crawling;
         private float timeStartedCrawling;
+        [SerializeField] private float bottomAdjustment = 0.1f;
         public bool Crawling { get => crawling; }
         private bool CrawlPressed { get => controller.FrameData.Input.Crawling; }
         public bool CanStand { get => IsStandingPosClear(controller.RB.position + controller.CharacterSize.StandingColliderCenter); }
         public float TimeStartedCrawling { get => timeStartedCrawling; }
+        public Vector2 Pos { get; private set; }
+        public Vector2 Size { get; private set; }
 
         public PlayerCrawl(PlayerController controller)
         {
@@ -24,14 +27,21 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         private bool IsStandingPosClear(Vector2 pos)
         {
-            // Calcualte the size necessary to stand
+            // Calculate the size necessary to stand
             Vector2 size = controller.CharacterSize.StandingColliderSize - controller.Collisions.SkinWidth * Vector2.one;
-            
+
+            // Adjust the size and positioning of the box
+            size.y -= bottomAdjustment;
+            pos.y += bottomAdjustment / 2;
+
             // Disable hit triggers
             Physics2D.queriesHitTriggers = false;
 
             // Check for an overlap with collision layers if the player were to stand
             Collider2D hit = Physics2D.OverlapBox(pos, size, 0, controller.Stats.CeilingLayers);
+
+            Pos = pos;
+            Size = size;
 
             // Reset whether or not to query hit triggers
             Physics2D.queriesHitTriggers = controller.CachedQueryMode;
@@ -60,27 +70,27 @@ namespace GoodLuckValley.Player.Movement
         private void ToggleCrawling(bool shouldCrouch)
         {
             // Check if the Player should crouch
-            if(shouldCrouch)
+            if (shouldCrouch)
             {
                 // Set the time the player started crouching
                 timeStartedCrawling = controller.Time;
 
                 // Start crouching
                 crawling = true;
-            } 
+            }
             else
             {
                 // Exit case - if the Player cannot stand
                 if (!CanStand) return;
-                
+
                 // Stop crouching
                 crawling = false;
             }
 
             // Verify the collider mode
             controller.Collisions.SetColliderMode(
-                crawling 
-                ? CollisionHandler.ColliderMode.Crawling 
+                crawling
+                ? CollisionHandler.ColliderMode.Crawling
                 : CollisionHandler.ColliderMode.Standard
             );
         }

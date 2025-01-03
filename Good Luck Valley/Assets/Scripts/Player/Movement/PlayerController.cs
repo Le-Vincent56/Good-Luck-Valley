@@ -229,12 +229,8 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void SetVelocity(Vector2 newVelocity)
         {
-            Debug.Log($"Velocity Before Setting: {Velocity}");
-
             rb.linearVelocity = newVelocity;
             Velocity = newVelocity;
-
-            Debug.Log($"Set New Velocity: {newVelocity}");
         }
 
         /// <summary>
@@ -338,14 +334,6 @@ namespace GoodLuckValley.Player.Movement
 
                 // Calculate the blended velocity
                 newVelocity = Vector2.Lerp(smoothed, direct, slopePoint);
-
-                Debug.Log($"Current Velocity: {Velocity}" +
-                    $"\nNew Velocity: {newVelocity}" +
-                    $"\nSmoothed: {smoothed}" +
-                    $"\nDirect: {direct}" +
-                    $"\nSlope Point: {slopePoint}" +
-                    $"\nStep: {step}" +
-                    $"\nSpeed: {speed}");
             } 
             else
             {
@@ -390,8 +378,6 @@ namespace GoodLuckValley.Player.Movement
                     // Get the movement vector to travel the distance
                     Vector2 requiredMove = Vector2.zero;
                     requiredMove.y += distanceFromGround;
-
-                    Debug.Log($"Required Move: {requiredMove}");
 
                     // CHeck if using velocity as the PositionCorrectionMode
                     if (Stats.PositionCorrectionMode is PositionCorrectionMode.Velocity)
@@ -466,6 +452,11 @@ namespace GoodLuckValley.Player.Movement
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(pos + Vector2.up * characterSize.Height / 2f, direction);
+
+            if (crawl.Pos == null || crawl.Size == null) return;
+
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireCube(crawl.Pos, crawl.Size);
         }
     }
 }
