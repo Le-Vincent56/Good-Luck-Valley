@@ -335,10 +335,13 @@ namespace GoodLuckValley.Player.Movement
                 // Calculate the blended velocity
                 newVelocity = Vector2.Lerp(smoothed, direct, slopePoint);
 
-                Debug.Log($"New Velocity: {newVelocity}" +
+                Debug.Log($"Current Velocity: {Velocity}" +
+                    $"\nNew Velocity: {newVelocity}" +
                     $"\nSmoothed: {smoothed}" +
                     $"\nDirect: {direct}" +
-                    $"\nSlope Point: {slopePoint}");
+                    $"\nSlope Point: {slopePoint}" +
+                    $"\nStep: {step}" +
+                    $"\nSpeed: {speed}");
             } 
             else
             {
@@ -383,6 +386,8 @@ namespace GoodLuckValley.Player.Movement
                     // Get the movement vector to travel the distance
                     Vector2 requiredMove = Vector2.zero;
                     requiredMove.y += distanceFromGround;
+
+                    Debug.Log($"Required Move: {requiredMove}");
 
                     // CHeck if using velocity as the PositionCorrectionMode
                     if (Stats.PositionCorrectionMode is PositionCorrectionMode.Velocity)
