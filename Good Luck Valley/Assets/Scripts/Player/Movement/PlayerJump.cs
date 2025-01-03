@@ -65,8 +65,8 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void CalculateJump()
         {
-            if((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
-            {
+            if ((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
+            {      
                 if (controller.WallJump.CanWallJump) ExecuteJump(JumpType.WallJump);
                 else if (controller.Collisions.Grounded && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Jump);
                 else if (CanUseCoyote && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Coyote);

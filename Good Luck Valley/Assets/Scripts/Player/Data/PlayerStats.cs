@@ -17,6 +17,7 @@ namespace GoodLuckValley.Player.Data
         // Setup
         [Header("Setup")] public LayerMask PlayerLayer;
         public LayerMask CollisionLayers;
+        public LayerMask CeilingLayers;
         public CharacterSize CharacterSize;
 
 

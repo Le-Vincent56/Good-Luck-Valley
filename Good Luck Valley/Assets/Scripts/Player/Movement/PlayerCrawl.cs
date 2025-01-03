@@ -31,7 +31,7 @@ namespace GoodLuckValley.Player.Movement
             Physics2D.queriesHitTriggers = false;
 
             // Check for an overlap with collision layers if the player were to stand
-            Collider2D hit = Physics2D.OverlapBox(pos, size, 0, controller.Stats.CollisionLayers);
+            Collider2D hit = Physics2D.OverlapBox(pos, size, 0, controller.Stats.CeilingLayers);
 
             // Reset whether or not to query hit triggers
             Physics2D.queriesHitTriggers = controller.CachedQueryMode;

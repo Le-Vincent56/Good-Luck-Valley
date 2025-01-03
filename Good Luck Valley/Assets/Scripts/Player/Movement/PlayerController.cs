@@ -334,6 +334,11 @@ namespace GoodLuckValley.Player.Movement
 
                 // Calculate the blended velocity
                 newVelocity = Vector2.Lerp(smoothed, direct, slopePoint);
+
+                Debug.Log($"New Velocity: {newVelocity}" +
+                    $"\nSmoothed: {smoothed}" +
+                    $"\nDirect: {direct}" +
+                    $"\nSlope Point: {slopePoint}");
             } 
             else
             {

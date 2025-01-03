@@ -28,6 +28,9 @@ namespace GoodLuckValley
         /// </summary>
         public void PrioritizeCamera(CinemachineVirtualCamera camToPrioritize)
         {
+            // Exit case - if the camera to prioritize doesn't exist
+            if (camToPrioritize == null) return;
+
             // Set the priority of the camera to higher
             camToPrioritize.gameObject.SetActive(true);
 

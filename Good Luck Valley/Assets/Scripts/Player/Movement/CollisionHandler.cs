@@ -24,6 +24,7 @@ namespace GoodLuckValley.Player.Movement
         private const int RAY_SIDE_COUNT = 5;
         private RaycastHit2D groundHit;
         [SerializeField] private bool grounded;
+        [SerializeField] private bool isOnSlope;
         private float currentStepDownLength;
 
         private float GrounderLength => controller.CharacterSize.StepHeight + SKIN_WIDTH;
@@ -31,6 +32,7 @@ namespace GoodLuckValley.Player.Movement
         public Vector2 RayPoint => controller.FrameData.Position + controller.Up * (controller.CharacterSize.StepHeight + SKIN_WIDTH);
 
         public bool Grounded { get => grounded; }
+        public bool IsOnSlope { get => isOnSlope; }
         public RaycastHit2D GroundHit { get => groundHit; }
         public Vector2 GroundNormal { get => groundHit.normal; }
         public float CurrentStepDownLength { get => currentStepDownLength; set => currentStepDownLength = value; }
@@ -116,17 +118,31 @@ namespace GoodLuckValley.Player.Movement
             // Cast a ray to detect the ground
             groundHit = Physics2D.Raycast(point, -controller.Up, GrounderLength + currentStepDownLength, controller.Stats.CollisionLayers);
 
+            // Get the angle of the ground
+            float groundAngle = Vector2.Angle(groundHit.normal, controller.Up);
+
             // Debug
             Debug.DrawRay(point, -controller.Up * (GrounderLength + currentStepDownLength), Color.red);
 
             // If no ground detected, return false
-            if (!groundHit) return false;
-
-            // Check if the angle from the ground hit normal and the up vector is greater than the max walkable slope
-            if (Vector2.Angle(groundHit.normal, controller.Up) > controller.Stats.MaxWalkableSlope)
+            if (!groundHit)
             {
+                // Set not on a slope
+                isOnSlope = false;
                 return false;
             }
+
+            // Exit cae - if the angle from the ground hit normal and the up vector is greater than the max walkable slope
+            if (groundAngle > controller.Stats.MaxWalkableSlope)
+            {
+                // Set not on a slope
+                isOnSlope = false;
+                return false;
+            }
+
+            // Set to be on slope
+            if (groundAngle > 0) isOnSlope = true;
+            else isOnSlope = false;
 
             // If ground detected, return true
             return true;
