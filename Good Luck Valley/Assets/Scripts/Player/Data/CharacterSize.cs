@@ -23,9 +23,6 @@ namespace GoodLuckValley.Player.Data
         [Range(STEP_BUFFER, 15), Tooltip("Step height allows you to step over rough terrain like steps and rocks.")]
         public float StepHeight = 0.5f;
 
-        [Range(STEP_BUFFER, 15), Tooltip("Slope height allows you to walk up slopes")]
-        public float SlopeHeight = 0.5f;
-
         // Height of the character while crouching, defined as a percentage of the standing height
         [Range(0.1f, 10), Tooltip("A percentage of your height stat which determines your height while crouching. A smaller crouch requires more step height sacrifice")]
         public float CrouchHeight = 0.6f;

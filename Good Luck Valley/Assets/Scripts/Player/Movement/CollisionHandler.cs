@@ -125,24 +125,10 @@ namespace GoodLuckValley.Player.Movement
             Debug.DrawRay(point, -controller.Up * (GrounderLength + currentStepDownLength), Color.red);
 
             // If no ground detected, return false
-            if (!groundHit)
-            {
-                // Set not on a slope
-                isOnSlope = false;
-                return false;
-            }
+            if (!groundHit) return false;
 
             // Exit cae - if the angle from the ground hit normal and the up vector is greater than the max walkable slope
-            if (groundAngle > controller.Stats.MaxWalkableSlope)
-            {
-                // Set not on a slope
-                isOnSlope = false;
-                return false;
-            }
-
-            // Set to be on slope
-            if (groundAngle > 0) isOnSlope = true;
-            else isOnSlope = false;
+            if (groundAngle > controller.Stats.MaxWalkableSlope) return false;
 
             // If ground detected, return true
             return true;

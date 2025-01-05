@@ -34,12 +34,24 @@ namespace GoodLuckValley.Potentiates
         {
             // Deplete the last Potentiate
             lastPotentiate.Match(
-                onValue: potentiate => { 
+                onValue: potentiate => {
+                    // Deplete the Potentiate and remove it
                     potentiate.Deplete();
                     RemovePotentiate();
                     return 0; 
                 },
                 onNoValue: () => { return 0; }
+            );
+        }
+
+        /// <summary>
+        /// Check if the last Potentiate is buffering
+        /// </summary>
+        public bool CheckBuffering()
+        {
+            return lastPotentiate.Match(
+                onValue: potentiate => potentiate.Buffering,
+                onNoValue: () => false
             );
         }
 

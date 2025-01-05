@@ -70,7 +70,7 @@ namespace GoodLuckValley.Player.Movement
                 if (controller.WallJump.CanWallJump) ExecuteJump(JumpType.WallJump);
                 else if (controller.Collisions.Grounded && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Jump);
                 else if (CanUseCoyote && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Coyote);
-                else if (CanTimeJump) ExecuteJump(JumpType.TimeJump);
+                else if (CanTimeJump && !potentiateHandler.CheckBuffering()) ExecuteJump(JumpType.TimeJump);
             }
 
             // Check if the jump ended early

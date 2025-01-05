@@ -32,11 +32,13 @@ namespace GoodLuckValley.Player.Mushroom
         private void OnEnable()
         {
             inputReader.Bounce += Spawn;
+            inputReader.Recall += Recall;
         }
 
         private void OnDisable()
         {
             inputReader.Bounce -= Spawn;
+            inputReader.Recall -= Recall;
         }
 
         /// <summary>
@@ -132,6 +134,25 @@ namespace GoodLuckValley.Player.Mushroom
 
             // Add the Mushroom to the list
             mushrooms.Add(mushroomObj);
+        }
+
+        /// <summary>
+        /// Recall all stored Mushrooms
+        /// </summary>
+        private void Recall(bool started)
+        {
+            // Exit case - if the button is being lifted
+            if (!started) return;
+
+            // Exit case - there are no stored Mushrooms
+            if (mushrooms.Count <= 0) return;
+
+            // Iterate through each mushroom
+            foreach (MushroomObject mushroom in mushrooms)
+            {
+                // Dissipate the mushroom
+                mushroom.StartDissipating();
+            }
         }
     }
 }

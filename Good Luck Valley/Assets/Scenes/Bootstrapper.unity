@@ -423,34 +423,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac40bbe313cb0f44bf5c4b6198cd0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneIndexToLoad: 0
   loadingImage: {fileID: 1007266713}
-  sceneGroups:
-  - GroupName: Vincent Scene Group
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
-        guid: 8c9cfa26abfee488c85f1582747f6a02
-      SceneType: 0
-  - GroupName: Owen Scene Group
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: a5de52e8c8a88c74290a815d7e66e3a2, type: 3}
-        guid: a5de52e8c8a88c74290a815d7e66e3a2
-      SceneType: 0
-  - GroupName: Linear Level
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: ae0bcb8161c7f9c42826e9d9f2d9cf81, type: 3}
-        guid: ae0bcb8161c7f9c42826e9d9f2d9cf81
-      SceneType: 0
-  - GroupName: Tile Experiment
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 20aab1ab04b84c6478f50a4fa0b3f980, type: 3}
-        guid: 20aab1ab04b84c6478f50a4fa0b3f980
-      SceneType: 0
-  fadeDuration: 2
+  fadeOutDuration: 1
+  fadeInDuration: 2
+  sceneGroupData: {fileID: 11400000, guid: 69eee45c10fdab44b976ef16daf72d4c, type: 2}
 --- !u!4 &946757790
 Transform:
   m_ObjectHideFlags: 0
@@ -543,6 +519,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007266711}
   m_CullTransparentMesh: 1
+--- !u!1 &1649929572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1649929575}
+  - component: {fileID: 1649929574}
+  - component: {fileID: 1649929573}
+  m_Layer: 0
+  m_Name: 'Service Locator [Global]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1649929573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649929572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236c564e1fae9d741aabd4bebfd54a03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+--- !u!114 &1649929574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649929572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69eba3c3f66f6844aa208f3a789e8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1649929575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649929572}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1917613247
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,3 +663,4 @@ SceneRoots:
   - {fileID: 334746494}
   - {fileID: 946757790}
   - {fileID: 1917613250}
+  - {fileID: 1649929575}
