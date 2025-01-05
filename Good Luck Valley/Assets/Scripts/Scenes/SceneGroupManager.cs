@@ -173,7 +173,7 @@ namespace GoodLuckValley.Scenes
                 string sceneName = sceneAt.name;
 
                 // Skip if the active scene or the bootstrapper scene
-                if (sceneName.Equals(activeScene) || sceneName == "Bootstrapper") continue;
+                if (sceneName == "Bootstrapper") continue;
 
                 // Skip if the scene exists as a handle
                 if (handleGroup.Handles.Any(h => h.IsValid() && h.Result.Scene.name == sceneName)) continue;

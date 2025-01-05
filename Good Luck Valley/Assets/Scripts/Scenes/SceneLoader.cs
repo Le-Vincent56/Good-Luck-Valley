@@ -1,4 +1,6 @@
 using DG.Tweening;
+using GoodLuckValley.Architecture.ServiceLocator;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,21 +10,29 @@ namespace GoodLuckValley.Scenes
     public class SceneLoader : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private int sceneIndexToLoad;
         [SerializeField] private Image loadingImage;
-        [SerializeField] private SceneGroup[] sceneGroups;
-
-        private bool isLoading;
-
-        public readonly SceneGroupManager manager = new SceneGroupManager();
 
         [Header("Tweening Variables")]
-        [SerializeField] private float fadeDuration;
+        [SerializeField] private float fadeOutDuration;
+        [SerializeField] private float fadeInDuration;
         private Tween fadeTween;
+
+        [Header("Scenes")]
+        [SerializeField] private SceneGroupData sceneGroupData;
+        private bool isLoading;
+        public readonly SceneGroupManager manager = new SceneGroupManager();
+
+        public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
+
+        private void Awake()
+        {
+            // Register this as a Service
+            ServiceLocator.Global.Register(this);
+        }
 
         private async void Start()
         {
-            await LoadSceneGroup(sceneIndexToLoad);
+            await LoadSceneGroup(sceneGroupData.InitialScene);
         }
 
         private void OnEnable()
@@ -47,49 +57,59 @@ namespace GoodLuckValley.Scenes
         public async Task LoadSceneGroup(int index)
         {
             // Exit case - the index is not valid
-            if (index < 0 || index >= sceneGroups.Length) return;
+            if (index < 0 || index >= sceneGroupData.SceneGroups.Length) return;
 
             LoadingProgress progress = new LoadingProgress();
 
             // Start loading
             HandleLoading(true);
 
-            // Load scenes
-            await manager.LoadScenes(sceneGroups[index], progress);
+            await manager.LoadScenes(sceneGroupData.SceneGroups[index], progress);
+        }
+
+        /// <summary>
+        /// Change from one Scene Group to another
+        /// </summary>
+        public void ChangeSceneGroup(int index)
+        {
+            // Exit case - the index is not valid
+            if (index < 0 || index >= sceneGroupData.SceneGroups.Length) return;
+
+            LoadingProgress progress = new LoadingProgress();
+
+            // Start loading
+            HandleLoading(true);
+
+            // Fade in the loading image
+            Fade(1f, fadeOutDuration, Ease.InQuad, async () => await manager.LoadScenes(sceneGroupData.SceneGroups[index], progress));
         }
 
         /// <summary>
         /// Handle loading for the Scene Loader
         /// </summary>
-        /// <param name="isLoading"></param>
         private void HandleLoading(bool isLoading)
         {
             // Set isLoading
             this.isLoading = isLoading;
 
             // Check if loading
-            if (isLoading)
+            if (!isLoading)
             {
-                // Fade in the loading image
-                Fade(1f, fadeDuration);
-            }
-            else
-            {
-                // Fade out the loading image
-                Fade(0f, fadeDuration);
+                Fade(0f, fadeInDuration, Ease.OutQuad);
             }
         }
 
         /// <summary>
         /// Handle the fading for loading
         /// </summary>
-        private void Fade(float endValue, float duration, TweenCallback onComplete = null)
+        private void Fade(float endValue, float duration, Ease easeType, TweenCallback onComplete = null)
         {
             // Kill the Fade Tween if it exists
             fadeTween?.Kill();
 
             // Set the Fade Tween
             fadeTween = loadingImage.DOFade(endValue, duration);
+            fadeTween.SetEase(easeType);
 
             // Exit case - there is no completion action
             if (onComplete == null) return;
