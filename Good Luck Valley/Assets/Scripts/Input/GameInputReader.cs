@@ -26,7 +26,7 @@ namespace GoodLuckValley.Input
         public event UnityAction<bool> Bounce = delegate { };
         public event UnityAction<bool> SlowFall = delegate { };
         public event UnityAction<bool> Interact = delegate { };
-
+        public event UnityAction<bool> Recall = delegate { };
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
 
@@ -184,6 +184,25 @@ namespace GoodLuckValley.Input
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
                     Interact.Invoke(false);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Callback function to handle Recall input
+        /// </summary>
+        public void OnRecall(InputAction.CallbackContext context)
+        {
+            // Check the context phase
+            switch (context.phase)
+            {
+                // If starting, invoke with true
+                case InputActionPhase.Started:
+                    Recall.Invoke(true);
+                    break;
+                // If canceled, invoke with false
+                case InputActionPhase.Canceled:
+                    Recall.Invoke(false);
                     break;
             }
         }
