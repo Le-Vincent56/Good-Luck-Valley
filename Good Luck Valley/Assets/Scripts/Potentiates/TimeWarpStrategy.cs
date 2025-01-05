@@ -59,8 +59,11 @@ namespace GoodLuckValley.Potentiates
                     Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
                 });
 
+                // Allow Potentiation
+                parent.AllowPotentiation();
+
                 // Fade the parent sprite back in
-                parent.Fade(1f, () => parent.AllowPotentiation());
+                parent.Fade(1f);
             };
         }
 
@@ -95,6 +98,9 @@ namespace GoodLuckValley.Potentiates
 
             // Set the Player Controller
             storedController = controller;
+
+            // Allow a jump buffer
+            storedController.Value.Jump.BufferedJumpUsable = true;
 
             // Add a time jump
             storedController.Value.Jump.AddTimeJump();

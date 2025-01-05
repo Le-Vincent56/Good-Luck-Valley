@@ -1,4 +1,5 @@
 using DG.Tweening;
+using GoodLuckValley.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,10 +19,15 @@ namespace GoodLuckValley.Potentiates
         [SerializeField] private float potentiateDuration;
         private PotentiateStrategy strategy;
         private bool canPotentiate;
+        private CountdownTimer useBufferTimer;
+        [SerializeField] private float useBufferTime;
+        [SerializeField] private bool buffering;
 
         [Header("Tweening Variables")]
         [SerializeField] private float fadeDuration;
         private Tween fadeTween;
+
+        public bool Buffering { get => buffering; }
 
         private void Awake()
         {
@@ -38,10 +44,18 @@ namespace GoodLuckValley.Potentiates
                     strategy = new TimeWarpStrategy(this, potentiateDuration);
                     break;
             }
+
+            // Set up the buffer timer
+            useBufferTimer = new CountdownTimer(useBufferTime);
+            useBufferTimer.OnTimerStart += () => buffering = true;
+            useBufferTimer.OnTimerStop += () => buffering = false;
         }
 
         private void OnDestroy()
         {
+            // Dispose of the timer
+            useBufferTimer.Dispose();
+            
             // Kill the Fade Tween if it exists
             fadeTween?.Kill();
         }
@@ -62,6 +76,9 @@ namespace GoodLuckValley.Potentiates
 
             // Set to not Potentiate
             canPotentiate = false;
+
+            // Start buffering the Potentiate
+            useBufferTimer.Start();
 
             // Fade out the Potentiate
             Fade(0f);
