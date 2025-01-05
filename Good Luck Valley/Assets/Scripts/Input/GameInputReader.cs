@@ -27,6 +27,10 @@ namespace GoodLuckValley.Input
         public event UnityAction<bool> SlowFall = delegate { };
         public event UnityAction<bool> Interact = delegate { };
         public event UnityAction<bool> Recall = delegate { };
+
+        public event UnityAction<bool> Dev = delegate { };
+        public event UnityAction<bool> NoClip = delegate { };
+
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
 
@@ -203,6 +207,38 @@ namespace GoodLuckValley.Input
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
                     Recall.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnDev(InputAction.CallbackContext context)
+        {
+            // Check the context phase
+            switch (context.phase)
+            {
+                // If starting, invoke with true
+                case InputActionPhase.Started:
+                    Dev.Invoke(true);
+                    break;
+                // If canceled, invoke with false
+                case InputActionPhase.Canceled:
+                    Dev.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnNoClip(InputAction.CallbackContext context)
+        {
+            // Check the context phase
+            switch (context.phase)
+            {
+                // If starting, invoke with true
+                case InputActionPhase.Started:
+                    NoClip.Invoke(true);
+                    break;
+                // If canceled, invoke with false
+                case InputActionPhase.Canceled:
+                    NoClip.Invoke(false);
                     break;
             }
         }

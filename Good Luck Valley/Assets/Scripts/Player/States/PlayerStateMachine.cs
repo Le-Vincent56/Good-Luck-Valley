@@ -1,5 +1,6 @@
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Player.Animation;
+using GoodLuckValley.Player.Development;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Player.States;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace GoodLuckValley
     {
         private PlayerController controller;
         private AnimationController animator;
+        private DevelopmentTools devTools;
 
         private StateMachine superMachine;
 
@@ -22,6 +24,7 @@ namespace GoodLuckValley
             // Get components
             controller = GetComponent<PlayerController>();
             animator = GetComponentInChildren<AnimationController>();
+            devTools = GetComponent<DevelopmentTools>();
 
             // Initialize the animator
             animator.Initialize(controller);
@@ -35,6 +38,7 @@ namespace GoodLuckValley
             JumpState jumping = new JumpState(controller, animator);
             BounceState bouncing = new BounceState(controller, animator);
             FallState falling = new FallState(controller, animator);
+            NoClipState noClip = new NoClipState(controller, animator);
 
             // Define state transitions
             superMachine.At(grounded, jumping, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
@@ -57,6 +61,12 @@ namespace GoodLuckValley
             superMachine.At(falling, grounded, new FuncPredicate(() => controller.Collisions.Grounded));
             superMachine.At(falling, wallSliding, new FuncPredicate(() => controller.WallJump.IsOnWall));
             superMachine.At(falling, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
+
+            superMachine.Any(noClip, new FuncPredicate(() => devTools.NoClip));
+            superMachine.At(noClip, grounded, new FuncPredicate(() => !devTools.NoClip && controller.Collisions.Grounded));
+            superMachine.At(noClip, falling, new FuncPredicate(() => !devTools.NoClip && !controller.Collisions.Grounded));
+            superMachine.At(noClip, bouncing, new FuncPredicate(() => !devTools.NoClip && controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
+            superMachine.At(noClip, wallSliding, new FuncPredicate(() => !devTools.NoClip && controller.WallJump.IsOnWall));
 
             // Set the initial state
             superMachine.SetState(falling);

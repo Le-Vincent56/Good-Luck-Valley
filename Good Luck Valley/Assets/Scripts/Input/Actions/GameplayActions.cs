@@ -91,6 +91,24 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dev"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4650367-78db-4139-8083-7557ac3c5507"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NoClip"",
+                    ""type"": ""Button"",
+                    ""id"": ""13d72021-b247-418c-814e-bc54d1ce1f57"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -214,6 +232,28 @@ namespace GoodLuckValley.Input.Actions
                     ""action"": ""Recall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecead1db-d31e-49ac-8af1-0617eeadda9b"",
+                    ""path"": ""<Keyboard>/minus"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dev"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fabc6fdf-6b81-4307-8c19-67394fb77928"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NoClip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -246,6 +286,8 @@ namespace GoodLuckValley.Input.Actions
             m_Player_SlowFall = m_Player.FindAction("Slow Fall", throwIfNotFound: true);
             m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
             m_Player_Recall = m_Player.FindAction("Recall", throwIfNotFound: true);
+            m_Player_Dev = m_Player.FindAction("Dev", throwIfNotFound: true);
+            m_Player_NoClip = m_Player.FindAction("NoClip", throwIfNotFound: true);
         }
 
         ~@GameplayActions()
@@ -319,6 +361,8 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_Player_SlowFall;
         private readonly InputAction m_Player_Interact;
         private readonly InputAction m_Player_Recall;
+        private readonly InputAction m_Player_Dev;
+        private readonly InputAction m_Player_NoClip;
         public struct PlayerActions
         {
             private @GameplayActions m_Wrapper;
@@ -330,6 +374,8 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @SlowFall => m_Wrapper.m_Player_SlowFall;
             public InputAction @Interact => m_Wrapper.m_Player_Interact;
             public InputAction @Recall => m_Wrapper.m_Player_Recall;
+            public InputAction @Dev => m_Wrapper.m_Player_Dev;
+            public InputAction @NoClip => m_Wrapper.m_Player_NoClip;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -360,6 +406,12 @@ namespace GoodLuckValley.Input.Actions
                 @Recall.started += instance.OnRecall;
                 @Recall.performed += instance.OnRecall;
                 @Recall.canceled += instance.OnRecall;
+                @Dev.started += instance.OnDev;
+                @Dev.performed += instance.OnDev;
+                @Dev.canceled += instance.OnDev;
+                @NoClip.started += instance.OnNoClip;
+                @NoClip.performed += instance.OnNoClip;
+                @NoClip.canceled += instance.OnNoClip;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -385,6 +437,12 @@ namespace GoodLuckValley.Input.Actions
                 @Recall.started -= instance.OnRecall;
                 @Recall.performed -= instance.OnRecall;
                 @Recall.canceled -= instance.OnRecall;
+                @Dev.started -= instance.OnDev;
+                @Dev.performed -= instance.OnDev;
+                @Dev.canceled -= instance.OnDev;
+                @NoClip.started -= instance.OnNoClip;
+                @NoClip.performed -= instance.OnNoClip;
+                @NoClip.canceled -= instance.OnNoClip;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -420,6 +478,8 @@ namespace GoodLuckValley.Input.Actions
             void OnSlowFall(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
             void OnRecall(InputAction.CallbackContext context);
+            void OnDev(InputAction.CallbackContext context);
+            void OnNoClip(InputAction.CallbackContext context);
         }
     }
 }

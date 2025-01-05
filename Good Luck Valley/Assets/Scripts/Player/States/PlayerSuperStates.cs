@@ -1,6 +1,7 @@
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
+using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
@@ -193,6 +194,21 @@ namespace GoodLuckValley.Player.States
 
             // Set an initial state
             subStates.SetState(normalFall);
+        }
+    }
+
+    public class NoClipState : SuperState
+    {
+        public NoClipState(PlayerController controller, AnimationController animator)
+            : base(controller, animator)
+        { }
+        public override void SetupSubStateMachine() { }
+
+        public override void OnEnter()
+        {
+            controller.RB.gravityScale = 0f;
+            controller.SetVelocity(Vector2.zero);
+            controller.ConstantForce.force = Vector2.zero;
         }
     }
 }

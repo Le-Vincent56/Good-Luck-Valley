@@ -6,6 +6,7 @@ using System;
 using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
+using GoodLuckValley.Player.Development;
 
 namespace GoodLuckValley.Player.Movement
 {
@@ -23,6 +24,7 @@ namespace GoodLuckValley.Player.Movement
         private PlayerStateMachine stateMachine;
 
         // Movement components
+        [SerializeField] private bool active;
         [SerializeField] private CollisionHandler collisionHandler;
         private FrameData frameData;
         [SerializeField] private PlayerJump jump;
@@ -55,6 +57,7 @@ namespace GoodLuckValley.Player.Movement
         public Rigidbody2D RB { get => rb; }
         public ConstantForce2D ConstantForce { get => constForce; }
 
+        public bool Active { get => active; set => active = value; }
         public CollisionHandler Collisions { get => collisionHandler; }
         public FrameData FrameData { get => frameData; }
         public PlayerJump Jump { get => jump; }
@@ -84,10 +87,13 @@ namespace GoodLuckValley.Player.Movement
 
         private void Awake()
         {
-            // Get the constant force component
+            // Get the components
             constForce = GameObjectExtensions.GetOrAdd<ConstantForce2D>(gameObject);
             potentiateHandler = GameObjectExtensions.GetOrAdd<PotentiateHandler>(gameObject);
             stateMachine = GameObjectExtensions.GetOrAdd<PlayerStateMachine>(gameObject);
+
+            // Set variables
+            active = true;
 
             // Set up the player controller
             Setup();
@@ -142,6 +148,9 @@ namespace GoodLuckValley.Player.Movement
             // Update the state machine
             stateMachine.TickUpdate();
 
+            // Exit case - the PlayerController is not active
+            if (!active) return;
+
             // Set time variables
             this.delta = delta;
             this.time = time;
@@ -154,6 +163,9 @@ namespace GoodLuckValley.Player.Movement
         {
             // Update the state machine
             stateMachine.TickFixedUpdate();
+
+            // Exit case - the PlayerController is not active
+            if (!active) return;
 
             // Set time variables
             this.delta = delta;

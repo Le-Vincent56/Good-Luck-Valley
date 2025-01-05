@@ -22,7 +22,7 @@ namespace GoodLuckValley.Potentiates
 
             durationTimer.OnTimerStart += () =>
             {
-                // TODO: Start the ticking sound 
+                // TODO: Start the ticking sound
             };
 
             durationTimer.OnTimerStop += () =>
