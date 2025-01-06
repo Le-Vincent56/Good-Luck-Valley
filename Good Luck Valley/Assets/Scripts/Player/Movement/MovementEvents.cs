@@ -1,8 +1,8 @@
 namespace GoodLuckValley.Architecture.EventBus
 {
-    public struct ForceMove : IEvent
+    public struct ForcePlayerMove : IEvent
     {
-        public bool ManualMove;
+        public bool ForcedMove;
         public int ForcedMoveDirection;
     }
 }

@@ -65,7 +65,8 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void CalculateJump()
         {
-            if ((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand)
+            // Check if there's a jump/buffered jump, the player can stand, and the player isn't being forced to move
+            if ((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand && !controller.ForcedMove)
             {      
                 if (controller.WallJump.CanWallJump) ExecuteJump(JumpType.WallJump);
                 else if (controller.Collisions.Grounded && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Jump);

@@ -32,7 +32,7 @@ namespace GoodLuckValley.Scenes
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
             // Remove manual move
-            controller.ManualMove = false;
+            controller.ForcedMove = true;
             controller.ForcedMoveDirection = moveDirection;
 
             // Start changing the scene group

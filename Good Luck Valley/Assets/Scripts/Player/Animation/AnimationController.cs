@@ -79,6 +79,7 @@ namespace GoodLuckValley.Player.Animation
         /// </summary>
         private void CheckFacingDirection()
         {
+            // Create a container for the direction to face
             float directionToFace;
 
             // Check if wall jumping
@@ -93,8 +94,16 @@ namespace GoodLuckValley.Player.Animation
                 return;
             }
 
-            // Get an x-velocity from the Player's input
-            float xVelocity = playerController.FrameData.Input.Move.x;
+            // Create a container for the x-velocity
+            float xVelocity;
+            
+            // Check if the player is being forced to move
+            if (playerController.ForcedMove)
+                // Face towards the movement direction
+                xVelocity = playerController.Direction.x;
+            else
+                // Get an x-velocity from the Player's input
+                xVelocity = playerController.FrameData.Input.Move.x;
 
             // Check if the Player is idle and there's a stored facing direction
             if (xVelocity == 0 && lastFacingXDirection != 0)
