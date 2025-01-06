@@ -1,6 +1,5 @@
 using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Input;
-using GoodLuckValley.Player.Development.Events;
 using GoodLuckValley.Player.Movement;
 using UnityEngine;
 

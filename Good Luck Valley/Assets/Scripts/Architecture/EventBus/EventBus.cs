@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace GoodLuckValley.Architecture.EventBus
 {
@@ -22,10 +23,23 @@ namespace GoodLuckValley.Architecture.EventBus
         /// </summary>
         public static void Raise(T @event)
         {
-            foreach (IEventBinding<T> binding in bindings)
+            // Get all of the bindings
+            HashSet<IEventBinding<T>> snapshot = new HashSet<IEventBinding<T>>(bindings);
+
+            // Iterate through each binding
+            foreach (IEventBinding<T> binding in snapshot)
             {
-                binding.OnEvent.Invoke(@event);
-                binding.OnEventNoArgs.Invoke();
+                //Debug.LogError($"Checking Event Binding: {binding}");
+
+                // Check if the HashSet contains the bindings
+                if (bindings.Contains(binding))
+                {
+                    //Debug.LogError($"Contains Event Binding: {binding}");
+
+                    // Invoke the binding
+                    binding.OnEvent.Invoke(@event);
+                    binding.OnEventNoArgs.Invoke();
+                }
             }
         }
 

@@ -8,7 +8,7 @@ namespace GoodLuckValley
     {
         private static readonly int sceneIndex = 0;
 
-        [UnityEngine.RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Init()
         {
 #if UNITY_EDITOR

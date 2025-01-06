@@ -1,6 +1,5 @@
 using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Player.Movement;
-using GoodLuckValley.Potentiates;
 using GoodLuckValley.Timers;
 using UnityEngine;
 
@@ -62,6 +61,7 @@ namespace GoodLuckValley.Player.Animation
         {
             // Get and set components
             this.playerController = playerController;
+
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -72,9 +72,6 @@ namespace GoodLuckValley.Player.Animation
             correctFacingTimer = new CountdownTimer(0.1f);
             correctFacingTimer.OnTimerStart += () => updateFacingDirection = false;
             correctFacingTimer.OnTimerStop += () => updateFacingDirection = true;
-
-            
-            EventBus<PotentiateFeedback>.Register(onPotentiateFeedback);
         }
 
         /// <summary>

@@ -78,6 +78,28 @@ namespace GoodLuckValley.Utilities.EventBus
         }
 
         /// <summary>
+        /// Debug the Event Bus
+        /// </summary>
+        public static void Debug()
+        {
+            string message = "Event Types: ";
+            foreach(Type eventType in EventTypes)
+            {
+                message += $"\n{eventType}";
+            }
+
+            UnityEngine.Debug.LogError(message);
+
+            string busMessage = "Event Bus Types: ";
+            foreach (Type eventType in EventBusTypes)
+            {
+                busMessage += $"\n{eventType}";
+            }
+
+            UnityEngine.Debug.LogError(busMessage);
+        }
+
+        /// <summary>
         /// Clears all Event Busses in the application
         /// </summary>
         public static void ClearAllBusses()
@@ -94,7 +116,7 @@ namespace GoodLuckValley.Utilities.EventBus
                 );
 
                 // Invoke the "Clear" method
-                clearMethod.Invoke(null, null);
+                clearMethod?.Invoke(null, null);
             }
         }
     }
