@@ -71,7 +71,7 @@ namespace GoodLuckValley.Scenes
         /// <summary>
         /// Change from one Scene Group to another
         /// </summary>
-        public void ChangeSceneGroup(int index)
+        public void ChangeSceneGroup(int index, int lastMovingDirect)
         {
             // Exit case - the index is not valid
             if (index < 0 || index >= sceneGroupData.SceneGroups.Length) return;
@@ -82,7 +82,7 @@ namespace GoodLuckValley.Scenes
             HandleLoading(true);
 
             // Fade in the loading image
-            Fade(1f, fadeOutDuration, Ease.InQuad, async () => await manager.LoadScenes(sceneGroupData.SceneGroups[index], progress));
+            Fade(1f, fadeOutDuration, Ease.InQuad, async () => await manager.LoadScenes(sceneGroupData.SceneGroups[index], progress, true));
         }
 
         /// <summary>
