@@ -98,7 +98,7 @@ namespace GoodLuckValley.Player.Movement
             }
 
             // Check if currently grounded, but not grounded before
-            if (isGroundedThisFrame && !grounded) 
+            if (isGroundedThisFrame && !grounded && controller.Velocity.y <= 0f) 
                 // Set grounded
                 ToggleGrounded(true);
             // Check if currently not grounded, but was grounded

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GoodLuckValley
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class TwoWayCameraPriorityTrigger : MonoBehaviour
+    public class TwoWayCameraTrigger : MonoBehaviour
     {
         private CameraController cameraController;
 
