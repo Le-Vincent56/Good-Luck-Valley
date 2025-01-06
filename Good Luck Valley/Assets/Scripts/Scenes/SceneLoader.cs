@@ -1,39 +1,33 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.EventBus;
-using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Architecture.Singletons;
 using GoodLuckValley.Timers;
-using GoodLuckValley.Utilities.EventBus;
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace GoodLuckValley.Scenes
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader : PersistentSingleton<SceneLoader>
     {
-        [Header("References")]
-        [SerializeField] private Image loadingImage;
-
-        [Header("Tweening Variables")]
-        [SerializeField] private float fadeOutDuration;
-        [SerializeField] private float fadeInDuration;
-        private Tween fadeTween;
-
         [Header("Scenes")]
         [SerializeField] private SceneGroupData sceneGroupData;
         private bool isLoading;
-        public readonly SceneGroupManager manager = new SceneGroupManager();
+        public SceneGroupManager Manager;
 
         private int forcedMoveDirection = 0;
         private CountdownTimer releaseMovementTimer;
 
         public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
 
-        private void Awake()
+        public UnityAction Cleanup = delegate { };
+
+        protected override void Awake()
         {
-            // Register this as a Service
-            ServiceLocator.Global.Register(this);
+            // Set up the Singleton
+            base.Awake();
+
+            Manager = new SceneGroupManager();
 
             // Create the Countdown Timer
             releaseMovementTimer = new CountdownTimer(1.5f);
@@ -56,21 +50,25 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
-            manager.OnSceneGroupLoaded += () => { HandleLoading(false, forcedMoveDirection); /*EventBusUtils.Debug();*/  };
+            Manager.OnSceneGroupLoaded += (int index) => 
+            { 
+                HandleLoading(false, forcedMoveDirection); 
+                /*EventBusUtils.Debug();*/  
+            };
         }
 
         private void OnDisable()
         {
-            manager.OnSceneGroupLoaded -= () => HandleLoading(false, forcedMoveDirection);
+            Manager.OnSceneGroupLoaded -= (int indx) => HandleLoading(false, forcedMoveDirection);
         }
 
         private void OnDestroy()
         {
-            // Kill the Fade Tween
-            fadeTween?.Kill();
-
             // Dispose of the Timer
-            releaseMovementTimer.Dispose();
+            releaseMovementTimer?.Dispose();
+
+            // Clean up events
+            Cleanup.Invoke();
         }
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace GoodLuckValley.Scenes
             // Start loading
             HandleLoading(true);
 
-            await manager.LoadScenes(sceneGroupData.SceneGroups[index], progress);
+            await Manager.LoadScenes(index, sceneGroupData.SceneGroups[index], progress);
         }
 
         /// <summary>
@@ -106,7 +104,12 @@ namespace GoodLuckValley.Scenes
             HandleLoading(true);
 
             // Fade in the loading image
-            Fade(1f, fadeOutDuration, Ease.InQuad, async () => await manager.LoadScenes(sceneGroupData.SceneGroups[index], progress, true));
+            EventBus<FadeScene>.Raise(new FadeScene()
+            {
+                FadeIn = false,
+                EaseType = Ease.InQuad,
+                OnComplete = async () => await Manager.LoadScenes(index, sceneGroupData.SceneGroups[index], progress, true)
+            });
         }
 
         /// <summary>
@@ -120,7 +123,12 @@ namespace GoodLuckValley.Scenes
             // Check if loading
             if (!isLoading)
             {
-                Fade(0f, fadeInDuration, Ease.OutQuad);
+                EventBus<FadeScene>.Raise(new FadeScene()
+                {
+                    FadeIn = true,
+                    EaseType = Ease.OutQuad,
+                    OnComplete = null
+                });
 
                 // Exit case - if not forcing a movement direction
                 if (forcedMoveDirection == 0) return;
@@ -135,25 +143,6 @@ namespace GoodLuckValley.Scenes
                 // Start the release movement Timer
                 releaseMovementTimer.Start();
             }
-        }
-
-        /// <summary>
-        /// Handle the fading for loading
-        /// </summary>
-        private void Fade(float endValue, float duration, Ease easeType, TweenCallback onComplete = null)
-        {
-            // Kill the Fade Tween if it exists
-            fadeTween?.Kill();
-
-            // Set the Fade Tween
-            fadeTween = loadingImage.DOFade(endValue, duration);
-            fadeTween.SetEase(easeType);
-
-            // Exit case - there is no completion action
-            if (onComplete == null) return;
-
-            // Hook up completion actions
-            fadeTween.onComplete = onComplete;
         }
     }
 }

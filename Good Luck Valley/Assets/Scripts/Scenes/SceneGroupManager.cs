@@ -54,7 +54,7 @@ namespace GoodLuckValley.Scenes
     {
         public event Action<string> OnSceneLoaded = delegate { };
         public event Action<string> OnSceneUnloaded = delegate { };
-        public event Action OnSceneGroupLoaded = delegate { };
+        public event Action<int> OnSceneGroupLoaded = delegate { };
 
         private readonly AsyncOperationHandleGroup handleGroup = new AsyncOperationHandleGroup(10);
 
@@ -63,7 +63,7 @@ namespace GoodLuckValley.Scenes
         /// <summary>
         /// Load scenes for a SceneGroup
         /// </summary>
-        public async Task LoadScenes(SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false)
+        public async Task LoadScenes(int groupIndex, SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false)
         {
             // Set the active scene group
             ActiveSceneGroup = group;
@@ -143,7 +143,7 @@ namespace GoodLuckValley.Scenes
                 SceneManager.SetActiveScene(activeScene);
 
             // Invoke the OnSceneGroupLoaded event
-            OnSceneGroupLoaded.Invoke();
+            OnSceneGroupLoaded.Invoke(groupIndex);
         }
 
         /// <summary>

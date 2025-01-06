@@ -53,6 +53,9 @@ namespace GoodLuckValley.Player.Mushroom
             // Exit case - if cannot spawn a Mushroom
             if (!canSpawnShroom) return;
 
+            // Exit case - the Player is crawling
+            if (playerController.Crawl.Crawling) return;
+
             castPosition = (Vector2)transform.position;
 
             // Raycast beneath the player to check for non-shroomable layers

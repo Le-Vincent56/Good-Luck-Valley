@@ -316,7 +316,7 @@ namespace GoodLuckValley.Player.Movement
                 Collisions.Grounded
                     ? 0
                     : -extraConstantGravity *
-                      (Jump.EndedJumpEarly && Velocity.y > 0 && !Bounce.Bouncing && !WallJump.IsWallJumping
+                      (Jump.EndedJumpEarly && Velocity.y > 0 && !Bounce.Bouncing && !WallJump.FromWallJump
                           ? Stats.EndJumpEarlyExtraForceMultiplier
                           : 1
                       )

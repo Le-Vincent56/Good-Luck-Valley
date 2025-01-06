@@ -20,6 +20,7 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private float canGrabWallAfter;
         [SerializeField] private float timeLeftWall;
         [SerializeField] private bool isWallJumping;
+        [SerializeField] private bool fromWallJump;
         private int wallDirectionForJump;
         private float returnWallInputLossAfter;
         private float wallJumpInputNerfPoint;
@@ -41,6 +42,7 @@ namespace GoodLuckValley.Player.Movement
         public int WallDirectionForJump { get => wallDirectionForJump; set => wallDirectionForJump = value; }
         public float ReturnWallInputLossAfter { get => returnWallInputLossAfter; set => returnWallInputLossAfter = value; }
         public float WallJumpInputNerfPoint { get => wallJumpInputNerfPoint; set => wallJumpInputNerfPoint = value; }
+        public bool FromWallJump { get => fromWallJump; set => fromWallJump = value; }
         public bool IsWallJumping { get => isWallJumping; set => isWallJumping = value; }
         public int WallDirectionThisFrame { get => wallDirectionThisFrame; }
 
@@ -72,6 +74,7 @@ namespace GoodLuckValley.Player.Movement
                 controller.Jump.BufferedJumpUsable = true;
                 wallJumpCoyoteUsable = true;
                 wallDirection = wallDirectionThisFrame;
+                fromWallJump = false;
                 controller.Bounce.ResetBounce();
             }
             // Otherwise
@@ -178,6 +181,7 @@ namespace GoodLuckValley.Player.Movement
             ReturnWallInputLossAfter = controller.Time + controller.Stats.WallJumpTotalInputLossTime;
             wallDirectionForJump = wallDirectionThisFrame;
             isWallJumping = true;
+            fromWallJump = true;
 
             controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallJumpPower);
 
