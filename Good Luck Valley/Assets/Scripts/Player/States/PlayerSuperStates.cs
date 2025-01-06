@@ -105,7 +105,9 @@ namespace GoodLuckValley.Player.States
     public class JumpState : SuperState
     {
         private NormalJumpState normalJump;
+        private WarpJumpState warpJump;
         private WallJumpState wallJump;
+        private JumpBufferState buffer;
 
         public JumpState(PlayerController controller, AnimationController animator)
             : base(controller, animator)
@@ -128,10 +130,22 @@ namespace GoodLuckValley.Player.States
 
             // Create states
             normalJump = new NormalJumpState(controller, animator);
+            warpJump = new WarpJumpState(controller, animator);
             wallJump = new WallJumpState(controller, animator);
+            buffer = new JumpBufferState(controller, animator);
 
             // Define state transitions
             subStates.At(normalJump, wallJump, new FuncPredicate(() => controller.WallJump.IsWallJumping));
+            subStates.At(normalJump, warpJump, new FuncPredicate(() => controller.Jump.WarpJumping));
+
+            subStates.At(warpJump, buffer, new FuncPredicate(() => !controller.Jump.WarpJumping));
+            subStates.At(warpJump, wallJump, new FuncPredicate(() => controller.WallJump.IsWallJumping));
+
+            subStates.At(wallJump, warpJump, new FuncPredicate(() => controller.Jump.WarpJumping));
+            subStates.At(wallJump, buffer, new FuncPredicate(() => !controller.WallJump.IsWallJumping));
+
+            subStates.At(buffer, warpJump, new FuncPredicate(() => controller.Jump.WarpJumping));
+            subStates.At(buffer, wallJump, new FuncPredicate(() => controller.WallJump.IsWallJumping));
 
             // Set the initial state
             subStates.SetState(normalJump);
