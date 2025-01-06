@@ -7,6 +7,7 @@ using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
 using GoodLuckValley.Player.Development;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GoodLuckValley.Player.Movement
 {
@@ -25,6 +26,8 @@ namespace GoodLuckValley.Player.Movement
 
         // Movement components
         [SerializeField] private bool active;
+        [SerializeField] private bool manualMove;
+        [SerializeField] private int forcedMoveDirection;
         [SerializeField] private CollisionHandler collisionHandler;
         private FrameData frameData;
         [SerializeField] private PlayerJump jump;
@@ -58,6 +61,8 @@ namespace GoodLuckValley.Player.Movement
         public ConstantForce2D ConstantForce { get => constForce; }
 
         public bool Active { get => active; set => active = value; }
+        public bool ManualMove { get => manualMove; set => manualMove = value; }
+        public int ForcedMoveDirection { get => forcedMoveDirection; set => forcedMoveDirection = value; }
         public CollisionHandler Collisions { get => collisionHandler; }
         public FrameData FrameData { get => frameData; }
         public PlayerJump Jump { get => jump; }
@@ -319,6 +324,11 @@ namespace GoodLuckValley.Player.Movement
 
             // Get the x-direction of movement
             Vector2 xDirection = FrameData.HasInput ? direction : Velocity.normalized;
+
+            // Check if not able to manually move
+            if (!manualMove)
+                // Set the x-direction of movement to the forced movement direction
+                xDirection.x = forcedMoveDirection;
 
             // Check if the trimmed velocity and the direction are moving in opposite directions
             if (Vector3.Dot(FrameData.TrimmedVelocity, direction) < 0) 
