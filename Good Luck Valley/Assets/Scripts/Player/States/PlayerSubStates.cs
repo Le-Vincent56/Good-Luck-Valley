@@ -91,6 +91,18 @@ namespace GoodLuckValley.Player.States
         }
     }
 
+    public class WarpJumpState : SubState
+    {
+        public WarpJumpState(PlayerController controller, AnimationController animator)
+            : base(controller, animator)
+        { }
+
+        public override void OnEnter()
+        {
+            animator.EnterWarpJump();
+        }
+    }
+
     public class WallJumpState : SubState
     {
         public WallJumpState(PlayerController controller, AnimationController animator)
@@ -101,6 +113,13 @@ namespace GoodLuckValley.Player.States
         {
             animator.EnterWallJump();
         }
+    }
+
+    public class JumpBufferState : SubState
+    {
+        public JumpBufferState(PlayerController controller, AnimationController animator)
+            : base(controller, animator)
+        { }
     }
 
     public class NormalFallState : SubState

@@ -12,7 +12,7 @@ namespace GoodLuckValley.Player.Movement
             Jump,
             WallJump,
             Coyote,
-            TimeJump,
+            WarpJump,
             SlideJump
         }
 
@@ -27,6 +27,8 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private bool endedJumpEarly;
         [SerializeField] private bool hasTimeJump;
         [SerializeField] private bool coyoteUsable;
+        [SerializeField] private bool warpJumping;
+        [SerializeField] private bool isJumping;
         private float timeLeftGrounded;
 
         public bool IsWithinJumpClearance { get => lastJumpExecutedTime + JUMP_CLEARANCE_TIME > controller.Time; }
@@ -52,8 +54,8 @@ namespace GoodLuckValley.Player.Movement
         public bool EndedJumpEarly { get => endedJumpEarly; }
         public bool CoyoteUsable { get => coyoteUsable; set => coyoteUsable = value; }
         public float TimeLeftGrounded { get => timeLeftGrounded; set => timeLeftGrounded = value; }
-        public bool IsJumping { get; set; }
-        public bool JumpedAgain { get; set; }
+        public bool WarpJumping { get => warpJumping; set => warpJumping = value; }
+        public bool IsJumping { get => isJumping; set => isJumping = value; }
 
         public PlayerJump(PlayerController controller, PotentiateHandler potentiateHandler)
         {
@@ -67,7 +69,8 @@ namespace GoodLuckValley.Player.Movement
         public void CalculateJump()
         {
             // Set to note jumping
-            IsJumping = false;
+            isJumping = false;
+            warpJumping = false;
 
             // Check if there's a jump/buffered jump, the player can stand, and the player isn't being forced to move
             if ((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand && !controller.ForcedMove)
@@ -75,7 +78,7 @@ namespace GoodLuckValley.Player.Movement
                 if (controller.WallJump.CanWallJump) ExecuteJump(JumpType.WallJump);
                 else if (controller.Collisions.Grounded && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Jump);
                 else if (CanUseCoyote && !controller.Bounce.FromBounce) ExecuteJump(JumpType.Coyote);
-                else if (CanTimeJump && !potentiateHandler.CheckBuffering()) ExecuteJump(JumpType.TimeJump);
+                else if (CanTimeJump && !potentiateHandler.CheckBuffering()) ExecuteJump(JumpType.WarpJump);
             }
 
             // Check if the jump ended early
@@ -121,7 +124,7 @@ namespace GoodLuckValley.Player.Movement
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.JumpPower));
             }
             // Otherwise, check if jumping in mid-air
-            else if (jumpType is JumpType.TimeJump)
+            else if (jumpType is JumpType.WarpJump)
             {
                 // Remove the time jump
                 hasTimeJump = false;
@@ -131,6 +134,9 @@ namespace GoodLuckValley.Player.Movement
 
                 // Deplete the last potentiate
                 potentiateHandler.DepletePotentiate();
+
+                // Set to warp jumping
+                warpJumping = true;
             }
             // Otherwise, check if performing a wall jump
             else if(jumpType is JumpType.WallJump)
@@ -140,7 +146,7 @@ namespace GoodLuckValley.Player.Movement
             }
 
             // Set to jumping
-            IsJumping = true;
+            isJumping = true;
 
             //controller.Jumped?.Invoke(jumpType);
         }
