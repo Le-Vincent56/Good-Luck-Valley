@@ -8,6 +8,7 @@ using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
 using GoodLuckValley.Player.Development;
 using System.Diagnostics.CodeAnalysis;
+using GoodLuckValley.Architecture.EventBus;
 
 namespace GoodLuckValley.Player.Movement
 {
@@ -26,7 +27,7 @@ namespace GoodLuckValley.Player.Movement
 
         // Movement components
         [SerializeField] private bool active;
-        [SerializeField] private bool manualMove;
+        [SerializeField] private bool forcedMove;
         [SerializeField] private int forcedMoveDirection;
         [SerializeField] private CollisionHandler collisionHandler;
         private FrameData frameData;
@@ -61,7 +62,7 @@ namespace GoodLuckValley.Player.Movement
         public ConstantForce2D ConstantForce { get => constForce; }
 
         public bool Active { get => active; set => active = value; }
-        public bool ManualMove { get => manualMove; set => manualMove = value; }
+        public bool ForcedMove { get => forcedMove; set => forcedMove = value; }
         public int ForcedMoveDirection { get => forcedMoveDirection; set => forcedMoveDirection = value; }
         public CollisionHandler Collisions { get => collisionHandler; }
         public FrameData FrameData { get => frameData; }
@@ -90,6 +91,8 @@ namespace GoodLuckValley.Player.Movement
 
         public event Action<PlayerJump.JumpType> Jumped;
 
+        private EventBinding<ForcePlayerMove> onForcePlayerMove;
+
         private void Awake()
         {
             // Get the components
@@ -99,9 +102,21 @@ namespace GoodLuckValley.Player.Movement
 
             // Set variables
             active = true;
+            forcedMove = false;
 
             // Set up the player controller
             Setup();
+        }
+
+        private void OnEnable()
+        {
+            onForcePlayerMove = new EventBinding<ForcePlayerMove>(SetForcedMove);
+            EventBus<ForcePlayerMove>.Register(onForcePlayerMove);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<ForcePlayerMove>.Deregister(onForcePlayerMove);
         }
 
         public void OnValidate() => Setup();
@@ -223,7 +238,9 @@ namespace GoodLuckValley.Player.Movement
         private void CalculateDirection()
         {
             // Get the direction of movement
-            direction = new Vector2(frameData.Input.Move.x, 0);
+            direction = !forcedMove 
+                ? new Vector2(frameData.Input.Move.x, 0) 
+                : new Vector2(forcedMoveDirection, 0);
 
             // Check if grounded
             if (collisionHandler.Grounded)
@@ -261,7 +278,7 @@ namespace GoodLuckValley.Player.Movement
         private void Move()
         {
             // Check if there is force to apply this frame
-            if(FrameData.ForceToApply != Vector2.zero)
+            if (FrameData.ForceToApply != Vector2.zero)
             {
                 // Add the additional frame velocities and force
                 rb.linearVelocity += FrameData.AdditionalFrameVelocities();
@@ -280,10 +297,10 @@ namespace GoodLuckValley.Player.Movement
                 float wallVelocity;
 
                 // Check if holding downwards
-                if (FrameData.Input.Move.y < 0) 
+                if (FrameData.Input.Move.y < 0)
                     // Set wall velocity to the wall climb speed
                     wallVelocity = FrameData.Input.Move.y * Stats.WallClimbSpeed;
-                else 
+                else
                     // Otherwise, set a fall speed
                     wallVelocity = Mathf.MoveTowards(Mathf.Min(Velocity.y, 0), -Stats.WallClimbSpeed, Stats.WallFallAcceleration * delta);
 
@@ -295,12 +312,12 @@ namespace GoodLuckValley.Player.Movement
 
             // Calculate the extra force
             Vector2 extraForce = new Vector2(
-                0, 
-                Collisions.Grounded 
-                    ? 0 
-                    : -extraConstantGravity * 
+                0,
+                Collisions.Grounded
+                    ? 0
+                    : -extraConstantGravity *
                       (Jump.EndedJumpEarly && Velocity.y > 0 && !Bounce.Bouncing && !WallJump.IsWallJumping
-                          ? Stats.EndJumpEarlyExtraForceMultiplier 
+                          ? Stats.EndJumpEarlyExtraForceMultiplier
                           : 1
                       )
              );
@@ -309,10 +326,10 @@ namespace GoodLuckValley.Player.Movement
             constForce.force = extraForce * rb.mass;
 
             // Calculate the target speed based on if there's input this frame
-            float targetSpeed = FrameData.HasInput ? Stats.BaseSpeed : 0;
+            float targetSpeed = FrameData.HasInput || forcedMove ? Stats.BaseSpeed : 0;
 
             // Check if crouching
-            if(crawl.Crawling)
+            if (crawl.Crawling)
             {
                 // Slow the player down to the crouch speed
                 float crawlPoint = Mathf.InverseLerp(0, Stats.CrouchSlowDownTime, time - crawl.TimeStartedCrawling);
@@ -320,18 +337,17 @@ namespace GoodLuckValley.Player.Movement
             }
 
             // Calculate the step of movement
-            float step = FrameData.HasInput ? Stats.Acceleration : Stats.Friction;
+            float step = FrameData.HasInput || forcedMove 
+                ? Stats.Acceleration 
+                : Stats.Friction;
 
             // Get the x-direction of movement
-            Vector2 xDirection = FrameData.HasInput ? direction : Velocity.normalized;
-
-            // Check if not able to manually move
-            if (!manualMove)
-                // Set the x-direction of movement to the forced movement direction
-                xDirection.x = forcedMoveDirection;
+            Vector2 xDirection = FrameData.HasInput || forcedMove
+                ? direction 
+                : Velocity.normalized;
 
             // Check if the trimmed velocity and the direction are moving in opposite directions
-            if (Vector3.Dot(FrameData.TrimmedVelocity, direction) < 0) 
+            if (Vector3.Dot(FrameData.TrimmedVelocity, direction) < 0)
                 // If so, apply the correction multiplier
                 step *= Stats.DirectionCorrectionMultiplier;
 
@@ -443,6 +459,15 @@ namespace GoodLuckValley.Player.Movement
 
             // Zero out immediate move
             immediateMove = Vector2.zero;
+        }
+
+        /// <summary>
+        /// Set the variables for a forced Player move
+        /// </summary>
+        private void SetForcedMove(ForcePlayerMove eventData)
+        {
+            forcedMove = eventData.ForcedMove;
+            forcedMoveDirection = eventData.ForcedMoveDirection;
         }
 
         private void OnDrawGizmos()

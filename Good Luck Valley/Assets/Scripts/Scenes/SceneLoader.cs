@@ -1,5 +1,7 @@
 using DG.Tweening;
+using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Timers;
 using GoodLuckValley.Utilities.EventBus;
 using System;
 using System.Threading.Tasks;
@@ -23,12 +25,28 @@ namespace GoodLuckValley.Scenes
         private bool isLoading;
         public readonly SceneGroupManager manager = new SceneGroupManager();
 
+        private int forcedMoveDirection = 0;
+        private CountdownTimer releaseMovementTimer;
+
         public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
 
         private void Awake()
         {
             // Register this as a Service
             ServiceLocator.Global.Register(this);
+
+            // Create the Countdown Timer
+            releaseMovementTimer = new CountdownTimer(1.5f);
+
+            releaseMovementTimer.OnTimerStop += () =>
+            {
+                // Stop forced player movement
+                EventBus<ForcePlayerMove>.Raise(new ForcePlayerMove()
+                {
+                    ForcedMove = false,
+                    ForcedMoveDirection = 0
+                });
+            };
         }
 
         private async void Start()
@@ -38,18 +56,21 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
-            manager.OnSceneGroupLoaded += () => { HandleLoading(false); /*EventBusUtils.Debug();*/  };
+            manager.OnSceneGroupLoaded += () => { HandleLoading(false, forcedMoveDirection); /*EventBusUtils.Debug();*/  };
         }
 
         private void OnDisable()
         {
-            manager.OnSceneGroupLoaded -= () => HandleLoading(false);
+            manager.OnSceneGroupLoaded -= () => HandleLoading(false, forcedMoveDirection);
         }
 
         private void OnDestroy()
         {
             // Kill the Fade Tween
             fadeTween?.Kill();
+
+            // Dispose of the Timer
+            releaseMovementTimer.Dispose();
         }
 
         /// <summary>
@@ -71,12 +92,15 @@ namespace GoodLuckValley.Scenes
         /// <summary>
         /// Change from one Scene Group to another
         /// </summary>
-        public void ChangeSceneGroup(int index, int lastMovingDirect)
+        public void ChangeSceneGroup(int index, int lastMovingDirection = 0)
         {
             // Exit case - the index is not valid
             if (index < 0 || index >= sceneGroupData.SceneGroups.Length) return;
 
             LoadingProgress progress = new LoadingProgress();
+
+            // Set the forced movement direction
+            forcedMoveDirection = lastMovingDirection;
 
             // Start loading
             HandleLoading(true);
@@ -88,7 +112,7 @@ namespace GoodLuckValley.Scenes
         /// <summary>
         /// Handle loading for the Scene Loader
         /// </summary>
-        private void HandleLoading(bool isLoading)
+        private void HandleLoading(bool isLoading, int forcedMoveDirection = 0)
         {
             // Set isLoading
             this.isLoading = isLoading;
@@ -97,6 +121,19 @@ namespace GoodLuckValley.Scenes
             if (!isLoading)
             {
                 Fade(0f, fadeInDuration, Ease.OutQuad);
+
+                // Exit case - if not forcing a movement direction
+                if (forcedMoveDirection == 0) return;
+
+                // Force player movement
+                EventBus<ForcePlayerMove>.Raise(new ForcePlayerMove()
+                {
+                    ForcedMove = true,
+                    ForcedMoveDirection = forcedMoveDirection
+                });
+
+                // Start the release movement Timer
+                releaseMovementTimer.Start();
             }
         }
 

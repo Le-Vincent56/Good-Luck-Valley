@@ -58,9 +58,14 @@ namespace GoodLuckValley.Player.Movement
             // Exit case - if crouching is not allowed
             if (!controller.Stats.AllowCrouching) return;
 
+            // Check if not crawling, but attempting to crawl, and grounded
             if (!crawling && CrawlPressed && controller.Collisions.Grounded)
+                // Start crawling
                 ToggleCrawling(true);
-            else if (crawling && (!CrawlPressed || !controller.Collisions.Grounded))
+            // Otherwise check if currently crawling and either the crawl is not pressed, the player is not grounded,
+            // or the player is being forced to move
+            else if (crawling && (!CrawlPressed || !controller.Collisions.Grounded || controller.ForcedMove))
+                // Stop crawling
                 ToggleCrawling(false);
         }
 

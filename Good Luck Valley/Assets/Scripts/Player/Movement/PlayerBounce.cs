@@ -39,8 +39,8 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void CalculateBounce()
         {
-            // Check if not bouncing, but a bounce is prepped
-            if (!bouncing && bouncePrepped)
+            // Check if not bouncing, but a bounce is prepped, and the player is not being forced to move
+            if (!bouncing && bouncePrepped && !controller.ForcedMove)
             {
                 // Set variables
                 bouncing = true;
