@@ -53,6 +53,7 @@ namespace GoodLuckValley.Player.Movement
         public bool CoyoteUsable { get => coyoteUsable; set => coyoteUsable = value; }
         public float TimeLeftGrounded { get => timeLeftGrounded; set => timeLeftGrounded = value; }
         public bool IsJumping { get; set; }
+        public bool JumpedAgain { get; set; }
 
         public PlayerJump(PlayerController controller, PotentiateHandler potentiateHandler)
         {
@@ -65,6 +66,9 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void CalculateJump()
         {
+            // Set to note jumping
+            IsJumping = false;
+
             // Check if there's a jump/buffered jump, the player can stand, and the player isn't being forced to move
             if ((jumpToConsume || HasBufferedJump) && controller.Crawl.CanStand && !controller.ForcedMove)
             {      
@@ -134,6 +138,9 @@ namespace GoodLuckValley.Player.Movement
                 // Execute the wall jump
                 controller.WallJump.ExecuteWallJump();
             }
+
+            // Set to jumping
+            IsJumping = true;
 
             //controller.Jumped?.Invoke(jumpType);
         }
