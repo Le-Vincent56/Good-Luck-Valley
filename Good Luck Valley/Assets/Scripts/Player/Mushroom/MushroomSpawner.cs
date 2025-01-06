@@ -16,6 +16,7 @@ namespace GoodLuckValley.Player.Mushroom
         private List<MushroomObject> mushrooms;
 
         [Header("Variables")]
+        [SerializeField] private bool canSpawnShroom;
         [SerializeField] private float castDistance;
         [SerializeField] private LayerMask nonShroomableLayers;
         private Vector2 castPosition;
@@ -48,6 +49,9 @@ namespace GoodLuckValley.Player.Mushroom
         {
             // Exit case - if the button is lifted
             if (!started) return;
+
+            // Exit case - if cannot spawn a Mushroom
+            if (!canSpawnShroom) return;
 
             castPosition = (Vector2)transform.position;
 

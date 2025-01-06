@@ -53,17 +53,17 @@ namespace GoodLuckValley.Potentiates
                     onNoValue: () => { return 0; }
                 );
 
-                // Set the color for feedback
-                EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
-                {
-                    Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
-                });
-
                 // Allow Potentiation
                 parent.AllowPotentiation();
 
                 // Fade the parent sprite back in
                 parent.Fade(1f);
+
+                // Set the color for feedback
+                EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
+                {
+                    Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
+                });
             };
         }
 

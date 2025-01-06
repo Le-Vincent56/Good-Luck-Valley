@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mushroomPrefab: {fileID: 2388533029364849747, guid: 8fab84b586e4bcb4b815bfe283fe7455, type: 3}
   inputReader: {fileID: 11400000, guid: df561a269a9d9eb4ea51591ed37766c3, type: 2}
+  canSpawnShroom: 1
   castDistance: 1
   nonShroomableLayers:
     serializedVersion: 2
@@ -192,6 +193,7 @@ GameObject:
   - component: {fileID: 6717392466394077887}
   - component: {fileID: 1017548440080730835}
   - component: {fileID: 6532220777359588857}
+  - component: {fileID: 7868750179636292618}
   m_Layer: 6
   m_Name: Anari
   m_TagString: Untagged
@@ -378,7 +380,7 @@ MonoBehaviour:
     canGrabWallAfter: 0
     timeLeftWall: 0
     isWallJumping: 0
-  debug: 0
+  debug: 1
 --- !u!114 &8330459608550944573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,3 +435,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4351690d676156d4b897ac31f3d649d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7868750179636292618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8240498859127975196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eb40eb008bc21046bdf434efd07176d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: df561a269a9d9eb4ea51591ed37766c3, type: 2}
+  active: 0
+  debug: 1
+  noClip: 0
+  noClipSpeed: 20

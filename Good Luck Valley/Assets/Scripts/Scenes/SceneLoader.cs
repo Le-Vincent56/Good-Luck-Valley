@@ -1,5 +1,6 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Utilities.EventBus;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
-            manager.OnSceneGroupLoaded += () => HandleLoading(false);
+            manager.OnSceneGroupLoaded += () => { HandleLoading(false); /*EventBusUtils.Debug();*/  };
         }
 
         private void OnDisable()

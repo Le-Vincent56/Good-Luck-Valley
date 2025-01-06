@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace GoodLuckValley.Player.Development
 
         [Header("General")]
         [SerializeField] private bool active;
+        [SerializeField] private bool debug;
 
         [Header("NoClip")]
         [SerializeField] private bool noClip;
@@ -77,6 +79,14 @@ namespace GoodLuckValley.Player.Development
                 noClip = false;
                 controller.Active = true;
             }
+
+            // Raise the toggle devent
+            EventBus<ToggleDevelopmentTools>.Raise(new ToggleDevelopmentTools()
+            {
+                Active = active,
+                Debug = debug,
+                NoClip = noClip
+            });
         }
 
         /// <summary>
@@ -93,6 +103,13 @@ namespace GoodLuckValley.Player.Development
             // Toggle noClip
             noClip = !noClip;
             controller.Active = !noClip;
+
+            // Raise the change event
+            EventBus<ChangeDevelopmentTools>.Raise(new ChangeDevelopmentTools() 
+            { 
+                Debug = debug, 
+                NoClip = noClip 
+            }); 
         }
     }
 }

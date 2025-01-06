@@ -10,8 +10,8 @@ namespace GoodLuckValley.Architecture.EventBus
 
     public class EventBinding<T> : IEventBinding<T> where T : IEvent
     {
-        Action<T> onEvent = delegate { };
-        Action onEventNoArgs = delegate { };
+        Action<T> onEvent = _ => { };
+        Action onEventNoArgs = () => { };
 
         Action<T> IEventBinding<T>.OnEvent
         {
