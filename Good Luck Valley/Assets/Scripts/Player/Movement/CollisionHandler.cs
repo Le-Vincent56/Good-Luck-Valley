@@ -1,7 +1,6 @@
 using GoodLuckValley.Player.Data;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace GoodLuckValley.Player.Movement
@@ -169,6 +168,7 @@ namespace GoodLuckValley.Player.Movement
                 controller.Jump.CoyoteUsable = true;
                 controller.Jump.BufferedJumpUsable = true;
                 controller.WallJump.IsWallJumping = false;
+                controller.WallJump.FromWallJump = false;
                 controller.Bounce.ResetBounce();
                 SetColliderMode(ColliderMode.Standard);
             }

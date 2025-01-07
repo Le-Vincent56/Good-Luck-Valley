@@ -1,8 +1,9 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace GoodLuckValley.Architecture.Singletons
 {
-    public class PersistentSingleton<T> : MonoBehaviour where T : Component
+    public class PersistentSingleton<T> : SerializedMonoBehaviour where T : Component
     {
         public bool AutoUnparentOnAwake = true;
 
@@ -74,7 +75,6 @@ namespace GoodLuckValley.Architecture.Singletons
         /// <summary>
         /// Try to get the Instance of the Persistent Singleton
         /// </summary>
-        /// <returns></returns>
         public static T TryGetInstance() => HasInstance ? instance : null;
     }
 }

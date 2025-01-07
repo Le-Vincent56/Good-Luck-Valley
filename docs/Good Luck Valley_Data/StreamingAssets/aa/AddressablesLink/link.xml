@@ -4,6 +4,8 @@
     <type fullname="GoodLuckValley.Architecture.ServiceLocator.ServiceLocatorScene" preserve="all" />
     <type fullname="GoodLuckValley.CameraCenterer" preserve="all" />
     <type fullname="GoodLuckValley.CameraController" preserve="all" />
+    <type fullname="GoodLuckValley.Cameras.CameraOffsetTrigger" preserve="all" />
+    <type fullname="GoodLuckValley.Cameras.CameraScaleTrigger" preserve="all" />
     <type fullname="GoodLuckValley.Cameras.OneWayCameraTrigger" preserve="all" />
     <type fullname="GoodLuckValley.DevToolsDebugger" preserve="all" />
     <type fullname="GoodLuckValley.Input.GameInputReader" preserve="all" />
@@ -14,6 +16,7 @@
     <type fullname="GoodLuckValley.Interactables.Fireflies.Fruit" preserve="all" />
     <type fullname="GoodLuckValley.Interactables.Fireflies.Lantern" preserve="all" />
     <type fullname="GoodLuckValley.Interactables.InteractableHandler" preserve="all" />
+    <type fullname="GoodLuckValley.Persistence.PlayerSaveHandler" preserve="all" />
     <type fullname="GoodLuckValley.Player.Animation.AnimationController" preserve="all" />
     <type fullname="GoodLuckValley.Player.Data.PlayerStats" preserve="all" />
     <type fullname="GoodLuckValley.Player.Development.DevelopmentTools" preserve="all" />
@@ -26,7 +29,7 @@
     <type fullname="GoodLuckValley.Revealable" preserve="all" />
     <type fullname="GoodLuckValley.Scenes.SceneGroupData" preserve="all" />
     <type fullname="GoodLuckValley.Scenes.SceneTransporter" preserve="all" />
-    <type fullname="GoodLuckValley.TwoWayCameraPriorityTrigger" preserve="all" />
+    <type fullname="GoodLuckValley.TwoWayCameraTrigger" preserve="all" />
     <type fullname="GoodLuckValley.World.Physics.PhysicsOrchestrator" preserve="all" />
     <type fullname="GoodLuckValley.Player.Data.CharacterSize" preserve="nothing" serialized="true" />
     <type fullname="GoodLuckValley.Player.Data.PositionCorrectionMode" preserve="nothing" serialized="true" />
@@ -37,10 +40,13 @@
     <type fullname="GoodLuckValley.Player.Movement.PlayerWallJump" preserve="nothing" serialized="true" />
     <type fullname="GoodLuckValley.Scenes.SceneData" preserve="nothing" serialized="true" />
     <type fullname="GoodLuckValley.Scenes.SceneGroup" preserve="nothing" serialized="true" />
+    <type fullname="GoodLuckValley.Persistence.PlayerData" preserve="nothing" serialized="true" />
+    <type fullname="GoodLuckValley.Persistence.SerializableGuid" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Cinemachine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="Cinemachine.CinemachineBlenderSettings" preserve="all" />
     <type fullname="Cinemachine.CinemachineBrain" preserve="all" />
+    <type fullname="Cinemachine.CinemachineConfiner" preserve="all" />
     <type fullname="Cinemachine.CinemachineFramingTransposer" preserve="all" />
     <type fullname="Cinemachine.CinemachinePipeline" preserve="all" />
     <type fullname="Cinemachine.CinemachineVirtualCamera" preserve="all" />
