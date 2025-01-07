@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e966126c957b844a9e20d387a5e6d91, type: 3}
+  m_Name: Player Stats
+  m_EditorClassIdentifier: 
+  PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  CollisionLayers:
+    serializedVersion: 2
+    m_Bits: 8833
+  CeilingLayers:
+    serializedVersion: 2
+    m_Bits: 641
+  CharacterSize:
+    Height: 1
+    Width: 0.62
+    StepHeight: 0.06
+    CrouchHeight: 0.4
+    RayInset: 0.01
+  VerticalDeadZoneThreshold: 0.3
+  HorizontalDeadZoneThreshold: 0.10000000149011612
+  PositionCorrectionMode: 0
+  BaseSpeed: 5
+  Acceleration: 100
+  Friction: 70
+  AirFrictionMultiplier: 0.5
+  DirectionCorrectionMultiplier: 3
+  MaxWalkableSlope: 46
+  JumpConstantGravity: 16
+  BounceConstantGravity: 13
+  FastFallMultiplier: 3.5
+  SlowFallMultiplier: 0.3
+  BufferedJumpTime: 0.15
+  CoyoteTime: 0.15
+  JumpPower: 8
+  EndJumpEarlyExtraForceMultiplier: 3
+  MaxAirJumps: 0
+  MaxBouncePower: 10.25
+  MinBouncePower: 9.5
+  BounceIgnoreDetectionTime: 0.2
+  AllowDash: 1
+  DashVelocity: 50
+  DashDuration: 0.2
+  DashCooldown: 1.5
+  DashEndHorizontalMultiplier: 0.5
+  AllowCrouching: 1
+  CrouchSlowDownTime: 0.1
+  CrouchSpeedModifier: 0.3
+  AllowWalls: 1
+  ClimbableLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  WallJumpTotalInputLossTime: 0.2
+  WallJumpInputLossReturnTime: 0.5
+  RequireInputPush: 0
+  WallJumpPower: {x: 10, y: 8.5}
+  WallPushPower: {x: 10, y: 8.5}
+  WallClimbSpeed: 10
+  WallFallAcceleration: 5
+  WallPopForce: 0
+  WallCoyoteTime: 0
+  WallDetectorRange: 0.2
+  AllowLadders: 0
+  LadderCooldownTime: 0.15000000596046448
+  AutoAttachToLadders: 1
+  SnapToLadders: 1
+  LadderLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  LadderSnapTime: 0.02
+  LadderPopForce: 10
+  LadderClimbSpeed: 8
+  LadderSlideSpeed: 12
+  LadderShimmySpeedMultiplier: 0.5
+  NegativeYVelocityNegation: 0.2
+  ExternalVelocityDecayRate: 0.1

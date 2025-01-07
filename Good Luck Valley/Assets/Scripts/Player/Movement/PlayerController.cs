@@ -6,8 +6,6 @@ using System;
 using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
-using GoodLuckValley.Player.Development;
-using System.Diagnostics.CodeAnalysis;
 using GoodLuckValley.Architecture.EventBus;
 
 namespace GoodLuckValley.Player.Movement
@@ -92,6 +90,7 @@ namespace GoodLuckValley.Player.Movement
         public event Action<PlayerJump.JumpType> Jumped;
 
         private EventBinding<ForcePlayerMove> onForcePlayerMove;
+        private EventBinding<PlacePlayer> onPlacePlayer;
 
         private void Awake()
         {
@@ -112,11 +111,15 @@ namespace GoodLuckValley.Player.Movement
         {
             onForcePlayerMove = new EventBinding<ForcePlayerMove>(SetForcedMove);
             EventBus<ForcePlayerMove>.Register(onForcePlayerMove);
+
+            onPlacePlayer = new EventBinding<PlacePlayer>(PlacePlayerAtPosition);
+            EventBus<PlacePlayer>.Register(onPlacePlayer);
         }
 
         private void OnDisable()
         {
             EventBus<ForcePlayerMove>.Deregister(onForcePlayerMove);
+            EventBus<PlacePlayer>.Deregister(onPlacePlayer);
         }
 
         public void OnValidate() => Setup();
@@ -468,6 +471,17 @@ namespace GoodLuckValley.Player.Movement
         {
             forcedMove = eventData.ForcedMove;
             forcedMoveDirection = eventData.ForcedMoveDirection;
+        }
+
+        /// <summary>
+        /// Place the Player at a position
+        /// </summary>
+        private void PlacePlayerAtPosition(PlacePlayer eventData)
+        {
+            Vector3 worldPosition = transform.parent.TransformPoint(eventData.Position);
+
+            transform.position = worldPosition;
+            rb.position = worldPosition;
         }
 
         private void OnDrawGizmos()

@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace GoodLuckValley.Scenes
 {
+    public enum SceneGate
+    {
+        Entrance,
+        Exit
+    }
+
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
     public class SceneTransporter : MonoBehaviour
@@ -13,6 +19,7 @@ namespace GoodLuckValley.Scenes
 
         [Header("Other")]
         [SerializeField] private int moveDirection;
+        [SerializeField] private SceneGate toGate;
 
         public int SceneIndexToLoad { get => sceneIndexToLoad; set => sceneIndexToLoad = value; }
 
@@ -23,12 +30,15 @@ namespace GoodLuckValley.Scenes
             // Exit case - the collision is not the Player
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
+            // Exit case - already being forced to move
+            if(controller.ForcedMove) return;
+
             // Remove manual move
             controller.ForcedMove = true;
             controller.ForcedMoveDirection = moveDirection;
 
             // Start changing the scene group
-            SceneLoader.Instance.ChangeSceneGroup(sceneIndexToLoad, moveDirection);
+            SceneLoader.Instance.ChangeSceneGroupLevel(sceneIndexToLoad, toGate, moveDirection);
         }
     }
 }

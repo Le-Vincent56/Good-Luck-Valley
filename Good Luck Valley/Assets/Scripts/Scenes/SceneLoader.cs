@@ -12,9 +12,11 @@ namespace GoodLuckValley.Scenes
     {
         [Header("Scenes")]
         [SerializeField] private SceneGroupData sceneGroupData;
+        //[SerializeField] private 
         private bool isLoading;
         public SceneGroupManager Manager;
 
+        private SceneGate toGate;
         private int forcedMoveDirection = 0;
         private CountdownTimer releaseMovementTimer;
 
@@ -50,16 +52,12 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
-            Manager.OnSceneGroupLoaded += (int index) => 
-            { 
-                HandleLoading(false, forcedMoveDirection); 
-                /*EventBusUtils.Debug();*/  
-            };
+            Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
         }
 
         private void OnDisable()
         {
-            Manager.OnSceneGroupLoaded -= (int indx) => HandleLoading(false, forcedMoveDirection);
+            Manager.OnSceneGroupLoaded -= OnSceneGroupLoaded;
         }
 
         private void OnDestroy()
@@ -69,6 +67,21 @@ namespace GoodLuckValley.Scenes
 
             // Clean up events
             Cleanup.Invoke();
+        }
+
+        private void OnSceneGroupLoaded(int index)
+        {
+            if(forcedMoveDirection != 0)
+            {
+                // Place the player
+                EventBus<PlacePlayer>.Raise(new PlacePlayer()
+                {
+                    Position = sceneGroupData.GetActiveScene(index).GetGate(toGate)
+                });
+            }
+
+            HandleLoading(false, forcedMoveDirection);
+            /*EventBusUtils.Debug();*/
         }
 
         /// <summary>
@@ -88,9 +101,9 @@ namespace GoodLuckValley.Scenes
         }
 
         /// <summary>
-        /// Change from one Scene Group to another
+        /// Change from one Scene Group to another during gameplay levels
         /// </summary>
-        public void ChangeSceneGroup(int index, int lastMovingDirection = 0)
+        public void ChangeSceneGroupLevel(int index, SceneGate toGate, int lastMovingDirection = 0)
         {
             // Exit case - the index is not valid
             if (index < 0 || index >= sceneGroupData.SceneGroups.Length) return;
@@ -99,6 +112,30 @@ namespace GoodLuckValley.Scenes
 
             // Set the forced movement direction
             forcedMoveDirection = lastMovingDirection;
+
+            // Start loading
+            HandleLoading(true);
+
+            this.toGate = toGate;
+
+            // Fade in the loading image
+            EventBus<FadeScene>.Raise(new FadeScene()
+            {
+                FadeIn = false,
+                EaseType = Ease.InQuad,
+                OnComplete = async () => await Manager.LoadScenes(index, sceneGroupData.SceneGroups[index], progress, true)
+            });
+        }
+
+        /// <summary>
+        /// Change from one Scene Group to another using a system
+        /// </summary>
+        public void ChangeSceneGroupSystem(int index)
+        {
+            // Exit case - the index is not valid
+            if (index < 0 || index >= sceneGroupData.SceneGroups.Length) return;
+
+            LoadingProgress progress = new LoadingProgress();
 
             // Start loading
             HandleLoading(true);

@@ -53,7 +53,7 @@ namespace GoodLuckValley.Persistence
 
         private void OnSceneGroupLoaded(int index)
         {
-            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            //Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace GoodLuckValley.Persistence
             selectedData = dataService.Load(gameName);
 
             // Load the scene group at the scene group index
-            SceneLoader.Instance.ChangeSceneGroup(selectedData.SceneGroupIndex);
+            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.SceneGroupIndex);
         }
 
         /// <summary>
