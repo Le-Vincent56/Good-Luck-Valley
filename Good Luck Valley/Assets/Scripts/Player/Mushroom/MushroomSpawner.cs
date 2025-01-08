@@ -18,7 +18,7 @@ namespace GoodLuckValley.Player.Mushroom
         [Header("Variables")]
         [SerializeField] private bool canSpawnShroom;
         [SerializeField] private float castDistance;
-        [SerializeField] private LayerMask nonShroomableLayers;
+        [SerializeField] private LayerMask shroomableLayers;
         private Vector2 castPosition;
 
         private void Awake()
@@ -58,24 +58,14 @@ namespace GoodLuckValley.Player.Mushroom
 
             castPosition = (Vector2)transform.position;
 
-            // Raycast beneath the player to check for non-shroomable layers
-            RaycastHit2D checkCast = Physics2D.Raycast(
-                castPosition,
-                -playerController.Up,
-                castDistance,
-                nonShroomableLayers
-            );
-
-            // Exit case - has hit a non-shroomable layer
-            if (checkCast) return;
-
             // Modify the selected code to use the new method
             RaycastHit2D bounceCast = Physics2D.Raycast(
                 castPosition,
                 -playerController.Up,
                 castDistance,
-                playerController.Stats.CollisionLayers
+                shroomableLayers
             );
+
 
             // Exit case - nothing was hit
             if (!bounceCast) return;
@@ -89,14 +79,19 @@ namespace GoodLuckValley.Player.Mushroom
             // Get the tile position and verify
             Vector3Int tilePosition = tilemap.WorldToCell(adjustedPoint);
 
-            // Exit case - there is no Tile at the position
-            if (!tilemap.HasTile(tilePosition)) return;
+            // Set the spawn point to the bounce cast hit point
+            Vector2 spawnPoint = bounceCast.point;
 
-            // Calculate the spawn point at the top of the tile
-            Vector3 tileCenter = tilemap.GetCellCenterWorld(tilePosition);
-            Vector2 spawnPoint = tileCenter;
-            spawnPoint.y = tileCenter.y + (tilemap.cellSize.y / 2f);
+            // Check if there is a Tile at the position
+            if (tilemap.HasTile(tilePosition))
+            {
+                // Calculate the spawn point at the top of the tile
+                Vector3 tileCenter = tilemap.GetCellCenterWorld(tilePosition);
+                spawnPoint = tileCenter;
+                spawnPoint.y = tileCenter.y + (tilemap.cellSize.y / 2f);
+            }
 
+            // Apply the rotation to make it perpendicular to the surface
             float rotation = (int)Vector2.Angle(bounceCast.normal, Vector2.up) * -(int)Mathf.Sign(bounceCast.normal.x);
             Quaternion rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
 
