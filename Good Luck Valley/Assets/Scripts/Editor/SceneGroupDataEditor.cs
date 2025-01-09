@@ -9,8 +9,6 @@ namespace GoodLuckValley.Editors.Scenes
     {
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
-
             SceneGroupData sceneGroupData = (SceneGroupData)target;
 
             // Check if the SceneLoader has a valid SceneGroups array
@@ -49,6 +47,8 @@ namespace GoodLuckValley.Editors.Scenes
                 // Otherwise, display a warning
                 EditorGUILayout.HelpBox("No Scene Groups found. Please assign SceneGroups in the Inspector", MessageType.Warning);
             }
+
+            base.OnInspectorGUI();
         }
     }
 }

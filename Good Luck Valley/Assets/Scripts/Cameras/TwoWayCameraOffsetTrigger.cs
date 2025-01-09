@@ -7,13 +7,15 @@ namespace GoodLuckValley.Cameras
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
-    public class CameraOffsetTrigger : MonoBehaviour
+    public class TwoWayCameraOffsetTrigger : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineFramingTransposer framingTransposer;
+        private Vector3 center;
 
         [Header("Tweening Variables")]
-        [SerializeField] private Vector3 toOffset;
+        [SerializeField] private Vector3 leftOffset;
+        [SerializeField] private Vector3 rightOffset;
         [SerializeField] private float translateDuration;
         [SerializeField] private Ease easeType;
         private Tween translateTween;
@@ -22,17 +24,31 @@ namespace GoodLuckValley.Cameras
         {
             // Get the Framing Trasnposer
             framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            // Set the center of the trigger
+            Bounds bounds = GetComponent<BoxCollider2D>().bounds;
+            center = bounds.center;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+
+        private void OnTriggerExit2D(Collider2D other)
         {
             // Exit case - the collision object is not the Player
             if (!other.TryGetComponent(out PlayerController controller)) return;
 
-            // Translate to the given offset
-            Translate(toOffset, translateDuration, easeType);
+            // Get the direction from the controller to the player
+            Vector2 enterDirection = controller.transform.position - center;
+            int enterDirectionX = (int)Mathf.Sign(enterDirection.x);
+
+            // Check if exiting from the right
+            if (enterDirectionX == 1)
+                // Prioritize the right camera
+                Translate(rightOffset, translateDuration, easeType);
+            // Else, check if exiting from the left
+            else if (enterDirectionX == -1)
+                Translate(leftOffset, translateDuration, easeType);
         }
-        
+
         /// <summary>
         /// Handle translate tweening for the Cinemachine Framing Transposer Tracked Object Offset
         /// </summary>

@@ -9,6 +9,7 @@ namespace GoodLuckValley
     public class TwoWayCameraTrigger : MonoBehaviour
     {
         private CameraController cameraController;
+        private Vector3 center;
 
         [SerializeField] private CinemachineVirtualCamera leftCamera;
         [SerializeField] private CinemachineVirtualCamera rightCamera;
@@ -17,6 +18,10 @@ namespace GoodLuckValley
         {
             // Get the Camera Controller as a servicve
             cameraController = ServiceLocator.ForSceneOf(this).Get<CameraController>();
+
+            // Set the center of the trigger
+            Bounds bounds = GetComponent<BoxCollider2D>().bounds;
+            center = bounds.center;
         }
 
         private void OnTriggerExit2D(Collider2D collision)
@@ -25,8 +30,8 @@ namespace GoodLuckValley
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
             // Get the direction from the controller to the player
-            Vector2 enterDirection = controller.transform.position - transform.position;
-            int enterDirectionX = (int)Mathf.Sign(enterDirection.x);
+            Vector2 exitDirection = controller.transform.position - center;
+            int enterDirectionX = (int)Mathf.Sign(exitDirection.x);
 
             // Check if exiting from the right
             if (enterDirectionX == 1)
