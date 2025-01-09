@@ -1,12 +1,11 @@
 using Cinemachine;
-using DG.Tweening;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.World.Triggers;
 using UnityEngine;
 
 namespace GoodLuckValley.Cameras
 {
-    public class CameraScaleTrigger : FloatDistanceBasedTrigger
+    public class CameraScaleDistanceTrigger : FloatDistanceBasedTrigger
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
 

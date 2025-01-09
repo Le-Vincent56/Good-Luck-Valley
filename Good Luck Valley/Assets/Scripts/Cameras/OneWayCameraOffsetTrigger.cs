@@ -7,7 +7,7 @@ namespace GoodLuckValley.Cameras
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
-    public class CameraOffsetTrigger : MonoBehaviour
+    public class OneWayCameraOffsetTrigger : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineFramingTransposer framingTransposer;
