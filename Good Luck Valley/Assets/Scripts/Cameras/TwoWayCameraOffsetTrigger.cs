@@ -5,8 +5,6 @@ using UnityEngine;
 
 namespace GoodLuckValley.Cameras
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(BoxCollider2D))]
     public class TwoWayCameraOffsetTrigger : TwoWayTrigger
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;

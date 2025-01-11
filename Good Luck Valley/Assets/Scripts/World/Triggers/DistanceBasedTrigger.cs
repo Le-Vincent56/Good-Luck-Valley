@@ -3,9 +3,7 @@ using UnityEngine;
 
 namespace GoodLuckValley.World.Triggers
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(BoxCollider2D))]
-    public abstract class DistanceBasedTrigger : MonoBehaviour
+    public abstract class DistanceBasedTrigger : BaseTrigger
     {
         protected enum Direction
         {
