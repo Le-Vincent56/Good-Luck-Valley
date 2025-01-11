@@ -11,6 +11,7 @@ namespace GoodLuckValley.Potentiates
         private Optional<PotentiateHandler> storedHandler = Optional<PotentiateHandler>.None();
         private Optional<PlayerController> storedController = Optional<PlayerController>.None();
         private CountdownTimer durationTimer;
+        private CountdownTimer cooldownTimer;
 
         public TimeWarpStrategy(Potentiate parent, float duration)
         {
@@ -53,11 +54,7 @@ namespace GoodLuckValley.Potentiates
                     onNoValue: () => { return 0; }
                 );
 
-                // Allow Potentiation
-                parent.AllowPotentiation();
-
-                // Fade the parent sprite back in
-                parent.Fade(1f);
+                RespawnPotentiate();
 
                 // Set the color for feedback
                 EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
@@ -65,6 +62,11 @@ namespace GoodLuckValley.Potentiates
                     Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
                 });
             };
+
+            // Set up the cooldown timer
+            cooldownTimer = new CountdownTimer(1f);
+
+            cooldownTimer.OnTimerStop += () => RespawnPotentiate();
         }
 
         ~TimeWarpStrategy()
@@ -125,8 +127,29 @@ namespace GoodLuckValley.Potentiates
         /// </summary>
         public override void Deplete()
         {
-            // Stop the duration timer
-            durationTimer.Stop();
+            // Pause the duration timer
+            durationTimer.Pause();
+
+            // Start the cooldown timer
+            cooldownTimer.Start();
+
+            // Set the color for feedback
+            EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
+            {
+                Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
+            });
+        }
+
+        /// <summary>
+        /// Respawn the Time Warp
+        /// </summary>
+        private void RespawnPotentiate()
+        {
+            // Allow potentiation
+            parent.AllowPotentiation();
+
+            // Fade the parent sprite back in
+            parent.Fade(1f);
         }
     }
 }
