@@ -520,7 +520,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2895395885423321209, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 62.43
+      value: 62.11
       objectReference: {fileID: 0}
     - target: {fileID: 2895395885423321209, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
       propertyPath: m_LocalPosition.y
@@ -569,6 +569,10 @@ PrefabInstance:
     - target: {fileID: 8240498859127975196, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
       propertyPath: m_Name
       value: Anari
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282070335553380118, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
+      propertyPath: canSpawnShroom
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1480,8 +1484,7 @@ GameObject:
   - component: {fileID: 456038341}
   - component: {fileID: 456038344}
   - component: {fileID: 456038343}
-  - component: {fileID: 456038342}
-  - component: {fileID: 456038345}
+  - component: {fileID: 456038346}
   m_Layer: 11
   m_Name: Camera Return Correction Trigger
   m_TagString: Untagged
@@ -1497,30 +1500,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456038340}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 282.84, y: 4.87, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 283.558, y: 5.105, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 51591810}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &456038342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 456038340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4abde9eeefcdd1b43b684c82de2c5ce2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 1800805934}
-  rightOrthographicSize: 5
-  leftOrthographicSize: 5
-  scaleDuration: 0
-  easeType: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!61 &456038343
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1594,7 +1580,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &456038345
+--- !u!114 &456038346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1603,13 +1589,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 456038340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edaa94e104af2e54a847982faa284f21, type: 3}
+  m_Script: {fileID: 11500000, guid: 544c60b83536d81439e26db06c917a46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 1800805934}
-  toOffset: {x: 0, y: 5, z: 0}
-  translateDuration: 0
-  easeType: 0
+  toScale: 5
+  scaleDuration: 0
+  easeType: 1
 --- !u!1 &462414884
 GameObject:
   m_ObjectHideFlags: 3
@@ -2320,7 +2306,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.0000087072885, z: 0, w: 1}
-  m_LocalPosition: {x: 46.8714, y: 9.415971, z: -10.068359}
+  m_LocalPosition: {x: 46.5514, y: 9.415971, z: -10.068359}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2955,8 +2941,8 @@ Transform:
   m_GameObject: {fileID: 602673864}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 96.68181, y: -2.461676, z: -0.028137427}
-  m_LocalScale: {x: 3.7547798, y: 1.1288183, z: 1}
+  m_LocalPosition: {x: 96.68181, y: -2.3864, z: -0.028137427}
+  m_LocalScale: {x: 3.7547798, y: 1.2794026, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 276986684}
@@ -3249,7 +3235,7 @@ Transform:
   m_GameObject: {fileID: 668095153}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.8714, y: 7.915971, z: -10.068359}
+  m_LocalPosition: {x: 46.5514, y: 7.915971, z: -10.068359}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3272,7 +3258,7 @@ MonoBehaviour:
   m_BoundingVolume: {fileID: 0}
   m_BoundingShape2D: {fileID: 1695880217}
   m_ConfineScreenEdges: 1
-  m_Damping: 0.5
+  m_Damping: 0
 --- !u!114 &668095156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19376,7 +19362,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 1
   m_CompositeOrder: 0
-  m_Offset: {x: 113.74878, y: 8.377268}
+  m_Offset: {x: 114.22336, y: 8.377268}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -19386,7 +19372,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 249.85251, y: 41.14944}
+  m_Size: {x: 250.80167, y: 41.14944}
   m_EdgeRadius: 0
 --- !u!66 &1695880217
 CompositeCollider2D:
@@ -19429,18 +19415,18 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1695880216}
     m_ColliderPaths:
-    - - X: 2386750208
+    - - X: 2396241920
         Y: 289519872
       - X: -111774752
         Y: 289519872
       - X: -111774752
         Y: -121974528
-      - X: 2386750208
+      - X: 2396241920
         Y: -121974528
   m_CompositePaths:
     m_Paths:
-    - - {x: 238.675, y: -12.197453}
-      - {x: 238.675, y: 28.951988}
+    - - {x: 239.62418, y: -12.197453}
+      - {x: 239.62418, y: 28.951988}
       - {x: -11.177475, y: 28.95196}
       - {x: -11.177445, y: -12.197453}
   m_VertexDistance: 0.0005
@@ -20101,7 +20087,7 @@ Transform:
   m_GameObject: {fileID: 1800805932}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.8714, y: 9.415971, z: -10.068359}
+  m_LocalPosition: {x: 46.5514, y: 9.415971, z: -10.068359}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20163,7 +20149,7 @@ MonoBehaviour:
   m_BoundingVolume: {fileID: 0}
   m_BoundingShape2D: {fileID: 1695880217}
   m_ConfineScreenEdges: 1
-  m_Damping: 0.5
+  m_Damping: 0
 --- !u!1 &1826041257
 GameObject:
   m_ObjectHideFlags: 0
