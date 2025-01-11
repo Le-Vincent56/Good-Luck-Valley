@@ -77,7 +77,7 @@ namespace GoodLuckValley.Player.Movement
         public void CalculateCollisions()
         {
             // Set the Physics2D query
-            Physics2D.queriesStartInColliders = false;
+            Physics2D.queriesStartInColliders = true;
 
             // Check if grounded in this frame
             bool isGroundedThisFrame = PerformRay(RayPoint);
