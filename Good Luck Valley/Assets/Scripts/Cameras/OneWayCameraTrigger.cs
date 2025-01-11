@@ -1,12 +1,12 @@
 using Cinemachine;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Player.Movement;
+using GoodLuckValley.World.Triggers;
 using UnityEngine;
 
 namespace GoodLuckValley.Cameras
 {
-    [RequireComponent(typeof(BoxCollider2D))]
-    public class OneWayCameraTrigger : MonoBehaviour
+    public class OneWayCameraTrigger : BaseTrigger
     {
         private CameraController cameraController;
         [SerializeField] private CinemachineVirtualCamera cameraToPrioritize;

@@ -20,7 +20,17 @@ namespace GoodLuckValley
 
         private void Start()
         {
-            initialCamera.gameObject.SetActive(true);
+            // Iterate through each virtual camera
+            foreach(CinemachineVirtualCamera cam in virtualCameras)
+            {
+                // Check if the camera is the initial camera
+                if (cam == initialCamera) 
+                    // Make sure the initial camera is active
+                    cam.gameObject.SetActive(true);
+                else 
+                    // Otherwise, deactivate the camera
+                    cam.gameObject.SetActive(false);
+            }
         }
 
         /// <summary>
