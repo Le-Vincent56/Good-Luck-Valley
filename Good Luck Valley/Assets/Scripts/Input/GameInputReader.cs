@@ -63,6 +63,21 @@ namespace GoodLuckValley.Input
         public void Disable() => inputActions.Disable();
 
         /// <summary>
+        /// Set the Player Actions
+        /// </summary>
+        public void Set()
+        {
+            // Exit case - the Player actions are already enabled
+            if (inputActions.Player.enabled) return;
+
+            // Disable all other actions
+            inputActions.UI.Disable();
+
+            // Enable the Player actions
+            inputActions.Player.Enable();
+        }
+
+        /// <summary>
         /// Retrieve input from this frame
         /// </summary>
         public FrameInput RetrieveFrameInput()

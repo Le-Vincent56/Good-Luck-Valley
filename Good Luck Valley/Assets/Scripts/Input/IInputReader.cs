@@ -4,5 +4,6 @@ namespace GoodLuckValley.Input
     {
         void Enable();
         void Disable();
+        void Set();
     }
 }
