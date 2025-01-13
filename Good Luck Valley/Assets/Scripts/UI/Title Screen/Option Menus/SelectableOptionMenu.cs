@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.MainMenu.OptionMenus
 {
-    public class InitialOptionMenu : MonoBehaviour, IOptionMenu
+    public class SelectableOptionMenu : MonoBehaviour, IOptionMenu
     {
         [SerializeField] private Selectable initialOption;
         private Optional<Selectable> lastOption = Optional<Selectable>.None();

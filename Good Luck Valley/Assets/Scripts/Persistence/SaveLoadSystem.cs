@@ -109,12 +109,12 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Create a New Game
         /// </summary>
-        public async void NewGame(bool loadGame = false)
+        public void NewGame(int slot, bool loadGame = false)
         {
             // Create a new Game Data
             selectedData = new GameData
             {
-                Slot = 1,
+                Slot = slot,
                 Name = "New Game",
                 SceneGroupIndex = 0,
                 LastUpdated = DateTime.Now.ToBinary(),
@@ -129,7 +129,7 @@ namespace GoodLuckValley.Persistence
             if (!loadGame) return;
 
             // Load the Scene Group
-            await SceneLoader.Instance.LoadSceneGroup(selectedData.SceneGroupIndex);
+            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.SceneGroupIndex);
         }
 
         /// <summary>

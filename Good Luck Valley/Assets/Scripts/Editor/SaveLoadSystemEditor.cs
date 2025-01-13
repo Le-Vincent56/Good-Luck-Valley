@@ -18,7 +18,7 @@ namespace GoodLuckValley.Editors.Persistence
             // Debug button to create a new game
             if (GUILayout.Button("New Game"))
             {
-                saveLoadSystem.NewGame();
+                saveLoadSystem.NewGame(1);
             }
 
             // Debug button to save the game
