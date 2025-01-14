@@ -7,6 +7,7 @@ using UnityEngine;
 using GoodLuckValley.UI.MainMenu.OptionMenus;
 using Sirenix.OdinInspector;
 using GoodLuckValley.Architecture.ServiceLocator;
+using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.MainMenu
 {
@@ -14,6 +15,7 @@ namespace GoodLuckValley.UI.MainMenu
     {
         [Header("References")]
         [SerializeField] private UIInputReader inputReader;
+        [SerializeField] private Image darkerBackground;
 
         [Header("States")]
         [SerializeField] private int currentState;
@@ -68,9 +70,9 @@ namespace GoodLuckValley.UI.MainMenu
             stateMachine = new StateMachine();
 
             // Create states
-            OpenMenuState openState = new OpenMenuState(this, screens[OPEN], optionMenus[OPEN]);
-            InitialMenuState initialState = new InitialMenuState(this, screens[INITIAL], optionMenus[INITIAL]);
-            StartMenuState startState = new StartMenuState(this, screens[START], optionMenus[START]);
+            OpenMenuState openState = new OpenMenuState(this, screens[OPEN], darkerBackground, optionMenus[OPEN]);
+            InitialMenuState initialState = new InitialMenuState(this, screens[INITIAL], darkerBackground, optionMenus[INITIAL]);
+            StartMenuState startState = new StartMenuState(this, screens[START], darkerBackground, optionMenus[START]);
 
             // Define state transitions
             stateMachine.At(openState, initialState, new FuncPredicate(() => currentState == INITIAL));

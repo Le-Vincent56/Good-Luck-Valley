@@ -8,8 +8,9 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
     {
         [Header("References")]
         [SerializeField] private StartMenuController controller;
-        [SerializeField] private GameObject withDataObject;
-        [SerializeField] private GameObject withoutDataObject;
+        [SerializeField] private CanvasGroup withData;
+        [SerializeField] private CanvasGroup withoutData;
+        [SerializeField] private CanvasGroup selectedGroup;
         [SerializeField] private Text timeText;
         [SerializeField] private Text notesText;
         [SerializeField] private SlotDeleter deleter;
@@ -19,6 +20,10 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         [SerializeField] private string saveName;
         [SerializeField] private bool isEmpty;
         [SerializeField] private bool active;
+
+        [Header("Tweening Variables")]
+        [SerializeField] private float unselectedAlpha = 0.4627;
+        [SerializeField] private float highlightDuration;
 
         public int Slot { get => slot; }
         public string Name { get => saveName; set => saveName = value; }
@@ -71,6 +76,12 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
 
             if(validData)
             {
+                // Set the selected group
+                selectedGroup = withData;
+
+                withoutData.alpha = 0;
+                withData.alpha = unselectedAlpha;
+
                 // Switch to the "Without Data" object
                 withoutDataObject.SetActive(false);
                 withDataObject.SetActive(true);
@@ -129,5 +140,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             deleter.Hide();
             deleter.SetSelectable(false);
         }
+
+        public void 
     }
 }
