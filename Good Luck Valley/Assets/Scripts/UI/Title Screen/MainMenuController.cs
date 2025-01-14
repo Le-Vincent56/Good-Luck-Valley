@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using GoodLuckValley.UI.MainMenu.OptionMenus;
 using Sirenix.OdinInspector;
+using GoodLuckValley.Architecture.ServiceLocator;
 
 namespace GoodLuckValley.UI.MainMenu
 {
@@ -37,6 +38,9 @@ namespace GoodLuckValley.UI.MainMenu
 
             // Set the UI input reader
             inputReader.Set();
+
+            // Register as a service
+            ServiceLocator.ForSceneOf(this).Register(this);
         }
 
         private void OnEnable()
