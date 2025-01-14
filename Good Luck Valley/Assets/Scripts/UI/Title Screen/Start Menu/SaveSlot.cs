@@ -22,7 +22,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         [SerializeField] private bool active;
 
         [Header("Tweening Variables")]
-        [SerializeField] private float unselectedAlpha = 0.4627;
+        [SerializeField] private float unselectedAlpha = 0.4627f;
         [SerializeField] private float highlightDuration;
 
         public int Slot { get => slot; }
@@ -83,16 +83,16 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
                 withData.alpha = unselectedAlpha;
 
                 // Switch to the "Without Data" object
-                withoutDataObject.SetActive(false);
-                withDataObject.SetActive(true);
+                //withoutDataObject.SetActive(false);
+                //withDataObject.SetActive(true);
 
                 isEmpty = false;
             } else
             {
 
                 // Switch to the "With Data" object
-                withDataObject.SetActive(false);
-                withoutDataObject.SetActive(true);
+                //withDataObject.SetActive(false);
+                //withoutDataObject.SetActive(true);
 
                 isEmpty = true;
             }
@@ -141,6 +141,5 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             deleter.Hide();
             deleter.SetSelectable(false);
         }
-
     }
 }
