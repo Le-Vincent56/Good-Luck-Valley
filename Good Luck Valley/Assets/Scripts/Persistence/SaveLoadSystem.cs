@@ -34,6 +34,9 @@ namespace GoodLuckValley.Persistence
 
             // Create a File Data Service using a JSON Serializer
             dataService = new FileDataService(new JsonSerializer());
+
+            // Initialize the Dictionary
+            saves = new Dictionary<string, GameData>();
         }
 
         private void OnEnable()

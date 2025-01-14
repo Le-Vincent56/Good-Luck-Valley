@@ -28,10 +28,10 @@ namespace GoodLuckValley.UI.MainMenu.States
             {
                 screen.interactable = true;
                 screen.blocksRaycasts = true;
-            });
 
-            // Update the first selected of the Option Menu
-            optionMenu.SelectFirst();
+                // Update the first selected of the Option Menu
+                optionMenu.SelectFirst();
+            });
         }
 
         public virtual void Update() { }

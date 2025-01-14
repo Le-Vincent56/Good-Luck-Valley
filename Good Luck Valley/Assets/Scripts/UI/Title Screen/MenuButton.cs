@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -8,11 +9,7 @@ namespace GoodLuckValley.UI.MainMenu
     public class MenuButton : Selectable, ISubmitHandler
     {
         [Space(10), Header("References")]
-        [SerializeField] private MainMenuController controller;
         [SerializeField] private Text textToSelect;
-
-        [Header("Control Variables")]
-        [SerializeField] private int stateToChange;
 
         [Header("Default Variables")]
         [SerializeField] private int defaultFontSize;
@@ -31,7 +28,19 @@ namespace GoodLuckValley.UI.MainMenu
         [SerializeField] private float submitDuration;
         private Tween scaleTween;
         private Tween colorTween;
-        private Tween submitTween;
+
+        public UnityEvent OnClick = new UnityEvent();
+
+        protected override void Awake()
+        {
+            // Call the parent Awake()
+            base.Awake();
+
+            // Calculate font sizes
+            defaultFontSize = textToSelect.fontSize;
+            selectedFontSize = defaultFontSize + 8;
+            submittedFontSize = defaultFontSize - 2;
+        }
 
         protected override void OnDestroy()
         {
@@ -55,7 +64,7 @@ namespace GoodLuckValley.UI.MainMenu
 
         public override void OnDeselect(BaseEventData eventData)
         {
-            // Call the parent onDeselect()
+            // Call the parent OnDeselect()
             base.OnDeselect(eventData);
 
             // Deselect the text
@@ -70,8 +79,7 @@ namespace GoodLuckValley.UI.MainMenu
             {
                 Scale(selectedFontSize, submitDuration, Ease.OutBack, () =>
                 {
-                    controller.SetState(submittedFontSize);
-                    Debug.Log("Set State");
+                    OnClick.Invoke();
                 });
             });
             ChangeColor(selectedColor, submitDuration / 2f);

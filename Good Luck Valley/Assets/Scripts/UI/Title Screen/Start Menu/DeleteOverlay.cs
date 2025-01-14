@@ -1,5 +1,7 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.UI.MainMenu.StartMenu.States;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.MainMenu.StartMenu
 {
@@ -8,7 +10,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         [Header("References")]
         [SerializeField] private StartMenuController controller;
         [SerializeField] private ConfirmationMenu confirmationMenu;
-        [SerializeField] private GameObject deleteOverlayObject;
+        [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Animator animator;
 
         [Header("Fields")]
@@ -23,7 +25,8 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         private void Awake()
         {
             // Get components
-            controller = GetComponent<StartMenuController>();
+            canvasGroup = GetComponent<CanvasGroup>();
+            animator = GetComponentInChildren<Animator>();
 
             // Set up the State Machine
             SetupStateMachine();
@@ -44,10 +47,18 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             stateMachine = new StateMachine();
 
             // Create states
+            DeleteIdleState idleState = new DeleteIdleState(this, animator, canvasGroup);
+            DeletePopupState popupState = new DeletePopupState(this, animator, canvasGroup, confirmationMenu);
+            DeleteConfirmState confirmState = new DeleteConfirmState(this, animator, canvasGroup, animator.GetComponent<Image>());
 
             // Define state transitions
+            stateMachine.At(idleState, popupState, new FuncPredicate(() => state == POPUP));
+            stateMachine.At(popupState, idleState, new FuncPredicate(() => state == IDLE));
+            stateMachine.At(popupState, confirmState, new FuncPredicate(() => state == DELETING));
+            stateMachine.At(confirmState, idleState, new FuncPredicate(() => state == IDLE));
 
             // Set the initial state
+            stateMachine.SetState(idleState);
         }
 
         /// <summary>

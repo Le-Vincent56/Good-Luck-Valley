@@ -23,11 +23,11 @@ namespace GoodLuckValley.UI.MainMenu
 
         public int OPEN => 0;
         public int INITIAL => 1;
+        public int START => 2;
 
         private void Awake()
         {
             // Get the screens
-            screens = GetComponentsInChildren<CanvasGroup>().ToList();
             optionMenus = GetComponentsInChildren<IOptionMenu>().ToList();
 
             // Set the current state to 0
@@ -70,9 +70,12 @@ namespace GoodLuckValley.UI.MainMenu
             // Create states
             OpenMenuState openState = new OpenMenuState(this, screens[OPEN], optionMenus[OPEN]);
             InitialMenuState initialState = new InitialMenuState(this, screens[INITIAL], optionMenus[INITIAL]);
+            StartMenuState startState = new StartMenuState(this, screens[START], optionMenus[START]);
 
             // Define state transitions
             stateMachine.At(openState, initialState, new FuncPredicate(() => currentState == INITIAL));
+            stateMachine.At(initialState, startState, new FuncPredicate(() => currentState == START));
+            stateMachine.At(startState, initialState, new FuncPredicate(() => currentState == INITIAL));
 
             // Set the initial state
             stateMachine.SetState(openState);

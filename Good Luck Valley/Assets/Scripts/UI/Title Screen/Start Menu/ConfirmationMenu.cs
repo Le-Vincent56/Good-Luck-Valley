@@ -1,17 +1,18 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.UI.MainMenu.StartMenu
 {
     public class ConfirmationMenu : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Text displayText;
-        [SerializeField] private Button confirmButton;
-        [SerializeField] private Button cancelButton;
+        [SerializeField] private MenuButton confirmButton;
+        [SerializeField] private MenuButton cancelButton;
 
         [Header("Tweening Variables")]
         [SerializeField] private float fadeDuration;
@@ -33,21 +34,24 @@ namespace GoodLuckValley
 
             // Remove any existening listeners just to make sure there aren't any previous ones hanging around
             // This only removes listeners added through code
-            confirmButton.onClick.RemoveAllListeners();
-            cancelButton.onClick.RemoveAllListeners();
+            confirmButton.OnClick.RemoveAllListeners();
+            cancelButton.OnClick.RemoveAllListeners();
 
             // Assign the onClick listeners
-            confirmButton.onClick.AddListener(() =>
+            confirmButton.OnClick.AddListener(() =>
             {
                 DeactivateMenu(true);
                 confirmAction();
             });
 
-            cancelButton.onClick.AddListener(() =>
+            cancelButton.OnClick.AddListener(() =>
             {
                 DeactivateMenu(false);
                 cancelAction();
             });
+
+            // Select the cancel button
+            EventSystem.current.SetSelectedGameObject(cancelButton.gameObject);
         }
 
         /// <summary>
