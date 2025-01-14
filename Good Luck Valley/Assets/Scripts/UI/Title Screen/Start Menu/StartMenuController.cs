@@ -38,17 +38,6 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             SetSlotData();
         }
 
-        private void Update()
-        {
-            // Exit case - the Event System does not exist
-            if (EventSystem.current == null) return;
-
-            // Exit case - the Event System does not have a selected game object
-            if (EventSystem.current.currentSelectedGameObject == null) return;
-
-            Debug.Log($"Selected Game Object: {EventSystem.current.currentSelectedGameObject}");
-        }
-
         /// <summary>
         /// Set the selected save slot
         /// </summary>
