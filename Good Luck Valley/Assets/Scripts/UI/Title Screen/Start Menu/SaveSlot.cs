@@ -89,6 +89,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
                 isEmpty = false;
             } else
             {
+
                 // Switch to the "With Data" object
                 withDataObject.SetActive(false);
                 withoutDataObject.SetActive(true);
@@ -141,6 +142,5 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             deleter.SetSelectable(false);
         }
 
-        public void 
     }
 }
