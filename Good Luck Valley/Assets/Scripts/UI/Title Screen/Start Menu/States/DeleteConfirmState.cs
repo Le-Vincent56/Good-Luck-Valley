@@ -6,12 +6,21 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu.States
 {
     public class DeleteConfirmState : DeleteState
     {
-        private Image loadingImage;
+        private readonly Image loadingImage;
         private Tween imageFadeTween;
 
-        public DeleteConfirmState(DeleteOverlay controller, Animator animator, CanvasGroup canvasGroup, Image loadingImage) : base(controller, animator, canvasGroup)
+        public DeleteConfirmState(DeleteOverlay controller, Animator animator, CanvasGroup canvasGroup, Image loadingImage, Image contrastOverlay) 
+            : base(controller, animator, canvasGroup, contrastOverlay)
         {
             this.loadingImage = loadingImage;
+        }
+
+        ~DeleteConfirmState()
+        {
+            // Kill any existing Tweens
+            fadeGroupTween?.Kill();
+            fadeOverlayTween?.Kill();
+            imageFadeTween?.Kill();
         }
 
         public override void OnEnter()
@@ -27,8 +36,17 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu.States
         {
             // Fade out the Loading Image
             FadeImage(0f, fadeDuration);
+
+            // Fade out the overlay
+            FadeOverlay(0f, fadeDuration);
+
+            // Set the slot data
+            controller.SetSlotData();
         }
 
+        /// <summary>
+        /// Handle Fade Tweening for the Loading Iamge
+        /// </summary>
         private void FadeImage(float endValue, float duration, TweenCallback onComplete = null)
         {
             // Kill the Fade Tween if it exists

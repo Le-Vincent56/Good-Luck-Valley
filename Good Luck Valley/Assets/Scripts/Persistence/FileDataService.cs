@@ -101,7 +101,7 @@ namespace GoodLuckValley.Persistence
             foreach (string path in Directory.EnumerateFiles(dataPath))
             {
                 // Check if the file has the correct extension
-                if (Path.GetExtension(path) == fileExtension)
+                if (Path.GetExtension(path) == $".{fileExtension}")
                 {
                     // Return the file name without the extension
                     yield return Path.GetFileNameWithoutExtension(path);

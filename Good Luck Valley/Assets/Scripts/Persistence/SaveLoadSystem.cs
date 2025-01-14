@@ -36,7 +36,7 @@ namespace GoodLuckValley.Persistence
             dataService = new FileDataService(new JsonSerializer());
 
             // Initialize the Dictionary
-            saves = new Dictionary<string, GameData>();
+            RefreshSaveData();
         }
 
         private void OnEnable()
@@ -118,8 +118,8 @@ namespace GoodLuckValley.Persistence
             selectedData = new GameData
             {
                 Slot = slot,
-                Name = "New Game",
-                SceneGroupIndex = 0,
+                Name = $"New Game {slot}",
+                SceneGroupIndex = 3,
                 LastUpdated = DateTime.Now.ToBinary(),
                 PlayerData = new PlayerData()
             };

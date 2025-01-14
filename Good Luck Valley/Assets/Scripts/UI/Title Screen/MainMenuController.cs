@@ -96,6 +96,9 @@ namespace GoodLuckValley.UI.MainMenu
             // Exit case - the button is being lifted
             if (!started) return;
 
+            // Exit case - not in the Open State
+            if (currentState != OPEN) return;
+
             // Set the initial state
             SetState(INITIAL);
         }

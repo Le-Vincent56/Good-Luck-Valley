@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.MainMenu.StartMenu.States
 {
@@ -6,7 +7,8 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu.States
     {
         private readonly ConfirmationMenu popup;
 
-        public DeletePopupState(DeleteOverlay controller, Animator animator, CanvasGroup canvasGroup, ConfirmationMenu popup) : base(controller, animator, canvasGroup)
+        public DeletePopupState(DeleteOverlay controller, Animator animator, CanvasGroup canvasGroup, ConfirmationMenu popup, Image contrastOverlay) 
+            : base(controller, animator, canvasGroup, contrastOverlay)
         {
             this.popup = popup;
         }
@@ -14,11 +16,13 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu.States
         public override void OnEnter()
         {
             // Fade in the overlay
-            Fade(1f, fadeDuration, () =>
+            FadeGroup(1f, fadeDuration, () =>
             {
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
             });
+
+            FadeOverlay(overlayOpacity, fadeDuration);
 
             // Activate the menu
             popup.ActivateMenu("Deleting a save is permanent. Are you sure?",

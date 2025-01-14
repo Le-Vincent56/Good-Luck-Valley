@@ -24,6 +24,12 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
+        private void OnDestroy()
+        {
+            // Kill any existing Tweens
+            fadeTween.Kill();
+        }
+
         /// <summary>
         /// Activate the Confirmation Menu
         /// </summary>
@@ -31,6 +37,9 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         {
             // Set the display text
             this.displayText.text = displayText;
+
+            // Show the menu
+            Show();
 
             // Remove any existening listeners just to make sure there aren't any previous ones hanging around
             // This only removes listeners added through code

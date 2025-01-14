@@ -2003,8 +2003,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1110041900}
-  - {fileID: 1659438580}
   - {fileID: 888049739}
+  - {fileID: 1659438580}
   m_Father: {fileID: 504446770}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2049,7 +2049,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609323023}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -2231,8 +2231,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1789418075}
     m_SelectOnDown: {fileID: 1178470087}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1266550223}
+    m_SelectOnRight: {fileID: 1266550223}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.4627451}
@@ -2257,7 +2257,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 383926385}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 707912246}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.StartMenu.SaveSlot,
+          Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &707912246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2271,15 +2284,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  withDataObject: {fileID: 0}
-  withoutDataObject: {fileID: 0}
-  timeText: {fileID: 0}
-  notesText: {fileID: 0}
+  withData: {fileID: 1979983187}
+  withoutData: {fileID: 1760226514}
+  selectedGroup: {fileID: 0}
+  timeText: {fileID: 585797671}
+  notesText: {fileID: 405381114}
   deleter: {fileID: 1266550223}
   slot: 2
   saveName: 
   isEmpty: 0
   active: 0
+  unselectedAlpha: 0.4627
+  highlightDuration: 0.1
 --- !u!1 &724334225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3749,8 +3765,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 707912245}
     m_SelectOnDown: {fileID: 1134576231}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 2072143990}
+    m_SelectOnRight: {fileID: 2072143990}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.4627451}
@@ -3775,7 +3791,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 450110787}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1178470088}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.StartMenu.SaveSlot,
+          Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1178470088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3789,15 +3818,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  withDataObject: {fileID: 0}
-  withoutDataObject: {fileID: 0}
-  timeText: {fileID: 0}
-  notesText: {fileID: 0}
+  withData: {fileID: 881781871}
+  withoutData: {fileID: 1651080046}
+  selectedGroup: {fileID: 0}
+  timeText: {fileID: 200486809}
+  notesText: {fileID: 1584242915}
   deleter: {fileID: 2072143990}
   slot: 3
   saveName: 
   isEmpty: 0
   active: 0
+  unselectedAlpha: 0.4627
+  highlightDuration: 0.1
 --- !u!1 &1178651269
 GameObject:
   m_ObjectHideFlags: 0
@@ -3825,15 +3857,15 @@ RectTransform:
   m_GameObject: {fileID: 1178651269}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000799, y: 1.0000799, z: 1.0000799}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1427670744}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 65.711525}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1178651271
 MonoBehaviour:
@@ -4218,7 +4250,6 @@ GameObject:
   - component: {fileID: 1266550222}
   - component: {fileID: 1266550225}
   - component: {fileID: 1266550224}
-  - component: {fileID: 1266550226}
   - component: {fileID: 1266550223}
   m_Layer: 5
   m_Name: Slot 2 Deleter
@@ -4258,11 +4289,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac14dcb674789a648b244e3c4d3744e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 707912245}
+    m_SelectOnRight: {fileID: 707912245}
+  m_Transition: 2
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 8ec32214ee5e1814782fdcc0bb1a364f, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1266550224}
   controller: {fileID: 0}
-  saveSlot: {fileID: 0}
-  image: {fileID: 0}
-  selectable: {fileID: 0}
-  fadeDuration: 0
+  saveSlot: {fileID: 707912246}
+  deleterImage: {fileID: 0}
+  fadeDuration: 0.1
 --- !u!114 &1266550224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4301,50 +4360,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266550221}
   m_CullTransparentMesh: 1
---- !u!114 &1266550226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266550221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 8ec32214ee5e1814782fdcc0bb1a364f, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1266550224}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1369179244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4544,7 +4559,6 @@ GameObject:
   - component: {fileID: 1420487259}
   - component: {fileID: 1420487262}
   - component: {fileID: 1420487261}
-  - component: {fileID: 1420487263}
   - component: {fileID: 1420487260}
   m_Layer: 5
   m_Name: Slot 1 Deleter
@@ -4584,11 +4598,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac14dcb674789a648b244e3c4d3744e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1789418075}
+    m_SelectOnRight: {fileID: 1789418075}
+  m_Transition: 2
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 8ec32214ee5e1814782fdcc0bb1a364f, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1420487261}
   controller: {fileID: 0}
-  saveSlot: {fileID: 0}
-  image: {fileID: 0}
-  selectable: {fileID: 0}
-  fadeDuration: 0
+  saveSlot: {fileID: 1789418076}
+  deleterImage: {fileID: 0}
+  fadeDuration: 0.1
 --- !u!114 &1420487261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4627,50 +4669,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420487258}
   m_CullTransparentMesh: 1
---- !u!114 &1420487263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1420487258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 8ec32214ee5e1814782fdcc0bb1a364f, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1420487261}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1421723302
 GameObject:
   m_ObjectHideFlags: 0
@@ -5570,6 +5568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 609323025}
   confirmationMenu: {fileID: 537379683}
+  contrastOverlay: {fileID: 1753967410}
   canvasGroup: {fileID: 0}
   animator: {fileID: 0}
   state: 0
@@ -5815,7 +5814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.76862746}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9764706}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5954,8 +5953,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1134576231}
     m_SelectOnDown: {fileID: 707912245}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1420487260}
+    m_SelectOnRight: {fileID: 1420487260}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0.4627451}
@@ -5980,7 +5979,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 996445338}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1789418076}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.StartMenu.SaveSlot,
+          Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1789418076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5994,15 +6006,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  withDataObject: {fileID: 0}
-  withoutDataObject: {fileID: 0}
-  timeText: {fileID: 0}
-  notesText: {fileID: 0}
+  withData: {fileID: 993462123}
+  withoutData: {fileID: 1120967200}
+  selectedGroup: {fileID: 0}
+  timeText: {fileID: 1426231095}
+  notesText: {fileID: 449900895}
   deleter: {fileID: 1420487260}
   slot: 1
   saveName: 
   isEmpty: 0
   active: 0
+  unselectedAlpha: 0.4627
+  highlightDuration: 0.1
 --- !u!1 &1833336393
 GameObject:
   m_ObjectHideFlags: 0
@@ -6741,7 +6756,6 @@ GameObject:
   - component: {fileID: 2072143989}
   - component: {fileID: 2072143992}
   - component: {fileID: 2072143991}
-  - component: {fileID: 2072143993}
   - component: {fileID: 2072143990}
   m_Layer: 5
   m_Name: Slot 3 Deleter
@@ -6781,11 +6795,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac14dcb674789a648b244e3c4d3744e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1178470087}
+    m_SelectOnRight: {fileID: 1178470087}
+  m_Transition: 2
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 8ec32214ee5e1814782fdcc0bb1a364f, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2072143991}
   controller: {fileID: 0}
-  saveSlot: {fileID: 0}
-  image: {fileID: 0}
-  selectable: {fileID: 0}
-  fadeDuration: 0
+  saveSlot: {fileID: 1178470088}
+  deleterImage: {fileID: 0}
+  fadeDuration: 0.1
 --- !u!114 &2072143991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6824,50 +6866,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072143988}
   m_CullTransparentMesh: 1
---- !u!114 &2072143993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072143988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 8ec32214ee5e1814782fdcc0bb1a364f, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: d17b1a20245e519499425f647cc8d6b6, type: 3}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 2072143991}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2096208986
 GameObject:
   m_ObjectHideFlags: 0

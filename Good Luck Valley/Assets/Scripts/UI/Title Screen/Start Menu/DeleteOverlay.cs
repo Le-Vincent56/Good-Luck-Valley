@@ -1,6 +1,7 @@
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.UI.MainMenu.StartMenu.States;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.MainMenu.StartMenu
@@ -10,6 +11,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         [Header("References")]
         [SerializeField] private StartMenuController controller;
         [SerializeField] private ConfirmationMenu confirmationMenu;
+        [SerializeField] private Image contrastOverlay;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Animator animator;
 
@@ -47,9 +49,9 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             stateMachine = new StateMachine();
 
             // Create states
-            DeleteIdleState idleState = new DeleteIdleState(this, animator, canvasGroup);
-            DeletePopupState popupState = new DeletePopupState(this, animator, canvasGroup, confirmationMenu);
-            DeleteConfirmState confirmState = new DeleteConfirmState(this, animator, canvasGroup, animator.GetComponent<Image>());
+            DeleteIdleState idleState = new DeleteIdleState(this, animator, canvasGroup, contrastOverlay);
+            DeletePopupState popupState = new DeletePopupState(this, animator, canvasGroup, confirmationMenu, contrastOverlay);
+            DeleteConfirmState confirmState = new DeleteConfirmState(this, animator, canvasGroup, animator.GetComponent<Image>(), contrastOverlay);
 
             // Define state transitions
             stateMachine.At(idleState, popupState, new FuncPredicate(() => state == POPUP));
@@ -77,5 +79,10 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         /// Delete the selected slot's data
         /// </summary>
         public void DeleteData() => controller.DeleteData(controller.SelectedSlot);
+
+        /// <summary>
+        /// Set the Save Slot data
+        /// </summary>
+        public void SetSlotData() => controller.SetSlotData();
     }
 }

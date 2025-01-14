@@ -1,13 +1,11 @@
 using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
-using GoodLuckValley.Scenes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.XR;
 
 namespace GoodLuckValley.UI.MainMenu.StartMenu
 {
@@ -40,6 +38,17 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             SetSlotData();
         }
 
+        private void Update()
+        {
+            // Exit case - the Event System does not exist
+            if (EventSystem.current == null) return;
+
+            // Exit case - the Event System does not have a selected game object
+            if (EventSystem.current.currentSelectedGameObject == null) return;
+
+            Debug.Log($"Selected Game Object: {EventSystem.current.currentSelectedGameObject}");
+        }
+
         /// <summary>
         /// Set the selected save slot
         /// </summary>
@@ -51,6 +60,9 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         /// </summary>
         public void SetSlotData()
         {
+            // Refresh the save data
+            SaveLoadSystem.Instance.RefreshSaveData();
+
             // Store all datas into a list
             List<GameData> saveDatas = SaveLoadSystem.Instance.Saves.Values.ToList();
 
@@ -146,7 +158,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             if (saveSlots.Contains(saveSlot))
             {
                 // Start a new game
-                SaveLoadSystem.Instance.NewGame(saveSlot.Slot);
+                SaveLoadSystem.Instance.NewGame(saveSlot.Slot, true);
             }
         }
 
@@ -214,7 +226,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             // Reset the slot data to reflect changes
             SetSlotData();
 
-            // Move the cursor off of the delete button anbd back to the slot
+            // Move the cursor off of the delete button andd back to the slot
             EventSystem.current.SetSelectedGameObject(selectedSlot.gameObject);
 
             // Enable the save slots

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -24,6 +25,7 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
         [Header("Tweening Variables")]
         [SerializeField] private float unselectedAlpha = 0.4627f;
         [SerializeField] private float highlightDuration;
+        private Tween highlightTween;
 
         public int Slot { get => slot; }
         public string Name { get => saveName; set => saveName = value; }
@@ -79,26 +81,28 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
                 // Set the selected group
                 selectedGroup = withData;
 
-                withoutData.alpha = 0;
+                // Show the "With Data" object
+                withoutData.alpha = 0f;
                 withData.alpha = unselectedAlpha;
-
-                // Switch to the "Without Data" object
-                //withoutDataObject.SetActive(false);
-                //withDataObject.SetActive(true);
 
                 isEmpty = false;
             } else
             {
+                // Set the selected group
+                selectedGroup = withoutData;
 
-                // Switch to the "With Data" object
-                //withDataObject.SetActive(false);
-                //withoutDataObject.SetActive(true);
+                // Show the "Without Data" object
+                withData.alpha = 0f;
+                withoutData.alpha = unselectedAlpha;
 
                 isEmpty = true;
             }
 
             // Hide the Slot Deleter
             deleter.Hide();
+
+            // Set whether or not the Slot Deleter can be selected
+            deleter.SetSelectable(!isEmpty);
         }
 
         /// <summary>
@@ -128,9 +132,8 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             // Exit case - if not active
             if (!active) return;
 
-            controller.SetSelectedSlot(this);
-            deleter.Show();
-            deleter.SetSelectable(!isEmpty);
+            Highlight(unselectedAlpha, highlightDuration);
+            deleter.Hide();
         }
 
         public void OnSelect(BaseEventData eventData)
@@ -138,8 +141,24 @@ namespace GoodLuckValley.UI.MainMenu.StartMenu
             // Exit case - if not active
             if (!active) return;
 
-            deleter.Hide();
-            deleter.SetSelectable(false);
+            Highlight(1f, highlightDuration);
+            controller.SetSelectedSlot(this);
+            deleter.Show(); 
+        }
+
+        private void Highlight(float endValue, float duration, TweenCallback onComplete = null)
+        {
+            // Kill the Highlight Tween if it exists
+            highlightTween?.Kill();
+
+            // SEt the Highlight Tween
+            highlightTween = selectedGroup.DOFade(endValue, duration);
+
+            // Exit case - there is no completion action
+            if (onComplete == null) return;
+
+            // Hook up the completion action
+            highlightTween.onComplete += onComplete;
         }
     }
 }

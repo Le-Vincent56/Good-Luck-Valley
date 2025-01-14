@@ -1,11 +1,12 @@
 using GoodLuckValley.Persistence;
+using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace GoodLuckValley.Editors.Persistence
 {
     [CustomEditor(typeof(SaveLoadSystem))]
-    public class SaveLoadSystemEditor : Editor
+    public class SaveLoadSystemEditor : OdinEditor
     {
         public override void OnInspectorGUI()
         {
