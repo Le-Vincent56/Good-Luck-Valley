@@ -17,13 +17,13 @@ namespace GoodLuckValley.UI.MainMenu.States
         private Tween fadeGroupTween;
         private Tween fadeBackgroundTween;
 
-        public MainMenuState(MainMenuController controller, CanvasGroup screen, Image darkerBackground, IOptionMenu optionMenu)
+        public MainMenuState(MainMenuController controller, CanvasGroup screen, Image darkerBackground, IOptionMenu optionMenu, float fadeDuration)
         {
             this.controller = controller;
             this.screen = screen;
             this.darkerBackground = darkerBackground;
             this.optionMenu = optionMenu;
-            fadeDuration = 0.5f;
+            this.fadeDuration = fadeDuration;
         }
 
         ~MainMenuState()

@@ -7,8 +7,8 @@ namespace GoodLuckValley.UI.MainMenu.States
 {
     public class StartMenuState : MainMenuState
     {
-        public StartMenuState(MainMenuController controller, CanvasGroup screen, Image darkerBackground, IOptionMenu optionMenu) 
-            : base(controller, screen, darkerBackground, optionMenu)
+        public StartMenuState(MainMenuController controller, CanvasGroup screen, Image darkerBackground, IOptionMenu optionMenu, float fadeDuration) 
+            : base(controller, screen, darkerBackground, optionMenu, fadeDuration)
         {
         }
 

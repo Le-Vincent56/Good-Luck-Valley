@@ -74,13 +74,13 @@ namespace GoodLuckValley.UI.MainMenu
             stateMachine = new StateMachine();
 
             // Create states
-            OpenMenuState openState = new OpenMenuState(this, screens[OPEN], darkerBackground, optionMenus[OPEN]);
-            InitialMenuState initialState = new InitialMenuState(this, screens[INITIAL], darkerBackground, optionMenus[INITIAL]);
-            StartMenuState startState = new StartMenuState(this, screens[START], darkerBackground, optionMenus[START]);
-            SettingsMenuState settingsState = new SettingsMenuState(this, screens[SETTINGS], darkerBackground, optionMenus[SETTINGS]);
-            AudioMenuState audioState = new AudioMenuState(this, screens[AUDIO], darkerBackground, optionMenus[AUDIO]);
-            VideoMenuState videoState = new VideoMenuState(this, screens[VIDEO], darkerBackground, optionMenus[VIDEO]);
-            ControlsMenuState controlsState = new ControlsMenuState(this, screens[CONTROLS], darkerBackground, optionMenus[CONTROLS]);
+            OpenMenuState openState = new OpenMenuState(this, screens[OPEN], darkerBackground, optionMenus[OPEN], 0.5f);
+            InitialMenuState initialState = new InitialMenuState(this, screens[INITIAL], darkerBackground, optionMenus[INITIAL], 0.5f);
+            StartMenuState startState = new StartMenuState(this, screens[START], darkerBackground, optionMenus[START], 0.5f);
+            SettingsMenuState settingsState = new SettingsMenuState(this, screens[SETTINGS], darkerBackground, optionMenus[SETTINGS], 0.5f);
+            AudioMenuState audioState = new AudioMenuState(this, screens[AUDIO], darkerBackground, optionMenus[AUDIO], 0.5f);
+            VideoMenuState videoState = new VideoMenuState(this, screens[VIDEO], darkerBackground, optionMenus[VIDEO], 0.5f);
+            ControlsMenuState controlsState = new ControlsMenuState(this, screens[CONTROLS], darkerBackground, optionMenus[CONTROLS], 0.5f);
 
             // Define state transitions
             stateMachine.At(openState, initialState, new FuncPredicate(() => currentState == INITIAL));
