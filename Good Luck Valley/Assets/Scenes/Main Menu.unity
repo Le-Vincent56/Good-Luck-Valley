@@ -11194,6 +11194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1550675016}
+  - component: {fileID: 1550675017}
   m_Layer: 5
   m_Name: Move Left
   m_TagString: Untagged
@@ -11222,6 +11223,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1550675017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550675015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e5a27213979ec4f9caad0e0a3c4273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bindingInfo:
+    ActionAsset: {fileID: -944628639613478452, guid: d68520aa587c6b34e952353ba3c753a1, type: 3}
+    ActionMapName: Player
+    ActionName: Move
+    BindingIndex: 0
+  targetButton: {fileID: 0}
+  animator: {fileID: 0}
+  keyImage: {fileID: 0}
+  validRebind: 0
+  rebinded: 0
 --- !u!1 &1581576243
 GameObject:
   m_ObjectHideFlags: 0
