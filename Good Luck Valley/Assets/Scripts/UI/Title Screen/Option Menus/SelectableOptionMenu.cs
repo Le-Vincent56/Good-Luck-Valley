@@ -8,16 +8,26 @@ namespace GoodLuckValley.UI.MainMenu.OptionMenus
     public class SelectableOptionMenu : MonoBehaviour, IOptionMenu
     {
         [SerializeField] private Selectable initialOption;
+        [SerializeField] private bool initialEveryTime;
         private Optional<Selectable> lastOption = Optional<Selectable>.None();
 
         public void SelectFirst()
         {
-            // Select a
+            // Check if a last option exists
             lastOption.Match(
                 onValue: selectable =>
                 {
-                    // Select the Selectable
-                    selectable.Select();
+                    // Check if the initial option should be selected every time
+                    if(initialEveryTime)
+                    {
+                        // Select the initial option
+                        initialOption.Select();
+                    }
+                    else
+                    {
+                        // Otherwise, select the Selectable
+                        selectable.Select();
+                    }
 
                     return 0;
                 },
