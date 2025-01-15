@@ -26,6 +26,10 @@ namespace GoodLuckValley.UI.MainMenu
         public int OPEN => 0;
         public int INITIAL => 1;
         public int START => 2;
+        public int SETTINGS => 3;
+        public int AUDIO => 4;
+        public int VIDEO => 5;
+        public int CONTROLS => 6;
 
         private void Awake()
         {
@@ -73,11 +77,29 @@ namespace GoodLuckValley.UI.MainMenu
             OpenMenuState openState = new OpenMenuState(this, screens[OPEN], darkerBackground, optionMenus[OPEN]);
             InitialMenuState initialState = new InitialMenuState(this, screens[INITIAL], darkerBackground, optionMenus[INITIAL]);
             StartMenuState startState = new StartMenuState(this, screens[START], darkerBackground, optionMenus[START]);
+            SettingsMenuState settingsState = new SettingsMenuState(this, screens[SETTINGS], darkerBackground, optionMenus[SETTINGS]);
+            AudioMenuState audioState = new AudioMenuState(this, screens[AUDIO], darkerBackground, optionMenus[AUDIO]);
+            VideoMenuState videoState = new VideoMenuState(this, screens[VIDEO], darkerBackground, optionMenus[VIDEO]);
+            ControlsMenuState controlsState = new ControlsMenuState(this, screens[CONTROLS], darkerBackground, optionMenus[CONTROLS]);
 
             // Define state transitions
             stateMachine.At(openState, initialState, new FuncPredicate(() => currentState == INITIAL));
+
             stateMachine.At(initialState, startState, new FuncPredicate(() => currentState == START));
+            stateMachine.At(initialState, settingsState, new FuncPredicate(() => currentState == SETTINGS));
+
             stateMachine.At(startState, initialState, new FuncPredicate(() => currentState == INITIAL));
+
+            stateMachine.At(settingsState, initialState, new FuncPredicate(() => currentState == INITIAL));
+            stateMachine.At(settingsState, audioState, new FuncPredicate(() => currentState == AUDIO));
+            stateMachine.At(settingsState, videoState, new FuncPredicate(() => currentState == VIDEO));
+            stateMachine.At(settingsState, controlsState, new FuncPredicate(() => currentState == CONTROLS));
+
+            stateMachine.At(audioState, settingsState, new FuncPredicate(() => currentState == SETTINGS));
+
+            stateMachine.At(videoState, settingsState, new FuncPredicate(() => currentState == SETTINGS));
+
+            stateMachine.At(controlsState, settingsState, new FuncPredicate(() => currentState == SETTINGS));
 
             // Set the initial state
             stateMachine.SetState(openState);
