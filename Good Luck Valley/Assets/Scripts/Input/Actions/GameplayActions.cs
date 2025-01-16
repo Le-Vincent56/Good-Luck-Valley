@@ -109,6 +109,15 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Journal"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd434fb2-feeb-4816-9d57-87828e6f0706"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -203,7 +212,7 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""c46496eb-7a05-46f0-8515-7182d9a1da06"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -252,6 +261,17 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""NoClip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""80fc5244-2447-4cfd-b2d4-382da1b1fb1e"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Journal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -844,6 +864,7 @@ namespace GoodLuckValley.Input.Actions
             m_Player_Recall = m_Player.FindAction("Recall", throwIfNotFound: true);
             m_Player_Dev = m_Player.FindAction("Dev", throwIfNotFound: true);
             m_Player_NoClip = m_Player.FindAction("NoClip", throwIfNotFound: true);
+            m_Player_Journal = m_Player.FindAction("Journal", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -934,6 +955,7 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_Player_Recall;
         private readonly InputAction m_Player_Dev;
         private readonly InputAction m_Player_NoClip;
+        private readonly InputAction m_Player_Journal;
         public struct PlayerActions
         {
             private @GameplayActions m_Wrapper;
@@ -947,6 +969,7 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @Recall => m_Wrapper.m_Player_Recall;
             public InputAction @Dev => m_Wrapper.m_Player_Dev;
             public InputAction @NoClip => m_Wrapper.m_Player_NoClip;
+            public InputAction @Journal => m_Wrapper.m_Player_Journal;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -983,6 +1006,9 @@ namespace GoodLuckValley.Input.Actions
                 @NoClip.started += instance.OnNoClip;
                 @NoClip.performed += instance.OnNoClip;
                 @NoClip.canceled += instance.OnNoClip;
+                @Journal.started += instance.OnJournal;
+                @Journal.performed += instance.OnJournal;
+                @Journal.canceled += instance.OnJournal;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1014,6 +1040,9 @@ namespace GoodLuckValley.Input.Actions
                 @NoClip.started -= instance.OnNoClip;
                 @NoClip.performed -= instance.OnNoClip;
                 @NoClip.canceled -= instance.OnNoClip;
+                @Journal.started -= instance.OnJournal;
+                @Journal.performed -= instance.OnJournal;
+                @Journal.canceled -= instance.OnJournal;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1185,6 +1214,7 @@ namespace GoodLuckValley.Input.Actions
             void OnRecall(InputAction.CallbackContext context);
             void OnDev(InputAction.CallbackContext context);
             void OnNoClip(InputAction.CallbackContext context);
+            void OnJournal(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

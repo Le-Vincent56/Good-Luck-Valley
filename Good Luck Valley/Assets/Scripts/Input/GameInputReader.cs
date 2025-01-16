@@ -27,6 +27,7 @@ namespace GoodLuckValley.Input
         public event UnityAction<bool> SlowFall = delegate { };
         public event UnityAction<bool> Interact = delegate { };
         public event UnityAction<bool> Recall = delegate { };
+        public event UnityAction<bool> Journal = delegate { };
 
         public event UnityAction<bool> Dev = delegate { };
         public event UnityAction<bool> NoClip = delegate { };
@@ -254,6 +255,22 @@ namespace GoodLuckValley.Input
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
                     NoClip.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnJournal(InputAction.CallbackContext context)
+        {
+            // Check the context phase
+            switch (context.phase)
+            {
+                // If starting, invoke with true
+                case InputActionPhase.Started:
+                    Journal.Invoke(true);
+                    break;
+                // If canceled, invoke with false
+                case InputActionPhase.Canceled:
+                    Journal.Invoke(false);
                     break;
             }
         }
