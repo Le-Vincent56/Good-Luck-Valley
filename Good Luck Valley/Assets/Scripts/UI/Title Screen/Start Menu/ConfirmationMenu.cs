@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenu.StartMenu
+namespace GoodLuckValley.UI.MainMenu.Start
 {
     public class ConfirmationMenu : MonoBehaviour
     {

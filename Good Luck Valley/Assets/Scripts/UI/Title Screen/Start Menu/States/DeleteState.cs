@@ -3,7 +3,7 @@ using GoodLuckValley.Architecture.StateMachine;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenu.StartMenu.States
+namespace GoodLuckValley.UI.MainMenu.Start.States
 {
     public class DeleteState : IState
     {

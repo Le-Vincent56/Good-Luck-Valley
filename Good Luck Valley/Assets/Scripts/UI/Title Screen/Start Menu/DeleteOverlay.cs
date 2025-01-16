@@ -1,10 +1,10 @@
 using GoodLuckValley.Architecture.StateMachine;
-using GoodLuckValley.UI.MainMenu.StartMenu.States;
+using GoodLuckValley.UI.MainMenu.Start.States;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GoodLuckValley.UI.MainMenu.StartMenu
+namespace GoodLuckValley.UI.MainMenu.Start
 {
     public class DeleteOverlay : MonoBehaviour
     {

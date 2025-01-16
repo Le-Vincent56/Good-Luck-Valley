@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GoodLuckValley.UI.MainMenu.StartMenu
+namespace GoodLuckValley.UI.MainMenu.Start
 {
     public class StartMenuController : MonoBehaviour
     {
