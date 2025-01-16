@@ -23,9 +23,6 @@ namespace GoodLuckValley.UI.MainMenu.Audio
 
             // Add listeners to the sliders
             controlSlider.onValueChanged.AddListener(SetVolume);
-
-            // Set loaded to false
-            loaded = false;
         }
 
         /// <summary>
@@ -52,9 +49,6 @@ namespace GoodLuckValley.UI.MainMenu.Audio
 
             // Change the slider control
             controlSlider.SetValueWithoutNotify(value);
-
-            // Set loaded to true
-            loaded = true;
         }
 
         /// <summary>
