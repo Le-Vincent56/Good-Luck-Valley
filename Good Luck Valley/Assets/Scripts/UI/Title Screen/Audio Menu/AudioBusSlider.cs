@@ -13,9 +13,6 @@ namespace GoodLuckValley.UI.MainMenu.Audio
         [SerializeField] private SliderInput controlSlider;
         [SerializeField] private Text displayText;
 
-        [Header("Fields")]
-        [SerializeField] private bool loaded;
-
         /// <summary>
         /// Initialize the Audio Bus Slider
         /// </summary>
