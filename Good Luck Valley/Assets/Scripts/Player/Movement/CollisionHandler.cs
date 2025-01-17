@@ -27,11 +27,10 @@ namespace GoodLuckValley.Player.Movement
         private float currentStepDownLength;
 
         private float GrounderLength => controller.CharacterSize.StepHeight + SKIN_WIDTH;
-
+        public bool IsOnSlope => isOnSlope;
         public Vector2 RayPoint => controller.FrameData.Position + controller.Up * (controller.CharacterSize.StepHeight + SKIN_WIDTH);
 
         public bool Grounded { get => grounded; }
-        public bool IsOnSlope { get => isOnSlope; }
         public RaycastHit2D GroundHit { get => groundHit; }
         public Vector2 GroundNormal { get => groundHit.normal; }
         public float CurrentStepDownLength { get => currentStepDownLength; set => currentStepDownLength = value; }
@@ -76,11 +75,12 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void CalculateCollisions()
         {
-            // Set the Physics2D query
             Physics2D.queriesStartInColliders = false;
 
+            float groundAngle = 0f;
+
             // Check if grounded in this frame
-            bool isGroundedThisFrame = PerformRay(RayPoint);
+            bool isGroundedThisFrame = PerformRay(RayPoint, out groundAngle);
 
             // Check if not grounded
             if (!isGroundedThisFrame)
@@ -89,17 +89,31 @@ namespace GoodLuckValley.Player.Movement
                 foreach (float offset in GenerateRayOffsets())
                 {
                     // Check if any of the rays hve detected ground
-                    isGroundedThisFrame = PerformRay(RayPoint + controller.Right * offset) || PerformRay(RayPoint - controller.Right * offset);
-                    
+                    isGroundedThisFrame = PerformRay(RayPoint + controller.Right * offset, out groundAngle) 
+                        || PerformRay(RayPoint - controller.Right * offset, out groundAngle);
+
                     // Exit case - if any rays have detected ground
                     if (isGroundedThisFrame) break;
                 }
             }
 
+            // Check for slope detection
+            if (groundAngle != 0 && !isOnSlope) isOnSlope = true;
+            else if (groundAngle == 0 && isOnSlope) isOnSlope = false;
+
             // Check if currently grounded, but not grounded before
-            if (isGroundedThisFrame && !grounded && controller.Velocity.y <= 0f) 
-                // Set grounded
-                ToggleGrounded(true);
+            if (isGroundedThisFrame && !grounded) 
+            {
+                // Check if the player is on slope (this accounts for upwards movement)
+                if(isOnSlope)
+                {
+                    ToggleGrounded(true);
+                } else if(controller.RB.linearVelocity.y <= 0)
+                {
+                    // Set grounded
+                    ToggleGrounded(true);
+                }
+            } 
             // Check if currently not grounded, but was grounded
             else if (!isGroundedThisFrame && grounded) 
                 // Set not grounded
@@ -112,16 +126,16 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Cast a ray to detect the ground
         /// </summary>
-        private bool PerformRay(Vector2 point)
+        private bool PerformRay(Vector2 point, out float groundAngle)
         {
             // Cast a ray to detect the ground
             groundHit = Physics2D.Raycast(point, -controller.Up, GrounderLength + currentStepDownLength, controller.Stats.CollisionLayers);
 
             // Get the angle of the ground
-            float groundAngle = Vector2.Angle(groundHit.normal, controller.Up);
+            groundAngle = Vector2.Angle(groundHit.normal, controller.Up);
 
             // Debug
-            Debug.DrawRay(point, -controller.Up * (GrounderLength + currentStepDownLength), Color.red);
+            Debug.DrawRay(point, -controller.Up * (GrounderLength + currentStepDownLength), Color.blue);
 
             // If no ground detected, return false
             if (!groundHit) return false;

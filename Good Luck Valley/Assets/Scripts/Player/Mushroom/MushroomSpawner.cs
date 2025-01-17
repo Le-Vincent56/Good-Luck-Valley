@@ -70,6 +70,26 @@ namespace GoodLuckValley.Player.Mushroom
             // Exit case - nothing was hit
             if (!bounceCast) return;
 
+            Vector3 spawnPoint;
+            float rotation;
+            Quaternion rotationQuat;
+
+            // Exit case - if the player is on a slope
+            if(playerController.Collisions.IsOnSlope)
+            {
+                // Set the spawn point to the collision point
+                spawnPoint = bounceCast.point;
+
+                // Apply the rotation to make it perpendicular to the surface
+                rotation = (int)Vector2.Angle(bounceCast.normal, Vector2.up) * -(int)Mathf.Sign(bounceCast.normal.x);
+                rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
+
+                // Create the Mushroom
+                CreateMushroom(spawnPoint, rotationQuat);
+
+                return;
+            }
+
             // Exit case - there is no detected Tilemap
             if (!bounceCast.collider.TryGetComponent(out Tilemap tilemap)) return;
 
@@ -80,7 +100,7 @@ namespace GoodLuckValley.Player.Mushroom
             Vector3Int tilePosition = tilemap.WorldToCell(adjustedPoint);
 
             // Set the spawn point to the bounce cast hit point
-            Vector2 spawnPoint = bounceCast.point;
+            spawnPoint = bounceCast.point;
 
             // Check if there is a Tile at the position
             if (tilemap.HasTile(tilePosition))
@@ -92,8 +112,8 @@ namespace GoodLuckValley.Player.Mushroom
             }
 
             // Apply the rotation to make it perpendicular to the surface
-            float rotation = (int)Vector2.Angle(bounceCast.normal, Vector2.up) * -(int)Mathf.Sign(bounceCast.normal.x);
-            Quaternion rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
+            rotation = (int)Vector2.Angle(bounceCast.normal, Vector2.up) * -(int)Mathf.Sign(bounceCast.normal.x);
+            rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
 
             // Create the Mushroom
             CreateMushroom(spawnPoint, rotationQuat);

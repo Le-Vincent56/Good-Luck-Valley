@@ -23,6 +23,9 @@ namespace GoodLuckValley.Player.Data
         [Range(STEP_BUFFER, 15), Tooltip("Step height allows you to step over rough terrain like steps and rocks.")]
         public float StepHeight = 0.5f;
 
+        [Range(STEP_BUFFER, 15)]
+        public float SlopeStepHeight = 0.16f;
+
         // Height of the character while crouching, defined as a percentage of the standing height
         [Range(0.1f, 10), Tooltip("A percentage of your height stat which determines your height while crouching. A smaller crouch requires more step height sacrifice")]
         public float CrouchHeight = 0.6f;
@@ -30,6 +33,9 @@ namespace GoodLuckValley.Player.Data
         // Buffer distance for ground check rays, preventing issues with slope navigation and drop edges
         [Range(0.01f, 0.2f), Tooltip("The outer buffer distance of the grounder rays. Reducing this too much can cause problems on slopes, too big and you can get stuck on the sides of drops.")]
         public float RayInset = 0.1f;
+
+        [Range(0.0f, 0.2f), Tooltip("The offset to buffer the rays")]
+        public float RayOffset = 0.0f;
 
         /// <summary>
         /// Generate the CharacterSize with validated and computed collider sizes and positions
@@ -46,7 +52,7 @@ namespace GoodLuckValley.Player.Data
                 Height = Height,
                 Width = Width,
                 StepHeight = StepHeight,
-                RayInset = RayInset
+                RayInset = RayInset,
             };
 
             // Set the standing collider data

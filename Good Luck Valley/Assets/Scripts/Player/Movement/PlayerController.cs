@@ -166,6 +166,8 @@ namespace GoodLuckValley.Player.Movement
             input.Enable();
         }
 
+        public void SetCharacterSize() => stats.CharacterSize.GenerateCharacterSize();
+
         public void TickUpdate(float delta, float time)
         {
             // Update the state machine
@@ -200,7 +202,7 @@ namespace GoodLuckValley.Player.Movement
             frameData.Set();
 
             // Calculate collisions
-            if(bounce.CanDetectGround)
+            if (bounce.CanDetectGround)
                 collisionHandler.CalculateCollisions();
 
             // Calculate the direction of movement
@@ -411,7 +413,7 @@ namespace GoodLuckValley.Player.Movement
             if(Collisions.Grounded && !Jump.IsWithinJumpClearance)
             {
                 // Get the distance from the ground
-                float distanceFromGround = CharacterSize.StepHeight - Collisions.GroundHit.distance;
+                float distanceFromGround = characterSize.StepHeight - Collisions.GroundHit.distance;
 
                 // Check if there's still distance to travel
                 if(distanceFromGround != 0)
@@ -504,6 +506,9 @@ namespace GoodLuckValley.Player.Movement
                 Gizmos.DrawRay(rayStart + Vector2.right * offset, rayDir);
                 Gizmos.DrawRay(rayStart + Vector2.left * offset, rayDir);
             }
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(collisionHandler.RayPoint, 0.5f);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(pos + (Vector2)wallJump.WallDetectionBounds.center, wallJump.WallDetectionBounds.size);
