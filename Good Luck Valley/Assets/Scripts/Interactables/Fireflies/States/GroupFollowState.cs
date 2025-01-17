@@ -1,3 +1,5 @@
+using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.UI.Events;
 using GoodLuckValley.World.Physics;
 
 namespace GoodLuckValley.Interactables.Fireflies.States

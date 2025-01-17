@@ -156,5 +156,10 @@ namespace GoodLuckValley.Player.Mushroom
                 mushroom.StartDissipating();
             }
         }
+
+        /// <summary>
+        /// Unlock the Mushroom by allowing the Player to spawn the Mushroom
+        /// </summary>
+        public bool UnlockMushroom() => canSpawnShroom = true;
     }
 }

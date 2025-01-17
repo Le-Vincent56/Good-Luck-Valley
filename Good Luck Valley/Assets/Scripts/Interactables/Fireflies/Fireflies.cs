@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Fireflies
 {
-    public class Fireflies : Interactable, IPhysicsObject
+    public class Fireflies : GateInteractable, IPhysicsObject
     {
         private Transform target;
         private PhysicsOrchestrator physicsOrchestrator;
@@ -166,7 +166,7 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Set un-interactable
             canInteract = false;
 
-            // Fade out the sprites and deactivate
+            // Fade out the feedback
             FadeFeedback(0f, fadeDuration);
         }
 
@@ -187,5 +187,29 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// Release the Fireflies from following a target
         /// </summary>
         public void Release() => target = null;
+
+        protected override bool CheckForKey(InteractableHandler interactableHandler)
+        {
+            // Set to false by default
+            bool hasKey = false;
+
+            // Check if the Firefly Handler has a fruit
+            interactableHandler.FireflyHandler.GetFruit().Match(
+                onValue: fruit =>
+                {
+                    // If the player has Fruit, they have the key
+                    hasKey = true;
+
+                    return 0;
+                },
+                onNoValue: () =>
+                {
+                    // The Firefly Handler does not have a Fruit, so do nothing
+                    return 0;
+                }
+            );
+
+            return hasKey;
+        }
     }
 }

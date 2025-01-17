@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Fireflies
 {
-    public class Lantern : Interactable
+    public class Lantern : GateInteractable
     {
         [Header("Lantern")]
         [SerializeField] private int channel;
@@ -58,6 +58,33 @@ namespace GoodLuckValley.Interactables.Fireflies
             {
                 Channel = channel
             });
+        }
+
+        /// <summary>
+        /// Check if the Player has Fireflies for the Lantern
+        /// </summary>
+        protected override bool CheckForKey(InteractableHandler handler)
+        {
+            // Set to false by default
+            bool hasKey = false;
+
+            // Check if the Firefly Handler has a fruit
+            handler.FireflyHandler.GetFireflies().Match(
+                onValue: fireflies =>
+                {
+                    // If the player has Fireflies, they have the key
+                    hasKey = true;
+
+                    return 0;
+                },
+                onNoValue: () =>
+                {
+                    // The Firefly Handler does not have a Fruit, so do nothing
+                    return 0;
+                }
+            );
+
+            return hasKey;
         }
     }
 }

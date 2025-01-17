@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Fireflies
 {
-    public class Fruit : Interactable
+    public class Fruit : Collectible
     {
         protected override void Awake()
         {
