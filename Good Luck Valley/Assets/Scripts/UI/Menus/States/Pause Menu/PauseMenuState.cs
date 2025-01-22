@@ -67,6 +67,7 @@ namespace GoodLuckValley.UI.Menus.States
             // Set the Fade Tween
             fadeTween = screen.DOFade(endValue, duration);
             fadeTween.SetEase(easeType);
+            fadeTween.SetUpdate(true);
 
             // Exit case - no completion action was given
             if (onComplete == null) return;

@@ -4,6 +4,7 @@ using GoodLuckValley.Input;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.States;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace GoodLuckValley
 {
@@ -12,8 +13,8 @@ namespace GoodLuckValley
         [Header("References")]
         [SerializeField] private GameInputReader gameInputReader;
         [SerializeField] private UIInputReader menuInputReader;
-        private CanvasGroup[] canvasGroups;
-        private IOptionMenu[] optionMenus;
+        [SerializeField] private CanvasGroup[] canvasGroups;
+        [SerializeField] private IOptionMenu[] optionMenus;
 
         [Header("Variables")]
         [SerializeField] private bool paused;
@@ -73,7 +74,15 @@ namespace GoodLuckValley
             stateMachine = new StateMachine();
 
             // Create states
-            InitialPauseState pauseMenuState = new InitialPauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], fadeDuration);
+            ResumePauseState resumeState = new ResumePauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], fadeDuration);
+            InitialPauseState pauseState = new InitialPauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], fadeDuration);
+
+            // Define state transitions
+            stateMachine.At(resumeState, pauseState, new FuncPredicate(() => state == PAUSED));
+            stateMachine.At(pauseState, resumeState, new FuncPredicate(() => state == UNPAUSED));
+
+            // Set the initial state
+            stateMachine.SetState(resumeState);
         }
 
         /// <summary>
@@ -96,6 +105,9 @@ namespace GoodLuckValley
             menuInputReader.Enable();
         }
 
+        /// <summary>
+        /// Input callback for pausing the game
+        /// </summary>
         private void PauseGame(bool started)
         {
             // Exit case - if the button is pressed but not lifted
@@ -108,12 +120,21 @@ namespace GoodLuckValley
             paused = true;
         }
 
+        /// <summary>
+        /// Input callback for unpausing the game
+        /// </summary>
         private void UnpauseGame(bool started)
         {
             // Exit case - if the button is pressed but not lifted
             if (started) return;
 
+            // Set unpaused
             state = -1;
         }
+
+        /// <summary>
+        /// Set the state of the Pause Menu Controller
+        /// </summary>
+        public void SetState(int state) => this.state = state;
     }
 }

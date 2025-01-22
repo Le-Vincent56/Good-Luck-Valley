@@ -99,6 +99,9 @@ namespace GoodLuckValley.UI.Menus
             // Set the easing type
             scaleTween.SetEase(easeType);
 
+            // Ignore time scale
+            scaleTween.SetUpdate(true);
+
             // Exit case - there is no completion action
             if (onComplete == null) return;
 
@@ -115,7 +118,7 @@ namespace GoodLuckValley.UI.Menus
             colorTween?.Kill();
 
             // Set the Color Tween
-            colorTween = textToSelect.DOColor(endColor, duration);
+            colorTween = textToSelect.DOColor(endColor, duration).SetUpdate(true);
 
             // Exit case - there is no completion action
             if (onComplete == null) return;
