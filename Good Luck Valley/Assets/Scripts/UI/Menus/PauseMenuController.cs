@@ -4,7 +4,6 @@ using GoodLuckValley.Input;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.States;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace GoodLuckValley
 {
