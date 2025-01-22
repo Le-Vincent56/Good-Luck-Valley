@@ -1,4 +1,4 @@
-using GoodLuckValley.UI.MainMenu.Audio;
+using GoodLuckValley.UI.Menus.Audio;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 

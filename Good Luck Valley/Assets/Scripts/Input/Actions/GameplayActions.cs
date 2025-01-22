@@ -118,6 +118,15 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""1eef3f4a-db58-431a-93aa-5175ee588403"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -448,6 +457,39 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""groups"": "";PlayStation"",
                     ""action"": ""Journal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f34ea3ee-d3df-4d5d-ab2c-820a37882517"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdff64a9-2c41-444f-afae-7d2cb2c7cbb4"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Xbox Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7163bcab-1c84-407e-add0-99ac4d29922a"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PlayStation"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1063,6 +1105,7 @@ namespace GoodLuckValley.Input.Actions
             m_Player_Dev = m_Player.FindAction("Dev", throwIfNotFound: true);
             m_Player_NoClip = m_Player.FindAction("NoClip", throwIfNotFound: true);
             m_Player_Journal = m_Player.FindAction("Journal", throwIfNotFound: true);
+            m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1154,6 +1197,7 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_Player_Dev;
         private readonly InputAction m_Player_NoClip;
         private readonly InputAction m_Player_Journal;
+        private readonly InputAction m_Player_Pause;
         public struct PlayerActions
         {
             private @GameplayActions m_Wrapper;
@@ -1168,6 +1212,7 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @Dev => m_Wrapper.m_Player_Dev;
             public InputAction @NoClip => m_Wrapper.m_Player_NoClip;
             public InputAction @Journal => m_Wrapper.m_Player_Journal;
+            public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1207,6 +1252,9 @@ namespace GoodLuckValley.Input.Actions
                 @Journal.started += instance.OnJournal;
                 @Journal.performed += instance.OnJournal;
                 @Journal.canceled += instance.OnJournal;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1241,6 +1289,9 @@ namespace GoodLuckValley.Input.Actions
                 @Journal.started -= instance.OnJournal;
                 @Journal.performed -= instance.OnJournal;
                 @Journal.canceled -= instance.OnJournal;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1431,6 +1482,7 @@ namespace GoodLuckValley.Input.Actions
             void OnDev(InputAction.CallbackContext context);
             void OnNoClip(InputAction.CallbackContext context);
             void OnJournal(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

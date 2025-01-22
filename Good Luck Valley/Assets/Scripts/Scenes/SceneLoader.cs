@@ -81,7 +81,6 @@ namespace GoodLuckValley.Scenes
             }
 
             HandleLoading(false, forcedMoveDirection);
-            /*EventBusUtils.Debug();*/
         }
 
         /// <summary>

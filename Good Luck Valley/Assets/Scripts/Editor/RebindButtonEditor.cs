@@ -1,4 +1,4 @@
-using GoodLuckValley.UI.MainMenu.Controls;
+using GoodLuckValley.UI.Menus.Controls;
 using Sirenix.OdinInspector.Editor;
 using System;
 using System.Linq;
