@@ -42,7 +42,7 @@ namespace GoodLuckValley.Input.Actions
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""70e40887-26b6-41c1-8427-12e0dca02d85"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -51,7 +51,7 @@ namespace GoodLuckValley.Input.Actions
                     ""name"": ""Crawl"",
                     ""type"": ""Button"",
                     ""id"": ""7b668509-fdd1-4d12-8fdc-7ba5e20b8b11"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -60,7 +60,7 @@ namespace GoodLuckValley.Input.Actions
                     ""name"": ""Bounce"",
                     ""type"": ""Button"",
                     ""id"": ""69c08395-c188-4d93-9901-beb19504d843"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -69,7 +69,7 @@ namespace GoodLuckValley.Input.Actions
                     ""name"": ""Slow Fall"",
                     ""type"": ""Button"",
                     ""id"": ""6e4b76a8-f5be-4180-bc03-9308d3d6adb1"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -138,7 +138,7 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -149,7 +149,7 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -160,7 +160,7 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -171,10 +171,21 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ef6058e-5523-416b-915c-dc6c41bcc6c6"",
+                    ""path"": ""<XInputController>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Xbox Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -182,7 +193,18 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec5a923b-8e60-4035-8d20-627312de114d"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Xbox Controller"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -193,7 +215,18 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""Crawl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa9b4c47-11f8-4456-b884-107e34d34e5f"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Xbox Controller"",
                     ""action"": ""Crawl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -202,6 +235,17 @@ namespace GoodLuckValley.Input.Actions
                     ""name"": """",
                     ""id"": ""15ad3c9b-ace3-4b70-9531-ac2c15ab8557"",
                     ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""Bounce"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""066184b5-cdfc-4234-a637-c12b1ff3aa85"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -215,6 +259,17 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""Slow Fall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b4ad51d-789d-4f5d-97f0-b7f9be5f7638"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Slow Fall"",
                     ""isComposite"": false,
@@ -223,10 +278,10 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""019e78b3-5578-40fa-830e-c3d8c039b79f"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -234,10 +289,10 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""f6a484e5-4cef-4df7-b228-b781b08619f9"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Recall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -248,7 +303,7 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/minus"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Dev"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -259,7 +314,7 @@ namespace GoodLuckValley.Input.Actions
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""NoClip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -267,10 +322,10 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""80fc5244-2447-4cfd-b2d4-382da1b1fb1e"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<XInputController>/{Back}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard and Mouse"",
                     ""action"": ""Journal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -850,6 +905,17 @@ namespace GoodLuckValley.Input.Actions
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Xbox Controller"",
+            ""bindingGroup"": ""Xbox Controller"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -1201,6 +1267,15 @@ namespace GoodLuckValley.Input.Actions
             {
                 if (m_KeyboardandMouseSchemeIndex == -1) m_KeyboardandMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard and Mouse");
                 return asset.controlSchemes[m_KeyboardandMouseSchemeIndex];
+            }
+        }
+        private int m_XboxControllerSchemeIndex = -1;
+        public InputControlScheme XboxControllerScheme
+        {
+            get
+            {
+                if (m_XboxControllerSchemeIndex == -1) m_XboxControllerSchemeIndex = asset.FindControlSchemeIndex("Xbox Controller");
+                return asset.controlSchemes[m_XboxControllerSchemeIndex];
             }
         }
         public interface IPlayerActions

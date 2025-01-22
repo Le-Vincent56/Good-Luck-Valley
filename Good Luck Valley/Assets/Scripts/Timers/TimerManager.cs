@@ -19,6 +19,11 @@ namespace GoodLuckValley.Timers
         public static void DeregisterTimer(Timer timer) => timers.Remove(timer);
 
         /// <summary>
+        /// Check if a Timer is registered
+        /// </summary>
+        public static bool CheckRegistry(Timer timer) => timers.Contains(timer);
+
+        /// <summary>
         /// Update the Timers
         /// </summary>
         public static void UpdateTimers()

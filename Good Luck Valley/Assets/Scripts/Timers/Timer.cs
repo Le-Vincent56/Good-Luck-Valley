@@ -15,6 +15,7 @@ namespace GoodLuckValley.Timers
 
         public Action OnTimerStart = delegate { };
         public Action OnTimerStop = delegate { };
+        public Action OnTimerTick = delegate { };
 
         protected Timer(float value)
         {
@@ -74,12 +75,32 @@ namespace GoodLuckValley.Timers
         /// <summary>
         /// Pause the Timer
         /// </summary>
-        public void Pause() => IsRunning = false;
+        public void Pause(bool deregister)
+        {
+            // Exit case - the Timer is not running
+            if (!IsRunning) return;
+
+            // Stop running the timer
+            IsRunning = false;
+
+            // Deregister the Timer from the TimerManager if necessary
+            if(deregister) TimerManager.DeregisterTimer(this);
+        }
 
         /// <summary>
         /// Resume the Timer
         /// </summary>
-        public void Resume() => IsRunning = true;
+        public void Resume()
+        {
+            // Exit case - the Timer is already running
+            if (IsRunning) return;
+
+            // Start running the timer
+            IsRunning = true;
+
+            // Check if the Timer needs to be registered
+            if (!TimerManager.CheckRegistry(this)) TimerManager.RegisterTimer(this);
+        }
 
         /// <summary>
         /// Reset the Timer to its initial time

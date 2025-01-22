@@ -2,7 +2,6 @@ using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
-using UnityEngine;
 
 namespace GoodLuckValley.Potentiates
 {
@@ -128,10 +127,8 @@ namespace GoodLuckValley.Potentiates
         /// </summary>
         public override void Deplete()
         {
-            Debug.Log("Depleting Time Warp");
-
-            // Pause the duration timer
-            durationTimer.Pause();
+            // Pause (and deregister) the duration timer
+            durationTimer.Pause(true);
 
             // Start the cooldown timer
             cooldownTimer.Start();
