@@ -12,6 +12,7 @@ namespace GoodLuckValley.Potentiates
         private Optional<PlayerController> storedController = Optional<PlayerController>.None();
         private CountdownTimer durationTimer;
         private CountdownTimer cooldownTimer;
+        private CountdownTimer timeScaleTimer;
 
         public TimeWarpStrategy(Potentiate parent, float duration)
         {
@@ -67,12 +68,27 @@ namespace GoodLuckValley.Potentiates
             cooldownTimer = new CountdownTimer(1f);
 
             cooldownTimer.OnTimerStop += () => RespawnPotentiate();
+
+            timeScaleTimer = new CountdownTimer(0.25f);
+
+            timeScaleTimer.OnTimerStart += () =>
+            {
+                // Set the time scale
+                UnityEngine.Time.timeScale = 0.75f;
+            };
+
+            timeScaleTimer.OnTimerStop += () =>
+            {
+                UnityEngine.Time.timeScale = 1f;
+            };
         }
 
         ~TimeWarpStrategy()
         {
-            // Dispose of the duration timer
+            // Dispose timers
             durationTimer.Dispose();
+            cooldownTimer.Dispose();
+            timeScaleTimer.Dispose();
         }
 
         /// <summary>
@@ -113,6 +129,9 @@ namespace GoodLuckValley.Potentiates
             // Start the duration timer
             durationTimer.Start();
 
+            // Start the time scale timer
+            timeScaleTimer.Start();
+
             // Set the color for feedback
             EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
             {
@@ -129,6 +148,9 @@ namespace GoodLuckValley.Potentiates
         {
             // Pause (and deregister) the duration timer
             durationTimer.Pause(true);
+
+            // Stop the time scale timer
+            timeScaleTimer.Stop();
 
             // Start the cooldown timer
             cooldownTimer.Start();

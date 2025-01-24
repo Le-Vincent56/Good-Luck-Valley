@@ -59,9 +59,6 @@ namespace GoodLuckValley.Interactables.Fireflies.States
             {
                 // Set the current speed to 0
                 currentSpeed = 0f;
-
-                // Notify that the firefly has reached its destination
-                firefly.Wandering = true;
             }
         }
     }

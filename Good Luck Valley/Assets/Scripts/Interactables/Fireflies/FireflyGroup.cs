@@ -7,25 +7,27 @@ namespace GoodLuckValley.Interactables.Fireflies
         private Vector2 circleCenter;
         [SerializeField] private bool moving;
         [SerializeField] private float circleRadius = 10f;
+        private float time;
+        private float delta;
 
         private Firefly[] fireflies;
 
         public bool Moving { get => moving; set => moving = value; } 
+        public Vector2 Center { get => circleCenter; }
 
         private void Start()
         {
             // Get all the Fireflies within the group
             fireflies = GetComponentsInChildren<Firefly>();
 
-            // Iterate through each Firefly
-            for (int i = 0; i < fireflies.Length; i++)
-            {
-                // Set the this as the Firefly group
-                fireflies[i].Initialize(this);
-            }
-
             // Set the circle center
             circleCenter = (Vector2)transform.position;
+
+            foreach (Firefly firefly in fireflies)
+            {
+                // Initialize the Firefly
+                firefly.Initialize(this);
+            }
 
             // Set variables
             moving = false;
@@ -33,11 +35,15 @@ namespace GoodLuckValley.Interactables.Fireflies
 
         private void Update()
         {
+            // Get the time and delta time
+            time = Time.time;
+            delta = Time.deltaTime;
+
             // Iterate through each Firefly
-            foreach(Firefly firefly in fireflies)
+            foreach (Firefly firefly in fireflies)
             {
                 // Update the Firefly
-                firefly.TickUpdate();
+                firefly.TickUpdate(time, delta, fireflies);
             }
 
             // Exit case - the circle center is already the transform's position
