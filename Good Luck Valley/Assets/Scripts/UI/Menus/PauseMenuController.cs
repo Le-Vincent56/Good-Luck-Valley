@@ -4,6 +4,7 @@ using GoodLuckValley.Input;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.States;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GoodLuckValley
 {
@@ -12,6 +13,7 @@ namespace GoodLuckValley
         [Header("References")]
         [SerializeField] private GameInputReader gameInputReader;
         [SerializeField] private UIInputReader menuInputReader;
+        [SerializeField] private Image background;
         [SerializeField] private CanvasGroup[] canvasGroups;
         [SerializeField] private IOptionMenu[] optionMenus;
 
@@ -29,6 +31,9 @@ namespace GoodLuckValley
         public int UNPAUSED => -1;
         public int PAUSED => 0;
         public int SETTINGS => 1;
+        public int AUDIO => 2;
+        public int VIDEO => 3;
+        public int CONTROLS => 4;
 
         private void Awake()
         {
@@ -75,10 +80,27 @@ namespace GoodLuckValley
             // Create states
             ResumePauseState resumeState = new ResumePauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], fadeDuration);
             InitialPauseState pauseState = new InitialPauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], fadeDuration);
+            SettingsPauseState settingsState = new SettingsPauseState(this, canvasGroups[SETTINGS], optionMenus[SETTINGS], fadeDuration);
+            AudioPauseState audioState = new AudioPauseState(this, canvasGroups[AUDIO], optionMenus[AUDIO], fadeDuration);
+            VideoPauseState videoState = new VideoPauseState(this, canvasGroups[VIDEO], optionMenus[VIDEO], fadeDuration);
+            ControlsPauseState controlsState = new ControlsPauseState(this, canvasGroups[CONTROLS], optionMenus[CONTROLS], fadeDuration);
 
             // Define state transitions
-            stateMachine.At(resumeState, pauseState, new FuncPredicate(() => state == PAUSED));
             stateMachine.At(pauseState, resumeState, new FuncPredicate(() => state == UNPAUSED));
+            stateMachine.At(pauseState, settingsState, new FuncPredicate(() => state == SETTINGS));
+
+            stateMachine.At(resumeState, pauseState, new FuncPredicate(() => state == PAUSED));
+
+            stateMachine.At(settingsState, pauseState, new FuncPredicate(() => state == PAUSED));
+            stateMachine.At(settingsState, audioState, new FuncPredicate(() => state == AUDIO));
+            stateMachine.At(settingsState, videoState, new FuncPredicate(() => state == VIDEO));
+            stateMachine.At(settingsState, controlsState, new FuncPredicate(() => state == CONTROLS));
+
+            stateMachine.At(audioState, settingsState, new FuncPredicate(() => state == SETTINGS));
+
+            stateMachine.At(videoState, settingsState, new FuncPredicate(() => state == SETTINGS));
+
+            stateMachine.At(controlsState, settingsState, new FuncPredicate(() => state == SETTINGS));
 
             // Set the initial state
             stateMachine.SetState(resumeState);
@@ -117,6 +139,9 @@ namespace GoodLuckValley
 
             // Set paused
             paused = true;
+
+            // Fade in the background
+            Fade(0.8f, fadeDuration);
         }
 
         /// <summary>
@@ -129,11 +154,32 @@ namespace GoodLuckValley
 
             // Set unpaused
             state = -1;
+
+            // Fade out the background
+            Fade(0f, fadeDuration);
         }
 
         /// <summary>
         /// Set the state of the Pause Menu Controller
         /// </summary>
         public void SetState(int state) => this.state = state;
+
+        private void Fade(float endValue, float duration, TweenCallback onComplete = null)
+        {
+            // Kill the Fade Tween if it exists
+            fadeTween?.Kill();
+
+            // Set the fade tween
+            fadeTween = background.DOFade(endValue, duration);
+
+            // Ignore time scale
+            fadeTween.SetUpdate(true);
+
+            // Exit case - there is no completion action
+            if (onComplete == null) return;
+
+            // Hook up completion actions
+            fadeTween.onComplete += onComplete;
+        }
     }
 }

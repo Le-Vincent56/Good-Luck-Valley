@@ -1,9 +1,7 @@
-using DG.Tweening;
 using GoodLuckValley.UI.Menus.OptionMenus;
-using GoodLuckValley.UI.Menus.States;
 using UnityEngine;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.UI.Menus.States
 {
     public class ResumePauseState : PauseMenuState
     {
