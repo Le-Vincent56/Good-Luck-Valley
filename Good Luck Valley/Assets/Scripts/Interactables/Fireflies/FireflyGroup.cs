@@ -23,10 +23,11 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Set the circle center
             circleCenter = (Vector2)transform.position;
 
-            foreach (Firefly firefly in fireflies)
+            // Iterate through each Firefly and set the native data
+            for(int i = 0; i < fireflies.Length; i++)
             {
                 // Initialize the Firefly
-                firefly.Initialize(this);
+                fireflies[i].Initialize(this);
             }
 
             // Set variables
@@ -80,11 +81,6 @@ namespace GoodLuckValley.Interactables.Fireflies
 
             return randomDirection * randomDistance;
         }
-
-        /// <summary>
-        /// Get the position within the circle using an offset
-        /// </summary>
-        public Vector2 GetOffsetPosition(Vector2 offset) => circleCenter + offset;
 
         private void OnDrawGizmosSelected()
         {

@@ -5,8 +5,6 @@ using UnityEngine;
 
 namespace GoodLuckValley.Cameras.Parallax
 {
-    
-
     [BurstCompile]
     public class ParallaxSystem : MonoBehaviour
     {
@@ -34,6 +32,35 @@ namespace GoodLuckValley.Cameras.Parallax
             if(layersNative.IsCreated) layersNative.Dispose();
         }
 
+        private void LateUpdate()
+        {
+            // Exit case - the Native Array is not created
+            if(!layersNative.IsCreated) return;
+
+            // Create the Parallax Job
+            ParallaxJob parallaxJob = new ParallaxJob
+            {
+                ParallaxData = layersNative,
+                CameraStartPos = cameraStartPosition,
+                CameraCurrentPos = mainCamera.transform.position
+            };
+
+            // Create the Parallax Job Handle
+            JobHandle parallaxJobHandle = parallaxJob.Schedule(layersNative.Length, 64);
+
+            // Wait for the Job Handle to complete
+            parallaxJobHandle.Complete();
+
+            // Set Parallax Layer positions
+            for (int i = 0; i < layersNative.Length; i++)
+            {
+                layers[i].transform.position = layersNative[i].CurrentPosition;
+            }
+        }
+
+        /// <summary>
+        /// Initialize the Parallax System
+        /// </summary>
         private void InitializeParallax()
         {
             // Dispose the Native Array is already created
@@ -59,32 +86,6 @@ namespace GoodLuckValley.Cameras.Parallax
                     HorizontalOnly = layers[i].HorizontalOnly
                 };
             };
-        }
-
-        private void LateUpdate()
-        {
-            // Exit case - the Native Array is not created
-            if(!layersNative.IsCreated) return;
-
-            // Create the Parallax Job
-            ParallaxJob parallaxJob = new ParallaxJob
-            {
-                parallaxData = layersNative,
-                CameraStartPos = cameraStartPosition,
-                CameraCurrentPos = mainCamera.transform.position
-            };
-
-            // Create the Parallax Job Handle
-            JobHandle parallaxJobHandle = parallaxJob.Schedule(layersNative.Length, 64);
-
-            // Wait for the Job Handle to complete
-            parallaxJobHandle.Complete();
-
-            // Set Parallax Layer positions
-            for (int i = 0; i < layersNative.Length; i++)
-            {
-                layers[i].transform.position = layersNative[i].CurrentPosition;
-            }
         }
     }
 }

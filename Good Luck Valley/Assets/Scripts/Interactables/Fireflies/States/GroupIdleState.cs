@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace GoodLuckValley.Interactables.Fireflies.States
 {
     public class GroupIdleState : GroupState

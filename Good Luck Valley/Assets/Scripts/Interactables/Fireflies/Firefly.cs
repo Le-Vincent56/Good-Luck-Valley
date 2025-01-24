@@ -5,8 +5,6 @@ namespace GoodLuckValley.Interactables.Fireflies
 {
     public class Firefly : MonoBehaviour
     {
-        private FireflyGroup group;
-
         [Header("Physics Vectors and Mass")]
         [SerializeField] private Vector2 position = Vector2.zero;
         [SerializeField] private Vector2 velocity = Vector2.zero;
@@ -25,7 +23,6 @@ namespace GoodLuckValley.Interactables.Fireflies
 
         private Vector2 targetPosition;
 
-        public FireflyGroup Group { get => group; }
         public Vector2 Position { get => position; }
         public float MaxSpeed { get => maxSpeed; set => maxSpeed = value; }
         public float PersonalSpace { get => personalSpace; set => personalSpace = value; }
@@ -37,14 +34,13 @@ namespace GoodLuckValley.Interactables.Fireflies
         public void Initialize(FireflyGroup group)
         {
             // Set variables
-            this.group = group;
             targetPosition = group.GetRandomPositionInCircle();
             bounceSpeed = 10f;
             bounceAmplitude = -0.00075f;
             position = transform.position;
 
             // Set the Wander timer
-            wanderTimer = new CountdownTimer(wanderTime);
+            wanderTimer = new CountdownTimer(Random.Range(0.5f, 1.5f));
             wanderTimer.OnTimerStop += () =>
             {
                 targetPosition = group.GetRandomPositionInCircle();
@@ -90,12 +86,11 @@ namespace GoodLuckValley.Interactables.Fireflies
         }
 
         /// <summary>
-        /// Calculate the Forces acting on the Firefly
+        /// Calculate the total affecting forces for the Firefly
         /// </summary>
         private void CalculateForces(Firefly[] fireflies)
         {
-            // Calculate the total force
-            totalForce += Seek(targetPosition, 2f);
+            totalForce += Seek(targetPosition);
             totalForce += StayCohesive(fireflies);
             totalForce += Separate(fireflies);
         }
@@ -129,14 +124,13 @@ namespace GoodLuckValley.Interactables.Fireflies
         }
 
         /// <summary>
-        /// Stay cohesive with a group of Fireflies
+        /// Stay cohesive with the Firefly Group
         /// </summary>
         private Vector2 StayCohesive(Firefly[] fireflies, float weight = 0.25f)
         {
             // Get the center
             Vector2 centroid = Vector2.zero;
 
-            // Iterate through each Firefly
             foreach(Firefly firefly in fireflies)
             {
                 // Add the firefly's position to the centroid
@@ -151,7 +145,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         }
 
         /// <summary>
-        /// Separate from other Fireflies
+        /// Space out from the other Fireflies
         /// </summary>
         private Vector2 Separate(Firefly[] fireflies)
         {

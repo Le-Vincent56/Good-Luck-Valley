@@ -1,4 +1,3 @@
-using DG.Tweening;
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Architecture.StateMachine;

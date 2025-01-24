@@ -9,7 +9,7 @@ namespace GoodLuckValley.Cameras.Parallax
     [BurstCompile]
     public struct ParallaxJob : IJobParallelFor
     {
-        public NativeArray<ParallaxData> parallaxData;
+        public NativeArray<ParallaxData> ParallaxData;
         public float3 CameraStartPos;
         public float3 CameraCurrentPos;
 
@@ -19,7 +19,7 @@ namespace GoodLuckValley.Cameras.Parallax
         public void Execute(int index)
         {
             // Retrieve the data
-            ParallaxData data = parallaxData[index];
+            ParallaxData data = ParallaxData[index];
 
             // Set the start position
             float3 position = data.StartPosition;
@@ -36,7 +36,7 @@ namespace GoodLuckValley.Cameras.Parallax
             data.CurrentPosition = position;
 
             // Set the data
-            parallaxData[index] = data;
+            ParallaxData[index] = data;
         }
     }
 }
