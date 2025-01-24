@@ -33,6 +33,13 @@ namespace GoodLuckValley.Interactables.Fireflies
 
         private void Update()
         {
+            // Iterate through each Firefly
+            foreach(Firefly firefly in fireflies)
+            {
+                // Update the Firefly
+                firefly.TickUpdate();
+            }
+
             // Exit case - the circle center is already the transform's position
             if (circleCenter == (Vector2)transform.position)
             {

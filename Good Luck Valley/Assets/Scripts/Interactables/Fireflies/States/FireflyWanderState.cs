@@ -10,13 +10,18 @@ namespace GoodLuckValley.Interactables.Fireflies.States
 
         private Vector2 targetPosition;
         private float currentSpeed;
+        private float bounceOffset;
+        private float bounceSpeed;
+        private float bounceAmplitude;
 
-        public FireflyWanderState(Firefly firefly, float maxSpeed, float acceleration, float decelerationDistance) : base(firefly)
+        public FireflyWanderState(Firefly firefly, float maxSpeed, float acceleration, float decelerationDistance, float bounceSpeed, float bounceAmplitude) : base(firefly)
         {
             // Set variables
             this.maxSpeed = maxSpeed;
             this.acceleration = acceleration;
             this.decelerationDistance = decelerationDistance;
+            this.bounceSpeed = bounceSpeed;
+            this.bounceAmplitude = bounceAmplitude;
             currentSpeed = 0f;
         }
 
@@ -24,13 +29,24 @@ namespace GoodLuckValley.Interactables.Fireflies.States
         {
             // Get a new position
             targetPosition = firefly.Group.GetRandomPositionInCircle();
+
+            // Reset the bounce offset 
+            bounceOffset = 0f;
         }
 
         public override void Update()
         {
-            // Get the distance to the target position
-            float distanceToTarget = Vector2.Distance(firefly.transform.position, targetPosition);
+            // Calculate the bounce effect
+            bounceOffset = Mathf.Sin(Time.time * bounceSpeed) * bounceAmplitude;
 
+            // Calculate the direction to the target position
+            Vector2 currentPosition = firefly.transform.position;
+            Vector2 direction = (targetPosition - currentPosition).normalized;
+
+            // Calculate the distance to the target position
+            float distanceToTarget = Vector2.Distance(currentPosition, targetPosition);
+
+            // Check if within deceleration distance
             if (distanceToTarget < decelerationDistance)
             {
                 // Decelerate to the current speed
@@ -44,20 +60,17 @@ namespace GoodLuckValley.Interactables.Fireflies.States
             }
 
             // Move the firefly to the target position
-            firefly.transform.position = Vector2.MoveTowards(
-                firefly.transform.position,
-                targetPosition,
-                currentSpeed * Time.deltaTime
-            );
+            Vector2 movement = currentSpeed * Time.deltaTime * direction;
+            firefly.transform.position += (Vector3)movement;
 
-            if (Vector2.Distance(firefly.transform.position, targetPosition) < 0.01f)
+            // Apply the bounce effect
+            firefly.transform.position += Vector3.up * bounceOffset;
+
+            // Check if the Firefly has reached its target position
+            if(distanceToTarget <= 0.1f)
             {
-                // Set the current speed to 0
-                currentSpeed = 0f;
-
-                // Notify that the firefly has reached its destination
-                firefly.Idle = true;
-                firefly.Wandering = false;
+                // Get a new position
+                targetPosition = firefly.Group.GetRandomPositionInCircle();
             }
         }
     }

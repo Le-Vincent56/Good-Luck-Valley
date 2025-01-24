@@ -11,14 +11,11 @@ namespace GoodLuckValley.Interactables.Fireflies
         [Header("Movement")]
         [SerializeField] private bool idle;
         [SerializeField] private bool wandering;
-        [SerializeField] private bool move;
         [SerializeField] private float maxSpeed;
         [SerializeField] private float acceleration;
         [SerializeField] private float decelerationDistance;
-
-        [Header("Idle")]
-        [SerializeField] private float waitTimeMin;
-        [SerializeField] private float waitTimeMax;
+        [SerializeField] private float bounceSpeed;
+        [SerializeField] private float bounceAmplitude;
 
         private StateMachine stateMachine;
 
@@ -30,19 +27,16 @@ namespace GoodLuckValley.Interactables.Fireflies
         public float MaxSpeed { get => maxSpeed; set => maxSpeed = value; }
         public float Acceleration { get => acceleration; set => acceleration = value; }
         public float DecelerationDistance { get => decelerationDistance; set => decelerationDistance = value; }
-        public float WaitTimeMin { get => waitTimeMin; set => waitTimeMin = value; }
-        public float WaitTimeMax { get => waitTimeMax; set => waitTimeMax = value; }
+        public float BounceSpeed { get => bounceSpeed; set => bounceSpeed = value; }
+        public float BounceAmplitude { get => bounceAmplitude; set => bounceAmplitude = value; }
 
-        private void Update()
+        /// <summary>
+        /// Update the Firefly
+        /// </summary>
+        public void TickUpdate()
         {
             // Update the state machine
             stateMachine.Update();
-        }
-
-        private void FixedUpdate()
-        {
-            // Fixed update the state machine
-            stateMachine.FixedUpdate();
         }
 
         /// <summary>
@@ -52,7 +46,6 @@ namespace GoodLuckValley.Interactables.Fireflies
         {
             // Set variables
             this.group = group;
-            move = false;
 
             // Set up the State Machine
             SetupStateMachine();
@@ -66,23 +59,15 @@ namespace GoodLuckValley.Interactables.Fireflies
             stateMachine = new StateMachine();
 
             // Create states
-            FireflyIdleState idleState = new FireflyIdleState(this, waitTimeMin, waitTimeMax);
-            FireflyWanderState wanderState = new FireflyWanderState(this, maxSpeed, acceleration, decelerationDistance);
+            FireflyWanderState wanderState = new FireflyWanderState(this, maxSpeed, acceleration, decelerationDistance, bounceSpeed, bounceAmplitude);
             FireflyLocomotionState moveState = new FireflyLocomotionState(this, maxSpeed, acceleration, decelerationDistance);
 
             // Define state transitions
-            stateMachine.At(idleState, wanderState, new FuncPredicate(() => wandering && !group.Moving));
-            stateMachine.At(wanderState, idleState, new FuncPredicate(() => idle && !group.Moving));
-            stateMachine.At(moveState, idleState, new FuncPredicate(() => idle && !group.Moving));
+            stateMachine.At(moveState, wanderState, new FuncPredicate(() => wandering && !group.Moving));
             stateMachine.Any(moveState, new FuncPredicate(() => group.Moving));
 
             // Set the initial state
-            stateMachine.SetState(idleState);
+            stateMachine.SetState(wanderState);
         }
-
-        /// <summary>
-        /// Set whether or not the Firefly has reached its destination
-        /// </summary>
-        public void SetToMove(bool move) => this.move = move;
     }
 }

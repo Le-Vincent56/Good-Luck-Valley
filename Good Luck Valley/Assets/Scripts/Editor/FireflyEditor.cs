@@ -8,16 +8,16 @@ namespace GoodLuckValley.Editors
     public class FireflyEditor : Editor
     {
         // Define the ranges for randomization
-        private float maxSpeedMin = 0.25f;
-        private float maxSpeedMax = 5f;
+        private float maxSpeedMin = 0.1f;
+        private float maxSpeedMax = 0.5f;
         private float accelerationMin = 0.1f;
         private float accelerationMax = 3f;
         private float delecerationMin = 0.1f;
         private float delecerationMax = 0.5f;
-        private float waitTimeMinMin = 0.5f;
-        private float waitTimeMinMax = 1.5f;
-        private float waitTimeMaxMin = 3f;
-        private float waitTimeMaxMax = 5f;
+        private float bounceSpeedMin = 0.1f;
+        private float bounceSpeedMax = 0.5f;
+        private float bounceAmplitudeMin = 0.0025f;
+        private float bounceAmplitudeMax = 0.015f;
 
         private Firefly firefly;
 
@@ -58,8 +58,8 @@ namespace GoodLuckValley.Editors
             firefly.MaxSpeed = Random.Range(maxSpeedMin, maxSpeedMax);
             firefly.Acceleration = Random.Range(accelerationMin, accelerationMax);
             firefly.DecelerationDistance = Random.Range(delecerationMin, delecerationMax);
-            firefly.WaitTimeMin = Random.Range(waitTimeMinMin, waitTimeMinMax);
-            firefly.WaitTimeMax = Random.Range(waitTimeMaxMin, waitTimeMaxMax);
+            firefly.BounceSpeed = Random.Range(bounceSpeedMin, bounceSpeedMax);
+            firefly.BounceAmplitude = Random.Range(bounceAmplitudeMin, bounceAmplitudeMax);
         }
     }
 }
