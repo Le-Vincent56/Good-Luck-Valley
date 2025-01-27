@@ -1,3 +1,5 @@
+using GoodLuckValley.Architecture.ServiceLocator;
+using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -10,7 +12,7 @@ namespace GoodLuckValley.Cameras.Parallax
     {
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Vector3 cameraStartPosition;
-        [SerializeField] private ParallaxLayer[] layers;
+        [SerializeField] private List<ParallaxLayer> layers;
 
         private NativeArray<ParallaxData> layersNative;
 
@@ -21,6 +23,9 @@ namespace GoodLuckValley.Cameras.Parallax
 
             // Set the starting camera position
             cameraStartPosition = mainCamera.transform.position;
+
+            // Register the Parallax System as a service
+            ServiceLocator.ForSceneOf(this).Register(this);
 
             // Initialize the Parallax System
             InitializeParallax();
@@ -66,14 +71,76 @@ namespace GoodLuckValley.Cameras.Parallax
             // Dispose the Native Array is already created
             if (layersNative.IsCreated) layersNative.Dispose();
 
+            // Create the Parallax Layers list
+            layers = new List<ParallaxLayer>();
+
             // Store the Parallax Layers
-            layers = GetComponentsInChildren<ParallaxLayer>();
+            layers.AddRange(GetComponentsInChildren<ParallaxLayer>());
 
             // Create the Native Array of Parallax Data
-            layersNative = new NativeArray<ParallaxData>(layers.Length, Allocator.Persistent);
+            layersNative = new NativeArray<ParallaxData>(layers.Count, Allocator.Persistent);
 
             // Iterate through each Parallax Layer
-            for (int i = 0; i < layers.Length; i++)
+            for (int i = 0; i < layers.Count; i++)
+            {
+                // Initialize the Parallax Layer
+                layers[i].Initialize();
+
+                // Store the Parallax Layer Data
+                layersNative[i] = new ParallaxData
+                {
+                    StartPosition = layers[i].StartPosition,
+                    Multiplier = layers[i].Multiplier,
+                    HorizontalOnly = layers[i].HorizontalOnly
+                };
+            };
+        }
+
+        /// <summary>
+        /// Register a Layer to the Parallax System
+        /// </summary>
+        public void RegisterLayer(ParallaxLayer layer)
+        {
+            // Exit case - the Parallax Layer is already registered
+            if (layers.Contains(layer)) return;
+
+            // Add the layer
+            layers.Add(layer);
+
+            // Update the layers
+            UpdateLayers();
+        }
+
+        /// <summary>
+        /// Deregister a Layer to the Parallax System
+        /// </summary>
+        public void DeregisterLayer(ParallaxLayer layer)
+        {
+            // Exit case - the Parallax Layer is not registered
+            if (!layers.Contains(layer)) return;
+
+            // Remove the layer
+            layers.Remove(layer);
+
+            // Update the layers
+            UpdateLayers();
+        }
+
+        /// <summary>
+        /// Update the Layers Native Array
+        /// </summary>
+        public void UpdateLayers()
+        {
+            // Check if the Native Array is created
+            if (layersNative.IsCreated)
+                // Dispose of the array to prepare for a new one
+                layersNative.Dispose();
+
+            // Create the Native Array of Parallax Data
+            layersNative = new NativeArray<ParallaxData>(layers.Count, Allocator.Persistent);
+
+            // Iterate through each Parallax Layer
+            for (int i = 0; i < layers.Count; i++)
             {
                 // Initialize the Parallax Layer
                 layers[i].Initialize();
