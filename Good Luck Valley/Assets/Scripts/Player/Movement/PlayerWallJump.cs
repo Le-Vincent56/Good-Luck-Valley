@@ -83,7 +83,7 @@ namespace GoodLuckValley.Player.Movement
                 // Set variables
                 timeLeftWall = controller.Time;
                 canGrabWallAfter = controller.Time + WALL_REATTACH_COOLDOWN;
-                controller.RB.gravityScale = controller.InitialGravityScale;
+                controller.RB.gravityScale = controller.Stats.JumpGravityScale;
                 wallDirection = 0;
 
                 // Check to apply Wall Pop Force

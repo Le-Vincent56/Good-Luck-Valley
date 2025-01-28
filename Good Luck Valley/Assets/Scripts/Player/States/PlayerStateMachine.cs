@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Development;
 using GoodLuckValley.Player.Movement;
@@ -10,6 +11,7 @@ namespace GoodLuckValley
     public class PlayerStateMachine : MonoBehaviour
     {
         private PlayerController controller;
+        private ParticleController particles;
         private AnimationController animator;
         private DevelopmentTools devTools;
 
@@ -23,6 +25,7 @@ namespace GoodLuckValley
         {
             // Get components
             controller = GetComponent<PlayerController>();
+            particles = GetComponentInChildren<ParticleController>();
             animator = GetComponentInChildren<AnimationController>();
             devTools = GetComponent<DevelopmentTools>();
 
@@ -33,12 +36,12 @@ namespace GoodLuckValley
             superMachine = new StateMachine();
 
             // Create states
-            GroundedState grounded = new GroundedState(controller, animator);
-            WallState wallSliding = new WallState(controller, animator);
-            JumpState jumping = new JumpState(controller, animator);
-            BounceState bouncing = new BounceState(controller, animator);
-            FallState falling = new FallState(controller, animator);
-            NoClipState noClip = new NoClipState(controller, animator);
+            GroundedState grounded = new GroundedState(controller, animator, particles);
+            WallState wallSliding = new WallState(controller, animator, particles);
+            JumpState jumping = new JumpState(controller, animator, particles);
+            BounceState bouncing = new BounceState(controller, animator, particles);
+            FallState falling = new FallState(controller, animator, particles);
+            NoClipState noClip = new NoClipState(controller, animator, particles);
 
             // Define state transitions
             superMachine.At(grounded, jumping, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));

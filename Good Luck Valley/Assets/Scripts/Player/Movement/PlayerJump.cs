@@ -112,7 +112,6 @@ namespace GoodLuckValley.Player.Movement
             bufferedJumpUsable = false;
             lastJumpExecutedTime = controller.Time;
             controller.Collisions.CurrentStepDownLength = 0;
-            controller.ExtraConstantGravity = controller.Stats.JumpConstantGravity;
 
             // Check if jumping normally or using coyote time
             if (jumpType is JumpType.Jump or JumpType.Coyote)
