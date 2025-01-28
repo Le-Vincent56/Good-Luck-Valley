@@ -11,7 +11,6 @@ namespace GoodLuckValley.Particles
         [SerializeField] private GameInputReader inputReader;
         [SerializeField] private ParticleSystem runningParticles;
         [SerializeField] private ParticleSystem jumpingParticles;
-        [SerializeField] private ParticleSystem bouncingParticles;
 
         [Header("Fields")]
         [SerializeField] private bool runningParticlesActive;
@@ -25,7 +24,6 @@ namespace GoodLuckValley.Particles
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
             runningParticles = particleSystems[0];
             jumpingParticles = particleSystems[1];
-            bouncingParticles = particleSystems[2];
 
             // Set initial scales
             initialRunScaleX = runningParticles.transform.localScale.x;

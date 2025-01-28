@@ -80,6 +80,9 @@ namespace GoodLuckValley.Player.Mushroom
             bounceTimer = new CountdownTimer(animator.GetCurrentAnimatorStateInfo(0).length);
             bounceTimer.OnTimerStop += () => mushroomObject.StopBouncing();
             bounceTimer.Start();
+
+            // Play the Mushroom particles
+            mushroomObject.UnleashParticles();
         }
 
         public override void OnExit()

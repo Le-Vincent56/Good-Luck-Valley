@@ -8,6 +8,7 @@ namespace GoodLuckValley.Player.Mushroom
     {
         private Animator animator;
         private StateMachine stateMachine;
+        private ParticleSystem particles;
 
         [Header("Status")]
         [SerializeField] private bool bounceEntity;
@@ -21,6 +22,7 @@ namespace GoodLuckValley.Player.Mushroom
         {
             // Get components
             animator = GetComponent<Animator>();
+            particles = GetComponent<ParticleSystem>();
 
             // Initialize the State Machine
             stateMachine = new StateMachine();
@@ -78,6 +80,11 @@ namespace GoodLuckValley.Player.Mushroom
             // Set bouncing
             bounceEntity = true;
         }
+
+        /// <summary>
+        /// Play the Mushroom particles
+        /// </summary>
+        public void UnleashParticles() => particles.Play();
 
         /// <summary>
         /// Stop growing the Mushroom
