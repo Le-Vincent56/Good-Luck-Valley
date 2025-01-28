@@ -24,6 +24,8 @@ namespace GoodLuckValley.Scenes
 
         public UnityAction Cleanup = delegate { };
 
+        public bool IsLoading { get => isLoading; }
+
         protected override void Awake()
         {
             // Set up the Singleton
@@ -69,6 +71,9 @@ namespace GoodLuckValley.Scenes
             Cleanup.Invoke();
         }
 
+        /// <summary>
+        /// Event for when a Scene Group is loaded
+        /// </summary>
         private void OnSceneGroupLoaded(int index)
         {
             // Set the time scale

@@ -135,6 +135,9 @@ namespace GoodLuckValley
             // Exit case - if the button is pressed but not lifted
             if (started) return;
 
+            // Exit case - if the game is loading
+            if(SceneLoader.Instance.IsLoading) return;
+
             // Set the state to paused
             state = 0;
 

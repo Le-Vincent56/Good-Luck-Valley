@@ -31,7 +31,10 @@ namespace GoodLuckValley
 
             // Initialize the animator
             animator.Initialize(controller);
+        }
 
+        private void Start()
+        {
             // Initialize the super State Machine
             superMachine = new StateMachine();
 

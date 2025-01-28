@@ -115,8 +115,6 @@ namespace GoodLuckValley.Particles
             // Set the scales
             runningParticles.transform.localScale = runLocalScale;
             jumpingParticles.transform.localScale = jumpLocalScale;
-
-            
         }
     }
 }

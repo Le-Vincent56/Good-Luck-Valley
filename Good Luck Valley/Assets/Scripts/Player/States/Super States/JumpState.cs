@@ -23,6 +23,9 @@ namespace GoodLuckValley.Player.States
 
             // Set controller variables
             controller.RB.gravityScale = controller.Stats.JumpGravityScale;
+
+            // Correct player rotation
+            animator.CorrectPlayerRotation();
         }
 
         public override void SetupSubStateMachine()
@@ -48,9 +51,6 @@ namespace GoodLuckValley.Player.States
 
             subStates.At(buffer, warpJump, new FuncPredicate(() => controller.Jump.WarpJumping));
             subStates.At(buffer, wallJump, new FuncPredicate(() => controller.WallJump.IsWallJumping));
-
-            // Set the initial state
-            subStates.SetState(normalJump);
         }
     }
 }

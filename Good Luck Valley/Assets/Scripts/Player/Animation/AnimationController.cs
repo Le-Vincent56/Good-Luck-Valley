@@ -137,6 +137,14 @@ namespace GoodLuckValley.Player.Animation
         }
 
         /// <summary>
+        /// Correct the Player rotation
+        /// </summary>
+        public void CorrectPlayerRotation()
+        {
+            transform.rotation = Quaternion.identity;
+        }
+
+        /// <summary>
         /// Manually correct the facing direction
         /// </summary>
         public void ForceDirectionChange(ForceDirectionChange eventData)

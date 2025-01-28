@@ -124,5 +124,10 @@ namespace GoodLuckValley.UI.Menus
             // Set the initial state
             SetState(INITIAL);
         }
+
+        /// <summary>
+        /// Quit the game
+        /// </summary>
+        public void QuitGame() => Application.Quit();
     }
 }

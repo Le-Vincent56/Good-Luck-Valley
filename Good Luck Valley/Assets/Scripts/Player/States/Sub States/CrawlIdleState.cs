@@ -21,5 +21,11 @@ namespace GoodLuckValley.Player.States
             // Rotate the player to align with the ground
             animator.RotatePlayer();
         }
+
+        public override void OnExit()
+        {
+            // Correct player rotation
+            animator.CorrectPlayerRotation();
+        }
     }
 }
