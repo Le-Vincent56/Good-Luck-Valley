@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.ServiceLocator;
 using UnityEngine;
 
 namespace GoodLuckValley.Cameras.Parallax
@@ -7,6 +8,7 @@ namespace GoodLuckValley.Cameras.Parallax
         private Vector3 startPos;
         [SerializeField] float multiplier = 0.0f;
         [SerializeField] bool horizontalOnly = true;
+        [SerializeField] private bool initialized = false;
 
         public Vector3 StartPosition { get => startPos; }
         public float Multiplier { get => multiplier; }
@@ -17,7 +19,11 @@ namespace GoodLuckValley.Cameras.Parallax
         /// </summary>
         public void Initialize()
         {
+            // Exit case - already initialized
+            if (initialized) return;
+
             startPos = transform.position;
+            initialized = true;
         }
     }
 }
