@@ -15,5 +15,11 @@ namespace GoodLuckValley.Player.States
             // Enter the crawl idle animation
             animator.EnterCrawlIdle();
         }
+
+        public override void Update()
+        {
+            // Rotate the player to align with the ground
+            animator.RotatePlayer();
+        }
     }
 }

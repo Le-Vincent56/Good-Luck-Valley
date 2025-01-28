@@ -16,5 +16,11 @@ namespace GoodLuckValley.Player.States
             // Enter the crawl locomotion animation
             animator.EnterCrawlLocomotion();
         }
+
+        public override void Update()
+        {
+            // Rotate the player to align with the ground
+            animator.RotatePlayer();
+        }
     }
 }

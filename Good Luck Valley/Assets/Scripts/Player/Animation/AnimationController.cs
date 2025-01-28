@@ -25,8 +25,6 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int WALL_SLIDE_HASH = Animator.StringToHash("Wall Slide");
         private static readonly int BOUNCE_HASH = Animator.StringToHash("Bounce");
         private static readonly int FALL_HASH = Animator.StringToHash("Fall");
-        private static readonly int THROW_IDLE_HASH = Animator.StringToHash("Throw Idle");
-        private static readonly int THROW_LOCOMOTION_HASH = Animator.StringToHash("Throw Locomotion");
 
         private EventBinding<PotentiateFeedback> onPotentiateFeedback;
         private EventBinding<ForceDirectionChange> onForceDirectionChange;
@@ -121,6 +119,21 @@ namespace GoodLuckValley.Player.Animation
             Vector3 scale = transform.localScale;
             scale.x = directionToFace;
             transform.localScale = scale;
+        }
+
+        /// <summary>
+        /// Rotate the Player to align with the ground
+        /// </summary>
+        public void RotatePlayer()
+        {
+            // Get the normal of the surface
+            Vector2 normal = playerController.Collisions.GroundNormal;
+
+            // Calculate the angle (in degrees) from the normal to the upward direction
+            float angle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg - 90f;
+
+            // Apply the rotation to the sprite
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
         /// <summary>
