@@ -71,7 +71,10 @@ namespace GoodLuckValley.Scenes
 
         private void OnSceneGroupLoaded(int index)
         {
-            if(forcedMoveDirection != 0)
+            // Set the time scale
+            Time.timeScale = 1f;
+
+            if (forcedMoveDirection != 0)
             {
                 // Place the player
                 EventBus<PlacePlayer>.Raise(new PlacePlayer()

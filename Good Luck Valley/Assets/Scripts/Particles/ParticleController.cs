@@ -1,6 +1,7 @@
 using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace GoodLuckValley.Particles
 {
@@ -14,6 +15,9 @@ namespace GoodLuckValley.Particles
 
         [Header("Fields")]
         [SerializeField] private bool runningParticlesActive;
+        [SerializeField] private float initialRunScaleX;
+        [SerializeField] private float initialJumpScaleX;
+        [SerializeField] private float initialJumpVelocityX;
         [SerializeField] private int direction;
 
         private void Awake()
@@ -22,6 +26,15 @@ namespace GoodLuckValley.Particles
             runningParticles = particleSystems[0];
             jumpingParticles = particleSystems[1];
             bouncingParticles = particleSystems[2];
+
+            // Set initial scales
+            initialRunScaleX = runningParticles.transform.localScale.x;
+            initialJumpScaleX = jumpingParticles.transform.localScale.x;
+
+            // Set initial velocities
+            initialJumpVelocityX = jumpingParticles.velocityOverLifetime.x.constant;
+
+            UpdateDirection(Vector2.zero, true);
         }
 
         private void OnEnable()
@@ -36,10 +49,8 @@ namespace GoodLuckValley.Particles
 
         private void UpdateDirection(Vector2 direction, bool started)
         {
-            // Exit case - if the button is lifted
-            if (!started) return;
-
-            this.direction = (int)Mathf.Sign(direction.x);
+            // Set the direction
+            this.direction = (direction.x != 0) ? (int)Mathf.Sign(direction.x) : 0;
 
             // Update the directions of the particles
             UpdateDirections();
@@ -85,17 +96,27 @@ namespace GoodLuckValley.Particles
         /// </summary>
         private void UpdateDirections()
         {
+            // Set the velocity of the jumping particles
+            VelocityOverLifetimeModule velocityModule = jumpingParticles.velocityOverLifetime;
+            float jumpVelocityX = (direction != 0) ? initialJumpVelocityX : 0;
+            velocityModule.x = new MinMaxCurve(jumpVelocityX);
+
+            // Exit case - if direction is 0
+            if (direction == 0) return;
+
             // Get the scales
             Vector3 runLocalScale = runningParticles.transform.localScale;
             Vector3 jumpLocalScale = jumpingParticles.transform.localScale;
 
             // Modify the scales by the direction of movement
-            runLocalScale.x = Mathf.Abs(runLocalScale.x) * direction;
-            jumpLocalScale.x = Mathf.Abs(jumpLocalScale.x) * direction;
+            runLocalScale.x = initialRunScaleX * direction;
+            jumpLocalScale.x = initialJumpScaleX * direction;
 
             // Set the scales
             runningParticles.transform.localScale = runLocalScale;
             jumpingParticles.transform.localScale = jumpLocalScale;
+
+            
         }
     }
 }

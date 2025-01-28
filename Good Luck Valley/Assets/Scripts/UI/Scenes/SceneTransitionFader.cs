@@ -61,7 +61,7 @@ namespace GoodLuckValley.UI.Scenes
 
             // Set the Fade Tween
             fadeTween = loadingImage.DOFade(endValue, duration);
-            fadeTween.SetEase(easeType);
+            fadeTween.SetEase(easeType).SetUpdate(true);
 
             // Exit case - there is no completion action
             if (onComplete == null) return;

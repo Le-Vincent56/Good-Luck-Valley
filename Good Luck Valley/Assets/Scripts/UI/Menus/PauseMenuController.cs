@@ -1,6 +1,7 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Input;
+using GoodLuckValley.Scenes;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.States;
 using UnityEngine;
@@ -180,6 +181,12 @@ namespace GoodLuckValley
 
             // Hook up completion actions
             fadeTween.onComplete += onComplete;
+        }
+
+        public void ReturnToMain()
+        {
+            // Load the Scene Group
+            SceneLoader.Instance.ChangeSceneGroupSystem(0);
         }
     }
 }
