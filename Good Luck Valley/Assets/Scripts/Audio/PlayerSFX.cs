@@ -34,14 +34,7 @@ namespace GoodLuckValley.Audio
         [SerializeField] private AK.Wwise.Event startFallEvent;
         [SerializeField] private AK.Wwise.Event stopFallEvent;
 
-        [Header("Player Slide")]
-        [SerializeField] private bool playingSlide;
-        [SerializeField] private AK.Wwise.Event startSlide;
-        [SerializeField] private AK.Wwise.Event stopSlide;
-        [SerializeField] private AK.Wwise.Event slideImpact;
-
         [Header("Mushroom Bounce")]
-        [SerializeField] private RTPC bounceChainRTPC;
         [SerializeField] private AK.Wwise.Event bounceEvent;
 
         /// <summary>
@@ -107,6 +100,9 @@ namespace GoodLuckValley.Audio
         /// </summary>
         public void Land() => landEvent.Post(gameObject);
 
+        /// <summary>
+        /// Reset the max fall counters
+        /// </summary>
         public void ResetLandCounter() => maxFallCounters = 0;
 
         /// <summary>
@@ -134,40 +130,11 @@ namespace GoodLuckValley.Audio
         }
 
         /// <summary>
-        /// Start the slide sound effect
-        /// </summary>
-        public void StartSlide()
-        {
-            // Exit case - if already playing the slide sound
-            if (playingSlide) return;
-
-            startSlide.Post(gameObject);
-            playingSlide = true;
-        }
-
-        /// <summary>
-        /// Stop the slide sound effect
-        /// </summary>
-        public void StopSlide()
-        {
-            // Exit case - if not already playing the slide sound
-            if (!playingSlide) return;
-
-            stopSlide.Post(gameObject);
-            playingSlide = false;
-
-            slideImpact.Post(gameObject);
-        }
-
-        /// <summary>
         /// Play the sound effect for bouncing
         /// </summary>
         /// <param name="bounceCount"></param>
         public void Bounce(int bounceCount)
         {
-            // Set the bounce chain RTPC value for sweeteners
-            bounceChainRTPC.SetValue(gameObject, bounceCount);
-
             // Play the bounce event
             bounceEvent.Post(gameObject);
         }
