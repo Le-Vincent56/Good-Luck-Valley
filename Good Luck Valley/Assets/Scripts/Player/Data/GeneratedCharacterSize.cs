@@ -10,6 +10,7 @@ namespace GoodLuckValley.Player.Data
         public float Height;
         public float Width;
         public float StepHeight;
+        public float WallDetectionRange;
         public float RayInset;
         public Vector2 StandingColliderSize;
         public Vector2 StandingColliderCenter;

@@ -13,6 +13,7 @@ namespace GoodLuckValley.Player.Movement
 
         private PlayerController controller;
         private Bounds wallDetectionBounds;
+        private RaycastHit2D wallHit;
         [SerializeField] private bool isOnWall;
         [SerializeField] private bool wallJumpCoyoteUsable;
         [SerializeField] private int wallDirection;
@@ -21,6 +22,7 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private float timeLeftWall;
         [SerializeField] private bool isWallJumping;
         [SerializeField] private bool fromWallJump;
+        [SerializeField] private bool stickToWall;
         private int lastWallLayer;
         private int wallDirectionForJump;
         private float returnWallInputLossAfter;
@@ -47,6 +49,8 @@ namespace GoodLuckValley.Player.Movement
         public bool IsWallJumping { get => isWallJumping; set => isWallJumping = value; }
         public int WallDirectionThisFrame { get => wallDirectionThisFrame; }
         public int LastWallLayer { get => lastWallLayer; }
+        public RaycastHit2D WallHit { get => wallHit; }
+        public bool StickToWall { get => stickToWall; }
 
         public PlayerWallJump(PlayerController controller)
         {
@@ -79,6 +83,7 @@ namespace GoodLuckValley.Player.Movement
                 fromWallJump = false;
                 controller.Bounce.ResetBounce();
                 controller.Collisions.SetColliderMode(CollisionHandler.ColliderMode.Standard);
+                stickToWall = true;
             }
             // Otherwise
             else
@@ -87,6 +92,7 @@ namespace GoodLuckValley.Player.Movement
                 timeLeftWall = controller.Time;
                 canGrabWallAfter = controller.Time + WALL_REATTACH_COOLDOWN;
                 wallDirection = 0;
+                stickToWall = false;
             }
 
             // Call the event
@@ -151,7 +157,7 @@ namespace GoodLuckValley.Player.Movement
         private bool DetectWallCast(float dir)
         {
             // Check for walls using a BoxCast
-            RaycastHit2D boxCast = Physics2D.BoxCast(
+            wallHit = Physics2D.BoxCast(
                 controller.FrameData.Position + (Vector2)wallDetectionBounds.center,
                 new Vector2(
                     controller.CharacterSize.StandingColliderSize.x - controller.Collisions.SkinWidth,
@@ -164,11 +170,11 @@ namespace GoodLuckValley.Player.Movement
             );
 
             // Check if the BoxCast hit a wall
-            if (boxCast)
+            if (wallHit)
                 // Set the last wall layer
-                lastWallLayer = boxCast.collider.gameObject.layer;
+                lastWallLayer = wallHit.collider.gameObject.layer;
 
-            return boxCast;
+            return wallHit;
         }
 
         /// <summary>
@@ -187,7 +193,7 @@ namespace GoodLuckValley.Player.Movement
             isWallJumping = true;
             fromWallJump = true;
 
-            controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallJumpPower);
+            controller.FrameData.AddForce(new Vector2(-wallDirectionThisFrame, 1) * controller.Stats.WallJumpPower, true);
 
             // Invoke the wall jump
             EventBus<ForceDirectionChange>.Raise(new ForceDirectionChange { DirectionToFace = wallDirectionThisFrame * -1, BufferUpdate = true });

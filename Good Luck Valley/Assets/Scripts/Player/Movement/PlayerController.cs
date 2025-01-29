@@ -203,7 +203,7 @@ namespace GoodLuckValley.Player.Movement
             // Exit case - the PlayerController is not active
             if (!active) return;
 
-            if (debug) DebugMovement(true);
+            //if (debug) DebugMovement(true);
 
             // Set time variables
             this.delta = delta;
@@ -228,6 +228,7 @@ namespace GoodLuckValley.Player.Movement
 
             // Move
             TraceGround();
+            TraceWall();
             Move();
 
             // Calculate crouch
@@ -236,7 +237,7 @@ namespace GoodLuckValley.Player.Movement
             // Clean the frame data
             frameData.Clean();
 
-            if (debug) DebugMovement(false);
+            //if (debug) DebugMovement(false);
         }
 
         private void DebugMovement(bool before)
@@ -440,7 +441,40 @@ namespace GoodLuckValley.Player.Movement
                     Vector2 requiredMove = Vector2.zero;
                     requiredMove.y += distanceFromGround;
 
-                    // CHeck if using velocity as the PositionCorrectionMode
+                    // Check if using velocity as the PositionCorrectionMode
+                    if (Stats.PositionCorrectionMode is PositionCorrectionMode.Velocity)
+                        // Add the correction to the transient velocity
+                        FrameData.TransientVelocity = requiredMove / delta;
+                    else
+                        // Move immediately
+                        immediateMove = requiredMove;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Trace the wall next to the player
+        /// </summary>
+        private void TraceWall()
+        {
+            if(WallJump.StickToWall && !Jump.IsWithinJumpClearance)
+            {
+                // Get the distance from the wall
+                float distanceFromWall = (stats.WallDetectorRange - WallJump.WallHit.distance) * -wallJump.WallDirectionThisFrame;
+
+                Debug.Log($"Sticking to Wall: " +
+                    $"\nDistance from Wall: {distanceFromWall}" +
+                    $"\nWall Direction this Frame: {wallJump.WallDirectionThisFrame}" +
+                    $"\nRaw Distance: {stats.WallDetectorRange - WallJump.WallHit.distance}");
+
+                // Check if there's still distance to travel
+                if(distanceFromWall != 0)
+                {
+                    // Get the movement vector to travel the distance
+                    Vector2 requiredMove = Vector2.zero;
+                    requiredMove.x += distanceFromWall;
+
+                    // Check if using velocity as the PositionCorrectionMode
                     if (Stats.PositionCorrectionMode is PositionCorrectionMode.Velocity)
                         // Add the correction to the transient velocity
                         FrameData.TransientVelocity = requiredMove / delta;
@@ -512,6 +546,9 @@ namespace GoodLuckValley.Player.Movement
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(pos + Vector2.up * characterSize.Height / 2f, new Vector3(characterSize.Width, characterSize.Height));
 
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(pos + (Vector2)wallJump.WallDetectionBounds.center, wallJump.WallDetectionBounds.size);
+
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(pos + Vector2.up * characterSize.CrouchingHeight / 2f, new Vector3(characterSize.Width, characterSize.CrouchingHeight));
 
@@ -527,9 +564,6 @@ namespace GoodLuckValley.Player.Movement
 
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(collisionHandler.RayPoint, 0.5f);
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(pos + (Vector2)wallJump.WallDetectionBounds.center, wallJump.WallDetectionBounds.size);
 
             Gizmos.color = Color.black;
             Gizmos.DrawRay(Collisions.RayPoint, Vector3.right);
