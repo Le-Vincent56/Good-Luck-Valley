@@ -1,6 +1,5 @@
 using UnityEngine;
 using AK.Wwise;
-using GoodLuckValley.Player.Movement;
 
 namespace GoodLuckValley.Audio
 {
@@ -27,28 +26,37 @@ namespace GoodLuckValley.Audio
         [SerializeField] private Switch dirtSwitch;
         [SerializeField] private Switch stoneSwitch;
 
-        [Header("Player Footsteps")]
+        [Header("Footsteps")]
         [SerializeField] private bool playingGroundImpacts;
         [SerializeField] private RTPC speedRTPC;
         [SerializeField] private AK.Wwise.Event startGroundImpactsEvent;
         [SerializeField] private AK.Wwise.Event stopGroundImpactsEvent;
 
-        [Header("Player Jump")]
+        [Header("Jump")]
         [SerializeField] private AK.Wwise.Event jumpEvent;
 
-        [Header("Player Land")]
+        [Header("Land")]
         [SerializeField] private AK.Wwise.Event landEvent;
 
-        [Header("Player Fall")]
+        [Header("Fall")]
         [SerializeField] private bool playingFall;
         [SerializeField] private RTPC fallSpeedRTPC;
         [SerializeField] private AK.Wwise.Event startFallEvent;
         [SerializeField] private AK.Wwise.Event stopFallEvent;
 
+        [Header("Wallslide")]
+        [SerializeField] private bool playingWallSlide;
+        [SerializeField] private AK.Wwise.Event startWallSlideEvent;
+        [SerializeField] private AK.Wwise.Event stopWallSlideEvent;
+        [SerializeField] private AK.Wwise.Event wallSlideEndEvent;
+
         public float CRAWL => 0.8f;
         public float WALK => 2.0f;
         public float RUN => 3.1f;
 
+        /// <summary>
+        /// Set the SFX Layer
+        /// </summary>
         public void SetLayer(int layer)
         {
             // Set none as the ground type
@@ -181,10 +189,32 @@ namespace GoodLuckValley.Audio
         }
 
         /// <summary>
-        /// Play the sound effect for wall jumping
+        /// Start the wall sliding sound effect
         /// </summary>
-        public void WallJump()
+        public void StartWallSlide()
         {
+            // Exit case - if already playing the wall slide sound
+            if(playingWallSlide) return;
+
+            startWallSlideEvent.Post(gameObject);
+            playingWallSlide = true;
         }
+
+        /// <summary>
+        /// Stop the wall sliding sound effect
+        /// </summary>
+        public void StopWallSlide()
+        {
+            // Exit case - if not already playing the wall slide sound
+            if (!playingWallSlide) return;
+
+            stopWallSlideEvent.Post(gameObject);
+            playingWallSlide = false;
+        }
+
+        /// <summary>
+        /// Play the wall slide end impact sound effect
+        /// </summary>
+        public void PlayWallSlideEnd() => wallSlideEndEvent.Post(gameObject);
     }
 }

@@ -1055,7 +1055,7 @@ MonoBehaviour:
     ParentPath: Events\PLAYER
     guid: 8a0c6695ceca7445a1dd81f55040a8f6
     GuidInternal: 
-    m_lastTime: -8584634342833791016
+    m_lastTime: -8584634256202062150
     List: []
   - PhysicalPath: Events\PLAYER_FALL.wwu
     PathAndIcons:
@@ -1238,6 +1238,82 @@ MonoBehaviour:
         ObjectType: 3
         guid: ecc32284ffd49d43b451dc71dd92d880
       Path: Events\PLAYER\PLAYER_LOCOMOTION\STOP_PLAYER_IMPACTS
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+  - PhysicalPath: Events\PLAYER_WALLSLIDE.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: PLAYER
+      ObjectType: 12
+      guid: 8a0c6695ceca7445a1dd81f55040a8f6
+    - ElementName: PLAYER_WALLSLIDE
+      ObjectType: 12
+      guid: ad4d5a1af13f9b448e9b9c52349a96a1
+    ParentPath: Events\PLAYER\PLAYER_WALLSLIDE
+    guid: ad4d5a1af13f9b448e9b9c52349a96a1
+    GuidInternal: 
+    m_lastTime: -8584634255473918264
+    List:
+    - name: PLAY_PLAYER_WALLSLIDE
+      guid: 6553331ab2c19b4fa15af91a42df8465
+      id: 2938653347
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: PLAYER
+        ObjectType: 12
+        guid: 8a0c6695ceca7445a1dd81f55040a8f6
+      - ElementName: PLAYER_WALLSLIDE
+        ObjectType: 12
+        guid: ad4d5a1af13f9b448e9b9c52349a96a1
+      - ElementName: PLAY_PLAYER_WALLSLIDE
+        ObjectType: 3
+        guid: 6553331ab2c19b4fa15af91a42df8465
+      Path: Events\PLAYER\PLAYER_WALLSLIDE\PLAY_PLAYER_WALLSLIDE
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: PLAY_PLAYER_WALLSLIDE_END
+      guid: 287aae3f52629a4790ee1fc4a5d1dadd
+      id: 2197273061
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: PLAYER
+        ObjectType: 12
+        guid: 8a0c6695ceca7445a1dd81f55040a8f6
+      - ElementName: PLAYER_WALLSLIDE
+        ObjectType: 12
+        guid: ad4d5a1af13f9b448e9b9c52349a96a1
+      - ElementName: PLAY_PLAYER_WALLSLIDE_END
+        ObjectType: 3
+        guid: 287aae3f52629a4790ee1fc4a5d1dadd
+      Path: Events\PLAYER\PLAYER_WALLSLIDE\PLAY_PLAYER_WALLSLIDE_END
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: STOP_PLAYER_WALLSLIDE
+      guid: 0b62999c0e2541459eb3095af7fe3e0f
+      id: 3996749609
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: PLAYER
+        ObjectType: 12
+        guid: 8a0c6695ceca7445a1dd81f55040a8f6
+      - ElementName: PLAYER_WALLSLIDE
+        ObjectType: 12
+        guid: ad4d5a1af13f9b448e9b9c52349a96a1
+      - ElementName: STOP_PLAYER_WALLSLIDE
+        ObjectType: 3
+        guid: 0b62999c0e2541459eb3095af7fe3e0f
+      Path: Events\PLAYER\PLAYER_WALLSLIDE\STOP_PLAYER_WALLSLIDE
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1

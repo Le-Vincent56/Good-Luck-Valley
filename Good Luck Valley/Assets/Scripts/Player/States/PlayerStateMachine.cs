@@ -42,7 +42,7 @@ namespace GoodLuckValley
             superMachine = new StateMachine();
 
             // Create states
-            GroundedState grounded = new GroundedState(controller, animator, particles, sfx);
+            GroundedState grounded = new GroundedState(controller, animator, particles, sfx, superMachine);
             WallState wallSliding = new WallState(controller, animator, particles, sfx);
             JumpState jumping = new JumpState(controller, animator, particles, sfx);
             BounceState bouncing = new BounceState(controller, animator, particles, sfx);

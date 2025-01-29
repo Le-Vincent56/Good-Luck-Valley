@@ -2,7 +2,6 @@ using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
-using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
@@ -15,6 +14,9 @@ namespace GoodLuckValley.Player.States
         public override void OnEnter()
         {
             animator.EnterWallJump();
+
+            // Play the jump sound
+            sfx.Jump();
         }
     }
 }

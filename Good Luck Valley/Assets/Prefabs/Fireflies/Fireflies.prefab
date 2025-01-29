@@ -123,14 +123,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f659e19784f0e4e9383e3e253f5433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idle: 0
-  wandering: 0
-  move: 0
+  position: {x: 0, y: 0}
+  velocity: {x: 0, y: 0}
+  acceleration: {x: 0, y: 0}
+  totalForce: {x: 0, y: 0}
+  mass: 1
   maxSpeed: 1.3865114
-  acceleration: 1.1656357
-  decelerationDistance: 0.20273182
-  waitTimeMin: 0.77893215
-  waitTimeMax: 4.212396
+  bounceOffset: 0
+  personalSpace: 0
+  wanderTime: 0
 --- !u!1 &662336414546396917
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ GameObject:
   - component: {fileID: 9215945342041752478}
   - component: {fileID: 5874728062837804851}
   - component: {fileID: 8802973066494722549}
-  m_Layer: 12
+  m_Layer: 25
   m_Name: Fireflies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -549,14 +550,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f659e19784f0e4e9383e3e253f5433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idle: 0
-  wandering: 0
-  move: 0
+  position: {x: 0, y: 0}
+  velocity: {x: 0, y: 0}
+  acceleration: {x: 0, y: 0}
+  totalForce: {x: 0, y: 0}
+  mass: 1
   maxSpeed: 4.1139274
-  acceleration: 1.5224315
-  decelerationDistance: 0.19938183
-  waitTimeMin: 1.2938354
-  waitTimeMax: 4.4006596
+  bounceOffset: 0
+  personalSpace: 0
+  wanderTime: 0
 --- !u!1 &7318398114960132438
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,14 +682,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f659e19784f0e4e9383e3e253f5433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idle: 0
-  wandering: 0
-  move: 0
+  position: {x: 0, y: 0}
+  velocity: {x: 0, y: 0}
+  acceleration: {x: 0, y: 0}
+  totalForce: {x: 0, y: 0}
+  mass: 1
   maxSpeed: 3.0764673
-  acceleration: 2.907144
-  decelerationDistance: 0.46866775
-  waitTimeMin: 1.446737
-  waitTimeMax: 4.808175
+  bounceOffset: 0
+  personalSpace: 0
+  wanderTime: 0
 --- !u!1 &7550118235266511073
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,11 +814,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f659e19784f0e4e9383e3e253f5433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idle: 0
-  wandering: 0
-  move: 0
+  position: {x: 0, y: 0}
+  velocity: {x: 0, y: 0}
+  acceleration: {x: 0, y: 0}
+  totalForce: {x: 0, y: 0}
+  mass: 1
   maxSpeed: 2.5687811
-  acceleration: 1.6412779
-  decelerationDistance: 0.38217074
-  waitTimeMin: 0.71084344
-  waitTimeMax: 3.0415955
+  bounceOffset: 0
+  personalSpace: 0
+  wanderTime: 0

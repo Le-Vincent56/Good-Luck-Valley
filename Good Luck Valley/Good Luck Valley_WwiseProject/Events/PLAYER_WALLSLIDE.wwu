@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{1A5A4DAD-3FF1-449B-8E9B-9C52349A96A1}" SchemaVersion="123" RootDocumentID="{95660C8A-CACE-4574-A1DD-81F55040A8F6}" ParentDocumentID="{95660C8A-CACE-4574-A1DD-81F55040A8F6}">
+	<Events>
+		<WorkUnit Name="PLAYER_WALLSLIDE" ID="{1A5A4DAD-3FF1-449B-8E9B-9C52349A96A1}" OwnerID="{95660C8A-CACE-4574-A1DD-81F55040A8F6}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="PLAY_PLAYER_WALLSLIDE" ID="{1A335365-C1B2-4F9B-A15A-F91A42DF8465}">
+					<ChildrenList>
+						<Action Name="" ID="{5E1F3ECF-9E0F-45CB-83C1-5D94C9AE2E3C}" ShortID="364505581">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PLAYER_WALLSLIDE_GROUNDMATSWITCH" ID="{C8E08124-AAAB-46A2-966C-642936D70222}" WorkUnitID="{432F27C4-7F9D-493C-ABC3-B80AF7B01C83}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="PLAY_PLAYER_WALLSLIDE_END" ID="{3FAE7A28-6252-479A-90EE-1FC4A5D1DADD}">
+					<ChildrenList>
+						<Action Name="" ID="{14ACA0B1-4A2F-4A65-B83D-B0C6F5ACD2F8}" ShortID="533444852">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PLAYER_WALLSLIDE_END_GROUNDMATSWITCH" ID="{34C1C167-B70B-4986-9719-BB264B459B1F}" WorkUnitID="{432F27C4-7F9D-493C-ABC3-B80AF7B01C83}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="STOP_PLAYER_WALLSLIDE" ID="{9C99620B-250E-4541-9EB3-095AF7FE3E0F}">
+					<ChildrenList>
+						<Action Name="" ID="{3E6CA349-5AE1-4F3B-9099-A32C72717EA4}" ShortID="793520513">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PLAYER_WALLSLIDE_GROUNDMATSWITCH" ID="{C8E08124-AAAB-46A2-966C-642936D70222}" WorkUnitID="{432F27C4-7F9D-493C-ABC3-B80AF7B01C83}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

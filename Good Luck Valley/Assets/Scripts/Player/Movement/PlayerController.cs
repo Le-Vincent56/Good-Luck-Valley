@@ -189,7 +189,10 @@ namespace GoodLuckValley.Player.Movement
             frameData.GatherInput(input);
 
             // Set the layer of the SFX
-            sfx.SetLayer(collisionHandler.LastGroundLayer);
+            if(collisionHandler.Grounded)
+                sfx.SetLayer(collisionHandler.LastGroundLayer);
+            else
+                sfx.SetLayer(wallJump.LastWallLayer);
         }
 
         public void TickFixedUpdate(float delta)
@@ -199,6 +202,8 @@ namespace GoodLuckValley.Player.Movement
 
             // Exit case - the PlayerController is not active
             if (!active) return;
+
+            if (debug) DebugMovement(true);
 
             // Set time variables
             this.delta = delta;
@@ -230,12 +235,17 @@ namespace GoodLuckValley.Player.Movement
 
             // Clean the frame data
             frameData.Clean();
+
+            if (debug) DebugMovement(false);
         }
 
-        private void DebugMovement()
+        private void DebugMovement(bool before)
         {
-            Debug.Log($"Movement Debug: " +
+            string beforeText = before ? "Before" : "After";
+
+            Debug.Log($"Movement Debug ({beforeText})): " +
                 $"\nVelocity: {Velocity}" +
+                $"\nLinear Velocity: {rb.linearVelocity}" +
                 $"\nDecaying Transient Velocity: {DecayingTransientVelocity}" +
                 $"\nTransient Velocity: {FrameData.TransientVelocity}" +
                 $"\nExtra Constant Gravity: {extraConstantGravity}" +

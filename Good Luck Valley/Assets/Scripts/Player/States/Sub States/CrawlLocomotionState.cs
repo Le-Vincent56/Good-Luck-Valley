@@ -32,6 +32,9 @@ namespace GoodLuckValley.Player.States
         {
             // Correct player rotation
             animator.CorrectPlayerRotation();
+
+            // Stop playing footsteps
+            sfx.StopGroundImpacts();
         }
     }
 }

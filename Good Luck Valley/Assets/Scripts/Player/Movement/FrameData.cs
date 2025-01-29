@@ -112,6 +112,7 @@ namespace GoodLuckValley.Player.Movement
 
             // Calculate the total transient velocity applied in the last frame and return
             lastFrameTotalTransientVelocity = frameTransientVelocity + controller.DecayingTransientVelocity;
+
             return lastFrameTotalTransientVelocity;
         }
 

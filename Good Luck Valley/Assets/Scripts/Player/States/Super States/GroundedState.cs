@@ -12,15 +12,23 @@ namespace GoodLuckValley.Player.States
         private LocomotionState locomotion;
         private CrawlIdleState crawlingIdle;
         private CrawlLocomotionState crawlingLocomotion;
+        private StateMachine stateMachine;
 
-        public GroundedState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public GroundedState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx, StateMachine stateMachine)
             : base(controller, animator, particles, sfx)
-        { }
+        {
+            this.stateMachine = stateMachine;
+        }
 
         public override void OnEnter()
         {
             // Set the idle as the default state
             subStates.SetState(idle);
+
+            // Check if the previous state was the Wall State
+            if (stateMachine.GetPreviousState() is WallState)
+                // Play the Wall Slide End impact
+                sfx.PlayWallSlideEnd();
         }
 
         public override void SetupSubStateMachine()

@@ -14,8 +14,22 @@ namespace GoodLuckValley.Player.States
         public override void OnEnter()
         {
             animator.EnterWallSlide();
+
+            // Start playing the wall slide sound
+            sfx.StartWallSlide();
+
+            controller.RB.gravityScale = controller.Stats.WallSlideGravityScale;
         }
 
         public override void SetupSubStateMachine() { }
+
+        public override void OnExit()
+        {
+            // Stop playing the wall slide sound
+            sfx.StopWallSlide();
+
+            // Set the gravity scale back to normal
+            controller.RB.gravityScale = controller.Stats.JumpGravityScale;
+        }
     }
 }

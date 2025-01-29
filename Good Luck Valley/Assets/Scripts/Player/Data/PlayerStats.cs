@@ -39,8 +39,9 @@ namespace GoodLuckValley.Player.Data
         public float MaxWalkableSlope = 50;
 
         [Header("Gravity")]
-        public float JumpGravityScale = 1f;
-        public float BounceGravityScale = 0.8f;
+        public float JumpGravityScale = 2.8f;
+        public float BounceGravityScale = 2.2f;
+        public float WallSlideGravityScale = 2.4f;
 
         [Header("Fall"), Space]
         public float FastFallMultiplier = 2f;
@@ -82,6 +83,7 @@ namespace GoodLuckValley.Player.Data
         public bool RequireInputPush;
         public Vector2 WallJumpPower = new(25, 15);
         public Vector2 WallPushPower = new(15, 10);
+        public float WallStickPower = 1f;
         public float WallClimbSpeed = 5;
         public float WallFallAcceleration = 20;
         public float WallPopForce = 10;

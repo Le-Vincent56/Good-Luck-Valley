@@ -64,8 +64,8 @@ namespace GoodLuckValley.Player.Movement
             // Airborne collider
             airborneCollider = controller.GetComponent<CapsuleCollider2D>();
             airborneCollider.hideFlags = HideFlags.NotEditable;
-            airborneCollider.size = new Vector2(controller.CharacterSize.Width - SKIN_WIDTH * 2, controller.CharacterSize.Height - SKIN_WIDTH * 2);
-            airborneCollider.offset = new Vector2(0, controller.CharacterSize.Height / 2);
+            airborneCollider.size = new Vector2(controller.CharacterSize.Width - SKIN_WIDTH * 2f, controller.CharacterSize.Height - SKIN_WIDTH * 2f);
+            airborneCollider.offset = new Vector2(0, controller.CharacterSize.Height / 2f);
             airborneCollider.sharedMaterial = controller.RB.sharedMaterial;
 
             // Set the collider mode

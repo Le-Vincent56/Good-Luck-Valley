@@ -28,6 +28,9 @@ namespace GoodLuckValley.Player.States
         {
             // Stop playing running particles
             particles.StopRunningParticles();
+
+            // Stop playing footsteps
+            sfx.StopGroundImpacts();
         }
     }
 }

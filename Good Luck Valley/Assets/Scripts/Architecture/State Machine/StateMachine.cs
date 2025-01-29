@@ -7,6 +7,7 @@ namespace GoodLuckValley.Architecture.StateMachine
     public class StateMachine
     {
         StateNode current;
+        StateNode previous;
         Dictionary<Type, StateNode> nodes = new Dictionary<Type, StateNode>();
         HashSet<ITransition> anyTransitions = new HashSet<ITransition>();
 
@@ -45,6 +46,11 @@ namespace GoodLuckValley.Architecture.StateMachine
         public IState GetState() => current.State;
 
         /// <summary>
+        /// Get the previous State of the StateMachine
+        /// </summary>
+        public IState GetPreviousState() => previous.State;
+
+        /// <summary>
         /// Change States within the StateMachine
         /// </summary>
         /// <param name="state">The State to change to</param>
@@ -56,6 +62,9 @@ namespace GoodLuckValley.Architecture.StateMachine
             // Store the current State and get the next State
             IState previousState = current.State;
             IState nextState = nodes[state.GetType()].State;
+
+            // Set the previous State
+            previous = nodes[previousState.GetType()];
 
             // Exit the previous State
             previousState?.OnExit();

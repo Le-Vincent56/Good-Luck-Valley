@@ -30,7 +30,7 @@ MonoBehaviour:
     StepHeight: 0.14
     SlopeStepHeight: 0.2
     CrouchHeight: 0.4
-    RayInset: 0.0949
+    RayInset: 0.065
     RayOffset: 0
   VerticalDeadZoneThreshold: 0.3
   HorizontalDeadZoneThreshold: 0.10000000149011612
@@ -43,6 +43,7 @@ MonoBehaviour:
   MaxWalkableSlope: 46
   JumpGravityScale: 2.8
   BounceGravityScale: 2.2
+  WallSlideGravityScale: 2.4
   FastFallMultiplier: 1.5
   SlowFallMultiplier: 0.3
   BufferedJumpTime: 0.15
@@ -70,6 +71,7 @@ MonoBehaviour:
   RequireInputPush: 0
   WallJumpPower: {x: 10, y: 8.5}
   WallPushPower: {x: 10, y: 8.5}
+  WallStickPower: 1
   WallClimbSpeed: 10
   WallFallAcceleration: 5
   WallPopForce: 0
