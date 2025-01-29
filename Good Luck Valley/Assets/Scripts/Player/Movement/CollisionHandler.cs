@@ -22,6 +22,7 @@ namespace GoodLuckValley.Player.Movement
         private const float SKIN_WIDTH = 0.02f;
         private const int RAY_SIDE_COUNT = 5;
         private RaycastHit2D groundHit;
+        private int lastGroundLayer;
         [SerializeField] private bool grounded;
         [SerializeField] private bool isOnSlope;
         private float currentStepDownLength;
@@ -35,6 +36,7 @@ namespace GoodLuckValley.Player.Movement
         public Vector2 GroundNormal { get => groundHit.normal; }
         public float CurrentStepDownLength { get => currentStepDownLength; set => currentStepDownLength = value; }
         public float SkinWidth { get => SKIN_WIDTH; }
+        public int LastGroundLayer { get => lastGroundLayer; }
 
         public CollisionHandler(
             PlayerController controller,
@@ -142,6 +144,9 @@ namespace GoodLuckValley.Player.Movement
 
             // Exit cae - if the angle from the ground hit normal and the up vector is greater than the max walkable slope
             if (groundAngle > controller.Stats.MaxWalkableSlope) return false;
+
+            // Get the layer of the ground hit object
+            lastGroundLayer = groundHit.collider.gameObject.layer;
 
             // If ground detected, return true
             return true;

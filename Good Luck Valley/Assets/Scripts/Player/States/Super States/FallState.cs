@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
@@ -11,8 +12,8 @@ namespace GoodLuckValley.Player.States
         private FastFallState fastFall;
         private SlowFallState slowFall;
 
-        public FallState(PlayerController controller, AnimationController animator, ParticleController particles)
-            : base(controller, animator, particles)
+        public FallState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+            : base(controller, animator, particles, sfx)
         { }
 
         public override void OnEnter()

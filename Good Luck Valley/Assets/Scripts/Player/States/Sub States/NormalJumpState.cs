@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
@@ -6,8 +7,8 @@ namespace GoodLuckValley.Player.States
 {
     public class NormalJumpState : SubState
     {
-        public NormalJumpState(PlayerController controller, AnimationController animator, ParticleController particles)
-            : base(controller, animator, particles)
+        public NormalJumpState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+            : base(controller, animator, particles, sfx)
         { }
 
         public override void OnEnter()
@@ -17,6 +18,9 @@ namespace GoodLuckValley.Player.States
 
             // Play the jump particles
             particles.PlayJumpParticles();
+
+            // Play the jump sound
+            sfx.Jump();
         }
     }
 }

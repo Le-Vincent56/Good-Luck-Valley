@@ -1,14 +1,14 @@
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
-using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
     public class LocomotionState : SubState
     {
-        public LocomotionState(PlayerController controller, AnimationController animator, ParticleController particles)
-            : base(controller, animator, particles)
+        public LocomotionState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+            : base(controller, animator, particles, sfx)
         { }
 
         public override void OnEnter()
@@ -18,6 +18,10 @@ namespace GoodLuckValley.Player.States
 
             // Play running particles
             particles.PlayRunningParticles();
+
+            // Start playing ground impacts sounds with the run value for the speed RTPC
+            sfx.SetSpeedRTPC(sfx.RUN);
+            sfx.StartGroundImpacts();
         }
 
         public override void OnExit()

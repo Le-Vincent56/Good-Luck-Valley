@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Audio;
 using GoodLuckValley.Timers;
 using UnityEngine;
 
@@ -68,8 +69,12 @@ namespace GoodLuckValley.Player.Mushroom
     public class BounceState : MushroomState
     {
         private CountdownTimer bounceTimer;
+        private readonly MushroomSFX sfx;
 
-        public BounceState(MushroomObject mushroomObject, Animator animator) : base(mushroomObject, animator) { }
+        public BounceState(MushroomObject mushroomObject, Animator animator, MushroomSFX sfx) : base(mushroomObject, animator) 
+        {
+            this.sfx = sfx;
+        }
 
         public override void OnEnter()
         {
@@ -83,6 +88,9 @@ namespace GoodLuckValley.Player.Mushroom
 
             // Play the Mushroom particles
             mushroomObject.UnleashParticles();
+
+            // Play the Mushroom bounce sound
+            sfx.Bounce();
         }
 
         public override void OnExit()

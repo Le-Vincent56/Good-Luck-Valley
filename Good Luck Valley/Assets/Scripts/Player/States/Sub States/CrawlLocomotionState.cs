@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
@@ -6,8 +7,8 @@ namespace GoodLuckValley.Player.States
 {
     public class CrawlLocomotionState : SubState
     {
-        public CrawlLocomotionState(PlayerController controller, AnimationController animator, ParticleController particles)
-            : base(controller, animator, particles)
+        public CrawlLocomotionState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+            : base(controller, animator, particles, sfx)
         {
         }
 
@@ -15,6 +16,10 @@ namespace GoodLuckValley.Player.States
         {
             // Enter the crawl locomotion animation
             animator.EnterCrawlLocomotion();
+
+            // Start playing footsteps with crawl RTPC values
+            sfx.SetSpeedRTPC(sfx.CRAWL);
+            sfx.StartGroundImpacts();
         }
 
         public override void Update()

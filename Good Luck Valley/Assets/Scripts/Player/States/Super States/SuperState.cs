@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
@@ -10,13 +11,15 @@ namespace GoodLuckValley.Player.States
         protected readonly PlayerController controller;
         protected readonly AnimationController animator;
         protected readonly ParticleController particles;
+        protected readonly PlayerSFX sfx;
         public StateMachine subStates;
 
-        public SuperState(PlayerController controller, AnimationController animator, ParticleController particles)
+        public SuperState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
         {
             this.controller = controller;
             this.animator = animator;
             this.particles = particles;
+            this.sfx = sfx;
 
             SetupSubStateMachine();
         }

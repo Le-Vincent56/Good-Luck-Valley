@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
@@ -12,8 +13,8 @@ namespace GoodLuckValley.Player.States
         private CrawlIdleState crawlingIdle;
         private CrawlLocomotionState crawlingLocomotion;
 
-        public GroundedState(PlayerController controller, AnimationController animator, ParticleController particles)
-            : base(controller, animator, particles)
+        public GroundedState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+            : base(controller, animator, particles, sfx)
         { }
 
         public override void OnEnter()
@@ -29,9 +30,9 @@ namespace GoodLuckValley.Player.States
 
             // Create states
             idle = new IdleState(controller, animator, particles);
-            locomotion = new LocomotionState(controller, animator, particles);
+            locomotion = new LocomotionState(controller, animator, particles, sfx);
             crawlingIdle = new CrawlIdleState(controller, animator, particles);
-            crawlingLocomotion = new CrawlLocomotionState(controller, animator, particles);
+            crawlingLocomotion = new CrawlLocomotionState(controller, animator, particles, sfx);
 
             // Define state transitions
             subStates.At(idle, locomotion, new FuncPredicate(() => controller.RB.linearVelocity.x != 0));

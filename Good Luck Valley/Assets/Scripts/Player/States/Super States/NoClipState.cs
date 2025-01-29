@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
@@ -7,8 +8,8 @@ namespace GoodLuckValley.Player.States
 {
     public class NoClipState : SuperState
     {
-        public NoClipState(PlayerController controller, AnimationController animator, ParticleController particles)
-            : base(controller, animator, particles)
+        public NoClipState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+            : base(controller, animator, particles, sfx)
         { }
         public override void SetupSubStateMachine() { }
 

@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Audio;
 using GoodLuckValley.Player.Movement;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace GoodLuckValley.Player.Mushroom
         private Animator animator;
         private StateMachine stateMachine;
         private ParticleSystem particles;
+        private MushroomSFX sfx;
 
         [Header("Status")]
         [SerializeField] private bool bounceEntity;
@@ -23,6 +25,7 @@ namespace GoodLuckValley.Player.Mushroom
             // Get components
             animator = GetComponent<Animator>();
             particles = GetComponent<ParticleSystem>();
+            sfx = GetComponent<MushroomSFX>();
 
             // Initialize the State Machine
             stateMachine = new StateMachine();
@@ -30,7 +33,7 @@ namespace GoodLuckValley.Player.Mushroom
             // Create states
             GrowState growState = new GrowState(this, animator);
             IdleState idleState = new IdleState(this, animator);
-            BounceState bounceState = new BounceState(this, animator);
+            BounceState bounceState = new BounceState(this, animator, sfx);
             DissipateState dissipateState = new DissipateState(this, animator);
 
             // Define state transitions

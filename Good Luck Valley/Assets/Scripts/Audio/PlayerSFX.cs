@@ -1,15 +1,26 @@
 using UnityEngine;
 using AK.Wwise;
+using GoodLuckValley.Player.Movement;
 
 namespace GoodLuckValley.Audio
 {
+    public enum GroundType
+    {
+        None,
+        Grass,
+        Dirt,
+        Stone
+    }
+
     public class PlayerSFX : MonoBehaviour
     {
-        public float CRAWL = 0.8f;
-        public float WALK = 2.0f;
-        public float RUN = 3.1f;
-
         private float maxFallCounters;
+
+        [Header("Layers")]
+        [SerializeField] private GroundType groundType;
+        [SerializeField] private LayerMask grassLayer;
+        [SerializeField] private LayerMask dirtLayer;
+        [SerializeField] private LayerMask stoneLayer;
 
         [Header("Wwise Switches")]
         [SerializeField] private Switch grassSwitch;
@@ -34,8 +45,48 @@ namespace GoodLuckValley.Audio
         [SerializeField] private AK.Wwise.Event startFallEvent;
         [SerializeField] private AK.Wwise.Event stopFallEvent;
 
-        [Header("Mushroom Bounce")]
-        [SerializeField] private AK.Wwise.Event bounceEvent;
+        public float CRAWL => 0.8f;
+        public float WALK => 2.0f;
+        public float RUN => 3.1f;
+
+        public void SetLayer(int layer)
+        {
+            // Set none as the ground type
+            groundType = GroundType.None;
+
+            // Check if any of the layers are hit
+            if(grassLayer == (grassLayer | (1 << layer)))
+            {
+                groundType = GroundType.Grass;
+            }
+            else if (dirtLayer == (dirtLayer | (1 << layer)))
+            {
+                groundType = GroundType.Dirt;
+            }
+            else if (stoneLayer == (stoneLayer | (1 << layer)))
+            {
+                groundType = GroundType.Stone;
+            }
+
+            // Set switches based on the ground type
+            switch (groundType)
+            {
+                case GroundType.Grass:
+                    grassSwitch.SetValue(gameObject);
+                    break;
+
+                case GroundType.Dirt:
+                    dirtSwitch.SetValue(gameObject);
+                    break;
+
+                case GroundType.Stone:
+                    stoneSwitch.SetValue(gameObject);
+                    break;
+
+                case GroundType.None:
+                    break;
+            }
+        }
 
         /// <summary>
         /// Set the value for the speed RTPC to control player impact sounds
@@ -127,16 +178,6 @@ namespace GoodLuckValley.Audio
 
             stopFallEvent.Post(gameObject);
             playingFall = false;
-        }
-
-        /// <summary>
-        /// Play the sound effect for bouncing
-        /// </summary>
-        /// <param name="bounceCount"></param>
-        public void Bounce(int bounceCount)
-        {
-            // Play the bounce event
-            bounceEvent.Post(gameObject);
         }
 
         /// <summary>

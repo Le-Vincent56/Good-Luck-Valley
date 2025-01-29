@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Development;
@@ -11,8 +12,9 @@ namespace GoodLuckValley
     public class PlayerStateMachine : MonoBehaviour
     {
         private PlayerController controller;
-        private ParticleController particles;
         private AnimationController animator;
+        private ParticleController particles;
+        private PlayerSFX sfx;
         private DevelopmentTools devTools;
 
         private StateMachine superMachine;
@@ -25,8 +27,9 @@ namespace GoodLuckValley
         {
             // Get components
             controller = GetComponent<PlayerController>();
-            particles = GetComponentInChildren<ParticleController>();
             animator = GetComponentInChildren<AnimationController>();
+            particles = GetComponentInChildren<ParticleController>();
+            sfx = GetComponentInChildren<PlayerSFX>();
             devTools = GetComponent<DevelopmentTools>();
 
             // Initialize the animator
@@ -39,12 +42,12 @@ namespace GoodLuckValley
             superMachine = new StateMachine();
 
             // Create states
-            GroundedState grounded = new GroundedState(controller, animator, particles);
-            WallState wallSliding = new WallState(controller, animator, particles);
-            JumpState jumping = new JumpState(controller, animator, particles);
-            BounceState bouncing = new BounceState(controller, animator, particles);
-            FallState falling = new FallState(controller, animator, particles);
-            NoClipState noClip = new NoClipState(controller, animator, particles);
+            GroundedState grounded = new GroundedState(controller, animator, particles, sfx);
+            WallState wallSliding = new WallState(controller, animator, particles, sfx);
+            JumpState jumping = new JumpState(controller, animator, particles, sfx);
+            BounceState bouncing = new BounceState(controller, animator, particles, sfx);
+            FallState falling = new FallState(controller, animator, particles, sfx);
+            NoClipState noClip = new NoClipState(controller, animator, particles, sfx);
 
             // Define state transitions
             superMachine.At(grounded, jumping, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));

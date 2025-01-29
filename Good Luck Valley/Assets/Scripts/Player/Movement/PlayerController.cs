@@ -7,12 +7,13 @@ using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
 using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Audio;
 
 namespace GoodLuckValley.Player.Movement
 {
     public class PlayerController : MonoBehaviour, IPhysicsObject
     {
-        // References
+        [Header("References")]
         [SerializeField] private GameInputReader input;
         [SerializeField] private PlayerStats stats;
         [SerializeField] private Transform followTransform;
@@ -22,8 +23,9 @@ namespace GoodLuckValley.Player.Movement
         private CapsuleCollider2D airborneCollider;
         private PotentiateHandler potentiateHandler;
         private PlayerStateMachine stateMachine;
+        private PlayerSFX sfx;
 
-        // Movement components
+        [Header("Movement Components")]
         [SerializeField] private bool active;
         [SerializeField] private bool forcedMove;
         [SerializeField] private int forcedMoveDirection;
@@ -163,6 +165,9 @@ namespace GoodLuckValley.Player.Movement
             bounce = new PlayerBounce(this);
             wallJump = new PlayerWallJump(this);
 
+            // Get the Player SFX
+            sfx = GetComponentInChildren<PlayerSFX>();
+
             input.Enable();
         }
 
@@ -182,6 +187,9 @@ namespace GoodLuckValley.Player.Movement
 
             // Gather input for the frame
             frameData.GatherInput(input);
+
+            // Set the layer of the SFX
+            sfx.SetLayer(collisionHandler.LastGroundLayer);
         }
 
         public void TickFixedUpdate(float delta)
