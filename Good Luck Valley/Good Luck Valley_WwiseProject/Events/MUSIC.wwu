@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{4C40CE68-3DC1-4B6A-AC1A-E8B960532652}" SchemaVersion="123">
+	<Events>
+		<WorkUnit Name="MUSIC" ID="{4C40CE68-3DC1-4B6A-AC1A-E8B960532652}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="PLAY_MUSIC" ID="{182D17B8-2B4F-4F4A-8DA3-2695014768CE}">
+					<ChildrenList>
+						<Action Name="" ID="{E3AB2A85-8DF6-4BF2-A575-CB4DE9A65B29}" ShortID="616008975">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MAIN_MUSIC_SWITCH" ID="{5D786E1F-83E4-48F0-AA1B-629C86A7BD64}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="STOP_MUSIC" ID="{BA47C465-B1CC-46C4-867F-6F0C5FB563E7}">
+					<ChildrenList>
+						<Action Name="" ID="{9EEBD560-93E9-49B4-97BC-F0F14026F9F5}" ShortID="896067078">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MAIN_MUSIC_SWITCH" ID="{5D786E1F-83E4-48F0-AA1B-629C86A7BD64}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="PAUSE_MUSIC" ID="{4CB9667E-3825-4845-A290-82695E976A5A}">
+					<ChildrenList>
+						<Action Name="" ID="{E0AD9396-ACCA-4B7E-8CA0-591E4F939E41}" ShortID="722332708">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="7"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MAIN_MUSIC_SWITCH" ID="{5D786E1F-83E4-48F0-AA1B-629C86A7BD64}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="RESUME_MUSIC" ID="{89B20F5B-1EEC-44CF-A09A-641D2410EFE0}">
+					<ChildrenList>
+						<Action Name="" ID="{955EBAB2-0340-4A93-B09E-DC1A076763C9}" ShortID="832880233">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="9"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MAIN_MUSIC_SWITCH" ID="{5D786E1F-83E4-48F0-AA1B-629C86A7BD64}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
