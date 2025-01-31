@@ -74,7 +74,6 @@ namespace GoodLuckValley.Player.Movement
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
         public float InitialGravityScale { get => GRAVITY_SCALE; }
-        public float ExtraConstantGravity { get => extraConstantGravity; set => extraConstantGravity = value; }
 
         public float Delta { get => delta; }
         public float Time { get => time; }
@@ -339,11 +338,9 @@ namespace GoodLuckValley.Player.Movement
                 0,
                 Collisions.Grounded
                     ? 0
-                    : -extraConstantGravity *
-                      (Jump.EndedJumpEarly && Velocity.y > 0 && !Bounce.Bouncing && !WallJump.FromWallJump
-                          ? Stats.EndJumpEarlyExtraForceMultiplier
-                          : 1
-                      )
+                    : (Jump.EndedJumpEarly && Velocity.y > 0 && !Bounce.Bouncing && !WallJump.FromWallJump)
+                          ? -Stats.EndJumpEarlyExtraForceMultiplier
+                          : 0
              );
 
             // Add the extra force to the ConstantForce2D

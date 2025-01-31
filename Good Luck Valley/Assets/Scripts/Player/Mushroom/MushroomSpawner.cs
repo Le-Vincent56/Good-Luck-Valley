@@ -81,8 +81,7 @@ namespace GoodLuckValley.Player.Mushroom
                 spawnPoint = bounceCast.point;
 
                 // Apply the rotation to make it perpendicular to the surface
-                rotation = (int)Vector2.Angle(bounceCast.normal, Vector2.up) * -(int)Mathf.Sign(bounceCast.normal.x);
-                rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
+                rotationQuat = bounceCast.transform.rotation;
 
                 // Create the Mushroom
                 CreateMushroom(spawnPoint, rotationQuat);

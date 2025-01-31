@@ -39,9 +39,10 @@ namespace GoodLuckValley.Player.Data
         public float MaxWalkableSlope = 50;
 
         [Header("Gravity")]
+        public float FallGravityScale = 1.5f;
         public float JumpGravityScale = 2.8f;
         public float BounceGravityScale = 2.2f;
-        public float WallSlideGravityScale = 2.4f;
+        public float WallSlideGravityScale = 1.3f;
 
         [Header("Fall"), Space]
         public float FastFallMultiplier = 2f;

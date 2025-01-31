@@ -13,7 +13,7 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            controller.SetGravityScale(controller.Stats.JumpGravityScale);
+            controller.SetGravityScale(controller.Stats.FallGravityScale);
         }
     }
 }
