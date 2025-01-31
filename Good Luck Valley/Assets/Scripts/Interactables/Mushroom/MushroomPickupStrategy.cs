@@ -1,7 +1,6 @@
 using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Player.Mushroom;
 using GoodLuckValley.UI.Events;
-using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Mushroom
 {
