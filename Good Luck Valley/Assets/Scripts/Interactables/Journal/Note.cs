@@ -1,12 +1,8 @@
-using UnityEngine;
-
 namespace GoodLuckValley.Interactables.Journal
 {
-    public class JournalPickup : Collectible
+    public class Note : Collectible
     {
-        [SerializeField] private int hash;
 
-        public int Hash => hash;
 
         protected override void Awake()
         {
@@ -14,7 +10,7 @@ namespace GoodLuckValley.Interactables.Journal
             base.Awake();
 
             // Set the strategy
-            strategy = new JournalPickupStrategy(this);
+            strategy = new NotePickupStrategy(this);
         }
     }
 }

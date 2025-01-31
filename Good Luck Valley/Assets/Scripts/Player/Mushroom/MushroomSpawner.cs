@@ -93,7 +93,6 @@ namespace GoodLuckValley.Player.Mushroom
                 shroomableLayers
             );
 
-
             // Exit case - nothing was hit
             if (!bounceCast) return;
 
