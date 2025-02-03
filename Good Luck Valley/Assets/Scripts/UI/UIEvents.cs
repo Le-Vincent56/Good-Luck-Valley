@@ -1,7 +1,6 @@
-using GoodLuckValley.Architecture.EventBus;
 using UnityEngine;
 
-namespace GoodLuckValley.UI.Events
+namespace GoodLuckValley.Events.UI
 {
     public struct FadeGraphic : IEvent
     {

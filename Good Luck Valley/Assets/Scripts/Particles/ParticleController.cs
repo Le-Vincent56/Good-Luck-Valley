@@ -1,5 +1,5 @@
 using GoodLuckValley.Input;
-using GoodLuckValley.Player.Movement;
+using GoodLuckValley.Timers;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -12,8 +12,11 @@ namespace GoodLuckValley.Particles
         [SerializeField] private ParticleSystem runningParticles;
         [SerializeField] private ParticleSystem jumpingParticles;
 
+        private FrequencyTimer runParticleTimer;
+
         [Header("Fields")]
         [SerializeField] private bool runningParticlesActive;
+        [SerializeField] private float runParticleInterval;
         [SerializeField] private float initialRunScaleX;
         [SerializeField] private float initialJumpScaleX;
         [SerializeField] private float initialJumpVelocityX;
@@ -24,6 +27,10 @@ namespace GoodLuckValley.Particles
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
             runningParticles = particleSystems[0];
             jumpingParticles = particleSystems[1];
+
+            // Initialize the Run Particle Timer
+            runParticleTimer = new FrequencyTimer(runParticleInterval);
+            runParticleTimer.OnTick += PlayRunningParticles;
 
             // Set initial scales
             initialRunScaleX = runningParticles.transform.localScale.x;
@@ -45,6 +52,15 @@ namespace GoodLuckValley.Particles
             inputReader.Move -= UpdateDirection;
         }
 
+        private void OnDestroy()
+        {
+            // Dispose of the Run Particle Timer
+            runParticleTimer.Dispose();
+        }
+
+        /// <summary>
+        /// Update the particle directions
+        /// </summary>
         private void UpdateDirection(Vector2 direction, bool started)
         {
             // Set the direction
@@ -59,14 +75,11 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void PlayRunningParticles()
         {
-            // Exit case - the running particles are already active
-            if (runningParticlesActive) return;
-
-            // Play the running particles
+            // Play the running particle
             runningParticles.Play();
 
-            // Set activity
-            runningParticlesActive = true;
+            // Start the frequency timer
+            runParticleTimer.Start();
         }
 
         /// <summary>
@@ -74,14 +87,8 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void StopRunningParticles()
         {
-            // Exit case - if the running particles are not already active
-            if(!runningParticlesActive) return;
-
-            // Stop the running particles
-            runningParticles.Stop();
-
-            // Set activity
-            runningParticlesActive = false;
+            // Stop the frequency timer
+            runParticleTimer.Stop();
         }
 
         /// <summary>

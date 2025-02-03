@@ -1,4 +1,5 @@
-using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Development;
 using UnityEngine;
 using UnityEngine.UI;
 

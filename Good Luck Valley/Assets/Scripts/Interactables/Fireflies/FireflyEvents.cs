@@ -1,6 +1,4 @@
-using GoodLuckValley.Architecture.EventBus;
-
-namespace GoodLuckValley.Interactables.Fireflies.Events
+namespace GoodLuckValley.Events.Fireflies
 {
     public struct ActivateLantern : IEvent
     {

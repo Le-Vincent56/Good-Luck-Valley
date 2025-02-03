@@ -1,10 +1,12 @@
 using DG.Tweening;
-using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Events;
 using GoodLuckValley.Architecture.Singletons;
 using GoodLuckValley.Timers;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using GoodLuckValley.Events.Player;
+using GoodLuckValley.Events.Scenes;
 
 namespace GoodLuckValley.Scenes
 {

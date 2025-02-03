@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace GoodLuckValley.Architecture.EventBus
+namespace GoodLuckValley.Events
 {
     public static class EventBus<T> where T : IEvent
     {

@@ -1,5 +1,6 @@
 using DG.Tweening;
-using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Scenes;
 using UnityEngine;
 using UnityEngine.UI;
 

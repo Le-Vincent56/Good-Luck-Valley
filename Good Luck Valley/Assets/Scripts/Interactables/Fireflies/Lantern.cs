@@ -1,7 +1,6 @@
-using GoodLuckValley.Architecture.EventBus;
 using GoodLuckValley.Architecture.Optionals;
-using GoodLuckValley.Interactables.Fireflies.Events;
-using Unity.VisualScripting;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Fireflies;
 using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Fireflies

@@ -1,4 +1,4 @@
-namespace GoodLuckValley.Architecture.EventBus
+namespace GoodLuckValley.Events.Animation
 {
     public struct ForceDirectionChange : IEvent
     {

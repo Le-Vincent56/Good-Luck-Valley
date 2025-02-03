@@ -7,11 +7,13 @@ namespace GoodLuckValley.UI.Journal.View
 {
     public class TabButton : MonoBehaviour
     {
+        private Button button;
         [SerializeField] private TabType tab;
 
         public event Action<TabButton> OnTabClicked = delegate { };
 
         public TabType Tab { get => tab; }
+        public bool Interactable { get => button.interactable; }
 
         /// <summary>
         /// Initialize the Entry Button
@@ -19,7 +21,7 @@ namespace GoodLuckValley.UI.Journal.View
         public void Initialize(JournalView view)
         {
             // Get components
-            Button button = GetComponent<Button>();
+            button = GetComponent<Button>();
 
             // Add event listeners
             button.onClick.AddListener(() => OnTabClicked(this));
@@ -38,5 +40,16 @@ namespace GoodLuckValley.UI.Journal.View
         /// Deregister a listener from the OnEntryClicked event
         /// </summary>
         public void DeregisterListener(Action<TabButton> listener) => OnTabClicked -= listener;
+
+        /// <summary>
+        /// Set whether or not the Tab Button is interactable
+        /// </summary>
+        public void SetInteractable(bool interactable)
+        {
+            // Set the interactable state of the button
+            button.interactable = interactable;
+
+            // TODO: Set the interactable state of the button effect
+        }
     }
 }

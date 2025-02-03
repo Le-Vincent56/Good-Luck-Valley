@@ -1,7 +1,10 @@
-using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Animation;
+using GoodLuckValley.Events.Potentiates;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
 using UnityEngine;
+
 
 namespace GoodLuckValley.Player.Animation
 {

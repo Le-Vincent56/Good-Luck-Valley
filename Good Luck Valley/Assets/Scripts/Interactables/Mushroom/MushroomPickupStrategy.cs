@@ -1,6 +1,6 @@
-using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.UI;
 using GoodLuckValley.Player.Mushroom;
-using GoodLuckValley.UI.Events;
 
 namespace GoodLuckValley.Interactables.Mushroom
 {

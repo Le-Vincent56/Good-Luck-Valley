@@ -1,4 +1,4 @@
-namespace GoodLuckValley.Architecture.EventBus
+namespace GoodLuckValley.Events.Development
 {
     public struct ToggleDevelopmentTools : IEvent
     {

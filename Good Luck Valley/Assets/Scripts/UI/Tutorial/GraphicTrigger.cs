@@ -1,8 +1,8 @@
 using UnityEngine;
 using GoodLuckValley.World.Triggers;
 using GoodLuckValley.Player.Movement;
-using GoodLuckValley.Architecture.EventBus;
-using GoodLuckValley.UI.Events;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.UI;
 
 namespace GoodLuckValley.UI.Triggers
 {

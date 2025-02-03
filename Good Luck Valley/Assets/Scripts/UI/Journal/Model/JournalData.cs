@@ -17,5 +17,6 @@ namespace GoodLuckValley.UI.Journal.Model
         public int Index;
         public string Title;
         public string Content;
+        public bool InitiallyUnlocked;
     }
 }

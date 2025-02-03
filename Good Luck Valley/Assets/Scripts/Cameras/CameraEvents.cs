@@ -1,7 +1,6 @@
-using GoodLuckValley.Architecture.EventBus;
 using UnityEngine;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.Events.Camera
 {
     public struct PlaceFadeCamera : IEvent
     {
