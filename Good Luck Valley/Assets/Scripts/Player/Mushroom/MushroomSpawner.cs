@@ -56,6 +56,33 @@ namespace GoodLuckValley.Player.Mushroom
             // Exit case - the Player is crawling
             if (playerController.Crawl.Crawling) return;
 
+            Vector3 spawnPoint;
+            float rotation;
+            Quaternion rotationQuat;
+
+            // Check if the player is grounded
+            if (playerController.Collisions.Grounded)
+            {
+                // Get the ground hit
+                RaycastHit2D groundHit = playerController.Collisions.GroundHit;
+
+                // Set the spawn point to the collision point
+                spawnPoint = groundHit.point;
+                rotation = (int)Vector2.Angle(groundHit.normal, Vector2.up) * -(int)Mathf.Sign(groundHit.normal.x);
+                rotationQuat = Quaternion.AngleAxis(rotation, Vector3.forward);
+
+                // Check if the player is on the slope
+                if (playerController.Collisions.IsOnSlope)
+                    // Apply the rotation to make it perpendicular to the surface
+                    rotationQuat = groundHit.transform.rotation;
+
+                // Create the Mushroom
+                CreateMushroom(spawnPoint, rotationQuat);
+
+                return;
+            }
+
+            // If not grounded, get the cast position
             castPosition = (Vector2)transform.position;
 
             // Modify the selected code to use the new method
@@ -66,28 +93,8 @@ namespace GoodLuckValley.Player.Mushroom
                 shroomableLayers
             );
 
-
             // Exit case - nothing was hit
             if (!bounceCast) return;
-
-            Vector3 spawnPoint;
-            float rotation;
-            Quaternion rotationQuat;
-
-            // Exit case - if the player is on a slope
-            if(playerController.Collisions.IsOnSlope)
-            {
-                // Set the spawn point to the collision point
-                spawnPoint = bounceCast.point;
-
-                // Apply the rotation to make it perpendicular to the surface
-                rotationQuat = bounceCast.transform.rotation;
-
-                // Create the Mushroom
-                CreateMushroom(spawnPoint, rotationQuat);
-
-                return;
-            }
 
             // Exit case - there is no detected Tilemap
             if (!bounceCast.collider.TryGetComponent(out Tilemap tilemap)) return;
