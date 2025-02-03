@@ -5,7 +5,9 @@ namespace GoodLuckValley.UI.Journal.Model
 {
     public class JournalModel
     {
-        public readonly ObservableList<JournalEntry> journalEntries = new ObservableList<JournalEntry>();
+        private readonly ObservableList<JournalEntry> journalEntries = new ObservableList<JournalEntry>();
+
+        public ObservableList<JournalEntry> JournalEntries { get => journalEntries; }
 
         /// <summary>
         /// Add a Journal Entry to the Journal Model
@@ -23,7 +25,19 @@ namespace GoodLuckValley.UI.Journal.Model
             // Set the Journal Entry to unlocked
             entry.Unlocked = true;
 
-            // Invoek the Observable List
+            // Invoke the Observable List
+            journalEntries.Invoke();
+        }
+
+        /// <summary>
+        /// Unlock the Journal Entry at the specified index
+        /// </summary>
+        public void Unlock(int index)
+        {
+            // Get the Journal Entry at the specified index and unlock it
+            journalEntries[index].Unlocked = true;
+
+            // Invoke the Observable List
             journalEntries.Invoke();
         }
     }

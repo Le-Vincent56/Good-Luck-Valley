@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using GoodLuckValley.Events.Player;
 using GoodLuckValley.Events.Scenes;
+using GoodLuckValley.Persistence;
 
 namespace GoodLuckValley.Scenes
 {
@@ -14,7 +15,6 @@ namespace GoodLuckValley.Scenes
     {
         [Header("Scenes")]
         [SerializeField] private SceneGroupData sceneGroupData;
-        //[SerializeField] private 
         private bool isLoading;
         public SceneGroupManager Manager;
 
@@ -24,7 +24,7 @@ namespace GoodLuckValley.Scenes
 
         public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
 
-        public UnityAction Cleanup = delegate { };
+        public UnityAction Release = delegate { };
 
         public bool IsLoading { get => isLoading; }
 
@@ -56,12 +56,8 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
-            Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
-        }
-
-        private void OnDisable()
-        {
-            Manager.OnSceneGroupLoaded -= OnSceneGroupLoaded;
+            SaveLoadSystem.Instance.Release += Cleanup;
+            SaveLoadSystem.Instance.DataBinded += SetPlayerPosition;
         }
 
         private void OnDestroy()
@@ -70,13 +66,22 @@ namespace GoodLuckValley.Scenes
             releaseMovementTimer?.Dispose();
 
             // Clean up events
-            Cleanup.Invoke();
+            Release.Invoke();
+        }
+
+        /// <summary>
+        /// Cleanup by unsubscribing from events from the Save Load System
+        /// </summary>
+        private void Cleanup()
+        {
+            SaveLoadSystem.Instance.Release -= Cleanup;
+            SaveLoadSystem.Instance.DataBinded -= SetPlayerPosition;
         }
 
         /// <summary>
         /// Event for when a Scene Group is loaded
         /// </summary>
-        private void OnSceneGroupLoaded(int index)
+        private void SetPlayerPosition(int index)
         {
             // Set the time scale
             Time.timeScale = 1f;

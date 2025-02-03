@@ -1,13 +1,7 @@
-using UnityEngine;
-
 namespace GoodLuckValley.Interactables.Journal
 {
     public class JournalPickup : Collectible
     {
-        [SerializeField] private int hash;
-
-        public int Hash => hash;
-
         protected override void Awake()
         {
             // Call the parent Awake()

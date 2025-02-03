@@ -4,6 +4,7 @@ using GoodLuckValley.Input;
 using GoodLuckValley.UI.Journal.Controller;
 using GoodLuckValley.UI.Journal.Model;
 using GoodLuckValley.UI.Journal.View;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -22,6 +23,8 @@ namespace GoodLuckValley.UI.Journal
 
         private EventBinding<UnlockJournal> onUnlockJournal;
         private EventBinding<UnlockJournalEntry> onAddJournalEntry;
+
+        public JournalController Controller { get => controller; }
 
         private void OnEnable()
         {
@@ -184,11 +187,24 @@ namespace GoodLuckValley.UI.Journal
         /// <summary>
         /// Unlock the Journal
         /// </summary>
-        private void Unlock() => controller.Unlock();
+        public void Unlock() => controller.Unlock();
 
         /// <summary>
         /// Add an Entry to the Journal
         /// </summary>
         private void UnlockEntry(UnlockJournalEntry eventData) => controller.UnlockEntry(eventData.Data);
+
+        /// <summary>
+        /// Unlock Journal Entries according to specific indexes
+        /// </summary>
+        public void UnlockEntries(List<int> entryIndexes)
+        {
+            // Iterate through each Journal Entry index
+            for(int i = 0; i < entryIndexes.Count; i++)
+            {
+                // Unlock the Journal Entry at that index
+                controller.UnlockEntry(entryIndexes[i]);
+            }
+        }
     }
 }

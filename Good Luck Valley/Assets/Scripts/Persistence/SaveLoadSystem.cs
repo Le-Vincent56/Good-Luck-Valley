@@ -1,5 +1,7 @@
 using GoodLuckValley.Architecture.Singletons;
+using GoodLuckValley.Interactables;
 using GoodLuckValley.Scenes;
+using GoodLuckValley.UI.Journal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,9 @@ namespace GoodLuckValley.Persistence
         [SerializeField] private Dictionary<string, GameData> saves;
         private IDataService dataService;
 
+        public Action<int> DataBinded = delegate { };
+        public Action Release = delegate { };
+
         public GameData GameData { get => selectedData; }
         public Dictionary<string, GameData> Saves { get { return saves; } }
 
@@ -41,8 +46,14 @@ namespace GoodLuckValley.Persistence
 
         private void OnEnable()
         {
-            SceneLoader.Instance.Cleanup += Cleanup;
+            SceneLoader.Instance.Release += Cleanup;
             SceneLoader.Instance.Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
+        }
+
+        private void OnDestroy()
+        {
+            // Release all events
+            Release.Invoke();
         }
 
         /// <summary>
@@ -50,13 +61,19 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         private void Cleanup()
         {
-            SceneLoader.Instance.Cleanup -= Cleanup;
+            SceneLoader.Instance.Release -= Cleanup;
             SceneLoader.Instance.Manager.OnSceneGroupLoaded -= OnSceneGroupLoaded;
         }
 
         private void OnSceneGroupLoaded(int index)
         {
-            //Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            // Bind Data
+            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
+            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
+
+            // Invoke the DataBinded event
+            DataBinded.Invoke(index);
         }
 
         /// <summary>
@@ -119,20 +136,24 @@ namespace GoodLuckValley.Persistence
             {
                 Slot = slot,
                 Name = $"New Game {slot}",
-                SceneGroupIndex = 3,
                 LastUpdated = DateTime.Now.ToBinary(),
-                PlayerData = new PlayerData()
+                PlayerData = new PlayerData(),
+                JournalData = new JournalData(),
+                CollectibleDatas = new List<CollectibleSaveData>()
             };
 
-            SaveGame();
-
+            // Bind Data
             Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
+            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
+
+            SaveGame();
 
             // Exit case - not loading the game
             if (!loadGame) return;
 
             // Load the Scene Group
-            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.SceneGroupIndex);
+            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.PlayerData.LevelIndex);
         }
 
         /// <summary>
@@ -159,7 +180,7 @@ namespace GoodLuckValley.Persistence
             selectedData = dataService.Load(gameName);
 
             // Load the scene group at the scene group index
-            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.SceneGroupIndex);
+            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.PlayerData.LevelIndex);
         }
 
         /// <summary>
