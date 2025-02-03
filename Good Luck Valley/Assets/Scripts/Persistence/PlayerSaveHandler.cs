@@ -1,3 +1,4 @@
+using GoodLuckValley.Scenes;
 using UnityEngine;
 
 namespace GoodLuckValley.Persistence
@@ -21,6 +22,7 @@ namespace GoodLuckValley.Persistence
         {
             // Save transform data
             playerData.Position = transform.position;
+            playerData.LevelIndex = SceneLoader.Instance.Manager.CurrentIndex;
         }
 
         /// <summary>
@@ -33,6 +35,8 @@ namespace GoodLuckValley.Persistence
 
             // Set the position
             transform.position = playerData.Position;
+
+            Debug.Log($"Binded Position: {playerData.Position}");
         }
     }
 }

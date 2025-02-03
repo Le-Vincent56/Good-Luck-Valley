@@ -1,6 +1,7 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Input;
+using GoodLuckValley.Persistence;
 using GoodLuckValley.Scenes;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.States;
@@ -168,6 +169,14 @@ namespace GoodLuckValley
         /// </summary>
         public void SetState(int state) => this.state = state;
 
+        /// <summary>
+        /// Save the game
+        /// </summary>
+        public void Save() => SaveLoadSystem.Instance.SaveGame();
+
+        /// <summary>
+        /// Handle Fade Tweening for the Pause Menu
+        /// </summary>
         private void Fade(float endValue, float duration, TweenCallback onComplete = null)
         {
             // Kill the Fade Tween if it exists

@@ -59,6 +59,7 @@ namespace GoodLuckValley.Scenes
         private readonly AsyncOperationHandleGroup handleGroup = new AsyncOperationHandleGroup(10);
 
         private SceneGroup ActiveSceneGroup;
+        public int CurrentIndex;
 
         /// <summary>
         /// Load scenes for a SceneGroup
@@ -144,6 +145,9 @@ namespace GoodLuckValley.Scenes
 
             // Invoke the OnSceneGroupLoaded event
             OnSceneGroupLoaded.Invoke(groupIndex);
+
+            // Set the current index
+            CurrentIndex = groupIndex;
         }
 
         /// <summary>

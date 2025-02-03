@@ -43,6 +43,7 @@ namespace GoodLuckValley.UI.Journal.Controller
         private readonly JournalView view;
         private bool unlocked;
 
+        public JournalModel Model { get => model; }
         public JournalView View { get => view; }
 
         public JournalController(JournalModel model, JournalView view)
@@ -60,7 +61,7 @@ namespace GoodLuckValley.UI.Journal.Controller
         /// </summary>
         private void ConnectModel()
         {
-            model.journalEntries.AnyValueChanged += UpdateEntries;
+            model.JournalEntries.AnyValueChanged += UpdateEntries;
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace GoodLuckValley.UI.Journal.Controller
             }
 
             // Update the Entry Buttons
-            view.UpdateEntries(model.journalEntries);
+            view.UpdateEntries(model.JournalEntries);
         }
 
         /// <summary>
@@ -149,8 +150,13 @@ namespace GoodLuckValley.UI.Journal.Controller
         public void Unlock() => unlocked = true;
 
         /// <summary>
-        /// Unlock a Journal Entry in the Journal Model
+        /// Unlock a Journal Entry in the Journal Model using a Journal Data
         /// </summary>
         public void UnlockEntry(JournalData dataToAdd) => model.Unlock(dataToAdd);
+
+        /// <summary>
+        /// Unlock a Journal Entry in the Journal Model using an index
+        /// </summary>
+        public void UnlockEntry(int index) => model.Unlock(index);
     }
 }

@@ -1,13 +1,35 @@
 using GoodLuckValley.Architecture.Optionals;
+using GoodLuckValley.Persistence;
 using UnityEngine;
 
 namespace GoodLuckValley.Interactables
 {
-    public class Collectible : Interactable
+    public class Collectible : Interactable, IBind<CollectibleSaveData>
     {
         [Header("Collectible")]
+        [SerializeField] protected CollectibleSaveData data;
         [SerializeField] private bool collected;
 
+        [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
+
+        /// <summary>
+        /// Bind the Collectible data
+        /// </summary>
+        public void Bind(CollectibleSaveData data)
+        {
+            this.data = data;
+            this.data.ID = ID;
+
+            // Set collected
+            collected = data.Collected;
+
+            // Check if the game object should be active
+            gameObject.SetActive(!collected);
+        }
+
+        /// <summary>
+        /// Interact with the Collectible
+        /// </summary>
         public override void Interact()
         {
             // Exit case - the Handler has no value
@@ -37,6 +59,10 @@ namespace GoodLuckValley.Interactables
 
             // Fade out the feedback sprite
             FadeFeedback(0f, fadeDuration);
+
+            // Set collected
+            collected = true;
+            data.Collected = collected;
         }
     }
 }
