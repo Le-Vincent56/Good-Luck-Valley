@@ -35,6 +35,8 @@ namespace GoodLuckValley.Persistence
 
             // Set the position
             transform.position = playerData.Position;
+
+            Debug.Log($"Binded Position: {playerData.Position}");
         }
     }
 }

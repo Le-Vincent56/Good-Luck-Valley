@@ -129,6 +129,8 @@ namespace GoodLuckValley.Player.Movement
             // Set the player
             PhysicsOrchestrator orchestrator = ServiceLocator.ForSceneOf(this).Get<PhysicsOrchestrator>();
             orchestrator.SetPlayer(this);
+
+            Debug.Log($"Player Position (Start): {transform.position}");
         }
 
         /// <summary>
@@ -191,6 +193,8 @@ namespace GoodLuckValley.Player.Movement
                 sfx.SetLayer(collisionHandler.LastGroundLayer);
             else
                 sfx.SetLayer(wallJump.LastWallLayer);
+
+            Debug.Log($"Player Position (Update): {transform.position}");
         }
 
         public void TickFixedUpdate(float delta)
