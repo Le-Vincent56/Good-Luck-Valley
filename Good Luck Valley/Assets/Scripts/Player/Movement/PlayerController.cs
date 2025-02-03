@@ -88,8 +88,6 @@ namespace GoodLuckValley.Player.Movement
         public Vector2 Down { get; set; }
         public Vector2 Left { get; set; }
 
-        public event Action<PlayerJump.JumpType> Jumped;
-
         private EventBinding<ForcePlayerMove> onForcePlayerMove;
         private EventBinding<PlacePlayer> onPlacePlayer;
 

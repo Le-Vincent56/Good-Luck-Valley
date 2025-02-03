@@ -69,9 +69,6 @@ namespace GoodLuckValley.Input
         /// </summary>
         public void Set()
         {
-            // Exit case - the Player actions are already enabled
-            if (inputActions.Player.enabled) return;
-
             // Disable all other actions
             inputActions.UI.Disable();
 

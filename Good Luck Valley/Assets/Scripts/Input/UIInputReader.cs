@@ -54,9 +54,6 @@ namespace GoodLuckValley.Input
         /// </summary>
         public void Set()
         {
-            // Exit case - the UI actions are already enabled
-            if (inputActions.UI.enabled) return;
-
             // Disable all other actions
             inputActions.Player.Disable();
 
@@ -67,7 +64,6 @@ namespace GoodLuckValley.Input
 
         public void OnNavigate(InputAction.CallbackContext context)
         {
-            // Invoke the event and pass in the read value
             Navigate.Invoke(context.ReadValue<Vector2>());
         }
 
