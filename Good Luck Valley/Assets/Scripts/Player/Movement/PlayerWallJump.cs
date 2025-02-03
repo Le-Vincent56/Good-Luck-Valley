@@ -1,5 +1,5 @@
-using GoodLuckValley.Architecture.EventBus;
-using GoodLuckValley.Player.Animation;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Animation;
 using GoodLuckValley.Player.Data;
 using System;
 using UnityEngine;

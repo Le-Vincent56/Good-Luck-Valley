@@ -1,7 +1,8 @@
-using GoodLuckValley.Architecture.EventBus;
+using GoodLuckValley.Events;
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
+using GoodLuckValley.Events.Potentiates;
 
 namespace GoodLuckValley.Potentiates
 {

@@ -1,6 +1,6 @@
 using DG.Tweening;
 
-namespace GoodLuckValley.Architecture.EventBus
+namespace GoodLuckValley.Events.Scenes
 {
     public struct FadeScene : IEvent
     {

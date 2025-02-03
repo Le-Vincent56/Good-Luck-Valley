@@ -58,7 +58,7 @@ namespace GoodLuckValley.UI.Journal.View
         public void Select()
         {
             // Get the preferred width of the text
-            float textWidth = text.preferredWidth - 60f;
+            float textWidth = text.preferredWidth + 30f;
 
             // Ensure the underline is visible and animate width
             underline.gameObject.SetActive(true);

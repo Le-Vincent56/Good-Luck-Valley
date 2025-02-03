@@ -1,6 +1,6 @@
 using DG.Tweening;
-using GoodLuckValley.Architecture.EventBus;
-using GoodLuckValley.Interactables.Fireflies.Events;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Fireflies;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

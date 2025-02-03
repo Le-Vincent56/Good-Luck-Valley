@@ -11,7 +11,7 @@ namespace GoodLuckValley
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Init()
         {
-            Application.targetFrameRate = 120;
+            //Application.targetFrameRate = 120;
 
 #if UNITY_EDITOR
             UnityEditor.SceneManagement.EditorSceneManager.playModeStartScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(EditorBuildSettings.scenes[sceneIndex].path);

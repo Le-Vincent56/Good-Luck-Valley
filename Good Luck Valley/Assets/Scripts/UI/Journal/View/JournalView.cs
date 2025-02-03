@@ -15,20 +15,23 @@ namespace GoodLuckValley.UI.Journal.View
         [Header("References")]
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private CanvasGroup menuGroup;
+        [SerializeField] private CanvasGroup entriesGroup;
         [SerializeField] private CanvasGroup contentGroup;
+        [SerializeField] private Text contentTitle;
+        [SerializeField] private Text contentText;
         private EntryButtonEffect lastSelectedEntry;
         private TabButtonEffect lastSelectedTab;
         [SerializeField] private TabButton[] tabs;
         [SerializeField] private TabButtonEffect[] tabEffects;
         [SerializeField] private EntryButton[] entries;
-        [SerializeField] private EntryButtonEffect[] entryEffects;
-        [SerializeField] private Text contentText;
 
 
         [Header("Tweening Variables")]
         [SerializeField] private float fadeDuration;
+        [SerializeField] private float entryFadeDuration;
+        [SerializeField] private float contentFadeDuration;
         private Tween canvasFadeTween;
-        private Tween menuFadeTween;
+        private Tween entriesFadeTween;
         private Tween contentFadeTween;
 
         public EntryButton[] Entries { get => entries; }
@@ -44,8 +47,11 @@ namespace GoodLuckValley.UI.Journal.View
             tabs = menuGroup.GetComponentsInChildren<TabButton>();
             tabEffects = menuGroup.GetComponentsInChildren<TabButtonEffect>();
             entries = menuGroup.GetComponentsInChildren<EntryButton>();
-            entryEffects = menuGroup.GetComponentsInChildren<EntryButtonEffect>();
-            contentText = contentGroup.GetComponentInChildren<Text>();
+
+            // Set the texts
+            Text[] contentTexts = contentGroup.GetComponentsInChildren<Text>();
+            contentTitle = contentTexts[0];
+            contentText = contentTexts[1];
 
             // Iterate through each Tab button
             for(int i = 0; i < tabs.Length; i++)
@@ -60,6 +66,9 @@ namespace GoodLuckValley.UI.Journal.View
                 // Initialize each Entry Button
                 entries[i].Initialize(this);
             }
+
+            // Fade out the content
+            Fade(contentFadeTween, contentGroup, 0f, 0f);
         }
 
         /// <summary>
@@ -81,6 +90,9 @@ namespace GoodLuckValley.UI.Journal.View
                 // Activate the Entry Button
                 entries[i].gameObject.SetActive(true);
 
+                // Set the interactability state of the Entry Button
+                entries[i].SetInteractable(journalEntries[i].Unlocked);
+
                 // Set the data
                 entries[i].SetIndex(journalEntries[i].Data.Index);
                 entries[i].SetTab(journalEntries[i].Data.Tab);
@@ -88,6 +100,30 @@ namespace GoodLuckValley.UI.Journal.View
                 entries[i].SetContent(journalEntries[i].Data.Content);
             }
 
+            // Iterate through each Tab Button
+            for(int i = 0; i < tabs.Length; i++)
+            {
+                // Default that a Tab has no Entries
+                bool hasEntries = false;
+
+                // Iterate through each Entry Button
+                for(int j = 0; j < entries.Length; j++)
+                {
+                    // Check if the Entry Button's Tab matches the Tab Button's Tab
+                    if (entries[j].Tab == tabs[i].Tab)
+                    {
+                        // If so, notify that the Tab has Journal Entries
+                        hasEntries = true;
+                        break;
+                    }
+                }
+
+                // Set the Tab Button's interactability to match whether or not
+                // it has entries
+                tabs[i].SetInteractable(hasEntries);
+            }
+
+            // Show the Tab Entries of the Diary
             ShowTabEntries(TabType.Diary);
         }
 
@@ -96,18 +132,45 @@ namespace GoodLuckValley.UI.Journal.View
         /// </summary>
         public void ShowTabEntries(TabType tabType)
         {
-            // Iterate through each Entry Button
-            for(int i = 0; i < entries.Length; i++)
+            // fade out
+            Fade(entriesFadeTween, entriesGroup, 0f, entryFadeDuration / 2f, () =>
             {
-                // Deactivate the Entry Button
-                entries[i].gameObject.SetActive(false);
+                // Iterate through each Entry Button
+                for (int i = 0; i < entries.Length; i++)
+                {
+                    // Deactivate the Entry Button
+                    entries[i].gameObject.SetActive(false);
 
-                // Skip if the Entry Button's tab and the given tab are not equal
-                if (entries[i].Tab != tabType) continue;
+                    // Skip if the Entry Button's tab and the given tab are not equal
+                    if (entries[i].Tab != tabType) continue;
 
-                // Activate the Entry Button
-                entries[i].gameObject.SetActive(true);
-            }
+                    // Activate the Entry Button
+                    entries[i].gameObject.SetActive(true);
+                }
+
+                // Correct the Tabs
+                CorrectTabs(tabType);
+
+                // Fade back in
+                Fade(entriesFadeTween, entriesGroup, 1f, entryFadeDuration / 2f);
+            });
+        }
+
+        /// <summary>
+        /// Show the content of an Entry
+        /// </summary>
+        public void ShowEntryContent(string title, string content)
+        {
+            // Fade out
+            Fade(contentFadeTween, contentGroup, 0f, contentFadeDuration / 2f, () =>
+            {
+                // Set the content
+                contentTitle.text = title;
+                contentText.text = content;
+
+                // Fade back in
+                Fade(contentFadeTween, contentGroup, 1f, contentFadeDuration / 2f);
+            });
         }
 
         /// <summary>

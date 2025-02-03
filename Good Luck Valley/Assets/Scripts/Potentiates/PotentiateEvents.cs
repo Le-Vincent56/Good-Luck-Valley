@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GoodLuckValley.Architecture.EventBus
+namespace GoodLuckValley.Events.Potentiates
 {
     public struct PotentiateFeedback : IEvent
     {

@@ -2,7 +2,6 @@ using GoodLuckValley.UI.Journal.Model;
 using GoodLuckValley.UI.Journal.View;
 using GoodLuckValley.Utilities.Preconditions;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace GoodLuckValley.UI.Journal.Controller
 {
@@ -42,6 +41,9 @@ namespace GoodLuckValley.UI.Journal.Controller
 
         private readonly JournalModel model;
         private readonly JournalView view;
+        private bool unlocked;
+
+        public JournalView View { get => view; }
 
         public JournalController(JournalModel model, JournalView view)
         {
@@ -102,12 +104,22 @@ namespace GoodLuckValley.UI.Journal.Controller
         /// </summary>
         private void OnEntryClicked(EntryButton button)
         {
+            view.ShowEntryContent(button.TitleText, button.Content);
         }
 
         /// <summary>
         /// Open the Journal View
         /// </summary>
-        public void Open() => view.Show();
+        public bool Open()
+        {
+            // Exit case - the Journal is not unlocked
+            if (!unlocked) return false;
+
+            // Show the Journal View
+            view.Show();
+
+            return true;
+        }
 
         /// <summary>
         /// Close the Journal View
@@ -130,5 +142,15 @@ namespace GoodLuckValley.UI.Journal.Controller
             // Correct tabs
             view.CorrectTabs(view.LastSelectedEntry.Tab);
         }
+
+        /// <summary>
+        /// Unlock the Journal
+        /// </summary>
+        public void Unlock() => unlocked = true;
+
+        /// <summary>
+        /// Unlock a Journal Entry in the Journal Model
+        /// </summary>
+        public void UnlockEntry(JournalData dataToAdd) => model.Unlock(dataToAdd);
     }
 }
