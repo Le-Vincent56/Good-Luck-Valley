@@ -35,7 +35,7 @@ namespace GoodLuckValley.Persistence
         public PlayerData()
         {
             LevelIndex = 3;
-            Position = new Vector3(64.28f, -10.65f, 0.0f);
+            Position = new Vector3(47.9f, 4.068f, 0.0f);
         }
 
         public override string ToString()

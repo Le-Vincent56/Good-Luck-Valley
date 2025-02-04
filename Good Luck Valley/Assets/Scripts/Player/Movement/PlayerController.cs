@@ -528,11 +528,16 @@ namespace GoodLuckValley.Player.Movement
         }
 
         /// <summary>
-        /// Place the Player at a position
+        /// Event callback top place the Player at a position
         /// </summary>
-        private void PlacePlayerAtPosition(PlacePlayer eventData)
+        private void PlacePlayerAtPosition(PlacePlayer eventData) => PlacePlayerAtPosition(eventData.Position);
+
+        /// <summary>
+        /// Place the Player at a position explicitly
+        /// </summary>
+        public void PlacePlayerAtPosition(Vector3 position)
         {
-            Vector3 worldPosition = transform.parent.TransformPoint(eventData.Position);
+            Vector3 worldPosition = transform.parent.TransformPoint(position);
 
             transform.position = worldPosition;
             rb.position = worldPosition;

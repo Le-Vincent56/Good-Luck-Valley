@@ -30,13 +30,15 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         public void Bind(PlayerData playerData)
         {
+            // Bind the data
             this.playerData = playerData;
             this.playerData.ID = ID;
 
-            // Set the position
-            transform.position = playerData.Position;
+            // Exit case - if debugging
+            if (SaveLoadSystem.Instance.Debug) return;
 
-            Debug.Log($"Binded Position: {playerData.Position}");
+            // Set the player position
+            transform.position = playerData.Position;
         }
     }
 }

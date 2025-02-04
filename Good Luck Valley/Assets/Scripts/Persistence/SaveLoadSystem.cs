@@ -22,6 +22,7 @@ namespace GoodLuckValley.Persistence
 
     public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
     {
+        [SerializeField] private bool debug;
         [SerializeField] private GameData selectedData;
         [SerializeField] private Dictionary<string, GameData> saves;
         private IDataService dataService;
@@ -29,6 +30,7 @@ namespace GoodLuckValley.Persistence
         public Action<int> DataBinded = delegate { };
         public Action Release = delegate { };
 
+        public bool Debug { get => debug; }
         public GameData GameData { get => selectedData; }
         public Dictionary<string, GameData> Saves { get { return saves; } }
 
