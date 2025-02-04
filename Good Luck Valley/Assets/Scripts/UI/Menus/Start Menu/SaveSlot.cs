@@ -27,6 +27,10 @@ namespace GoodLuckValley.UI.Menus.Start
         [SerializeField] private float highlightDuration;
         private Tween highlightTween;
 
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event hoverSound;
+        [SerializeField] private AK.Wwise.Event selectSound;
+
         public int Slot { get => slot; }
         public string Name { get => saveName; set => saveName = value; }
         public bool IsEmpty { get => isEmpty; }
@@ -123,6 +127,9 @@ namespace GoodLuckValley.UI.Menus.Start
             // Exit case - if the Save Slot is not active
             if (!active) return;
 
+            // Play the select sound
+            selectSound.Post(gameObject);
+
             // Start the game
             controller.StartGame();
         }
@@ -144,6 +151,9 @@ namespace GoodLuckValley.UI.Menus.Start
             Highlight(1f, highlightDuration);
             controller.SetSelectedSlot(this);
             deleter.Show(); 
+
+            // Play the hover sound
+            hoverSound.Post(gameObject);
         }
 
         private void Highlight(float endValue, float duration, TweenCallback onComplete = null)

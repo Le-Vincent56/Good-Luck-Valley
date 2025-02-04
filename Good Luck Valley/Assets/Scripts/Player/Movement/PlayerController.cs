@@ -193,8 +193,6 @@ namespace GoodLuckValley.Player.Movement
                 sfx.SetLayer(collisionHandler.LastGroundLayer);
             else
                 sfx.SetLayer(wallJump.LastWallLayer);
-
-            Debug.Log($"Player Position (Update): {transform.position}");
         }
 
         public void TickFixedUpdate(float delta)

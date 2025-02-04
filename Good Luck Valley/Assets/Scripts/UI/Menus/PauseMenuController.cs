@@ -129,6 +129,16 @@ namespace GoodLuckValley
         }
 
         /// <summary>
+        /// Show the Pause Menu background
+        /// </summary>
+        public void ShowBackground() => Fade(0.8f, fadeDuration);
+
+        /// <summary>
+        /// Hide the Pause Menu background
+        /// </summary>
+        public void HideBackground() => Fade(0f, fadeDuration);
+
+        /// <summary>
         /// Input callback for pausing the game
         /// </summary>
         private void PauseGame(bool started)
@@ -144,9 +154,6 @@ namespace GoodLuckValley
 
             // Set paused
             paused = true;
-
-            // Fade in the background
-            Fade(0.8f, fadeDuration);
         }
 
         /// <summary>
@@ -159,9 +166,6 @@ namespace GoodLuckValley
 
             // Set unpaused
             state = -1;
-
-            // Fade out the background
-            Fade(0f, fadeDuration);
         }
 
         /// <summary>

@@ -10696,7 +10696,19 @@ MonoBehaviour:
   submitDuration: 0.2
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1648229141}
+        m_TargetAssemblyTypeName: GoodLuckValley.PauseMenuController, Assembly-CSharp
+        m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1758766402
 GameObject:
   m_ObjectHideFlags: 0
@@ -11691,6 +11703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1876711909}
   - component: {fileID: 1876711908}
+  - component: {fileID: 1876711910}
   m_Layer: 0
   m_Name: WwiseGlobal
   m_TagString: Untagged
@@ -11738,6 +11751,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1876711910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876711907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9212ec1fa61c1814c92c144185b1eb38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerList: f7e1664c
+  useOtherObject: 0
+  data:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 3d0beb89cddec724e856291fa2bb10f3, type: 2}
+  decodeBank: 0
+  overrideLoadSetting: 0
+  loadAsynchronous: 0
+  saveDecodedBank: 0
+  unloadTriggerList: 958ca0ea
+  bankNameInternal: 
+  valueGuidInternal: 
 --- !u!1 &1877863357
 GameObject:
   m_ObjectHideFlags: 0

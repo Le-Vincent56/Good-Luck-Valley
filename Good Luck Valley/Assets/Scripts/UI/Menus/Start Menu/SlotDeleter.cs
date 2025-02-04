@@ -17,6 +17,10 @@ namespace GoodLuckValley.UI.Menus.Start
         [SerializeField] private float fadeDuration;
         private Tween fadeTween;
 
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event hoverSound;
+        [SerializeField] private AK.Wwise.Event selectSound;
+
         /// <summary>
         /// Initialize the Slot Deleter
         /// </summary>
@@ -107,6 +111,9 @@ namespace GoodLuckValley.UI.Menus.Start
 
             // Show the Slot Deleter
             Fade(1f, 0f);
+
+            // Play the hover sound
+            hoverSound.Post(gameObject);
         }
 
         /// <summary>
@@ -119,6 +126,9 @@ namespace GoodLuckValley.UI.Menus.Start
 
             // Delete the game data
             DeleteSaveData();
+
+            // Play the select sound
+            selectSound.Post(gameObject);
         }
 
         // Delay the select until the end of the frame.

@@ -20,6 +20,9 @@ namespace GoodLuckValley.UI.Menus.States
 
             // Set unpaused
             controller.Paused = false;
+
+            // Hide the Pause Menu background
+            controller.HideBackground();
         }
 
         public override void OnExit()

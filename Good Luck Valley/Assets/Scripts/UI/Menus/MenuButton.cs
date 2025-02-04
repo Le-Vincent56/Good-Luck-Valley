@@ -29,6 +29,10 @@ namespace GoodLuckValley.UI.Menus
         private Tween scaleTween;
         private Tween colorTween;
 
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event hoverSound;
+        [SerializeField] private AK.Wwise.Event selectSound;
+
         public UnityEvent OnClick = new UnityEvent();
 
         protected override void Awake()
@@ -60,6 +64,9 @@ namespace GoodLuckValley.UI.Menus
             // Select the text
             Scale(selectedFontSize, selectDuration, Ease.OutElastic);
             ChangeColor(selectedColor, selectDuration);
+
+            // Play the hover sound
+            hoverSound.Post(gameObject);
         }
 
         public override void OnDeselect(BaseEventData eventData)
@@ -74,6 +81,9 @@ namespace GoodLuckValley.UI.Menus
 
         public void OnSubmit(BaseEventData eventData)
         {
+            // Play the enter sound
+            selectSound.Post(gameObject);
+
             // Submit the text
             Scale(submittedFontSize, submitDuration / 2f, Ease.OutBack, () =>
             {

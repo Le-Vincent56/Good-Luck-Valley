@@ -19,6 +19,9 @@ namespace GoodLuckValley.UI.Menus.States
 
             // Set the time scale to 0
             Time.timeScale = 0f;
+
+            // Show the pause menu background
+            controller.ShowBackground();
         }
     }
 }
