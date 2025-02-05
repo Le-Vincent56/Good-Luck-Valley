@@ -55,11 +55,13 @@ namespace GoodLuckValley.UI.Menus
         private void OnEnable()
         {
             inputReader.Submit += OpenMainMenu;
+            inputReader.Cancel += Backtrack;
         }
 
         private void OnDisable()
         {
             inputReader.Submit -= OpenMainMenu;
+            inputReader.Cancel -= Backtrack;
         }
 
         private void Update()
@@ -112,6 +114,32 @@ namespace GoodLuckValley.UI.Menus
         /// Set the current state of the Main Menu Controller
         /// </summary>
         public void SetState(int state) => currentState = state;
+
+        /// <summary>
+        /// Backtrack to the previous menu
+        /// </summary>
+        private void Backtrack(bool started)
+        {
+            // Exit case - the button is being lifted
+            if (!started) return;
+
+            // Exit case - cannot go back to the open state
+            if (currentState == INITIAL) return;
+
+            // Check if in the Start state
+            if (currentState == START)
+                // Return to the Initial state
+                SetState(INITIAL);
+
+            // Check if in the Settings state
+            if(currentState == SETTINGS)
+                // Return to the Initial state
+                SetState(INITIAL);
+
+            // Check if in any of the Settings substate
+            if (currentState >= 4)
+                SetState(SETTINGS);
+        }
 
         /// <summary>
         /// Open the Main Menu by setting the initial state

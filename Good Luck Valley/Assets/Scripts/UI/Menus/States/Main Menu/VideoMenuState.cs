@@ -31,15 +31,15 @@ namespace GoodLuckValley.UI.Menus.States
         {
             FadeGroup(0f, fadeDuration, Ease.OutQuint, () =>
             {
-                screen.interactable = true;
-                screen.blocksRaycasts = true;
-
-                // Update the first selected of the Option Menu
-                optionMenu.SelectFirst();
+                screen.interactable = false;
+                screen.blocksRaycasts = false;
             });
 
             // Fade out the darker background
             FadeBackground(0f, fadeDuration, Ease.InOutSine);
+
+            // Update the first selected of the Option Menu
+            optionMenu.UpdateFirst();
         }
     }
 }
