@@ -23,6 +23,9 @@ namespace GoodLuckValley.UI.Menus
         [SerializeField] private List<IOptionMenu> optionMenus;
         private StateMachine stateMachine;
 
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event enterInitialEvent;
+
         public int OPEN => 0;
         public int INITIAL => 1;
         public int START => 2;
@@ -123,6 +126,9 @@ namespace GoodLuckValley.UI.Menus
 
             // Set the initial state
             SetState(INITIAL);
+
+            // Post the enter initial event
+            enterInitialEvent.Post(gameObject);
         }
 
         /// <summary>

@@ -27,6 +27,10 @@ namespace GoodLuckValley.UI.Menus.Controls
         [SerializeField] private bool binding;
         [SerializeField] private int currentRebindingButton;
 
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event rebindSuccessEvent;
+        [SerializeField] private AK.Wwise.Event rebindFailedEvent;
+
         private StateMachine stateMachine;
         private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
@@ -205,6 +209,9 @@ namespace GoodLuckValley.UI.Menus.Controls
             // Update whether or not the rebinding button has been rebinded
             // (or has been attempted to be rebinded)
             rebindingButton.UpdateRebinded();
+
+            // Post the rebind success event
+            rebindSuccessEvent.Post(gameObject);
         }
 
         /// <summary>
@@ -220,6 +227,9 @@ namespace GoodLuckValley.UI.Menus.Controls
 
             // Set an invalid rebind
             rebindingButton.SetValidRebind(false);
+
+            // Post the rebind failed event
+            rebindFailedEvent.Post(gameObject);
         }
 
         /// <summary>

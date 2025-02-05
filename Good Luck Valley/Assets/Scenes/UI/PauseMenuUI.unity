@@ -208,6 +208,8 @@ GameObject:
   - component: {fileID: 29670831}
   - component: {fileID: 29670835}
   - component: {fileID: 29670832}
+  - component: {fileID: 29670837}
+  - component: {fileID: 29670838}
   m_Layer: 5
   m_Name: Dropdown
   m_TagString: Untagged
@@ -390,6 +392,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29670830}
   m_CullTransparentMesh: 1
+--- !u!114 &29670837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29670830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 351ce2407f2a82444a92ae8206ed2e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropdown: {fileID: 0}
+  hoverEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
+--- !u!114 &29670838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29670830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &46448616
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +1021,7 @@ GameObject:
   m_Component:
   - component: {fileID: 175423235}
   - component: {fileID: 175423234}
+  - component: {fileID: 175423236}
   m_Layer: 5
   m_Name: Video Button
   m_TagString: Untagged
@@ -1031,6 +1079,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -1066,6 +1122,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &175423236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175423233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &176294842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,6 +1617,7 @@ GameObject:
   - component: {fileID: 352794377}
   - component: {fileID: 352794379}
   - component: {fileID: 352794378}
+  - component: {fileID: 352794380}
   m_Layer: 5
   m_Name: Recall
   m_TagString: Untagged
@@ -1615,6 +1696,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1640,6 +1729,30 @@ MonoBehaviour:
   keyImage: {fileID: 0}
   validRebind: 0
   rebinded: 0
+--- !u!114 &352794380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352794376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &380195045
 GameObject:
   m_ObjectHideFlags: 0
@@ -2206,6 +2319,7 @@ GameObject:
   - component: {fileID: 457204307}
   - component: {fileID: 457204308}
   - component: {fileID: 457204306}
+  - component: {fileID: 457204309}
   m_Layer: 5
   m_Name: Move Left
   m_TagString: Untagged
@@ -2263,6 +2377,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -2309,6 +2431,30 @@ MonoBehaviour:
   keyImage: {fileID: 0}
   validRebind: 0
   rebinded: 0
+--- !u!114 &457204309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457204305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &460299831
 GameObject:
   m_ObjectHideFlags: 0
@@ -2401,6 +2547,7 @@ GameObject:
   - component: {fileID: 463372340}
   - component: {fileID: 463372339}
   - component: {fileID: 463372337}
+  - component: {fileID: 463372341}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -2477,6 +2624,10 @@ MonoBehaviour:
   altStep: 5
   applyShiftMod: 0
   shiftStep: 10
+  selectEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
 --- !u!114 &463372337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2564,6 +2715,30 @@ MonoBehaviour:
   controlSlider: {fileID: 0}
   displayText: {fileID: 499328029}
   loaded: 0
+--- !u!114 &463372341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463372335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &476540112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2654,6 +2829,7 @@ GameObject:
   - component: {fileID: 482057970}
   - component: {fileID: 482057971}
   - component: {fileID: 482057972}
+  - component: {fileID: 482057973}
   m_Layer: 5
   m_Name: Fast Fall
   m_TagString: Untagged
@@ -2754,9 +2930,41 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &482057973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482057969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &496625379
 GameObject:
   m_ObjectHideFlags: 0
@@ -2947,6 +3155,7 @@ GameObject:
   - component: {fileID: 499860093}
   - component: {fileID: 499860092}
   - component: {fileID: 499860090}
+  - component: {fileID: 499860094}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -3023,6 +3232,10 @@ MonoBehaviour:
   altStep: 5
   applyShiftMod: 0
   shiftStep: 10
+  selectEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
 --- !u!114 &499860090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3110,6 +3323,30 @@ MonoBehaviour:
   controlSlider: {fileID: 0}
   displayText: {fileID: 2062050827}
   loaded: 0
+--- !u!114 &499860094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499860088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &512891849
 GameObject:
   m_ObjectHideFlags: 0
@@ -3605,6 +3842,7 @@ GameObject:
   - component: {fileID: 638242010}
   - component: {fileID: 638242012}
   - component: {fileID: 638242011}
+  - component: {fileID: 638242013}
   m_Layer: 5
   m_Name: Bottom Flair
   m_TagString: Untagged
@@ -3669,6 +3907,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638242009}
   m_CullTransparentMesh: 1
+--- !u!114 &638242013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638242009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &658306178
 GameObject:
   m_ObjectHideFlags: 0
@@ -3876,6 +4138,7 @@ GameObject:
   - component: {fileID: 685602282}
   - component: {fileID: 685602283}
   - component: {fileID: 685602284}
+  - component: {fileID: 685602285}
   m_Layer: 5
   m_Name: Move Right
   m_TagString: Untagged
@@ -3976,9 +4239,41 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &685602285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685602281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &687234081
 GameObject:
   m_ObjectHideFlags: 0
@@ -4068,6 +4363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 694274781}
   - component: {fileID: 694274780}
+  - component: {fileID: 694274782}
   m_Layer: 5
   m_Name: Controls Button
   m_TagString: Untagged
@@ -4125,6 +4421,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -4160,6 +4464,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &694274782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694274779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &695675488
 GameObject:
   m_ObjectHideFlags: 0
@@ -4482,6 +4810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 717838641}
   - component: {fileID: 717838640}
+  - component: {fileID: 717838642}
   m_Layer: 5
   m_Name: Reset Button
   m_TagString: Untagged
@@ -4539,6 +4868,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f16c08c7d81a37e44b95f1b3997ce948, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -4562,6 +4899,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &717838642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717838639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &728488023
 GameObject:
   m_ObjectHideFlags: 0
@@ -4722,6 +5083,7 @@ GameObject:
   m_Component:
   - component: {fileID: 747839316}
   - component: {fileID: 747839317}
+  - component: {fileID: 747839318}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -4799,6 +5161,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -4814,6 +5184,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &747839318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747839315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &768755591
 GameObject:
   m_ObjectHideFlags: 0
@@ -5058,6 +5452,7 @@ GameObject:
   - component: {fileID: 774924360}
   - component: {fileID: 774924361}
   - component: {fileID: 774924359}
+  - component: {fileID: 774924362}
   m_Layer: 5
   m_Name: Journal
   m_TagString: Untagged
@@ -5115,6 +5510,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -5161,6 +5564,30 @@ MonoBehaviour:
   keyImage: {fileID: 0}
   validRebind: 0
   rebinded: 0
+--- !u!114 &774924362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774924358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &777615610
 GameObject:
   m_ObjectHideFlags: 0
@@ -5247,6 +5674,7 @@ GameObject:
   - component: {fileID: 802042176}
   - component: {fileID: 802042175}
   - component: {fileID: 802042174}
+  - component: {fileID: 802042177}
   m_Layer: 5
   m_Name: Crawl
   m_TagString: Untagged
@@ -5304,6 +5732,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -5350,6 +5786,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &802042177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802042173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &848298425
 GameObject:
   m_ObjectHideFlags: 0
@@ -5360,6 +5820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 848298426}
   - component: {fileID: 848298427}
+  - component: {fileID: 848298428}
   m_Layer: 5
   m_Name: Main
   m_TagString: Untagged
@@ -5437,6 +5898,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -5452,6 +5921,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &848298428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848298425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &866405392
 GameObject:
   m_ObjectHideFlags: 0
@@ -5730,6 +6223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 928054336}
   - component: {fileID: 928054337}
+  - component: {fileID: 928054338}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -5807,6 +6301,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -5822,6 +6324,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &928054338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928054335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 1
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &936522382
 GameObject:
   m_ObjectHideFlags: 0
@@ -5987,6 +6513,7 @@ GameObject:
   - component: {fileID: 959062808}
   - component: {fileID: 959062810}
   - component: {fileID: 959062809}
+  - component: {fileID: 959062811}
   m_Layer: 5
   m_Name: Interact
   m_TagString: Untagged
@@ -6065,6 +6592,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -6090,6 +6625,30 @@ MonoBehaviour:
   keyImage: {fileID: 0}
   validRebind: 0
   rebinded: 0
+--- !u!114 &959062811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959062807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &970409969
 GameObject:
   m_ObjectHideFlags: 0
@@ -6273,6 +6832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 980749174}
   - component: {fileID: 980749173}
+  - component: {fileID: 980749175}
   m_Layer: 5
   m_Name: Audio Button
   m_TagString: Untagged
@@ -6330,6 +6890,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -6365,6 +6933,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &980749175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980749172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &984618289
 GameObject:
   m_ObjectHideFlags: 0
@@ -6640,6 +7232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1077277906}
   - component: {fileID: 1077277907}
+  - component: {fileID: 1077277908}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -6717,6 +7310,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -6732,6 +7333,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1077277908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077277905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1105314681
 GameObject:
   m_ObjectHideFlags: 0
@@ -6743,6 +7368,7 @@ GameObject:
   - component: {fileID: 1105314682}
   - component: {fileID: 1105314683}
   - component: {fileID: 1105314684}
+  - component: {fileID: 1105314685}
   m_Layer: 5
   m_Name: Jump
   m_TagString: Untagged
@@ -6843,9 +7469,41 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1105314685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105314681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1109895168
 GameObject:
   m_ObjectHideFlags: 0
@@ -7676,6 +8334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1280041851}
   - component: {fileID: 1280041852}
+  - component: {fileID: 1280041853}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -7753,6 +8412,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -7768,6 +8435,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1280041853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280041850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1281363368
 GameObject:
   m_ObjectHideFlags: 0
@@ -8127,6 +8818,7 @@ GameObject:
   - component: {fileID: 1324268294}
   - component: {fileID: 1324268293}
   - component: {fileID: 1324268292}
+  - component: {fileID: 1324268295}
   m_Layer: 5
   m_Name: Mushroom
   m_TagString: Untagged
@@ -8184,6 +8876,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -8230,6 +8930,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1324268295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324268291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1325972793
 GameObject:
   m_ObjectHideFlags: 0
@@ -8585,6 +9309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1417507086}
   - component: {fileID: 1417507087}
+  - component: {fileID: 1417507088}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -8662,6 +9387,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -8677,6 +9410,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1417507088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417507085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1435201359
 GameObject:
   m_ObjectHideFlags: 0
@@ -8768,6 +9525,7 @@ GameObject:
   - component: {fileID: 1438228036}
   - component: {fileID: 1438228035}
   - component: {fileID: 1438228034}
+  - component: {fileID: 1438228037}
   m_Layer: 5
   m_Name: Controls Options
   m_TagString: Untagged
@@ -8817,6 +9575,14 @@ MonoBehaviour:
   rebindingButtons: []
   binding: 0
   currentRebindingButton: 0
+  rebindSuccessEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 6122af64dfb377d4594b757a4a015bec, type: 2}
+  rebindFailedEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 19039d91c258d9e4da721bade74e44c7, type: 2}
 --- !u!114 &1438228035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8843,6 +9609,30 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1438228037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1438852873
 GameObject:
   m_ObjectHideFlags: 0
@@ -8891,6 +9681,7 @@ GameObject:
   - component: {fileID: 1440007490}
   - component: {fileID: 1440007489}
   - component: {fileID: 1440007488}
+  - component: {fileID: 1440007491}
   m_Layer: 5
   m_Name: Slow Fall
   m_TagString: Untagged
@@ -8948,6 +9739,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -8994,6 +9793,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1440007491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440007487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1445684376
 GameObject:
   m_ObjectHideFlags: 0
@@ -9119,9 +9942,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1466500469}
   - component: {fileID: 1466500467}
-  - component: {fileID: 1466500471}
   - component: {fileID: 1466500470}
   - component: {fileID: 1466500468}
+  - component: {fileID: 1466500471}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -9198,6 +10021,10 @@ MonoBehaviour:
   altStep: 5
   applyShiftMod: 0
   shiftStep: 10
+  selectEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
 --- !u!114 &1466500468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9271,20 +10098,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1466500466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8363dcc7906d25d4cac21a3c4fe30c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeRTPC:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
-  playSlider:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
-  controlSlider: {fileID: 0}
-  displayText: {fileID: 1303363165}
-  loaded: 0
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1483524868
 GameObject:
   m_ObjectHideFlags: 0
@@ -9295,6 +10123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1483524869}
   - component: {fileID: 1483524870}
+  - component: {fileID: 1483524871}
   m_Layer: 5
   m_Name: Resume Button
   m_TagString: Untagged
@@ -9372,6 +10201,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -9387,6 +10224,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1483524871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483524868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1502089141
 GameObject:
   m_ObjectHideFlags: 0
@@ -9536,6 +10397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1545581086}
   - component: {fileID: 1545581085}
+  - component: {fileID: 1545581087}
   m_Layer: 5
   m_Name: Reset Button
   m_TagString: Untagged
@@ -9593,6 +10455,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f16c08c7d81a37e44b95f1b3997ce948, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -9616,6 +10486,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1545581087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545581084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1570786707
 GameObject:
   m_ObjectHideFlags: 0
@@ -9806,6 +10700,7 @@ GameObject:
   - component: {fileID: 1577067461}
   - component: {fileID: 1577067460}
   - component: {fileID: 1577067458}
+  - component: {fileID: 1577067462}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -9882,6 +10777,10 @@ MonoBehaviour:
   altStep: 5
   applyShiftMod: 0
   shiftStep: 10
+  selectEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
 --- !u!114 &1577067458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9969,6 +10868,30 @@ MonoBehaviour:
   controlSlider: {fileID: 0}
   displayText: {fileID: 687234082}
   loaded: 0
+--- !u!114 &1577067462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577067456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1582505265
 GameObject:
   m_ObjectHideFlags: 0
@@ -10617,6 +11540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1752314956}
   - component: {fileID: 1752314957}
+  - component: {fileID: 1752314958}
   m_Layer: 5
   m_Name: Save Button
   m_TagString: Untagged
@@ -10694,6 +11618,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -10709,6 +11641,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1752314958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752314955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1758766402
 GameObject:
   m_ObjectHideFlags: 0
@@ -11134,6 +12090,7 @@ GameObject:
   - component: {fileID: 1849838192}
   - component: {fileID: 1849838191}
   - component: {fileID: 1849838189}
+  - component: {fileID: 1849838193}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -11210,6 +12167,10 @@ MonoBehaviour:
   altStep: 5
   applyShiftMod: 0
   shiftStep: 10
+  selectEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
 --- !u!114 &1849838189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11297,6 +12258,30 @@ MonoBehaviour:
   controlSlider: {fileID: 0}
   displayText: {fileID: 695675489}
   loaded: 0
+--- !u!114 &1849838193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849838187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1853636031
 GameObject:
   m_ObjectHideFlags: 0
@@ -11418,6 +12403,8 @@ GameObject:
   - component: {fileID: 1864072861}
   - component: {fileID: 1864072859}
   - component: {fileID: 1864072862}
+  - component: {fileID: 1864072864}
+  - component: {fileID: 1864072865}
   m_Layer: 5
   m_Name: Checkbox
   m_TagString: Untagged
@@ -11552,6 +12539,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1864072858}
   m_CullTransparentMesh: 1
+--- !u!114 &1864072864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864072858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac329d9aaa82c140838beb7c5f5115c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggle: {fileID: 0}
+  hoverEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  toggleOnEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 6122af64dfb377d4594b757a4a015bec, type: 2}
+  toggleOffEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 19039d91c258d9e4da721bade74e44c7, type: 2}
+--- !u!114 &1864072865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864072858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1871358907
 GameObject:
   m_ObjectHideFlags: 0
@@ -12042,6 +13078,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1915527427}
   - component: {fileID: 1915527428}
+  - component: {fileID: 1915527429}
   m_Layer: 5
   m_Name: Journal
   m_TagString: Untagged
@@ -12119,9 +13156,41 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1915527429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915527426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1952524785
 GameObject:
   m_ObjectHideFlags: 0
@@ -12416,6 +13485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1995380256}
   - component: {fileID: 1995380255}
+  - component: {fileID: 1995380257}
   m_Layer: 5
   m_Name: Reset Button
   m_TagString: Untagged
@@ -12473,6 +13543,14 @@ MonoBehaviour:
   selectDuration: 0.5
   deslectDuration: 0.1
   submitDuration: 0.2
+  hoverSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 78d937723a0ff5f4898158f9de55a88f, type: 2}
+  selectSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f16c08c7d81a37e44b95f1b3997ce948, type: 2}
   OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -12496,6 +13574,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1995380257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995380254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2043481614
 GameObject:
   m_ObjectHideFlags: 0
@@ -13321,6 +14423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2145361934}
   - component: {fileID: 2145361935}
+  - component: {fileID: 2145361936}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -13398,6 +14501,31 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &2145361936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145361933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac329d9aaa82c140838beb7c5f5115c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggle: {fileID: 0}
+  hoverEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 27740b95a860f2d44b2584dee4d715c8, type: 2}
+  toggleOnEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  toggleOffEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

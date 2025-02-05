@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus.Audio
 {
-    public class SliderInput : Slider, ISubmitHandler
+    public class SliderInput : Slider
     {
         [Header("References")]
         [SerializeField] private UIInputReader menuInputReader;
@@ -18,9 +18,7 @@ namespace GoodLuckValley.UI.Menus.Audio
         [SerializeField] private float shiftStep = 10f;
 
         [Header("Wwise Events")]
-        [SerializeField] private AK.Wwise.Event tickSound;
-        [SerializeField] private AK.Wwise.Event hoverSound;
-        [SerializeField] private AK.Wwise.Event selectSound;
+        [SerializeField] private AK.Wwise.Event selectEvent;
 
         protected override void OnEnable()
         {
@@ -124,9 +122,6 @@ namespace GoodLuckValley.UI.Menus.Audio
 
             // Adjust the slider value
             AdjustSliderValue(moveDirection);
-
-            // Play the tick sound
-            tickSound.Post(gameObject);
         }
 
         public override void OnSelect(BaseEventData eventData)
@@ -134,13 +129,7 @@ namespace GoodLuckValley.UI.Menus.Audio
             base.OnSelect(eventData);
 
             // Play the hover sound
-            hoverSound.Post(gameObject);
-        }
-
-        public void OnSubmit(BaseEventData eventData)
-        {
-            // Play the select sound
-            selectSound.Post(gameObject);
+            selectEvent.Post(gameObject);
         }
     }
 }
