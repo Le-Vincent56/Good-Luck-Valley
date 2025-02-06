@@ -9623,9 +9623,9 @@ GameObject:
   - component: {fileID: 1438228033}
   - component: {fileID: 1438228036}
   - component: {fileID: 1438228035}
-  - component: {fileID: 1438228034}
-  - component: {fileID: 1438228037}
   - component: {fileID: 1438228038}
+  - component: {fileID: 1438228039}
+  - component: {fileID: 1438228037}
   m_Layer: 5
   m_Name: Controls Options
   m_TagString: Untagged
@@ -9656,39 +9656,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1438228034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438228032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01b53661a3da82b4c86ffb28e6694f7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainMenuController: {fileID: 0}
-  pauseMenuController: {fileID: 0}
-  saveHandler: {fileID: 0}
-  warningText: {fileID: 497954176}
-  keysDict: {fileID: 11400000, guid: ce406d7c5f3ccce4793aacd53aae05b3, type: 2}
-  inputReader: {fileID: 11400000, guid: c289cbc5f0270ba4d9e4149003518f98, type: 2}
-  inputActionAsset: {fileID: -944628639613478452, guid: d68520aa587c6b34e952353ba3c753a1, type: 3}
-  duplicatesText: {fileID: 0}
-  animators: []
-  rebindingButtons: []
-  mainMenu: 0
-  binding: 0
-  currentRebindingButton: 0
-  rebindSuccessEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 6122af64dfb377d4594b757a4a015bec, type: 2}
-  rebindFailedEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 19039d91c258d9e4da721bade74e44c7, type: 2}
 --- !u!114 &1438228035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9766,6 +9733,36 @@ MonoBehaviour:
     Part2: 1181080316
     Part3: 3984020625
     Part4: 60208677
+--- !u!114 &1438228039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd755e941d440b4eb7392cd6d96469a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveHandler: {fileID: 0}
+  warningText: {fileID: 497954176}
+  keysDict: {fileID: 11400000, guid: ce406d7c5f3ccce4793aacd53aae05b3, type: 2}
+  inputReader: {fileID: 11400000, guid: c289cbc5f0270ba4d9e4149003518f98, type: 2}
+  inputActionAsset: {fileID: -944628639613478452, guid: d68520aa587c6b34e952353ba3c753a1, type: 3}
+  duplicatesText: {fileID: 0}
+  animators: []
+  rebindingButtons: []
+  binding: 0
+  currentRebindingButton: 0
+  rebindSuccessEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 6122af64dfb377d4594b757a4a015bec, type: 2}
+  rebindFailedEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 19039d91c258d9e4da721bade74e44c7, type: 2}
 --- !u!1 &1438852873
 GameObject:
   m_ObjectHideFlags: 0

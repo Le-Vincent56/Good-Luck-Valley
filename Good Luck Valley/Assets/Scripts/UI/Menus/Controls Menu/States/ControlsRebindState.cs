@@ -13,7 +13,7 @@ namespace GoodLuckValley
 
         protected const float crossFadeDuration = 0f;
 
-        public ControlsRebindState(ControlsMainController controller, Animator[] animators) 
+        public ControlsRebindState(ControlsController controller, Animator[] animators) 
             : base(controller)
         {
             this.animators = animators;

@@ -11,14 +11,14 @@ namespace GoodLuckValley.UI.Menus.Persistence
         [SerializeField] private ControlsData data;
         [SerializeField] private GameInputReader inputReader;
         [SerializeField] private InputActionAsset inputActionAsset;
-        private ControlsMainController controller;
+        private ControlsController controller;
 
         [field: SerializeField] public SerializableGuid ID { get; set; } = new SerializableGuid(2453316011, 1181080316, 3984020625, 60208677);
 
         private void Awake()
         {
             // Get the controls menu controller
-            controller = GetComponent<ControlsMainController>();
+            controller = GetComponent<ControlsController>();
         }
 
         /// <summary>
@@ -48,6 +48,9 @@ namespace GoodLuckValley.UI.Menus.Persistence
             // Load bindings
             inputActionAsset.LoadBindingOverridesFromJson(data.Bindings);
             inputReader.LoadBindings(data.Bindings);
+
+            // Set the binding images
+            controller.SetBindingImages();
         }
 
         /// <summary>

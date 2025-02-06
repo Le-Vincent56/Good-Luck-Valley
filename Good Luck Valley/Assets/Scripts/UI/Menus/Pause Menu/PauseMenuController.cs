@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus.Pause
 {
-    public class PauseMenuController : MonoBehaviour, IMenuController
+    public class PauseMenuController : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private GameInputReader gameInputReader;
@@ -162,6 +162,9 @@ namespace GoodLuckValley.UI.Menus.Pause
             paused = true;
         }
 
+        /// <summary>
+        /// Handle event for backtracking through menus
+        /// </summary>
         private void Backtrack(bool started)
         {
             // Exit case - the button is being lifted
