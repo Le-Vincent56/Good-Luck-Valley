@@ -394,7 +394,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33502123}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -968,7 +968,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98200677}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -1020,6 +1020,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98200677}
   m_CullTransparentMesh: 1
+--- !u!1 &118165527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 118165528}
+  m_Layer: 5
+  m_Name: Warning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &118165528
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118165527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1825111546}
+  m_Father: {fileID: 620402409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.3294792, y: 0.32566667}
+  m_AnchorMax: {x: 0.6704792, y: 0.37944445}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &126823255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,7 +2506,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257065504}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -4295,6 +4331,9 @@ MonoBehaviour:
     - Name: optionMenus
       Entry: 6
       Data: 
+    - Name: menuControllers
+      Entry: 6
+      Data: 
   inputReader: {fileID: 11400000, guid: c289cbc5f0270ba4d9e4149003518f98, type: 2}
   darkerBackground: {fileID: 1916527644}
   currentState: 0
@@ -4310,6 +4349,10 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
+  backtrackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
 --- !u!114 &504446772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4613,7 +4656,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533498575}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -5187,6 +5230,7 @@ GameObject:
   - component: {fileID: 581806419}
   - component: {fileID: 581806420}
   - component: {fileID: 581806421}
+  - component: {fileID: 581806422}
   m_Layer: 5
   m_Name: Settings Options
   m_TagString: Untagged
@@ -5243,6 +5287,18 @@ MonoBehaviour:
   initialOption: {fileID: 558440544}
   backOption: {fileID: 800274492}
   initialEveryTime: 0
+--- !u!114 &581806422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581806418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9299f1ddb7f87469606f7c9580795d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &581918137
 GameObject:
   m_ObjectHideFlags: 0
@@ -5647,6 +5703,7 @@ GameObject:
   - component: {fileID: 620402411}
   - component: {fileID: 620402410}
   - component: {fileID: 620402412}
+  - component: {fileID: 620402414}
   - component: {fileID: 620402413}
   m_Layer: 5
   m_Name: Controls Options
@@ -5669,6 +5726,7 @@ RectTransform:
   m_Children:
   - {fileID: 857817061}
   - {fileID: 1101978940}
+  - {fileID: 118165528}
   - {fileID: 880987110}
   m_Father: {fileID: 504446770}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5716,6 +5774,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b53661a3da82b4c86ffb28e6694f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuController: {fileID: 0}
+  saveHandler: {fileID: 0}
+  warningText: {fileID: 1825111549}
   keysDict: {fileID: 11400000, guid: ce406d7c5f3ccce4793aacd53aae05b3, type: 2}
   inputReader: {fileID: 11400000, guid: c289cbc5f0270ba4d9e4149003518f98, type: 2}
   inputActionAsset: {fileID: -944628639613478452, guid: d68520aa587c6b34e952353ba3c753a1, type: 3}
@@ -5756,6 +5817,32 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &620402414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620402408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f71b0f3e047a1e40b93204176298376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    Bindings: 
+  inputReader: {fileID: 11400000, guid: df561a269a9d9eb4ea51591ed37766c3, type: 2}
+  inputActionAsset: {fileID: -944628639613478452, guid: d68520aa587c6b34e952353ba3c753a1, type: 3}
+  <ID>k__BackingField:
+    Part1: 2453316011
+    Part2: 1181080316
+    Part3: 3984020625
+    Part4: 60208677
 --- !u!1 &638841007
 GameObject:
   m_ObjectHideFlags: 0
@@ -5968,15 +6055,15 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 504446771}
-        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.MainMenuController,
+      - m_Target: {fileID: 1687935947}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Video.VideoMenuController,
           Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+        m_MethodName: Back
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -7545,7 +7632,20 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: f16c08c7d81a37e44b95f1b3997ce948, type: 2}
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 620402414}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Persistence.ControlsSaveHandler,
+          Assembly-CSharp
+        m_MethodName: ResetData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &786906647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8256,6 +8356,8 @@ GameObject:
   - component: {fileID: 895611507}
   - component: {fileID: 895611509}
   - component: {fileID: 895611508}
+  - component: {fileID: 895611511}
+  - component: {fileID: 895611510}
   m_Layer: 5
   m_Name: Audio Options
   m_TagString: Untagged
@@ -8312,6 +8414,49 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &895611510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895611506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 080c33571ba5ce246a587a2266cfec99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    MasterVolume: 100
+    MusicVolume: 100
+    AmbienceVolume: 100
+    SFXVolume: 100
+  masterSlider: {fileID: 1110406432}
+  musicSlider: {fileID: 1731580567}
+  sfxSlider: {fileID: 233818672}
+  ambienceSlider: {fileID: 681797273}
+  <ID>k__BackingField:
+    Part1: 717968785
+    Part2: 1113349830
+    Part3: 333676446
+    Part4: 1625166900
+--- !u!114 &895611511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895611506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e296aaded7e294ba89b13b95f3e568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &896468548
 GameObject:
   m_ObjectHideFlags: 0
@@ -8826,7 +8971,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943683257}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -11532,7 +11677,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199765248}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -13003,7 +13148,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408888985}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -13524,11 +13669,11 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 504446771}
-        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.MainMenuController,
+      - m_Target: {fileID: 620402412}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Controls.ControlsMenuController,
           Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+        m_MethodName: Back
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -14522,7 +14667,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501176026}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -16264,6 +16409,8 @@ GameObject:
   - component: {fileID: 1687935943}
   - component: {fileID: 1687935945}
   - component: {fileID: 1687935944}
+  - component: {fileID: 1687935947}
+  - component: {fileID: 1687935946}
   m_Layer: 5
   m_Name: Video Options
   m_TagString: Untagged
@@ -16320,6 +16467,42 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1687935946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687935942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de6fd0063092f342bc3ce00925c5840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    Brightness: 50
+  <ID>k__BackingField:
+    Part1: 1279892122
+    Part2: 1270737158
+    Part3: 308844696
+    Part4: 3286357241
+--- !u!114 &1687935947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687935942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24997d95d744ebb42b5a3420ad58bc06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1705094789
 GameObject:
   m_ObjectHideFlags: 0
@@ -17686,7 +17869,20 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: f16c08c7d81a37e44b95f1b3997ce948, type: 2}
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 895611510}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Persistence.AudioSaveHandler,
+          Assembly-CSharp
+        m_MethodName: ResetData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1793859419
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18002,7 +18198,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823794268}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0
@@ -18054,6 +18250,105 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823794268}
   m_CullTransparentMesh: 1
+--- !u!1 &1825111545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1825111546}
+  - component: {fileID: 1825111548}
+  - component: {fileID: 1825111547}
+  - component: {fileID: 1825111549}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1825111546
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825111545}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 118165528}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.01, y: 0.1}
+  m_AnchorMax: {x: 0.99, y: 0.9}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1825111547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825111545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: eeba5dd8df00d9c48a22cd10a7d7be11, type: 3}
+    m_FontSize: 26
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 267
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: There are existing invalid rebinds
+--- !u!222 &1825111548
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825111545}
+  m_CullTransparentMesh: 1
+--- !u!114 &1825111549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825111545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b1c4bd61d310a468e8761a38723cf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultFontSize: 0
+  defaultColor: {r: 0, g: 0, b: 0, a: 1}
+  popFontSize: 0
+  popColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
+  easeType: 4
+  fadeDuration: 0.5
+  popDuration: 0.4
 --- !u!1 &1833336393
 GameObject:
   m_ObjectHideFlags: 0
@@ -18837,15 +19132,15 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 504446771}
-        m_TargetAssemblyTypeName: GoodLuckValley.UI.MainMenu.MainMenuController,
+      - m_Target: {fileID: 895611511}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Audio.AudioMenuController,
           Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+        m_MethodName: Back
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -19837,7 +20132,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106772994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 143424da84286964abd2cc90be4199d4, type: 2}
   m_CullingMode: 0

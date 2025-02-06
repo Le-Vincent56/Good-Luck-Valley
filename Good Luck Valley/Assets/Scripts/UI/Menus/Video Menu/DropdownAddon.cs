@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.UI.Menus.Video
 {
     public class DropdownAddon : MonoBehaviour, ISelectHandler
     {

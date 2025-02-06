@@ -1,5 +1,6 @@
 using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
+using GoodLuckValley.UI.Menus.Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,9 +10,10 @@ using UnityEngine.EventSystems;
 
 namespace GoodLuckValley.UI.Menus.Start
 {
-    public class StartMenuController : MonoBehaviour
+    public class StartMenuController : MonoBehaviour, IMenuController
     {
         [Header("References")]
+        private MainMenuController mainMenuController;
         [SerializeField] private UIInputReader inputReader;
         [SerializeField] private DeleteOverlay deleteOverlay;
         [SerializeField] private SaveSlot selectedSlot;
@@ -22,6 +24,7 @@ namespace GoodLuckValley.UI.Menus.Start
         private void Awake()
         {
             // Get components
+            mainMenuController = GetComponentInParent<MainMenuController>();
             saveSlots = GetComponentsInChildren<SaveSlot>().ToList();
 
             // Iterate through each Save Slot
@@ -228,5 +231,10 @@ namespace GoodLuckValley.UI.Menus.Start
             inputReader.Enable();
             EventSystem.current.sendNavigationEvents = true;
         }
+
+        /// <summary>
+        /// Leave the Start menu
+        /// </summary>
+        public void Back() => mainMenuController.SetState(mainMenuController.INITIAL);
     }
 }

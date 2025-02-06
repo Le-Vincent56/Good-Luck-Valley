@@ -1,6 +1,9 @@
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Input;
+using GoodLuckValley.Persistence;
 using GoodLuckValley.UI.Menus.Controls.States;
+using GoodLuckValley.UI.Menus.Main;
+using GoodLuckValley.UI.Menus.Persistence;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,13 +12,12 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus.Controls
 {
-    public class ControlsMenuController : MonoBehaviour
+    public class ControlsMenuController : MonoBehaviour, IMenuController
     {
-        //[Header("Wwise Events")]
-        //[SerializeField] private AK.Wwise.Event playButtonGeneral;
-        //[SerializeField] private AK.Wwise.Event playButtonReset;
-
         [Header("References")]
+        [SerializeField] private MainMenuController mainMenuController;
+        [SerializeField] private ControlsSaveHandler saveHandler;
+        [SerializeField] private WarningText warningText;
         [SerializeField] private InputKeyDictionary keysDict;
         [SerializeField] private UIInputReader inputReader;
         [SerializeField] private InputActionAsset inputActionAsset;
@@ -34,23 +36,32 @@ namespace GoodLuckValley.UI.Menus.Controls
         private StateMachine stateMachine;
         private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
+        public RebindButton[] RebindingButtons { get => rebindingButtons; }
         public int CurrentRebindingButton { get => currentRebindingButton; }
 
         private void Awake()
         {
             // Get components
+            mainMenuController = GetComponentInParent<MainMenuController>();
+            saveHandler = GetComponent<ControlsSaveHandler>();
             animators = GetComponentsInChildren<Animator>();
             rebindingButtons = GetComponentsInChildren<RebindButton>();
 
             // Iterate through each Rebind Button
-            foreach(RebindButton rebindingButton in rebindingButtons)
+            foreach (RebindButton rebindingButton in rebindingButtons)
             {
                 // Initialize the Rebind Button
-                rebindingButton.Initialize(this, inputActionAsset, keysDict);
+                rebindingButton.Initialize(this);
             }
 
             // Set up the State Machine
             SetupStateMachine();
+        }
+
+        private void OnEnable()
+        {
+            SaveLoadSystem.Instance.Release += Cleanup;
+            SaveLoadSystem.Instance.DataBinded += SetBindingImages;
         }
 
         private void Update()
@@ -80,6 +91,28 @@ namespace GoodLuckValley.UI.Menus.Controls
         }
 
         /// <summary>
+        /// Cleanup events
+        /// </summary>
+        private void Cleanup()
+        {
+            SaveLoadSystem.Instance.Release -= Cleanup;
+            SaveLoadSystem.Instance.DataBinded -= SetBindingImages;
+        }
+
+        /// <summary>
+        /// Set the binding images of the Rebind Buttons
+        /// </summary>
+        private void SetBindingImages(int index)
+        {
+            // Iterate through each Rebind Button
+            foreach (RebindButton rebindingButton in rebindingButtons)
+            {
+                // Initialize the Rebind Button
+                rebindingButton.SetBindingImage(inputActionAsset, keysDict);
+            }
+        }
+
+        /// <summary>
         /// Start rebinding
         /// </summary>
         public void StartRebinding(string actionName, int bindingIndex, RebindButton rebindingButton)
@@ -104,9 +137,6 @@ namespace GoodLuckValley.UI.Menus.Controls
 
             // Disable the action before rebinding
             action.Disable();
-
-            //// Play the general button sound
-            //playButtonGeneral.Post(gameObject);
 
             rebindingOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithCancelingThrough("")
@@ -212,6 +242,9 @@ namespace GoodLuckValley.UI.Menus.Controls
 
             // Post the rebind success event
             rebindSuccessEvent.Post(gameObject);
+
+            // Hide the warning text
+            warningText.Hide();
         }
 
         /// <summary>
@@ -230,6 +263,9 @@ namespace GoodLuckValley.UI.Menus.Controls
 
             // Post the rebind failed event
             rebindFailedEvent.Post(gameObject);
+
+            // Show the warning text
+            warningText.Show();
         }
 
         /// <summary>
@@ -261,25 +297,53 @@ namespace GoodLuckValley.UI.Menus.Controls
         public void DeactivateRebindingButtonAnimator() => rebindingButtons[currentRebindingButton].DisableAnimator();
 
         /// <summary>
-        /// Reset the key bindings
+        /// Set the default control binding values
         /// </summary>
-        public void ResetSettings()
+        public void SetBindingDefaults()
         {
-            // Loop through each map in the action assets
-            foreach (InputActionMap map in inputActionAsset.actionMaps)
+            // Iterate through each Rebind Button
+            foreach (RebindButton rebindButton in rebindingButtons)
             {
-                // Remove all bindings
-                map.RemoveAllBindingOverrides();
+                // Set default values
+                rebindButton.SetDefault(inputActionAsset, keysDict);
+            }
+        }
+
+        /// <summary>
+        /// Leave the Controls Menu
+        /// </summary>
+        public void Back()
+        {
+            bool canGoBack = true;
+
+            // Iterate through each Rebind Button
+            foreach(RebindButton button in rebindingButtons)
+            {
+                // Break case - if an invalid rebind is found
+                if(!button.ValidRebind)
+                {
+                    canGoBack = false;
+                    break;
+                }
             }
 
-            // Set the default settings for each rebinding button
-            foreach (RebindButton rebindingButton in rebindingButtons)
+            // Exit case - if cannot go back
+            if (!canGoBack)
             {
-                rebindingButton.SetDefault(inputActionAsset, keysDict);
+                // Pop the warning text
+                warningText.Pop();
+
+                return;
             }
 
-            // Play the reset button sound
-            //playButtonReset.Post(gameObject);
+            // Hide the warning text
+            warningText.Hide();
+
+            // Save data
+            saveHandler.SaveData();
+
+            // Set the settings state
+            mainMenuController.SetState(mainMenuController.SETTINGS);
         }
     }
 }

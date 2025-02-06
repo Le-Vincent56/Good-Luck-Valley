@@ -1,11 +1,15 @@
 using GoodLuckValley.Architecture.Singletons;
 using GoodLuckValley.Interactables;
+using GoodLuckValley.Player.Persistence;
 using GoodLuckValley.Scenes;
 using GoodLuckValley.UI.Journal;
+using GoodLuckValley.UI.Journal.Persistence;
+using GoodLuckValley.UI.Menus.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GoodLuckValley.Persistence
 {
@@ -24,8 +28,11 @@ namespace GoodLuckValley.Persistence
     {
         [SerializeField] private bool debug;
         [SerializeField] private GameData selectedData;
+        [SerializeField] private SettingsData settingsData;
+        [SerializeField] private InputActionAsset inputActions;
         [SerializeField] private Dictionary<string, GameData> saves;
-        private IDataService dataService;
+        private FileGameDataService gameDataService;
+        private FileSettingsDataService settingsDataService;
 
         public Action<int> DataBinded = delegate { };
         public Action Release = delegate { };
@@ -40,10 +47,19 @@ namespace GoodLuckValley.Persistence
             base.Awake();
 
             // Create a File Data Service using a JSON Serializer
-            dataService = new FileDataService(new JsonSerializer());
+            gameDataService = new FileGameDataService(new JsonSerializer());
+            settingsDataService = new FileSettingsDataService(new JsonSerializer());
 
-            // Initialize the Dictionary
+            // Initialize the Save Slots Dictionary
             RefreshSaveData();
+            
+            // Try to get the settings file
+            settingsData = settingsDataService.Load("Settings");
+
+            // Check if the settings data was not set
+            if (settingsData == null)
+                // Create a new settings file
+                NewSettings();
         }
 
         private void OnEnable()
@@ -73,6 +89,11 @@ namespace GoodLuckValley.Persistence
             Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
             Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
             Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
+
+            // Bind Settings
+            Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
+            Bind<VideoSaveHandler, VideoData>(settingsData.Video);
+            Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
 
             // Invoke the DataBinded event
             DataBinded.Invoke(index);
@@ -129,6 +150,27 @@ namespace GoodLuckValley.Persistence
         }
 
         /// <summary>
+        /// Create a new settings file
+        /// </summary>
+        private void NewSettings()
+        {
+            settingsData = new SettingsData
+            {
+                Name = "Settings",
+                Audio = new AudioData(),
+                Video = new VideoData(),
+                Controls = new ControlsData(inputActions)
+            };
+
+            SaveSettings();
+        }
+
+        /// <summary>
+        /// Save the game settings
+        /// </summary>
+        public void SaveSettings() => settingsDataService.Save(settingsData); 
+
+        /// <summary>
         /// Create a New Game
         /// </summary>
         public void NewGame(int slot, bool loadGame = false)
@@ -167,7 +209,7 @@ namespace GoodLuckValley.Persistence
             selectedData.LastUpdated = DateTime.Now.ToBinary();
 
             // Save the selected data
-            dataService.Save(selectedData);
+            gameDataService.Save(selectedData);
 
             // Refresh the save data
             RefreshSaveData();
@@ -179,7 +221,7 @@ namespace GoodLuckValley.Persistence
         public void LoadGame(string gameName)
         {
             // Set the Game Data by loading in the data from a file
-            selectedData = dataService.Load(gameName);
+            selectedData = gameDataService.Load(gameName);
 
             // Load the scene group at the scene group index
             SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.PlayerData.LevelIndex);
@@ -188,7 +230,7 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Select a persisted Game Data file
         /// </summary>
-        public void SelectGame(string saveName) => selectedData = dataService.Load(saveName);
+        public void SelectGame(string saveName) => selectedData = gameDataService.Load(saveName);
 
         /// <summary>
         /// Load the most recently updated Game Data file
@@ -207,12 +249,12 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Delete a persisted Game Data file
         /// </summary>
-        public void DeleteGame(string gameName) => dataService.Delete(gameName);
+        public void DeleteGame(string gameName) => gameDataService.Delete(gameName);
 
         /// <summary>
         /// List all of the saved files by name
         /// </summary>
-        public IEnumerable<string> ListSaves() => dataService.ListSaves();
+        public IEnumerable<string> ListSaves() => gameDataService.ListSaves();
 
         /// <summary>
         /// Get the number of current saves
@@ -234,7 +276,7 @@ namespace GoodLuckValley.Persistence
             foreach (string save in savesEnum)
             {
                 // Set the Dictionary
-                saves[save] = dataService.Load(save);
+                saves[save] = gameDataService.Load(save);
             }
         }
 

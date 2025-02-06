@@ -9567,6 +9567,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b53661a3da82b4c86ffb28e6694f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuController: {fileID: 0}
+  saveHandler: {fileID: 0}
+  warningText: {fileID: 0}
   keysDict: {fileID: 11400000, guid: ce406d7c5f3ccce4793aacd53aae05b3, type: 2}
   inputReader: {fileID: 11400000, guid: c289cbc5f0270ba4d9e4149003518f98, type: 2}
   inputActionAsset: {fileID: -944628639613478452, guid: d68520aa587c6b34e952353ba3c753a1, type: 3}
@@ -9596,6 +9599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialOption: {fileID: 457204306}
+  backOption: {fileID: 0}
   initialEveryTime: 0
 --- !u!225 &1438228036
 CanvasGroup:
@@ -10334,6 +10338,7 @@ GameObject:
   - component: {fileID: 1543019574}
   - component: {fileID: 1543019576}
   - component: {fileID: 1543019577}
+  - component: {fileID: 1543019578}
   m_Layer: 5
   m_Name: Pause Options
   m_TagString: Untagged
@@ -10386,7 +10391,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialOption: {fileID: 1483524870}
+  backOption: {fileID: 0}
   initialEveryTime: 0
+--- !u!114 &1543019578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543019573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c953faea2f3d9dd40b3e5758cb414617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1545581084
 GameObject:
   m_ObjectHideFlags: 0
@@ -11281,6 +11299,10 @@ MonoBehaviour:
   paused: 0
   state: 0
   fadeDuration: 0.2
+  backtrackEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 526e30665c0e492408cfc1916b501989, type: 2}
 --- !u!1 &1691209450
 GameObject:
   m_ObjectHideFlags: 0
@@ -11827,6 +11849,7 @@ GameObject:
   - component: {fileID: 1822481037}
   - component: {fileID: 1822481039}
   - component: {fileID: 1822481038}
+  - component: {fileID: 1822481040}
   m_Layer: 5
   m_Name: Audio Options
   m_TagString: Untagged
@@ -11869,6 +11892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialOption: {fileID: 1577067457}
+  backOption: {fileID: 0}
   initialEveryTime: 1
 --- !u!225 &1822481039
 CanvasGroup:
@@ -11882,6 +11906,18 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1822481040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822481036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e296aaded7e294ba89b13b95f3e568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1827233005
 GameObject:
   m_ObjectHideFlags: 0
@@ -12674,6 +12710,7 @@ GameObject:
   - component: {fileID: 1873867630}
   - component: {fileID: 1873867632}
   - component: {fileID: 1873867631}
+  - component: {fileID: 1873867633}
   m_Layer: 5
   m_Name: Video Options
   m_TagString: Untagged
@@ -12716,6 +12753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialOption: {fileID: 1466500467}
+  backOption: {fileID: 0}
   initialEveryTime: 1
 --- !u!225 &1873867632
 CanvasGroup:
@@ -12729,6 +12767,18 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1873867633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873867629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24997d95d744ebb42b5a3420ad58bc06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1876711907
 GameObject:
   m_ObjectHideFlags: 0
@@ -14106,6 +14156,7 @@ GameObject:
   - component: {fileID: 2117273575}
   - component: {fileID: 2117273577}
   - component: {fileID: 2117273576}
+  - component: {fileID: 2117273578}
   m_Layer: 5
   m_Name: Settings Options
   m_TagString: Untagged
@@ -14148,6 +14199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialOption: {fileID: 980749173}
+  backOption: {fileID: 0}
   initialEveryTime: 1
 --- !u!225 &2117273577
 CanvasGroup:
@@ -14161,6 +14213,18 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &2117273578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117273574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9299f1ddb7f87469606f7c9580795d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2131443903
 GameObject:
   m_ObjectHideFlags: 0

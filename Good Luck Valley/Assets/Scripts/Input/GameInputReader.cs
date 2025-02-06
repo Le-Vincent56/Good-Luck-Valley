@@ -77,6 +77,11 @@ namespace GoodLuckValley.Input
         }
 
         /// <summary>
+        /// Load the input bindings from a JSON string
+        /// </summary>
+        public void LoadBindings(string bindingsJSON) => inputActions.LoadBindingOverridesFromJson(bindingsJSON);
+
+        /// <summary>
         /// Retrieve input from this frame
         /// </summary>
         public FrameInput RetrieveFrameInput()

@@ -31,7 +31,7 @@ namespace GoodLuckValley.UI.Menus.Controls
         public bool Rebinded { get => rebinded; set => rebinded = value; }
         public bool ValidRebind { get => validRebind; set => validRebind = value; }
 
-        public void Initialize(ControlsMenuController controller, InputActionAsset inputActionAsset, InputKeyDictionary keysDictionary)
+        public void Initialize(ControlsMenuController controller)
         {
             // Get components
             targetButton = GetComponent<MenuButton>();
@@ -44,9 +44,6 @@ namespace GoodLuckValley.UI.Menus.Controls
 
             // Add a click listener
             targetButton.OnClick.AddListener(() => controller.StartRebinding(bindingInfo.ActionName, bindingInfo.BindingIndex, this));
-
-            // Set image
-            SetBindingImage(inputActionAsset, keysDictionary);
 
             // Check if the binding has been rebinded
             UpdateRebinded();
@@ -150,9 +147,7 @@ namespace GoodLuckValley.UI.Menus.Controls
         /// <summary>
         /// Set the binding image
         /// </summary>
-        /// <param name="inputActionAsset"></param>
-        /// <param name="keysDictionary"></param>
-        private void SetBindingImage(InputActionAsset inputActionAsset, InputKeyDictionary keysDictionary)
+        public void SetBindingImage(InputActionAsset inputActionAsset, InputKeyDictionary keysDictionary)
         {
             // Get the input action
             InputAction action = inputActionAsset.FindAction(bindingInfo.ActionName);
@@ -165,7 +160,10 @@ namespace GoodLuckValley.UI.Menus.Controls
         /// Set the binding imagae
         /// </summary>
         /// <param name="sprite"></param>
-        public void SetImage(Sprite sprite) => keyImage.sprite = sprite;
+        public void SetImage(Sprite sprite)
+        {
+            keyImage.sprite = sprite;
+        }
 
         /// <summary>
         /// Enable the rebinding button's animator
