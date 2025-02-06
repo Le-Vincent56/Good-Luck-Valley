@@ -9,7 +9,7 @@ namespace GoodLuckValley.UI.Menus.Settings
 
         private void Awake()
         {
-            pauseMenuController = GetComponent<PauseMenuController>();
+            pauseMenuController = GetComponentInParent<PauseMenuController>();
         }
 
         /// <summary>

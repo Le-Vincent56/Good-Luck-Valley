@@ -1,18 +1,18 @@
-using GoodLuckValley.UI.Menus.Main;
+using GoodLuckValley.UI.Menus.Pause;
 using GoodLuckValley.UI.Menus.Persistence;
 using UnityEngine;
 
 namespace GoodLuckValley.UI.Menus.Video
 {
-    public class VideoMenuController : MonoBehaviour, IMenuController
+    public class VideoPauseController : MonoBehaviour, IMenuController
     {
-        private MainMenuController mainMenuController;
+        private PauseMenuController pauseMenuController;
         private VideoSaveHandler saveHandler;
 
         private void Awake()
         {
             // Get components
-            mainMenuController = GetComponentInParent<MainMenuController>();
+            pauseMenuController = GetComponentInParent<PauseMenuController>();
             saveHandler = GetComponent<VideoSaveHandler>();
         }
 
@@ -21,11 +21,11 @@ namespace GoodLuckValley.UI.Menus.Video
         /// </summary>
         public void Back()
         {
-            // Save data
+            // Save Video data
             saveHandler.SaveData();
 
             // Set the settings state
-            mainMenuController.SetState(mainMenuController.SETTINGS);
+            pauseMenuController.SetState(pauseMenuController.SETTINGS);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace GoodLuckValley
+namespace GoodLuckValley.UI.Menus
 {
     public interface IMenuController
     {

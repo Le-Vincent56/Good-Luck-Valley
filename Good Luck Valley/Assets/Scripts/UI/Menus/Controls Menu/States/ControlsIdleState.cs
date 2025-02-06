@@ -2,7 +2,7 @@ namespace GoodLuckValley.UI.Menus.Controls.States
 {
     public class ControlsIdleState : ControlsState
     {
-        public ControlsIdleState(ControlsMenuController controller)
+        public ControlsIdleState(ControlsMainController controller)
             : base(controller)
         {
         }

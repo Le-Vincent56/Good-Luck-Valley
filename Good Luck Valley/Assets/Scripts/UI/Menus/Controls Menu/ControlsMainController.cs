@@ -3,6 +3,7 @@ using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.UI.Menus.Controls.States;
 using GoodLuckValley.UI.Menus.Main;
+using GoodLuckValley.UI.Menus.Pause;
 using GoodLuckValley.UI.Menus.Persistence;
 using System;
 using UnityEngine;
@@ -12,10 +13,11 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus.Controls
 {
-    public class ControlsMenuController : MonoBehaviour, IMenuController
+    public class ControlsMainController : MonoBehaviour, IMenuController
     {
         [Header("References")]
         [SerializeField] private MainMenuController mainMenuController;
+        [SerializeField] private PauseMenuController pauseMenuController;
         [SerializeField] private ControlsSaveHandler saveHandler;
         [SerializeField] private WarningText warningText;
         [SerializeField] private InputKeyDictionary keysDict;
@@ -26,6 +28,7 @@ namespace GoodLuckValley.UI.Menus.Controls
         [SerializeField] private RebindButton[] rebindingButtons;
 
         [Header("Fields")]
+        [SerializeField] private bool mainMenu;
         [SerializeField] private bool binding;
         [SerializeField] private int currentRebindingButton;
 
@@ -43,6 +46,7 @@ namespace GoodLuckValley.UI.Menus.Controls
         {
             // Get components
             mainMenuController = GetComponentInParent<MainMenuController>();
+            pauseMenuController = GetComponentInParent<PauseMenuController>();
             saveHandler = GetComponent<ControlsSaveHandler>();
             animators = GetComponentsInChildren<Animator>();
             rebindingButtons = GetComponentsInChildren<RebindButton>();
@@ -342,8 +346,16 @@ namespace GoodLuckValley.UI.Menus.Controls
             // Save data
             saveHandler.SaveData();
 
-            // Set the settings state
-            mainMenuController.SetState(mainMenuController.SETTINGS);
+            // Check if this is being controlled by the main menu
+            if(mainMenu)
+            {
+                // Set the settings state
+                mainMenuController.SetState(mainMenuController.SETTINGS);
+            } else
+            {
+                // Set the settinngs state
+                pauseMenuController.SetState(pauseMenuController.SETTINGS);
+            }
         }
     }
 }

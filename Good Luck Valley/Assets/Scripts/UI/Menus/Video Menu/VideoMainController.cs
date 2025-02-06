@@ -2,22 +2,22 @@ using GoodLuckValley.UI.Menus.Main;
 using GoodLuckValley.UI.Menus.Persistence;
 using UnityEngine;
 
-namespace GoodLuckValley.UI.Menus.Audio
+namespace GoodLuckValley.UI.Menus.Video
 {
-    public class AudioMenuController : MonoBehaviour, IMenuController
+    public class VideoMainController : MonoBehaviour, IMenuController
     {
         private MainMenuController mainMenuController;
-        private AudioSaveHandler saveHandler;
+        private VideoSaveHandler saveHandler;
 
         private void Awake()
         {
             // Get components
             mainMenuController = GetComponentInParent<MainMenuController>();
-            saveHandler = GetComponent<AudioSaveHandler>();
+            saveHandler = GetComponent<VideoSaveHandler>();
         }
 
         /// <summary>
-        /// Leave the Audio menu
+        /// Leave the Video menu
         /// </summary>
         public void Back()
         {

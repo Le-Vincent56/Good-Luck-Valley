@@ -31,7 +31,7 @@ namespace GoodLuckValley.UI.Menus.Controls
         public bool Rebinded { get => rebinded; set => rebinded = value; }
         public bool ValidRebind { get => validRebind; set => validRebind = value; }
 
-        public void Initialize(ControlsMenuController controller)
+        public void Initialize(ControlsMainController controller)
         {
             // Get components
             targetButton = GetComponent<MenuButton>();
