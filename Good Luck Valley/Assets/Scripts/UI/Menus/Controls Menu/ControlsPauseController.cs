@@ -1,12 +1,10 @@
-using GoodLuckValley.UI.Menus.Main;
-using UnityEngine;
+using GoodLuckValley.UI.Menus.Pause;
 
 namespace GoodLuckValley.UI.Menus.Controls
 {
-    public class ControlsMainController : ControlsController, IMenuController
+    public class ControlsPauseController : ControlsController, IMenuController
     {
-        [Header("References")]
-        [SerializeField] private MainMenuController mainMenuController;
+        private PauseMenuController pauseMenuController;
 
         protected override void Awake()
         {
@@ -14,7 +12,7 @@ namespace GoodLuckValley.UI.Menus.Controls
             base.Awake();
 
             // Get components
-            mainMenuController = GetComponentInParent<MainMenuController>();
+            pauseMenuController = GetComponentInParent<PauseMenuController>();
         }
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace GoodLuckValley.UI.Menus.Controls
             saveHandler.SaveData();
 
             // Set the settings state
-            mainMenuController.SetState(mainMenuController.SETTINGS);
+            pauseMenuController.SetState(pauseMenuController.SETTINGS);
         }
     }
 }

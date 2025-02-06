@@ -4,11 +4,11 @@ namespace GoodLuckValley.UI.Menus.Controls.States
 {
     public class ControlsState : IState
     {
-        protected readonly ControlsMainController controller;
+        protected readonly ControlsController controller;
 
         protected const float fadeTime = 0.2f;
 
-        public ControlsState(ControlsMainController controller)
+        public ControlsState(ControlsController controller)
         {
             this.controller = controller;
         }
