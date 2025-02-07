@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GoodLuckValley.Cameras
 {
-    public class CameraOffsetDistanceTrigger : Vector2DistanceBasedTrigger
+    public class CameraScreenCenterDistanceTrigger : Vector2DistanceBasedTrigger
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineFramingTransposer framingTransposer;
@@ -22,8 +22,9 @@ namespace GoodLuckValley.Cameras
             // Calculate through the parent class
             base.OnTriggerStay2D(collision);
 
-            // Set the Orthographic Size using the current distance value
-            framingTransposer.m_TrackedObjectOffset = currentDistanceValue;
+            // Set the screen centerp position using the current distance value
+            framingTransposer.m_ScreenX = currentDistanceValue.x;
+            framingTransposer.m_ScreenY = currentDistanceValue.y;
         }
     }
 }
