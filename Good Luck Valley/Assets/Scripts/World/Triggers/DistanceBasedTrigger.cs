@@ -17,6 +17,7 @@ namespace GoodLuckValley.World.Triggers
         protected enum EaseType
         {
             Linear,
+            InOutSine,
             InOutQuad,
             InQuad,
             OutQuad
@@ -97,11 +98,17 @@ namespace GoodLuckValley.World.Triggers
             return easeType switch
             {
                 EaseType.Linear => t,
+                EaseType.InOutSine => EaseInOutSine(t),
                 EaseType.InOutQuad => EaseInOutQuad(t),
                 EaseType.InQuad => EaseInQuad(t),
                 EaseType.OutQuad => EaseOutQuad(t),
                 _ => t,
             };
+        }
+
+        private float EaseInOutSine(float t)
+        {
+            return 0.5f * (1 - Mathf.Cos(Mathf.PI * t));
         }
 
         private float EaseInOutQuad(float t)
