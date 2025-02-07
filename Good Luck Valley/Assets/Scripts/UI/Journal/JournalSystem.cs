@@ -23,6 +23,8 @@ namespace GoodLuckValley.UI.Journal
 
         private EventBinding<UnlockJournal> onUnlockJournal;
         private EventBinding<UnlockJournalEntry> onAddJournalEntry;
+        private EventBinding<ShowJournalPause> onShowJournalPause;
+        private EventBinding<HideJournalPause> onHideJournalPause;
 
         public JournalController Controller { get => controller; }
 
@@ -38,6 +40,12 @@ namespace GoodLuckValley.UI.Journal
 
             onAddJournalEntry = new EventBinding<UnlockJournalEntry>(UnlockEntry);
             EventBus<UnlockJournalEntry>.Register(onAddJournalEntry);
+
+            onShowJournalPause = new EventBinding<ShowJournalPause>(ShowJournalFromPause);
+            EventBus<ShowJournalPause>.Register(onShowJournalPause);
+
+            onHideJournalPause = new EventBinding<HideJournalPause>(HideJournalToPause);
+            EventBus<HideJournalPause>.Register(onHideJournalPause);
         }
 
         private void OnDisable()
@@ -49,6 +57,8 @@ namespace GoodLuckValley.UI.Journal
 
             EventBus<UnlockJournal>.Deregister(onUnlockJournal);
             EventBus<UnlockJournalEntry>.Deregister(onAddJournalEntry);
+            EventBus<ShowJournalPause>.Deregister(onShowJournalPause);
+            EventBus<HideJournalPause>.Deregister(onHideJournalPause);
         }
 
         private void Start()
@@ -159,6 +169,32 @@ namespace GoodLuckValley.UI.Journal
         }
 
         /// <summary>
+        /// Event callback to show the Journal from the Pause Menu
+        /// </summary>
+        private void ShowJournalFromPause()
+        {
+            // Exit case - if opening the Journal fails
+            if (!controller.Open(true)) return;
+
+            // Enable UI input
+            gameInputReader.Disable();
+            uiInputReader.Enable();
+        }
+
+        /// <summary>
+        /// Event callback to hide the Journal and return to the Pause Menu
+        /// </summary>
+        private void HideJournalToPause()
+        {
+            // Close the Journal
+            controller.Close();
+
+            // Enable UI input
+            gameInputReader.Disable();
+            uiInputReader.Enable();
+        }
+
+        /// <summary>
         /// Event callback to open the Journal
         /// </summary>
         private void OpenJournal(bool started)
@@ -187,7 +223,17 @@ namespace GoodLuckValley.UI.Journal
         /// <summary>
         /// Unlock the Journal
         /// </summary>
-        public void Unlock() => controller.Unlock();
+        public void Unlock()
+        {
+            // Unlock the Journal
+            controller.Unlock();
+
+            // Update the Journal Unlocked status
+            EventBus<UpdateJournalUnlock>.Raise(new UpdateJournalUnlock()
+            {
+                Unlocked = true
+            });
+        }
 
         /// <summary>
         /// Add an Entry to the Journal

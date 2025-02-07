@@ -83,6 +83,12 @@ namespace GoodLuckValley.UI.Journal.Persistence
             // Add an event to update the save data when any Journal Entry changes
             system.Controller.Model.JournalEntries.AnyValueChanged += UpdateEntryData;
 
+            // Update the Journal Unlocked status
+            EventBus<UpdateJournalUnlock>.Raise(new UpdateJournalUnlock()
+            {
+                Unlocked = journalData.Unlocked
+            });
+
             // Exit case - if the Journal is not unlocked
             if (!unlocked) return;
 

@@ -1,7 +1,7 @@
 using DG.Tweening;
-using GoodLuckValley.Extensions.GameObjects;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Pause;
 using GoodLuckValley.UI.Journal.Model;
-using GoodLuckValley.Utilities.Preconditions;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -124,7 +124,7 @@ namespace GoodLuckValley.UI.Journal.View
             }
 
             // Show the Tab Entries of the Diary
-            ShowTabEntries(TabType.Diary);
+            ShowTabEntries(TabType.Note);
         }
 
         /// <summary>
@@ -257,12 +257,18 @@ namespace GoodLuckValley.UI.Journal.View
         /// <summary>
         /// Hide the Journal
         /// </summary>
-        public void Hide()
+        public void Hide(bool fromPause = false)
         {
             Fade(canvasFadeTween, canvasGroup, 0f, fadeDuration, () =>
             {
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
+
+                // Exit case - if not coming from the pause menu
+                if (!fromPause) return;
+
+                // Shwo the Pause Menu
+                EventBus<ShowPauseMenuFromJournal>.Raise(new ShowPauseMenuFromJournal());
             });
         }
 
@@ -275,7 +281,7 @@ namespace GoodLuckValley.UI.Journal.View
             fadeTween?.Kill();
 
             // Set the Fade Tween
-            fadeTween = canvasGroup.DOFade(endValue, duration);
+            fadeTween = canvasGroup.DOFade(endValue, duration).SetUpdate(true);
 
             // Exit case - there's no completion action
             if (onComplete == null) return;

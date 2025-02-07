@@ -1,5 +1,7 @@
+using DG.Tweening;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace GoodLuckValley.UI.Menus.Pause.States
 {
@@ -12,6 +14,12 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
         public override void OnEnter()
         {
+            Fade(0f, fadeDuration, Ease.InOutSine, () =>
+            {
+                screen.interactable = false;
+                screen.blocksRaycasts = false;
+            });
+
             // Set game controls
             controller.EnableGameInput();
 
@@ -23,6 +31,9 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
             // Hide the Pause Menu background
             controller.HideBackground();
+
+            // Nullify the currently selected game object for the EventSystem
+            EventSystem.current.SetSelectedGameObject(null);
         }
 
         public override void OnExit()

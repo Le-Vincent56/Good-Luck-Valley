@@ -61,7 +61,6 @@ namespace GoodLuckValley.Input
             inputActions.UI.Enable();
         }
 
-
         public void OnNavigate(InputAction.CallbackContext context)
         {
             Navigate.Invoke(context.ReadValue<Vector2>());

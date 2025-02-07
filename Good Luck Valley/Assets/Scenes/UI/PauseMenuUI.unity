@@ -7420,14 +7420,15 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1648229141}
-        m_TargetAssemblyTypeName: GoodLuckValley.PauseMenuController, Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+      - m_Target: {fileID: 1822481040}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Audio.AudioPauseController,
+          Assembly-CSharp
+        m_MethodName: Back
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8522,14 +8523,15 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1648229141}
-        m_TargetAssemblyTypeName: GoodLuckValley.PauseMenuController, Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+      - m_Target: {fileID: 1438228039}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Controls.ControlsPauseController,
+          Assembly-CSharp
+        m_MethodName: Back
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9497,14 +9499,15 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1648229141}
-        m_TargetAssemblyTypeName: GoodLuckValley.PauseMenuController, Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
+      - m_Target: {fileID: 1873867633}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Video.VideoPauseController,
+          Assembly-CSharp
+        m_MethodName: Back
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10645,7 +10648,20 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: f16c08c7d81a37e44b95f1b3997ce948, type: 2}
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1438228038}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Persistence.ControlsSaveHandler,
+          Assembly-CSharp
+        m_MethodName: ResetData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1545581086
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11459,6 +11475,7 @@ MonoBehaviour:
   background: {fileID: 1227141816}
   canvasGroups: []
   paused: 0
+  journalUnlocked: 0
   state: 0
   fadeDuration: 0.2
   backtrackEvent:
@@ -13435,7 +13452,20 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1648229141}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Pause.PauseMenuController,
+          Assembly-CSharp
+        m_MethodName: OpenJournal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1915527429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13822,7 +13852,20 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: f16c08c7d81a37e44b95f1b3997ce948, type: 2}
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1822481041}
+        m_TargetAssemblyTypeName: GoodLuckValley.UI.Menus.Persistence.AudioSaveHandler,
+          Assembly-CSharp
+        m_MethodName: ResetData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1995380256
 RectTransform:
   m_ObjectHideFlags: 0

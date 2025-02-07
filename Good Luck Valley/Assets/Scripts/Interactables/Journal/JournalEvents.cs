@@ -7,4 +7,12 @@ namespace GoodLuckValley.Events.Journal
     {
         public JournalData Data;
     }
+
+    public struct ShowJournalPause : IEvent { }
+    public struct HideJournalPause : IEvent { }
+
+    public struct UpdateJournalUnlock : IEvent 
+    {
+        public bool Unlocked;
+    }
 }

@@ -42,6 +42,7 @@ namespace GoodLuckValley.UI.Journal.Controller
         private readonly JournalModel model;
         private readonly JournalView view;
         private bool unlocked;
+        private bool fromPause;
 
         public JournalModel Model { get => model; }
         public JournalView View { get => view; }
@@ -111,10 +112,13 @@ namespace GoodLuckValley.UI.Journal.Controller
         /// <summary>
         /// Open the Journal View
         /// </summary>
-        public bool Open()
+        public bool Open(bool fromPause = false)
         {
             // Exit case - the Journal is not unlocked
             if (!unlocked) return false;
+
+            // Set whether or not the Player is coming from the pause menu
+            this.fromPause = fromPause;
 
             // Show the Journal View
             view.Show();
@@ -125,7 +129,7 @@ namespace GoodLuckValley.UI.Journal.Controller
         /// <summary>
         /// Close the Journal View
         /// </summary>
-        public void Close() => view.Hide();
+        public void Close() => view.Hide(fromPause);
 
         /// <summary>
         /// Select the last selected Tab

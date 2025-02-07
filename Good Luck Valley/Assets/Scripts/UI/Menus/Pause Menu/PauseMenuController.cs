@@ -1,5 +1,8 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Journal;
+using GoodLuckValley.Events.Pause;
 using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Scenes;
@@ -23,6 +26,7 @@ namespace GoodLuckValley.UI.Menus.Pause
 
         [Header("Variables")]
         [SerializeField] private bool paused;
+        [SerializeField] private bool journalUnlocked;
         [SerializeField] private int state;
 
         [Header("Tweening Variables")]
@@ -34,6 +38,9 @@ namespace GoodLuckValley.UI.Menus.Pause
 
         private StateMachine stateMachine;
 
+        private EventBinding<ShowPauseMenuFromJournal> onShowPauseMenuFromJournal;
+        private EventBinding<UpdateJournalUnlock> onUpdateJournalUnlock;
+
         public bool Paused { get => paused; set => paused = value; }
         public int UNPAUSED => -1;
         public int PAUSED => 0;
@@ -41,6 +48,7 @@ namespace GoodLuckValley.UI.Menus.Pause
         public int AUDIO => 2;
         public int VIDEO => 3;
         public int CONTROLS => 4;
+        public int JOURNAL => 5;
 
         private void Awake()
         {
@@ -60,12 +68,21 @@ namespace GoodLuckValley.UI.Menus.Pause
         {
             gameInputReader.Pause += PauseGame;
             menuInputReader.Cancel += Backtrack;
+
+            onShowPauseMenuFromJournal = new EventBinding<ShowPauseMenuFromJournal>(ReturnToPauseFromJournal);
+            EventBus<ShowPauseMenuFromJournal>.Register(onShowPauseMenuFromJournal);
+
+            onUpdateJournalUnlock = new EventBinding<UpdateJournalUnlock>(UpdateJournalUnlock);
+            EventBus<UpdateJournalUnlock>.Register(onUpdateJournalUnlock);
         }
 
         private void OnDisable()
         {
             gameInputReader.Pause -= PauseGame;
             menuInputReader.Cancel -= Backtrack;
+
+            EventBus<ShowPauseMenuFromJournal>.Deregister(onShowPauseMenuFromJournal);
+            EventBus<UpdateJournalUnlock>.Deregister(onUpdateJournalUnlock);
         }
 
         private void Update()
@@ -88,6 +105,7 @@ namespace GoodLuckValley.UI.Menus.Pause
             // Create states
             ResumePauseState resumeState = new ResumePauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], fadeDuration);
             InitialPauseState pauseState = new InitialPauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], menuControllers[PAUSED], fadeDuration);
+            JournalPauseState journalState = new JournalPauseState(this, canvasGroups[PAUSED], optionMenus[PAUSED], fadeDuration);
             SettingsPauseState settingsState = new SettingsPauseState(this, canvasGroups[SETTINGS], optionMenus[SETTINGS], menuControllers[SETTINGS], fadeDuration);
             AudioPauseState audioState = new AudioPauseState(this, canvasGroups[AUDIO], optionMenus[AUDIO], menuControllers[AUDIO], fadeDuration);
             VideoPauseState videoState = new VideoPauseState(this, canvasGroups[VIDEO], optionMenus[VIDEO], menuControllers[VIDEO], fadeDuration);
@@ -95,9 +113,12 @@ namespace GoodLuckValley.UI.Menus.Pause
 
             // Define state transitions
             stateMachine.At(pauseState, resumeState, new FuncPredicate(() => state == UNPAUSED));
+            stateMachine.At(pauseState, journalState, new FuncPredicate(() => state == JOURNAL));
             stateMachine.At(pauseState, settingsState, new FuncPredicate(() => state == SETTINGS));
 
             stateMachine.At(resumeState, pauseState, new FuncPredicate(() => state == PAUSED));
+
+            stateMachine.At(journalState, pauseState, new FuncPredicate(() => state == PAUSED));
 
             stateMachine.At(settingsState, pauseState, new FuncPredicate(() => state == PAUSED));
             stateMachine.At(settingsState, audioState, new FuncPredicate(() => state == AUDIO));
@@ -191,6 +212,28 @@ namespace GoodLuckValley.UI.Menus.Pause
         public void SetMenuController(IMenuController menuController) => currentMenuController = menuController;
 
         /// <summary>
+        /// Event callback to update the status of the Journal unlock
+        /// </summary>
+        private void UpdateJournalUnlock(UpdateJournalUnlock eventData) => journalUnlocked = eventData.Unlocked;
+
+        /// <summary>
+        /// Open the Journal from the Pause Menu
+        /// </summary>
+        public void OpenJournal()
+        {
+            // Exit case - if the Journal is not unlocked
+            if (!journalUnlocked) return;
+
+            // Set the Journal State
+            SetState(JOURNAL);
+        }
+
+        /// <summary>
+        /// Event callback to return to the pause menu from the Journal
+        /// </summary>
+        private void ReturnToPauseFromJournal() => SetState(PAUSED);
+
+        /// <summary>
         /// Save the game
         /// </summary>
         public void Save() => SaveLoadSystem.Instance.SaveGame();
@@ -221,6 +264,9 @@ namespace GoodLuckValley.UI.Menus.Pause
             fadeTween.onComplete += onComplete;
         }
 
+        /// <summary>
+        /// Return to the Main Menu
+        /// </summary>
         public void ReturnToMain()
         {
             // Load the Scene Group
