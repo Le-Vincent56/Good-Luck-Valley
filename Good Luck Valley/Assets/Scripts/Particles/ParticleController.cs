@@ -11,23 +11,19 @@ namespace GoodLuckValley.Particles
         [Header("References")]
         [SerializeField] private GameInputReader inputReader;
         [SerializeField] private LayerDetection layerDetection;
-        [SerializeField] private ParticleSystem runningParticles;
+
+        [Header("Running Particles")]
+        [SerializeField] private ParticleSystem currentRunningParticles;
+        [SerializeField] private ParticleSystem grassRunningParticles;
+        [SerializeField] private ParticleSystem dirtRunningParticles;
+        [SerializeField] private ParticleSystem stoneRunningParticles;
+
+        [Header("Jumping Particles")]
         [SerializeField] private ParticleSystem jumpingParticles;
-
-        [SerializeField] private Sprite grassParticleSprite;
-        [SerializeField] private Sprite dirtParticleSprite;
-        [SerializeField] private Sprite stoneParticleSprite;
-
-        [SerializeField] private Color grassMinColor;
-        [SerializeField] private Color grassMaxColor;
-
-        [SerializeField] private Color dirtMinColor;
-        [SerializeField] private Color dirtMaxColor;
 
         private FrequencyTimer runParticleTimer;
 
         [Header("Fields")]
-        [SerializeField] private bool runningParticlesActive;
         [SerializeField] private float runParticleInterval;
         [SerializeField] private float initialRunScaleX;
         [SerializeField] private float initialJumpScaleX;
@@ -37,8 +33,10 @@ namespace GoodLuckValley.Particles
         private void Awake()
         {
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-            runningParticles = particleSystems[0];
-            jumpingParticles = particleSystems[1];
+            grassRunningParticles = particleSystems[0];
+            dirtRunningParticles = particleSystems[1];
+            stoneRunningParticles = particleSystems[2];
+            jumpingParticles = particleSystems[3];
 
             // Get components
             layerDetection = GetComponentInParent<LayerDetection>();
@@ -48,7 +46,7 @@ namespace GoodLuckValley.Particles
             runParticleTimer.OnTick += PlayRunningParticles;
 
             // Set initial scales
-            initialRunScaleX = runningParticles.transform.localScale.x;
+            initialRunScaleX = grassRunningParticles.transform.localScale.x;
             initialJumpScaleX = jumpingParticles.transform.localScale.x;
 
             // Set initial velocities
@@ -73,42 +71,25 @@ namespace GoodLuckValley.Particles
 
         private void SetParticleGroundLayer(GroundType groundType)
         {
-            // Get the color gradient
-            MinMaxGradient colorGradient = runningParticles.main.startColor;
-
-            // Get the texture module
-            TextureSheetAnimationModule textureModule = runningParticles.textureSheetAnimation;
-
-            // Set the Sprite
-            textureModule.SetSprite(0, groundType switch
-            {
-                GroundType.Grass => grassParticleSprite,
-                GroundType.Dirt => dirtParticleSprite,
-                GroundType.Stone => stoneParticleSprite,
-                _ => null
-            });
-
             switch(groundType)
             {
                 case GroundType.Grass:
-                    colorGradient = new MinMaxGradient(grassMinColor, grassMaxColor);
-                    textureModule.SetSprite(0, grassParticleSprite);
+                    currentRunningParticles = grassRunningParticles;
                     break;
 
                 case GroundType.Dirt:
-                    colorGradient = new MinMaxGradient(dirtMinColor, dirtMaxColor);
-                    textureModule.SetSprite(0, dirtParticleSprite);
+                    currentRunningParticles = dirtRunningParticles;
                     break;
 
                 case GroundType.Stone:
-                    colorGradient.colorMin = Color.white;
-                    colorGradient.colorMax = Color.white;
-                    textureModule.SetSprite(0, stoneParticleSprite);
+                    currentRunningParticles = stoneRunningParticles;
                     break;
 
                 default:
                     break;
             }
+
+            Debug.Log("Set Ground Layer");
         }
 
         private void SetParticleWallLayer(WallType wallType)
@@ -140,7 +121,10 @@ namespace GoodLuckValley.Particles
         public void PlayRunningParticles()
         {
             // Play the running particle
-            runningParticles.Play();
+            currentRunningParticles.Play();
+
+            // Exit case - if the run particle timer is already running
+            if (runParticleTimer.IsRunning) return;
 
             // Start the frequency timer
             runParticleTimer.Start();
@@ -174,7 +158,7 @@ namespace GoodLuckValley.Particles
             if (direction == 0) return;
 
             // Get the scales
-            Vector3 runLocalScale = runningParticles.transform.localScale;
+            Vector3 runLocalScale = grassRunningParticles.transform.localScale;
             Vector3 jumpLocalScale = jumpingParticles.transform.localScale;
 
             // Modify the scales by the direction of movement
@@ -182,7 +166,9 @@ namespace GoodLuckValley.Particles
             jumpLocalScale.x = initialJumpScaleX * direction;
 
             // Set the scales
-            runningParticles.transform.localScale = runLocalScale;
+            grassRunningParticles.transform.localScale = runLocalScale;
+            dirtRunningParticles.transform.localScale = runLocalScale;
+            stoneRunningParticles.transform.localScale = runLocalScale;
             jumpingParticles.transform.localScale = jumpLocalScale;
         }
     }

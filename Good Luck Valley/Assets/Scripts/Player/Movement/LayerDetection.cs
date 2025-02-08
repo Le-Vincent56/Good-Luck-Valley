@@ -22,7 +22,9 @@ namespace GoodLuckValley.Player.Movement
     public class LayerDetection : MonoBehaviour
     {
         [Header("Layers")]
+        private GroundType previousGroundType;
         [SerializeField] private GroundType groundType;
+        private WallType previousWallType;
         [SerializeField] private WallType wallType;
         [SerializeField] private LayerMask grassLayer;
         [SerializeField] private LayerMask dirtLayer;
@@ -36,7 +38,10 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void SetGroundLayer(int layer)
         {
-            // Set none as the ground type
+            // Set the previous ground type
+            previousGroundType = groundType;
+
+            // Set none as the current ground type
             groundType = GroundType.None;
 
             // Check if any of the layers are hit
@@ -53,6 +58,9 @@ namespace GoodLuckValley.Player.Movement
                 groundType = GroundType.Stone;
             }
 
+            // Exit case - the ground types are the same
+            if (previousGroundType == groundType) return;
+
             // Notify layer change
             OnGroundLayerChange.Invoke(groundType);
         }
@@ -62,6 +70,9 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void SetWallLayer(int layer)
         {
+            // Set the previous wall type
+            previousWallType = wallType;
+
             // Set none as the ground type
             wallType = WallType.None;
 
@@ -78,6 +89,9 @@ namespace GoodLuckValley.Player.Movement
             {
                 wallType = WallType.Stone;
             }
+
+            // Exit case - the wall types are the same
+            if (previousWallType == wallType) return;
 
             // Notify layer change
             OnWallTypeChange.Invoke(wallType);
