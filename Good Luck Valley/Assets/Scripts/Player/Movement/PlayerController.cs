@@ -24,7 +24,7 @@ namespace GoodLuckValley.Player.Movement
         private CapsuleCollider2D airborneCollider;
         private PotentiateHandler potentiateHandler;
         private PlayerStateMachine stateMachine;
-        private PlayerSFX sfx;
+        private LayerDetection layerDetection;
 
         [Header("Movement Components")]
         [SerializeField] private bool active;
@@ -165,8 +165,8 @@ namespace GoodLuckValley.Player.Movement
             bounce = new PlayerBounce(this);
             wallJump = new PlayerWallJump(this);
 
-            // Get the Player SFX
-            sfx = GetComponentInChildren<PlayerSFX>();
+            // Get the layer detection component
+            layerDetection = GetComponent<LayerDetection>();
 
             input.Enable();
         }
@@ -188,11 +188,9 @@ namespace GoodLuckValley.Player.Movement
             // Gather input for the frame
             frameData.GatherInput(input);
 
-            // Set the layer of the SFX
-            if(collisionHandler.Grounded)
-                sfx.SetLayer(collisionHandler.LastGroundLayer);
-            else
-                sfx.SetLayer(wallJump.LastWallLayer);
+            // Set layers
+            layerDetection.SetGroundLayer(collisionHandler.LastGroundLayer);
+            layerDetection.SetWallLayer(wallJump.LastWallLayer);
         }
 
         public void TickFixedUpdate(float delta)
