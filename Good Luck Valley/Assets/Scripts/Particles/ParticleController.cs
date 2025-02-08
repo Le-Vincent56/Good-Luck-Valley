@@ -19,7 +19,16 @@ namespace GoodLuckValley.Particles
         [SerializeField] private ParticleSystem stoneRunningParticles;
 
         [Header("Jumping Particles")]
-        [SerializeField] private ParticleSystem jumpingParticles;
+        [SerializeField] private ParticleSystem currentJumpingParticles;
+        [SerializeField] private ParticleSystem grassJumpingParticles;
+        [SerializeField] private ParticleSystem dirtJumpingParticles;
+        [SerializeField] private ParticleSystem stoneJumpingParticles;
+
+        [Header("Dust Particles")]
+        [SerializeField] private ParticleSystem currentDustParticles;
+        [SerializeField] private ParticleSystem grassDustParticles;
+        [SerializeField] private ParticleSystem dirtDustParticles;
+        [SerializeField] private ParticleSystem stoneDustParticles;
 
         private FrequencyTimer runParticleTimer;
 
@@ -27,7 +36,12 @@ namespace GoodLuckValley.Particles
         [SerializeField] private float runParticleInterval;
         [SerializeField] private float initialRunScaleX;
         [SerializeField] private float initialJumpScaleX;
-        [SerializeField] private float initialJumpVelocityX;
+        [SerializeField] private float initialGrassJumpVelocityMinX;
+        [SerializeField] private float initialGrassJumpVelocityMaxX;
+        [SerializeField] private float initialDirtJumpVelocityMinX;
+        [SerializeField] private float initialDirtJumpVelocityMaxX;
+        [SerializeField] private float initialStoneJumpVelocityMinX;
+        [SerializeField] private float initialStoneJumpVelocityMaxX;
         [SerializeField] private int direction;
 
         private void Awake()
@@ -36,7 +50,12 @@ namespace GoodLuckValley.Particles
             grassRunningParticles = particleSystems[0];
             dirtRunningParticles = particleSystems[1];
             stoneRunningParticles = particleSystems[2];
-            jumpingParticles = particleSystems[3];
+            grassJumpingParticles = particleSystems[3];
+            dirtJumpingParticles = particleSystems[4];
+            stoneJumpingParticles = particleSystems[5];
+            grassDustParticles = particleSystems[6];
+            dirtDustParticles = particleSystems[7];
+            stoneDustParticles = particleSystems[8];
 
             // Get components
             layerDetection = GetComponentInParent<LayerDetection>();
@@ -47,10 +66,15 @@ namespace GoodLuckValley.Particles
 
             // Set initial scales
             initialRunScaleX = grassRunningParticles.transform.localScale.x;
-            initialJumpScaleX = jumpingParticles.transform.localScale.x;
+            initialJumpScaleX = grassJumpingParticles.transform.localScale.x;
 
             // Set initial velocities
-            initialJumpVelocityX = jumpingParticles.velocityOverLifetime.x.constant;
+            initialGrassJumpVelocityMinX = grassJumpingParticles.velocityOverLifetime.x.constantMin;
+            initialGrassJumpVelocityMaxX = grassJumpingParticles.velocityOverLifetime.x.constantMax;
+            initialDirtJumpVelocityMinX = dirtJumpingParticles.velocityOverLifetime.x.constantMin;
+            initialDirtJumpVelocityMaxX = dirtJumpingParticles.velocityOverLifetime.x.constantMax;
+            initialStoneJumpVelocityMinX = stoneJumpingParticles.velocityOverLifetime.x.constantMin;
+            initialStoneJumpVelocityMaxX = stoneJumpingParticles.velocityOverLifetime.x.constantMax;
 
             UpdateDirection(Vector2.zero, true);
         }
@@ -75,21 +99,25 @@ namespace GoodLuckValley.Particles
             {
                 case GroundType.Grass:
                     currentRunningParticles = grassRunningParticles;
+                    currentJumpingParticles = grassJumpingParticles;
+                    currentDustParticles = grassDustParticles;
                     break;
 
                 case GroundType.Dirt:
                     currentRunningParticles = dirtRunningParticles;
+                    currentJumpingParticles = dirtJumpingParticles;
+                    currentDustParticles = dirtDustParticles;
                     break;
 
                 case GroundType.Stone:
                     currentRunningParticles = stoneRunningParticles;
+                    currentJumpingParticles = stoneJumpingParticles;
+                    currentDustParticles = stoneDustParticles;
                     break;
 
                 default:
                     break;
             }
-
-            Debug.Log("Set Ground Layer");
         }
 
         private void SetParticleWallLayer(WallType wallType)
@@ -142,24 +170,47 @@ namespace GoodLuckValley.Particles
         /// <summary>
         /// Play the jumping particles
         /// </summary>
-        public void PlayJumpParticles() => jumpingParticles.Play();
+        public void PlayJumpParticles()
+        {
+            // Play the current jumping particles
+            currentJumpingParticles.Play();
+
+            // Exit case - there are no dust particles for the jump
+            if (currentDustParticles == null) return;
+
+            // Play the dust particles
+            currentDustParticles.Play();
+        }
 
         /// <summary>
         /// Update the directions of the particles
         /// </summary>
         private void UpdateDirections()
         {
-            // Set the velocity of the jumping particles
-            VelocityOverLifetimeModule velocityModule = jumpingParticles.velocityOverLifetime;
-            float jumpVelocityX = (direction != 0) ? initialJumpVelocityX : 0;
-            velocityModule.x = new MinMaxCurve(jumpVelocityX);
+            // Set the velocity of the grass jumping particles
+            VelocityOverLifetimeModule grassVelocityModule = grassJumpingParticles.velocityOverLifetime;
+            float jumpGrassVelocityMinX = (direction != 0) ? initialGrassJumpVelocityMinX : 0;
+            float jumpGrassVelocityMaxX = (direction != 0) ? initialGrassJumpVelocityMaxX : 0;
+            grassVelocityModule.x = new MinMaxCurve(jumpGrassVelocityMinX, jumpGrassVelocityMaxX);
+
+            // Set the velocity of the dirt jumping particles
+            VelocityOverLifetimeModule dirtVelocityModule = dirtJumpingParticles.velocityOverLifetime;
+            float jumpDirtVelocityMinX = (direction != 0) ? initialDirtJumpVelocityMinX : 0;
+            float jumpDirtVelocityMaxX = (direction != 0) ? initialDirtJumpVelocityMaxX : 0;
+            dirtVelocityModule.x = new MinMaxCurve(jumpDirtVelocityMinX, jumpDirtVelocityMaxX);
+
+            // Set the velocity of the dirt jumping particles
+            VelocityOverLifetimeModule stoneVelocityModule = stoneJumpingParticles.velocityOverLifetime;
+            float jumpStoneVelocityMinX = (direction != 0) ? initialStoneJumpVelocityMinX : 0;
+            float jumpStoneVelocityMaxX = (direction != 0) ? initialStoneJumpVelocityMaxX : 0;
+            stoneVelocityModule.x = new MinMaxCurve(jumpStoneVelocityMinX, jumpStoneVelocityMaxX);
 
             // Exit case - if direction is 0
             if (direction == 0) return;
 
             // Get the scales
             Vector3 runLocalScale = grassRunningParticles.transform.localScale;
-            Vector3 jumpLocalScale = jumpingParticles.transform.localScale;
+            Vector3 jumpLocalScale = grassJumpingParticles.transform.localScale;
 
             // Modify the scales by the direction of movement
             runLocalScale.x = initialRunScaleX * direction;
@@ -169,7 +220,9 @@ namespace GoodLuckValley.Particles
             grassRunningParticles.transform.localScale = runLocalScale;
             dirtRunningParticles.transform.localScale = runLocalScale;
             stoneRunningParticles.transform.localScale = runLocalScale;
-            jumpingParticles.transform.localScale = jumpLocalScale;
+            grassJumpingParticles.transform.localScale = jumpLocalScale;
+            dirtJumpingParticles.transform.localScale = jumpLocalScale;
+            stoneJumpingParticles.transform.localScale = jumpLocalScale;
         }
     }
 }
