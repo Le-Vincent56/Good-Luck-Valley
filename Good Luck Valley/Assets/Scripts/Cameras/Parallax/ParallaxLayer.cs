@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace GoodLuckValley.Cameras.Parallax
 {
+    [ExecuteInEditMode]
     public class ParallaxLayer : MonoBehaviour
     {
         private Vector3 startPos;

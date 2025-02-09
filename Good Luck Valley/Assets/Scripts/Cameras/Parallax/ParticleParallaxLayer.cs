@@ -3,16 +3,13 @@ using UnityEngine;
 
 namespace GoodLuckValley.Cameras.Parallax
 {
+    [ExecuteInEditMode]
     public class ParticleParallaxLayer : ParallaxLayer
     {
         private ParallaxSystem system;
-        private ParticleSystem particles;
 
         private void Start()
         {
-            // Get the particle system
-            particles = GetComponent<ParticleSystem>();
-
             // Register this to be tracked by the Parallax System
             system = ServiceLocator.ForSceneOf(this).Get<ParallaxSystem>();
             system.RegisterLayer(this);
