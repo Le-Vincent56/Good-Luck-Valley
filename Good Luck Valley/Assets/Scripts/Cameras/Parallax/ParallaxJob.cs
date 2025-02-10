@@ -7,6 +7,7 @@ using Unity.Mathematics;
 namespace GoodLuckValley.Cameras.Parallax
 {
     [BurstCompile]
+    [ExecuteInEditMode]
     public struct ParallaxJob : IJobParallelFor
     {
         public NativeArray<ParallaxData> ParallaxData;

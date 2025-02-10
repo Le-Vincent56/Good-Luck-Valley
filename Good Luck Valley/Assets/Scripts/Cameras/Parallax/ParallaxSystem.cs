@@ -8,6 +8,7 @@ using UnityEngine;
 namespace GoodLuckValley.Cameras.Parallax
 {
     [BurstCompile]
+    [ExecuteInEditMode]
     public class ParallaxSystem : MonoBehaviour
     {
         [SerializeField] private Camera mainCamera;
@@ -16,16 +17,13 @@ namespace GoodLuckValley.Cameras.Parallax
 
         private NativeArray<ParallaxData> layersNative;
 
-        private void Awake()
+        private void OnValidate()
         {
             // Store the main Camera
             mainCamera = Camera.main;
 
             // Set the starting camera position
             cameraStartPosition = mainCamera.transform.position;
-
-            // Register the Parallax System as a service
-            ServiceLocator.ForSceneOf(this).Register(this);
 
             // Initialize the Parallax System
             InitializeParallax();
@@ -37,7 +35,7 @@ namespace GoodLuckValley.Cameras.Parallax
             if(layersNative.IsCreated) layersNative.Dispose();
         }
 
-        private void LateUpdate()
+        private void Update()
         {
             // Exit case - the Native Array is not created
             if(!layersNative.IsCreated) return;

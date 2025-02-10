@@ -1,25 +1,14 @@
 using UnityEngine;
 using AK.Wwise;
+using GoodLuckValley.Player.Movement;
 
 namespace GoodLuckValley.Audio
 {
-    public enum GroundType
-    {
-        None,
-        Grass,
-        Dirt,
-        Stone
-    }
-
     public class PlayerSFX : MonoBehaviour
     {
-        private float maxFallCounters;
+        private LayerDetection layerDetection;
 
-        [Header("Layers")]
-        [SerializeField] private GroundType groundType;
-        [SerializeField] private LayerMask grassLayer;
-        [SerializeField] private LayerMask dirtLayer;
-        [SerializeField] private LayerMask stoneLayer;
+        private float maxFallCounters;
 
         [Header("Wwise Switches")]
         [SerializeField] private Switch grassSwitch;
@@ -54,28 +43,29 @@ namespace GoodLuckValley.Audio
         public float WALK => 2.0f;
         public float RUN => 3.1f;
 
-        /// <summary>
-        /// Set the SFX Layer
-        /// </summary>
-        public void SetLayer(int layer)
+        private void Awake()
         {
-            // Set none as the ground type
-            groundType = GroundType.None;
+            // Get components
+            layerDetection = GetComponentInParent<LayerDetection>();
+        }
 
-            // Check if any of the layers are hit
-            if(grassLayer == (grassLayer | (1 << layer)))
-            {
-                groundType = GroundType.Grass;
-            }
-            else if (dirtLayer == (dirtLayer | (1 << layer)))
-            {
-                groundType = GroundType.Dirt;
-            }
-            else if (stoneLayer == (stoneLayer | (1 << layer)))
-            {
-                groundType = GroundType.Stone;
-            }
+        private void OnEnable()
+        {
+            layerDetection.OnGroundLayerChange += SetSFXGroundLayer;
+            layerDetection.OnWallTypeChange += SetSFXWallLayer;
+        }
 
+        private void OnDisable()
+        {
+            layerDetection.OnGroundLayerChange -= SetSFXGroundLayer;
+            layerDetection.OnWallTypeChange -= SetSFXWallLayer;
+        }
+
+        /// <summary>
+        /// Set the SFX Layer for ground changes
+        /// </summary>
+        public void SetSFXGroundLayer(GroundType groundType)
+        {
             // Set switches based on the ground type
             switch (groundType)
             {
@@ -92,6 +82,31 @@ namespace GoodLuckValley.Audio
                     break;
 
                 case GroundType.None:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Set the SFX Layer for wall changes
+        /// </summary>
+        public void SetSFXWallLayer(WallType wallType)
+        {
+            // Set switches based on the ground type
+            switch (wallType)
+            {
+                case WallType.Grass:
+                    grassSwitch.SetValue(gameObject);
+                    break;
+
+                case WallType.Dirt:
+                    dirtSwitch.SetValue(gameObject);
+                    break;
+
+                case WallType.Stone:
+                    stoneSwitch.SetValue(gameObject);
+                    break;
+
+                case WallType.None:
                     break;
             }
         }
