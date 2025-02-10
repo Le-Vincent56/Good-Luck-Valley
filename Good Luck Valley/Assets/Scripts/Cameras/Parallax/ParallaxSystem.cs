@@ -27,8 +27,6 @@ namespace GoodLuckValley.Cameras.Parallax
 
             // Initialize the Parallax System
             InitializeParallax();
-
-            Debug.Log("Filled!");
         }
 
         private void OnDestroy()

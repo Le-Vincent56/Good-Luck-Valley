@@ -9810,7 +9810,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5235249336697223141}
@@ -39465,7 +39465,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5235249336697223141}
@@ -40471,7 +40471,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -40484,16 +40484,61 @@ ParticleSystem:
           time: 0
           value: 0
           inSlope: 0
-          outSlope: 1
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 1
+          time: 0.07477486
+          value: 0.99810475
+          inSlope: 0.06492012
+          outSlope: 0.06492012
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.058935102
+        - serializedVersion: 3
+          time: 0.30091938
           value: 1
-          inSlope: 1
-          outSlope: 0
+          inSlope: -0.023602534
+          outSlope: -0.023602534
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.41888565
+          value: 0.9987625
+          inSlope: -0.015331908
+          outSlope: -0.015331908
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.08210179
+        - serializedVersion: 3
+          time: 0.75071365
+          value: 1
+          inSlope: -0.056861315
+          outSlope: -0.056861315
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.6897029
+        - serializedVersion: 3
+          time: 0.92358047
+          value: 0.083159626
+          inSlope: -2.195444
+          outSlope: -2.195444
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.10696534
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: -0.25801075
+          outSlope: -0.25801075
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
@@ -40804,9 +40849,9 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
-        key3: {r: 0, g: 0, b: 0, a: 0}
+        key1: {r: 1, g: 1, b: 1, a: 0.49096495}
+        key2: {r: 0, g: 0, b: 0, a: 0.21568628}
+        key3: {r: 0, g: 0, b: 0, a: 0.15686275}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
@@ -40820,17 +40865,17 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 22937
-        atime2: 65535
-        atime3: 0
-        atime4: 0
+        atime1: 26214
+        atime2: 39321
+        atime3: 58982
+        atime4: 65535
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_ColorSpace: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 5
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -40982,7 +41027,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 21300000, guid: 6c408c954f00e8740b438f5af7c07572, type: 3}
+    - sprite: {fileID: 21300000, guid: b187712591118124a9c29c7c2485dc46, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -44424,6 +44469,7 @@ GameObject:
   - component: {fileID: 1017548440080730835}
   - component: {fileID: 6532220777359588857}
   - component: {fileID: 7868750179636292618}
+  - component: {fileID: 7505723810352095565}
   - component: {fileID: 6555301806287526867}
   m_Layer: 6
   m_Name: Anari
@@ -44691,6 +44737,29 @@ MonoBehaviour:
   debug: 1
   noClip: 0
   noClipSpeed: 20
+--- !u!114 &7505723810352095565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8240498859127975196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1efac5b5cc5af824bb18d8c5fe176353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundType: 0
+  wallType: 0
+  grassLayer:
+    serializedVersion: 2
+    m_Bits: 1118464
+  dirtLayer:
+    serializedVersion: 2
+    m_Bits: 559232
+  stoneLayer:
+    serializedVersion: 2
+    m_Bits: 4473856
 --- !u!114 &6555301806287526867
 MonoBehaviour:
   m_ObjectHideFlags: 0

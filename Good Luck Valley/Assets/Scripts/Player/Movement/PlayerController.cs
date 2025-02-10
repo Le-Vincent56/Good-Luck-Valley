@@ -176,7 +176,6 @@ namespace GoodLuckValley.Player.Movement
         public void TickUpdate(float delta, float time)
         {
             // Set layers
-            Debug.Log("Collision Handler: " + collisionHandler);
             layerDetection.SetGroundLayer(collisionHandler.LastGroundLayer);
             layerDetection.SetWallLayer(wallJump.LastWallLayer);
 
