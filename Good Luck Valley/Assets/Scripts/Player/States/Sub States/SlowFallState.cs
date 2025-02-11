@@ -14,6 +14,15 @@ namespace GoodLuckValley.Player.States
         {
             // Set gravity
             controller.SetGravityScale(controller.Stats.FallGravityScale * controller.Stats.SlowFallMultiplier);
+
+            // Play the float particles
+            particles.PlayFloatParticles();
+        }
+
+        public override void OnExit()
+        {
+            // Stop the float particles
+            particles.StopFloatParticles();
         }
     }
 }
