@@ -57,6 +57,7 @@ namespace GoodLuckValley.Particles
         private FrequencyTimer runParticleTimer;
 
         [Header("Fields")]
+        [SerializeField] private bool playParticles;
         [SerializeField] private float runParticleInterval;
         [SerializeField] private float initialRunScaleX;
         [SerializeField] private float initialJumpScaleX;
@@ -131,6 +132,7 @@ namespace GoodLuckValley.Particles
             inputReader.Move += UpdateDirection;
             layerDetection.OnGroundLayerChange += SetParticleGroundLayer;
             layerDetection.OnWallTypeChange += SetParticleWallLayer;
+            layerDetection.OnWallDirectionChange += UpdateWallDirection;
         }
 
         private void OnDisable()
@@ -138,6 +140,7 @@ namespace GoodLuckValley.Particles
             inputReader.Move -= UpdateDirection;
             layerDetection.OnGroundLayerChange -= SetParticleGroundLayer;
             layerDetection.OnWallTypeChange -= SetParticleWallLayer;
+            layerDetection.OnWallDirectionChange -= UpdateWallDirection;
         }
 
         private void OnDestroy()
@@ -180,8 +183,7 @@ namespace GoodLuckValley.Particles
         /// <summary>
         /// Set the particles to match the wall layer
         /// </summary>
-        /// <param name="wallType"></param>
-        private void SetParticleWallLayer(WallType wallType, int direction)
+        private void SetParticleWallLayer(WallType wallType)
         {
             switch (wallType)
             {
@@ -206,9 +208,22 @@ namespace GoodLuckValley.Particles
                 default:
                     break;
             }
+        }
 
-            Debug.Log("Changing!");
+        /// <summary>
+        /// Update the particle directions
+        /// </summary>
+        private void UpdateDirection(Vector2 direction, bool started)
+        {
+            // Set the direction
+            this.direction = (direction.x != 0) ? (int)Mathf.Sign(direction.x) : 0;
 
+            // Update the directions of the particles
+            UpdateDirections();
+        }
+
+        private void UpdateWallDirection(int direction)
+        {
             // Get the scales
             Vector3 wallJumpLocalScale = currentWallJumpParticles.transform.localScale;
             Vector3 wallSlideLocalScale = currentWallSlideParticles.transform.localScale;
@@ -229,22 +244,13 @@ namespace GoodLuckValley.Particles
         }
 
         /// <summary>
-        /// Update the particle directions
-        /// </summary>
-        private void UpdateDirection(Vector2 direction, bool started)
-        {
-            // Set the direction
-            this.direction = (direction.x != 0) ? (int)Mathf.Sign(direction.x) : 0;
-
-            // Update the directions of the particles
-            UpdateDirections();
-        }
-
-        /// <summary>
         /// Play the running particles
         /// </summary>
         public void PlayRunningParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             // Play the running particle
             currentRunningParticles.Play();
 
@@ -260,6 +266,9 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void StopRunningParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             // Stop the frequency timer
             runParticleTimer.Stop();
         }
@@ -269,6 +278,9 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void PlayJumpParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             // Play the current jumping particles
             currentJumpingParticles.Play();
 
@@ -284,6 +296,9 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void PlayWallJumpParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             // Play the current wall jump particles
             currentWallJumpParticles.Play();
             bonusWallJumpParticles.Play();
@@ -300,6 +315,9 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void PlayWallSlideParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             // Play the current wall sliding particles
             currentWallSlideParticles.Play();
             bonusWallSlideParticles.Play();
@@ -316,6 +334,9 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void StopWallSlideParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             currentWallSlideParticles.Stop();
             bonusWallSlideParticles.Stop();
 
@@ -331,6 +352,9 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void PlayFloatParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             mushroomFloatFrontParticles.Play();
             mushroomFloatBackParticles.Play();
         }
@@ -340,6 +364,9 @@ namespace GoodLuckValley.Particles
         /// </summary>
         public void StopFloatParticles()
         {
+            // Exit case - if not supposed to play particles
+            if (!playParticles) return;
+
             mushroomFloatFrontParticles.Stop();
             mushroomFloatBackParticles.Stop();
         }
