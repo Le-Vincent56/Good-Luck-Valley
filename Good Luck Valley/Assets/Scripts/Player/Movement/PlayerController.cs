@@ -8,6 +8,8 @@ using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
 using GoodLuckValley.Audio;
+using System.Runtime.CompilerServices;
+using GoodLuckValley.Particles;
 
 
 namespace GoodLuckValley.Player.Movement
@@ -25,6 +27,7 @@ namespace GoodLuckValley.Player.Movement
         private PotentiateHandler potentiateHandler;
         private PlayerStateMachine stateMachine;
         private LayerDetection layerDetection;
+        private ParticleController particles;
 
         [Header("Movement Components")]
         [SerializeField] private bool active;
@@ -71,6 +74,7 @@ namespace GoodLuckValley.Player.Movement
         public PlayerCrawl Crawl { get => crawl; }
         public PlayerBounce Bounce { get => bounce; }
         public PlayerWallJump WallJump { get => wallJump; }
+        public ParticleController Particles { get => particles; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
@@ -129,8 +133,6 @@ namespace GoodLuckValley.Player.Movement
             // Set the player
             PhysicsOrchestrator orchestrator = ServiceLocator.ForSceneOf(this).Get<PhysicsOrchestrator>();
             orchestrator.SetPlayer(this);
-
-            Debug.Log($"Player Position (Start): {transform.position}");
         }
 
         /// <summary>
@@ -148,6 +150,9 @@ namespace GoodLuckValley.Player.Movement
             rb.freezeRotation = true;
             rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+            // Get components
+            particles = GetComponentInChildren<ParticleController>();
 
             // Get the Colliders
             boxCollider = GetComponent<BoxCollider2D>();

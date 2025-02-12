@@ -16,9 +16,6 @@ namespace GoodLuckValley.Player.States
             // Play the animation
             animator.EnterJump();
 
-            // Play the jump particles
-            particles.PlayJumpParticles();
-
             // Play the jump sound
             sfx.Jump();
         }
