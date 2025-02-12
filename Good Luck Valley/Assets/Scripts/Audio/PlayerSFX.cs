@@ -89,7 +89,7 @@ namespace GoodLuckValley.Audio
         /// <summary>
         /// Set the SFX Layer for wall changes
         /// </summary>
-        public void SetSFXWallLayer(WallType wallType)
+        public void SetSFXWallLayer(WallType wallType, int direction)
         {
             // Set switches based on the ground type
             switch (wallType)

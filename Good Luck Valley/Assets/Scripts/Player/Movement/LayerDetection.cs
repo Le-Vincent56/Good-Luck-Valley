@@ -31,7 +31,7 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private LayerMask stoneLayer;
 
         public Action<GroundType> OnGroundLayerChange = delegate { };
-        public Action<WallType> OnWallTypeChange = delegate { };
+        public Action<WallType, int> OnWallTypeChange = delegate { };
 
         /// <summary>
         /// Set the Ground Layer detection
@@ -68,7 +68,7 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Set the Wall Layer detection
         /// </summary>
-        public void SetWallLayer(int layer)
+        public void SetWallLayer(int layer, int directionOfWall)
         {
             // Set the previous wall type
             previousWallType = wallType;
@@ -94,7 +94,7 @@ namespace GoodLuckValley.Player.Movement
             if (previousWallType == wallType) return;
 
             // Notify layer change
-            OnWallTypeChange.Invoke(wallType);
+            OnWallTypeChange.Invoke(wallType, directionOfWall);
         }
     }
 }

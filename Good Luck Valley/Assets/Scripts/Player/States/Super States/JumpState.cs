@@ -19,7 +19,6 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            // Set the normal jump on default
             subStates.SetState(normalJump);
 
             // Set controller variables

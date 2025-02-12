@@ -15,6 +15,9 @@ namespace GoodLuckValley.Player.States
         {
             animator.EnterWallSlide();
 
+            // Start the wall slide particles
+            particles.PlayWallSlideParticles();
+
             // Start playing the wall slide sound
             sfx.StartWallSlide();
 
@@ -25,6 +28,9 @@ namespace GoodLuckValley.Player.States
 
         public override void OnExit()
         {
+            // Stop the wall slide particles
+            particles.StopWallSlideParticles();
+
             // Stop playing the wall slide sound
             sfx.StopWallSlide();
 
