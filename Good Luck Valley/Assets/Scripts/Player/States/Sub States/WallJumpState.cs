@@ -13,6 +13,10 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
+            // Play the wall jump particles
+            particles.PlayWallJumpParticles();
+
+            // Enter the wall jump animation
             animator.EnterWallJump();
 
             // Play the jump sound

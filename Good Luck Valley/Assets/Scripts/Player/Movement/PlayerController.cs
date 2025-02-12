@@ -177,7 +177,7 @@ namespace GoodLuckValley.Player.Movement
         {
             // Set layers
             layerDetection.SetGroundLayer(collisionHandler.LastGroundLayer);
-            layerDetection.SetWallLayer(wallJump.LastWallLayer);
+            layerDetection.SetWallLayer(wallJump.LastWallLayer, wallJump.WallDirectionThisFrame);
 
             // Update the state machine
             stateMachine.TickUpdate();
@@ -457,11 +457,6 @@ namespace GoodLuckValley.Player.Movement
             {
                 // Get the distance from the wall
                 float distanceFromWall = (stats.WallDetectorRange - WallJump.WallHit.distance) * -wallJump.WallDirectionThisFrame;
-
-                Debug.Log($"Sticking to Wall: " +
-                    $"\nDistance from Wall: {distanceFromWall}" +
-                    $"\nWall Direction this Frame: {wallJump.WallDirectionThisFrame}" +
-                    $"\nRaw Distance: {stats.WallDetectorRange - WallJump.WallHit.distance}");
 
                 // Check if there's still distance to travel
                 if(distanceFromWall != 0)
