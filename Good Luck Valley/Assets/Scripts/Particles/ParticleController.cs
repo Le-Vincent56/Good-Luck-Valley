@@ -24,11 +24,34 @@ namespace GoodLuckValley.Particles
         [SerializeField] private ParticleSystem dirtJumpingParticles;
         [SerializeField] private ParticleSystem stoneJumpingParticles;
 
+        [Header("Wall Jumping Particles")]
+        [SerializeField] private ParticleSystem currentWallJumpingParticles;
+        [SerializeField] private ParticleSystem grassWallJumpingParticles;
+        [SerializeField] private ParticleSystem dirtWallJumpingParticles;
+        [SerializeField] private ParticleSystem stoneWallJumpingParticles;
+
+        [Header("Wall Sliding Particles")]
+        [SerializeField] private ParticleSystem currentWallSlidingParticles;
+        [SerializeField] private ParticleSystem grassWallSlidingParticles;
+        [SerializeField] private ParticleSystem dirtWallSlidingParticles;
+        [SerializeField] private ParticleSystem stoneWallSlidingParticles;
+        [SerializeField] private ParticleSystem bonusWallSlideParticles;
+
         [Header("Dust Particles")]
         [SerializeField] private ParticleSystem currentDustParticles;
         [SerializeField] private ParticleSystem grassDustParticles;
         [SerializeField] private ParticleSystem dirtDustParticles;
         [SerializeField] private ParticleSystem stoneDustParticles;
+
+        [Header("Wall Dust Particles")]
+        [SerializeField] private ParticleSystem currentWallDustParticles;
+        [SerializeField] private ParticleSystem grassWallDustParticles;
+        [SerializeField] private ParticleSystem dirtWallDustParticles;
+        [SerializeField] private ParticleSystem stoneWallDustParticles;
+
+        [Header("Mushroom Float Particles")]
+        [SerializeField] private ParticleSystem mushroomFloatFrontParticles;
+        [SerializeField] private ParticleSystem mushroomFloatBackParticles;
 
         private FrequencyTimer runParticleTimer;
 
@@ -50,12 +73,17 @@ namespace GoodLuckValley.Particles
             grassRunningParticles = particleSystems[0];
             dirtRunningParticles = particleSystems[1];
             stoneRunningParticles = particleSystems[2];
+
             grassJumpingParticles = particleSystems[3];
             dirtJumpingParticles = particleSystems[4];
             stoneJumpingParticles = particleSystems[5];
+
             grassDustParticles = particleSystems[6];
             dirtDustParticles = particleSystems[7];
             stoneDustParticles = particleSystems[8];
+
+            mushroomFloatFrontParticles = particleSystems[9];
+            mushroomFloatBackParticles = particleSystems[10];
 
             // Get components
             layerDetection = GetComponentInParent<LayerDetection>();
@@ -122,7 +150,29 @@ namespace GoodLuckValley.Particles
 
         private void SetParticleWallLayer(WallType wallType)
         {
+            switch (wallType)
+            {
+                case WallType.Grass:
+                    currentWallJumpingParticles = grassWallJumpingParticles;
+                    currentWallSlidingParticles = grassWallSlidingParticles;
+                    currentWallDustParticles = grassWallDustParticles;
+                    break;
 
+                case WallType.Dirt:
+                    currentWallJumpingParticles = dirtWallJumpingParticles;
+                    currentWallSlidingParticles = dirtWallSlidingParticles;
+                    currentWallDustParticles = dirtWallDustParticles;
+                    break;
+
+                case WallType.Stone:
+                    currentWallJumpingParticles = stoneWallJumpingParticles;
+                    currentWallSlidingParticles = stoneWallSlidingParticles;
+                    currentWallDustParticles = stoneWallDustParticles;
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private void OnDestroy()
@@ -180,6 +230,24 @@ namespace GoodLuckValley.Particles
 
             // Play the dust particles
             currentDustParticles.Play();
+        }
+
+        /// <summary>
+        /// Play the Mushroom Float particles
+        /// </summary>
+        public void PlayFloatParticles()
+        {
+            mushroomFloatFrontParticles.Play();
+            mushroomFloatBackParticles.Play();
+        }
+
+        /// <summary>
+        /// Play the Mushroom Float particles
+        /// </summary>
+        public void StopFloatParticles()
+        {
+            mushroomFloatFrontParticles.Stop();
+            mushroomFloatBackParticles.Stop();
         }
 
         /// <summary>

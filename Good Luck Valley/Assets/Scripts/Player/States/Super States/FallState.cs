@@ -25,6 +25,12 @@ namespace GoodLuckValley.Player.States
             subStates.SetState(normalFall);
         }
 
+        public override void OnExit()
+        {
+            // Stop the float particles if they exist
+            particles.StopFloatParticles();
+        }
+
         public override void SetupSubStateMachine()
         {
             // Initialize the State Machine
