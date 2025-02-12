@@ -26,12 +26,15 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private GroundType groundType;
         private WallType previousWallType;
         [SerializeField] private WallType wallType;
+        private int previousWallDirection;
+        [SerializeField] private int wallDirection;
         [SerializeField] private LayerMask grassLayer;
         [SerializeField] private LayerMask dirtLayer;
         [SerializeField] private LayerMask stoneLayer;
 
         public Action<GroundType> OnGroundLayerChange = delegate { };
-        public Action<WallType, int> OnWallTypeChange = delegate { };
+        public Action<WallType> OnWallTypeChange = delegate { };
+        public Action<int> OnWallDirectionChange = delegate { };
 
         /// <summary>
         /// Set the Ground Layer detection
@@ -68,7 +71,7 @@ namespace GoodLuckValley.Player.Movement
         /// <summary>
         /// Set the Wall Layer detection
         /// </summary>
-        public void SetWallLayer(int layer, int directionOfWall)
+        public void SetWallLayer(int layer)
         {
             // Set the previous wall type
             previousWallType = wallType;
@@ -94,7 +97,25 @@ namespace GoodLuckValley.Player.Movement
             if (previousWallType == wallType) return;
 
             // Notify layer change
-            OnWallTypeChange.Invoke(wallType, directionOfWall);
+            OnWallTypeChange.Invoke(wallType);
+        }
+
+        /// <summary>
+        /// Set the wall direction of wall layers
+        /// </summary>
+        public void SetWallDirection(int direction)
+        {
+            // Set the previous wall direction
+            previousWallDirection = wallDirection;
+
+            // Set the current wall direction
+            wallDirection = direction;
+
+            // Exit case - the wall directions are the same
+            if (previousWallDirection == wallDirection) return;
+
+            // Notify wall direction change
+            OnWallDirectionChange.Invoke(wallDirection);
         }
     }
 }

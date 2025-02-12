@@ -175,9 +175,10 @@ namespace GoodLuckValley.Player.Movement
 
         public void TickUpdate(float delta, float time)
         {
-            // Set layers
+            // Set layer detection
             layerDetection.SetGroundLayer(collisionHandler.LastGroundLayer);
-            layerDetection.SetWallLayer(wallJump.LastWallLayer, wallJump.WallDirectionThisFrame);
+            layerDetection.SetWallLayer(wallJump.LastWallLayer);
+            layerDetection.SetWallDirection(wallJump.WallDirectionThisFrame);
 
             // Update the state machine
             stateMachine.TickUpdate();
