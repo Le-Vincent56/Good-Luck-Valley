@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{4C25707B-0D26-4B5A-A048-42C4FAF6C639}" SchemaVersion="123" RootDocumentID="{BEB9141F-C354-49A3-ADE9-EBB298146965}" ParentDocumentID="{BEB9141F-C354-49A3-ADE9-EBB298146965}">
+	<AudioObjects>
+		<WorkUnit Name="L1" ID="{4C25707B-0D26-4B5A-A048-42C4FAF6C639}" OwnerID="{BEB9141F-C354-49A3-ADE9-EBB298146965}" PersistMode="Nested">
+			<ChildrenList>
+				<Sound Name="CINEMATICS_L1_ROCKFALL" ID="{90BE3942-C51F-469C-9F4E-99FF9CCC0E75}" ShortID="878763369">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="CINEMATIC_L1_ROCKFALL" ID="{1EABC5E1-3359-4168-BF6F-34988776FB10}">
+							<Language>SFX</Language>
+							<AudioFile>CINEMATIC_L1_ROCKFALL.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="876232836"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="CINEMATIC_L1_ROCKFALL" ID="{1EABC5E1-3359-4168-BF6F-34988776FB10}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>
