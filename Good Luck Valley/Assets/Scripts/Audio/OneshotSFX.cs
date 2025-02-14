@@ -6,10 +6,6 @@ namespace GoodLuckValley.Audio
     {
         [SerializeField] private AK.Wwise.Event oneShotEvent;
 
-        public void PlaySFX()
-        {
-            Debug.Log($"Playing SFX: {oneShotEvent}");
-            oneShotEvent.Post(gameObject);
-        }
+        public void PlaySFX() => oneShotEvent.Post(gameObject);
     }
 }
