@@ -16,6 +16,7 @@ namespace AK
         static const AkUniqueID PAUSE_MUSIC = 2735935537U;
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
+        static const AkUniqueID PLAY_CINEMATICS_L1_ROCKFALL = 3122541869U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
         static const AkUniqueID PLAY_MUSHROOM_DISSIPATE = 937795333U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;

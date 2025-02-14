@@ -177,7 +177,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{C8517AED-232B-F433-9DF8-D43A50DD85D1}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{BF3DC999-AA9E-00AB-2468-F1F201C47B30}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -637,6 +637,10 @@
 					<ShortName>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_01.wav</ShortName>
 					<CachePath>6C/{6CCAAED3-A5B3-02FB-0277-C17C2E27ABE1}.wem</CachePath>
 				</File>
+				<File Id="876232836" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>CINEMATIC_L1_ROCKFALL.wav</ShortName>
+					<CachePath>A1/{A1F640DD-F542-B8B1-F432-F60BEF0BA493}.wem</CachePath>
+				</File>
 				<File Id="880761565" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GRASS_SLIDE_END_03.wav</ShortName>
 					<CachePath>C2/{C2D16788-221D-CEBD-4082-8F0C9CCA1BA2}.wem</CachePath>
@@ -809,6 +813,11 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+				</Event>
+				<Event Id="3122541869" Name="PLAY_CINEMATICS_L1_ROCKFALL" DurationType="OneShot" DurationMin="6.7523694" DurationMax="6.7523694">
+					<MediaRefs>
+						<MediaRef Id="876232836"/>
+					</MediaRefs>
 				</Event>
 				<Event Id="4286947103" Name="PLAY_MUSHROOM_BOUNCE" DurationType="OneShot" DurationMin="0.49917716" DurationMax="0.7122138">
 					<MediaRefs>
@@ -1412,5 +1421,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{2908C456-73D7-D8EC-5C06-10280D1BF0F8}</FileHash>
+	<FileHash>{6CA0B2B5-62D6-A550-477B-843D39AD59C5}</FileHash>
 </SoundBanksInfo>

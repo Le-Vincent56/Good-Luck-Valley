@@ -682,7 +682,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: cc31a129b26dbb4dbba2c92c4af23575
     GuidInternal: 
-    m_lastTime: -8584623766736122496
+    m_lastTime: -8584620376096238531
     List:
     - name: GAME_SOUNDBANK
       guid: 8c86ef3bfc27e3489e4ee297b6818463
@@ -780,6 +780,19 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+  - PhysicalPath: Events\CINEMATICS.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: CINEMATICS
+      ObjectType: 12
+      guid: 5feed2c735b1884d925706afb0af753c
+    ParentPath: Events\CINEMATICS
+    guid: 5feed2c735b1884d925706afb0af753c
+    GuidInternal: 
+    m_lastTime: -8584620384798160258
+    List: []
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -791,8 +804,44 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 05f602310328354a9fafb68074469f39
     GuidInternal: 
-    m_lastTime: -8584623766736729562
+    m_lastTime: -8584620384713419518
     List: []
+  - PhysicalPath: Events\L1.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: CINEMATICS
+      ObjectType: 12
+      guid: 5feed2c735b1884d925706afb0af753c
+    - ElementName: L1
+      ObjectType: 12
+      guid: 6a93a9f78fb93f49b331fd9ab6b7ec84
+    ParentPath: Events\CINEMATICS\L1
+    guid: 6a93a9f78fb93f49b331fd9ab6b7ec84
+    GuidInternal: 
+    m_lastTime: -8584620384713439554
+    List:
+    - name: PLAY_CINEMATICS_L1_ROCKFALL
+      guid: 5d7b70ec6583b8419a9b82b9d942c888
+      id: 3122541869
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: CINEMATICS
+        ObjectType: 12
+        guid: 5feed2c735b1884d925706afb0af753c
+      - ElementName: L1
+        ObjectType: 12
+        guid: 6a93a9f78fb93f49b331fd9ab6b7ec84
+      - ElementName: PLAY_CINEMATICS_L1_ROCKFALL
+        ObjectType: 3
+        guid: 5d7b70ec6583b8419a9b82b9d942c888
+      Path: Events\CINEMATICS\L1\PLAY_CINEMATICS_L1_ROCKFALL
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\MUSHROOM.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2768,7 +2817,7 @@ MonoBehaviour:
     m_lastTime: -8584623766736102503
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 05000000060000000d00000018000000190000001a0000001b0000001c00000023000000240000002500000026000000270000002800000029000000300000003100000032000000330000003400000036000000380000003e000000410000004200000048000000560000007400000077000000
+  ExpandedWaapiItemIds: 05000000060000000b0000000c0000000d0000001300000018000000190000001a0000001b0000001c00000023000000240000002500000026000000270000002800000029000000300000003100000032000000330000003400000036000000380000003e000000410000004200000048000000560000007400000077000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
