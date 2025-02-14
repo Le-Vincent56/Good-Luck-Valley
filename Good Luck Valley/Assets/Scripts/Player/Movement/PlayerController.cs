@@ -95,6 +95,8 @@ namespace GoodLuckValley.Player.Movement
 
         private EventBinding<ForcePlayerMove> onForcePlayerMove;
         private EventBinding<PlacePlayer> onPlacePlayer;
+        private EventBinding<ActivatePlayer> onActivatePlayer;
+        private EventBinding<DeactivatePlayer> onDeactivatePlayer;
 
         private void Awake()
         {
@@ -118,12 +120,20 @@ namespace GoodLuckValley.Player.Movement
 
             onPlacePlayer = new EventBinding<PlacePlayer>(PlacePlayerAtPosition);
             EventBus<PlacePlayer>.Register(onPlacePlayer);
+
+            onActivatePlayer = new EventBinding<ActivatePlayer>(Activate);
+            EventBus<ActivatePlayer>.Register(onActivatePlayer);
+
+            onDeactivatePlayer = new EventBinding<DeactivatePlayer>(Deactivate);
+            EventBus<DeactivatePlayer>.Register(onDeactivatePlayer);
         }
 
         private void OnDisable()
         {
             EventBus<ForcePlayerMove>.Deregister(onForcePlayerMove);
             EventBus<PlacePlayer>.Deregister(onPlacePlayer);
+            EventBus<ActivatePlayer>.Deregister(onActivatePlayer);
+            EventBus<DeactivatePlayer>.Deregister(onDeactivatePlayer);
         }
 
         public void OnValidate() => Setup();
@@ -204,9 +214,6 @@ namespace GoodLuckValley.Player.Movement
             // Update the state machine
             stateMachine.TickFixedUpdate();
 
-            // Exit case - the PlayerController is not active
-            if (!active) return;
-
             //if (debug) DebugMovement(true);
 
             // Set time variables
@@ -266,9 +273,11 @@ namespace GoodLuckValley.Player.Movement
         private void CalculateDirection()
         {
             // Get the direction of movement
-            direction = !forcedMove 
-                ? new Vector2(frameData.Input.Move.x, 0) 
-                : new Vector2(forcedMoveDirection, 0);
+            direction = !active 
+                ? new Vector2(0, 0)
+                : !forcedMove 
+                    ? new Vector2(frameData.Input.Move.x, 0) 
+                    : new Vector2(forcedMoveDirection, 0);
 
             // Check if grounded
             if (collisionHandler.Grounded)
@@ -462,7 +471,7 @@ namespace GoodLuckValley.Player.Movement
             if(WallJump.StickToWall && !Jump.IsWithinJumpClearance)
             {
                 // Get the distance from the wall
-                float distanceFromWall = (stats.WallDetectorRange - WallJump.WallHit.distance) * -wallJump.WallDirectionThisFrame;
+                float distanceFromWall = (stats.WallDetectorRange - WallJump.WallHit.distance) * wallJump.WallDirectionThisFrame;
 
                 // Check if there's still distance to travel
                 if(distanceFromWall != 0)
@@ -522,6 +531,24 @@ namespace GoodLuckValley.Player.Movement
         {
             forcedMove = eventData.ForcedMove;
             forcedMoveDirection = eventData.ForcedMoveDirection;
+        }
+
+        /// <summary>
+        /// Activate the player
+        /// </summary>
+        private void Activate()
+        {
+            active = true;
+            input.Enable();
+        }
+
+        /// <summary>
+        /// Deactivate the player
+        /// </summary>
+        private void Deactivate()
+        {
+            active = false;
+            input.Disable();
         }
 
         /// <summary>

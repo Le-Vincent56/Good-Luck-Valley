@@ -12,4 +12,7 @@ namespace GoodLuckValley.Events.Player
         public bool ForcedMove;
         public int ForcedMoveDirection;
     }
+
+    public struct ActivatePlayer : IEvent { }
+    public struct DeactivatePlayer : IEvent { }
 }
