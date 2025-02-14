@@ -1,6 +1,5 @@
 using DG.Tweening;
 using GoodLuckValley.UI.Journal.Model;
-using Sirenix.Reflection.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
