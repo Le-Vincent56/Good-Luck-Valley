@@ -1,4 +1,3 @@
-using GoodLuckValley.Architecture.ServiceLocator;
 using UnityEngine;
 
 namespace GoodLuckValley.Cameras.Parallax

@@ -172,6 +172,17 @@ namespace AK
             } // namespace SWITCH
         } // namespace GROUNDMATSWITCH
 
+        namespace LANTERNAREASWITCH
+        {
+            static const AkUniqueID GROUP = 2139255308U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID LANTERNS = 1333297618U;
+                static const AkUniqueID NOLANTERNS = 135296687U;
+            } // namespace SWITCH
+        } // namespace LANTERNAREASWITCH
+
         namespace MUSHROOMGROUNDMATSWITCH
         {
             static const AkUniqueID GROUP = 1426187460U;

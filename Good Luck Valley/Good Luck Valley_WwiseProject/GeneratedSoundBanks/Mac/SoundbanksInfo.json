@@ -416,6 +416,20 @@
       ]
      },
      {
+      "Id": "2139255308",
+      "Name": "LANTERNAREASWITCH",
+      "Switches": [
+       {
+        "Id": "135296687",
+        "Name": "NOLANTERNS"
+       },
+       {
+        "Id": "1333297618",
+        "Name": "LANTERNS"
+       }
+      ]
+     },
+     {
       "Id": "3260060478",
       "Name": "GROUNDMATSWITCH",
       "Switches": [
@@ -480,7 +494,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{5ABCDE18-93CD-9DCC-7EA7-A99D28767361}",
+    "Hash": "{044F9E88-00E7-F313-F6E2-74AEBCACD21E}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -515,6 +529,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Locomotion\\Impacts\\Hard\\Grass\\GRASS_IMPACT_HARD_04.wav",
       "CachePath": "C5/{C521211A-62FC-54D7-AAC1-481E60E83CEA}.wem"
+     },
+     {
+      "Id": "43262999",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lanterns\\WORLD_LANTERN_SQUEAK_4.wav",
+      "CachePath": "B5/{B583C910-D9A9-D306-17AC-0D0CE8B9BE2A}.wem"
      },
      {
       "Id": "52620900",
@@ -853,6 +875,14 @@
       "CachePath": "E2/{E2A57327-9776-3E75-D80D-56296D804090}.wem"
      },
      {
+      "Id": "341798505",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lanterns\\WORLD_LANTERN_SQUEAK_2.wav",
+      "CachePath": "DF/{DFC752BB-10EA-1E80-6080-39EAD5693216}.wem"
+     },
+     {
       "Id": "345373450",
       "Language": "SFX",
       "Streaming": "false",
@@ -1117,6 +1147,14 @@
       "CachePath": "BC/{BCB30807-6E51-8E70-9D9F-2B163DA6E122}.wem"
      },
      {
+      "Id": "587809570",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Lanterns\\AMB_LANTERNS_MAGIC.wav",
+      "CachePath": "38/{38072F5F-866B-86A9-1943-07803886F262}.wem"
+     },
+     {
       "Id": "594140758",
       "Language": "SFX",
       "Streaming": "false",
@@ -1197,6 +1235,14 @@
       "CachePath": "8C/{8C7A932C-BEBC-273E-FC70-B2525BEC3D2C}.wem"
      },
      {
+      "Id": "654064975",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lanterns\\WORLD_LANTERN_SQUEAK_1.wav",
+      "CachePath": "C0/{C07196F9-88CD-87B8-FD8D-93FDD5760B34}.wem"
+     },
+     {
       "Id": "661529220",
       "Language": "SFX",
       "Streaming": "false",
@@ -1219,6 +1265,14 @@
       "Location": "Memory",
       "ShortName": "TestFiles\\SFX_TEST_BEEP.wav",
       "CachePath": "9C/{9CB0FBDA-C342-28C6-A71A-F935854E37BA}.wem"
+     },
+     {
+      "Id": "694414589",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lanterns\\WORLD_LANTERN_SQUEAK_3.wav",
+      "CachePath": "9D/{9D184222-87FB-4BE8-04FA-0960A12D95E9}.wem"
      },
      {
       "Id": "710845220",
@@ -1589,6 +1643,13 @@
        "LibId": "6619138"
       },
       {
+       "Id": "208210880",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
        "Id": "237276252",
        "Name": "Silence",
        "Color": "4",
@@ -1631,7 +1692,21 @@
        "LibId": "6619138"
       },
       {
+       "Id": "680081601",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
        "Id": "784623767",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
+       "Id": "804672598",
        "Name": "Silence",
        "Color": "4",
        "LibName": "Wwise Silence",
@@ -1653,6 +1728,13 @@
       },
       {
        "Id": "986804516",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
+       "Id": "1051325896",
        "Name": "Silence",
        "Color": "4",
        "LibName": "Wwise Silence",
@@ -1768,7 +1850,52 @@
            "Id": "365416699"
           }
          ]
-        }
+        },
+        "Children": [
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "2139255308",
+           "Id": "1333297618"
+          },
+          "MediaRefs": [
+           {
+            "Id": "43262999"
+           },
+           {
+            "Id": "341798505"
+           },
+           {
+            "Id": "654064975"
+           },
+           {
+            "Id": "694414589"
+           }
+          ],
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "208210880"
+            }
+           ]
+          }
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "2139255308",
+           "Id": "135296687",
+           "Default": "true"
+          },
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "804672598"
+            }
+           ]
+          }
+         }
+        ]
        },
        {
         "SwitchValue": {
@@ -1822,6 +1949,35 @@
          {
           "Id": "926564563"
          }
+        ],
+        "Children": [
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "2139255308",
+           "Id": "1333297618"
+          },
+          "MediaRefs": [
+           {
+            "Id": "587809570"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "2139255308",
+           "Id": "135296687",
+           "Default": "true"
+          },
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "680081601"
+            }
+           ]
+          }
+         }
         ]
        },
        {
@@ -1839,6 +1995,35 @@
          },
          {
           "Id": "968818107"
+         }
+        ],
+        "Children": [
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "2139255308",
+           "Id": "1333297618"
+          },
+          "MediaRefs": [
+           {
+            "Id": "587809570"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "2139255308",
+           "Id": "135296687",
+           "Default": "true"
+          },
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "1051325896"
+            }
+           ]
+          }
          }
         ]
        }
@@ -3208,6 +3393,20 @@
       ]
      },
      {
+      "Id": "2139255308",
+      "Name": "LANTERNAREASWITCH",
+      "Switches": [
+       {
+        "Id": "135296687",
+        "Name": "NOLANTERNS"
+       },
+       {
+        "Id": "1333297618",
+        "Name": "LANTERNS"
+       }
+      ]
+     },
+     {
       "Id": "3260060478",
       "Name": "GROUNDMATSWITCH",
       "Switches": [
@@ -3228,6 +3427,6 @@
     ]
    }
   ],
-  "FileHash": "{6C50048F-D3F4-5F31-257C-7758F93909C7}"
+  "FileHash": "{C0CEC5A2-A59F-BC80-C47C-FBA76ED8E88C}"
  }
 }

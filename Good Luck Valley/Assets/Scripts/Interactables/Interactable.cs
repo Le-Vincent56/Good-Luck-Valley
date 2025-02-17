@@ -41,7 +41,7 @@ namespace GoodLuckValley.Interactables
             FadeFeedback(0f, 0f);
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             // Kill any existing Tweens
             feedbackFadeSequence?.Kill();

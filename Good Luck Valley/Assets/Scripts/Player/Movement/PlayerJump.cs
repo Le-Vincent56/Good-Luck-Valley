@@ -121,8 +121,6 @@ namespace GoodLuckValley.Player.Movement
 
                 // Add jump force
                 controller.FrameData.AddForce(new Vector2(0, controller.Stats.JumpPower));
-
-                controller.Particles.PlayJumpParticles();
             }
             // Otherwise, check if jumping in mid-air
             else if (jumpType is JumpType.WarpJump)
@@ -144,14 +142,10 @@ namespace GoodLuckValley.Player.Movement
             {
                 // Execute the wall jump
                 controller.WallJump.ExecuteWallJump();
-
-                controller.Particles.PlayWallJumpParticles();
             }
 
             // Set to jumping
             isJumping = true;
-
-            //controller.Jumped?.Invoke(jumpType);
         }
 
         /// <summary>

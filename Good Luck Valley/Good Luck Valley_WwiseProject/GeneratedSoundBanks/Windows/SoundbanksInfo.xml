@@ -155,6 +155,12 @@
 						<Switch Id="3946497219" Name="MEDIUMFALL"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="2139255308" Name="LANTERNAREASWITCH">
+					<Switches>
+						<Switch Id="135296687" Name="NOLANTERNS"/>
+						<Switch Id="1333297618" Name="LANTERNS"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="3260060478" Name="GROUNDMATSWITCH">
 					<Switches>
 						<Switch Id="1216965916" Name="STONE"/>
@@ -177,7 +183,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{5ABCDE18-93CD-9DCC-7EA7-A99D28767361}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{044F9E88-00E7-F313-F6E2-74AEBCACD21E}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -196,6 +202,10 @@
 				<File Id="27357454" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_04.wav</ShortName>
 					<CachePath>C5/{C521211A-62FC-54D7-AAC1-481E60E83CEA}.wem</CachePath>
+				</File>
+				<File Id="43262999" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_4.wav</ShortName>
+					<CachePath>B5/{B583C910-D9A9-D306-17AC-0D0CE8B9BE2A}.wem</CachePath>
 				</File>
 				<File Id="52620900" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_03.wav</ShortName>
@@ -365,6 +375,10 @@
 					<ShortName>Player\Locomotion\Impacts\Hard\Stone\STONE_IMPACT_HARD_04.wav</ShortName>
 					<CachePath>E2/{E2A57327-9776-3E75-D80D-56296D804090}.wem</CachePath>
 				</File>
+				<File Id="341798505" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_2.wav</ShortName>
+					<CachePath>DF/{DFC752BB-10EA-1E80-6080-39EAD5693216}.wem</CachePath>
+				</File>
 				<File Id="345373450" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_05.wav</ShortName>
 					<CachePath>07/{0733D665-60FA-202B-AC00-301BF6D70DAA}.wem</CachePath>
@@ -497,6 +511,10 @@
 					<ShortName>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_03.wav</ShortName>
 					<CachePath>BC/{BCB30807-6E51-8E70-9D9F-2B163DA6E122}.wem</CachePath>
 				</File>
+				<File Id="587809570" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</ShortName>
+					<CachePath>38/{38072F5F-866B-86A9-1943-07803886F262}.wem</CachePath>
+				</File>
 				<File Id="594140758" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>STONE_SLIDE_END_01.wav</ShortName>
 					<CachePath>92/{92F67319-74FF-EA9B-B51D-BA794EDA75A0}.wem</CachePath>
@@ -537,6 +555,10 @@
 					<ShortName>Player\Jump\Dirt\PLAYER_JUMP_DIRT_03.wav</ShortName>
 					<CachePath>8C/{8C7A932C-BEBC-273E-FC70-B2525BEC3D2C}.wem</CachePath>
 				</File>
+				<File Id="654064975" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_1.wav</ShortName>
+					<CachePath>C0/{C07196F9-88CD-87B8-FD8D-93FDD5760B34}.wem</CachePath>
+				</File>
 				<File Id="661529220" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Land\Medium Fall\PLAYER_MEDIUMFALL_GRASS.wav</ShortName>
 					<CachePath>A0/{A09AA5E9-4C72-2553-2682-F4EB22A52E90}.wem</CachePath>
@@ -548,6 +570,10 @@
 				<File Id="668500464" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TestFiles\SFX_TEST_BEEP.wav</ShortName>
 					<CachePath>9C/{9CB0FBDA-C342-28C6-A71A-F935854E37BA}.wem</CachePath>
+				</File>
+				<File Id="694414589" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_3.wav</ShortName>
+					<CachePath>9D/{9D184222-87FB-4BE8-04FA-0960A12D95E9}.wem</CachePath>
 				</File>
 				<File Id="710845220" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_03.wav</ShortName>
@@ -727,16 +753,20 @@
 					<Plugin Id="10454007" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="64624005" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="142525318" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="208210880" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="237276252" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="241202866" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="263127081" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="288949125" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="365416699" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="567386646" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="680081601" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="784623767" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="804672598" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="871620857" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="906514980" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="986804516" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="1051325896" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="1053425351" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 				</Custom>
 			</Plugins>
@@ -777,6 +807,30 @@
 									<PluginRef Id="365416699"/>
 								</Custom>
 							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
+									<MediaRefs>
+										<MediaRef Id="43262999"/>
+										<MediaRef Id="341798505"/>
+										<MediaRef Id="654064975"/>
+										<MediaRef Id="694414589"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="208210880"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="135296687" Default="true"/>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="804672598"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="4122393694"/>
@@ -803,6 +857,22 @@
 								<MediaRef Id="638326763"/>
 								<MediaRef Id="926564563"/>
 							</MediaRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
+									<MediaRefs>
+										<MediaRef Id="587809570"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="135296687" Default="true"/>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="680081601"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="4122393694"/>
@@ -811,6 +881,22 @@
 								<MediaRef Id="436027017"/>
 								<MediaRef Id="968818107"/>
 							</MediaRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
+									<MediaRefs>
+										<MediaRef Id="587809570"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="135296687" Default="true"/>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="1051325896"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -1411,6 +1497,12 @@
 						<Switch Id="3946497219" Name="MEDIUMFALL"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="2139255308" Name="LANTERNAREASWITCH">
+					<Switches>
+						<Switch Id="135296687" Name="NOLANTERNS"/>
+						<Switch Id="1333297618" Name="LANTERNS"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="3260060478" Name="GROUNDMATSWITCH">
 					<Switches>
 						<Switch Id="1216965916" Name="STONE"/>
@@ -1421,5 +1513,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{2C24BDC6-A10D-D8FC-1FE2-10C4B925B4F0}</FileHash>
+	<FileHash>{1567012C-7841-4C31-BD2F-9E46E5DABAA5}</FileHash>
 </SoundBanksInfo>

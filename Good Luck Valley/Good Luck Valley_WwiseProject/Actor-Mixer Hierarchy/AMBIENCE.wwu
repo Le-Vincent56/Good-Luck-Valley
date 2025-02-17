@@ -152,6 +152,93 @@
 												<ActiveSource Name="AMBIENCEBEDS_CAVE_WATERFLOW" ID="{0E29E13A-7DC8-458A-8492-9599750FF2C4}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
+										<SwitchContainer Name="LANTERNSWITCH" ID="{9FCA1D09-D4BF-4372-9701-2361349F7242}" ShortID="585743648">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="DefaultSwitchOrState">
+													<ObjectRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+												<Reference Name="SwitchGroupOrStateGroup">
+													<ObjectRef Name="LANTERNAREASWITCH" ID="{39D3E30F-7516-4D69-A1BF-084A7A1CE641}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}" ShortID="948024075">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{75296591-6448-45C5-9DBD-2EBECCAE6426}" ShortID="1051325896" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="20"/>
+																<Property Name="LengthMax" Type="Real32" Value="10"/>
+																<Property Name="LengthMin" Type="Real32" Value="-10"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{75296591-6448-45C5-9DBD-2EBECCAE6426}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}" ShortID="586225491">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{772ED01C-E132-4B16-9D12-EA65D72F603D}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="587809570"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{772ED01C-E132-4B16-9D12-EA65D72F603D}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<GroupingInfo>
+												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}"/>
+													</GroupingBehavior>
+													<GroupingBehavior>
+														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}"/>
+													</GroupingBehavior>
+												</GroupingBehaviorList>
+												<GroupingList>
+													<Grouping>
+														<SwitchRef Name="LANTERNS" ID="{E360FFD1-1AFD-493C-B844-93532B06AB34}"/>
+														<ItemList>
+															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}"/>
+														</ItemList>
+													</Grouping>
+													<Grouping>
+														<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
+														<ItemList>
+															<ItemRef Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}"/>
+														</ItemList>
+													</Grouping>
+												</GroupingList>
+											</GroupingInfo>
+										</SwitchContainer>
 									</ChildrenList>
 								</BlendContainer>
 								<BlendContainer Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}" ShortID="134399443">
@@ -224,6 +311,101 @@
 												<ActiveSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{B94B199B-F15B-45D6-8894-3E9E617C7BFF}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
+										<SwitchContainer Name="LANTERNSWITCH" ID="{AA5D569B-A922-4F53-8C5E-93F77FB0D195}" ShortID="672183269">
+											<PropertyList>
+												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>2</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="DefaultSwitchOrState">
+													<ObjectRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+												<Reference Name="SwitchGroupOrStateGroup">
+													<ObjectRef Name="LANTERNAREASWITCH" ID="{39D3E30F-7516-4D69-A1BF-084A7A1CE641}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}" ShortID="534825115">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{16E7C46E-F7DA-41B5-85FD-58226629583E}" ShortID="680081601" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="20"/>
+																<Property Name="LengthMax" Type="Real32" Value="10"/>
+																<Property Name="LengthMin" Type="Real32" Value="-10"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{16E7C46E-F7DA-41B5-85FD-58226629583E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}" ShortID="160354449">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="587809570"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<GroupingInfo>
+												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}"/>
+													</GroupingBehavior>
+													<GroupingBehavior>
+														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}"/>
+													</GroupingBehavior>
+												</GroupingBehaviorList>
+												<GroupingList>
+													<Grouping>
+														<SwitchRef Name="LANTERNS" ID="{E360FFD1-1AFD-493C-B844-93532B06AB34}"/>
+														<ItemList>
+															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}"/>
+														</ItemList>
+													</Grouping>
+													<Grouping>
+														<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
+														<ItemList>
+															<ItemRef Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}"/>
+														</ItemList>
+													</Grouping>
+												</GroupingList>
+											</GroupingInfo>
+										</SwitchContainer>
 									</ChildrenList>
 								</BlendContainer>
 							</ChildrenList>
@@ -315,6 +497,7 @@
 							<ChildrenList>
 								<BlendContainer Name="FOREST" ID="{6DA0200A-547A-49A4-A7FF-4D420E7ECD4B}" ShortID="512275638">
 									<PropertyList>
+										<Property Name="BlendBehavior" Type="int16" Value="1"/>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
 									</PropertyList>
@@ -1141,10 +1324,254 @@
 												</ObjectList>
 											</ObjectLists>
 										</RandomSequenceContainer>
+										<SwitchContainer Name="AMBIENCE2D_MAIN_LANTERNSWITCH" ID="{7BB9E1D3-75E8-4B28-897A-A064CE7A8938}" ShortID="823724597">
+											<PropertyList>
+												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="DefaultSwitchOrState">
+													<ObjectRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+												<Reference Name="SwitchGroupOrStateGroup">
+													<ObjectRef Name="LANTERNAREASWITCH" ID="{39D3E30F-7516-4D69-A1BF-084A7A1CE641}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<RandomSequenceContainer Name="AMBIENCE2D_MAIN_LANTERNS" ID="{47DB9DF5-4091-468E-82AC-BAFA717893E2}" ShortID="965026554">
+													<PropertyList>
+														<Property Name="InitialDelay" Type="Real64">
+															<ValueList>
+																<Value>5</Value>
+															</ValueList>
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{12A92A83-8FC0-427B-AE9F-21ED67D7D833}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Max" Type="Real64" Value="7"/>
+																			<Property Name="Min" Type="Real64" Value="-5"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+														<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+														<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-15</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<Sound Name="SILENCE" ID="{DD151F12-5667-4FA9-8E12-40AEEB78535F}" ShortID="529635938">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<SourcePlugin Name="Silence" ID="{859FBAA9-69A5-4AB2-A7BC-A0CF2CF66D12}" ShortID="208210880" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+																	<PropertyList>
+																		<Property Name="Length" Type="Real32" Value="3"/>
+																		<Property Name="LengthMax" Type="Real32" Value="1"/>
+																		<Property Name="LengthMin" Type="Real32" Value="-1"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																</SourcePlugin>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="Silence" ID="{859FBAA9-69A5-4AB2-A7BC-A0CF2CF66D12}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<RandomSequenceContainer Name="LANTERN_SQUEAKS" ID="{3CF4071C-9111-4C83-8CE8-A49E286DD941}" ShortID="790527322">
+															<PropertyList>
+																<Property Name="Color" Type="int16" Value="4"/>
+																<Property Name="OverrideColor" Type="bool" Value="True"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<Sound Name="WORLD_LANTERN_SQUEAK_1" ID="{E6B4BFEB-F822-4E51-8B67-049E8C5385C5}" ShortID="761680254">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="WORLD_LANTERN_SQUEAK_1" ID="{CFB3B448-B67D-487D-B25B-4E19EECE537F}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_1.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="654064975"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="WORLD_LANTERN_SQUEAK_1" ID="{CFB3B448-B67D-487D-B25B-4E19EECE537F}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="WORLD_LANTERN_SQUEAK_2" ID="{6956EA6D-3BDC-4891-962C-475B4CC64CB2}" ShortID="108458017">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="WORLD_LANTERN_SQUEAK_2" ID="{062A860A-587C-4E36-868F-782212FD6751}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_2.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="341798505"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="WORLD_LANTERN_SQUEAK_2" ID="{062A860A-587C-4E36-868F-782212FD6751}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="WORLD_LANTERN_SQUEAK_3" ID="{BE0EBCAD-510A-4C6B-926C-AE039AEB8F1D}" ShortID="1039483274">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="WORLD_LANTERN_SQUEAK_3" ID="{687FBEE7-907E-4BE0-B2E4-5B54DB41B13C}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_3.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="694414589"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="WORLD_LANTERN_SQUEAK_3" ID="{687FBEE7-907E-4BE0-B2E4-5B54DB41B13C}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="WORLD_LANTERN_SQUEAK_4" ID="{D0DFE0D4-3E48-4A3E-8FC8-183B425F9E32}" ShortID="875426054">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="WORLD_LANTERN_SQUEAK_4" ID="{650D256E-8804-44DD-8174-464BD8785D34}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_4.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="43262999"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="WORLD_LANTERN_SQUEAK_4" ID="{650D256E-8804-44DD-8174-464BD8785D34}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+															</ChildrenList>
+														</RandomSequenceContainer>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Playlist">
+															<Reference>
+																<ObjectRef Name="LANTERN_SQUEAKS" ID="{3CF4071C-9111-4C83-8CE8-A49E286DD941}" WorkUnitID="{E04BB998-EF9A-4271-A412-9D3DFC63CA3C}"/>
+															</Reference>
+															<Reference>
+																<ObjectRef Name="SILENCE" ID="{DD151F12-5667-4FA9-8E12-40AEEB78535F}" WorkUnitID="{E04BB998-EF9A-4271-A412-9D3DFC63CA3C}"/>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+												</RandomSequenceContainer>
+												<Sound Name="SILENCE" ID="{79E8B4D4-1456-40F1-B53D-E36CA7EF94C9}" ShortID="197693499">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{C0D57735-2BFF-47AE-94AC-3A8895F9B451}" ShortID="804672598" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="20"/>
+																<Property Name="LengthMax" Type="Real32" Value="10"/>
+																<Property Name="LengthMin" Type="Real32" Value="-10"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{C0D57735-2BFF-47AE-94AC-3A8895F9B451}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<GroupingInfo>
+												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="SILENCE" ID="{79E8B4D4-1456-40F1-B53D-E36CA7EF94C9}"/>
+													</GroupingBehavior>
+													<GroupingBehavior>
+														<ItemRef Name="AMBIENCE2D_MAIN_LANTERNS" ID="{47DB9DF5-4091-468E-82AC-BAFA717893E2}"/>
+													</GroupingBehavior>
+												</GroupingBehaviorList>
+												<GroupingList>
+													<Grouping>
+														<SwitchRef Name="LANTERNS" ID="{E360FFD1-1AFD-493C-B844-93532B06AB34}"/>
+														<ItemList>
+															<ItemRef Name="AMBIENCE2D_MAIN_LANTERNS" ID="{47DB9DF5-4091-468E-82AC-BAFA717893E2}"/>
+														</ItemList>
+													</Grouping>
+													<Grouping>
+														<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
+														<ItemList>
+															<ItemRef Name="SILENCE" ID="{79E8B4D4-1456-40F1-B53D-E36CA7EF94C9}"/>
+														</ItemList>
+													</Grouping>
+												</GroupingList>
+											</GroupingInfo>
+										</SwitchContainer>
 									</ChildrenList>
 								</BlendContainer>
 								<BlendContainer Name="CAVE" ID="{CFD3E70D-DD55-4A7C-8C09-7EC27FE10311}" ShortID="827289184">
 									<PropertyList>
+										<Property Name="BlendBehavior" Type="int16" Value="1"/>
 										<Property Name="Color" Type="int16" Value="4"/>
 										<Property Name="OverrideColor" Type="bool" Value="True"/>
 									</PropertyList>

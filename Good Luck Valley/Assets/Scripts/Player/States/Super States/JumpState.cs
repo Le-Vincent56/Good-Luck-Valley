@@ -3,6 +3,7 @@ using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
+using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
@@ -19,7 +20,17 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
-            subStates.SetState(normalJump);
+            if (controller.WallJump.IsWallJumping)
+            {
+                subStates.SetState(wallJump);
+            } else if (controller.Jump.WarpJumping)
+            {
+                subStates.SetState(warpJump);
+            }
+            else
+            {
+                subStates.SetState(normalJump);
+            }
 
             // Set controller variables
             controller.RB.gravityScale = controller.Stats.JumpGravityScale;

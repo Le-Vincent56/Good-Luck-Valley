@@ -19,6 +19,9 @@ namespace GoodLuckValley.Cameras.Parallax
 
         private void OnValidate()
         {
+            // Dispose of the Native Layers if not playing
+            if (layersNative.IsCreated) layersNative.Dispose();
+
             // Store the main Camera
             mainCamera = Camera.main;
 

@@ -8,7 +8,7 @@ namespace GoodLuckValley.Interactables
     {
         [Header("Collectible")]
         [SerializeField] protected CollectibleSaveData data;
-        [SerializeField] private bool collected;
+        [SerializeField] protected bool collected;
 
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
 
@@ -22,6 +22,13 @@ namespace GoodLuckValley.Interactables
 
             // Set collected
             collected = data.Collected;
+
+            // Check if the Collectible has been collected
+            if(collected)
+            {
+                // Trigger any extra collection logic
+                Collect();
+            }
 
             // Check if the game object should be active
             gameObject.SetActive(!collected);
@@ -63,6 +70,11 @@ namespace GoodLuckValley.Interactables
             // Set collected
             collected = true;
             data.Collected = collected;
+
+            // Check if any other collection logic is needed
+            Collect();
         }
+
+        protected virtual void Collect() { }
     }
 }
