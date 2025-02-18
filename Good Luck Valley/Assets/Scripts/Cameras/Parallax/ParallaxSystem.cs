@@ -28,6 +28,12 @@ namespace GoodLuckValley.Cameras.Parallax
             Setup();
         }
 
+        private void OnDisable()
+        {
+            // Dispose of the Native Layers if disabled
+            if(layersNative.IsCreated) layersNative.Dispose();
+        }
+
         private void OnDestroy()
         {
             // Dispose of the Native Layers if destroyed

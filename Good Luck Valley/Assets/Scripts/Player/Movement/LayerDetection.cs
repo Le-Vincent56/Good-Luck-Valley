@@ -105,6 +105,9 @@ namespace GoodLuckValley.Player.Movement
         /// </summary>
         public void SetWallDirection(int direction)
         {
+            // Exit case - the wall direction is 0
+            if (direction == 0) return;
+
             // Set the previous wall direction
             previousWallDirection = wallDirection;
 

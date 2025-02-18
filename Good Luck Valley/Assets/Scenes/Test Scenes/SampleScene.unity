@@ -15554,7 +15554,7 @@ Transform:
   m_GameObject: {fileID: 385326550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.83, y: -6.63, z: 0.028137427}
+  m_LocalPosition: {x: 0, y: 0, z: 0.028137427}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26902,7 +26902,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.0000087072885, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7886002, y: 2.2459712, z: -10.040222}
+  m_LocalPosition: {x: 1.6414001, y: 2.0059712, z: -10.040222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33024,8 +33024,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  permanentChange: 0
-  disableStates: 0
   statesToSet:
   - idInternal: 0
     valueGuidInternal: 
@@ -33047,7 +33045,6 @@ MonoBehaviour:
     groupIdInternal: 0
     groupGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 95810d9f4a443f94e8823177cace8adb, type: 2}
-  statesToDisable: []
 --- !u!1 &762668379
 GameObject:
   m_ObjectHideFlags: 0
@@ -38433,7 +38430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
-  cameraStartPosition: {x: -5.4300003, y: -1.0800002, z: -9.971863}
+  cameraStartPosition: {x: 0, y: -1.3200002, z: -9.971863}
   layers:
   - {fileID: 738850457}
   - {fileID: 1372966948}
@@ -55168,7 +55165,7 @@ Transform:
   m_GameObject: {fileID: 1800805932}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7886002, y: 2.2459712, z: -10.040222}
+  m_LocalPosition: {x: 1.6414001, y: 2.0059712, z: -10.040222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -76575,11 +76572,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2895395885423321209, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2895395885423321209, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.8
+      value: -4.07
       objectReference: {fileID: 0}
     - target: {fileID: 2895395885423321209, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
       propertyPath: m_LocalPosition.z
@@ -76736,6 +76733,26 @@ PrefabInstance:
     - target: {fileID: 9167331234847940614, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
       propertyPath: playParticles
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9167331234847940614, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
+      propertyPath: dirtWallJumpPrefab
+      value: 
+      objectReference: {fileID: 448308264576679529, guid: b96571d254971444d84365c2adcf9b32, type: 3}
+    - target: {fileID: 9167331234847940614, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
+      propertyPath: bonusWallJumpPrefab
+      value: 
+      objectReference: {fileID: 5243821110996242722, guid: 597ce385d2eed3c4f984d56a2693e5b3, type: 3}
+    - target: {fileID: 9167331234847940614, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
+      propertyPath: grassWallJumpPrefab
+      value: 
+      objectReference: {fileID: 7974674323625977823, guid: 72101c14d3d89d849bd3dacd91366ed7, type: 3}
+    - target: {fileID: 9167331234847940614, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
+      propertyPath: stoneWallJumpPrefab
+      value: 
+      objectReference: {fileID: 951896666664767128, guid: 03592854f95a0f1499727d20ce602ce0, type: 3}
+    - target: {fileID: 9167331234847940614, guid: addc3d69a12e5f44eafc1e3873f309ed, type: 3}
+      propertyPath: particleLayer.m_Bits
+      value: 134217728
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

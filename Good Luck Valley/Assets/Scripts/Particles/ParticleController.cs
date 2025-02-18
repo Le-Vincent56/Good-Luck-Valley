@@ -1,6 +1,8 @@
 using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
+using GoodLuckValley.VFX;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -9,6 +11,7 @@ namespace GoodLuckValley.Particles
     public class ParticleController : MonoBehaviour
     {
         [Header("References")]
+        [SerializeField] private LayerMask particleLayer;
         [SerializeField] private GameInputReader inputReader;
         [SerializeField] private LayerDetection layerDetection;
 
@@ -25,11 +28,12 @@ namespace GoodLuckValley.Particles
         [SerializeField] private ParticleSystem stoneJumpingParticles;
 
         [Header("Wall Jumping Particles")]
-        [SerializeField] private ParticleSystem currentWallJumpParticles;
-        [SerializeField] private ParticleSystem grassWallJumpParticles;
-        [SerializeField] private ParticleSystem dirtWallJumpParticles;
-        [SerializeField] private ParticleSystem stoneWallJumpParticles;
-        [SerializeField] private ParticleSystem bonusWallJumpParticles;
+        [SerializeField] private ParticleSystem grassWallJumpPrefab;
+        [SerializeField] private ParticleSystem dirtWallJumpPrefab;
+        [SerializeField] private ParticleSystem stoneWallJumpPrefab;
+        [SerializeField] private ParticleSystem bonusWallJumpPrefab;
+        private WallType wallType;
+        private int lastWallDirection;
 
         [Header("Wall Sliding Particles")]
         [SerializeField] private ParticleSystem currentWallSlideParticles;
@@ -54,6 +58,14 @@ namespace GoodLuckValley.Particles
         [SerializeField] private ParticleSystem mushroomFloatFrontParticles;
         [SerializeField] private ParticleSystem mushroomFloatBackParticles;
 
+        [Header("Particle Pools")]
+        [SerializeField] private List<(ParticleSystem Particles, ParticlePool Pool)> activePoolParticles;
+        [SerializeField] private List<(ParticleSystem Particles, ParticlePool Pool)> particlesToRemove;
+        private ParticlePool grassWallJumpPool;
+        private ParticlePool dirtWallJumpPool;
+        private ParticlePool stoneWallJumpPool;
+        private ParticlePool bonusWallJumpPool;
+
         private FrequencyTimer runParticleTimer;
 
         [Header("Fields")]
@@ -73,6 +85,7 @@ namespace GoodLuckValley.Particles
 
         private void Awake()
         {
+            // Collect Particle Systems
             ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
             grassRunningParticles = particleSystems[0];
             dirtRunningParticles = particleSystems[1];
@@ -82,26 +95,31 @@ namespace GoodLuckValley.Particles
             dirtJumpingParticles = particleSystems[4];
             stoneJumpingParticles = particleSystems[5];
 
-            grassWallJumpParticles = particleSystems[6];
-            dirtWallJumpParticles = particleSystems[7];
-            stoneWallJumpParticles = particleSystems[8];
-            bonusWallJumpParticles = particleSystems[9];
+            grassWallSlideParticles = particleSystems[6];
+            dirtWallSlideParticles = particleSystems[7];
+            stoneWallSlideParticles = particleSystems[8];
+            bonusWallSlideParticles = particleSystems[9];
 
-            grassWallSlideParticles = particleSystems[10];
-            dirtWallSlideParticles = particleSystems[11];
-            stoneWallSlideParticles = particleSystems[12];
-            bonusWallSlideParticles = particleSystems[13];
+            grassDustParticles = particleSystems[10];
+            dirtDustParticles = particleSystems[11];
+            stoneDustParticles = particleSystems[12];
 
-            grassDustParticles = particleSystems[14];
-            dirtDustParticles = particleSystems[15];
-            stoneDustParticles = particleSystems[16];
+            grassWallDustParticles = particleSystems[13];
+            dirtWallDustParticles = particleSystems[14];
+            stoneWallDustParticles = particleSystems[15];
 
-            grassWallDustParticles = particleSystems[17];
-            dirtWallDustParticles = particleSystems[18];
-            stoneWallDustParticles = particleSystems[19];
+            mushroomFloatFrontParticles = particleSystems[16];
+            mushroomFloatBackParticles = particleSystems[17];
 
-            mushroomFloatFrontParticles = particleSystems[20];
-            mushroomFloatBackParticles = particleSystems[21];
+            // Create Object Pools
+            grassWallJumpPool = new ParticlePool(grassWallJumpPrefab);
+            dirtWallJumpPool = new ParticlePool(dirtWallJumpPrefab);
+            stoneWallJumpPool = new ParticlePool(stoneWallJumpPrefab);
+            bonusWallJumpPool = new ParticlePool(bonusWallJumpPrefab);
+
+            // Initialize the particles list
+            activePoolParticles = new List<(ParticleSystem Particles, ParticlePool Pool)>();
+            particlesToRemove = new List<(ParticleSystem Particles, ParticlePool Pool)>();
 
             // Get components
             layerDetection = GetComponentInParent<LayerDetection>();
@@ -113,7 +131,7 @@ namespace GoodLuckValley.Particles
             // Set initial scales
             initialRunScaleX = grassRunningParticles.transform.localScale.x;
             initialJumpScaleX = grassJumpingParticles.transform.localScale.x;
-            initialWallJumpX = grassWallJumpParticles.transform.localScale.x;
+            initialWallJumpX = grassWallJumpPrefab.transform.localScale.x;
             initialWallSlideX = grassWallSlideParticles.transform.localScale.x;
 
             // Set initial velocities
@@ -149,10 +167,58 @@ namespace GoodLuckValley.Particles
             runParticleTimer.Dispose();
         }
 
+        private void Update()
+        {
+            // Exit case - there are no active particles
+            if (activePoolParticles.Count <= 0) return;
+
+            // Clear the particles to remove List
+            particlesToRemove.Clear();
+
+            // Iterate through the active particles
+            foreach ((ParticleSystem Particles, ParticlePool Pool) poolParticles in activePoolParticles)
+            {
+                // Skip if the Particle System is still playing
+                if (poolParticles.Particles.isPlaying) continue;
+
+                // Release the Particle System back to the pool
+                poolParticles.Pool.Release(poolParticles.Particles);
+
+                // Flag the Particle System for removal
+                particlesToRemove.Add(poolParticles);
+            }
+
+            // Iterate through each Particle System to remove
+            foreach((ParticleSystem Particles, ParticlePool Pool) in particlesToRemove)
+            {
+                // Remove the Particle System from the active particles list
+                activePoolParticles.Remove((Particles, Pool));
+            }
+        }
+
+        /// <summary>
+        /// Get the first checked Layer of the Layer Mask
+        /// </summary>
+        private int GetFirstLayerFromMask(LayerMask mask)
+        {
+            // Get the bit mask from the LayerMask
+            int bitmask = mask.value;
+
+            // Iterate through each layer
+            for (int i = 0; i < 32; i++) 
+            {
+                // Bitshift to find the first checked layer
+                if ((bitmask & (1 << i)) != 0)
+                    return i;
+            }
+
+            // Return -1 if no layers are checked
+            return -1;
+        }
+
         /// <summary>
         /// Set the particles to match the ground layer
         /// </summary>
-        /// <param name="groundType"></param>
         private void SetParticleGroundLayer(GroundType groundType)
         {
             switch(groundType)
@@ -188,19 +254,19 @@ namespace GoodLuckValley.Particles
             switch (wallType)
             {
                 case WallType.Grass:
-                    currentWallJumpParticles = grassWallJumpParticles;
+                    this.wallType = wallType;
                     currentWallSlideParticles = grassWallSlideParticles;
                     currentWallDustParticles = grassWallDustParticles;
                     break;
 
                 case WallType.Dirt:
-                    currentWallJumpParticles = dirtWallJumpParticles;
+                    this.wallType = wallType;
                     currentWallSlideParticles = dirtWallSlideParticles;
                     currentWallDustParticles = dirtWallDustParticles;
                     break;
 
                 case WallType.Stone:
-                    currentWallJumpParticles = stoneWallJumpParticles;
+                    this.wallType = wallType;
                     currentWallSlideParticles = stoneWallSlideParticles;
                     currentWallDustParticles = stoneWallDustParticles;
                     break;
@@ -225,18 +291,13 @@ namespace GoodLuckValley.Particles
         private void UpdateWallDirection(int direction)
         {
             // Get the scales
-            Vector3 wallJumpLocalScale = currentWallJumpParticles.transform.localScale;
+            lastWallDirection = direction;
             Vector3 wallSlideLocalScale = currentWallSlideParticles.transform.localScale;
 
             // Modify the scales by the direction of movement
-            wallJumpLocalScale.x = initialWallJumpX * direction;
             wallSlideLocalScale.x = initialWallSlideX * -direction;
 
             // Set the scales
-            grassWallJumpParticles.transform.localScale = wallJumpLocalScale;
-            dirtWallJumpParticles.transform.localScale = wallJumpLocalScale;
-            stoneWallJumpParticles.transform.localScale = wallJumpLocalScale;
-            bonusWallJumpParticles.transform.localScale = wallJumpLocalScale;
             grassWallSlideParticles.transform.localScale = wallSlideLocalScale;
             dirtWallSlideParticles.transform.localScale = wallSlideLocalScale;
             stoneWallSlideParticles.transform.localScale = wallSlideLocalScale;
@@ -299,9 +360,65 @@ namespace GoodLuckValley.Particles
             // Exit case - if not supposed to play particles
             if (!playParticles) return;
 
+            // Determine the Particle Pool to retrieve from
+            ParticlePool poolToRetrieveFrom = wallType switch
+            {
+                WallType.Grass => grassWallJumpPool,
+                WallType.Dirt => dirtWallJumpPool,
+                WallType.Stone => stoneWallJumpPool,
+                WallType.None => null,
+                _ => null,
+            };
+
+            // Exit case - there is no given pool to retrieve from
+            if(poolToRetrieveFrom == null) return;
+
+            // Create the base wall jump particles
+            ParticleSystem baseWallParticles = poolToRetrieveFrom.Get();
+
+            // Exit case - there are no wall jump particles
+            if (baseWallParticles == null) return;
+
+            // Get the bonus wall jump particles
+            ParticleSystem bonusWallParticles = bonusWallJumpPool.Get();
+
+            Transform baseTransform = baseWallParticles.transform;
+            Transform bonusTransform = bonusWallParticles.transform;
+
+            // Set this as the parent
+            baseTransform.SetParent(transform);
+            bonusTransform.SetParent(transform);
+
+            // Set positions
+            baseTransform.localPosition = Vector3.zero;
+            bonusTransform.localPosition = Vector3.zero;
+
+            // Set the scale
+            Vector3 wallJumpLocalScale = baseTransform.localScale;
+            wallJumpLocalScale.x = initialWallJumpX * -lastWallDirection;
+            baseTransform.localScale = wallJumpLocalScale;
+            bonusTransform.localScale = wallJumpLocalScale;
+
             // Play the current wall jump particles
-            currentWallJumpParticles.Play();
-            bonusWallJumpParticles.Play();
+            baseWallParticles.Play();
+
+            // Play the bonus wall jump particles
+            bonusWallParticles.Play();
+
+            // Track the active particles
+            activePoolParticles.Add((baseWallParticles, poolToRetrieveFrom));
+            activePoolParticles.Add((bonusWallParticles, bonusWallJumpPool));
+
+            // Get the first checked layer from the LayerMask
+            int selectedLayer = GetFirstLayerFromMask(particleLayer);
+
+            // Check if the layer is valid
+            if (selectedLayer != -1)
+            {
+                // Set the layer of the particles
+                baseWallParticles.gameObject.layer = selectedLayer;
+                bonusWallParticles.gameObject.layer = selectedLayer;
+            }
 
             // Exit case - there are no dust particles for the wall jump
             if (currentWallDustParticles == null) return;
@@ -321,12 +438,6 @@ namespace GoodLuckValley.Particles
             // Play the current wall sliding particles
             currentWallSlideParticles.Play();
             bonusWallSlideParticles.Play();
-
-            // Exit case - there are no dust particles for the wall slide
-            if (currentWallDustParticles == null) return;
-
-            // Play the dust particles
-            currentWallDustParticles.Play();
         }
 
         /// <summary>
@@ -339,12 +450,6 @@ namespace GoodLuckValley.Particles
 
             currentWallSlideParticles.Stop();
             bonusWallSlideParticles.Stop();
-
-            // Exit case - there are no dust particles for the wall slide
-            if (currentWallDustParticles == null) return;
-
-            // Play the dust particles
-            currentWallDustParticles.Stop();
         }
 
         /// <summary>
