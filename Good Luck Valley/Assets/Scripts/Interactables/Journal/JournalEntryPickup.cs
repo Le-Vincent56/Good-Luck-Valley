@@ -23,6 +23,15 @@ namespace GoodLuckValley.Interactables.Journal
             noteLight = GetComponentInChildren<Light2D>();
         }
 
+        private void Start()
+        {
+            // Exit case - the Note has been collected
+            if (collected) return;
+
+            // Play the particles
+            particles.Play();
+        }
+
         protected override void Collect()
         {
             // Stop the Particle System
