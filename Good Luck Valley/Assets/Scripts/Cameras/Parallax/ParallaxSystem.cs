@@ -1,4 +1,3 @@
-using GoodLuckValley.Architecture.ServiceLocator;
 using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
@@ -19,17 +18,14 @@ namespace GoodLuckValley.Cameras.Parallax
 
         private void OnValidate()
         {
-            // Dispose of the Native Layers if not playing
-            if (layersNative.IsCreated) layersNative.Dispose();
+            // Set up Parallax to be used in the Editor
+            Setup();
+        }
 
-            // Store the main Camera
-            mainCamera = Camera.main;
-
-            // Set the starting camera position
-            cameraStartPosition = mainCamera.transform.position;
-
-            // Initialize the Parallax System
-            InitializeParallax();
+        private void Start()
+        {
+            // Set up Parallax for gameplay
+            Setup();
         }
 
         private void OnDestroy()
@@ -62,6 +58,21 @@ namespace GoodLuckValley.Cameras.Parallax
             {
                 layers[i].transform.position = layersNative[i].CurrentPosition;
             }
+        }
+
+        private void Setup()
+        {
+            // Dispose of the Native Layers if not playing
+            if (layersNative.IsCreated) layersNative.Dispose();
+
+            // Store the main Camera
+            mainCamera = Camera.main;
+
+            // Set the starting camera position
+            cameraStartPosition = mainCamera.transform.position;
+
+            // Initialize the Parallax System
+            InitializeParallax();
         }
 
         /// <summary>

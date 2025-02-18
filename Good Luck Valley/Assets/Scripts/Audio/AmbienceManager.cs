@@ -28,8 +28,6 @@ namespace GoodLuckValley.Audio.Ambience
 
             // State playing ambience
             isPlayingAmbience = true;
-
-            Debug.Log("Playing Ambience");
         }
 
         /// <summary>

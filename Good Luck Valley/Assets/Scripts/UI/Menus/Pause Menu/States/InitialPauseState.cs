@@ -17,9 +17,6 @@ namespace GoodLuckValley.UI.Menus.Pause.States
         {
             base.OnEnter();
 
-            // Enable menu input
-            controller.EnableMenuInput();
-
             // Set the time scale to 0
             Time.timeScale = 0f;
 

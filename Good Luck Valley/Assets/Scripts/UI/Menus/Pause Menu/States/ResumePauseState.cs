@@ -20,17 +20,13 @@ namespace GoodLuckValley.UI.Menus.Pause.States
                 screen.blocksRaycasts = false;
             });
 
-            // Set game controls
-            controller.EnableGameInput();
-
-            // Set the normal Time Scale
-            Time.timeScale = 1f;
-
-            // Set unpaused
-            controller.Paused = false;
-
             // Hide the Pause Menu background
-            controller.HideBackground();
+            controller.HideBackground(() =>
+            {
+                // Set unpaused and resume time
+                controller.Paused = false;
+                Time.timeScale = 1f;
+            });
 
             // Nullify the currently selected game object for the EventSystem
             EventSystem.current.SetSelectedGameObject(null);

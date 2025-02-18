@@ -9,6 +9,12 @@ namespace GoodLuckValley.World.Episodes
 
         private void OnValidate()
         {
+            // Get the particle systems to be seen in Timeline updates
+            particles = GetComponentsInChildren<ParticleSystem>();
+        }
+
+        private void Start()
+        {
             // Get the particle systems
             particles = GetComponentsInChildren<ParticleSystem>();
         }

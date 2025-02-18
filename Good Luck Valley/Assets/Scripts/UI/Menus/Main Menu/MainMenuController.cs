@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using GoodLuckValley.Architecture.ServiceLocator;
 using UnityEngine.UI;
 using GoodLuckValley.UI.Menus.Main.States;
+using GoodLuckValley.Audio;
 
 namespace GoodLuckValley.UI.Menus.Main
 {
@@ -26,6 +27,7 @@ namespace GoodLuckValley.UI.Menus.Main
         private StateMachine stateMachine;
 
         [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.State menuState;
         [SerializeField] private AK.Wwise.Event enterInitialEvent;
         [SerializeField] private AK.Wwise.Event backtrackEvent;
 
@@ -66,6 +68,15 @@ namespace GoodLuckValley.UI.Menus.Main
         {
             inputReader.Submit -= OpenMainMenu;
             inputReader.Cancel -= Backtrack;
+        }
+
+        private void Start()
+        {
+            // Set the menu state
+            MusicManager.Instance.SetState(menuState);
+
+            // Ensure the menu music is playing
+            MusicManager.Instance.Play();
         }
 
         private void Update()

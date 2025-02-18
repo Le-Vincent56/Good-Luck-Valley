@@ -38,8 +38,11 @@ namespace GoodLuckValley.Interactables.Fireflies
             initialOuterRadius = activateLight.pointLightOuterRadius;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            // Call the parent OnDestroy()
+            base.OnDestroy();
+
             // Kill the Illuminate Tween if it exists
             illuminateTween?.Kill();
         }

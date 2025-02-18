@@ -231,6 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 231976743}
   - component: {fileID: 231976742}
+  - component: {fileID: 231976744}
   m_Layer: 0
   m_Name: WwiseGlobal
   m_TagString: Untagged
@@ -278,6 +279,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &231976744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231976741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9212ec1fa61c1814c92c144185b1eb38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerList: f7e1664c
+  useOtherObject: 0
+  data:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 3d0beb89cddec724e856291fa2bb10f3, type: 2}
+  decodeBank: 0
+  overrideLoadSetting: 0
+  loadAsynchronous: 0
+  saveDecodedBank: 0
+  unloadTriggerList: 958ca0ea
+  bankNameInternal: 
+  valueGuidInternal: 
 --- !u!1 &281427057
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,6 +829,12 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   AutoUnparentOnAwake: 1
+  data:
+    <ID>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
   startMusicEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -819,10 +851,18 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: afe38631bd6b2f94796b9d2a47a644b4, type: 2}
-  disabledStates: 
   isPlaying: 0
-  menuStates: []
-  gameStates: []
+  menuStates:
+  - idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 24c68060cb030d6478c6fb6b49fa7828, type: 2}
+  <ID>k__BackingField:
+    Part1: 2615279164
+    Part2: 1223481713
+    Part3: 1062591374
+    Part4: 2924352909
 --- !u!4 &1836276695
 Transform:
   m_ObjectHideFlags: 0
@@ -901,7 +941,7 @@ MonoBehaviour:
       Entry: 6
       Data: 
   AutoUnparentOnAwake: 1
-  debug: 1
+  debug: 0
   selectedData:
     Slot: 0
     LastUpdated: 0
@@ -923,6 +963,7 @@ MonoBehaviour:
       Unlocked: 0
       EntriesUnlocked: 
     CollectibleDatas: []
+    CameraDatas: []
   settingsData:
     Name: 
     Audio:
@@ -949,6 +990,12 @@ MonoBehaviour:
         Part3: 0
         Part4: 0
       Bindings: 
+    MusicStateData:
+      <ID>k__BackingField:
+        Part1: 0
+        Part2: 0
+        Part3: 0
+        Part4: 0
   inputActions: {fileID: -944628639613478452, guid: d68520aa587c6b34e952353ba3c753a1, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

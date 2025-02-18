@@ -1,4 +1,6 @@
 using GoodLuckValley.Architecture.Singletons;
+using GoodLuckValley.Audio;
+using GoodLuckValley.Cameras.Persistence;
 using GoodLuckValley.Interactables;
 using GoodLuckValley.Player.Persistence;
 using GoodLuckValley.Scenes;
@@ -85,15 +87,19 @@ namespace GoodLuckValley.Persistence
 
         private void OnSceneGroupLoaded(int index)
         {
-            // Bind Data
-            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
-            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
-            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
-
             // Bind Settings
             Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
             Bind<VideoSaveHandler, VideoData>(settingsData.Video);
             Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
+
+            // Exit case - no selected data
+            if (selectedData == null) return;
+
+            // Bind Data
+            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
+            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
+            Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
 
             // Invoke the DataBinded event
             DataBinded.Invoke(index);
@@ -182,14 +188,10 @@ namespace GoodLuckValley.Persistence
                 Name = $"New Game {slot}",
                 LastUpdated = DateTime.Now.ToBinary(),
                 PlayerData = new PlayerData(),
+                CameraDatas = new List<CameraData>(),
                 JournalData = new JournalData(),
-                CollectibleDatas = new List<CollectibleSaveData>()
+                CollectibleDatas = new List<CollectibleSaveData>(),
             };
-
-            // Bind Data
-            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
-            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
-            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
 
             SaveGame();
 

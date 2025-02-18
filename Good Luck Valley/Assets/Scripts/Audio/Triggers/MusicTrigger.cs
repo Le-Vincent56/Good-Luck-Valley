@@ -17,12 +17,7 @@ namespace GoodLuckValley.Audio.Triggers
         }
 
         [SerializeField] private Type type;
-
-        [SerializeField] private bool permanentChange;
-        [SerializeField] private bool disableStates;
-
         [SerializeField] private List<AK.Wwise.State> statesToSet;
-        [SerializeField] private List<AK.Wwise.State> statesToDisable;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -33,10 +28,7 @@ namespace GoodLuckValley.Audio.Triggers
             {
                 case Type.Play:
                     // Set each state
-                    foreach (AK.Wwise.State state in statesToSet)
-                    {
-                        MusicManager.Instance.SetState(state, permanentChange);
-                    }
+                    MusicManager.Instance.SetStates(statesToSet);
 
                     // Play the music
                     MusicManager.Instance.Play();
@@ -50,19 +42,7 @@ namespace GoodLuckValley.Audio.Triggers
 
                 case Type.StateChange:
                     // Set each state
-                    foreach (AK.Wwise.State state in statesToSet)
-                    {
-                        MusicManager.Instance.SetState(state, permanentChange);
-                    }
-
-                    // If not disabling states, return
-                    if (!disableStates) return;
-
-                    // Disable states
-                    foreach (AK.Wwise.State state in statesToDisable)
-                    {
-                        MusicManager.Instance.DisableState(state);
-                    }
+                    MusicManager.Instance.SetStates(statesToSet);
                     break;
             }
         }

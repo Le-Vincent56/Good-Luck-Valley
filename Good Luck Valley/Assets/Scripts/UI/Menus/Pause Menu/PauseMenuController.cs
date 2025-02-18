@@ -1,5 +1,6 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Audio;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Journal;
 using GoodLuckValley.Events.Pause;
@@ -34,6 +35,7 @@ namespace GoodLuckValley.UI.Menus.Pause
         private Tween fadeTween;
 
         [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.State menuState;
         [SerializeField] private AK.Wwise.Event backtrackEvent;
 
         private StateMachine stateMachine;
@@ -158,12 +160,37 @@ namespace GoodLuckValley.UI.Menus.Pause
         /// <summary>
         /// Show the Pause Menu background
         /// </summary>
-        public void ShowBackground() => Fade(0.8f, fadeDuration);
+        public void ShowBackground()
+        {
+            // Disable the input readers
+            gameInputReader.Disable();
+            menuInputReader.Disable();
+
+            // Fade and re-enable the menu input reader
+            Fade(0.8f, fadeDuration, () => menuInputReader.Enable());
+        }
 
         /// <summary>
         /// Hide the Pause Menu background
         /// </summary>
-        public void HideBackground() => Fade(0f, fadeDuration);
+        public void HideBackground(TweenCallback onComplete = null)
+        {
+            // Disable the input readers
+            gameInputReader.Disable();
+            menuInputReader.Disable();
+
+            Fade(0f, fadeDuration, () =>
+            {
+                // Enable the input reader
+                gameInputReader.Enable();
+
+                // Exit case - there is no completion action
+                if (onComplete == null) return;
+
+                // Call the completion action
+                onComplete();
+            });
+        }
 
         /// <summary>
         /// Input callback for pausing the game
@@ -269,6 +296,9 @@ namespace GoodLuckValley.UI.Menus.Pause
         /// </summary>
         public void ReturnToMain()
         {
+            // Set the menu state
+            MusicManager.Instance.SetState(menuState);
+
             // Load the Scene Group
             SceneLoader.Instance.ChangeSceneGroupSystem(0);
         }

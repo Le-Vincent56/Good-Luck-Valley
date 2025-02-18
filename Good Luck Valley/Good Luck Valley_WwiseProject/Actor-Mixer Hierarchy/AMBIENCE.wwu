@@ -369,6 +369,10 @@
 													</ReferenceList>
 													<ChildrenList>
 														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="1"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1"/>
+															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
 															<MediaIDList>
@@ -388,6 +392,18 @@
 													</GroupingBehavior>
 													<GroupingBehavior>
 														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}"/>
+														<PropertyList>
+															<Property Name="FadeInTime" Type="Real64">
+																<ValueList>
+																	<Value>1</Value>
+																</ValueList>
+															</Property>
+															<Property Name="FadeOutTime" Type="Real64">
+																<ValueList>
+																	<Value>2</Value>
+																</ValueList>
+															</Property>
+														</PropertyList>
 													</GroupingBehavior>
 												</GroupingBehaviorList>
 												<GroupingList>

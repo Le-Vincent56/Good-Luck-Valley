@@ -26,8 +26,6 @@ namespace GoodLuckValley.Audio.Triggers
             {
                 // Set the switch value
                 @switch.SetValue(AmbienceManager.Instance.gameObject);
-
-                Debug.Log($"Set Value (Enter): {@switch}");
             }
 
             // Check if starting ambience
@@ -52,8 +50,6 @@ namespace GoodLuckValley.Audio.Triggers
             {
                 // Set the switch value
                 @switch.SetValue(AmbienceManager.Instance.gameObject);
-
-                Debug.Log($"Set Value (Enter): {@switch}");
             }
 
             // Set to inside trigger
@@ -73,7 +69,6 @@ namespace GoodLuckValley.Audio.Triggers
             {
                 // Set the switch value
                 @switch.SetValue(AmbienceManager.Instance.gameObject);
-                Debug.Log($"Set Value (Exit): {@switch}");
             }
 
             // Set to outside trigger

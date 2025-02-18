@@ -13,6 +13,7 @@ namespace GoodLuckValley.Persistence
         public PlayerData PlayerData;
         public JournalData JournalData;
         public List<CollectibleSaveData> CollectibleDatas;
+        public List<CameraData> CameraDatas;
 
         public override string ToString()
         {
@@ -34,8 +35,8 @@ namespace GoodLuckValley.Persistence
 
         public PlayerData()
         {
-            LevelIndex = 3;
-            Position = new Vector3(47.9f, 4.068f, 0.0f);
+            LevelIndex = 9;
+            Position = new Vector3(-139.03f, 0.13f, 0.0f);
         }
 
         public override string ToString()
@@ -45,6 +46,28 @@ namespace GoodLuckValley.Persistence
             finalString += $"\n\tPosition: {Position}";
 
             return finalString;
+        }
+    }
+
+    [Serializable]
+    public class CameraData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public int Priority;
+        public float OrthographicSize;
+        public Vector3 Offset;
+        public Vector3 Position;
+        public float PathPosition;
+        public Vector3 Damping;
+
+        public CameraData()
+        {
+            Priority = 0;
+            OrthographicSize = 0.0f;
+            Offset = Vector3.zero;
+            Position = Vector3.zero;
+            PathPosition = 0.0f;
+            Damping = Vector3.zero;
         }
     }
 

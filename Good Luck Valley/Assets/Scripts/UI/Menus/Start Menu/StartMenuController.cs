@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio;
 using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.UI.Menus.Main;
@@ -18,6 +19,9 @@ namespace GoodLuckValley.UI.Menus.Start
         [SerializeField] private DeleteOverlay deleteOverlay;
         [SerializeField] private SaveSlot selectedSlot;
         [SerializeField] private List<SaveSlot> saveSlots;
+
+        [Header("Wwise References")]
+        [SerializeField] private AK.Wwise.State gameState;
 
         public SaveSlot SelectedSlot { get => selectedSlot; }
 
@@ -112,6 +116,9 @@ namespace GoodLuckValley.UI.Menus.Start
             // Exit case - there is no selected Save Slot
             if (selectedSlot == null) return;
 
+            // Disable the input reader
+            inputReader.Disable();
+
             // Disable the other save slots
             foreach (SaveSlot saveSlot in saveSlots)
             {
@@ -125,19 +132,16 @@ namespace GoodLuckValley.UI.Menus.Start
             // Disable the current event system
             EventSystem.current.enabled = false;
 
-            // Set game states
-            //MusicManager.Instance.SetGameStates();
+            // Stop the music
+            MusicManager.Instance.SetState(gameState);
 
             // Check if the selected Save Slot is empty
             if (selectedSlot.IsEmpty)
                 // Start a new game with new data
                 NewData(selectedSlot);
-            // Otherwise, load the game with the Save Slot data
             else
+                // Otherwise, load the game with the Save Slot data
                 LoadData(selectedSlot);
-
-            // Play enter sound
-            //playButtonEnter.Post(gameObject);
         }
 
         /// <summary>

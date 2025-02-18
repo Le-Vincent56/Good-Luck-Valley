@@ -24,12 +24,12 @@ namespace GoodLuckValley
             foreach(CinemachineVirtualCamera cam in virtualCameras)
             {
                 // Check if the camera is the initial camera
-                if (cam == initialCamera) 
-                    // Make sure the initial camera is active
-                    cam.gameObject.SetActive(true);
-                else 
-                    // Otherwise, deactivate the camera
-                    cam.gameObject.SetActive(false);
+                if (cam == initialCamera)
+                    // Make sure the initial camera has the highest priotity
+                    cam.Priority = 15;
+                else
+                    // Otherwise, lower the priorities of the other cameras
+                    cam.Priority = 10;
             }
         }
 
@@ -42,7 +42,7 @@ namespace GoodLuckValley
             if (camToPrioritize == null) return;
 
             // Set the priority of the camera to higher
-            camToPrioritize.gameObject.SetActive(true);
+            camToPrioritize.Priority = 15;
 
             // Iterate through each virtual camera
             foreach (CinemachineVirtualCamera cam in virtualCameras)
@@ -50,7 +50,7 @@ namespace GoodLuckValley
                 // Check if the cameras are not equal
                 if (camToPrioritize != cam)
                 {
-                    cam.gameObject.SetActive(false);
+                    cam.Priority = 10;
 
                     continue;
                 }

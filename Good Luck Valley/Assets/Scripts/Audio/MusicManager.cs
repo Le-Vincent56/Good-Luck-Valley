@@ -1,8 +1,9 @@
 using GoodLuckValley.Architecture.Singletons;
+using GoodLuckValley.Persistence;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.Audio
 {
     public class MusicManager : PersistentSingleton<MusicManager>
     {
@@ -13,33 +14,26 @@ namespace GoodLuckValley
         [SerializeField] private AK.Wwise.Event resumeMusicEvent;
 
         [Header("Fields")]
-        [SerializeField] private List<uint> disabledStates;
+        private Dictionary<uint, uint> musicStates;
+        private Dictionary<uint, string> stateNames;
         [SerializeField] private bool isPlaying;
 
         [SerializeField] private List<AK.Wwise.State> menuStates = new List<AK.Wwise.State>();
-        [SerializeField] private List<AK.Wwise.State> gameStates = new List<AK.Wwise.State>();
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
-        private void Start()
-        {
-            //SetMenuStates();
-
-            //Play();
-        }
+        [field: SerializeField] public SerializableGuid ID { get; set; } = new SerializableGuid(3161503128, 1247231471, 712909453, 4222699218);
 
         /// <summary>
         /// Play the music event
         /// </summary>
         public void Play()
         {
+            // Exit case - if the music is already playing
             if (isPlaying) return;
 
+            // Post the play music event
             startMusicEvent.Post(gameObject);
 
+            // Set to playing
             isPlaying = true;
         }
 
@@ -59,62 +53,22 @@ namespace GoodLuckValley
         public void Resume() => resumeMusicEvent.Post(gameObject);
 
         /// <summary>
-        /// Set the default menu states
-        /// </summary>
-        public void SetMenuStates(bool fromPause = false)
-        {
-            foreach (AK.Wwise.State state in menuStates)
-            {
-                SetState(state);
-            }
-
-            if (fromPause)
-                disabledStates.Clear();
-        }
-
-
-        /// <summary>
-        /// Set game states
-        /// </summary>
-        public void SetGameStates()
-        {
-            // Clear the disabled states
-            disabledStates.Clear();
-
-            foreach (AK.Wwise.State state in gameStates)
-            {
-                SetState(state);
-            }
-        }
-
-        /// <summary>
         /// Switch music event states
         /// </summary>
-        /// <param name="state"></param>
-        public void SetState(AK.Wwise.State state, bool permanentChange = false)
+        public void SetState(AK.Wwise.State state)
         {
-            // If the state is in the disabled list, return
-            if (disabledStates.Contains(state.Id)) return;
-
             // Set the state value
             state.SetValue();
-
-            // If noted as permanent, disable the state
-            if (permanentChange)
-                DisableState(state);
         }
 
-        /// <summary>
-        /// Disable a music event state
-        /// </summary>
-        /// <param name="state"></param>
-        public void DisableState(AK.Wwise.State state)
+        public void SetStates(List<AK.Wwise.State> states)
         {
-            // If the state is already disabled, return
-            if (disabledStates.Contains(state.Id)) return;
-
-            // Add the state to the disabled states
-            disabledStates.Add(state.Id);
+            // Iterate through each state
+            foreach (AK.Wwise.State state in states)
+            {
+                // Set the state
+                state.SetValue();
+            }
         }
     }
 }
