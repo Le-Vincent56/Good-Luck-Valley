@@ -1,21 +1,46 @@
 using Cinemachine;
 using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Persistence;
+using GoodLuckValley.Timers;
 using UnityEngine;
 
 namespace GoodLuckValley
 {
     public class CameraController : MonoBehaviour
     {
+        [SerializeField] private CinemachineBrain cinemachineBrain;
         [SerializeField] private CinemachineVirtualCamera[] virtualCameras;
         [SerializeField] private CinemachineVirtualCamera initialCamera;
+        private CinemachineBlendDefinition originalBlend;
+
+        private CountdownTimer correctBlendTimer;
 
         private void Awake()
         {
+            // Set the Cinemachine Brain
+            SetBrain();
+
             // Get the virtual cameras
             virtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>();
 
             // Register this as a service
             ServiceLocator.ForSceneOf(this).Register(this);
+
+            correctBlendTimer = new CountdownTimer(0.2f);
+            correctBlendTimer.OnTimerStop += () => EnableBlends();
+        }
+
+        private void OnEnable()
+        {
+            // Add event listeners
+            SaveLoadSystem.Instance.Release += Cleanup;
+            SaveLoadSystem.Instance.PrepareDataBind += DisableBlends;
+        }
+
+        private void OnDisable()
+        {
+            // Cleanup
+            Cleanup();
         }
 
         private void Start()
@@ -31,6 +56,57 @@ namespace GoodLuckValley
                     // Otherwise, lower the priorities of the other cameras
                     cam.Priority = 10;
             }
+        }
+
+        private void OnDestroy()
+        {
+            // Dispose of the correct blend timer
+            correctBlendTimer?.Dispose();
+        }
+
+        /// <summary>
+        /// Clean up by removing the event listeners
+        /// </summary>
+        private void Cleanup()
+        {
+            SaveLoadSystem.Instance.Release -= Cleanup;
+            SaveLoadSystem.Instance.PrepareDataBind -= DisableBlends;
+        }
+
+        private void SetBrain()
+        {
+            // The Cinemachine Brain is already set
+            if (cinemachineBrain != null) return;
+
+            // Get the Cinemachine Brain
+            cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+
+            // Cache the original blend settings
+            originalBlend = cinemachineBrain.m_DefaultBlend;
+        }
+
+        /// <summary>
+        /// Disable the Cinemachine Brain's blends
+        /// </summary>
+        private void DisableBlends()
+        {
+            // Set the Cinemachine Brain
+            SetBrain();
+
+            // Set the default blend to a cut
+            cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
+
+            // Start the correct blend timer
+            correctBlendTimer.Start();
+        }
+
+        private void EnableBlends()
+        {
+            // Set the Cinemachine Brain
+            SetBrain();
+
+            // Set the original blends
+            cinemachineBrain.m_DefaultBlend = originalBlend;
         }
 
         /// <summary>

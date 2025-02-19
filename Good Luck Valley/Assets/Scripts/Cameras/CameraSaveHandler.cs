@@ -77,7 +77,7 @@ namespace GoodLuckValley.Cameras.Persistence
             dampingCorrected = false;
 
             // Initialize the timer
-            correctDampTimer = new CountdownTimer(0.15f);
+            correctDampTimer = new CountdownTimer(0.2f);
             correctDampTimer.OnTimerStop += () =>
             {
                 // Exit case - there's no Component Base
@@ -130,7 +130,7 @@ namespace GoodLuckValley.Cameras.Persistence
             component = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
 
             // Exit case - no data has been saved yet
-            if (data.Priority == 0 || data.OrthographicSize == 0.0f || data.Offset == Vector3.zero) return;
+            if (data.Priority == 0 || data.OrthographicSize == 0.0f) return;
 
             // Set the data
             transform.position = data.Position;

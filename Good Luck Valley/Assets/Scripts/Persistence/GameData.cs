@@ -14,6 +14,7 @@ namespace GoodLuckValley.Persistence
         public JournalData JournalData;
         public List<CollectibleSaveData> CollectibleDatas;
         public List<CameraData> CameraDatas;
+        public List<TimelineData> TimelineDatas;
 
         public override string ToString()
         {
@@ -94,6 +95,18 @@ namespace GoodLuckValley.Persistence
         public CollectibleSaveData()
         {
             Collected = false;
+        }
+    }
+
+    [Serializable]
+    public class TimelineData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool Played;
+
+        public TimelineData()
+        {
+            Played = false;
         }
     }
 }
