@@ -9,6 +9,7 @@ using GoodLuckValley.Architecture.ServiceLocator;
 using UnityEngine.UI;
 using GoodLuckValley.UI.Menus.Main.States;
 using GoodLuckValley.Audio;
+using GoodLuckValley.Persistence;
 
 namespace GoodLuckValley.UI.Menus.Main
 {
@@ -62,6 +63,8 @@ namespace GoodLuckValley.UI.Menus.Main
         {
             inputReader.Submit += OpenMainMenu;
             inputReader.Cancel += Backtrack;
+            SaveLoadSystem.Instance.Release += Cleanup;
+            SaveLoadSystem.Instance.SettingsBinded += PlayMenuMusic;
         }
 
         private void OnDisable()
@@ -70,19 +73,19 @@ namespace GoodLuckValley.UI.Menus.Main
             inputReader.Cancel -= Backtrack;
         }
 
-        private void Start()
-        {
-            // Set the menu state
-            MusicManager.Instance.SetState(menuState);
-
-            // Ensure the menu music is playing
-            MusicManager.Instance.Play();
-        }
-
         private void Update()
         {
             // Update the State Machine
             stateMachine.Update();
+        }
+
+        /// <summary>
+        /// Cleanup by unsubscribing from events from the Save Load System
+        /// </summary>
+        private void Cleanup()
+        {
+            SaveLoadSystem.Instance.Release -= Cleanup;
+            SaveLoadSystem.Instance.SettingsBinded -= PlayMenuMusic;
         }
 
         /// <summary>
@@ -123,6 +126,15 @@ namespace GoodLuckValley.UI.Menus.Main
 
             // Set the initial state
             stateMachine.SetState(openState);
+        }
+
+        private void PlayMenuMusic()
+        {
+            // Set the menu state
+            MusicManager.Instance.SetState(menuState);
+
+            // Ensure the menu music is playing
+            MusicManager.Instance.Play();
         }
 
         /// <summary>

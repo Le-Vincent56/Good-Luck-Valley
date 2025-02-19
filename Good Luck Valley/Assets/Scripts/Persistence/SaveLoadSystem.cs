@@ -1,12 +1,11 @@
 using GoodLuckValley.Architecture.Singletons;
-using GoodLuckValley.Audio;
 using GoodLuckValley.Cameras.Persistence;
 using GoodLuckValley.Interactables;
 using GoodLuckValley.Player.Persistence;
 using GoodLuckValley.Scenes;
-using GoodLuckValley.UI.Journal;
 using GoodLuckValley.UI.Journal.Persistence;
 using GoodLuckValley.UI.Menus.Persistence;
+using GoodLuckValley.World.Cinematics.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +35,9 @@ namespace GoodLuckValley.Persistence
         private FileGameDataService gameDataService;
         private FileSettingsDataService settingsDataService;
 
+        public Action PrepareDataBind = delegate { };
         public Action<int> DataBinded = delegate { };
+        public Action SettingsBinded = delegate { };
         public Action Release = delegate { };
 
         public bool Debug { get => debug; }
@@ -92,16 +93,23 @@ namespace GoodLuckValley.Persistence
             Bind<VideoSaveHandler, VideoData>(settingsData.Video);
             Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
 
+            // Notify settings binded
+            SettingsBinded.Invoke();
+
             // Exit case - no selected data
             if (selectedData == null) return;
+
+            // Prepare for data binding
+            PrepareDataBind.Invoke();
 
             // Bind Data
             Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
             Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
             Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
             Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
+            Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
 
-            // Invoke the DataBinded event
+            // Notify data binded
             DataBinded.Invoke(index);
         }
 
@@ -191,6 +199,7 @@ namespace GoodLuckValley.Persistence
                 CameraDatas = new List<CameraData>(),
                 JournalData = new JournalData(),
                 CollectibleDatas = new List<CollectibleSaveData>(),
+                TimelineDatas = new List<TimelineData>()
             };
 
             SaveGame();
