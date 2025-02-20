@@ -288,6 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 281427059}
   - component: {fileID: 281427058}
+  - component: {fileID: 281427060}
   m_Layer: 0
   m_Name: AmbienceManager
   m_TagString: Untagged
@@ -349,6 +350,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &281427060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281427057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &334746492
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,70 +634,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac40bbe313cb0f44bf5c4b6198cd0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: Manager
-      Entry: 7
-      Data: 0|GoodLuckValley.Scenes.SceneGroupManager, Assembly-CSharp
-    - Name: CurrentIndex
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Release
-      Entry: 7
-      Data: 1|UnityEngine.Events.UnityAction, UnityEngine.CoreModule
-    - Name: target
-      Entry: 7
-      Data: 2|GoodLuckValley.Scenes.SceneLoader+<>c, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: declaringType
-      Entry: 7
-      Data: 3|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: GoodLuckValley.Scenes.SceneLoader+<>c, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: methodName
-      Entry: 1
-      Data: <.ctor>b__21_0
-    - Name: delegateType
-      Entry: 7
-      Data: 4|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: UnityEngine.Events.UnityAction, UnityEngine.CoreModule
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: signature
-      Entry: 7
-      Data: 5|System.Type[], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  AutoUnparentOnAwake: 1
   sceneGroupData: {fileID: 11400000, guid: 69eee45c10fdab44b976ef16daf72d4c, type: 2}
 --- !u!4 &946757790
 Transform:
@@ -831,6 +792,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1836276695}
   - component: {fileID: 1836276694}
+  - component: {fileID: 1836276696}
+  - component: {fileID: 1836276697}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -903,6 +866,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1836276696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836276693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!114 &1836276697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836276693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6954765bdbf2a2b409896f31bede8b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  bOverrideScalingFactor: 0
+  scalingFactor: -1
+  listenerId: 0
 --- !u!1 &2147180341
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,100 +950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be335b5770c2cde4f98abd05affded93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: saves
-      Entry: 6
-      Data: 
-    - Name: PrepareDataBind
-      Entry: 7
-      Data: 0|System.Action, mscorlib
-    - Name: target
-      Entry: 7
-      Data: 1|GoodLuckValley.Persistence.SaveLoadSystem+<>c, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: declaringType
-      Entry: 7
-      Data: 2|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: GoodLuckValley.Persistence.SaveLoadSystem+<>c, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: methodName
-      Entry: 1
-      Data: <.ctor>b__37_0
-    - Name: delegateType
-      Entry: 7
-      Data: 3|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: System.Action, mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: signature
-      Entry: 7
-      Data: 4|System.Type[], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DataBinded
-      Entry: 6
-      Data: 
-    - Name: SettingsSet
-      Entry: 7
-      Data: 5|System.Action, mscorlib
-    - Name: target
-      Entry: 9
-      Data: 1
-    - Name: declaringType
-      Entry: 9
-      Data: 2
-    - Name: methodName
-      Entry: 1
-      Data: <.ctor>b__37_2
-    - Name: delegateType
-      Entry: 9
-      Data: 3
-    - Name: signature
-      Entry: 7
-      Data: 6|System.Type[], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Release
-      Entry: 6
-      Data: 
-  AutoUnparentOnAwake: 1
   debug: 0
   selectedData:
     Slot: 0

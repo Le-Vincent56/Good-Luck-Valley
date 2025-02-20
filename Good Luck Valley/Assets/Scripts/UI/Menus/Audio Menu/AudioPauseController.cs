@@ -25,8 +25,6 @@ namespace GoodLuckValley.UI.Menus.Audio
 
             // Set the settings state
             pauseMenuController.SetState(pauseMenuController.SETTINGS);
-
-            Debug.Log($"Setting State: {pauseMenuController.SETTINGS}");
         }
     }
 }

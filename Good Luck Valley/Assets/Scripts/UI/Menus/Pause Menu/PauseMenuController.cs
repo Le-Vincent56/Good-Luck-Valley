@@ -306,6 +306,9 @@ namespace GoodLuckValley.UI.Menus.Pause
             // Set the menu state
             MusicManager.Instance.SetState(menuState);
 
+            // Nullify any forced move directions
+            sceneLoader.ForcedMoveDirection = 0;
+
             // Load the Scene Group
             sceneLoader.ChangeSceneGroupSystem(0);
         }

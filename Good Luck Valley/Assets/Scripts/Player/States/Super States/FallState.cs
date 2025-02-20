@@ -43,9 +43,9 @@ namespace GoodLuckValley.Player.States
 
             // Define state transitions
             subStates.At(normalFall, fastFall, new FuncPredicate(() => controller.FrameData.Input.Move.y < 0));
-            subStates.At(fastFall, normalFall, new FuncPredicate(() => controller.FrameData.Input.Move.y == 0));
+            //subStates.At(fastFall, normalFall, new FuncPredicate(() => controller.FrameData.Input.Move.y == 0));
             subStates.At(normalFall, slowFall, new FuncPredicate(() => controller.Bounce.CanSlowFall && controller.FrameData.Input.SlowFalling));
-            subStates.At(slowFall, normalFall, new FuncPredicate(() => !controller.Bounce.CanSlowFall || !controller.FrameData.Input.SlowFalling));
+            //subStates.At(slowFall, normalFall, new FuncPredicate(() => !controller.Bounce.CanSlowFall || !controller.FrameData.Input.SlowFalling));
 
             // Set an initial state
             subStates.SetState(normalFall);

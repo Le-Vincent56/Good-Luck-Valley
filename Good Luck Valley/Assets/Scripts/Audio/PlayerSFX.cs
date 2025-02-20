@@ -1,6 +1,7 @@
 using UnityEngine;
 using AK.Wwise;
 using GoodLuckValley.Player.Movement;
+using GoodLuckValley.Audio.Ambience;
 
 namespace GoodLuckValley.Audio
 {
@@ -38,6 +39,10 @@ namespace GoodLuckValley.Audio
         [SerializeField] private AK.Wwise.Event startWallSlideEvent;
         [SerializeField] private AK.Wwise.Event stopWallSlideEvent;
         [SerializeField] private AK.Wwise.Event wallSlideEndEvent;
+
+        [Header("Fireflies")]
+        [SerializeField] private Switch firefliesSwitch;
+        [SerializeField] private Switch noFirefliesSwitch;
 
         public float CRAWL => 0.8f;
         public float WALK => 2.0f;
@@ -231,5 +236,23 @@ namespace GoodLuckValley.Audio
         /// Play the wall slide end impact sound effect
         /// </summary>
         public void PlayWallSlideEnd() => wallSlideEndEvent.Post(gameObject);
+
+        /// <summary>
+        /// Add the fireflies ambience sounds
+        /// </summary>
+        public void AddFireflies()
+        {
+            firefliesSwitch.SetValue(AmbienceManager.Instance.gameObject);
+            Debug.Log("Fireflies!");
+        }
+
+        /// <summary>
+        /// Remove the fireflies ambience sounds
+        /// </summary>
+        public void RemoveFireflies()
+        {
+            noFirefliesSwitch.SetValue(AmbienceManager.Instance.gameObject);
+            Debug.Log("No Fireflies!");
+        }
     }
 }

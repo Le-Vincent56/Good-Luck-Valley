@@ -239,6 +239,112 @@
 												</GroupingList>
 											</GroupingInfo>
 										</SwitchContainer>
+										<SwitchContainer Name="FIREFLIESSWITCH" ID="{C9CDD39B-DC4C-4A40-A7E1-5895BCBD87DB}" ShortID="908879983">
+											<PropertyList>
+												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="DefaultSwitchOrState">
+													<ObjectRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+												<Reference Name="SwitchGroupOrStateGroup">
+													<ObjectRef Name="FIREFLIESSWITCH" ID="{16BA02A5-2FB4-47DA-B51C-B50A133C537B}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}" ShortID="340447505">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{D53F62DB-EF83-49E0-B618-4365DEE8D4F0}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="1"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="587809570"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{D53F62DB-EF83-49E0-B618-4365DEE8D4F0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}" ShortID="148579863">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{A8171DE3-5355-4ADC-9343-6E757D1D0F88}" ShortID="149914936" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="20"/>
+																<Property Name="LengthMax" Type="Real32" Value="10"/>
+																<Property Name="LengthMin" Type="Real32" Value="-10"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{A8171DE3-5355-4ADC-9343-6E757D1D0F88}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<GroupingInfo>
+												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}"/>
+														<PropertyList>
+															<Property Name="FadeInTime" Type="Real64">
+																<ValueList>
+																	<Value>1</Value>
+																</ValueList>
+															</Property>
+															<Property Name="FadeOutTime" Type="Real64">
+																<ValueList>
+																	<Value>2</Value>
+																</ValueList>
+															</Property>
+														</PropertyList>
+													</GroupingBehavior>
+													<GroupingBehavior>
+														<ItemRef Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}"/>
+													</GroupingBehavior>
+												</GroupingBehaviorList>
+												<GroupingList>
+													<Grouping>
+														<SwitchRef Name="FIREFLIES" ID="{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"/>
+														<ItemList>
+															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}"/>
+														</ItemList>
+													</Grouping>
+													<Grouping>
+														<SwitchRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"/>
+														<ItemList>
+															<ItemRef Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}"/>
+														</ItemList>
+													</Grouping>
+												</GroupingList>
+											</GroupingInfo>
+										</SwitchContainer>
 									</ChildrenList>
 								</BlendContainer>
 								<BlendContainer Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}" ShortID="134399443">
@@ -376,7 +482,7 @@
 															<Language>SFX</Language>
 															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="587809570"/>
+																<MediaID ID="481153050"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -417,6 +523,117 @@
 														<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
 														<ItemList>
 															<ItemRef Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}"/>
+														</ItemList>
+													</Grouping>
+												</GroupingList>
+											</GroupingInfo>
+										</SwitchContainer>
+										<SwitchContainer Name="FIREFLIESSWITCH" ID="{7E1DFEE4-5FA8-4902-B11D-86FD7B63229E}" ShortID="963346775">
+											<PropertyList>
+												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>2</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="DefaultSwitchOrState">
+													<ObjectRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+												<Reference Name="SwitchGroupOrStateGroup">
+													<ObjectRef Name="FIREFLIESSWITCH" ID="{16BA02A5-2FB4-47DA-B51C-B50A133C537B}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}" ShortID="287477350">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{A4E40C48-6D46-4FD3-81EB-F74F45AEBD34}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="1"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="587809570"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{A4E40C48-6D46-4FD3-81EB-F74F45AEBD34}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}" ShortID="118004062">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{C133EB15-83E5-4082-B7C1-DB9177F89A32}" ShortID="710891349" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="20"/>
+																<Property Name="LengthMax" Type="Real32" Value="10"/>
+																<Property Name="LengthMin" Type="Real32" Value="-10"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{C133EB15-83E5-4082-B7C1-DB9177F89A32}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<GroupingInfo>
+												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}"/>
+														<PropertyList>
+															<Property Name="FadeInTime" Type="Real64">
+																<ValueList>
+																	<Value>1</Value>
+																</ValueList>
+															</Property>
+															<Property Name="FadeOutTime" Type="Real64">
+																<ValueList>
+																	<Value>2</Value>
+																</ValueList>
+															</Property>
+														</PropertyList>
+													</GroupingBehavior>
+													<GroupingBehavior>
+														<ItemRef Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}"/>
+													</GroupingBehavior>
+												</GroupingBehaviorList>
+												<GroupingList>
+													<Grouping>
+														<SwitchRef Name="FIREFLIES" ID="{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"/>
+														<ItemList>
+															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}"/>
+														</ItemList>
+													</Grouping>
+													<Grouping>
+														<SwitchRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"/>
+														<ItemList>
+															<ItemRef Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}"/>
 														</ItemList>
 													</Grouping>
 												</GroupingList>

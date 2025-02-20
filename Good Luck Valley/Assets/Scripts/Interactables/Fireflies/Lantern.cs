@@ -14,6 +14,9 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private Light2D activateLight;
         [SerializeField] private ParticleSystem[] lanternParticles;
 
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event lanternPlaceEvent;
+
         [Header("Tweening Variables")]
         [SerializeField] private float toOuterRadius;
         [SerializeField] private float lightOutRatio;
@@ -92,6 +95,9 @@ namespace GoodLuckValley.Interactables.Fireflies
                 // Play the Particle System
                 lanternParticle.Play();
             }
+
+            // Pay the Lantern Place SFX
+            lanternPlaceEvent.Post(gameObject);
 
             // Increase the outer light radius to the far value
             Illuminate(toOuterRadius, illuminateDuration * lightOutRatio, Ease.OutQuad, () =>
