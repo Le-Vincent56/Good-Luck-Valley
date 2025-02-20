@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Player.Movement;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace GoodLuckValley.Scenes
         [Header("References")]
         [SerializeField] private SceneGroupData sceneGroupData;
         [SerializeField, HideInInspector] private int sceneIndexToLoad;
+        private SceneLoader sceneLoader;
 
         [Header("Other")]
         [SerializeField] private int moveDirection;
@@ -24,6 +26,12 @@ namespace GoodLuckValley.Scenes
         public int SceneIndexToLoad { get => sceneIndexToLoad; set => sceneIndexToLoad = value; }
 
         public SceneGroupData SceneGroupData { get => sceneGroupData; }
+
+        private void Awake()
+        {
+            // Get the Scene Loader
+            sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -38,7 +46,7 @@ namespace GoodLuckValley.Scenes
             controller.ForcedMoveDirection = moveDirection;
 
             // Start changing the scene group
-            SceneLoader.Instance.ChangeSceneGroupLevel(sceneIndexToLoad, toGate, moveDirection);
+            sceneLoader.ChangeSceneGroupLevel(sceneIndexToLoad, toGate, moveDirection);
         }
     }
 }

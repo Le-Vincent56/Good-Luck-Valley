@@ -14,7 +14,7 @@ namespace GoodLuckValley.Player.States
         private CrawlLocomotionState crawlingLocomotion;
         private StateMachine stateMachine;
 
-        public GroundedState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx, StateMachine stateMachine)
+        public GroundedState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx, StateMachine stateMachine)
             : base(controller, animator, particles, sfx)
         {
             this.stateMachine = stateMachine;

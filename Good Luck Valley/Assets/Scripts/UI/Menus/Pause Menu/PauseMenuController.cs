@@ -1,4 +1,5 @@
 using DG.Tweening;
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Audio;
 using GoodLuckValley.Events;
@@ -24,6 +25,8 @@ namespace GoodLuckValley.UI.Menus.Pause
         [SerializeField] private IOptionMenu[] optionMenus;
         [SerializeField] private IMenuController[] menuControllers;
         private IMenuController currentMenuController;
+        private SaveLoadSystem saveLoadSystem;
+        private SceneLoader sceneLoader;
 
         [Header("Variables")]
         [SerializeField] private bool paused;
@@ -64,6 +67,10 @@ namespace GoodLuckValley.UI.Menus.Pause
 
             // Disable the menu input reader
             menuInputReader.Disable();
+
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
+            sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
         }
 
         private void OnEnable()
@@ -201,7 +208,7 @@ namespace GoodLuckValley.UI.Menus.Pause
             if (started) return;
 
             // Exit case - if the game is loading
-            if(SceneLoader.Instance.IsLoading) return;
+            if(sceneLoader.IsLoading) return;
 
             // Set the state to paused
             state = 0;
@@ -263,7 +270,7 @@ namespace GoodLuckValley.UI.Menus.Pause
         /// <summary>
         /// Save the game
         /// </summary>
-        public void Save() => SaveLoadSystem.Instance.SaveGame();
+        public void Save() => saveLoadSystem.SaveGame();
 
         /// <summary>
         /// Set the state to unpaused
@@ -300,7 +307,7 @@ namespace GoodLuckValley.UI.Menus.Pause
             MusicManager.Instance.SetState(menuState);
 
             // Load the Scene Group
-            SceneLoader.Instance.ChangeSceneGroupSystem(0);
+            sceneLoader.ChangeSceneGroupSystem(0);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace GoodLuckValley.UI.Menus.Main
         [Header("References")]
         [SerializeField] private UIInputReader inputReader;
         [SerializeField] private Image darkerBackground;
+        private SaveLoadSystem saveLoadSystem;
 
         [Header("States")]
         [SerializeField] private int currentState;
@@ -57,20 +58,25 @@ namespace GoodLuckValley.UI.Menus.Main
 
             // Register as a service
             ServiceLocator.ForSceneOf(this).Register(this);
+
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
         }
 
         private void OnEnable()
         {
             inputReader.Submit += OpenMainMenu;
             inputReader.Cancel += Backtrack;
-            SaveLoadSystem.Instance.Release += Cleanup;
-            SaveLoadSystem.Instance.SettingsBinded += PlayMenuMusic;
+            saveLoadSystem.Release += Cleanup;
+            saveLoadSystem.SettingsSet += PlayMenuMusic;
         }
 
         private void OnDisable()
         {
             inputReader.Submit -= OpenMainMenu;
             inputReader.Cancel -= Backtrack;
+
+            Cleanup();
         }
 
         private void Update()
@@ -84,8 +90,8 @@ namespace GoodLuckValley.UI.Menus.Main
         /// </summary>
         private void Cleanup()
         {
-            SaveLoadSystem.Instance.Release -= Cleanup;
-            SaveLoadSystem.Instance.SettingsBinded -= PlayMenuMusic;
+            saveLoadSystem.Release -= Cleanup;
+            saveLoadSystem.SettingsSet -= PlayMenuMusic;
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace GoodLuckValley.Player.States
 {
     public class NoClipState : SuperState
     {
-        public NoClipState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public NoClipState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
             : base(controller, animator, particles, sfx)
         { }
         public override void SetupSubStateMachine() { }

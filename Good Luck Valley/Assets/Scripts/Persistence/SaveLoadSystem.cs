@@ -1,4 +1,4 @@
-using GoodLuckValley.Architecture.Singletons;
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Cameras.Persistence;
 using GoodLuckValley.Interactables;
 using GoodLuckValley.Player.Persistence;
@@ -25,7 +25,7 @@ namespace GoodLuckValley.Persistence
         void Bind(TData data);
     }
 
-    public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
+    public class SaveLoadSystem : MonoBehaviour
     {
         [SerializeField] private bool debug;
         [SerializeField] private GameData selectedData;
@@ -34,20 +34,21 @@ namespace GoodLuckValley.Persistence
         [SerializeField] private Dictionary<string, GameData> saves;
         private FileGameDataService gameDataService;
         private FileSettingsDataService settingsDataService;
+        private SceneLoader sceneLoader;
 
         public Action PrepareDataBind = delegate { };
         public Action<int> DataBinded = delegate { };
-        public Action SettingsBinded = delegate { };
+        public Action SettingsSet = delegate { };
         public Action Release = delegate { };
 
         public bool Debug { get => debug; }
         public GameData GameData { get => selectedData; }
         public Dictionary<string, GameData> Saves { get { return saves; } }
 
-        protected override void Awake()
+        private void Awake()
         {
-            // Call the parent Awake to set up the Singleton
-            base.Awake();
+            // Register this as a service
+            ServiceLocator.Global.Register(this);
 
             // Create a File Data Service using a JSON Serializer
             gameDataService = new FileGameDataService(new JsonSerializer());
@@ -65,10 +66,15 @@ namespace GoodLuckValley.Persistence
                 NewSettings();
         }
 
-        private void OnEnable()
+        private void Start()
         {
-            SceneLoader.Instance.Release += Cleanup;
-            SceneLoader.Instance.Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
+            // Ensure that the Scene Loader is retrieved
+            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+
+            sceneLoader.Release += Cleanup;
+            sceneLoader.Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
+
+            UnityEngine.Debug.Log("Registered");
         }
 
         private void OnDestroy()
@@ -82,8 +88,11 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         private void Cleanup()
         {
-            SceneLoader.Instance.Release -= Cleanup;
-            SceneLoader.Instance.Manager.OnSceneGroupLoaded -= OnSceneGroupLoaded;
+            // Ensure that the Scene Loader is retrieved
+            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+
+            sceneLoader.Release -= Cleanup;
+            sceneLoader.Manager.OnSceneGroupLoaded -= OnSceneGroupLoaded;
         }
 
         private void OnSceneGroupLoaded(int index)
@@ -94,7 +103,7 @@ namespace GoodLuckValley.Persistence
             Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
 
             // Notify settings binded
-            SettingsBinded.Invoke();
+            SettingsSet.Invoke();
 
             // Exit case - no selected data
             if (selectedData == null) return;
@@ -208,7 +217,7 @@ namespace GoodLuckValley.Persistence
             if (!loadGame) return;
 
             // Load the Scene Group
-            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.PlayerData.LevelIndex);
+            sceneLoader.ChangeSceneGroupSystem(selectedData.PlayerData.LevelIndex);
         }
 
         /// <summary>
@@ -235,7 +244,7 @@ namespace GoodLuckValley.Persistence
             selectedData = gameDataService.Load(gameName);
 
             // Load the scene group at the scene group index
-            SceneLoader.Instance.ChangeSceneGroupSystem(selectedData.PlayerData.LevelIndex);
+            sceneLoader.ChangeSceneGroupSystem(selectedData.PlayerData.LevelIndex);
         }
 
         /// <summary>

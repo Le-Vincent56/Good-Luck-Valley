@@ -59,6 +59,8 @@ namespace GoodLuckValley.Audio
         {
             // Set the state value
             state.SetValue();
+
+            Debug.Log($"Set State: {state}");
         }
 
         public void SetStates(List<AK.Wwise.State> states)
@@ -68,6 +70,8 @@ namespace GoodLuckValley.Audio
             {
                 // Set the state
                 state.SetValue();
+
+                Debug.Log($"Set State: {state}");
             }
         }
     }

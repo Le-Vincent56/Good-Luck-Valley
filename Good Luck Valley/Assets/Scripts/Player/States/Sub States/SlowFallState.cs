@@ -6,7 +6,7 @@ namespace GoodLuckValley.Player.States
 {
     public class SlowFallState : SubState
     {
-        public SlowFallState(PlayerController controller, AnimationController animator, ParticleController particles)
+        public SlowFallState(PlayerController controller, AnimationController animator, PlayerParticleController particles)
         : base(controller, animator, particles)
         { }
 

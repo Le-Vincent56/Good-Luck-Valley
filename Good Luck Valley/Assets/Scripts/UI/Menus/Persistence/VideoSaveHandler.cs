@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Persistence;
 using UnityEngine;
 
@@ -5,8 +6,16 @@ namespace GoodLuckValley.UI.Menus.Persistence
 {
     public class VideoSaveHandler : MonoBehaviour, IBind<VideoData>
     {
+        private SaveLoadSystem saveLoadSystem;
+
         [SerializeField] private VideoData data;
         [field: SerializeField] public SerializableGuid ID { get; set; } = new SerializableGuid(1279892122, 1270737158, 308844696, 3286357241);
+
+        private void Awake()
+        {
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
+        }
 
         /// <summary>
         /// Save the Video settings data
@@ -16,7 +25,7 @@ namespace GoodLuckValley.UI.Menus.Persistence
             // TODO: Set data
 
             // Save the settings
-            SaveLoadSystem.Instance.SaveSettings();
+            saveLoadSystem.SaveSettings();
         }
 
         /// <summary>

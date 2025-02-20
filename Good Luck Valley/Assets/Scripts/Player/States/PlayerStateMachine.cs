@@ -13,7 +13,7 @@ namespace GoodLuckValley
     {
         private PlayerController controller;
         private AnimationController animator;
-        private ParticleController particles;
+        private PlayerParticleController particles;
         private PlayerSFX sfx;
         private DevelopmentTools devTools;
 
@@ -28,7 +28,7 @@ namespace GoodLuckValley
             // Get components
             controller = GetComponent<PlayerController>();
             animator = GetComponentInChildren<AnimationController>();
-            particles = GetComponentInChildren<ParticleController>();
+            particles = GetComponentInChildren<PlayerParticleController>();
             sfx = GetComponentInChildren<PlayerSFX>();
             devTools = GetComponent<DevelopmentTools>();
 

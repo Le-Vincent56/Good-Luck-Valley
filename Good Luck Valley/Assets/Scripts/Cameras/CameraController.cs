@@ -8,6 +8,8 @@ namespace GoodLuckValley
 {
     public class CameraController : MonoBehaviour
     {
+        private SaveLoadSystem saveLoadSystem;
+
         [SerializeField] private CinemachineBrain cinemachineBrain;
         [SerializeField] private CinemachineVirtualCamera[] virtualCameras;
         [SerializeField] private CinemachineVirtualCamera initialCamera;
@@ -17,24 +19,27 @@ namespace GoodLuckValley
 
         private void Awake()
         {
-            // Set the Cinemachine Brain
-            SetBrain();
-
             // Get the virtual cameras
             virtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>();
+
+            // Cache the original blend settings
+            originalBlend = cinemachineBrain.m_DefaultBlend;
+
+            correctBlendTimer = new CountdownTimer(0.2f);
+            correctBlendTimer.OnTimerStop += () => EnableBlends();
 
             // Register this as a service
             ServiceLocator.ForSceneOf(this).Register(this);
 
-            correctBlendTimer = new CountdownTimer(0.2f);
-            correctBlendTimer.OnTimerStop += () => EnableBlends();
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
         }
 
         private void OnEnable()
         {
             // Add event listeners
-            SaveLoadSystem.Instance.Release += Cleanup;
-            SaveLoadSystem.Instance.PrepareDataBind += DisableBlends;
+           saveLoadSystem.Release += Cleanup;
+           saveLoadSystem.PrepareDataBind += DisableBlends;
         }
 
         private void OnDisable()
@@ -69,20 +74,8 @@ namespace GoodLuckValley
         /// </summary>
         private void Cleanup()
         {
-            SaveLoadSystem.Instance.Release -= Cleanup;
-            SaveLoadSystem.Instance.PrepareDataBind -= DisableBlends;
-        }
-
-        private void SetBrain()
-        {
-            // The Cinemachine Brain is already set
-            if (cinemachineBrain != null) return;
-
-            // Get the Cinemachine Brain
-            cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
-
-            // Cache the original blend settings
-            originalBlend = cinemachineBrain.m_DefaultBlend;
+            saveLoadSystem.Release -= Cleanup;
+            saveLoadSystem.PrepareDataBind -= DisableBlends;
         }
 
         /// <summary>
@@ -90,9 +83,6 @@ namespace GoodLuckValley
         /// </summary>
         private void DisableBlends()
         {
-            // Set the Cinemachine Brain
-            SetBrain();
-
             // Set the default blend to a cut
             cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
 
@@ -102,9 +92,6 @@ namespace GoodLuckValley
 
         private void EnableBlends()
         {
-            // Set the Cinemachine Brain
-            SetBrain();
-
             // Set the original blends
             cinemachineBrain.m_DefaultBlend = originalBlend;
         }

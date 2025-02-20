@@ -7,7 +7,7 @@ namespace GoodLuckValley.Player.States
 {
     public class BounceState : SuperState
     {
-        public BounceState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public BounceState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
             : base(controller, animator, particles, sfx)
         { }
 

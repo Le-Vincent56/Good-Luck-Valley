@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.UI.Menus.Controls;
@@ -12,6 +13,7 @@ namespace GoodLuckValley.UI.Menus.Persistence
         [SerializeField] private GameInputReader inputReader;
         [SerializeField] private InputActionAsset inputActionAsset;
         private ControlsController controller;
+        private SaveLoadSystem saveLoadSystem;
 
         [field: SerializeField] public SerializableGuid ID { get; set; } = new SerializableGuid(2453316011, 1181080316, 3984020625, 60208677);
 
@@ -19,6 +21,9 @@ namespace GoodLuckValley.UI.Menus.Persistence
         {
             // Get the controls menu controller
             controller = GetComponent<ControlsController>();
+
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
         }
 
         /// <summary>
@@ -30,7 +35,7 @@ namespace GoodLuckValley.UI.Menus.Persistence
             data.Bindings = inputActionAsset.SaveBindingOverridesAsJson();
 
             // Save the settings
-            SaveLoadSystem.Instance.SaveSettings();
+            saveLoadSystem.SaveSettings();
 
             // Load the bindings
             inputReader.LoadBindings(data.Bindings);

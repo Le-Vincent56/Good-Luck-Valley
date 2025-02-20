@@ -27,7 +27,7 @@ namespace GoodLuckValley.Player.Movement
         private PotentiateHandler potentiateHandler;
         private PlayerStateMachine stateMachine;
         private LayerDetection layerDetection;
-        private ParticleController particles;
+        private PlayerParticleController particles;
 
         [Header("Movement Components")]
         [SerializeField] private bool active;
@@ -74,7 +74,7 @@ namespace GoodLuckValley.Player.Movement
         public PlayerCrawl Crawl { get => crawl; }
         public PlayerBounce Bounce { get => bounce; }
         public PlayerWallJump WallJump { get => wallJump; }
-        public ParticleController Particles { get => particles; }
+        public PlayerParticleController Particles { get => particles; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
@@ -162,7 +162,7 @@ namespace GoodLuckValley.Player.Movement
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
             // Get components
-            particles = GetComponentInChildren<ParticleController>();
+            particles = GetComponentInChildren<PlayerParticleController>();
 
             // Get the Colliders
             boxCollider = GetComponent<BoxCollider2D>();

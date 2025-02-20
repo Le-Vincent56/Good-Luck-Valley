@@ -10,11 +10,11 @@ namespace GoodLuckValley.Player.States
     {
         protected readonly PlayerController controller;
         protected readonly AnimationController animator;
-        protected readonly ParticleController particles;
+        protected readonly PlayerParticleController particles;
         protected readonly PlayerSFX sfx;
         public StateMachine subStates;
 
-        public SuperState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public SuperState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
         {
             this.controller = controller;
             this.animator = animator;

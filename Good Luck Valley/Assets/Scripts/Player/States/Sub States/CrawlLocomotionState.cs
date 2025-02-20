@@ -7,7 +7,7 @@ namespace GoodLuckValley.Player.States
 {
     public class CrawlLocomotionState : SubState
     {
-        public CrawlLocomotionState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public CrawlLocomotionState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
             : base(controller, animator, particles, sfx)
         {
         }

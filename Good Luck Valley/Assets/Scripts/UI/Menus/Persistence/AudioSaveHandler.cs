@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.UI.Menus.Audio;
 using UnityEngine;
@@ -12,8 +13,15 @@ namespace GoodLuckValley.UI.Menus.Persistence
         [SerializeField] private AudioBusSlider musicSlider;
         [SerializeField] private AudioBusSlider sfxSlider;
         [SerializeField] private AudioBusSlider ambienceSlider;
+        private SaveLoadSystem saveLoadSystem;
 
         [field: SerializeField] public SerializableGuid ID { get; set; } = new SerializableGuid(717968785, 1113349830, 333676446, 1625166900);
+
+        private void Awake()
+        {
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
+        }
 
         /// <summary>
         /// Save the Audio data
@@ -27,7 +35,7 @@ namespace GoodLuckValley.UI.Menus.Persistence
             data.AmbienceVolume = ambienceSlider.GetVolume();
 
             // Save the settings
-            SaveLoadSystem.Instance.SaveSettings();
+            saveLoadSystem.SaveSettings();
         }
 
         /// <summary>

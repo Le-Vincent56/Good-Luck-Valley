@@ -14,7 +14,7 @@ namespace GoodLuckValley.Player.States
         private WallJumpState wallJump;
         private JumpBufferState buffer;
 
-        public JumpState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public JumpState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
             : base(controller, animator, particles, sfx)
         { }
 

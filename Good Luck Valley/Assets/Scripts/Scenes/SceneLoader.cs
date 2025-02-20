@@ -8,11 +8,14 @@ using UnityEngine.Events;
 using GoodLuckValley.Events.Player;
 using GoodLuckValley.Events.Scenes;
 using GoodLuckValley.Persistence;
+using GoodLuckValley.Architecture.ServiceLocator;
 
 namespace GoodLuckValley.Scenes
 {
-    public class SceneLoader : PersistentSingleton<SceneLoader>
+    public class SceneLoader : MonoBehaviour
     {
+        private SaveLoadSystem saveLoadSystem;
+
         [Header("Scenes")]
         [SerializeField] private SceneGroupData sceneGroupData;
         private bool isLoading;
@@ -28,11 +31,8 @@ namespace GoodLuckValley.Scenes
 
         public bool IsLoading { get => isLoading; }
 
-        protected override void Awake()
+        private void Awake()
         {
-            // Set up the Singleton
-            base.Awake();
-
             Manager = new SceneGroupManager();
 
             // Create the Countdown Timer
@@ -47,6 +47,12 @@ namespace GoodLuckValley.Scenes
                     ForcedMoveDirection = 0
                 });
             };
+
+            // Register this as a service
+            ServiceLocator.Global.Register(this);
+
+            // get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
         }
 
         private async void Start()
@@ -56,8 +62,8 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
-            SaveLoadSystem.Instance.Release += Cleanup;
-            SaveLoadSystem.Instance.DataBinded += SetPlayerPosition;
+            saveLoadSystem.Release += Cleanup;
+            saveLoadSystem.DataBinded += SetPlayerPosition;
         }
 
         private void OnDestroy()
@@ -74,8 +80,8 @@ namespace GoodLuckValley.Scenes
         /// </summary>
         private void Cleanup()
         {
-            SaveLoadSystem.Instance.Release -= Cleanup;
-            SaveLoadSystem.Instance.DataBinded -= SetPlayerPosition;
+            saveLoadSystem.Release -= Cleanup;
+            saveLoadSystem.DataBinded -= SetPlayerPosition;
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace GoodLuckValley.Player.States
 {
     public class NormalJumpState : SubState
     {
-        public NormalJumpState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public NormalJumpState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
             : base(controller, animator, particles, sfx)
         { }
 

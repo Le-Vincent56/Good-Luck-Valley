@@ -6,7 +6,7 @@ namespace GoodLuckValley.Player.States
 {
     public class IdleState : SubState
     {
-        public IdleState(PlayerController controller, AnimationController animator, ParticleController particles)
+        public IdleState(PlayerController controller, AnimationController animator, PlayerParticleController particles)
             : base(controller, animator, particles)
         { }
 

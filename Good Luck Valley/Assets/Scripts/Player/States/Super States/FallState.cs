@@ -12,7 +12,7 @@ namespace GoodLuckValley.Player.States
         private FastFallState fastFall;
         private SlowFallState slowFall;
 
-        public FallState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public FallState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
             : base(controller, animator, particles, sfx)
         { }
 

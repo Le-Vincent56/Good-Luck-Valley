@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Audio;
 using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
@@ -19,6 +20,7 @@ namespace GoodLuckValley.UI.Menus.Start
         [SerializeField] private DeleteOverlay deleteOverlay;
         [SerializeField] private SaveSlot selectedSlot;
         [SerializeField] private List<SaveSlot> saveSlots;
+        private SaveLoadSystem saveLoadSystem;
 
         [Header("Wwise References")]
         [SerializeField] private AK.Wwise.State gameState;
@@ -37,6 +39,9 @@ namespace GoodLuckValley.UI.Menus.Start
                 // Initialize the Save Slot
                 slot.Initialize(this);
             }
+
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
         }
 
         private void Start()
@@ -57,10 +62,10 @@ namespace GoodLuckValley.UI.Menus.Start
         public void SetSlotData()
         {
             // Refresh the save data
-            SaveLoadSystem.Instance.RefreshSaveData();
+           saveLoadSystem.RefreshSaveData();
 
             // Store all datas into a list
-            List<GameData> saveDatas = SaveLoadSystem.Instance.Saves.Values.ToList();
+            List<GameData> saveDatas = saveLoadSystem.Saves.Values.ToList();
 
             // Check if any data was loadded
             if (saveDatas.Count > 0)
@@ -154,7 +159,7 @@ namespace GoodLuckValley.UI.Menus.Start
             if (saveSlots.Contains(saveSlot))
             {
                 // Start a new game
-                SaveLoadSystem.Instance.NewGame(saveSlot.Slot, true);
+                saveLoadSystem.NewGame(saveSlot.Slot, true);
             }
         }
 
@@ -168,7 +173,7 @@ namespace GoodLuckValley.UI.Menus.Start
             if (saveSlots.Contains(saveSlot))
             {
                 // Load the save file
-                SaveLoadSystem.Instance.LoadGame(saveSlot.Name);
+                saveLoadSystem.LoadGame(saveSlot.Name);
             }
         }
 
@@ -198,7 +203,7 @@ namespace GoodLuckValley.UI.Menus.Start
             EventSystem.current.sendNavigationEvents = false;
 
             // Delete the save data
-            SaveLoadSystem.Instance.DeleteGame(saveSlot.Name);
+            saveLoadSystem.DeleteGame(saveSlot.Name);
 
             // Star the delete delay
             StartCoroutine(DeleteDelay());

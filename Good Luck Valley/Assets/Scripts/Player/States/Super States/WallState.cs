@@ -7,7 +7,7 @@ namespace GoodLuckValley.Player.States
 {
     public class WallState : SuperState
     {
-        public WallState(PlayerController controller, AnimationController animator, ParticleController particles, PlayerSFX sfx)
+        public WallState(PlayerController controller, AnimationController animator, PlayerParticleController particles, PlayerSFX sfx)
             : base(controller, animator, particles, sfx)
         { }
 
