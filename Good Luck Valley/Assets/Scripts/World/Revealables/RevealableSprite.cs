@@ -13,7 +13,7 @@ namespace GoodLuckValley.World.Revealables
             spriteRenderer = GetComponent<SpriteRenderer>();
 
             // Fade out and disable the Sprite Renderer
-            spriteRenderer.DOFade(0f, 0f);
+            Fade(0f, 0f);
             spriteRenderer.enabled = false;
         }
 

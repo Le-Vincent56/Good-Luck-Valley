@@ -19,6 +19,9 @@ namespace GoodLuckValley.World.Revealables
                 // Disable the Sprite Renderer
                 spriteRenderer.enabled = false;
             }
+
+            // Fade out the SpriteRenderers
+            Fade(0f, 0f);
         }
 
         /// <summary>
