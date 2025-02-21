@@ -240,19 +240,11 @@ namespace GoodLuckValley.Audio
         /// <summary>
         /// Add the fireflies ambience sounds
         /// </summary>
-        public void AddFireflies()
-        {
-            firefliesSwitch.SetValue(AmbienceManager.Instance.gameObject);
-            Debug.Log("Fireflies!");
-        }
+        public void AddFireflies() => firefliesSwitch.SetValue(AmbienceManager.Instance.gameObject);
 
         /// <summary>
         /// Remove the fireflies ambience sounds
         /// </summary>
-        public void RemoveFireflies()
-        {
-            noFirefliesSwitch.SetValue(AmbienceManager.Instance.gameObject);
-            Debug.Log("No Fireflies!");
-        }
+        public void RemoveFireflies() => noFirefliesSwitch.SetValue(AmbienceManager.Instance.gameObject);
     }
 }

@@ -210,7 +210,7 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""0c7117da-0439-4f3d-adc2-7cc3ad56a048"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard and Mouse"",
@@ -276,7 +276,7 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""15ad3c9b-ace3-4b70-9531-ac2c15ab8557"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard and Mouse"",
