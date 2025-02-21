@@ -1,35 +1,24 @@
 using DG.Tweening;
-using GoodLuckValley.Events;
 using GoodLuckValley.Events.Fireflies;
+using GoodLuckValley.Events;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.World.Revealables
 {
-    public class Revealable : MonoBehaviour
+    public abstract class Revealable : MonoBehaviour
     {
-        private Tilemap tilemap;
-        private TilemapCollider2D tilemapCollider;
-
         [Header("Channel")]
-        [SerializeField] private int channel;
+        [SerializeField] protected int channel;
 
         [Header("Tweening Variables")]
-        [SerializeField] private float fadeDuration;
-        private Tween fadeTween;
+        [SerializeField] protected float fadeDuration;
+        protected Tween fadeTween;
 
         private EventBinding<ActivateLantern> onActivateLantern;
 
-        private void Awake()
-        {
-            // Get the tilemap
-            tilemap = GetComponent<Tilemap>();
-            tilemapCollider = GetComponent<TilemapCollider2D>();
-        }
-
         private void OnEnable()
         {
-            onActivateLantern = new EventBinding<ActivateLantern>(Reveal);
+            onActivateLantern = new EventBinding<ActivateLantern>(CheckReveal);
             EventBus<ActivateLantern>.Register(onActivateLantern);
         }
 
@@ -41,42 +30,18 @@ namespace GoodLuckValley
         /// <summary>
         /// Reveal the revealable
         /// </summary>
-        private void Reveal(ActivateLantern eventData)
+        private void CheckReveal(ActivateLantern eventData)
         {
             // Exit case - the event channel does not match the Revealable channel
             if (eventData.Channel != channel) return;
 
-            // Enable the tilemap
-            tilemapCollider.enabled = true;
-
-            // Fade in the Revealable
-            Fade(1f, fadeDuration);
+            // Reveal the Revealable
+            Reveal();
         }
 
         /// <summary>
-        /// Handle Tweening for the Tilemap's opacity
+        /// Reveal the Revealable
         /// </summary>
-        private void Fade(float endValue, float fadeDuration, TweenCallback onComplete = null)
-        {
-            // Kill the Fade Tween if it exists
-            fadeTween?.Kill();
-
-            // Get the current color of the Tilemap
-            Color currentColor = tilemap.color;
-
-            // Tween the alpha channel of the Tilemap's color
-            fadeTween = DOTween.To(
-                () => tilemap.color,
-                x => tilemap.color = x,
-                new Color(currentColor.r, currentColor.g, currentColor.b, endValue),
-                fadeDuration
-            );
-
-            // Exit case - there's no completion action
-            if (onComplete == null) return;
-
-            // Hook up completion actions
-            fadeTween.onComplete += onComplete;
-        }
+        protected abstract void Reveal();
     }
 }
