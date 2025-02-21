@@ -39,6 +39,7 @@ namespace GoodLuckValley.Interactables.Fireflies
                 onValue: fireflies =>
                 {
                     // Add fireflies
+                    playerSFX.FeedFireflies();
                     playerSFX.AddFireflies();
                     return 0;
                 },

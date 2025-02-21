@@ -43,6 +43,7 @@ namespace GoodLuckValley.Audio
         [Header("Fireflies")]
         [SerializeField] private Switch firefliesSwitch;
         [SerializeField] private Switch noFirefliesSwitch;
+        [SerializeField] private AK.Wwise.Event feedFirefliesEvent;
 
         public float CRAWL => 0.8f;
         public float WALK => 2.0f;
@@ -246,5 +247,10 @@ namespace GoodLuckValley.Audio
         /// Remove the fireflies ambience sounds
         /// </summary>
         public void RemoveFireflies() => noFirefliesSwitch.SetValue(AmbienceManager.Instance.gameObject);
+
+        /// <summary>
+        /// Play the SFX for feeding fireflies
+        /// </summary>
+        public void FeedFireflies() => feedFirefliesEvent.Post(gameObject);
     }
 }

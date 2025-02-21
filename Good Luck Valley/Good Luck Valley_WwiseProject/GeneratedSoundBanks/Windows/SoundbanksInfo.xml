@@ -221,7 +221,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{77798F76-BA1E-5A09-952E-C0D58031482B}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{973745BE-248C-9FC8-D744-2F3CDCC1E736}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -232,6 +232,10 @@
 				<File Id="21134997" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>UI\Toggle\UI_TOGGLE_ON.wav</ShortName>
 					<CachePath>08/{08557582-55BD-EA7F-6CD1-3A2D3C221749}.wem</CachePath>
+				</File>
+				<File Id="25278530" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>FIREFLIES_MUNCH.wav</ShortName>
+					<CachePath>CC/{CC02440B-5565-6D83-0149-E164AEDE39F2}.wem</CachePath>
 				</File>
 				<File Id="26005405" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_02.wav</ShortName>
@@ -990,6 +994,11 @@
 						<MediaRef Id="309120472"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="2340979173" Name="PLAY_FIREFLIES_MUNCH" DurationType="OneShot" DurationMin="0.57807255" DurationMax="0.57807255">
+					<MediaRefs>
+						<MediaRef Id="25278530"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="4286947103" Name="PLAY_MUSHROOM_BOUNCE" DurationType="OneShot" DurationMin="0.49917716" DurationMax="0.7122138">
 					<MediaRefs>
 						<MediaRef Id="473071850"/>
@@ -1610,5 +1619,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4AD74076-0262-ED0C-0E41-0F0F865AFECC}</FileHash>
+	<FileHash>{69A2B5B7-3792-F956-FEF1-D1ED59D9A8E3}</FileHash>
 </SoundBanksInfo>

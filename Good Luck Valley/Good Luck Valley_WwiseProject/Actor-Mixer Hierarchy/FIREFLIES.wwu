@@ -45,6 +45,28 @@
 						<ActiveSource Name="FIREFLIES_LANTERN_PLACE" ID="{C0D2DBDD-D874-45B7-8F58-C80FAC45ED5F}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
+				<Sound Name="FIREFLIES_MUNCH" ID="{D4F317F0-E7B8-4BBE-B29B-554766ECD3FF}" ShortID="144958586">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="MASTER_FIREFLIES" ID="{E2E68EC4-DF69-4D96-AA60-EDD996091F25}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="FIREFLIES_MUNCH" ID="{9846A1A7-601F-4FB5-95B1-5C7CA9F1029F}">
+							<Language>SFX</Language>
+							<AudioFile>FIREFLIES_MUNCH.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="25278530"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="FIREFLIES_MUNCH" ID="{9846A1A7-601F-4FB5-95B1-5C7CA9F1029F}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>
