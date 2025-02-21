@@ -16,6 +16,7 @@ namespace GoodLuckValley.Interactables
 
         [Header("Fields")]
         [SerializeField] protected bool triggered;
+        [SerializeField] private int numberOfFeedbackSprites;
         [SerializeField] private bool multipleFeedbackSprites;
         [SerializeField] protected bool canInteract;
 
@@ -31,7 +32,7 @@ namespace GoodLuckValley.Interactables
 
             // Check for multiple feedback sprites
             feedbackSprites = multipleFeedbackSprites 
-                ? GetComponentsInChildren<SpriteRenderer>().Skip(1).ToArray()
+                ? GetComponentsInChildren<SpriteRenderer>().Skip(1).Take(numberOfFeedbackSprites).ToArray()
                 : GetComponentsInChildren<SpriteRenderer>().Skip(1).Take(1).ToArray();
 
             // Set variables
