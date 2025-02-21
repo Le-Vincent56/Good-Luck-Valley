@@ -51,12 +51,15 @@ State	ID	Name	State Group			Notes
 	748895195	None	STATES_PLAYER			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
+	647674338	RTPC_TIMEWARP_DISTORT			\Default Work Unit\RTPC_TIMEWARP_DISTORT	
+	983576458	RTPC_TIMEWARP_TICK			\Default Work Unit\RTPC_TIMEWARP_TICK	
 	2972739263	RTPC_AMBIENCE			\Volume Controls\RTPC_AMBIENCE	
 	3438452020	RTPC_SFX			\Volume Controls\RTPC_SFX	
 	3445598977	RTPC_MASTER			\Volume Controls\RTPC_MASTER	
 	3709650428	RTPC_MUSIC			\Volume Controls\RTPC_MUSIC	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
+	579657244	MASTER_POTENTIATES			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_POTENTIATES	
 	860652252	UI_NAVIGATION			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_UI\UI_NAVIGATION	
 	1042698302	MUSHROOM_DISSIPATE			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM\MUSHROOM_DISSIPATE	
 	1168632360	MASTER_UI			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_UI	
@@ -70,6 +73,7 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	1919967482	MUSHROOM_PICKUP			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM\MUSHROOM_PICKUP	
 	2012620565	FIREFLIES_LANTERN_PLACE			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_FIREFLIES\FIREFLIES_LANTERN_PLACE	
 	2228101040	MASTER_MUSHROOM			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_MUSHROOM	
+	2424732109	POTENTIATES_TIMEWARP			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_POTENTIATES\POTENTIATES_TIMEWARP	
 	2453119373	MASTER_PLAYER			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER	
 	2505162442	UI_BUTTON			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_UI\UI_BUTTON	
 	2551268862	PLAYER_FALL			\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_FALL	
@@ -91,6 +95,12 @@ Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	1578973140	REVERB_OUTDOOR			\Default Work Unit\Master Audio Bus\REVERBS\REVERB_OUTDOOR	
 	3292698384	REVERB_SMALLROOM			\Default Work Unit\Master Audio Bus\REVERBS\REVERB_SMALLROOM	
 	3545700988	REVERBS			\Default Work Unit\Master Audio Bus\REVERBS	
+
+Effect plug-ins	ID	Name	Type				Notes
+	702543456	Tunnel1	Wwise Matrix Reverb			
+	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
+	2171127646	Hall_Conversation	Wwise RoomVerb			
+	3604890626	High_Pass_60Hz	Wwise Parametric EQ			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

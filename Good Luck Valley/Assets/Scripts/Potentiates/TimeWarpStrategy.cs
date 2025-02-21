@@ -3,6 +3,7 @@ using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
 using GoodLuckValley.Events.Potentiates;
+using System.Diagnostics;
 
 namespace GoodLuckValley.Potentiates
 {
@@ -12,9 +13,11 @@ namespace GoodLuckValley.Potentiates
         private TimeWarpParticleController particles;
         private Optional<PotentiateHandler> storedHandler = Optional<PotentiateHandler>.None();
         private Optional<PlayerController> storedController = Optional<PlayerController>.None();
-        private CountdownTimer durationTimer;
-        private CountdownTimer cooldownTimer;
-        private CountdownTimer timeScaleTimer;
+        private readonly CountdownTimer durationTimer;
+        private readonly CountdownTimer cooldownTimer;
+        private readonly CountdownTimer timeScaleTimer;
+        private readonly CountdownTimer rtpcInTimer;
+        private readonly CountdownTimer rtpcOutTimer;
 
         public TimeWarpStrategy(Potentiate parent, float duration)
         {
@@ -27,9 +30,52 @@ namespace GoodLuckValley.Potentiates
             // Initialize the duration timer
             durationTimer = new CountdownTimer(duration);
 
+            rtpcInTimer = new CountdownTimer(0.5f);
+
+            rtpcInTimer.OnTimerStart += () =>
+            {
+                parent.SetPrimaryRTPC(0f);
+            };
+
+            rtpcInTimer.OnTimerTick += () =>
+            {
+                parent.SetPrimaryRTPC(1f - rtpcInTimer.Progress);
+
+            };
+
+            rtpcInTimer.OnTimerStop += () =>
+            {
+                parent.SetPrimaryRTPC(1f);
+            };
+
+            rtpcOutTimer = new CountdownTimer(0.5f);
+
+            rtpcOutTimer.OnTimerStart += () =>
+            {
+                parent.SetPrimaryRTPC(1f);
+            };
+
+            rtpcOutTimer.OnTimerTick += () =>
+            {
+                parent.SetPrimaryRTPC(rtpcOutTimer.Progress);
+            };
+
+            rtpcOutTimer.OnTimerStop += () =>
+            {
+                parent.SetPrimaryRTPC(0f);
+            };
+
             durationTimer.OnTimerStart += () =>
             {
-                // TODO: Start the ticking sound
+                // Start the ticking sound
+                parent.SetSecondaryRTPC(0f);
+                parent.PlaySFX();
+            };
+
+            durationTimer.OnTimerTick += () =>
+            {
+                // Set the ticking RTPC to escalate as the timer progresses
+                parent.SetSecondaryRTPC(1f - durationTimer.Progress);
             };
 
             durationTimer.OnTimerStop += () =>
@@ -59,6 +105,13 @@ namespace GoodLuckValley.Potentiates
                     },
                     onNoValue: () => { return 0; }
                 );
+
+                // Reset the secondary RTPC and stop SFX
+                parent.StopSFX();
+                parent.SetSecondaryRTPC(0f);
+
+                // Start the RTPC Out Timer
+                rtpcOutTimer.Start();
 
                 RespawnPotentiate();
 
@@ -94,6 +147,8 @@ namespace GoodLuckValley.Potentiates
             durationTimer.Dispose();
             cooldownTimer.Dispose();
             timeScaleTimer.Dispose();
+            rtpcInTimer.Dispose();
+            rtpcOutTimer.Dispose();
         }
 
         /// <summary>
@@ -143,6 +198,9 @@ namespace GoodLuckValley.Potentiates
                 Color = new UnityEngine.Color(0.3608f, 0.7216f, 1f, 1f)
             });
 
+            // Start fading in the Time Warp audio effect
+            rtpcInTimer.Start();
+
             // Stop particles
             particles.Stop();
 
@@ -157,6 +215,9 @@ namespace GoodLuckValley.Potentiates
             // Pause (and deregister) the duration timer
             durationTimer.Pause(true);
 
+            // Pause (and deregister) the Time Warp audio timer
+            rtpcInTimer.Pause(true);
+
             // Stop the time scale timer
             timeScaleTimer.Stop();
 
@@ -168,6 +229,13 @@ namespace GoodLuckValley.Potentiates
             {
                 Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
             });
+
+            // Start the RTPC Out Timer
+            rtpcOutTimer.Start();
+
+            // Reset the secondary RTPC and stop SFX
+            parent.StopSFX();
+            parent.SetSecondaryRTPC(0f);
         }
 
         /// <summary>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{519160BC-4021-42BB-9971-8B7F8AAF87DE}" SchemaVersion="123">
+	<AudioObjects>
+		<WorkUnit Name="POTENTIATES" ID="{519160BC-4021-42BB-9971-8B7F8AAF87DE}" PersistMode="Standalone">
+			<ChildrenList>
+				<RandomSequenceContainer Name="POTENTIATES_TIMEWARP_TICK" ID="{A8453444-D04B-4B95-9AE8-9842E1B41CA1}" ShortID="633666188">
+					<PropertyList>
+						<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+						<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="POTENTIATES_TIMEWARP" ID="{9B05156E-DC26-4BA7-BA2F-C8042CA7C355}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="TIMEWARP_TICK" ID="{2A0CA509-BB2F-4811-8CC5-6DA50F8C727C}" ShortID="369932159">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{86A08FD8-DA07-4D92-A22B-976AFCBA4071}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="15"/>
+													<Property Name="Min" Type="Real64" Value="-15"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-8</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TIMEWARP_TICK" ID="{3494F8A3-006B-4389-84F8-E164C45E4547}">
+									<Language>SFX</Language>
+									<AudioFile>Potentiates\Time Warp\TIMEWARP_TICK.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="372653540"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TIMEWARP_TICK_01" ID="{E62103D2-F530-4CBF-A2A6-C24B23C564B9}">
+									<Language>SFX</Language>
+									<AudioFile>TIMEWARP_TICK.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="731811915"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TIMEWARP_TICK_01" ID="{E62103D2-F530-4CBF-A2A6-C24B23C564B9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Playlist">
+							<Reference>
+								<ObjectRef Name="TIMEWARP_TICK" ID="{2A0CA509-BB2F-4811-8CC5-6DA50F8C727C}" WorkUnitID="{519160BC-4021-42BB-9971-8B7F8AAF87DE}"/>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+				</RandomSequenceContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>
