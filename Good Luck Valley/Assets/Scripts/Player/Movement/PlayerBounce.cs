@@ -49,8 +49,6 @@ namespace GoodLuckValley.Player.Movement
                 // Calculate the bounce force based on yContactValue
                 float bouncePower = Mathf.Lerp(controller.Stats.MaxBouncePower, controller.Stats.MinBouncePower, yContactValue);
 
-                Debug.Log($"Bounce Power: {bouncePower}");
-
                 // Add the bounce force to the player
                 controller.FrameData.AddForce(new Vector2(0, bouncePower), true, true);
             }
