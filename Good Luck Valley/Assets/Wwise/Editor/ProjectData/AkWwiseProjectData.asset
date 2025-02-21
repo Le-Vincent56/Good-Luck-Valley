@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584614446657351579
+    m_lastTime: -8584614392352099634
     List:
     - name: AMBIENCE_2D
       guid: b45c581bfdea7f41a764d005cf137d6f
@@ -251,6 +251,26 @@ MonoBehaviour:
         ObjectType: 2
         guid: a42cae9d4858a34d9853165eb67fa107
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER
+    - name: MASTER_POTENTIATES
+      guid: 6cbfb648a77f0e4da4cc65dfc5d62096
+      id: 579657244
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 8f1b8c6611adc34c99866b8f5ed1dbac
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
+      - ElementName: MASTER_POTENTIATES
+        ObjectType: 2
+        guid: 6cbfb648a77f0e4da4cc65dfc5d62096
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_POTENTIATES
     - name: MASTER_SFX
       guid: 77b21887db047840ac4b77429e4bed7b
       id: 3462011115
@@ -524,6 +544,29 @@ MonoBehaviour:
         ObjectType: 2
         guid: 19f4b9f315214b49ac1ad49e30d628dd
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_PLAYER\PLAYER_LOCOMOTION\PLAYER_LOCOMOTION_SLIDE
+    - name: POTENTIATES_TIMEWARP
+      guid: 6e15059b26dca74bba2fc8042ca7c355
+      id: 2424732109
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 8f1b8c6611adc34c99866b8f5ed1dbac
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
+      - ElementName: MASTER_POTENTIATES
+        ObjectType: 2
+        guid: 6cbfb648a77f0e4da4cc65dfc5d62096
+      - ElementName: POTENTIATES_TIMEWARP
+        ObjectType: 2
+        guid: 6e15059b26dca74bba2fc8042ca7c355
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_POTENTIATES\POTENTIATES_TIMEWARP
     - name: REVERB_CAVE
       guid: d0cd66e8f4a68446b40d3eddd3952251
       id: 323187407
@@ -725,7 +768,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: cc31a129b26dbb4dbba2c92c4af23575
     GuidInternal: 
-    m_lastTime: -8584614994452038987
+    m_lastTime: -8584614388924338927
     List:
     - name: GAME_SOUNDBANK
       guid: 8c86ef3bfc27e3489e4ee297b6818463
@@ -1439,6 +1482,19 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+  - PhysicalPath: Events\POTENTIATES.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: POTENTIATES
+      ObjectType: 12
+      guid: 66e8cd072af8934a839949204e6ffba7
+    ParentPath: Events\POTENTIATES
+    guid: 66e8cd072af8934a839949204e6ffba7
+    GuidInternal: 
+    m_lastTime: -8584614395425535398
+    List: []
   - PhysicalPath: Events\TEST_EVENTS.wwu
     PathAndIcons:
     - ElementName: Events
@@ -1551,6 +1607,62 @@ MonoBehaviour:
         ObjectType: 3
         guid: afdc6984a8cc234b890729cab62900fa
       Path: Events\TEST_EVENTS\STOP_TESTBEEP_LOOP_3D
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+  - PhysicalPath: Events\TIMEWARP.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: POTENTIATES
+      ObjectType: 12
+      guid: 66e8cd072af8934a839949204e6ffba7
+    - ElementName: TIMEWARP
+      ObjectType: 12
+      guid: 3a204717ef659041b20fa01e7a8f2b6d
+    ParentPath: Events\POTENTIATES\TIMEWARP
+    guid: 3a204717ef659041b20fa01e7a8f2b6d
+    GuidInternal: 
+    m_lastTime: -8584614389047301194
+    List:
+    - name: PLAY_TIMEWARP_TICK
+      guid: acfa949eaa73ed49b420d023f68b9bfc
+      id: 3704528693
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: POTENTIATES
+        ObjectType: 12
+        guid: 66e8cd072af8934a839949204e6ffba7
+      - ElementName: TIMEWARP
+        ObjectType: 12
+        guid: 3a204717ef659041b20fa01e7a8f2b6d
+      - ElementName: PLAY_TIMEWARP_TICK
+        ObjectType: 3
+        guid: acfa949eaa73ed49b420d023f68b9bfc
+      Path: Events\POTENTIATES\TIMEWARP\PLAY_TIMEWARP_TICK
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: STOP_TIMEWARP_TICK
+      guid: 16d11619f95aed4994c731c1e12242b7
+      id: 1365342371
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: POTENTIATES
+        ObjectType: 12
+        guid: 66e8cd072af8934a839949204e6ffba7
+      - ElementName: TIMEWARP
+        ObjectType: 12
+        guid: 3a204717ef659041b20fa01e7a8f2b6d
+      - ElementName: STOP_TIMEWARP_TICK
+        ObjectType: 3
+        guid: 16d11619f95aed4994c731c1e12242b7
+      Path: Events\POTENTIATES\TIMEWARP\STOP_TIMEWARP_TICK
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1803,7 +1915,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3b98b877b8191e4d997b0521d7f4095a
     GuidInternal: 
-    m_lastTime: -8584622837585596072
+    m_lastTime: -8584614392212346206
     List:
     - name: RTPC_DISTANCE
       guid: 291ab848b708ba459bbebca64800530d
@@ -1861,6 +1973,34 @@ MonoBehaviour:
         ObjectType: 13
         guid: a34c3b0a74c53d428cc0d680ef6a0e75
       Path: Game Parameters\Default Work Unit\RTPC_PLAYERSPEED
+    - name: RTPC_TIMEWARP_DISTORT
+      guid: 851615a4a2ae444083dc9adcf6165a62
+      id: 647674338
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 3b98b877b8191e4d997b0521d7f4095a
+      - ElementName: RTPC_TIMEWARP_DISTORT
+        ObjectType: 13
+        guid: 851615a4a2ae444083dc9adcf6165a62
+      Path: Game Parameters\Default Work Unit\RTPC_TIMEWARP_DISTORT
+    - name: RTPC_TIMEWARP_TICK
+      guid: 429f3c093dbf2447b560ae9865ba9623
+      id: 983576458
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 3b98b877b8191e4d997b0521d7f4095a
+      - ElementName: RTPC_TIMEWARP_TICK
+        ObjectType: 13
+        guid: 429f3c093dbf2447b560ae9865ba9623
+      Path: Game Parameters\Default Work Unit\RTPC_TIMEWARP_TICK
   - PhysicalPath: Game Parameters\Volume Controls.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -2990,7 +3130,7 @@ MonoBehaviour:
     m_lastTime: -8584622837584314907
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 05000000060000000b0000000c0000000d0000000e0000001300000018000000190000001a0000001b0000001c000000230000002400000025000000260000002700000028000000290000002b0000002c0000002d0000002e0000002f0000003000000031000000320000003300000034000000360000003700000038000000390000003a0000003b0000003e00000041000000420000004800000051000000560000005a0000005b0000005d0000007400000077000000
+  ExpandedWaapiItemIds: 05000000060000000b0000000c0000000d0000000e0000001300000018000000190000001a0000001b0000001c0000002100000022000000230000002400000025000000260000002700000028000000290000002b0000002c0000002d0000002e0000002f0000003000000031000000320000003300000034000000360000003700000038000000390000003a0000003b0000003e00000041000000420000004700000048000000490000004a00000051000000560000005a0000005b0000005d0000007400000077000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

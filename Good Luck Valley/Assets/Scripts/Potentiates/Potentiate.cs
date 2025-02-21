@@ -1,3 +1,4 @@
+using AK.Wwise;
 using DG.Tweening;
 using GoodLuckValley.Timers;
 using UnityEngine;
@@ -21,6 +22,12 @@ namespace GoodLuckValley.Potentiates
         private CountdownTimer useBufferTimer;
         [SerializeField] private float useBufferTime;
         [SerializeField] private bool buffering;
+
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event startSound;
+        [SerializeField] private AK.Wwise.Event stopSound;
+        [SerializeField] private RTPC primaryRTPC;
+        [SerializeField] private RTPC secondaryRTPC;
 
         [Header("Tweening Variables")]
         [SerializeField] private float fadeDuration;
@@ -110,5 +117,26 @@ namespace GoodLuckValley.Potentiates
         /// Allow the Potentiate to be used
         /// </summary>
         public void AllowPotentiation() => canPotentiate = true;
+
+        /// <summary>
+        /// Play the Potentiate SFX
+        /// </summary>
+        public void PlaySFX() => startSound.Post(gameObject);
+
+        /// <summary>
+        /// Stop any Potentiate SFX
+        /// </summary>
+        public void StopSFX() => stopSound.Post(gameObject);
+
+        /// <summary>
+        /// Set the value of the Primary RTPC
+        /// </summary>
+        public void SetPrimaryRTPC(float value) => primaryRTPC.SetGlobalValue(value);
+
+        /// <summary>
+        /// Set the value of the Secondary RTPC
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetSecondaryRTPC(float value) => secondaryRTPC.SetGlobalValue(value);
     }
 }

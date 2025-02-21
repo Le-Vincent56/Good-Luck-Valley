@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{1747203A-65EF-4190-B20F-A01E7A8F2B6D}" SchemaVersion="123" RootDocumentID="{07CDE866-F82A-4A93-8399-49204E6FFBA7}" ParentDocumentID="{07CDE866-F82A-4A93-8399-49204E6FFBA7}">
+	<Events>
+		<WorkUnit Name="TIMEWARP" ID="{1747203A-65EF-4190-B20F-A01E7A8F2B6D}" OwnerID="{07CDE866-F82A-4A93-8399-49204E6FFBA7}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="PLAY_TIMEWARP_TICK" ID="{9E94FAAC-73AA-49ED-B420-D023F68B9BFC}">
+					<ChildrenList>
+						<Action Name="" ID="{B4C87ACE-7F9D-427E-9465-025B5D5DCA29}" ShortID="917085927">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="POTENTIATES_TIMEWARP_TICK" ID="{A8453444-D04B-4B95-9AE8-9842E1B41CA1}" WorkUnitID="{519160BC-4021-42BB-9971-8B7F8AAF87DE}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="STOP_TIMEWARP_TICK" ID="{1916D116-5AF9-49ED-94C7-31C1E12242B7}">
+					<ChildrenList>
+						<Action Name="" ID="{1D36B81C-9DFF-4B67-8693-8299E5817DE7}" ShortID="956525478">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="POTENTIATES_TIMEWARP_TICK" ID="{A8453444-D04B-4B95-9AE8-9842E1B41CA1}" WorkUnitID="{519160BC-4021-42BB-9971-8B7F8AAF87DE}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

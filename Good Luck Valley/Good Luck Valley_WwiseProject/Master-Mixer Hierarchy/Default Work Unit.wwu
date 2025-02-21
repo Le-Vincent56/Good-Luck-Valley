@@ -29,6 +29,56 @@
 											</EffectSlot>
 										</Local>
 									</Reference>
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{FE1EDD00-4576-4911-802B-B9B996D13742}" ShortID="45680454">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
+														<ObjectRef Name="Tunnel1" ID="{CC44B890-9865-4157-965F-86FED27BC4C6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+												<ObjectLists>
+													<ObjectList Name="RTPC">
+														<Reference>
+															<Local>
+																<RTPC Name="" ID="{819BE15F-80EE-441E-A7A4-1984A0AA2D54}" ShortID="293664228">
+																	<PropertyList>
+																		<Property Name="PropertyName" Type="string" Value="Bypass"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="ControlInput">
+																			<ObjectRef Name="RTPC_TIMEWARP_DISTORT" ID="{A4151685-AEA2-4044-83DC-9ADCF6165A62}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																		</Reference>
+																		<Reference Name="Curve">
+																			<Custom>
+																				<Curve Name="" ID="{45FF4D16-26F1-41C9-A7BA-F9A685431CD9}">
+																					<PropertyList>
+																						<Property Name="Flags" Type="int32" Value="65537"/>
+																					</PropertyList>
+																					<PointList>
+																						<Point>
+																							<XPos>0</XPos>
+																							<YPos>1</YPos>
+																							<Flags>5</Flags>
+																						</Point>
+																						<Point>
+																							<XPos>1</XPos>
+																							<YPos>0</YPos>
+																							<Flags>37</Flags>
+																						</Point>
+																					</PointList>
+																				</Curve>
+																			</Custom>
+																		</Reference>
+																	</ReferenceList>
+																</RTPC>
+															</Local>
+														</Reference>
+													</ObjectList>
+												</ObjectLists>
+											</EffectSlot>
+										</Local>
+									</Reference>
 								</ObjectList>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -71,6 +121,30 @@
 						</Bus>
 						<Bus Name="MASTER_MUSIC" ID="{66327182-3D3A-47D6-B6C1-58308EC3F8FB}">
 							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{9552181C-DF40-4BA6-BB27-529AF1D8E5E1}" ShortID="63696218">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+														<ObjectRef Name="Low_Pass_20KHz" ID="{830124FB-B9D5-4AE8-846E-E94A74652666}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{50BEFE54-7014-44E2-B494-F9EAE065D9EC}" ShortID="953253161">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+														<ObjectRef Name="Hall_Conversation" ID="{E2C3BD70-E5E4-46A5-BDA6-99A92FAAC1AC}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
 								<ObjectList Name="RTPC">
 									<Reference>
 										<Local>
@@ -153,6 +227,27 @@
 								<Bus Name="MASTER_FIREFLIES" ID="{E2E68EC4-DF69-4D96-AA60-EDD996091F25}">
 									<ChildrenList>
 										<Bus Name="FIREFLIES_LANTERN_PLACE" ID="{F7AB8250-CBBA-4B6F-871A-4C13F88A8EEA}"/>
+									</ChildrenList>
+								</Bus>
+								<Bus Name="MASTER_POTENTIATES" ID="{48B6BF6C-7FA7-4D0E-A4CC-65DFC5D62096}">
+									<ChildrenList>
+										<Bus Name="POTENTIATES_TIMEWARP" ID="{9B05156E-DC26-4BA7-BA2F-C8042CA7C355}">
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<Reference>
+														<Local>
+															<EffectSlot Name="" ID="{78AC5FEE-335A-4190-8440-B4D9C8CD4B78}" ShortID="865942793">
+																<ReferenceList>
+																	<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																		<ObjectRef Name="High_Pass_60Hz" ID="{F9627628-0B10-4272-BC30-D4C20423CB38}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</Bus>
 									</ChildrenList>
 								</Bus>
 							</ChildrenList>

@@ -33,6 +33,7 @@ namespace AK
         static const AkUniqueID PLAY_TESTBEEP_3D = 1681067324U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
+        static const AkUniqueID PLAY_TIMEWARP_TICK = 3704528693U;
         static const AkUniqueID PLAY_UI_BUTTON_ENTER = 1352870076U;
         static const AkUniqueID PLAY_UI_BUTTON_EXIT = 2891287198U;
         static const AkUniqueID PLAY_UI_BUTTON_GENERAL = 4245379566U;
@@ -50,6 +51,7 @@ namespace AK
         static const AkUniqueID STOP_PLAYER_WALLSLIDE = 3996749609U;
         static const AkUniqueID STOP_TESTBEEP_LOOP = 2989390457U;
         static const AkUniqueID STOP_TESTBEEP_LOOP_3D = 304008745U;
+        static const AkUniqueID STOP_TIMEWARP_TICK = 1365342371U;
     } // namespace EVENTS
 
     namespace STATES
@@ -243,6 +245,8 @@ namespace AK
         static const AkUniqueID RTPC_PLAYERFALLSPEED = 2290256636U;
         static const AkUniqueID RTPC_PLAYERSPEED = 2653406601U;
         static const AkUniqueID RTPC_SFX = 3438452020U;
+        static const AkUniqueID RTPC_TIMEWARP_DISTORT = 647674338U;
+        static const AkUniqueID RTPC_TIMEWARP_TICK = 983576458U;
     } // namespace GAME_PARAMETERS
 
     namespace BANKS
@@ -264,6 +268,7 @@ namespace AK
         static const AkUniqueID MASTER_MUSIC = 1900298039U;
         static const AkUniqueID MASTER_NPC = 3591553651U;
         static const AkUniqueID MASTER_PLAYER = 2453119373U;
+        static const AkUniqueID MASTER_POTENTIATES = 579657244U;
         static const AkUniqueID MASTER_SFX = 3462011115U;
         static const AkUniqueID MASTER_UI = 1168632360U;
         static const AkUniqueID MUSHROOM_BOUNCE = 4126136622U;
@@ -276,6 +281,7 @@ namespace AK
         static const AkUniqueID PLAYER_LOCOMOTION = 1375983526U;
         static const AkUniqueID PLAYER_LOCOMOTION_IMPACTS = 2940948846U;
         static const AkUniqueID PLAYER_LOCOMOTION_SLIDE = 3614903352U;
+        static const AkUniqueID POTENTIATES_TIMEWARP = 2424732109U;
         static const AkUniqueID UI_BUTTON = 2505162442U;
         static const AkUniqueID UI_NAVIGATION = 860652252U;
         static const AkUniqueID UI_SLIDER = 3987036369U;

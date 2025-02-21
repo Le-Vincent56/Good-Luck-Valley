@@ -17,10 +17,36 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{793D5747-FC7E-1776-BD0D-E2803DB4693D}",
+    "Hash": "{1B3AFA11-57A8-0454-A00E-6D4B315EB05A}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
+     "ShareSets": [
+      {
+       "Id": "702543456",
+       "Name": "Tunnel1",
+       "LibName": "Wwise Matrix Reverb",
+       "LibId": "7536643"
+      },
+      {
+       "Id": "1008402193",
+       "Name": "Low_Pass_20KHz",
+       "LibName": "Wwise Parametric EQ",
+       "LibId": "6881283"
+      },
+      {
+       "Id": "2171127646",
+       "Name": "Hall_Conversation",
+       "LibName": "Wwise RoomVerb",
+       "LibId": "7733251"
+      },
+      {
+       "Id": "3604890626",
+       "Name": "High_Pass_60Hz",
+       "LibName": "Wwise Parametric EQ",
+       "LibId": "6881283"
+      }
+     ],
      "AudioDevices": [
       {
        "Id": "2317455096",
@@ -37,6 +63,10 @@
      ]
     },
     "Busses": [
+     {
+      "Id": "579657244",
+      "Name": "MASTER_POTENTIATES"
+     },
      {
       "Id": "860652252",
       "Name": "UI_NAVIGATION"
@@ -75,7 +105,17 @@
      },
      {
       "Id": "1900298039",
-      "Name": "MASTER_MUSIC"
+      "Name": "MASTER_MUSIC",
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "1008402193"
+        },
+        {
+         "Id": "2171127646"
+        }
+       ]
+      }
      },
      {
       "Id": "1919967482",
@@ -88,6 +128,17 @@
      {
       "Id": "2228101040",
       "Name": "MASTER_MUSHROOM"
+     },
+     {
+      "Id": "2424732109",
+      "Name": "POTENTIATES_TIMEWARP",
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "3604890626"
+        }
+       ]
+      }
      },
      {
       "Id": "2453119373",
@@ -143,7 +194,17 @@
      },
      {
       "Id": "4286911030",
-      "Name": "MASTER_AMBIENCE"
+      "Name": "MASTER_AMBIENCE",
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "702543456"
+        },
+        {
+         "Id": "1008402193"
+        }
+       ]
+      }
      }
     ],
     "AuxBusses": [
@@ -196,6 +257,14 @@
      {
       "Id": "262290038",
       "Name": "RTPC_DISTANCE"
+     },
+     {
+      "Id": "647674338",
+      "Name": "RTPC_TIMEWARP_DISTORT"
+     },
+     {
+      "Id": "983576458",
+      "Name": "RTPC_TIMEWARP_TICK"
      },
      {
       "Id": "2290256636",
@@ -516,7 +585,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{830A3986-E105-57D1-AC54-C607C5BDE239}",
+    "Hash": "{77798F76-BA1E-5A09-952E-C0D58031482B}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -1190,7 +1259,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Ambience\\Beds\\Lanterns\\AMB_LANTERNS_MAGIC.wav",
-      "CachePath": "12/{12B03D35-7817-FEA0-0B89-E8ED08F78C7A}.wem"
+      "CachePath": "38/{38072F5F-866B-86A9-1943-07803886F262}.wem"
      },
      {
       "Id": "594140758",
@@ -1351,6 +1420,14 @@
       "Location": "Memory",
       "ShortName": "Mushroom\\Grow\\Grass\\MUSHROOM_GROW_GRASS_01.wav",
       "CachePath": "C9/{C9B2EAD9-0FC3-C85E-DC6F-85EB4FED8E39}.wem"
+     },
+     {
+      "Id": "731811915",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "TIMEWARP_TICK.wav",
+      "CachePath": "CF/{CF8600CE-3282-0C0F-0133-ED316011638C}.wem"
      },
      {
       "Id": "735615810",
@@ -2038,7 +2115,7 @@
           },
           "MediaRefs": [
            {
-            "Id": "587809570"
+            "Id": "481153050"
            }
           ]
          },
@@ -2112,7 +2189,7 @@
           },
           "MediaRefs": [
            {
-            "Id": "587809570"
+            "Id": "481153050"
            }
           ]
          },
@@ -3163,6 +3240,16 @@
       ]
      },
      {
+      "Id": "3704528693",
+      "Name": "PLAY_TIMEWARP_TICK",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "731811915"
+       }
+      ]
+     },
+     {
       "Id": "1352870076",
       "Name": "PLAY_UI_BUTTON_ENTER",
       "DurationType": "OneShot",
@@ -3325,6 +3412,14 @@
      {
       "Id": "304008745",
       "Name": "STOP_TESTBEEP_LOOP_3D",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "1365342371",
+      "Name": "STOP_TIMEWARP_TICK",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3559,6 +3654,6 @@
     ]
    }
   ],
-  "FileHash": "{B3AF6AE1-A72C-2F83-E8A9-AA9248D604AF}"
+  "FileHash": "{4317346A-FD02-9793-89FE-01B0386B53EA}"
  }
 }

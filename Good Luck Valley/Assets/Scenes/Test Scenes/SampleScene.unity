@@ -49567,6 +49567,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1596121558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1951397050057652693, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+  m_PrefabInstance: {fileID: 1819856895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1607291862
 GameObject:
   m_ObjectHideFlags: 0
@@ -55348,6 +55353,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 1838089901186985158, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+      propertyPath: potentiateRTPC.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 55225897058d8884d958d013db8898c5, type: 2}
     - target: {fileID: 1951397050057652693, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
       propertyPath: m_Name
       value: Time Warp (1)
@@ -55355,13 +55364,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1951397050057652693, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1819856901}
   m_SourcePrefab: {fileID: 100100000, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
 --- !u!4 &1819856896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 502643446598538959, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
   m_PrefabInstance: {fileID: 1819856895}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1819856901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596121558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e50c4c8c0341a4fb9e7a962bde1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 1
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1820062061
 GameObject:
   m_ObjectHideFlags: 0
@@ -76899,6 +76935,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1838089901186985158, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+      propertyPath: stopSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 25416ede6f5a2f84f9e5db5ac67e224c, type: 2}
+    - target: {fileID: 1838089901186985158, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+      propertyPath: startSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: a6341a3e1ef62a3479b92046dbdf86b7, type: 2}
+    - target: {fileID: 1838089901186985158, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+      propertyPath: primaryRTPC.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 55225897058d8884d958d013db8898c5, type: 2}
+    - target: {fileID: 1838089901186985158, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+      propertyPath: secondaryRTPC.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 31e69cdb4f77bfc408d2c7c26e34a807, type: 2}
+    - target: {fileID: 1838089901186985158, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
+      propertyPath: potentiateRTPC.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 55225897058d8884d958d013db8898c5, type: 2}
     - target: {fileID: 1951397050057652693, guid: 9ce638f7686182c40a6f083a48683c84, type: 3}
       propertyPath: m_Name
       value: Time Warp
