@@ -6,7 +6,7 @@ namespace GoodLuckValley.Interactables
     public abstract class GateInteractable : Interactable
     {
         protected bool hasKey;
-        private float noKeyOpacity = 0.188f;
+        private float noKeyOpacity = 0.5f;
 
         protected override void Awake()
         {
