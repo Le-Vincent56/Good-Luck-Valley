@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{8E19109B-7682-4C69-B66A-4475283ADD5F}" SchemaVersion="123">
+	<AudioObjects>
+		<WorkUnit Name="FIREFLIES" ID="{8E19109B-7682-4C69-B66A-4475283ADD5F}" PersistMode="Standalone">
+			<ChildrenList>
+				<Sound Name="FIREFLIES_LANTERN_PLACE" ID="{E72842E5-4E25-4C95-87BC-E53A49300002}" ShortID="114999815">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{24E9054B-E144-4650-AF95-7FE47F87E5B6}">
+										<PropertyList>
+											<Property Name="Max" Type="Real64" Value="100"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-4</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="FIREFLIES_LANTERN_PLACE" ID="{F7AB8250-CBBA-4B6F-871A-4C13F88A8EEA}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="FIREFLIES_LANTERN_PLACE" ID="{C0D2DBDD-D874-45B7-8F58-C80FAC45ED5F}">
+							<Language>SFX</Language>
+							<AudioFile>Fireflies\FIREFLIES_LANTERN_PLACE.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="309120472"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="FIREFLIES_LANTERN_PLACE" ID="{C0D2DBDD-D874-45B7-8F58-C80FAC45ED5F}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

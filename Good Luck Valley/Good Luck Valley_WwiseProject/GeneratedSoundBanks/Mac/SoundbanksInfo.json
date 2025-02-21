@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{3CDFF319-6D9E-B0B1-B74F-E11540EB465B}",
+    "Hash": "{793D5747-FC7E-1776-BD0D-E2803DB4693D}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -66,6 +66,10 @@
       "Name": "AMBIENCE_3D"
      },
      {
+      "Id": "1874415497",
+      "Name": "MASTER_FIREFLIES"
+     },
+     {
       "Id": "1890054062",
       "Name": "AMBIENCEBEDS_2D"
      },
@@ -76,6 +80,10 @@
      {
       "Id": "1919967482",
       "Name": "MUSHROOM_PICKUP"
+     },
+     {
+      "Id": "2012620565",
+      "Name": "FIREFLIES_LANTERN_PLACE"
      },
      {
       "Id": "2228101040",
@@ -342,6 +350,20 @@
     ],
     "SwitchGroups": [
      {
+      "Id": "174011288",
+      "Name": "FIREFLIESSWITCH",
+      "Switches": [
+       {
+        "Id": "1126065684",
+        "Name": "FIREFLIES"
+       },
+       {
+        "Id": "3696588959",
+        "Name": "NOFIREFLIES"
+       }
+      ]
+     },
+     {
       "Id": "1097908491",
       "Name": "AMBIENCEBIOMESWITCH",
       "Switches": [
@@ -494,7 +516,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{7623A955-D9AF-FE2B-CC55-3F8A900798D1}",
+    "Hash": "{830A3986-E105-57D1-AC54-C607C5BDE239}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -827,6 +849,14 @@
       "CachePath": "5D/{5D17F400-A222-6295-BE91-AF98809D3493}.wem"
      },
      {
+      "Id": "309120472",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Fireflies\\FIREFLIES_LANTERN_PLACE.wav",
+      "CachePath": "32/{32A4237B-5617-06EA-8571-430EDDB64825}.wem"
+     },
+     {
       "Id": "310875304",
       "Language": "SFX",
       "Streaming": "false",
@@ -1059,6 +1089,14 @@
       "CachePath": "EE/{EE565F88-D411-A125-7A28-4FF02196FACC}.wem"
      },
      {
+      "Id": "481153050",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Lanterns\\AMB_LANTERNS_MAGIC.wav",
+      "CachePath": "12/{12B03D35-7817-FEA0-0B89-E8ED08F78C7A}.wem"
+     },
+     {
       "Id": "487826013",
       "Language": "SFX",
       "Streaming": "false",
@@ -1152,7 +1190,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Ambience\\Beds\\Lanterns\\AMB_LANTERNS_MAGIC.wav",
-      "CachePath": "38/{38072F5F-866B-86A9-1943-07803886F262}.wem"
+      "CachePath": "12/{12B03D35-7817-FEA0-0B89-E8ED08F78C7A}.wem"
      },
      {
       "Id": "594140758",
@@ -1643,6 +1681,13 @@
        "LibId": "6619138"
       },
       {
+       "Id": "149914936",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
        "Id": "208210880",
        "Name": "Silence",
        "Color": "4",
@@ -1693,6 +1738,13 @@
       },
       {
        "Id": "680081601",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
+       "Id": "710891349",
        "Name": "Silence",
        "Color": "4",
        "LibName": "Wwise Silence",
@@ -1959,7 +2011,7 @@
           },
           "MediaRefs": [
            {
-            "Id": "587809570"
+            "Id": "481153050"
            }
           ]
          },
@@ -1974,6 +2026,33 @@
            "Custom": [
             {
              "Id": "680081601"
+            }
+           ]
+          }
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "174011288",
+           "Id": "1126065684"
+          },
+          "MediaRefs": [
+           {
+            "Id": "587809570"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "174011288",
+           "Id": "3696588959",
+           "Default": "true"
+          },
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "710891349"
             }
            ]
           }
@@ -2024,6 +2103,33 @@
             }
            ]
           }
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "174011288",
+           "Id": "1126065684"
+          },
+          "MediaRefs": [
+           {
+            "Id": "587809570"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "174011288",
+           "Id": "3696588959",
+           "Default": "true"
+          },
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "149914936"
+            }
+           ]
+          }
          }
         ]
        }
@@ -2038,6 +2144,18 @@
       "MediaRefs": [
        {
         "Id": "876232836"
+       }
+      ]
+     },
+     {
+      "Id": "686783032",
+      "Name": "PLAY_FIREFLIES_LANTERN_PLACE",
+      "DurationType": "OneShot",
+      "DurationMin": "2.6079166",
+      "DurationMax": "2.6079166",
+      "MediaRefs": [
+       {
+        "Id": "309120472"
        }
       ]
      },
@@ -3319,6 +3437,20 @@
     ],
     "SwitchGroups": [
      {
+      "Id": "174011288",
+      "Name": "FIREFLIESSWITCH",
+      "Switches": [
+       {
+        "Id": "1126065684",
+        "Name": "FIREFLIES"
+       },
+       {
+        "Id": "3696588959",
+        "Name": "NOFIREFLIES"
+       }
+      ]
+     },
+     {
       "Id": "1097908491",
       "Name": "AMBIENCEBIOMESWITCH",
       "Switches": [
@@ -3427,6 +3559,6 @@
     ]
    }
   ],
-  "FileHash": "{400D7300-9A36-1708-21A8-54C531BBCBC3}"
+  "FileHash": "{B3AF6AE1-A72C-2F83-E8A9-AA9248D604AF}"
  }
 }

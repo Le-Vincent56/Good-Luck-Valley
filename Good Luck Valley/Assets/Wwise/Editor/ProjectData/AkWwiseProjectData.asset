@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 8f1b8c6611adc34c99866b8f5ed1dbac
     GuidInternal: 
-    m_lastTime: -8584623766736547135
+    m_lastTime: -8584615144270650433
     List:
     - name: AMBIENCE_2D
       guid: b45c581bfdea7f41a764d005cf137d6f
@@ -100,6 +100,29 @@ MonoBehaviour:
         ObjectType: 2
         guid: dffb23201d030e4592927a9c7ff383c1
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_AMBIENCE\AMBIENCEBEDS_2D
+    - name: FIREFLIES_LANTERN_PLACE
+      guid: 5082abf7bacb6f4b871a4c13f88a8eea
+      id: 2012620565
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 8f1b8c6611adc34c99866b8f5ed1dbac
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
+      - ElementName: MASTER_FIREFLIES
+        ObjectType: 2
+        guid: c48ee6e269df964daa60edd996091f25
+      - ElementName: FIREFLIES_LANTERN_PLACE
+        ObjectType: 2
+        guid: 5082abf7bacb6f4b871a4c13f88a8eea
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_FIREFLIES\FIREFLIES_LANTERN_PLACE
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
       id: 3803692087
@@ -131,6 +154,26 @@ MonoBehaviour:
         ObjectType: 2
         guid: 49e5df3c5b5c8c42ab6fdf9d18d38c8c
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_AMBIENCE
+    - name: MASTER_FIREFLIES
+      guid: c48ee6e269df964daa60edd996091f25
+      id: 1874415497
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 8f1b8c6611adc34c99866b8f5ed1dbac
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: MASTER_SFX
+        ObjectType: 2
+        guid: 77b21887db047840ac4b77429e4bed7b
+      - ElementName: MASTER_FIREFLIES
+        ObjectType: 2
+        guid: c48ee6e269df964daa60edd996091f25
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MASTER_SFX\MASTER_FIREFLIES
     - name: MASTER_MUSHROOM
       guid: 312a4f5a79c4ca4cbef6f9ef2aee6d4d
       id: 2228101040
@@ -682,7 +725,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: cc31a129b26dbb4dbba2c92c4af23575
     GuidInternal: 
-    m_lastTime: -8584620304763538008
+    m_lastTime: -8584615145197530667
     List:
     - name: GAME_SOUNDBANK
       guid: 8c86ef3bfc27e3489e4ee297b6818463
@@ -804,8 +847,38 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 05f602310328354a9fafb68074469f39
     GuidInternal: 
-    m_lastTime: -8584620384713419518
+    m_lastTime: -8584615146306489096
     List: []
+  - PhysicalPath: Events\FIREFLIES.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: FIREFLIES
+      ObjectType: 12
+      guid: d253aa07ea3d3140bca58b13e9712653
+    ParentPath: Events\FIREFLIES
+    guid: d253aa07ea3d3140bca58b13e9712653
+    GuidInternal: 
+    m_lastTime: -8584615146039127186
+    List:
+    - name: PLAY_FIREFLIES_LANTERN_PLACE
+      guid: 97989fc1043fa44b85700f8318946998
+      id: 686783032
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: FIREFLIES
+        ObjectType: 12
+        guid: d253aa07ea3d3140bca58b13e9712653
+      - ElementName: PLAY_FIREFLIES_LANTERN_PLACE
+        ObjectType: 3
+        guid: 97989fc1043fa44b85700f8318946998
+      Path: Events\FIREFLIES\PLAY_FIREFLIES_LANTERN_PLACE
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\L1.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2327,7 +2400,7 @@ MonoBehaviour:
     ParentPath: Switches\Ambience Switches
     guid: 890d391daa6f444a8d35d51423e241e9
     GuidInternal: 
-    m_lastTime: -8584616176098125522
+    m_lastTime: -8584615137250742088
     List:
     - name: AMBIENCEBIOMESWITCH
       guid: c19da96055f49c4295064afcdee27ef8
@@ -2376,6 +2449,56 @@ MonoBehaviour:
         - ElementName: FOREST
           ObjectType: 10
           guid: 319fdbec5ebfc3409d6ad87abe8a046d
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: FIREFLIESSWITCH
+      guid: a502ba16b42fda47b51cb50a133c537b
+      id: 174011288
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Ambience Switches
+        ObjectType: 12
+        guid: 890d391daa6f444a8d35d51423e241e9
+      - ElementName: FIREFLIESSWITCH
+        ObjectType: 11
+        guid: a502ba16b42fda47b51cb50a133c537b
+      Path: Switches\Ambience Switches\FIREFLIESSWITCH
+      values:
+      - name: FIREFLIES
+        guid: 75bd4f8ec425244eaa742f7d9dd32eee
+        id: 1126065684
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Ambience Switches
+          ObjectType: 12
+          guid: 890d391daa6f444a8d35d51423e241e9
+        - ElementName: FIREFLIESSWITCH
+          ObjectType: 11
+          guid: a502ba16b42fda47b51cb50a133c537b
+        - ElementName: FIREFLIES
+          ObjectType: 10
+          guid: 75bd4f8ec425244eaa742f7d9dd32eee
+      - name: NOFIREFLIES
+        guid: 836bb403cdab2d4390eca51d9ec5e20f
+        id: 3696588959
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Ambience Switches
+          ObjectType: 12
+          guid: 890d391daa6f444a8d35d51423e241e9
+        - ElementName: FIREFLIESSWITCH
+          ObjectType: 11
+          guid: a502ba16b42fda47b51cb50a133c537b
+        - ElementName: NOFIREFLIES
+          ObjectType: 10
+          guid: 836bb403cdab2d4390eca51d9ec5e20f
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -2867,7 +2990,7 @@ MonoBehaviour:
     m_lastTime: -8584623766736102503
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 05000000060000000b0000000c0000000d0000001300000018000000190000001a0000001b0000001c000000230000002400000025000000260000002700000028000000290000002b0000002c0000002d0000002e0000002f0000003000000031000000320000003300000034000000360000003700000038000000390000003a0000003e000000410000004200000048000000560000005a0000005b0000005d0000007400000077000000
+  ExpandedWaapiItemIds: 05000000060000000b0000000c0000000d0000000e0000001300000018000000190000001a0000001b0000001c000000230000002400000025000000260000002700000028000000290000002b0000002c0000002d0000002e0000002f0000003000000031000000320000003300000034000000360000003700000038000000390000003a0000003b0000003e00000041000000420000004800000051000000560000005a0000005b0000005d0000007400000077000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

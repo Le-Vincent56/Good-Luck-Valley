@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{3CDFF319-6D9E-B0B1-B74F-E11540EB465B}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{793D5747-FC7E-1776-BD0D-E2803DB4693D}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -26,9 +26,11 @@
 				<Bus Id="1375983526" Name="PLAYER_LOCOMOTION"/>
 				<Bus Id="1705038622" Name="AMBIENCE_2D"/>
 				<Bus Id="1721816425" Name="AMBIENCE_3D"/>
+				<Bus Id="1874415497" Name="MASTER_FIREFLIES"/>
 				<Bus Id="1890054062" Name="AMBIENCEBEDS_2D"/>
 				<Bus Id="1900298039" Name="MASTER_MUSIC"/>
 				<Bus Id="1919967482" Name="MUSHROOM_PICKUP"/>
+				<Bus Id="2012620565" Name="FIREFLIES_LANTERN_PLACE"/>
 				<Bus Id="2228101040" Name="MASTER_MUSHROOM"/>
 				<Bus Id="2453119373" Name="MASTER_PLAYER"/>
 				<Bus Id="2505162442" Name="UI_BUTTON"/>
@@ -126,6 +128,12 @@
 				</StateGroup>
 			</StateGroups>
 			<SwitchGroups>
+				<SwitchGroup Id="174011288" Name="FIREFLIESSWITCH">
+					<Switches>
+						<Switch Id="1126065684" Name="FIREFLIES"/>
+						<Switch Id="3696588959" Name="NOFIREFLIES"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
 					<Switches>
 						<Switch Id="491961918" Name="FOREST"/>
@@ -183,7 +191,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{7623A955-D9AF-FE2B-CC55-3F8A900798D1}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{830A3986-E105-57D1-AC54-C607C5BDE239}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -351,6 +359,10 @@
 					<ShortName>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_06.wav</ShortName>
 					<CachePath>5D/{5D17F400-A222-6295-BE91-AF98809D3493}.wem</CachePath>
 				</File>
+				<File Id="309120472" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Fireflies\FIREFLIES_LANTERN_PLACE.wav</ShortName>
+					<CachePath>32/{32A4237B-5617-06EA-8571-430EDDB64825}.wem</CachePath>
+				</File>
 				<File Id="310875304" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Music\Forest\Loops\MSC_FOREST_LIKEPETALSWEFLOAT_FIRSTLOOP_102BPM4-4_L26M.wav</ShortName>
 					<CachePath>72/{72FFCBFD-4493-CAD9-BA2A-0DEBB92C53B5}.wem</CachePath>
@@ -467,6 +479,10 @@
 					<ShortName>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_02.wav</ShortName>
 					<CachePath>EE/{EE565F88-D411-A125-7A28-4FF02196FACC}.wem</CachePath>
 				</File>
+				<File Id="481153050" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</ShortName>
+					<CachePath>12/{12B03D35-7817-FEA0-0B89-E8ED08F78C7A}.wem</CachePath>
+				</File>
 				<File Id="487826013" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_01.wav</ShortName>
 					<CachePath>BB/{BB9C0A92-C920-D02A-4A40-2C7764C0683A}.wem</CachePath>
@@ -513,7 +529,7 @@
 				</File>
 				<File Id="587809570" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</ShortName>
-					<CachePath>38/{38072F5F-866B-86A9-1943-07803886F262}.wem</CachePath>
+					<CachePath>12/{12B03D35-7817-FEA0-0B89-E8ED08F78C7A}.wem</CachePath>
 				</File>
 				<File Id="594140758" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>STONE_SLIDE_END_01.wav</ShortName>
@@ -753,6 +769,7 @@
 					<Plugin Id="10454007" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="64624005" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="142525318" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="149914936" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="208210880" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="237276252" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="241202866" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
@@ -761,6 +778,7 @@
 					<Plugin Id="365416699" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="567386646" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="680081601" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="710891349" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="784623767" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="804672598" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="871620857" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
@@ -861,7 +879,7 @@
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
 									<MediaRefs>
-										<MediaRef Id="587809570"/>
+										<MediaRef Id="481153050"/>
 									</MediaRefs>
 								</SwitchContainer>
 								<SwitchContainer>
@@ -869,6 +887,20 @@
 									<PluginRefs>
 										<Custom>
 											<PluginRef Id="680081601"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="174011288" Id="1126065684"/>
+									<MediaRefs>
+										<MediaRef Id="587809570"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="174011288" Id="3696588959" Default="true"/>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="710891349"/>
 										</Custom>
 									</PluginRefs>
 								</SwitchContainer>
@@ -896,6 +928,20 @@
 										</Custom>
 									</PluginRefs>
 								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="174011288" Id="1126065684"/>
+									<MediaRefs>
+										<MediaRef Id="587809570"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="174011288" Id="3696588959" Default="true"/>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="149914936"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
 					</SwitchContainers>
@@ -903,6 +949,11 @@
 				<Event Id="3122541869" Name="PLAY_CINEMATICS_L1_ROCKFALL" DurationType="OneShot" DurationMin="6.7523694" DurationMax="6.7523694">
 					<MediaRefs>
 						<MediaRef Id="876232836"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="686783032" Name="PLAY_FIREFLIES_LANTERN_PLACE" DurationType="OneShot" DurationMin="2.6079166" DurationMax="2.6079166">
+					<MediaRefs>
+						<MediaRef Id="309120472"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4286947103" Name="PLAY_MUSHROOM_BOUNCE" DurationType="OneShot" DurationMin="0.49917716" DurationMax="0.7122138">
@@ -1468,6 +1519,12 @@
 				</StateGroup>
 			</StateGroups>
 			<SwitchGroups>
+				<SwitchGroup Id="174011288" Name="FIREFLIESSWITCH">
+					<Switches>
+						<Switch Id="1126065684" Name="FIREFLIES"/>
+						<Switch Id="3696588959" Name="NOFIREFLIES"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
 					<Switches>
 						<Switch Id="491961918" Name="FOREST"/>
@@ -1513,5 +1570,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{1B916DAB-D68C-7926-AFBD-2612039D1064}</FileHash>
+	<FileHash>{3A45A3DB-348D-D9D7-04C5-2F55A2EEFBF2}</FileHash>
 </SoundBanksInfo>

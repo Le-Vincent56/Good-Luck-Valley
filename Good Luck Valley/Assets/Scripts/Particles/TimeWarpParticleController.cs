@@ -69,7 +69,31 @@ namespace GoodLuckValley
             rotateTimer.Start();
         }
 
-        public void Stop() => particleTimer?.Stop();
+        public void Stop()
+        {
+            // Get all active particles
+            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[ambientBurst.main.maxParticles];
+            int count = ambientBurst.GetParticles(particles);
+
+            // Iterate through each particle
+            for (int i = 0; i < count; i++)
+            {
+                // Calculate the new remaining lifetime.
+                float startLifetime = particles[i].startLifetime;
+
+                // For a particle to be 80% complete, remaining lifetime is 20% of its startLifetime.
+                particles[i].remainingLifetime = startLifetime * (1f - 0.8f);
+            }
+
+            // Apply the modified particles back to the system.
+            ambientBurst.SetParticles(particles, count);
+
+            // Stop the particle timer
+            particleTimer?.Stop();
+
+            // Stop particles from spawning
+            ambientBurst.Stop();
+        }
 
         private void Rotate(float endValue, float duration)
         {
@@ -78,7 +102,7 @@ namespace GoodLuckValley
             
             // Set the Rotate Tween
             rotateTween = transform.DORotate(new Vector3(0, 0, endValue), duration, RotateMode.LocalAxisAdd)
-                .SetEase(Ease.InSine);
+                .SetEase(Ease.InOutSine);
         }
     }
 }

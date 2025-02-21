@@ -9,6 +9,7 @@ namespace GoodLuckValley.Potentiates
     public class TimeWarpStrategy : PotentiateStrategy
     {
         private Potentiate parent;
+        private TimeWarpParticleController particles;
         private Optional<PotentiateHandler> storedHandler = Optional<PotentiateHandler>.None();
         private Optional<PlayerController> storedController = Optional<PlayerController>.None();
         private CountdownTimer durationTimer;
@@ -19,6 +20,9 @@ namespace GoodLuckValley.Potentiates
         {
             // Set the parent object
             this.parent = parent;
+
+            // Get particles
+            particles = parent.GetComponentInChildren<TimeWarpParticleController>();
 
             // Initialize the duration timer
             durationTimer = new CountdownTimer(duration);
@@ -139,6 +143,9 @@ namespace GoodLuckValley.Potentiates
                 Color = new UnityEngine.Color(0.3608f, 0.7216f, 1f, 1f)
             });
 
+            // Stop particles
+            particles.Stop();
+
             return true;
         }
 
@@ -173,6 +180,9 @@ namespace GoodLuckValley.Potentiates
 
             // Fade the parent sprite back in
             parent.Fade(1f);
+
+            // Play the particles
+            particles.Play();
         }
     }
 }

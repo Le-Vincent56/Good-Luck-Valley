@@ -9,6 +9,7 @@ namespace GoodLuckValley.Audio.Triggers
     {
         public enum Type
         {
+            Restart,
             Play,
             Stop,
             Pause,
@@ -26,6 +27,14 @@ namespace GoodLuckValley.Audio.Triggers
 
             switch (type)
             {
+                case Type.Restart:
+                    // Set each state
+                    MusicManager.Instance.SetStates(statesToSet);
+
+                    // Restart the music
+                    MusicManager.Instance.Restart();
+                    break;
+
                 case Type.Play:
                     // Set each state
                     MusicManager.Instance.SetStates(statesToSet);

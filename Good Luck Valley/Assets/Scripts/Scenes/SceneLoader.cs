@@ -1,6 +1,5 @@
 using DG.Tweening;
 using GoodLuckValley.Events;
-using GoodLuckValley.Architecture.Singletons;
 using GoodLuckValley.Timers;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -30,6 +29,7 @@ namespace GoodLuckValley.Scenes
         public UnityAction Release = delegate { };
 
         public bool IsLoading { get => isLoading; }
+        public int ForcedMoveDirection { get => forcedMoveDirection; set=> forcedMoveDirection = value; }
 
         private void Awake()
         {

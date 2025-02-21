@@ -40,17 +40,47 @@ namespace GoodLuckValley.Audio
         /// <summary>
         /// Stop the music event
         /// </summary>
-        public void Stop() => stopMusicEvent.Post(gameObject);
+        public void Stop()
+        {
+            // Exit case - if the music is not playing
+            if(!isPlaying) return;
+
+            // Post the stop music event
+            stopMusicEvent.Post(gameObject);
+
+            // Set to not playing
+            isPlaying = false;
+        }
 
         /// <summary>
         /// Pause the music event
         /// </summary>
-        public void Pause() => pauseMusicEvent.Post(gameObject);
+        public void Pause()
+        {
+            // Exit case - if the music is not playing
+            if (!isPlaying) return;
+
+            // Post the pause music event
+            pauseMusicEvent.Post(gameObject);
+
+            // Set to not playing
+            isPlaying = false;
+        }
 
         /// <summary>
         /// Resume the music event
         /// </summary>
-        public void Resume() => resumeMusicEvent.Post(gameObject);
+        public void Resume()
+        {
+            // Exit case - if the music is already playing
+            if (isPlaying) return;
+
+            // Post the resume music event
+            resumeMusicEvent.Post(gameObject);
+
+            // Set to playing
+            isPlaying = true;
+        }
 
         /// <summary>
         /// Switch music event states
@@ -59,8 +89,15 @@ namespace GoodLuckValley.Audio
         {
             // Set the state value
             state.SetValue();
+        }
 
-            Debug.Log($"Set State: {state}");
+        public void Restart()
+        {
+            // Stop the music
+            Stop();
+
+            // Play the music
+            Play();
         }
 
         public void SetStates(List<AK.Wwise.State> states)
@@ -70,8 +107,6 @@ namespace GoodLuckValley.Audio
             {
                 // Set the state
                 state.SetValue();
-
-                Debug.Log($"Set State: {state}");
             }
         }
     }

@@ -17,6 +17,7 @@ namespace AK
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
         static const AkUniqueID PLAY_CINEMATICS_L1_ROCKFALL = 3122541869U;
+        static const AkUniqueID PLAY_FIREFLIES_LANTERN_PLACE = 686783032U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
         static const AkUniqueID PLAY_MUSHROOM_DISSIPATE = 937795333U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;
@@ -160,6 +161,17 @@ namespace AK
             } // namespace SWITCH
         } // namespace DISTANCESWITCH
 
+        namespace FIREFLIESSWITCH
+        {
+            static const AkUniqueID GROUP = 174011288U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID FIREFLIES = 1126065684U;
+                static const AkUniqueID NOFIREFLIES = 3696588959U;
+            } // namespace SWITCH
+        } // namespace FIREFLIESSWITCH
+
         namespace GROUNDMATSWITCH
         {
             static const AkUniqueID GROUP = 3260060478U;
@@ -244,8 +256,10 @@ namespace AK
         static const AkUniqueID AMBIENCE_2D = 1705038622U;
         static const AkUniqueID AMBIENCE_3D = 1721816425U;
         static const AkUniqueID AMBIENCEBEDS_2D = 1890054062U;
+        static const AkUniqueID FIREFLIES_LANTERN_PLACE = 2012620565U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MASTER_AMBIENCE = 4286911030U;
+        static const AkUniqueID MASTER_FIREFLIES = 1874415497U;
         static const AkUniqueID MASTER_MUSHROOM = 2228101040U;
         static const AkUniqueID MASTER_MUSIC = 1900298039U;
         static const AkUniqueID MASTER_NPC = 3591553651U;
