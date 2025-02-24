@@ -13,30 +13,8 @@ MonoBehaviour:
   m_Name: BLND_2
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: Follow Camera
-    m_To: Tree Camera
-    m_Blend:
-      m_Style: 1
-      m_Time: 1.5
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: Tree Camera
-    m_To: Follow Camera
-    m_Blend:
-      m_Style: 1
-      m_Time: 1.5
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: Follow Camera
-    m_To: Fireflies Camera
+  - m_From: Follow Camera 1
+    m_To: Follow Camera 2
     m_Blend:
       m_Style: 1
       m_Time: 1
@@ -46,8 +24,30 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
+  - m_From: Follow Camera 2
+    m_To: Follow Camera 3
+    m_Blend:
+      m_Style: 1
+      m_Time: 1
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Follow Camera 3
+    m_To: Fireflies Camera
+    m_Blend:
+      m_Style: 1
+      m_Time: 2.25
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
   - m_From: Fireflies Camera
-    m_To: Follow Camera
+    m_To: Follow Camera 3
     m_Blend:
       m_Style: 1
       m_Time: 1.5
@@ -57,8 +57,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: Follow Camera
-    m_To: Ending Camera
+  - m_From: Fireflies Camera
+    m_To: Follow Camera 4
     m_Blend:
       m_Style: 1
       m_Time: 1.5
@@ -68,11 +68,99 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: Ending Camera
-    m_To: Follow Camera
+  - m_From: Follow Camera 4
+    m_To: Fireflies Camera
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Follow Camera 4
+    m_To: Wall Jump Dolly Camera
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Wall Jump Dolly Camera
+    m_To: Follow Camera 4
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Wall Jump Dolly Camera
+    m_To: Follow Camera 5
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.75
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Follow Camera 5
+    m_To: Wall Jump Dolly Camera
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.25
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Follow Camera 6
+    m_To: Time Warp Camera
     m_Blend:
       m_Style: 1
       m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Time Warp Camera
+    m_To: Follow Camera 6
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Time Warp Camera 2
+    m_To: Follow Camera 8
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.75
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Follow Camera 8
+    m_To: Time Warp Camera 2
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.75
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
