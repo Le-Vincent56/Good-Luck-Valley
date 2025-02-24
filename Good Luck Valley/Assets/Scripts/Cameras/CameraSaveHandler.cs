@@ -14,9 +14,9 @@ namespace GoodLuckValley.Cameras.Persistence
         private bool dampingCorrected = true;
         [SerializeField] private CameraData data;
 
-        [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
-
         private CountdownTimer correctDampTimer;
+
+        [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
 
         private void Awake()
         {
@@ -85,7 +85,7 @@ namespace GoodLuckValley.Cameras.Persistence
             dampingCorrected = false;
 
             // Initialize the timer
-            correctDampTimer = new CountdownTimer(0.2f);
+            correctDampTimer = new CountdownTimer(1f);
             correctDampTimer.OnTimerStop += () =>
             {
                 // Exit case - there's no Component Base
@@ -149,7 +149,10 @@ namespace GoodLuckValley.Cameras.Persistence
             virtualCamera.m_Lens.OrthographicSize = data.OrthographicSize;
 
             // Exit case - there's no Component Base
-            if (component == null) return;
+            if (component == null)
+            {
+                return;
+            }
 
             // Check if the component is a Framing Transposer
             if (component is CinemachineFramingTransposer)

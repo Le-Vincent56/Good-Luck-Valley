@@ -142,9 +142,6 @@ namespace GoodLuckValley.UI.Menus.Start
                 saveSlot.Disable();
             }
 
-            // Disable the current event system
-            EventSystem.current.enabled = false;
-
             // Stop the music
             MusicManager.Instance.SetState(gameState);
 

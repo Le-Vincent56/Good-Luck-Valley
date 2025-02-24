@@ -180,6 +180,7 @@ namespace GoodLuckValley.Scenes
             // Check if loading
             if (!isLoading)
             {
+                // Fade in the scene
                 EventBus<FadeScene>.Raise(new FadeScene()
                 {
                     FadeIn = true,

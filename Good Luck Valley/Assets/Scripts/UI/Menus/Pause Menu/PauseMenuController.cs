@@ -2,6 +2,7 @@ using DG.Tweening;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Audio;
+using GoodLuckValley.Audio.Ambience;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Journal;
 using GoodLuckValley.Events.Pause;
@@ -316,6 +317,9 @@ namespace GoodLuckValley.UI.Menus.Pause
         {
             // Set the menu state
             MusicManager.Instance.SetState(menuState);
+
+            // Stop ambience
+            AmbienceManager.Instance.StopAmbience();
 
             // Nullify any forced move directions
             sceneLoader.ForcedMoveDirection = 0;

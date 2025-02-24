@@ -1,7 +1,6 @@
 using GoodLuckValley.Input;
 using GoodLuckValley.Architecture.StateMachine;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using Sirenix.OdinInspector;
