@@ -21,6 +21,15 @@ namespace GoodLuckValley.UI.Menus.Start
         [SerializeField] private AK.Wwise.Event hoverSound;
         [SerializeField] private AK.Wwise.Event selectSound;
 
+        protected override void OnDestroy()
+        {
+            // Call the parent OnDestroy()
+            base.OnDestroy();
+
+            // Kill the Fade Tween if it exists
+            fadeTween?.Kill();
+        }
+
         /// <summary>
         /// Initialize the Slot Deleter
         /// </summary>

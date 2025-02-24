@@ -108,6 +108,12 @@ namespace GoodLuckValley.UI.Menus.Pause
             stateMachine.Update();
         }
 
+        private void OnDestroy()
+        {
+            // Kill the Fade Tween if it exists
+            fadeTween?.Kill();
+        }
+
         /// <summary>
         /// Initialize the State Machine
         /// </summary>

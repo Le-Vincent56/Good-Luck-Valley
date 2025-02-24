@@ -52,8 +52,8 @@ namespace GoodLuckValley.UI.Menus
             base.OnDestroy();
 
             // Kill any existing Tweens
-            scaleTween.Kill();
-            colorTween.Kill();
+            scaleTween?.Kill();
+            colorTween?.Kill();
         }
 
         public override void OnSelect(BaseEventData eventData)

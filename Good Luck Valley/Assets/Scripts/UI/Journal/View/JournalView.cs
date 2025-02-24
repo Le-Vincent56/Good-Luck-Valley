@@ -76,6 +76,14 @@ namespace GoodLuckValley.UI.Journal.View
             Fade(contentFadeTween, contentGroup, 0f, 0f);
         }
 
+        private void OnDestroy()
+        {
+            // Kill any existing Tweens
+            canvasFadeTween?.Kill();
+            entriesFadeTween?.Kill();
+            contentFadeTween?.Kill();
+        }
+
         /// <summary>
         /// Update the Journal Entries
         /// </summary>

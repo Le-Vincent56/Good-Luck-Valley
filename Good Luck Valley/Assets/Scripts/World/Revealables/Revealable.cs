@@ -27,6 +27,12 @@ namespace GoodLuckValley.World.Revealables
             EventBus<ActivateLantern>.Deregister(onActivateLantern);
         }
 
+        private void OnDestroy()
+        {
+            // Kill the Fade Tween if it exists
+            fadeTween?.Kill();
+        }
+
         /// <summary>
         /// Reveal the revealable
         /// </summary>

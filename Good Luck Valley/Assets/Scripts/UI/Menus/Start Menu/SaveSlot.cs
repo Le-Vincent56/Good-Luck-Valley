@@ -35,6 +35,12 @@ namespace GoodLuckValley.UI.Menus.Start
         public string Name { get => saveName; set => saveName = value; }
         public bool IsEmpty { get => isEmpty; }
 
+        private void OnDestroy()
+        {
+            // Kill the Highlight Tween if it exists
+            highlightTween?.Kill();
+        }
+
         /// <summary>
         /// Initialize the Save Slot
         /// </summary>
