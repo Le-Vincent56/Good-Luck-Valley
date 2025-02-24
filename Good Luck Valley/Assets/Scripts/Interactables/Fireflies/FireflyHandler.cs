@@ -20,7 +20,25 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Set a Fruit to be handled
         /// </summary>
-        public void SetFruit(Optional<Fruit> fruit) => this.fruit = fruit;
+        public void SetFruit(Optional<Fruit> fruit)
+        {
+            this.fruit = fruit;
+
+            // Check if the player has a fruit
+            this.fruit.Match(
+                onValue: fruit =>
+                {
+                    // Play the fruit pick SFX
+                    playerSFX.PickFireflyFruit();
+                    return 0;
+                },
+                onNoValue: () =>
+                {
+                    // Do nothing
+                    return 0;
+                }
+            );
+        }
 
         /// <summary>
         /// Get the Fruit being handled, if it exists
@@ -35,7 +53,7 @@ namespace GoodLuckValley.Interactables.Fireflies
             this.fireflies = fireflies;
 
             // Check if the player has fireflies
-            fireflies.Match(
+            this.fireflies.Match(
                 onValue: fireflies =>
                 {
                     // Add fireflies

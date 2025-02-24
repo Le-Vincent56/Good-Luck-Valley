@@ -254,7 +254,33 @@
 								</Bus>
 								<Bus Name="MASTER_FIREFLIES" ID="{E2E68EC4-DF69-4D96-AA60-EDD996091F25}">
 									<ChildrenList>
-										<Bus Name="FIREFLIES_LANTERN_PLACE" ID="{F7AB8250-CBBA-4B6F-871A-4C13F88A8EEA}"/>
+										<Bus Name="FIREFLIES_LANTERN_PLACE" ID="{F7AB8250-CBBA-4B6F-871A-4C13F88A8EEA}">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>1.5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+										</Bus>
+										<Bus Name="FIREFLIES_PICK" ID="{AF270238-FF2B-4D71-9D7E-6213F6F9505F}">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>2</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+										</Bus>
+										<Bus Name="FIREFLIES_FEED" ID="{D94762C4-13FE-4FA6-8248-1A46BD55FC2B}">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>3.5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+										</Bus>
 									</ChildrenList>
 								</Bus>
 								<Bus Name="MASTER_POTENTIATES" ID="{48B6BF6C-7FA7-4D0E-A4CC-65DFC5D62096}">

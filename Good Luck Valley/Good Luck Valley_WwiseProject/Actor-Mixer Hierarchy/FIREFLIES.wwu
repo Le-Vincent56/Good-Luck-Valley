@@ -52,11 +52,6 @@
 				<Sound Name="FIREFLIES_FEED" ID="{EDBA4EDA-653F-449D-A522-9BFE2B010899}" ShortID="292975119">
 					<PropertyList>
 						<Property Name="Color" Type="int16" Value="4"/>
-						<Property Name="OutputBusVolume" Type="Real64">
-							<ValueList>
-								<Value>3.5</Value>
-							</ValueList>
-						</Property>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 					<ReferenceList>
@@ -64,7 +59,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="MASTER_FIREFLIES" ID="{E2E68EC4-DF69-4D96-AA60-EDD996091F25}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+							<ObjectRef Name="FIREFLIES_FEED" ID="{D94762C4-13FE-4FA6-8248-1A46BD55FC2B}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -78,6 +73,28 @@
 					</ChildrenList>
 					<ActiveSourceList>
 						<ActiveSource Name="FIREFLIES_FEED" ID="{D87495FC-5019-4B30-A10D-E965CA9FF3C8}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="FIREFLIES_PICK" ID="{EF746E35-127C-4FD0-AE88-291E88C9E2D3}" ShortID="186841784">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="FIREFLIES_PICK" ID="{AF270238-FF2B-4D71-9D7E-6213F6F9505F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="FIREFLIES_PICK" ID="{53D56F91-458B-4B14-B851-F684DB1F3AD2}">
+							<Language>SFX</Language>
+							<AudioFile>Fireflies\FIREFLIES_PICK.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="542524992"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="FIREFLIES_PICK" ID="{53D56F91-458B-4B14-B851-F684DB1F3AD2}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
 			</ChildrenList>

@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{21273B0A-3798-D366-61EB-A2D27D67A253}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{BA96F0BC-7BB5-28C0-40A3-3B79A667898C}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -27,6 +27,7 @@
 			<Busses>
 				<Bus Id="579657244" Name="MASTER_POTENTIATES"/>
 				<Bus Id="860652252" Name="UI_NAVIGATION"/>
+				<Bus Id="873669539" Name="FIREFLIES_FEED"/>
 				<Bus Id="1042698302" Name="MUSHROOM_DISSIPATE"/>
 				<Bus Id="1168632360" Name="MASTER_UI"/>
 				<Bus Id="1305133589" Name="PLAYER_JUMP"/>
@@ -56,6 +57,7 @@
 				<Bus Id="2453119373" Name="MASTER_PLAYER"/>
 				<Bus Id="2505162442" Name="UI_BUTTON"/>
 				<Bus Id="2551268862" Name="PLAYER_FALL"/>
+				<Bus Id="2933154324" Name="FIREFLIES_PICK"/>
 				<Bus Id="2940948846" Name="PLAYER_LOCOMOTION_IMPACTS"/>
 				<Bus Id="3006080354" Name="UI_TOGGLE"/>
 				<Bus Id="3462011115" Name="MASTER_SFX"/>
@@ -221,7 +223,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{50243152-69C4-83C2-BE6F-80FC42554D81}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{6A0D7330-8E05-2872-A0D3-784819AFEA8F}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -516,6 +518,10 @@
 				<File Id="537454674" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_02.wav</ShortName>
 					<CachePath>6A/{6A6AE827-3F72-8AA8-316B-B85BE6923B0F}.wem</CachePath>
+				</File>
+				<File Id="542524992" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Fireflies\FIREFLIES_PICK.wav</ShortName>
+					<CachePath>4B/{4B681226-C86E-C206-20FC-847B773D4137}.wem</CachePath>
 				</File>
 				<File Id="547602146" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Music\Forest\Transitions\MSC_FOREST_LIKEPETALSWEFLOAT_TRANSTOSECOND_102BPM4-4_L14M.wav</ShortName>
@@ -997,6 +1003,11 @@
 				<Event Id="686783032" Name="PLAY_FIREFLIES_LANTERN_PLACE" DurationType="OneShot" DurationMin="2.6079166" DurationMax="2.6079166">
 					<MediaRefs>
 						<MediaRef Id="309120472"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2095185455" Name="PLAY_FIREFLIES_PICK" DurationType="OneShot" DurationMin="3.2778332" DurationMax="3.2778332">
+					<MediaRefs>
+						<MediaRef Id="542524992"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4286947103" Name="PLAY_MUSHROOM_BOUNCE" DurationType="OneShot" DurationMin="0.49917716" DurationMax="0.7122138">
@@ -1619,5 +1630,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7E5A7CE3-4732-E906-FAF0-DA9AC8F0F939}</FileHash>
+	<FileHash>{C521D225-70F2-FB6D-22F0-64DCAF2B536A}</FileHash>
 </SoundBanksInfo>
