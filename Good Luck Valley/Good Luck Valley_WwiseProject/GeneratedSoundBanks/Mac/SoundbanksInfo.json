@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{176FE085-0FEE-D676-75CD-EFA2C220A124}",
+    "Hash": "{CDD883C9-861D-593D-C3C9-18342E134DCD}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -70,6 +70,10 @@
      {
       "Id": "860652252",
       "Name": "UI_NAVIGATION"
+     },
+     {
+      "Id": "873669539",
+      "Name": "FIREFLIES_FEED"
      },
      {
       "Id": "1042698302",
@@ -151,6 +155,10 @@
      {
       "Id": "2551268862",
       "Name": "PLAYER_FALL"
+     },
+     {
+      "Id": "2933154324",
+      "Name": "FIREFLIES_PICK"
      },
      {
       "Id": "2940948846",
@@ -585,7 +593,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{2E0020C1-352F-A194-486D-B1AE59FB9FBF}",
+    "Hash": "{6A0D7330-8E05-2872-A0D3-784819AFEA8F}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -1172,6 +1180,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Locomotion\\Impacts\\Light\\Stone\\STONE_IMPACT_LIGHT_02.wav",
       "CachePath": "6A/{6A6AE827-3F72-8AA8-316B-B85BE6923B0F}.wem"
+     },
+     {
+      "Id": "542524992",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Fireflies\\FIREFLIES_PICK.wav",
+      "CachePath": "4B/{4B681226-C86E-C206-20FC-847B773D4137}.wem"
      },
      {
       "Id": "547602146",
@@ -2253,6 +2269,18 @@
       "MediaRefs": [
        {
         "Id": "309120472"
+       }
+      ]
+     },
+     {
+      "Id": "2095185455",
+      "Name": "PLAY_FIREFLIES_PICK",
+      "DurationType": "OneShot",
+      "DurationMin": "3.2778332",
+      "DurationMax": "3.2778332",
+      "MediaRefs": [
+       {
+        "Id": "542524992"
        }
       ]
      },
@@ -3672,6 +3700,6 @@
     ]
    }
   ],
-  "FileHash": "{BBFFDEC3-DD45-2505-AD97-5021048B3475}"
+  "FileHash": "{52208CEF-679E-E5AF-5878-29242DFA0477}"
  }
 }

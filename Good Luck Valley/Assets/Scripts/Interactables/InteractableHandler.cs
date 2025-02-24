@@ -13,8 +13,6 @@ namespace GoodLuckValley.Interactables
         private PlayerController controller;
         private FireflyHandler fireflyHandler;
 
-        [SerializeField] private string interactableName;
-
         public PlayerController Controller { get => controller; }
         public FireflyHandler FireflyHandler { get => fireflyHandler; }
 
@@ -58,24 +56,6 @@ namespace GoodLuckValley.Interactables
         /// <summary>
         /// Set an Interactable to be handled
         /// </summary>
-        public void SetInteractable(Optional<Interactable> interactable)
-        {
-            // Set the current Interactable
-            currentInteractable = interactable;
-
-            // Set a name, if it exists
-            currentInteractable.Match(
-                onValue: interactable =>
-                {
-                    interactableName = interactable.gameObject.name;
-                    return 0;
-                },
-                onNoValue: () => 
-                {
-                    interactableName = string.Empty;
-                    return 0; 
-                }
-            );
-        }
+        public void SetInteractable(Optional<Interactable> interactable) => currentInteractable = interactable;
     }
 }

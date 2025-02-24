@@ -5,9 +5,8 @@ using UnityEngine.InputSystem;
 namespace GoodLuckValley.Persistence
 {
     [Serializable]
-    public class SettingsData
+    public class SettingsData : Data
     {
-        public string Name;
         public AudioData Audio;
         public VideoData Video;
         public ControlsData Controls;

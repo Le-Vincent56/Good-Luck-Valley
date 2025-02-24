@@ -8,7 +8,6 @@ namespace GoodLuckValley.Potentiates
     {
         private PlayerController playerController;
         private Optional<Potentiate> lastPotentiate = Optional<Potentiate>.None();
-        [SerializeField] private string lastPotentiateName;
 
         public PlayerController Controller { get => playerController; }
 
@@ -21,11 +20,7 @@ namespace GoodLuckValley.Potentiates
         /// <summary>
         /// Set the last Potentiate collected
         /// </summary>
-        public void SetLastPotentiate(Potentiate lastPotentiate)
-        {
-            this.lastPotentiate = lastPotentiate;
-            lastPotentiateName = lastPotentiate.gameObject.name;
-        }
+        public void SetLastPotentiate(Potentiate lastPotentiate) => this.lastPotentiate = lastPotentiate;
 
         /// <summary>
         /// Deplete the last Potentiate
@@ -58,10 +53,6 @@ namespace GoodLuckValley.Potentiates
         /// <summary>
         /// Remove references to the last Potentiate
         /// </summary>
-        public void RemovePotentiate()
-        {
-            lastPotentiate = null;
-            lastPotentiateName = string.Empty;
-        }
+        public void RemovePotentiate() => lastPotentiate = null;
     }
 }

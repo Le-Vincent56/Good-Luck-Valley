@@ -16,6 +16,12 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private Ease easeType;
         private Tween scaleTween;
 
+        private void OnDestroy()
+        {
+            // Kill the Scale tween if it exists
+            scaleTween?.Kill();
+        }
+
         protected override void OnRight() => Scale(rightOrthographicSize, scaleDuration, easeType);
         protected override void OnLeft() => Scale(leftOrthographicSize, scaleDuration, easeType);
 

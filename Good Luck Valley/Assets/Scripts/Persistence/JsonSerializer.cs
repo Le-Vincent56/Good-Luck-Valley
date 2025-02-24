@@ -7,7 +7,7 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Serialize the object to a JSON string
         /// </summary>
-        public string Serialize<T>(T obj)
+        public string Serialize<T>(T obj) where T : Data
         {
             return JsonUtility.ToJson(obj, true);
         }

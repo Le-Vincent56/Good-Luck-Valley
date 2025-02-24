@@ -44,6 +44,7 @@ namespace GoodLuckValley.Audio
         [SerializeField] private Switch firefliesSwitch;
         [SerializeField] private Switch noFirefliesSwitch;
         [SerializeField] private AK.Wwise.Event feedFirefliesEvent;
+        [SerializeField] private AK.Wwise.Event pickFireflyFruitEvent;
 
         public float CRAWL => 0.8f;
         public float WALK => 2.0f;
@@ -252,5 +253,10 @@ namespace GoodLuckValley.Audio
         /// Play the SFX for feeding fireflies
         /// </summary>
         public void FeedFireflies() => feedFirefliesEvent.Post(gameObject);
+
+        /// <summary>
+        /// Play the SFX for picking firefly fruit
+        /// </summary>
+        public void PickFireflyFruit() => pickFireflyFruitEvent.Post(gameObject);
     }
 }

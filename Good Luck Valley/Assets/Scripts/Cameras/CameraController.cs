@@ -2,6 +2,7 @@ using Cinemachine;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Timers;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley
@@ -11,7 +12,7 @@ namespace GoodLuckValley
         private SaveLoadSystem saveLoadSystem;
 
         [SerializeField] private CinemachineBrain cinemachineBrain;
-        [SerializeField] private CinemachineVirtualCamera[] virtualCameras;
+        [SerializeField] private List<CinemachineVirtualCamera> virtualCameras;
         [SerializeField] private CinemachineVirtualCamera initialCamera;
         private CinemachineBlendDefinition originalBlend;
 
@@ -19,8 +20,10 @@ namespace GoodLuckValley
 
         private void Awake()
         {
+            virtualCameras = new List<CinemachineVirtualCamera>();
+
             // Get the virtual cameras
-            virtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>();
+            GetComponentsInChildren(virtualCameras);
 
             // Cache the original blend settings
             originalBlend = cinemachineBrain.m_DefaultBlend;

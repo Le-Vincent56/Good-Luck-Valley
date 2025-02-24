@@ -93,7 +93,7 @@ namespace GoodLuckValley.Cameras.Parallax
             layers = new List<ParallaxLayer>();
 
             // Store the Parallax Layers
-            layers.AddRange(GetComponentsInChildren<ParallaxLayer>());
+            GetComponentsInChildren(layers);
 
             // Create the Native Array of Parallax Data
             layersNative = new NativeArray<ParallaxData>(layers.Count, Allocator.Persistent);

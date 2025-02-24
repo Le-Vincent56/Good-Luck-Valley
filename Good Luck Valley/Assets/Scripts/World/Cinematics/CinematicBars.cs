@@ -42,6 +42,13 @@ namespace GoodLuckValley.World.Cinematics
             EventBus<EndCinematic>.Deregister(onEndCinematic);
         }
 
+        private void OnDestroy()
+        {
+            // Kill any existing Tweens
+            topTranslateTween?.Kill();
+            bottomTranslateTween?.Kill();
+        }
+
         /// <summary>
         /// Lower the Cinematic Bars
         /// </summary>

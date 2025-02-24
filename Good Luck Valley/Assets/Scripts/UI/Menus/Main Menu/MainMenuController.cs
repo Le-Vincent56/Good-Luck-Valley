@@ -43,9 +43,12 @@ namespace GoodLuckValley.UI.Menus.Main
 
         private void Awake()
         {
+            optionMenus = new List<IOptionMenu>();
+            menuControllers = new List<IMenuController>();
+
             // Get the screens
-            optionMenus = GetComponentsInChildren<IOptionMenu>().ToList();
-            menuControllers = GetComponentsInChildren<IMenuController>().ToList();
+            GetComponentsInChildren(optionMenus);
+            GetComponentsInChildren(menuControllers);
 
             // Set the current state to 0
             currentState = 0;

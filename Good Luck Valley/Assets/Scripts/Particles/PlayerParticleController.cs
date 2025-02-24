@@ -85,8 +85,12 @@ namespace GoodLuckValley.Particles
 
         private void Awake()
         {
+            List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+
             // Collect Particle Systems
-            ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+            GetComponentsInChildren(particleSystems);
+
+            // Set the Particle Systems
             grassRunningParticles = particleSystems[0];
             dirtRunningParticles = particleSystems[1];
             stoneRunningParticles = particleSystems[2];

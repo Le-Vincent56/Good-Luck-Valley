@@ -71,14 +71,14 @@ namespace GoodLuckValley.UI.Journal.Controller
         private void ConnectView()
         {
             // Iterate through each View
-            for(int i = 0; i < view.Entries.Length; i++)
+            for(int i = 0; i < view.Entries.Count; i++)
             {
                 // Register events
                 view.Entries[i].RegisterListener(OnEntryClicked);
             }
 
             // Iterate through each Tab
-            for(int i = 0; i < view.Tabs.Length; i++)
+            for(int i = 0; i < view.Tabs.Count; i++)
             {
                 // Register events
                 view.Tabs[i].RegisterListener(OnTabClicked);

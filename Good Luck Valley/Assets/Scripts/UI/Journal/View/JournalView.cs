@@ -21,9 +21,9 @@ namespace GoodLuckValley.UI.Journal.View
         [SerializeField] private Text contentText;
         private EntryButtonEffect lastSelectedEntry;
         private TabButtonEffect lastSelectedTab;
-        [SerializeField] private TabButton[] tabs;
-        [SerializeField] private TabButtonEffect[] tabEffects;
-        [SerializeField] private EntryButton[] entries;
+        [SerializeField] private List<TabButton> tabs;
+        [SerializeField] private List<TabButtonEffect> tabEffects;
+        [SerializeField] private List<EntryButton> entries;
 
 
         [Header("Tweening Variables")]
@@ -34,34 +34,39 @@ namespace GoodLuckValley.UI.Journal.View
         private Tween entriesFadeTween;
         private Tween contentFadeTween;
 
-        public EntryButton[] Entries { get => entries; }
-        public TabButton[] Tabs { get => tabs; }
-        public TabButtonEffect[] Effects { get => tabEffects; }
+        public List<EntryButton> Entries { get => entries; }
+        public List<TabButton> Tabs { get => tabs; }
+        public List<TabButtonEffect> Effects { get => tabEffects; }
         public EntryButtonEffect LastSelectedEntry { get => lastSelectedEntry; set => lastSelectedEntry = value; }
         public TabButtonEffect LastSelectedTab { get => lastSelectedTab; set => lastSelectedTab = value; }
 
         private void Awake()
         {
+            tabs = new List<TabButton>();
+            tabEffects = new List<TabButtonEffect>();
+            entries = new List<EntryButton>();
+
             // Get components
             canvasGroup = GetComponent<CanvasGroup>();
-            tabs = menuGroup.GetComponentsInChildren<TabButton>();
-            tabEffects = menuGroup.GetComponentsInChildren<TabButtonEffect>();
-            entries = menuGroup.GetComponentsInChildren<EntryButton>();
+            menuGroup.GetComponentsInChildren(tabs);
+            menuGroup.GetComponentsInChildren(tabEffects);
+            menuGroup.GetComponentsInChildren(entries);
 
             // Set the texts
-            Text[] contentTexts = contentGroup.GetComponentsInChildren<Text>();
+            List<Text> contentTexts = new List<Text>();
+            contentGroup.GetComponentsInChildren(contentTexts);
             contentTitle = contentTexts[0];
             contentText = contentTexts[1];
 
             // Iterate through each Tab button
-            for(int i = 0; i < tabs.Length; i++)
+            for(int i = 0; i < tabs.Count; i++)
             {
                 // Initialize each Tab Button
                 tabs[i].Initialize(this);
             }
 
             // Iterate through each Entry Button
-            for (int i = 0; i < entries.Length; i++)
+            for (int i = 0; i < entries.Count; i++)
             {
                 // Initialize each Entry Button
                 entries[i].Initialize(this);
@@ -71,13 +76,21 @@ namespace GoodLuckValley.UI.Journal.View
             Fade(contentFadeTween, contentGroup, 0f, 0f);
         }
 
+        private void OnDestroy()
+        {
+            // Kill any existing Tweens
+            canvasFadeTween?.Kill();
+            entriesFadeTween?.Kill();
+            contentFadeTween?.Kill();
+        }
+
         /// <summary>
         /// Update the Journal Entries
         /// </summary>
         public void UpdateEntries(IList<JournalEntry> journalEntries)
         {
             // Iterate through each Entry Button
-            for(int i = 0; i < entries.Length;i++)
+            for(int i = 0; i < entries.Count;i++)
             {
                 // Skip if the index is greater than the length of the List
                 if(i >= journalEntries.Count)
@@ -101,13 +114,13 @@ namespace GoodLuckValley.UI.Journal.View
             }
 
             // Iterate through each Tab Button
-            for(int i = 0; i < tabs.Length; i++)
+            for(int i = 0; i < tabs.Count; i++)
             {
                 // Default that a Tab has no Entries
                 bool hasEntries = false;
 
                 // Iterate through each Entry Button
-                for(int j = 0; j < entries.Length; j++)
+                for(int j = 0; j < entries.Count; j++)
                 {
                     // Check if the Entry Button's Tab matches the Tab Button's Tab
                     if (entries[j].Tab == tabs[i].Tab)
@@ -136,7 +149,7 @@ namespace GoodLuckValley.UI.Journal.View
             Fade(entriesFadeTween, entriesGroup, 0f, entryFadeDuration / 2f, () =>
             {
                 // Iterate through each Entry Button
-                for (int i = 0; i < entries.Length; i++)
+                for (int i = 0; i < entries.Count; i++)
                 {
                     // Deactivate the Entry Button
                     entries[i].gameObject.SetActive(false);
@@ -184,7 +197,7 @@ namespace GoodLuckValley.UI.Journal.View
         public void CorrectTabs(TabType tab)
         {
             // Iterate through each Tab Effect Button
-            for(int i = 0; i < tabEffects.Length; i++)
+            for(int i = 0; i < tabEffects.Count; i++)
             {
                 // Check if the Tab Button's Tab equals the given Tab
                 if (tabEffects[i].GetComponent<TabButton>().Tab == tab)

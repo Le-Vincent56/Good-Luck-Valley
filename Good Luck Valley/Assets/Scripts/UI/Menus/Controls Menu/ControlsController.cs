@@ -2,7 +2,7 @@ using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Input;
 using GoodLuckValley.UI.Menus.Controls.States;
 using GoodLuckValley.UI.Menus.Persistence;
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -19,8 +19,8 @@ namespace GoodLuckValley.UI.Menus.Controls
         [SerializeField] private UIInputReader inputReader;
         [SerializeField] private InputActionAsset inputActionAsset;
         [SerializeField] private Text duplicatesText;
-        [SerializeField] private Animator[] animators;
-        [SerializeField] protected RebindButton[] rebindingButtons;
+        [SerializeField] private List<Animator> animators;
+        [SerializeField] protected List<RebindButton> rebindingButtons;
 
         [Header("Fields")]
         [SerializeField] private bool binding;
@@ -33,15 +33,18 @@ namespace GoodLuckValley.UI.Menus.Controls
         private StateMachine stateMachine;
         private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
-        public RebindButton[] RebindingButtons { get => rebindingButtons; }
+        public List<RebindButton> RebindingButtons { get => rebindingButtons; }
         public int CurrentRebindingButton { get => currentRebindingButton; }
 
         protected virtual void Awake()
         {
+            animators = new List<Animator>();
+            rebindingButtons = new List<RebindButton>();
+
             // Get components
             saveHandler = GetComponent<ControlsSaveHandler>();
-            animators = GetComponentsInChildren<Animator>();
-            rebindingButtons = GetComponentsInChildren<RebindButton>();
+            GetComponentsInChildren(animators);
+            GetComponentsInChildren(rebindingButtons);
 
             // Iterate through each Rebind Button
             foreach (RebindButton rebindingButton in rebindingButtons)
@@ -105,7 +108,7 @@ namespace GoodLuckValley.UI.Menus.Controls
             if (action == null) return;
 
             // Get the binding button
-            currentRebindingButton = Array.IndexOf(rebindingButtons, rebindingButton);
+            currentRebindingButton = rebindingButtons.IndexOf(rebindingButton);
 
             // Prevent navigation events
             EventSystem.current.sendNavigationEvents = false;

@@ -39,8 +39,10 @@ namespace GoodLuckValley.UI.Menus
 
         private void OnDestroy()
         {
-            // Kill the Fade Tween if it exists
+            // Kill any existing Tweens
             fadeTween?.Kill();
+            scaleTween?.Kill();
+            colorTween?.Kill();
         }
 
         public void Pop()

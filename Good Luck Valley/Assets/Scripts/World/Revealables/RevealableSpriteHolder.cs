@@ -1,17 +1,20 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.World.Revealables
 {
     public class RevealableSpriteHolder : Revealable
     {
-        private SpriteRenderer[] spriteRenderers;
+        private List<SpriteRenderer> spriteRenderers;
         private Sequence fadeSequence;
 
         private void Awake()
         {
+            spriteRenderers = new List<SpriteRenderer>();
+
             // Get the SpriteRenderer
-            spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            GetComponentsInChildren(spriteRenderers);
 
             // Iterate over each Sprite Renderer
             foreach (SpriteRenderer spriteRenderer in spriteRenderers)

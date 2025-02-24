@@ -1,5 +1,6 @@
 using DG.Tweening;
 using GoodLuckValley.Timers;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley
@@ -23,8 +24,12 @@ namespace GoodLuckValley
 
         private void Awake()
         {
+            List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+
             // Get and set particle systems
-            ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+            GetComponentsInChildren(particleSystems);
+
+            // Set particle systems
             ambientBurst = particleSystems[0];
 
             // Set the rotation duration
@@ -53,6 +58,8 @@ namespace GoodLuckValley
 
         private void OnDestroy()
         {
+            Stop();
+
             // Dispose of the particle timer
             particleTimer?.Dispose();
 
@@ -96,6 +103,9 @@ namespace GoodLuckValley
 
             // Stop particles from spawning
             ambientBurst.Stop();
+
+            // Kill the rotate tween
+            rotateTween?.Kill();
         }
 
         private void Rotate(float endValue, float duration)

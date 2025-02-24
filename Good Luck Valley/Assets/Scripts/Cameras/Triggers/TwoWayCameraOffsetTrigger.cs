@@ -26,6 +26,12 @@ namespace GoodLuckValley.Cameras
             framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         }
 
+        private void OnDestroy()
+        {
+            // Kill the Scale tween if it exists
+            translateTween?.Kill();
+        }
+
         protected override void OnRight() => Translate(rightOffset, translateDuration, easeType);
         protected override void OnLeft() => Translate(leftOffset, translateDuration, easeType);
 

@@ -37,6 +37,12 @@ namespace GoodLuckValley.UI.Tutorial
             EventBus<FadeGraphic>.Deregister(onFadeGraphic);
         }
 
+        private void OnDestroy()
+        {
+            // Kill the Fade Tween if it exists
+            fadeTween?.Kill();
+        }
+
         private void HandleFading(FadeGraphic fadeGraphic)
         {
             // Exit case - the ID doesn't match

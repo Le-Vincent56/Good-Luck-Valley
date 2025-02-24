@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.World.Episodes
@@ -5,18 +6,22 @@ namespace GoodLuckValley.World.Episodes
     [ExecuteInEditMode]
     public class ParticlePlayer : MonoBehaviour
     {
-        private ParticleSystem[] particles;
+        private List<ParticleSystem> particles;
 
         private void OnValidate()
         {
+            particles = new List<ParticleSystem>();
+
             // Get the particle systems to be seen in Timeline updates
-            particles = GetComponentsInChildren<ParticleSystem>();
+            GetComponentsInChildren(particles);
         }
 
         private void Start()
         {
+            particles = new List<ParticleSystem>();
+
             // Get the particle systems
-            particles = GetComponentsInChildren<ParticleSystem>();
+            GetComponentsInChildren(particles);
         }
 
         /// <summary>

@@ -23,6 +23,12 @@ namespace GoodLuckValley.Cameras
             framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         }
 
+        private void OnDestroy()
+        {
+            // Kill the Translate tween if it exists
+            translateTween?.Kill();
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             // Exit case - the collision object is not the Player

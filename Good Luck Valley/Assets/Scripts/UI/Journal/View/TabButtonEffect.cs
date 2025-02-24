@@ -48,7 +48,7 @@ namespace GoodLuckValley.UI.Journal.View
         /// </summary>
         public void Select()
         {
-            for (int i = 0; i < view.Effects.Length; i++)
+            for (int i = 0; i < view.Effects.Count; i++)
             {
                 // Skip if the Tab Button Effect is this one
                 if (view.Effects[i] == this) continue;

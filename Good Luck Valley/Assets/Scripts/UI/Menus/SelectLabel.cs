@@ -39,8 +39,8 @@ namespace GoodLuckValley
         private void OnDestroy()
         {
             // Kill any existing Tweens
-            scaleTween.Kill();
-            colorTween.Kill();
+            scaleTween?.Kill();
+            colorTween?.Kill();
         }
 
         public void OnSelect(BaseEventData eventData)

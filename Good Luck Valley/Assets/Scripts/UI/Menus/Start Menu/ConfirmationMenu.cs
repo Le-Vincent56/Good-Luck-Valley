@@ -27,7 +27,7 @@ namespace GoodLuckValley.UI.Menus.Start
         private void OnDestroy()
         {
             // Kill any existing Tweens
-            fadeTween.Kill();
+            fadeTween?.Kill();
         }
 
         /// <summary>

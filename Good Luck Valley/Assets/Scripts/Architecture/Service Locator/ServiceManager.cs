@@ -53,7 +53,7 @@ namespace GoodLuckValley.Architecture.ServiceLocator
         /// <summary>
         /// Register a service to the Service Manager
         /// </summary>
-        public ServiceManager Register<T>(T service)
+        public ServiceManager Register<T>(T service) where T : class
         {
             Type type = typeof(T);
 
