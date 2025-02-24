@@ -2,9 +2,15 @@
 <WwiseDocument Type="WorkUnit" ID="{519160BC-4021-42BB-9971-8B7F8AAF87DE}" SchemaVersion="123">
 	<AudioObjects>
 		<WorkUnit Name="POTENTIATES" ID="{519160BC-4021-42BB-9971-8B7F8AAF87DE}" PersistMode="Standalone">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
 				<RandomSequenceContainer Name="POTENTIATES_TIMEWARP_TICK" ID="{A8453444-D04B-4B95-9AE8-9842E1B41CA1}" ShortID="633666188">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
 						<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
@@ -20,6 +26,8 @@
 					<ChildrenList>
 						<Sound Name="TIMEWARP_TICK" ID="{2A0CA509-BB2F-4811-8CC5-6DA50F8C727C}" ShortID="369932159">
 							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="Pitch" Type="int32">
 									<ModifierList>
 										<ModifierInfo>
@@ -55,16 +63,16 @@
 										<MediaID ID="372653540"/>
 									</MediaIDList>
 								</AudioFileSource>
-								<AudioFileSource Name="TIMEWARP_TICK_01" ID="{E62103D2-F530-4CBF-A2A6-C24B23C564B9}">
+								<AudioFileSource Name="TIMEWARP_TICK" ID="{E62103D2-F530-4CBF-A2A6-C24B23C564B9}">
 									<Language>SFX</Language>
-									<AudioFile>TIMEWARP_TICK.wav</AudioFile>
+									<AudioFile>Potentiates\Time Warp\TIMEWARP_TICK.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="731811915"/>
+										<MediaID ID="372653540"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="TIMEWARP_TICK_01" ID="{E62103D2-F530-4CBF-A2A6-C24B23C564B9}" Platform="Linked"/>
+								<ActiveSource Name="TIMEWARP_TICK" ID="{E62103D2-F530-4CBF-A2A6-C24B23C564B9}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>

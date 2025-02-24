@@ -17,8 +17,8 @@ namespace AK
         static const AkUniqueID PLAY_AMBIENCE2D_MAIN = 2609132508U;
         static const AkUniqueID PLAY_AMBIENCEBED_MAIN = 1808419977U;
         static const AkUniqueID PLAY_CINEMATICS_L1_ROCKFALL = 3122541869U;
+        static const AkUniqueID PLAY_FIREFLIES_FEED = 3983967792U;
         static const AkUniqueID PLAY_FIREFLIES_LANTERN_PLACE = 686783032U;
-        static const AkUniqueID PLAY_FIREFLIES_MUNCH = 2340979173U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
         static const AkUniqueID PLAY_MUSHROOM_DISSIPATE = 937795333U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;

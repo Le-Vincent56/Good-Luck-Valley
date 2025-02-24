@@ -1,4 +1,5 @@
 using Cinemachine;
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Timers;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace GoodLuckValley.Cameras.Persistence
 {
     public class CameraSaveHandler : MonoBehaviour, IBind<CameraData>
     {
+        private SaveLoadSystem saveLoadSystem;
         private CinemachineVirtualCamera virtualCamera;
         private CinemachineComponentBase component;
         private bool dampingCorrected = true;
@@ -15,6 +17,12 @@ namespace GoodLuckValley.Cameras.Persistence
         [field: SerializeField] public SerializableGuid ID { get; set; } = SerializableGuid.NewGuid();
 
         private CountdownTimer correctDampTimer;
+
+        private void Awake()
+        {
+            // Get services
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
+        }
 
         private void OnDestroy()
         {
@@ -128,6 +136,9 @@ namespace GoodLuckValley.Cameras.Persistence
 
             // Attempt to get a Component Base from the Virtual Camera
             component = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+
+            // Exit case - if debugging
+            if (saveLoadSystem.Debug) return;
 
             // Exit case - no data has been saved yet
             if (data.Priority == 0 || data.OrthographicSize == 0.0f) return;

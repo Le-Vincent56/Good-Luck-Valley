@@ -55,6 +55,9 @@ namespace GoodLuckValley
         {
             // Dispose of the particle timer
             particleTimer?.Dispose();
+
+            // Kill the rotate tween if it exists
+            rotateTween?.Kill();
         }
 
         public void Play()
