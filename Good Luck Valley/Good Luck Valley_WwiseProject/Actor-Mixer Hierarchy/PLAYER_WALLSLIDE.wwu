@@ -4,6 +4,13 @@
 		<WorkUnit Name="PLAYER_WALLSLIDE" ID="{432F27C4-7F9D-493C-ABC3-B80AF7B01C83}" OwnerID="{C60FF45E-2EF5-4FBA-A752-8418268B89B4}" PersistMode="Nested">
 			<ChildrenList>
 				<SwitchContainer Name="PLAYER_WALLSLIDE_END_GROUNDMATSWITCH" ID="{34C1C167-B70B-4986-9719-BB264B459B1F}" ShortID="713107531">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-10</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -331,6 +338,13 @@
 					</GroupingInfo>
 				</SwitchContainer>
 				<SwitchContainer Name="PLAYER_WALLSLIDE_GROUNDMATSWITCH" ID="{C8E08124-AAAB-46A2-966C-642936D70222}" ShortID="410248671">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-14</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
