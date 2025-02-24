@@ -1,7 +1,7 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.World.Triggers;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Interactables
@@ -30,10 +30,25 @@ namespace GoodLuckValley.Interactables
             // Get the Interactable sprite
             interactableSprite = GetComponent<SpriteRenderer>();
 
-            // Check for multiple feedback sprites
-            feedbackSprites = multipleFeedbackSprites 
-                ? GetComponentsInChildren<SpriteRenderer>().Skip(1).Take(numberOfFeedbackSprites).ToArray()
-                : GetComponentsInChildren<SpriteRenderer>().Skip(1).Take(1).ToArray();
+            // Get all child sprites
+            List<SpriteRenderer> allSprites = new List<SpriteRenderer>();
+            GetComponentsInChildren(allSprites);
+
+            // Decide how many sprites to take after skipping the first one (the base sprite)
+            int count = multipleFeedbackSprites ? numberOfFeedbackSprites : 1;
+
+            // Ensure we don't try to copy more than we have
+            int available = Mathf.Min(count, allSprites.Count - 1);
+
+            // Create the array for feedback sprites
+            feedbackSprites = new SpriteRenderer[available];
+
+            // Iterate through each available sprite
+            for(int i = 0; i < available; i++)
+            {
+                // Set the sprite
+                feedbackSprites[i] = allSprites[i + 1];
+            }
 
             // Set variables
             canInteract = true;

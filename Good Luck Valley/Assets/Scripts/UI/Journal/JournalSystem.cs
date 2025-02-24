@@ -108,7 +108,7 @@ namespace GoodLuckValley.UI.Journal
                 int currentIndex = 0;
 
                 // Iterate through each Tab
-                for(int i = 0; i < view.Tabs.Length; i++)
+                for(int i = 0; i < view.Tabs.Count; i++)
                 {
                     // Check if the Tab equals the Hovered Tab
                     if(view.Tabs[i] == hoveredTab)
@@ -129,10 +129,10 @@ namespace GoodLuckValley.UI.Journal
                     currentIndex += yDirection;
 
                     // Check if the index is out of bounds
-                    if (currentIndex < 0 || currentIndex >= view.Tabs.Length)
+                    if (currentIndex < 0 || currentIndex >= view.Tabs.Count)
                     {
                         // Set the index to the opposite end
-                        currentIndex = currentIndex < 0 ? view.Tabs.Length - 1 : 0;
+                        currentIndex = currentIndex < 0 ? view.Tabs.Count - 1 : 0;
                     }
 
                     // Check if the tab to select is not interactable
@@ -143,10 +143,10 @@ namespace GoodLuckValley.UI.Journal
                     }
 
                     // Check if the index is out of bounds
-                    if (currentIndex < 0 || currentIndex >= view.Tabs.Length)
+                    if (currentIndex < 0 || currentIndex >= view.Tabs.Count)
                     {
                         // Set the index to the opposite end
-                        currentIndex = currentIndex < 0 ? view.Tabs.Length - 1 : 0;
+                        currentIndex = currentIndex < 0 ? view.Tabs.Count - 1 : 0;
                     }
 
                     // Check if the Tab is interactable

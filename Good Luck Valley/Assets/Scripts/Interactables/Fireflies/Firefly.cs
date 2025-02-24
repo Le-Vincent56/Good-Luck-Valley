@@ -1,4 +1,5 @@
 using GoodLuckValley.Timers;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Fireflies
@@ -54,7 +55,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Update the Firefly
         /// </summary>
-        public void TickUpdate(float time, float delta, Firefly[] fireflies)
+        public void TickUpdate(float time, float delta, List<Firefly> fireflies)
         {
             // Get the current transform position
             position = transform.position;
@@ -88,7 +89,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Calculate the total affecting forces for the Firefly
         /// </summary>
-        private void CalculateForces(Firefly[] fireflies)
+        private void CalculateForces(List<Firefly> fireflies)
         {
             totalForce += Seek(targetPosition);
             totalForce += StayCohesive(fireflies);
@@ -126,7 +127,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Stay cohesive with the Firefly Group
         /// </summary>
-        private Vector2 StayCohesive(Firefly[] fireflies, float weight = 0.25f)
+        private Vector2 StayCohesive(List<Firefly> fireflies, float weight = 0.25f)
         {
             // Get the center
             Vector2 centroid = Vector2.zero;
@@ -138,7 +139,7 @@ namespace GoodLuckValley.Interactables.Fireflies
             }
 
             // Divide the centroid by the number of fireflies
-            centroid /= fireflies.Length;
+            centroid /= fireflies.Count;
 
             // Seek the centroid
             return Seek(centroid, weight);
@@ -147,7 +148,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Space out from the other Fireflies
         /// </summary>
-        private Vector2 Separate(Firefly[] fireflies)
+        private Vector2 Separate(List<Firefly> fireflies)
         {
             Vector2 separationForce = Vector2.zero;
             float sqrPersonalSpace = Mathf.Pow(personalSpace, 2f);

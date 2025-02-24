@@ -253,18 +253,18 @@ namespace GoodLuckValley.Player.Movement
 
         private void DebugMovement(bool before)
         {
-            string beforeText = before ? "Before" : "After";
+            //string beforeText = before ? "Before" : "After";
 
-            Debug.Log($"Movement Debug ({beforeText})): " +
-                $"\nVelocity: {Velocity}" +
-                $"\nLinear Velocity: {rb.linearVelocity}" +
-                $"\nDecaying Transient Velocity: {DecayingTransientVelocity}" +
-                $"\nTransient Velocity: {FrameData.TransientVelocity}" +
-                $"\nExtra Constant Gravity: {extraConstantGravity}" +
-                $"\nForce to Apply: {FrameData.ForceToApply}" +
-                $"\nAdditional Frame Velocities: {FrameData.AdditionalFrameVelocities()}" +
-                $"\nConstant Force: {constForce.force}"
-            );
+            //Debug.Log($"Movement Debug ({beforeText})): " +
+            //    $"\nVelocity: {Velocity}" +
+            //    $"\nLinear Velocity: {rb.linearVelocity}" +
+            //    $"\nDecaying Transient Velocity: {DecayingTransientVelocity}" +
+            //    $"\nTransient Velocity: {FrameData.TransientVelocity}" +
+            //    $"\nExtra Constant Gravity: {extraConstantGravity}" +
+            //    $"\nForce to Apply: {FrameData.ForceToApply}" +
+            //    $"\nAdditional Frame Velocities: {FrameData.AdditionalFrameVelocities()}" +
+            //    $"\nConstant Force: {constForce.force}"
+            //);
         }
 
         /// <summary>

@@ -10,6 +10,7 @@ using GoodLuckValley.Persistence;
 using GoodLuckValley.Scenes;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.Pause.States;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,9 +22,9 @@ namespace GoodLuckValley.UI.Menus.Pause
         [SerializeField] private GameInputReader gameInputReader;
         [SerializeField] private UIInputReader menuInputReader;
         [SerializeField] private Image background;
-        [SerializeField] private CanvasGroup[] canvasGroups;
-        [SerializeField] private IOptionMenu[] optionMenus;
-        [SerializeField] private IMenuController[] menuControllers;
+        [SerializeField] private List<CanvasGroup> canvasGroups;
+        [SerializeField] private List<IOptionMenu> optionMenus;
+        [SerializeField] private List<IMenuController> menuControllers;
         private IMenuController currentMenuController;
         private SaveLoadSystem saveLoadSystem;
         private SceneLoader sceneLoader;
@@ -57,10 +58,14 @@ namespace GoodLuckValley.UI.Menus.Pause
 
         private void Awake()
         {
+            canvasGroups = new List<CanvasGroup>();
+            optionMenus = new List<IOptionMenu>();
+            menuControllers = new List<IMenuController>();
+
             // Get components
-            canvasGroups = GetComponentsInChildren<CanvasGroup>();
-            optionMenus = GetComponentsInChildren<IOptionMenu>();
-            menuControllers = GetComponentsInChildren<IMenuController>();
+            GetComponentsInChildren(canvasGroups);
+            GetComponentsInChildren(optionMenus);
+            GetComponentsInChildren(menuControllers);
 
             // Initialize the State Machine
             InitializeStateMachine();

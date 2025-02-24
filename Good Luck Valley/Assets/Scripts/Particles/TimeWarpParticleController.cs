@@ -1,5 +1,6 @@
 using DG.Tweening;
 using GoodLuckValley.Timers;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley
@@ -23,8 +24,12 @@ namespace GoodLuckValley
 
         private void Awake()
         {
+            List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+
             // Get and set particle systems
-            ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+            GetComponentsInChildren(particleSystems);
+
+            // Set particle systems
             ambientBurst = particleSystems[0];
 
             // Set the rotation duration

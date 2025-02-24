@@ -29,9 +29,11 @@ namespace GoodLuckValley.UI.Menus.Start
 
         private void Awake()
         {
+            saveSlots = new List<SaveSlot>();
+
             // Get components
             mainMenuController = GetComponentInParent<MainMenuController>();
-            saveSlots = GetComponentsInChildren<SaveSlot>().ToList();
+            GetComponentsInChildren(saveSlots);
 
             // Iterate through each Save Slot
             foreach(SaveSlot slot in saveSlots)

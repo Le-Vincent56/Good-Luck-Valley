@@ -2,6 +2,7 @@ using DG.Tweening;
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Fireflies;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -12,7 +13,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         [Header("Lantern")]
         [SerializeField] private int channel;
         [SerializeField] private Light2D activateLight;
-        [SerializeField] private ParticleSystem[] lanternParticles;
+        [SerializeField] private List<ParticleSystem> lanternParticles;
 
         [Header("Wwise Events")]
         [SerializeField] private AK.Wwise.Event lanternPlaceEvent;
@@ -34,7 +35,7 @@ namespace GoodLuckValley.Interactables.Fireflies
 
             // Get components
             activateLight = GetComponentInChildren<Light2D>();
-            lanternParticles = GetComponentsInChildren<ParticleSystem>();
+            GetComponentsInChildren(lanternParticles);
 
             // Set variables
             illuminateDuration = lanternParticles[0].main.duration;

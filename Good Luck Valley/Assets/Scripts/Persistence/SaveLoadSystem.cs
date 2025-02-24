@@ -73,8 +73,6 @@ namespace GoodLuckValley.Persistence
 
             sceneLoader.Release += Cleanup;
             sceneLoader.Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
-
-            UnityEngine.Debug.Log("Registered");
         }
 
         private void OnDestroy()

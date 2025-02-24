@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Interactables.Fireflies
@@ -10,21 +11,23 @@ namespace GoodLuckValley.Interactables.Fireflies
         private float time;
         private float delta;
 
-        private Firefly[] fireflies;
+        private List<Firefly> fireflies;
 
         public bool Moving { get => moving; set => moving = value; } 
         public Vector2 Center { get => circleCenter; }
 
         private void Start()
         {
+            fireflies = new List<Firefly>();
+
             // Get all the Fireflies within the group
-            fireflies = GetComponentsInChildren<Firefly>();
+            GetComponentsInChildren(fireflies);
 
             // Set the circle center
             circleCenter = (Vector2)transform.position;
 
             // Iterate through each Firefly and set the native data
-            for(int i = 0; i < fireflies.Length; i++)
+            for(int i = 0; i < fireflies.Count; i++)
             {
                 // Initialize the Firefly
                 fireflies[i].Initialize(this);
