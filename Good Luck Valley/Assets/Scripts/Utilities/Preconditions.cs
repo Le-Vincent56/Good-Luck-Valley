@@ -10,7 +10,7 @@ namespace GoodLuckValley.Utilities.Preconditions
         /// <summary>
         /// Check if the referenced object is null
         /// </summary>
-        public static T CheckNotNull<T>(T reference)
+        public static T CheckNotNull<T>(T reference) where T : UnityEngine.Object
         {
             return CheckNotNull(reference, null);
         }
@@ -18,9 +18,9 @@ namespace GoodLuckValley.Utilities.Preconditions
         /// <summary>
         /// Check if the referenced object is null with a custom message
         /// </summary>
-        public static T CheckNotNull<T>(T reference, string message)
+        public static T CheckNotNull<T>(T reference, string message) where T : UnityEngine.Object
         {
-            if (reference is UnityEngine.Object obj && obj.OrNull() == null)
+            if (reference.OrNull() == null)
             {
                 throw new ArgumentNullException(message);
             }

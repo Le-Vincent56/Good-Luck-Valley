@@ -5,7 +5,7 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Serialize an object to a string
         /// </summary>
-        string Serialize<T>(T obj);
+        string Serialize<T>(T obj) where T : Data;
 
 
         /// <summary>

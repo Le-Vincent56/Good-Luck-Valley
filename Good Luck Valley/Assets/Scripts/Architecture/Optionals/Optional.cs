@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace GoodLuckValley.Architecture.Optionals
 {
@@ -95,7 +96,20 @@ namespace GoodLuckValley.Architecture.Optionals
         /// <summary>
         /// Override the string conversion
         /// </summary>
-        public override string ToString() => hasValue ? $"Some({value})" : "None";
+        public override string ToString()
+        {
+            // Exit case - there's no value
+            if (!hasValue) return "None";
+
+            // Build the ToString()
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Some(");
+            sb.Append(value?.ToString() ?? "null"); // To avoid boxing
+            sb.Append(")");
+            sb.ToString();
+
+            return sb.ToString();
+        }
 
         public static implicit operator Optional<T>(T value) => new Optional<T>(value);
         public static implicit operator bool(Optional<T> value) => value.hasValue;

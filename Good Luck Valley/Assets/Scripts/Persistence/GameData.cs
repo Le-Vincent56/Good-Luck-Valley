@@ -5,26 +5,15 @@ using UnityEngine;
 namespace GoodLuckValley.Persistence
 {
     [Serializable]
-    public class GameData
+    public class GameData : Data
     {
         public int Slot;
         public long LastUpdated;
-        public string Name;
         public PlayerData PlayerData;
         public JournalData JournalData;
         public List<CollectibleSaveData> CollectibleDatas;
         public List<CameraData> CameraDatas;
         public List<TimelineData> TimelineDatas;
-
-        public override string ToString()
-        {
-            string finalString = "";
-
-            finalString += $"Slot: {Slot}, Name: {Name}";
-            finalString += $"Player Data: {PlayerData}";
-
-            return finalString;
-        }
     }
 
     [Serializable]
@@ -38,15 +27,6 @@ namespace GoodLuckValley.Persistence
         {
             LevelIndex = 2;
             Position = new Vector3(-139.03f, 0.13f, 0.0f);
-        }
-
-        public override string ToString()
-        {
-            string finalString = "";
-
-            finalString += $"\n\tPosition: {Position}";
-
-            return finalString;
         }
     }
 

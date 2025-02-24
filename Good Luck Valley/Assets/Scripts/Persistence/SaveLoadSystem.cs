@@ -9,6 +9,7 @@ using GoodLuckValley.World.Cinematics.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -196,11 +197,16 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         public void NewGame(int slot, bool loadGame = false)
         {
+            // Create the slot name
+            StringBuilder sb = new StringBuilder();
+            sb.Append("New Game ");
+            sb.Append(slot);
+
             // Create a new Game Data
             selectedData = new GameData
             {
                 Slot = slot,
-                Name = $"New Game {slot}",
+                Name = sb.ToString(),
                 LastUpdated = DateTime.Now.ToBinary(),
                 PlayerData = new PlayerData(),
                 CameraDatas = new List<CameraData>(),

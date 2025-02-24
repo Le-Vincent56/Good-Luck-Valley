@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -97,8 +98,13 @@ namespace GoodLuckValley.UI.Menus.Start
                             // Set the slot name
                             saveSlots[saveDatas[j].Slot - 1].Name = saveDatas[j].Name;
 
+                            // Build the percentage string
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append(100);
+                            sb.Append("%");
+
                             // Set the data
-                            saveSlots[saveDatas[j].Slot - 1].SetData(dateString, $"{100}%");
+                            saveSlots[saveDatas[j].Slot - 1].SetData(dateString, sb.ToString());
                         }
                     }
                 }

@@ -156,7 +156,7 @@ namespace GoodLuckValley.Architecture.ServiceLocator
         /// <summary>
         /// Registers a service to the Service Locator using the service's type
         /// </summary>
-        public ServiceLocator Register<T>(T service)
+        public ServiceLocator Register<T>(T service) where T : class
         {
             services.Register(service);
             return this;

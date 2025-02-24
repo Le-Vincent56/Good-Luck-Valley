@@ -1,5 +1,6 @@
 using GoodLuckValley.Extensions.Guids;
 using System;
+using System.Text;
 using UnityEngine;
 
 namespace GoodLuckValley.Persistence
@@ -65,7 +66,14 @@ namespace GoodLuckValley.Persistence
         /// </summary>
         public string ToHexString()
         {
-            return $"{Part1:X8}{Part2:X8}{Part3:X8}{Part4:X8}";
+            // Build the Hex string
+            StringBuilder sb = new StringBuilder();
+            sb.Append(Part1.ToString("X8"));
+            sb.Append(Part2.ToString("X8"));
+            sb.Append(Part3.ToString("X8"));
+            sb.Append(Part4.ToString("X8"));
+
+            return sb.ToString();
         }
 
         /// <summary>

@@ -58,6 +58,8 @@ namespace GoodLuckValley
 
         private void OnDestroy()
         {
+            Stop();
+
             // Dispose of the particle timer
             particleTimer?.Dispose();
 
@@ -101,6 +103,9 @@ namespace GoodLuckValley
 
             // Stop particles from spawning
             ambientBurst.Stop();
+
+            // Kill the rotate tween
+            rotateTween?.Kill();
         }
 
         private void Rotate(float endValue, float duration)
