@@ -639,6 +639,108 @@
 												</GroupingList>
 											</GroupingInfo>
 										</SwitchContainer>
+										<SwitchContainer Name="LOTUSSWITCH" ID="{9CF01171-3A92-446B-B29A-98BFB11EC78B}" ShortID="997439529">
+											<PropertyList>
+												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="DefaultSwitchOrState">
+													<ObjectRef Name="NOLOTUS" ID="{6B76815F-1E63-4F65-A979-103E0FB67D80}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+												<Reference Name="SwitchGroupOrStateGroup">
+													<ObjectRef Name="LOTUSSWITCH" ID="{4362CA85-3D56-45E4-85B7-B34695004A59}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}" ShortID="144267008">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_LOTUS_HUM" ID="{3C156DCE-7CA0-4AA5-8FCE-7C3430863747}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Lotus\AMB_LOTUS_HUM.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="940884523"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_LOTUS_HUM" ID="{3C156DCE-7CA0-4AA5-8FCE-7C3430863747}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}" ShortID="170376748">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{94BAFFD9-68ED-4BD8-8A81-0B6813E56327}" ShortID="887566741" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="20"/>
+																<Property Name="LengthMax" Type="Real32" Value="10"/>
+																<Property Name="LengthMin" Type="Real32" Value="-10"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{94BAFFD9-68ED-4BD8-8A81-0B6813E56327}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<GroupingInfo>
+												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}"/>
+														<PropertyList>
+															<Property Name="FadeInTime" Type="Real64">
+																<ValueList>
+																	<Value>1</Value>
+																</ValueList>
+															</Property>
+															<Property Name="FadeOutTime" Type="Real64">
+																<ValueList>
+																	<Value>1</Value>
+																</ValueList>
+															</Property>
+														</PropertyList>
+													</GroupingBehavior>
+													<GroupingBehavior>
+														<ItemRef Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}"/>
+													</GroupingBehavior>
+												</GroupingBehaviorList>
+												<GroupingList>
+													<Grouping>
+														<SwitchRef Name="LOTUS" ID="{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"/>
+														<ItemList>
+															<ItemRef Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}"/>
+														</ItemList>
+													</Grouping>
+													<Grouping>
+														<SwitchRef Name="NOLOTUS" ID="{6B76815F-1E63-4F65-A979-103E0FB67D80}"/>
+														<ItemList>
+															<ItemRef Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}"/>
+														</ItemList>
+													</Grouping>
+												</GroupingList>
+											</GroupingInfo>
+										</SwitchContainer>
 									</ChildrenList>
 								</BlendContainer>
 							</ChildrenList>
@@ -1798,6 +1900,262 @@
 														</ItemList>
 													</Grouping>
 												</GroupingList>
+											</GroupingInfo>
+										</SwitchContainer>
+										<SwitchContainer Name="AMBIENCE2D_MAIN_LOTUSSWITCH" ID="{598BCB0E-BC92-48CB-8D21-80DE4A2E0772}" ShortID="53006273">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<RandomSequenceContainer Name="AMBIENCE2D_MAIN_LOTUS" ID="{B4D45A77-FEBC-4460-80CC-9D8B93F672BE}" ShortID="136042679">
+													<PropertyList>
+														<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+														<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+														<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<RandomSequenceContainer Name="LOTUS_NOISES" ID="{2F384DC6-1B7B-457D-8B0B-A7B81C1A6078}" ShortID="767596916">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<Sound Name="LOTUS_CRUNCH_1" ID="{0F449F68-973C-4E1E-A98A-761E511BAF32}" ShortID="1008293154">
+																	<PropertyList>
+																		<Property Name="Pitch" Type="int32">
+																			<ValueList>
+																				<Value>150</Value>
+																			</ValueList>
+																		</Property>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="LOTUS_CRUNCH_1" ID="{77E61D45-DBF9-415D-99FE-5C94D6644F65}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lotus\LOTUS_CRUNCH_1.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="401034165"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="LOTUS_CRUNCH_1" ID="{77E61D45-DBF9-415D-99FE-5C94D6644F65}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="LOTUS_CRUNCH_2" ID="{2EE90D64-9B2C-4195-A8F4-AD976263FCFA}" ShortID="981139026">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="LOTUS_CRUNCH_2" ID="{4D92F44B-AB21-42FE-9C1E-3C70A0243CC2}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lotus\LOTUS_CRUNCH_2.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="603048986"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="LOTUS_CRUNCH_2" ID="{4D92F44B-AB21-42FE-9C1E-3C70A0243CC2}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="LOTUS_SNARL_2" ID="{1A070333-7FC8-4ED1-B29E-C418E8EC5C78}" ShortID="376082425">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="LOTUS_SNARL_2" ID="{D6563E89-A1C6-4C7C-83F6-AB8C7B7EF33D}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lotus\LOTUS_SNARL_2.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="91869539"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="LOTUS_SNARL_2" ID="{D6563E89-A1C6-4C7C-83F6-AB8C7B7EF33D}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="LOTUS_SNARL_3" ID="{EA0BC3E1-4969-4128-A8FF-BA8B99D2B989}" ShortID="176672473">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="LOTUS_SNARL_3" ID="{C99CFA31-0A5C-4B2E-A23D-14BC92D3B470}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lotus\LOTUS_SNARL_3.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="476124360"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="LOTUS_SNARL_3" ID="{C99CFA31-0A5C-4B2E-A23D-14BC92D3B470}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="LOTUS_CRUNCH_4" ID="{64DC3357-D8DB-4F94-B3C0-EA7740905F3A}" ShortID="526628353">
+																	<PropertyList>
+																		<Property Name="Pitch" Type="int32">
+																			<ValueList>
+																				<Value>50</Value>
+																			</ValueList>
+																		</Property>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="LOTUS_CRUNCH_4" ID="{E4937F8B-5E44-4270-8A0D-F05F764565C7}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lotus\LOTUS_CRUNCH_4.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="667329526"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="LOTUS_CRUNCH_4" ID="{E4937F8B-5E44-4270-8A0D-F05F764565C7}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="LOTUS_CRUNCH_3" ID="{0BB2D6CC-831C-4863-B74B-1610D3D590AE}" ShortID="482511687">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="LOTUS_CRUNCH_3" ID="{0EA1B525-591C-42E0-A88B-7802A9340D29}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lotus\LOTUS_CRUNCH_3.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="146839690"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="LOTUS_CRUNCH_3" ID="{0EA1B525-591C-42E0-A88B-7802A9340D29}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="LOTUS_SNARL_1" ID="{26DBBC8E-2C92-42CD-8F22-A530E6CF2911}" ShortID="335647589">
+																	<PropertyList>
+																		<Property Name="Pitch" Type="int32">
+																			<ValueList>
+																				<Value>250</Value>
+																			</ValueList>
+																		</Property>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="LOTUS_SNARL_1" ID="{4D43379C-6058-4D09-9E4E-E687AC04393C}">
+																			<Language>SFX</Language>
+																			<AudioFile>Ambience\2D\Lotus\LOTUS_SNARL_1.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="89311759"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="LOTUS_SNARL_1" ID="{4D43379C-6058-4D09-9E4E-E687AC04393C}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+															</ChildrenList>
+														</RandomSequenceContainer>
+														<Sound Name="SILENCE" ID="{CD7152F1-5878-461D-B1AA-40D7BD38D7AF}" ShortID="250219410">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<SourcePlugin Name="Silence" ID="{1CD0BD25-602A-4A4D-B300-BDD75E7301FF}" ShortID="296854467" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+																	<PropertyList>
+																		<Property Name="Length" Type="Real32" Value="3"/>
+																		<Property Name="LengthMax" Type="Real32" Value="1"/>
+																		<Property Name="LengthMin" Type="Real32" Value="-2"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																</SourcePlugin>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="Silence" ID="{1CD0BD25-602A-4A4D-B300-BDD75E7301FF}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Playlist">
+															<Reference>
+																<ObjectRef Name="LOTUS_NOISES" ID="{2F384DC6-1B7B-457D-8B0B-A7B81C1A6078}" WorkUnitID="{E04BB998-EF9A-4271-A412-9D3DFC63CA3C}"/>
+															</Reference>
+															<Reference>
+																<ObjectRef Name="SILENCE" ID="{CD7152F1-5878-461D-B1AA-40D7BD38D7AF}" WorkUnitID="{E04BB998-EF9A-4271-A412-9D3DFC63CA3C}"/>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+												</RandomSequenceContainer>
+											</ChildrenList>
+											<GroupingInfo>
+												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="AMBIENCE2D_MAIN_LOTUS" ID="{B4D45A77-FEBC-4460-80CC-9D8B93F672BE}"/>
+													</GroupingBehavior>
+												</GroupingBehaviorList>
 											</GroupingInfo>
 										</SwitchContainer>
 									</ChildrenList>

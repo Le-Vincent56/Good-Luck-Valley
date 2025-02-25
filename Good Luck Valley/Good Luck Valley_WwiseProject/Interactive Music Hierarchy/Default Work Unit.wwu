@@ -173,21 +173,6 @@
 																<MusicTransition Name="Transition" ID="{BEA97230-DB03-4A89-A43E-324EDB02CB95}">
 																	<TransitionInfo/>
 																</MusicTransition>
-																<MusicTransition Name="Transition" ID="{EC512042-073D-435D-A94E-58BAABAE76ED}">
-																	<PropertyList>
-																		<Property Name="DestinationContextType" Type="int16" Value="2"/>
-																		<Property Name="SourceContextType" Type="int16" Value="2"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="DestinationContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPONE" ID="{B16ACD36-855A-4E57-8933-01142A7284A8}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																		</Reference>
-																		<Reference Name="SourceContextObject">
-																			<ObjectRef Name="FOREST_LIKERAINWEFALL" ID="{0A594C22-407E-41E3-8C92-57A3B6BA4167}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<TransitionInfo/>
-																</MusicTransition>
 																<MusicTransition Name="Transition" ID="{940B046E-8A40-47B5-905E-065594AF13AD}">
 																	<PropertyList>
 																		<Property Name="DestinationContextType" Type="int16" Value="2"/>
@@ -243,24 +228,22 @@
 																<MusicTransition Name="Transition" ID="{5D4F6E5E-DF34-4C25-95B8-0A450903B32D}">
 																	<PropertyList>
 																		<Property Name="DestinationContextType" Type="int16" Value="2"/>
+																		<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
 																		<Property Name="SourceContextType" Type="int16" Value="2"/>
-																		<Property Name="UseTransitionObject" Type="bool" Value="True"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="DestinationContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTHREE" ID="{CC87CF15-ECFE-4A8E-B7F5-02A373E4A0A2}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
+																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPONE" ID="{B16ACD36-855A-4E57-8933-01142A7284A8}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
 																		</Reference>
 																		<Reference Name="SourceContextObject">
 																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTWO" ID="{587B76D4-152E-430C-9D2E-899CF40BCDC7}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
 																		</Reference>
 																	</ReferenceList>
 																	<TransitionInfo>
-																		<TransitionObjectRef Name="MSC_FOREST_LIKEPETALSWEFLOAT_TRANSTOTHIRD_102BPM4-4_L3M" ID="{32BF29AF-4178-496A-ACC9-129F885E7D9C}" WorkUnitID="{B0FEF8EB-1BF0-4DAC-8BBB-B31C0BA7931B}"/>
 																		<SourceFadeOut>
 																			<MusicFade Name="Source Fade-out" ID="{86844DF0-B043-4329-AF8E-B01E77502F82}">
 																				<PropertyList>
-																					<Property Name="FadeOffset" Type="Real64" Value="1"/>
-																					<Property Name="FadeTime" Type="Real64" Value="1"/>
+																					<Property Name="FadeTime" Type="Real64" Value="5"/>
 																					<Property Name="FadeType" Type="int16" Value="1"/>
 																				</PropertyList>
 																			</MusicFade>
@@ -290,138 +273,6 @@
 																				</PropertyList>
 																			</MusicFade>
 																		</TransitionFadeOut>
-																	</TransitionInfo>
-																</MusicTransition>
-																<MusicTransition Name="Transition" ID="{B481913A-FA25-4B7D-8D58-C98ED1EBFFC3}">
-																	<PropertyList>
-																		<Property Name="DestinationContextType" Type="int16" Value="2"/>
-																		<Property Name="SourceContextType" Type="int16" Value="2"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="DestinationContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_END_102BPM4-4_L3M" ID="{E6D044C8-486D-417C-B473-44AC9F453048}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																		</Reference>
-																		<Reference Name="SourceContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTHREE" ID="{CC87CF15-ECFE-4A8E-B7F5-02A373E4A0A2}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<TransitionInfo>
-																		<SourceFadeOut>
-																			<MusicFade Name="Source Fade-out" ID="{B2E39E76-F6BD-4C20-9ECF-3C54C5650845}">
-																				<PropertyList>
-																					<Property Name="FadeOffset" Type="Real64" Value="1"/>
-																					<Property Name="FadeTime" Type="Real64" Value="1"/>
-																					<Property Name="FadeType" Type="int16" Value="1"/>
-																				</PropertyList>
-																			</MusicFade>
-																		</SourceFadeOut>
-																		<DestinationFadeIn>
-																			<MusicFade Name="Destination Fade-in" ID="{2637FEB9-55DB-44C9-8352-7F5F456F2D09}">
-																				<PropertyList>
-																					<Property Name="FadeOffset" Type="Real64" Value="-1"/>
-																					<Property Name="FadeTime" Type="Real64" Value="1"/>
-																				</PropertyList>
-																			</MusicFade>
-																		</DestinationFadeIn>
-																	</TransitionInfo>
-																</MusicTransition>
-																<MusicTransition Name="Transition" ID="{E852D88D-0B87-48B0-8F2F-A88C4DDF1601}">
-																	<PropertyList>
-																		<Property Name="DestinationContextType" Type="int16" Value="2"/>
-																		<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
-																		<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
-																		<Property Name="ExitSourceAt" Type="int16" Value="3"/>
-																		<Property Name="PlayDestinationPreEntry" Type="bool" Value="False"/>
-																		<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
-																		<Property Name="SourceContextType" Type="int16" Value="2"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="DestinationContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_FADEPRETHIRD" ID="{64BCECCA-C11A-4BC8-A414-A58B27BBFBC4}" WorkUnitID="{B0FEF8EB-1BF0-4DAC-8BBB-B31C0BA7931B}"/>
-																		</Reference>
-																		<Reference Name="SourceContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTWO" ID="{587B76D4-152E-430C-9D2E-899CF40BCDC7}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<TransitionInfo>
-																		<SourceFadeOut>
-																			<MusicFade Name="Source Fade-out" ID="{2B8A408A-4D1B-46E3-A1F7-1074746E2BD4}">
-																				<PropertyList>
-																					<Property Name="FadeTime" Type="Real64" Value="3"/>
-																					<Property Name="FadeType" Type="int16" Value="1"/>
-																				</PropertyList>
-																			</MusicFade>
-																		</SourceFadeOut>
-																		<DestinationFadeIn>
-																			<MusicFade Name="Destination Fade-in" ID="{B0D253D6-20DB-4B42-BA1D-9F6741A50A7F}">
-																				<PropertyList>
-																					<Property Name="FadeTime" Type="Real64" Value="2"/>
-																				</PropertyList>
-																			</MusicFade>
-																		</DestinationFadeIn>
-																	</TransitionInfo>
-																</MusicTransition>
-																<MusicTransition Name="Transition" ID="{F6491707-13E2-4914-B882-EDF737BD353B}">
-																	<PropertyList>
-																		<Property Name="DestinationContextType" Type="int16" Value="2"/>
-																		<Property Name="DestinationJumpPositionPreset" Type="int16" Value="4"/>
-																		<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
-																		<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
-																		<Property Name="ExitSourceAt" Type="int16" Value="3"/>
-																		<Property Name="SourceContextType" Type="int16" Value="2"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="DestinationContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTWO" ID="{587B76D4-152E-430C-9D2E-899CF40BCDC7}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																		</Reference>
-																		<Reference Name="SourceContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_FADEPRETHIRD" ID="{64BCECCA-C11A-4BC8-A414-A58B27BBFBC4}" WorkUnitID="{B0FEF8EB-1BF0-4DAC-8BBB-B31C0BA7931B}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<TransitionInfo>
-																		<SourceFadeOut>
-																			<MusicFade Name="Source Fade-out" ID="{2C44C5E6-6053-40F5-851E-D4B072EBA1FE}">
-																				<PropertyList>
-																					<Property Name="FadeTime" Type="Real64" Value="3"/>
-																					<Property Name="FadeType" Type="int16" Value="1"/>
-																				</PropertyList>
-																			</MusicFade>
-																		</SourceFadeOut>
-																		<DestinationFadeIn>
-																			<MusicFade Name="Destination Fade-in" ID="{EE8D19C8-1882-4E44-AFF9-4746D7B4A6CF}">
-																				<PropertyList>
-																					<Property Name="FadeOffset" Type="Real64" Value="-3"/>
-																					<Property Name="FadeTime" Type="Real64" Value="3"/>
-																				</PropertyList>
-																			</MusicFade>
-																		</DestinationFadeIn>
-																	</TransitionInfo>
-																</MusicTransition>
-																<MusicTransition Name="Transition" ID="{2F0296F9-D514-4BF4-AB48-B0A768B891C1}">
-																	<PropertyList>
-																		<Property Name="DestinationContextType" Type="int16" Value="2"/>
-																		<Property Name="ExitSourceAt" Type="int16" Value="3"/>
-																		<Property Name="SourceContextType" Type="int16" Value="2"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="DestinationContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTHREE" ID="{CC87CF15-ECFE-4A8E-B7F5-02A373E4A0A2}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																		</Reference>
-																		<Reference Name="SourceContextObject">
-																			<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_FADEPRETHIRD" ID="{64BCECCA-C11A-4BC8-A414-A58B27BBFBC4}" WorkUnitID="{B0FEF8EB-1BF0-4DAC-8BBB-B31C0BA7931B}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<TransitionInfo>
-																		<SourceFadeOut>
-																			<MusicFade Name="Source Fade-out" ID="{58C36532-E81F-4FE0-BBE7-A1433F6E5F3A}">
-																				<PropertyList>
-																					<Property Name="FadeType" Type="int16" Value="1"/>
-																				</PropertyList>
-																			</MusicFade>
-																		</SourceFadeOut>
-																		<DestinationFadeIn>
-																			<MusicFade Name="Destination Fade-in" ID="{FB4F8FA3-AACE-4F22-B489-6B29FC40D0E5}"/>
-																		</DestinationFadeIn>
 																	</TransitionInfo>
 																</MusicTransition>
 															</ChildrenList>
@@ -1227,7 +1078,7 @@
 																<ObjectLists>
 																	<ObjectList Name="EntryPath">
 																		<Reference>
-																			<ObjectRef Name="STATE_FOREST_P1_ONE" ID="{B442B2E5-B7FE-402F-BD5F-4BB74F627FF5}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
+																			<ObjectRef Name="STATES_FOREST_ONE" ID="{B442B2E5-B7FE-402F-BD5F-4BB74F627FF5}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
 																		</Reference>
 																	</ObjectList>
 																</ObjectLists>
@@ -1239,31 +1090,13 @@
 															<MultiSwitchEntry Name="" ID="{6BA2A8EF-DD2B-4D89-8167-C377EBE612A7}">
 																<ReferenceList>
 																	<Reference Name="AudioNode">
-																		<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTHREE" ID="{CC87CF15-ECFE-4A8E-B7F5-02A373E4A0A2}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																	</Reference>
-																</ReferenceList>
-																<ObjectLists>
-																	<ObjectList Name="EntryPath">
-																		<Reference>
-																			<ObjectRef Name="STATE_FOREST_P1_THREE" ID="{B4938A49-34DA-4F79-9ECA-FE0D8AD78630}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
-																		</Reference>
-																	</ObjectList>
-																</ObjectLists>
-															</MultiSwitchEntry>
-														</Local>
-													</Reference>
-													<Reference>
-														<Local>
-															<MultiSwitchEntry Name="" ID="{D0248530-B13A-4A9B-BE7F-BC81E7556FAA}">
-																<ReferenceList>
-																	<Reference Name="AudioNode">
 																		<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_LOOPTWO" ID="{587B76D4-152E-430C-9D2E-899CF40BCDC7}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
 																	</Reference>
 																</ReferenceList>
 																<ObjectLists>
 																	<ObjectList Name="EntryPath">
 																		<Reference>
-																			<ObjectRef Name="STATE_FOREST_P1_TWO" ID="{42873458-2EF5-4510-AF30-DFDF168D9EE7}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
+																			<ObjectRef Name="STATES_FOREST_TWO" ID="{B4938A49-34DA-4F79-9ECA-FE0D8AD78630}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
 																		</Reference>
 																	</ObjectList>
 																</ObjectLists>
@@ -1272,52 +1105,11 @@
 													</Reference>
 													<Reference>
 														<Local>
-															<MultiSwitchEntry Name="" ID="{431FECB4-CBE9-48CA-BFE6-9F6FA1C7512C}">
-																<ReferenceList>
-																	<Reference Name="AudioNode">
-																		<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_END_102BPM4-4_L3M" ID="{E6D044C8-486D-417C-B473-44AC9F453048}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																	</Reference>
-																</ReferenceList>
+															<MultiSwitchEntry Name="" ID="{E0D9328C-1F6A-4B0D-80F1-D2EBF61444F3}">
 																<ObjectLists>
 																	<ObjectList Name="EntryPath">
 																		<Reference>
-																			<ObjectRef Name="STATE_FOREST_P1_END" ID="{220800A9-947C-485A-8E65-6E8B12FC3B87}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
-																		</Reference>
-																	</ObjectList>
-																</ObjectLists>
-															</MultiSwitchEntry>
-														</Local>
-													</Reference>
-													<Reference>
-														<Local>
-															<MultiSwitchEntry Name="" ID="{FEC13A99-6DC7-4E6B-9D75-DCC2FA444D78}">
-																<ReferenceList>
-																	<Reference Name="AudioNode">
-																		<ObjectRef Name="FOREST_LIKEPETALSWEFLOAT_FADEPRETHIRD" ID="{64BCECCA-C11A-4BC8-A414-A58B27BBFBC4}" WorkUnitID="{B0FEF8EB-1BF0-4DAC-8BBB-B31C0BA7931B}"/>
-																	</Reference>
-																</ReferenceList>
-																<ObjectLists>
-																	<ObjectList Name="EntryPath">
-																		<Reference>
-																			<ObjectRef Name="STATE_FOREST_P1_FADE" ID="{F3B56BE6-DDDD-4945-A23B-20A49B2A7F0C}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
-																		</Reference>
-																	</ObjectList>
-																</ObjectLists>
-															</MultiSwitchEntry>
-														</Local>
-													</Reference>
-													<Reference>
-														<Local>
-															<MultiSwitchEntry Name="" ID="{26E75940-3F2A-4C51-BCC7-AA8949EEFC2A}">
-																<ReferenceList>
-																	<Reference Name="AudioNode">
-																		<ObjectRef Name="FOREST_LIKERAINWEFALL" ID="{0A594C22-407E-41E3-8C92-57A3B6BA4167}" WorkUnitID="{68552A59-CFA6-4789-AB19-867DE2D40644}"/>
-																	</Reference>
-																</ReferenceList>
-																<ObjectLists>
-																	<ObjectList Name="EntryPath">
-																		<Reference>
-																			<ObjectRef Name="STATE_FOREST_P1_INTRO" ID="{C783777B-D826-461C-854C-A351A53F0FE5}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
+																			<ObjectRef Name="STATES_FOREST_THREE" ID="{42873458-2EF5-4510-AF30-DFDF168D9EE7}" WorkUnitID="{C5AFD369-3626-48B3-9A28-89364A6F7F6C}"/>
 																		</Reference>
 																	</ObjectList>
 																</ObjectLists>
