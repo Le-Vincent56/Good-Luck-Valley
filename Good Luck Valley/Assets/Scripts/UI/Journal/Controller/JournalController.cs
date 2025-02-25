@@ -106,7 +106,7 @@ namespace GoodLuckValley.UI.Journal.Controller
         /// </summary>
         private void OnEntryClicked(EntryButton button)
         {
-            view.ShowEntryContent(button.TitleText, button.Content);
+            view.ShowEntryContent(button);
         }
 
         /// <summary>

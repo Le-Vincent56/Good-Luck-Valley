@@ -104,7 +104,7 @@ namespace GoodLuckValley.UI.Journal.View
                 entries[i].gameObject.SetActive(true);
 
                 // Set the interactability state of the Entry Button
-                entries[i].SetInteractable(journalEntries[i].Unlocked);
+                entries[i].SetEmpty(!journalEntries[i].Unlocked);
 
                 // Set the data
                 entries[i].SetIndex(journalEntries[i].Data.Index);
@@ -172,14 +172,23 @@ namespace GoodLuckValley.UI.Journal.View
         /// <summary>
         /// Show the content of an Entry
         /// </summary>
-        public void ShowEntryContent(string title, string content)
+        public void ShowEntryContent(EntryButton button)
         {
             // Fade out
             Fade(contentFadeTween, contentGroup, 0f, contentFadeDuration / 2f, () =>
             {
-                // Set the content
-                contentTitle.text = title;
-                contentText.text = content;
+                // Check if the button is empty
+                if(button.Empty)
+                {
+                    // Set the content
+                    contentTitle.text = string.Empty;
+                    contentText.text = string.Empty;
+                } else
+                {
+                    // Set the content
+                    contentTitle.text = button.TitleText;
+                    contentText.text = button.Content;
+                }
 
                 // Fade back in
                 Fade(contentFadeTween, contentGroup, 1f, contentFadeDuration / 2f);

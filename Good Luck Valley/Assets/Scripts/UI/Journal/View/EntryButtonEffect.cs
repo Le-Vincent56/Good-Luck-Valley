@@ -11,8 +11,10 @@ namespace GoodLuckValley.UI.Journal.View
         [Header("References")]
         private JournalView view;
         private EntryButton button;
-        [SerializeField] private RectTransform underline;
-        [SerializeField] private Text text;
+        [SerializeField] private RectTransform activeUnderline;
+        [SerializeField] private RectTransform emptyUnderline;
+        [SerializeField] private Text activeText;
+        [SerializeField] private Text emptyText;
 
         [Header("Fields")]
         [SerializeField] private bool selected;
@@ -41,11 +43,12 @@ namespace GoodLuckValley.UI.Journal.View
         public void Initialize(EntryButton button, JournalView view)
         {
             // Set the default font size
-            defaultFontSize = text.fontSize;
+            defaultFontSize = activeText.fontSize;
             selectedFontSize = defaultFontSize + scaleAmount;
 
             // Ensure the underline is hidden initially
-            underline.gameObject.SetActive(false);
+            activeUnderline.gameObject.SetActive(false);
+            emptyUnderline.gameObject.SetActive(false);
 
             // Set the Journal View
             this.button = button;
@@ -53,9 +56,19 @@ namespace GoodLuckValley.UI.Journal.View
         }
 
         /// <summary>
-        /// Select the Entry Button
+        /// Select an active Entry Button
         /// </summary>
-        public void Select()
+        public void SelectActive() => Select(activeText, activeUnderline);
+
+        /// <summary>
+        /// Selet an empty Entry Button
+        /// </summary>
+        public void SelectEmpty() => Select(emptyText, emptyUnderline);
+
+        /// <summary>
+        /// Select a text and underline
+        /// </summary>
+        public void Select(Text text, RectTransform underline)
         {
             // Get the preferred width of the text
             float textWidth = text.preferredWidth + 30f;
@@ -65,41 +78,70 @@ namespace GoodLuckValley.UI.Journal.View
 
             // Set the Underline to 0 width
             underline.sizeDelta = new Vector2(0, underline.sizeDelta.y);
-            
+
             // Add the Underline
-            Underline(new Vector2(textWidth, underline.sizeDelta.y), effectDuration, easeType);
+            Underline(underline, new Vector2(textWidth, underline.sizeDelta.y), effectDuration, easeType);
 
             // Scale the text up
-            Scale(selectedFontSize, effectDuration / 2f, easeType);
+            Scale(text, selectedFontSize, effectDuration / 2f, easeType);
 
             // Set the last selected Entry
             view.LastSelectedEntry = this;
         }
 
         /// <summary>
-        /// Deselect the Entry Button
+        /// Deselect an active Entry Button
         /// </summary>
-        public void Deselect()
+        public void DeselectActive() => Deselect(activeText, activeUnderline);
+
+        /// <summary>
+        /// Deselect an empty Entry Button
+        /// </summary>
+        public void DeselectEmpty() => Deselect(emptyText, emptyUnderline);
+
+        /// <summary>
+        /// Deselect a text and underline
+        /// </summary>
+        public void Deselect(Text text, RectTransform underline)
         {
             // Remove the Underline
-            Underline(new Vector2(0, underline.sizeDelta.y), effectDuration, easeType, () =>
+            Underline(underline, new Vector2(0, underline.sizeDelta.y), effectDuration, easeType, () =>
             {
                 // Deactivate the Underline GameObject
                 underline.gameObject.SetActive(false);
             });
 
             // Scale the text down
-            Scale(defaultFontSize, effectDuration / 2f, easeType);
+            Scale(text, defaultFontSize, effectDuration / 2f, easeType);
         }
 
-        public void OnDeselect(BaseEventData eventData) => Deselect();
+        public void OnDeselect(BaseEventData eventData)
+        {
+            if(button.Empty)
+            {
+                DeselectEmpty();
+            } else
+            {
+                DeselectActive();
+            }
+        }
 
-        public void OnSelect(BaseEventData eventData) => Select();
+        public void OnSelect(BaseEventData eventData)
+        {
+            if (button.Empty)
+            {
+                SelectEmpty();
+            }
+            else
+            {
+                SelectActive();
+            }
+        }
 
         /// <summary>
         /// Handle the Underline Tween for the Entry Button
         /// </summary>
-        private void Underline(Vector2 endValue, float duration, Ease easeType, TweenCallback onComplete = null)
+        private void Underline(RectTransform underline, Vector2 endValue, float duration, Ease easeType, TweenCallback onComplete = null)
         {
             // Kill the Underline Tween if it exists
             underlineTween?.Kill();
@@ -123,13 +165,13 @@ namespace GoodLuckValley.UI.Journal.View
         /// <summary>
         /// Tween the font size of the Text to select
         /// </summary>
-        private void Scale(int endValue, float duration, Ease easeType, TweenCallback onComplete = null)
+        private void Scale(Text target, int endValue, float duration, Ease easeType, TweenCallback onComplete = null)
         {
             // Kill the Select Tween if it exists
             scaleTween?.Kill();
 
             // Set the Select Tween
-            scaleTween = DOTween.To(() => text.fontSize, x => text.fontSize = x, (int)endValue, duration);
+            scaleTween = DOTween.To(() => target.fontSize, x => target.fontSize = x, (int)endValue, duration);
 
             // Set the easing type
             scaleTween.SetEase(easeType);

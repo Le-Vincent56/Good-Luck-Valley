@@ -18,6 +18,7 @@ namespace GoodLuckValley.UI.Journal.View
         [SerializeField] private TabType tab;
         [SerializeField] private int index;
         [SerializeField] private string content;
+        [SerializeField] private bool empty;
 
         [Header("Tweening Variables")]
         [SerializeField] private Ease easeType;
@@ -31,7 +32,7 @@ namespace GoodLuckValley.UI.Journal.View
         public int Index { get => index; }
         public TabType Tab { get => tab; }
         public string TitleText { get { return titleText.text; } }
-        public bool Interactable { get => button.interactable; }
+        public bool Empty { get => empty; }
 
         private void OnDestroy()
         {
@@ -93,13 +94,13 @@ namespace GoodLuckValley.UI.Journal.View
         /// <summary>
         /// Set the interactability state of the Entry Button
         /// </summary>
-        public void SetInteractable(bool interactable)
+        public void SetEmpty(bool empty)
         {
-            // Set whether or not the Button is interactable
-            button.interactable = interactable;
+            // Set the empty state
+            this.empty = empty;
 
             // Check the interactability state
-            if(interactable)
+            if (!empty)
             {
                 // If interactable, fade in the active group
                 Fade(activeGroupTween, activeGroup, 1f, fadeDuration, Ease.InOutSine);
