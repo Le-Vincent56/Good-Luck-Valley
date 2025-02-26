@@ -77,12 +77,9 @@ namespace AK
             namespace STATE
             {
                 static const AkUniqueID NONE = 748895195U;
-                static const AkUniqueID STATE_FOREST_P1_END = 506127700U;
-                static const AkUniqueID STATE_FOREST_P1_FADE = 2025880267U;
-                static const AkUniqueID STATE_FOREST_P1_INTRO = 3438870713U;
-                static const AkUniqueID STATE_FOREST_P1_ONE = 4262636943U;
-                static const AkUniqueID STATE_FOREST_P1_THREE = 665932511U;
-                static const AkUniqueID STATE_FOREST_P1_TWO = 123052653U;
+                static const AkUniqueID STATES_FOREST_ONE = 3625080944U;
+                static const AkUniqueID STATES_FOREST_THREE = 374353676U;
+                static const AkUniqueID STATES_FOREST_TWO = 3477480738U;
             } // namespace STATE
         } // namespace STATES_FOREST_P1_CUES
 
@@ -199,6 +196,17 @@ namespace AK
             } // namespace SWITCH
         } // namespace LANTERNAREASWITCH
 
+        namespace LOTUSSWITCH
+        {
+            static const AkUniqueID GROUP = 1582413998U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID LOTUS = 137712726U;
+                static const AkUniqueID NOLOTUS = 2031016961U;
+            } // namespace SWITCH
+        } // namespace LOTUSSWITCH
+
         namespace MUSHROOMGROUNDMATSWITCH
         {
             static const AkUniqueID GROUP = 1426187460U;
@@ -242,6 +250,7 @@ namespace AK
         static const AkUniqueID RTPC_AMBIENCE = 2972739263U;
         static const AkUniqueID RTPC_DISTANCE = 262290038U;
         static const AkUniqueID RTPC_FIREFLYCOUNT = 4221177039U;
+        static const AkUniqueID RTPC_LOTUSDISTANCE = 482870237U;
         static const AkUniqueID RTPC_MASTER = 3445598977U;
         static const AkUniqueID RTPC_MUSIC = 3709650428U;
         static const AkUniqueID RTPC_PLAYERFALLSPEED = 2290256636U;

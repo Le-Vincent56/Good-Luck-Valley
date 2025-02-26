@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{BA96F0BC-7BB5-28C0-40A3-3B79A667898C}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{76E5FB81-F816-4C55-FC52-A9076BCE2792}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -102,6 +102,7 @@
 			</AuxBusses>
 			<GameParameters>
 				<GameParameter Id="262290038" Name="RTPC_DISTANCE"/>
+				<GameParameter Id="482870237" Name="RTPC_LOTUSDISTANCE"/>
 				<GameParameter Id="647674338" Name="RTPC_TIMEWARP_DISTORT"/>
 				<GameParameter Id="983576458" Name="RTPC_TIMEWARP_TICK"/>
 				<GameParameter Id="2290256636" Name="RTPC_PLAYERFALLSPEED"/>
@@ -136,13 +137,10 @@
 				</StateGroup>
 				<StateGroup Id="1606666624" Name="STATES_FOREST_P1_CUES">
 					<States>
-						<State Id="123052653" Name="STATE_FOREST_P1_TWO"/>
-						<State Id="506127700" Name="STATE_FOREST_P1_END"/>
-						<State Id="665932511" Name="STATE_FOREST_P1_THREE"/>
+						<State Id="374353676" Name="STATES_FOREST_THREE"/>
 						<State Id="748895195" Name="None"/>
-						<State Id="2025880267" Name="STATE_FOREST_P1_FADE"/>
-						<State Id="3438870713" Name="STATE_FOREST_P1_INTRO"/>
-						<State Id="4262636943" Name="STATE_FOREST_P1_ONE"/>
+						<State Id="3477480738" Name="STATES_FOREST_TWO"/>
+						<State Id="3625080944" Name="STATES_FOREST_ONE"/>
 					</States>
 				</StateGroup>
 				<StateGroup Id="1702361322" Name="STATES_PHASES">
@@ -177,6 +175,12 @@
 						<Switch Id="1216965916" Name="STONE"/>
 						<Switch Id="2195636714" Name="DIRT"/>
 						<Switch Id="4248645337" Name="GRASS"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1582413998" Name="LOTUSSWITCH">
+					<Switches>
+						<Switch Id="137712726" Name="LOTUS"/>
+						<Switch Id="2031016961" Name="NOLOTUS"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2051106367" Name="PLAYERSPEEDSWITCH">
@@ -223,7 +227,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{6A0D7330-8E05-2872-A0D3-784819AFEA8F}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{EB5A1F44-0568-805B-EB60-3F1EA7626DB3}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -271,6 +275,10 @@
 					<ShortName>Ambience\2D\Forest\Wind Noises\AMBIENCE2D_FOREST_WINDNOISE_05.wav</ShortName>
 					<CachePath>F1/{F1F1048F-0676-E5A0-B12D-11C6695D0BEE}.wem</CachePath>
 				</File>
+				<File Id="89311759" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lotus\LOTUS_SNARL_1.wav</ShortName>
+					<CachePath>4C/{4CA29346-6B76-893E-CBF4-A07CAC8BFE55}.wem</CachePath>
+				</File>
 				<File Id="90492262" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_06.wav</ShortName>
 					<CachePath>79/{799E52C1-1A84-03D4-8FF3-E7A6B3E00435}.wem</CachePath>
@@ -278,6 +286,10 @@
 				<File Id="91207150" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Fall\PLAYER_FALL_FASTFALL.wav</ShortName>
 					<CachePath>75/{7551B7F5-D3D7-5483-A04B-E7B91FCC6A5E}.wem</CachePath>
+				</File>
+				<File Id="91869539" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lotus\LOTUS_SNARL_2.wav</ShortName>
+					<CachePath>D2/{D21DB0A9-E600-6C36-57CE-583E1F63D9F4}.wem</CachePath>
 				</File>
 				<File Id="94593228" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_03.wav</ShortName>
@@ -306,6 +318,10 @@
 				<File Id="145212708" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Jump\Stone\PLAYER_JUMP_STONE_02.wav</ShortName>
 					<CachePath>40/{4014EFA1-0C7E-8DD2-02B4-9F6C82676720}.wem</CachePath>
+				</File>
+				<File Id="146839690" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lotus\LOTUS_CRUNCH_3.wav</ShortName>
+					<CachePath>88/{88F17951-F5D5-6A5B-6EC1-FFB13E13679F}.wem</CachePath>
 				</File>
 				<File Id="148344986" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_03.wav</ShortName>
@@ -439,6 +455,10 @@
 					<ShortName>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_04.wav</ShortName>
 					<CachePath>8B/{8B59B9E6-CFE2-6192-7B5F-C490A92FAB05}.wem</CachePath>
 				</File>
+				<File Id="401034165" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lotus\LOTUS_CRUNCH_1.wav</ShortName>
+					<CachePath>8C/{8C677A18-6257-B1D7-2FE9-D1441BD9D343}.wem</CachePath>
+				</File>
 				<File Id="404848840" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_04.wav</ShortName>
 					<CachePath>0B/{0BD35217-67E3-A719-8C07-36B76DFE4262}.wem</CachePath>
@@ -483,6 +503,10 @@
 					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_02.wav</ShortName>
 					<CachePath>2A/{2AAAD57B-F4F4-4A96-E477-DC4E105824FA}.wem</CachePath>
 				</File>
+				<File Id="476124360" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lotus\LOTUS_SNARL_3.wav</ShortName>
+					<CachePath>66/{66061968-CB72-A15E-D397-B31556C839F5}.wem</CachePath>
+				</File>
 				<File Id="480407674" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_02.wav</ShortName>
 					<CachePath>EE/{EE565F88-D411-A125-7A28-4FF02196FACC}.wem</CachePath>
@@ -506,10 +530,6 @@
 				<File Id="515668698" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\GRASS_SLIDE.wav</ShortName>
 					<CachePath>C8/{C8FFFFEB-E8B1-C2CA-06CC-C10FF357B82C}.wem</CachePath>
-				</File>
-				<File Id="529195717" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>Music\Forest\Transitions\MSC_FOREST_LIKEPETALSWEFLOAT_TRANSTOTHIRD_102BPM4-4_L3M.wav</ShortName>
-					<CachePath>B2/{B2789AA7-5B2C-E3C5-CEB2-6D6BEA091E3C}.wem</CachePath>
 				</File>
 				<File Id="533439399" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_03.wav</ShortName>
@@ -550,6 +570,10 @@
 				<File Id="587809570" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</ShortName>
 					<CachePath>38/{38072F5F-866B-86A9-1943-07803886F262}.wem</CachePath>
+				</File>
+				<File Id="603048986" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lotus\LOTUS_CRUNCH_2.wav</ShortName>
+					<CachePath>56/{56CD0BC9-C0E5-7748-C467-420BD8D0875F}.wem</CachePath>
 				</File>
 				<File Id="607233678" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_01.wav</ShortName>
@@ -603,6 +627,10 @@
 					<ShortName>Player\Fall\PLAYER_FALL_SLOWMEDIUMFALL.wav</ShortName>
 					<CachePath>E5/{E5298D4D-84B1-827E-326A-A81E62B32F1E}.wem</CachePath>
 				</File>
+				<File Id="667329526" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\2D\Lotus\LOTUS_CRUNCH_4.wav</ShortName>
+					<CachePath>CA/{CA7FB253-4C35-57D2-D7EC-AAB64DE64CD6}.wem</CachePath>
+				</File>
 				<File Id="668500464" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TestFiles\SFX_TEST_BEEP.wav</ShortName>
 					<CachePath>9C/{9CB0FBDA-C342-28C6-A71A-F935854E37BA}.wem</CachePath>
@@ -642,10 +670,6 @@
 				<File Id="757734056" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Bird Calls\AMBIENCE2D_FOREST_BIRDCALL_05.wav</ShortName>
 					<CachePath>A9/{A93C3D51-DB31-50C2-1752-8578F57DA453}.wem</CachePath>
-				</File>
-				<File Id="758193027" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>Music\Forest\Transitions\MSC_FOREST_LIKEPETALSWEFLOAT_PRETHIRD_102BPM4-4_L3M.wav</ShortName>
-					<CachePath>0B/{0B0D6887-1A76-7F93-F932-0F52C879260D}.wem</CachePath>
 				</File>
 				<File Id="759733519" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Dirt\DIRT_IMPACT_HARD_02.wav</ShortName>
@@ -711,10 +735,6 @@
 					<ShortName>Cinematics\L1\CINEMATIC_L1_ROCKFALL.wav</ShortName>
 					<CachePath>A1/{A1F640DD-F542-B8B1-F432-F60BEF0BA493}.wem</CachePath>
 				</File>
-				<File Id="887430821" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>Music\Forest\Loops\MSC_FOREST_LIKEPETALSWEFLOAT_END_102BPM4-4_L3M.wav</ShortName>
-					<CachePath>9B/{9B82E0FA-2419-8478-726E-6A3E44EBB59B}.wem</CachePath>
-				</File>
 				<File Id="888344012" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_02.wav</ShortName>
 					<CachePath>0C/{0CE442EB-5392-C4F5-CBBA-3F3DEC5CA840}.wem</CachePath>
@@ -751,6 +771,10 @@
 					<ShortName>UI\Button\UI_BUTTON_ENTER.wav</ShortName>
 					<CachePath>DB/{DB1CEB06-AE22-928C-9864-6D6F87D227CE}.wem</CachePath>
 				</File>
+				<File Id="940884523" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Lotus\AMB_LOTUS_HUM.wav</ShortName>
+					<CachePath>6B/{6BA9EACE-9D16-D46B-2427-F73AF006A521}.wem</CachePath>
+				</File>
 				<File Id="942590505" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Jump\Dirt\PLAYER_JUMP_DIRT_04.wav</ShortName>
 					<CachePath>A9/{A92A52B4-0FAD-4F57-E7C5-55E5069D6B31}.wem</CachePath>
@@ -774,10 +798,6 @@
 				<File Id="974159613" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_01.wav</ShortName>
 					<CachePath>37/{37F5919C-509D-FF25-9653-8DA271D2A24C}.wem</CachePath>
-				</File>
-				<File Id="988300134" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>Music\Forest\Loops\MSC_FOREST_LIKEPETALSWEFLOAT_THIRDLOOP_102BPM4-4_L72M.wav</ShortName>
-					<CachePath>03/{039F5C56-8690-3369-2858-59D3EB199A9A}.wem</CachePath>
 				</File>
 				<File Id="1002172523" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_03.wav</ShortName>
@@ -819,13 +839,16 @@
 					<Plugin Id="241202866" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="263127081" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="288949125" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="296854467" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="365416699" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="445525001" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="567386646" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="680081601" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="710891349" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="784623767" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="804672598" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="871620857" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="887566741" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="906514980" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="986804516" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
 					<Plugin Id="1051325896" Name="Silence" Color="4" LibName="Wwise Silence" LibId="6619138"/>
@@ -892,6 +915,31 @@
 										</Custom>
 									</PluginRefs>
 								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1582413998" Id="137712726"/>
+									<MediaRefs>
+										<MediaRef Id="89311759"/>
+										<MediaRef Id="91869539"/>
+										<MediaRef Id="146839690"/>
+										<MediaRef Id="401034165"/>
+										<MediaRef Id="476124360"/>
+										<MediaRef Id="603048986"/>
+										<MediaRef Id="667329526"/>
+									</MediaRefs>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="296854467"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1582413998" Id="2031016961"/>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="445525001"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -945,6 +993,20 @@
 									<PluginRefs>
 										<Custom>
 											<PluginRef Id="710891349"/>
+										</Custom>
+									</PluginRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1582413998" Id="137712726"/>
+									<MediaRefs>
+										<MediaRef Id="940884523"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1582413998" Id="2031016961" Default="true"/>
+									<PluginRefs>
+										<Custom>
+											<PluginRef Id="887566741"/>
 										</Custom>
 									</PluginRefs>
 								</SwitchContainer>
@@ -1073,44 +1135,19 @@
 										<SwitchContainer>
 											<SwitchValue GroupType="State" GroupId="1702361322" Id="3548780380"/>
 											<MediaRefs>
-												<MediaRef Id="529195717"/>
 												<MediaRef Id="547602146"/>
 											</MediaRefs>
 											<Children>
 												<SwitchContainer>
-													<SwitchValue GroupType="State" GroupId="1606666624" Id="4262636943"/>
+													<SwitchValue GroupType="State" GroupId="1606666624" Id="3625080944"/>
 													<MediaRefs>
 														<MediaRef Id="310875304"/>
 													</MediaRefs>
 												</SwitchContainer>
 												<SwitchContainer>
-													<SwitchValue GroupType="State" GroupId="1606666624" Id="665932511"/>
-													<MediaRefs>
-														<MediaRef Id="988300134"/>
-													</MediaRefs>
-												</SwitchContainer>
-												<SwitchContainer>
-													<SwitchValue GroupType="State" GroupId="1606666624" Id="123052653"/>
+													<SwitchValue GroupType="State" GroupId="1606666624" Id="3477480738"/>
 													<MediaRefs>
 														<MediaRef Id="101728468"/>
-													</MediaRefs>
-												</SwitchContainer>
-												<SwitchContainer>
-													<SwitchValue GroupType="State" GroupId="1606666624" Id="506127700"/>
-													<MediaRefs>
-														<MediaRef Id="887430821"/>
-													</MediaRefs>
-												</SwitchContainer>
-												<SwitchContainer>
-													<SwitchValue GroupType="State" GroupId="1606666624" Id="2025880267"/>
-													<MediaRefs>
-														<MediaRef Id="758193027"/>
-													</MediaRefs>
-												</SwitchContainer>
-												<SwitchContainer>
-													<SwitchValue GroupType="State" GroupId="1606666624" Id="3438870713"/>
-													<MediaRefs>
-														<MediaRef Id="617180898"/>
 													</MediaRefs>
 												</SwitchContainer>
 											</Children>
@@ -1540,6 +1577,7 @@
 				<Event Id="1365342371" Name="STOP_TIMEWARP_TICK" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 			<GameParameters>
+				<GameParameter Id="482870237" Name="RTPC_LOTUSDISTANCE"/>
 				<GameParameter Id="2290256636" Name="RTPC_PLAYERFALLSPEED"/>
 				<GameParameter Id="2653406601" Name="RTPC_PLAYERSPEED"/>
 			</GameParameters>
@@ -1560,13 +1598,10 @@
 				</StateGroup>
 				<StateGroup Id="1606666624" Name="STATES_FOREST_P1_CUES">
 					<States>
-						<State Id="123052653" Name="STATE_FOREST_P1_TWO"/>
-						<State Id="506127700" Name="STATE_FOREST_P1_END"/>
-						<State Id="665932511" Name="STATE_FOREST_P1_THREE"/>
+						<State Id="374353676" Name="STATES_FOREST_THREE"/>
 						<State Id="748895195" Name="None"/>
-						<State Id="2025880267" Name="STATE_FOREST_P1_FADE"/>
-						<State Id="3438870713" Name="STATE_FOREST_P1_INTRO"/>
-						<State Id="4262636943" Name="STATE_FOREST_P1_ONE"/>
+						<State Id="3477480738" Name="STATES_FOREST_TWO"/>
+						<State Id="3625080944" Name="STATES_FOREST_ONE"/>
 					</States>
 				</StateGroup>
 				<StateGroup Id="1702361322" Name="STATES_PHASES">
@@ -1596,6 +1631,12 @@
 						<Switch Id="1216965916" Name="STONE"/>
 						<Switch Id="2195636714" Name="DIRT"/>
 						<Switch Id="4248645337" Name="GRASS"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1582413998" Name="LOTUSSWITCH">
+					<Switches>
+						<Switch Id="137712726" Name="LOTUS"/>
+						<Switch Id="2031016961" Name="NOLOTUS"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2051106367" Name="PLAYERSPEEDSWITCH">
@@ -1630,5 +1671,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{C521D225-70F2-FB6D-22F0-64DCAF2B536A}</FileHash>
+	<FileHash>{B1422319-3B61-F3A8-CB7E-064A1FB1F63C}</FileHash>
 </SoundBanksInfo>

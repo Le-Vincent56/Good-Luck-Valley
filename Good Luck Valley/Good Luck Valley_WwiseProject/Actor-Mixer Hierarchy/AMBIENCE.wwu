@@ -388,6 +388,45 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{D06EB441-E37F-4B50-AD1D-73103DB785DC}" ShortID="326261505">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{2209294B-DA6A-4BBF-81F5-39962E5548F0}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-7</YPos>
+																						<Flags>5</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>0</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{99B7C591-2E34-4DDC-8991-6217B12C5B73}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -413,6 +452,45 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{7E3F3A67-9C7F-43E0-972D-3DC9B647618F}" ShortID="620894528">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{CC27273E-D7C9-4EED-925E-EF1CDE660AF2}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>-7</YPos>
+																						<Flags>5</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>0</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<ActiveSourceList>
 												<ActiveSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{B94B199B-F15B-45D6-8894-3E9E617C7BFF}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -642,6 +720,11 @@
 										<SwitchContainer Name="LOTUSSWITCH" ID="{9CF01171-3A92-446B-B29A-98BFB11EC78B}" ShortID="997439529">
 											<PropertyList>
 												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>4</Value>
+													</ValueList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -659,6 +742,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}" ShortID="144267008">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -676,6 +766,45 @@
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="RTPC">
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{D4EFEBE4-40AC-4EAF-9557-0D2A0CE377FF}" ShortID="857618651">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{1829C7BE-C7D6-4DD1-A51C-2533BAEE1A56}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>100</XPos>
+																								<YPos>-9</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
 													<ActiveSourceList>
 														<ActiveSource Name="AMB_LOTUS_HUM" ID="{3C156DCE-7CA0-4AA5-8FCE-7C3430863747}" Platform="Linked"/>
 													</ActiveSourceList>
@@ -1903,12 +2032,18 @@
 											</GroupingInfo>
 										</SwitchContainer>
 										<SwitchContainer Name="AMBIENCE2D_MAIN_LOTUSSWITCH" ID="{598BCB0E-BC92-48CB-8D21-80DE4A2E0772}" ShortID="53006273">
+											<PropertyList>
+												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 												</Reference>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+												<Reference Name="SwitchGroupOrStateGroup">
+													<ObjectRef Name="LOTUSSWITCH" ID="{4362CA85-3D56-45E4-85B7-B34695004A59}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -2149,13 +2284,97 @@
 														</ObjectList>
 													</ObjectLists>
 												</RandomSequenceContainer>
+												<Sound Name="SILENCE" ID="{DFE04503-9009-4374-BB13-0A6637710A76}" ShortID="71010390">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{42DCD56E-41C4-4E53-A970-A2A7F35E5DF1}" ShortID="445525001" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="20"/>
+																<Property Name="LengthMax" Type="Real32" Value="10"/>
+																<Property Name="LengthMin" Type="Real32" Value="-10"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{42DCD56E-41C4-4E53-A970-A2A7F35E5DF1}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="RTPC">
+													<Reference>
+														<Local>
+															<RTPC Name="" ID="{EA615620-1186-44D7-830A-28250BD39571}" ShortID="526958839">
+																<PropertyList>
+																	<Property Name="PropertyName" Type="string" Value="Volume"/>
+																</PropertyList>
+																<ReferenceList>
+																	<Reference Name="ControlInput">
+																		<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																	</Reference>
+																	<Reference Name="Curve">
+																		<Custom>
+																			<Curve Name="" ID="{F924EBD1-B919-4CD0-BAC2-1E8DD7476854}">
+																				<PropertyList>
+																					<Property Name="Flags" Type="int32" Value="3"/>
+																				</PropertyList>
+																				<PointList>
+																					<Point>
+																						<XPos>0</XPos>
+																						<YPos>0</YPos>
+																						<Flags>5</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>45</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>100</XPos>
+																						<YPos>-200</YPos>
+																						<Flags>37</Flags>
+																					</Point>
+																				</PointList>
+																			</Curve>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</RTPC>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 											<GroupingInfo>
 												<GroupingBehaviorList>
+													<GroupingBehavior>
+														<ItemRef Name="SILENCE" ID="{DFE04503-9009-4374-BB13-0A6637710A76}"/>
+													</GroupingBehavior>
 													<GroupingBehavior>
 														<ItemRef Name="AMBIENCE2D_MAIN_LOTUS" ID="{B4D45A77-FEBC-4460-80CC-9D8B93F672BE}"/>
 													</GroupingBehavior>
 												</GroupingBehaviorList>
+												<GroupingList>
+													<Grouping>
+														<SwitchRef Name="LOTUS" ID="{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"/>
+														<ItemList>
+															<ItemRef Name="AMBIENCE2D_MAIN_LOTUS" ID="{B4D45A77-FEBC-4460-80CC-9D8B93F672BE}"/>
+														</ItemList>
+													</Grouping>
+													<Grouping>
+														<SwitchRef Name="NOLOTUS" ID="{6B76815F-1E63-4F65-A979-103E0FB67D80}"/>
+														<ItemList>
+															<ItemRef Name="SILENCE" ID="{DFE04503-9009-4374-BB13-0A6637710A76}"/>
+														</ItemList>
+													</Grouping>
+												</GroupingList>
 											</GroupingInfo>
 										</SwitchContainer>
 									</ChildrenList>

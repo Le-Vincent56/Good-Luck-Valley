@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{B72337D4-32D3-7DDA-26B2-626F4A58FACC}",
+    "Hash": "{ABCDCD15-C811-9C7C-FC45-8E2D689257CC}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -267,6 +267,10 @@
       "Name": "RTPC_DISTANCE"
      },
      {
+      "Id": "482870237",
+      "Name": "RTPC_LOTUSDISTANCE"
+     },
+     {
       "Id": "647674338",
       "Name": "RTPC_TIMEWARP_DISTORT"
      },
@@ -363,32 +367,20 @@
       "Name": "STATES_FOREST_P1_CUES",
       "States": [
        {
-        "Id": "123052653",
-        "Name": "STATE_FOREST_P1_TWO"
-       },
-       {
-        "Id": "506127700",
-        "Name": "STATE_FOREST_P1_END"
-       },
-       {
-        "Id": "665932511",
-        "Name": "STATE_FOREST_P1_THREE"
+        "Id": "374353676",
+        "Name": "STATES_FOREST_THREE"
        },
        {
         "Id": "748895195",
         "Name": "None"
        },
        {
-        "Id": "2025880267",
-        "Name": "STATE_FOREST_P1_FADE"
+        "Id": "3477480738",
+        "Name": "STATES_FOREST_TWO"
        },
        {
-        "Id": "3438870713",
-        "Name": "STATE_FOREST_P1_INTRO"
-       },
-       {
-        "Id": "4262636943",
-        "Name": "STATE_FOREST_P1_ONE"
+        "Id": "3625080944",
+        "Name": "STATES_FOREST_ONE"
        }
       ]
      },
@@ -469,6 +461,20 @@
        {
         "Id": "4248645337",
         "Name": "GRASS"
+       }
+      ]
+     },
+     {
+      "Id": "1582413998",
+      "Name": "LOTUSSWITCH",
+      "Switches": [
+       {
+        "Id": "137712726",
+        "Name": "LOTUS"
+       },
+       {
+        "Id": "2031016961",
+        "Name": "NOLOTUS"
        }
       ]
      },
@@ -593,7 +599,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{6A0D7330-8E05-2872-A0D3-784819AFEA8F}",
+    "Hash": "{EB5A1F44-0568-805B-EB60-3F1EA7626DB3}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -686,6 +692,14 @@
       "CachePath": "F1/{F1F1048F-0676-E5A0-B12D-11C6695D0BEE}.wem"
      },
      {
+      "Id": "89311759",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lotus\\LOTUS_SNARL_1.wav",
+      "CachePath": "4C/{4CA29346-6B76-893E-CBF4-A07CAC8BFE55}.wem"
+     },
+     {
       "Id": "90492262",
       "Language": "SFX",
       "Streaming": "false",
@@ -700,6 +714,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Fall\\PLAYER_FALL_FASTFALL.wav",
       "CachePath": "75/{7551B7F5-D3D7-5483-A04B-E7B91FCC6A5E}.wem"
+     },
+     {
+      "Id": "91869539",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lotus\\LOTUS_SNARL_2.wav",
+      "CachePath": "D2/{D21DB0A9-E600-6C36-57CE-583E1F63D9F4}.wem"
      },
      {
       "Id": "94593228",
@@ -756,6 +778,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Jump\\Stone\\PLAYER_JUMP_STONE_02.wav",
       "CachePath": "40/{4014EFA1-0C7E-8DD2-02B4-9F6C82676720}.wem"
+     },
+     {
+      "Id": "146839690",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lotus\\LOTUS_CRUNCH_3.wav",
+      "CachePath": "88/{88F17951-F5D5-6A5B-6EC1-FFB13E13679F}.wem"
      },
      {
       "Id": "148344986",
@@ -1022,6 +1052,14 @@
       "CachePath": "8B/{8B59B9E6-CFE2-6192-7B5F-C490A92FAB05}.wem"
      },
      {
+      "Id": "401034165",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lotus\\LOTUS_CRUNCH_1.wav",
+      "CachePath": "8C/{8C677A18-6257-B1D7-2FE9-D1441BD9D343}.wem"
+     },
+     {
       "Id": "404848840",
       "Language": "SFX",
       "Streaming": "false",
@@ -1110,6 +1148,14 @@
       "CachePath": "2A/{2AAAD57B-F4F4-4A96-E477-DC4E105824FA}.wem"
      },
      {
+      "Id": "476124360",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lotus\\LOTUS_SNARL_3.wav",
+      "CachePath": "66/{66061968-CB72-A15E-D397-B31556C839F5}.wem"
+     },
+     {
       "Id": "480407674",
       "Language": "SFX",
       "Streaming": "false",
@@ -1156,14 +1202,6 @@
       "Location": "Memory",
       "ShortName": "Player\\Locomotion\\Slide\\GRASS_SLIDE.wav",
       "CachePath": "C8/{C8FFFFEB-E8B1-C2CA-06CC-C10FF357B82C}.wem"
-     },
-     {
-      "Id": "529195717",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Music\\Forest\\Transitions\\MSC_FOREST_LIKEPETALSWEFLOAT_TRANSTOTHIRD_102BPM4-4_L3M.wav",
-      "CachePath": "B2/{B2789AA7-5B2C-E3C5-CEB2-6D6BEA091E3C}.wem"
      },
      {
       "Id": "533439399",
@@ -1244,6 +1282,14 @@
       "Location": "Memory",
       "ShortName": "Ambience\\Beds\\Lanterns\\AMB_LANTERNS_MAGIC.wav",
       "CachePath": "38/{38072F5F-866B-86A9-1943-07803886F262}.wem"
+     },
+     {
+      "Id": "603048986",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lotus\\LOTUS_CRUNCH_2.wav",
+      "CachePath": "56/{56CD0BC9-C0E5-7748-C467-420BD8D0875F}.wem"
      },
      {
       "Id": "607233678",
@@ -1350,6 +1396,14 @@
       "CachePath": "E5/{E5298D4D-84B1-827E-326A-A81E62B32F1E}.wem"
      },
      {
+      "Id": "667329526",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\2D\\Lotus\\LOTUS_CRUNCH_4.wav",
+      "CachePath": "CA/{CA7FB253-4C35-57D2-D7EC-AAB64DE64CD6}.wem"
+     },
+     {
       "Id": "668500464",
       "Language": "SFX",
       "Streaming": "false",
@@ -1428,14 +1482,6 @@
       "Location": "Memory",
       "ShortName": "Ambience\\2D\\Forest\\Bird Calls\\AMBIENCE2D_FOREST_BIRDCALL_05.wav",
       "CachePath": "A9/{A93C3D51-DB31-50C2-1752-8578F57DA453}.wem"
-     },
-     {
-      "Id": "758193027",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Music\\Forest\\Transitions\\MSC_FOREST_LIKEPETALSWEFLOAT_PRETHIRD_102BPM4-4_L3M.wav",
-      "CachePath": "0B/{0B0D6887-1A76-7F93-F932-0F52C879260D}.wem"
      },
      {
       "Id": "759733519",
@@ -1566,14 +1612,6 @@
       "CachePath": "A1/{A1F640DD-F542-B8B1-F432-F60BEF0BA493}.wem"
      },
      {
-      "Id": "887430821",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Music\\Forest\\Loops\\MSC_FOREST_LIKEPETALSWEFLOAT_END_102BPM4-4_L3M.wav",
-      "CachePath": "9B/{9B82E0FA-2419-8478-726E-6A3E44EBB59B}.wem"
-     },
-     {
       "Id": "888344012",
       "Language": "SFX",
       "Streaming": "false",
@@ -1646,6 +1684,14 @@
       "CachePath": "DB/{DB1CEB06-AE22-928C-9864-6D6F87D227CE}.wem"
      },
      {
+      "Id": "940884523",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Lotus\\AMB_LOTUS_HUM.wav",
+      "CachePath": "6B/{6BA9EACE-9D16-D46B-2427-F73AF006A521}.wem"
+     },
+     {
       "Id": "942590505",
       "Language": "SFX",
       "Streaming": "false",
@@ -1692,14 +1738,6 @@
       "Location": "Memory",
       "ShortName": "Ambience\\2D\\Forest\\Insect Chirps\\AMBIENCE2D_FOREST_INSECTCHIRP_01.wav",
       "CachePath": "37/{37F5919C-509D-FF25-9653-8DA271D2A24C}.wem"
-     },
-     {
-      "Id": "988300134",
-      "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
-      "ShortName": "Music\\Forest\\Loops\\MSC_FOREST_LIKEPETALSWEFLOAT_THIRDLOOP_102BPM4-4_L72M.wav",
-      "CachePath": "03/{039F5C56-8690-3369-2858-59D3EB199A9A}.wem"
      },
      {
       "Id": "1002172523",
@@ -1824,7 +1862,21 @@
        "LibId": "6619138"
       },
       {
+       "Id": "296854467",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
        "Id": "365416699",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
+       "Id": "445525001",
        "Name": "Silence",
        "Color": "4",
        "LibName": "Wwise Silence",
@@ -1867,6 +1919,13 @@
       },
       {
        "Id": "871620857",
+       "Name": "Silence",
+       "Color": "4",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
+      {
+       "Id": "887566741",
        "Name": "Silence",
        "Color": "4",
        "LibName": "Wwise Silence",
@@ -2047,6 +2106,57 @@
             }
            ]
           }
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1582413998",
+           "Id": "137712726"
+          },
+          "MediaRefs": [
+           {
+            "Id": "89311759"
+           },
+           {
+            "Id": "91869539"
+           },
+           {
+            "Id": "146839690"
+           },
+           {
+            "Id": "401034165"
+           },
+           {
+            "Id": "476124360"
+           },
+           {
+            "Id": "603048986"
+           },
+           {
+            "Id": "667329526"
+           }
+          ],
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "296854467"
+            }
+           ]
+          }
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1582413998",
+           "Id": "2031016961"
+          },
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "445525001"
+            }
+           ]
+          }
          }
         ]
        },
@@ -2154,6 +2264,33 @@
            "Custom": [
             {
              "Id": "710891349"
+            }
+           ]
+          }
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1582413998",
+           "Id": "137712726"
+          },
+          "MediaRefs": [
+           {
+            "Id": "940884523"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1582413998",
+           "Id": "2031016961",
+           "Default": "true"
+          },
+          "PluginRefs": {
+           "Custom": [
+            {
+             "Id": "887566741"
             }
            ]
           }
@@ -2434,9 +2571,6 @@
             },
             "MediaRefs": [
              {
-              "Id": "529195717"
-             },
-             {
               "Id": "547602146"
              }
             ],
@@ -2445,7 +2579,7 @@
               "SwitchValue": {
                "GroupType": "State",
                "GroupId": "1606666624",
-               "Id": "4262636943"
+               "Id": "3625080944"
               },
               "MediaRefs": [
                {
@@ -2457,59 +2591,11 @@
               "SwitchValue": {
                "GroupType": "State",
                "GroupId": "1606666624",
-               "Id": "665932511"
-              },
-              "MediaRefs": [
-               {
-                "Id": "988300134"
-               }
-              ]
-             },
-             {
-              "SwitchValue": {
-               "GroupType": "State",
-               "GroupId": "1606666624",
-               "Id": "123052653"
+               "Id": "3477480738"
               },
               "MediaRefs": [
                {
                 "Id": "101728468"
-               }
-              ]
-             },
-             {
-              "SwitchValue": {
-               "GroupType": "State",
-               "GroupId": "1606666624",
-               "Id": "506127700"
-              },
-              "MediaRefs": [
-               {
-                "Id": "887430821"
-               }
-              ]
-             },
-             {
-              "SwitchValue": {
-               "GroupType": "State",
-               "GroupId": "1606666624",
-               "Id": "2025880267"
-              },
-              "MediaRefs": [
-               {
-                "Id": "758193027"
-               }
-              ]
-             },
-             {
-              "SwitchValue": {
-               "GroupType": "State",
-               "GroupId": "1606666624",
-               "Id": "3438870713"
-              },
-              "MediaRefs": [
-               {
-                "Id": "617180898"
                }
               ]
              }
@@ -3474,6 +3560,10 @@
     ],
     "GameParameters": [
      {
+      "Id": "482870237",
+      "Name": "RTPC_LOTUSDISTANCE"
+     },
+     {
       "Id": "2290256636",
       "Name": "RTPC_PLAYERFALLSPEED"
      },
@@ -3524,32 +3614,20 @@
       "Name": "STATES_FOREST_P1_CUES",
       "States": [
        {
-        "Id": "123052653",
-        "Name": "STATE_FOREST_P1_TWO"
-       },
-       {
-        "Id": "506127700",
-        "Name": "STATE_FOREST_P1_END"
-       },
-       {
-        "Id": "665932511",
-        "Name": "STATE_FOREST_P1_THREE"
+        "Id": "374353676",
+        "Name": "STATES_FOREST_THREE"
        },
        {
         "Id": "748895195",
         "Name": "None"
        },
        {
-        "Id": "2025880267",
-        "Name": "STATE_FOREST_P1_FADE"
+        "Id": "3477480738",
+        "Name": "STATES_FOREST_TWO"
        },
        {
-        "Id": "3438870713",
-        "Name": "STATE_FOREST_P1_INTRO"
-       },
-       {
-        "Id": "4262636943",
-        "Name": "STATE_FOREST_P1_ONE"
+        "Id": "3625080944",
+        "Name": "STATES_FOREST_ONE"
        }
       ]
      },
@@ -3620,6 +3698,20 @@
        {
         "Id": "4248645337",
         "Name": "GRASS"
+       }
+      ]
+     },
+     {
+      "Id": "1582413998",
+      "Name": "LOTUSSWITCH",
+      "Switches": [
+       {
+        "Id": "137712726",
+        "Name": "LOTUS"
+       },
+       {
+        "Id": "2031016961",
+        "Name": "NOLOTUS"
        }
       ]
      },
@@ -3700,6 +3792,6 @@
     ]
    }
   ],
-  "FileHash": "{814D65A2-8E34-22AD-72B7-D924170A4120}"
+  "FileHash": "{BF6C4989-26E4-D6BA-35A4-0A6F2891AD78}"
  }
 }
