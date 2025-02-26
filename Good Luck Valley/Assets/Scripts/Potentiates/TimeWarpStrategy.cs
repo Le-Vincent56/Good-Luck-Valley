@@ -3,7 +3,6 @@ using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
 using GoodLuckValley.Events.Potentiates;
-using System.Diagnostics;
 
 namespace GoodLuckValley.Potentiates
 {
