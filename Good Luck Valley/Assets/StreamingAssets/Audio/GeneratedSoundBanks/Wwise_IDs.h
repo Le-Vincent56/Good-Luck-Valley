@@ -20,6 +20,7 @@ namespace AK
         static const AkUniqueID PLAY_FIREFLIES_FEED = 3983967792U;
         static const AkUniqueID PLAY_FIREFLIES_LANTERN_PLACE = 686783032U;
         static const AkUniqueID PLAY_FIREFLIES_PICK = 2095185455U;
+        static const AkUniqueID PLAY_LOTUS_PICK = 3172914513U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
         static const AkUniqueID PLAY_MUSHROOM_DISSIPATE = 937795333U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;
