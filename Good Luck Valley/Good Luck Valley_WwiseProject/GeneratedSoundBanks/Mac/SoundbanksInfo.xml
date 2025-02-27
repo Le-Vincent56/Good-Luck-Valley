@@ -227,7 +227,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{EB5A1F44-0568-805B-EB60-3F1EA7626DB3}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{F73B2821-2501-18DF-9436-CC0F54C31EC7}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -811,6 +811,10 @@
 					<ShortName>Fireflies\FIREFLIES_FEED.wav</ShortName>
 					<CachePath>A2/{A2F7201F-0312-4CE3-5B19-A8CF3665F26D}.wem</CachePath>
 				</File>
+				<File Id="1045333109" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Lotus\LOTUS_PICK.wav</ShortName>
+					<CachePath>27/{272B0950-5A2C-BCE1-7748-25DEC545726D}.wem</CachePath>
+				</File>
 				<File Id="1056800994" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Land\Slow Fall\PLAYER_SLOWFALL_STONE.wav</ShortName>
 					<CachePath>A5/{A57AE86A-B8CA-925D-E567-FADBEAD01738}.wem</CachePath>
@@ -1070,6 +1074,11 @@
 				<Event Id="2095185455" Name="PLAY_FIREFLIES_PICK" DurationType="OneShot" DurationMin="3.2778332" DurationMax="3.2778332">
 					<MediaRefs>
 						<MediaRef Id="542524992"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3172914513" Name="PLAY_LOTUS_PICK" DurationType="OneShot" DurationMin="5.1938777" DurationMax="5.1938777">
+					<MediaRefs>
+						<MediaRef Id="1045333109"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4286947103" Name="PLAY_MUSHROOM_BOUNCE" DurationType="OneShot" DurationMin="0.49917716" DurationMax="0.7122138">
@@ -1671,5 +1680,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{86B92375-D01E-B4A3-BC00-4F93643FD572}</FileHash>
+	<FileHash>{36531E0D-C6CF-0AC1-A2EC-87BD9FE60229}</FileHash>
 </SoundBanksInfo>
