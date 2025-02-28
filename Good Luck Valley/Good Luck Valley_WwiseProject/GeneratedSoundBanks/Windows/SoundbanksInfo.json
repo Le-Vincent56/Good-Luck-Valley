@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{76E5FB81-F816-4C55-FC52-A9076BCE2792}",
+    "Hash": "{C4C10A4D-F59E-C1A5-8F4B-94F90C616B0A}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -171,6 +171,10 @@
      {
       "Id": "3462011115",
       "Name": "MASTER_SFX"
+     },
+     {
+      "Id": "3578646088",
+      "Name": "FIREFLIES_MAGIC"
      },
      {
       "Id": "3591553651",
@@ -599,7 +603,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{BD419AB4-3D47-E6F3-AA2F-2FC1D5CAD2F3}",
+    "Hash": "{2342F129-3F40-9BF2-63E4-487F8380530B}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -634,6 +638,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Locomotion\\Impacts\\Hard\\Grass\\GRASS_IMPACT_HARD_04.wav",
       "CachePath": "C5/{C521211A-62FC-54D7-AAC1-481E60E83CEA}.wem"
+     },
+     {
+      "Id": "37599359",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Lanterns\\AMB_LANTERNS_MAGIC.wav",
+      "CachePath": "29/{2953758E-E186-D747-D027-336CAC7C610D}.wem"
      },
      {
       "Id": "43262999",
@@ -1588,6 +1600,14 @@
       "CachePath": "43/{43227EA9-D006-AB80-2E9C-A11635E7407B}.wem"
      },
      {
+      "Id": "862827106",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Lanterns\\AMB_LANTERNS_MAGIC.wav",
+      "CachePath": "41/{41D3AECE-7956-3E06-E08A-8250C6C41202}.wem"
+     },
+     {
       "Id": "864945534",
       "Language": "SFX",
       "Streaming": "false",
@@ -2231,7 +2251,7 @@
           },
           "MediaRefs": [
            {
-            "Id": "481153050"
+            "Id": "37599359"
            }
           ]
          },
@@ -2258,7 +2278,7 @@
           },
           "MediaRefs": [
            {
-            "Id": "481153050"
+            "Id": "862827106"
            }
           ]
          },
@@ -2415,6 +2435,16 @@
       "MediaRefs": [
        {
         "Id": "309120472"
+       }
+      ]
+     },
+     {
+      "Id": "4219816853",
+      "Name": "PLAY_FIREFLIES_MAGIC",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "862827106"
        }
       ]
      },
@@ -3523,6 +3553,14 @@
       "DurationMax": "0"
      },
      {
+      "Id": "3067235291",
+      "Name": "STOP_FIREFLIES_MAGIC",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
       "Id": "2837384057",
       "Name": "STOP_MUSIC",
       "MaxAttenuation": "0",
@@ -3813,6 +3851,6 @@
     ]
    }
   ],
-  "FileHash": "{C7F0F557-C599-16D7-B20F-6E741A4086BD}"
+  "FileHash": "{0245CFDD-BFA5-848C-57EC-4D7E59CB1F33}"
  }
 }

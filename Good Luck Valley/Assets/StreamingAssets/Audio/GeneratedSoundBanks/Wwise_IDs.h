@@ -19,6 +19,7 @@ namespace AK
         static const AkUniqueID PLAY_CINEMATICS_L1_ROCKFALL = 3122541869U;
         static const AkUniqueID PLAY_FIREFLIES_FEED = 3983967792U;
         static const AkUniqueID PLAY_FIREFLIES_LANTERN_PLACE = 686783032U;
+        static const AkUniqueID PLAY_FIREFLIES_MAGIC = 4219816853U;
         static const AkUniqueID PLAY_FIREFLIES_PICK = 2095185455U;
         static const AkUniqueID PLAY_LOTUS_PICK = 3172914513U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
@@ -48,6 +49,7 @@ namespace AK
         static const AkUniqueID RESUME_MUSIC = 2940177080U;
         static const AkUniqueID STOP_AMBIENCE2D_MAIN = 1773902918U;
         static const AkUniqueID STOP_AMBIENCEBED_MAIN = 3275901679U;
+        static const AkUniqueID STOP_FIREFLIES_MAGIC = 3067235291U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID STOP_PLAYER_FALL = 3680109729U;
         static const AkUniqueID STOP_PLAYER_IMPACTS = 2961941791U;
@@ -274,6 +276,7 @@ namespace AK
         static const AkUniqueID AMBIENCEBEDS_2D = 1890054062U;
         static const AkUniqueID FIREFLIES_FEED = 873669539U;
         static const AkUniqueID FIREFLIES_LANTERN_PLACE = 2012620565U;
+        static const AkUniqueID FIREFLIES_MAGIC = 3578646088U;
         static const AkUniqueID FIREFLIES_PICK = 2933154324U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MASTER_AMBIENCE = 4286911030U;

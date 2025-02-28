@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Audio.Ambience;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Cinematics;
 using GoodLuckValley.Scenes;
@@ -23,15 +24,21 @@ namespace GoodLuckValley
             postCutTimer = new CountdownTimer(postCutDuration);
             postCutTimer.OnTimerStop += () =>
             {
-                // Load the main menu
-                sceneLoader.ChangeSceneGroupSystem(0);
+                // Load the end scene
+                sceneLoader.ChangeSceneGroupSystem(5);
             };
         }
 
+        /// <summary>
+        /// End the game
+        /// </summary>
         public void End()
         {
             // Cut to black
             EventBus<CutToBlack>.Raise(new CutToBlack());
+
+            // Stop the ambience
+            AmbienceManager.Instance.StopAmbience();
 
             // Start the post-cut timer
             postCutTimer.Start();

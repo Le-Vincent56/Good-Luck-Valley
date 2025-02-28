@@ -543,6 +543,9 @@
 													</ActiveSourceList>
 												</Sound>
 												<Sound Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}" ShortID="160354449">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -554,13 +557,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}">
 															<PropertyList>
-																<Property Name="FadeInDuration" Type="Real64" Value="1"/>
-																<Property Name="FadeOutDuration" Type="Real64" Value="1"/>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.19928479034629"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="481153050"/>
+																<MediaID ID="37599359"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -631,6 +634,9 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}" ShortID="287477350">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -642,13 +648,12 @@
 													<ChildrenList>
 														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{A4E40C48-6D46-4FD3-81EB-F74F45AEBD34}">
 															<PropertyList>
-																<Property Name="FadeInDuration" Type="Real64" Value="1"/>
-																<Property Name="FadeOutDuration" Type="Real64" Value="1"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="481153050"/>
+																<MediaID ID="862827106"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>

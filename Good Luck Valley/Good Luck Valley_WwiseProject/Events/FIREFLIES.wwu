@@ -36,6 +36,35 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="PLAY_FIREFLIES_MAGIC" ID="{B54892B5-23FE-4C02-909F-8991CC8807F4}">
+					<ChildrenList>
+						<Action Name="" ID="{B8DA35CA-BB6E-4BE7-8E0E-C71CD314E978}" ShortID="695656958">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FIREFLIES_MAGIC" ID="{A881B4C6-14FD-409E-A009-03553865EE51}" WorkUnitID="{8E19109B-7682-4C69-B66A-4475283ADD5F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="STOP_FIREFLIES_MAGIC" ID="{9E83F3C3-86AF-4960-B10D-BB2E2C373BF1}">
+					<ChildrenList>
+						<Action Name="" ID="{ED748832-209C-495F-A234-A7A4172EDE8F}" ShortID="254687332">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FIREFLIES_MAGIC" ID="{A881B4C6-14FD-409E-A009-03553865EE51}" WorkUnitID="{8E19109B-7682-4C69-B66A-4475283ADD5F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

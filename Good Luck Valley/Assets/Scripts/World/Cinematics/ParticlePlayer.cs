@@ -36,5 +36,18 @@ namespace GoodLuckValley.World.Episodes
                 particle.Play();
             }
         }
+
+        /// <summary>
+        /// Stop all the particles
+        /// </summary>
+        public void StopParticles()
+        {
+            // Iterate through all of the particle systems
+            foreach (ParticleSystem particle in particles)
+            {
+                // Play the particle system
+                particle.Stop();
+            }
+        }
     }
 }

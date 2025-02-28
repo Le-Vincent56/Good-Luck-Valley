@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{76E5FB81-F816-4C55-FC52-A9076BCE2792}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{C4C10A4D-F59E-C1A5-8F4B-94F90C616B0A}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -61,6 +61,7 @@
 				<Bus Id="2940948846" Name="PLAYER_LOCOMOTION_IMPACTS"/>
 				<Bus Id="3006080354" Name="UI_TOGGLE"/>
 				<Bus Id="3462011115" Name="MASTER_SFX"/>
+				<Bus Id="3578646088" Name="FIREFLIES_MAGIC"/>
 				<Bus Id="3591553651" Name="MASTER_NPC"/>
 				<Bus Id="3614903352" Name="PLAYER_LOCOMOTION_SLIDE"/>
 				<Bus Id="3629196698" Name="PLAYER_LAND"/>
@@ -227,7 +228,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{BD419AB4-3D47-E6F3-AA2F-2FC1D5CAD2F3}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{2342F129-3F40-9BF2-63E4-487F8380530B}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -246,6 +247,10 @@
 				<File Id="27357454" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_04.wav</ShortName>
 					<CachePath>C5/{C521211A-62FC-54D7-AAC1-481E60E83CEA}.wem</CachePath>
+				</File>
+				<File Id="37599359" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</ShortName>
+					<CachePath>29/{2953758E-E186-D747-D027-336CAC7C610D}.wem</CachePath>
 				</File>
 				<File Id="43262999" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_4.wav</ShortName>
@@ -723,6 +728,10 @@
 					<ShortName>UI\Navigation\UI_NAVIGATION.wav</ShortName>
 					<CachePath>43/{43227EA9-D006-AB80-2E9C-A11635E7407B}.wem</CachePath>
 				</File>
+				<File Id="862827106" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</ShortName>
+					<CachePath>41/{41D3AECE-7956-3E06-E08A-8250C6C41202}.wem</CachePath>
+				</File>
 				<File Id="864945534" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Dirt\DIRT_IMPACT_LIGHT_01.wav</ShortName>
 					<CachePath>ED/{EDD689B5-0A03-98C5-127B-C2D43FB64B4F}.wem</CachePath>
@@ -975,7 +984,7 @@
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
 									<MediaRefs>
-										<MediaRef Id="481153050"/>
+										<MediaRef Id="37599359"/>
 									</MediaRefs>
 								</SwitchContainer>
 								<SwitchContainer>
@@ -989,7 +998,7 @@
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="174011288" Id="1126065684"/>
 									<MediaRefs>
-										<MediaRef Id="481153050"/>
+										<MediaRef Id="862827106"/>
 									</MediaRefs>
 								</SwitchContainer>
 								<SwitchContainer>
@@ -1069,6 +1078,11 @@
 				<Event Id="686783032" Name="PLAY_FIREFLIES_LANTERN_PLACE" DurationType="OneShot" DurationMin="2.6079166" DurationMax="2.6079166">
 					<MediaRefs>
 						<MediaRef Id="309120472"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4219816853" Name="PLAY_FIREFLIES_MAGIC" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="862827106"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2095185455" Name="PLAY_FIREFLIES_PICK" DurationType="OneShot" DurationMin="3.2778332" DurationMax="3.2778332">
@@ -1577,6 +1591,7 @@
 				<Event Id="2940177080" Name="RESUME_MUSIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="1773902918" Name="STOP_AMBIENCE2D_MAIN" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="3275901679" Name="STOP_AMBIENCEBED_MAIN" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3067235291" Name="STOP_FIREFLIES_MAGIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2837384057" Name="STOP_MUSIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="3680109729" Name="STOP_PLAYER_FALL" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2961941791" Name="STOP_PLAYER_IMPACTS" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -1680,5 +1695,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{460CAC82-C990-1A9B-1CAB-FB5CCF4340E0}</FileHash>
+	<FileHash>{C52F18C2-CD01-1FB2-9E8F-60141591DCE5}</FileHash>
 </SoundBanksInfo>
