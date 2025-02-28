@@ -6,11 +6,13 @@ namespace GoodLuckValley
 {
     public class TutorialKeybind : MonoBehaviour
     {
-        [SerializeField] private InputBindingInfo bindingInfo;
+        [SerializeField] private InputBindingInfo keyboardInfo;
+        [SerializeField] private InputBindingInfo xboxInfo;
         private Animator animator;
         private Image image;
 
-        public InputBindingInfo BindingInfo { get => bindingInfo; }
+        public InputBindingInfo KeyboardInfo { get => keyboardInfo; }
+        public InputBindingInfo XboxInfo { get => xboxInfo; }
 
         private void Awake()
         {

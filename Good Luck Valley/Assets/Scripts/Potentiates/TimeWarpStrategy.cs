@@ -69,20 +69,11 @@ namespace GoodLuckValley.Potentiates
             // Set the Potentiate Handler
             storedHandler = handler;
 
-            // Set the color for feedback
-            EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
-            {
-                Color = new UnityEngine.Color(0.3608f, 0.7216f, 1f, 1f)
-            });
-
             // Nullify gravity
             EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
             {
                 Entering = true
             });
-
-            // Stop particles
-            particles.Stop();
 
             return true;
         }
@@ -119,13 +110,7 @@ namespace GoodLuckValley.Potentiates
             if(!cooldownTimer.IsRunning)
                 // Allow potentiation
                 parent.AllowPotentiation();
-
-            // Set the color for feedback
-            EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
-            {
-                Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
-            });
-
+            
             // Nullify gravity
             EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
             {
@@ -141,20 +126,14 @@ namespace GoodLuckValley.Potentiates
             // Start the cooldown timer
             cooldownTimer.Start();
 
-            // Fade out the parent sprite
-            parent.Fade(0f);
-
-            // Set the color for feedback
-            EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
-            {
-                Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
-            });
-
             // Nullify gravity
             EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
             {
                 Entering = false
             });
+
+            // Burst the particles
+            particles.Burst();
         }
 
         /// <summary>
@@ -164,12 +143,6 @@ namespace GoodLuckValley.Potentiates
         {
             // Allow potentiation
             parent.AllowPotentiation();
-
-            // Fade the parent sprite back in
-            parent.Fade(1f);
-
-            // Play the particles
-            particles.Play();
         }
     }
 }

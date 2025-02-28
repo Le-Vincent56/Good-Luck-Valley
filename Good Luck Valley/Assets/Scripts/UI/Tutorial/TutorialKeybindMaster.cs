@@ -48,7 +48,17 @@ namespace GoodLuckValley
             foreach(TutorialKeybind keybind in tutorialKeybinds)
             {
                 // Get the action name
-                string actionName = keybind.BindingInfo.ActionName;
+                string actionName = keybind.KeyboardInfo.ActionName;
+
+                switch (playerInput.currentControlScheme)
+                {
+                    case "Keyboard and Mouse":
+                        actionName = keybind.KeyboardInfo.ActionName;
+                        break;
+                    case "Xbox Controller":
+                        actionName = keybind.XboxInfo.ActionName;
+                        break;
+                }
                 
                 // Set the sprite and animator
                 keybind.SetSprite(spriteDictionary.GetSprite(actionName));
