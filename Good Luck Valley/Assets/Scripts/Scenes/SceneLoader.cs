@@ -157,6 +157,8 @@ namespace GoodLuckValley.Scenes
 
             LoadingProgress progress = new LoadingProgress();
 
+            forcedMoveDirection = 0;
+
             // Start loading
             HandleLoading(true);
 

@@ -299,6 +299,8 @@ namespace GoodLuckValley.UI.Journal.View
                 // Shwo the Pause Menu
                 EventBus<ShowPauseMenuFromJournal>.Raise(new ShowPauseMenuFromJournal());
             });
+
+            FadeImage(emptyContentFadeTween, emptyContentImage, 0f, contentFadeDuration);
         }
 
         /// <summary>
