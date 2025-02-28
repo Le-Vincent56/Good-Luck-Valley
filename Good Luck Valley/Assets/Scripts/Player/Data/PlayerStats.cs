@@ -49,6 +49,9 @@ namespace GoodLuckValley.Player.Data
         public float FastFallMultiplier = 2f;
         public float SlowFallMultiplier = 0.75f;
 
+        [Header("Time Warp"), Space]
+        public float TimeWarpSpeedModifier = 0.5f;
+
         // Jump
         [Header("Jump"), Space] 
         public float BufferedJumpTime = 0.15f;

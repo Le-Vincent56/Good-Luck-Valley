@@ -13,11 +13,7 @@ namespace GoodLuckValley.Potentiates
         private TimeWarpParticleController particles;
         private Optional<PotentiateHandler> storedHandler = Optional<PotentiateHandler>.None();
         private Optional<PlayerController> storedController = Optional<PlayerController>.None();
-        private readonly CountdownTimer durationTimer;
         private readonly CountdownTimer cooldownTimer;
-        private readonly CountdownTimer timeScaleTimer;
-        private readonly CountdownTimer rtpcInTimer;
-        private readonly CountdownTimer rtpcOutTimer;
 
         public TimeWarpStrategy(Potentiate parent, float duration)
         {
@@ -27,134 +23,15 @@ namespace GoodLuckValley.Potentiates
             // Get particles
             particles = parent.GetComponentInChildren<TimeWarpParticleController>();
 
-            // Initialize the duration timer
-            durationTimer = new CountdownTimer(duration);
-
-            rtpcInTimer = new CountdownTimer(0.5f);
-
-            rtpcInTimer.OnTimerStart += () =>
-            {
-                parent.SetPrimaryRTPC(0f);
-            };
-
-            rtpcInTimer.OnTimerTick += () =>
-            {
-                parent.SetPrimaryRTPC(1f - rtpcInTimer.Progress);
-
-            };
-
-            rtpcInTimer.OnTimerStop += () =>
-            {
-                parent.SetPrimaryRTPC(1f);
-            };
-
-            rtpcOutTimer = new CountdownTimer(0.5f);
-
-            rtpcOutTimer.OnTimerStart += () =>
-            {
-                parent.SetPrimaryRTPC(1f);
-            };
-
-            rtpcOutTimer.OnTimerTick += () =>
-            {
-                parent.SetPrimaryRTPC(rtpcOutTimer.Progress);
-            };
-
-            rtpcOutTimer.OnTimerStop += () =>
-            {
-                parent.SetPrimaryRTPC(0f);
-            };
-
-            durationTimer.OnTimerStart += () =>
-            {
-                // Start the ticking sound
-                parent.SetSecondaryRTPC(0f);
-                parent.PlaySFX();
-            };
-
-            durationTimer.OnTimerTick += () =>
-            {
-                // Set the ticking RTPC to escalate as the timer progresses
-                parent.SetSecondaryRTPC(1f - durationTimer.Progress);
-            };
-
-            durationTimer.OnTimerStop += () =>
-            {
-                // Process the stored controller, if it exists
-                storedController.Match(
-                    onValue: playerController => {
-                        // Remove the time jump
-                        playerController.Jump.RemoveTimeJump();
-
-                        // Nullify the player controller
-                        playerController = null;
-                        return 0;
-                    },
-                    onNoValue: () => { return 0; }
-                );
-
-                storedHandler.Match(
-                    onValue: potentiateHandler =>
-                    {
-                        // Deplete the last potentiate
-                        potentiateHandler.RemovePotentiate();
-
-                        // Nullify the potentiate handler
-                        potentiateHandler = null;
-                        return 0;
-                    },
-                    onNoValue: () => { return 0; }
-                );
-
-                // Reset the secondary RTPC and stop SFX
-                parent.StopSFX();
-                parent.SetSecondaryRTPC(0f);
-
-                // Start the RTPC Out Timer
-                rtpcOutTimer.Start();
-
-                RespawnPotentiate();
-
-                // Set the color for feedback
-                EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
-                {
-                    Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
-                });
-
-                // Nullify gravity
-                EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
-                {
-                    Entering = false
-                });
-            };
-
             // Set up the cooldown timer
             cooldownTimer = new CountdownTimer(1f);
-
             cooldownTimer.OnTimerStop += () => RespawnPotentiate();
-
-            timeScaleTimer = new CountdownTimer(0.25f);
-
-            timeScaleTimer.OnTimerStart += () =>
-            {
-                // Set the time scale
-                UnityEngine.Time.timeScale = 0.65f;
-            };
-
-            timeScaleTimer.OnTimerStop += () =>
-            {
-                UnityEngine.Time.timeScale = 1f;
-            };
         }
 
         ~TimeWarpStrategy()
         {
             // Dispose timers
-            durationTimer.Dispose();
             cooldownTimer.Dispose();
-            timeScaleTimer.Dispose();
-            rtpcInTimer.Dispose();
-            rtpcOutTimer.Dispose();
         }
 
         /// <summary>
@@ -192,12 +69,6 @@ namespace GoodLuckValley.Potentiates
             // Set the Potentiate Handler
             storedHandler = handler;
 
-            // Start the duration timer
-            durationTimer.Start();
-
-            // Start the time scale timer
-            timeScaleTimer.Start();
-
             // Set the color for feedback
             EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
             {
@@ -210,31 +81,44 @@ namespace GoodLuckValley.Potentiates
                 Entering = true
             });
 
-            // Start fading in the Time Warp audio effect
-            rtpcInTimer.Start();
-
             // Stop particles
             particles.Stop();
 
             return true;
         }
 
-        /// <summary>
-        /// Deplete the Time Warp
-        /// </summary>
-        public override void Deplete()
+        public override void OnExit(PlayerController controller, PotentiateHandler handler)
         {
-            // Pause (and deregister) the duration timer
-            durationTimer.Pause(true);
+            // Process the stored controller, if it exists
+            storedController.Match(
+                onValue: playerController => {
+                    // Remove the time jump
+                    playerController.Jump.RemoveTimeJump();
 
-            // Pause (and deregister) the Time Warp audio timer
-            rtpcInTimer.Pause(true);
+                    // Nullify the player controller
+                    playerController = null;
+                    return 0;
+                },
+                onNoValue: () => { return 0; }
+            );
 
-            // Stop the time scale timer
-            timeScaleTimer.Stop();
+            storedHandler.Match(
+                onValue: potentiateHandler =>
+                {
+                    // Deplete the last potentiate
+                    potentiateHandler.RemovePotentiate();
 
-            // Start the cooldown timer
-            cooldownTimer.Start();
+                    // Nullify the potentiate handler
+                    potentiateHandler = null;
+                    return 0;
+                },
+                onNoValue: () => { return 0; }
+            );
+
+            // Check if the cooldown timer is not running
+            if(!cooldownTimer.IsRunning)
+                // Allow potentiation
+                parent.AllowPotentiation();
 
             // Set the color for feedback
             EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
@@ -247,13 +131,30 @@ namespace GoodLuckValley.Potentiates
             {
                 Entering = false
             });
+        }
 
-            // Start the RTPC Out Timer
-            rtpcOutTimer.Start();
+        /// <summary>
+        /// Deplete the Time Warp
+        /// </summary>
+        public override void Deplete()
+        {
+            // Start the cooldown timer
+            cooldownTimer.Start();
 
-            // Reset the secondary RTPC and stop SFX
-            parent.StopSFX();
-            parent.SetSecondaryRTPC(0f);
+            // Fade out the parent sprite
+            parent.Fade(0f);
+
+            // Set the color for feedback
+            EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
+            {
+                Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
+            });
+
+            // Nullify gravity
+            EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
+            {
+                Entering = false
+            });
         }
 
         /// <summary>
