@@ -546,7 +546,7 @@ namespace GoodLuckValley.Player.Movement
             // Check if entering the Time Warp
             if (eventData.Entering)
             {
-                currentFrameSpeedModifier = new Vector2(0.5f, 0.75f);
+                currentFrameSpeedModifier = stats.TimeWarpSpeedModifier;
                 lastGravityScale = rb.gravityScale;
                 lastConstantForce = constForce.force.y;
 

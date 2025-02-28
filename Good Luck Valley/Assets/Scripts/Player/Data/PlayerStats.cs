@@ -50,7 +50,7 @@ namespace GoodLuckValley.Player.Data
         public float SlowFallMultiplier = 0.75f;
 
         [Header("Time Warp"), Space]
-        public float TimeWarpSpeedModifier = 0.5f;
+        public Vector2 TimeWarpSpeedModifier = new Vector2(0.5f, 0.75f);
 
         // Jump
         [Header("Jump"), Space] 
