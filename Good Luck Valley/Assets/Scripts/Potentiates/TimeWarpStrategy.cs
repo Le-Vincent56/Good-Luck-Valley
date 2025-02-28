@@ -3,6 +3,7 @@ using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
 using GoodLuckValley.Events.Potentiates;
+using GoodLuckValley.Events.Player;
 
 namespace GoodLuckValley.Potentiates
 {
@@ -119,6 +120,12 @@ namespace GoodLuckValley.Potentiates
                 {
                     Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
                 });
+
+                // Nullify gravity
+                EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
+                {
+                    Entering = false
+                });
             };
 
             // Set up the cooldown timer
@@ -131,7 +138,7 @@ namespace GoodLuckValley.Potentiates
             timeScaleTimer.OnTimerStart += () =>
             {
                 // Set the time scale
-                UnityEngine.Time.timeScale = 0.75f;
+                UnityEngine.Time.timeScale = 0.65f;
             };
 
             timeScaleTimer.OnTimerStop += () =>
@@ -197,6 +204,12 @@ namespace GoodLuckValley.Potentiates
                 Color = new UnityEngine.Color(0.3608f, 0.7216f, 1f, 1f)
             });
 
+            // Nullify gravity
+            EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
+            {
+                Entering = true
+            });
+
             // Start fading in the Time Warp audio effect
             rtpcInTimer.Start();
 
@@ -227,6 +240,12 @@ namespace GoodLuckValley.Potentiates
             EventBus<PotentiateFeedback>.Raise(new PotentiateFeedback()
             {
                 Color = new UnityEngine.Color(1f, 1f, 1f, 1f)
+            });
+
+            // Nullify gravity
+            EventBus<TimeWarpCollected>.Raise(new TimeWarpCollected()
+            {
+                Entering = false
             });
 
             // Start the RTPC Out Timer

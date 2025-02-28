@@ -7,8 +7,6 @@ using UnityEngine;
 using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
-using GoodLuckValley.Audio;
-using System.Runtime.CompilerServices;
 using GoodLuckValley.Particles;
 
 
@@ -44,7 +42,9 @@ namespace GoodLuckValley.Player.Movement
         private bool cachedQueryMode;
         private bool cachedQueryTriggers;
         public const float GRAVITY_SCALE = 1f;
-        private float extraConstantGravity;
+        private float lastGravityScale;
+        private float lastConstantGravity;
+        private bool frozenInAir;
 
         private float delta;
         private float time;
@@ -97,6 +97,7 @@ namespace GoodLuckValley.Player.Movement
         private EventBinding<PlacePlayer> onPlacePlayer;
         private EventBinding<ActivatePlayer> onActivatePlayer;
         private EventBinding<DeactivatePlayer> onDeactivatePlayer;
+        private EventBinding<TimeWarpCollected> onTimeWarpCollected;
 
         private void Awake()
         {
@@ -126,6 +127,9 @@ namespace GoodLuckValley.Player.Movement
 
             onDeactivatePlayer = new EventBinding<DeactivatePlayer>(Deactivate);
             EventBus<DeactivatePlayer>.Register(onDeactivatePlayer);
+
+            onTimeWarpCollected = new EventBinding<TimeWarpCollected>(SetTimeWarpGravity);
+            EventBus<TimeWarpCollected>.Register(onTimeWarpCollected);
         }
 
         private void OnDisable()
@@ -134,6 +138,7 @@ namespace GoodLuckValley.Player.Movement
             EventBus<PlacePlayer>.Deregister(onPlacePlayer);
             EventBus<ActivatePlayer>.Deregister(onActivatePlayer);
             EventBus<DeactivatePlayer>.Deregister(onDeactivatePlayer);
+            EventBus<TimeWarpCollected>.Deregister(onTimeWarpCollected);
         }
 
         public void OnValidate() => Setup();
@@ -531,6 +536,27 @@ namespace GoodLuckValley.Player.Movement
         {
             forcedMove = eventData.ForcedMove;
             forcedMoveDirection = eventData.ForcedMoveDirection;
+        }
+
+        private void SetTimeWarpGravity(TimeWarpCollected eventData)
+        {
+            // Check if entering the Time Warp
+            if (eventData.Entering)
+            {
+                // Save the last gravity variables
+                lastGravityScale = rb.gravityScale;
+                lastConstantGravity = constForce.force.y;
+
+                // Set the gravity
+                rb.gravityScale = stats.TimeWarpGravityScale;
+                constForce.force = Vector2.zero;
+            }
+            else
+            {
+                // Check if exiting the Time Warp
+                rb.gravityScale = lastGravityScale;
+                constForce.force = new Vector2(0, lastConstantGravity);
+            }
         }
 
         /// <summary>
