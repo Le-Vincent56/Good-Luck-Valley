@@ -12,7 +12,27 @@ namespace GoodLuckValley.Audio.Ambience
         [SerializeField] private AK.Wwise.Event stopAmbientBed;
         [SerializeField] private AK.Wwise.Event stopAmbient2D;
 
+        [SerializeField] private AK.Wwise.RTPC lotusDistanceRTPC;
+
         [SerializeField] private bool isPlayingAmbience;
+
+        protected override void Awake()
+        {
+            // Call the parent Awake()
+            base.Awake();
+
+            // Set default RTPC values
+            SetDefaultRTPCValues();
+        }
+
+        /// <summary>
+        /// Set the default RTPC values
+        /// </summary>
+        private void SetDefaultRTPCValues()
+        {
+            // Set the farthest distance for the lotus
+            lotusDistanceRTPC.SetGlobalValue(100f);
+        }
 
         /// <summary>
         /// Start ambient sounds

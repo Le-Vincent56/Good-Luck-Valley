@@ -13,6 +13,7 @@ namespace GoodLuckValley.Persistence
         public JournalData JournalData;
         public List<CollectibleSaveData> CollectibleDatas;
         public List<CameraData> CameraDatas;
+        public List<ActivateableTriggerData> ActivateableTriggerDatas;
         public List<TimelineData> TimelineDatas;
     }
 
@@ -75,6 +76,18 @@ namespace GoodLuckValley.Persistence
         public CollectibleSaveData()
         {
             Collected = false;
+        }
+    }
+
+    [Serializable]
+    public class ActivateableTriggerData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool Active;
+
+        public ActivateableTriggerData()
+        {
+            Active = false;
         }
     }
 

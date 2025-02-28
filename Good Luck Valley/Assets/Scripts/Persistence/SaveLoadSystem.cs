@@ -212,6 +212,7 @@ namespace GoodLuckValley.Persistence
                 CameraDatas = new List<CameraData>(),
                 JournalData = new JournalData(),
                 CollectibleDatas = new List<CollectibleSaveData>(),
+                ActivateableTriggerDatas = new List<ActivateableTriggerData>(),
                 TimelineDatas = new List<TimelineData>()
             };
 
