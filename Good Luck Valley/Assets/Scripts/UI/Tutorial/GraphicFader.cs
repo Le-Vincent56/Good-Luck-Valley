@@ -50,6 +50,9 @@ namespace GoodLuckValley.UI.Tutorial
 
             // Fade the Graphic
             Fade(fadeGraphic.FadeIn ? 1f : 0f, fadeDuration);
+
+            // Raise the trigger
+            fadeGraphic.Trigger.Raise();
         }
 
         /// <summary>

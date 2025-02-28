@@ -189,10 +189,23 @@ namespace GoodLuckValley.UI.Menus.Pause
             Fade(0.8f, fadeDuration, () => menuInputReader.Enable());
         }
 
+        public void HideBackground(TweenCallback onComplete = null)
+        {
+            // Fade out
+            Fade(0f, fadeDuration, () =>
+            {
+                // Exit case - there is no completion action
+                if (onComplete == null) return;
+
+                // Call the completion action
+                onComplete();
+            });
+        }
+
         /// <summary>
         /// Hide the Pause Menu background
         /// </summary>
-        public void HideBackground(TweenCallback onComplete = null)
+        public void HideBackgroundExit(TweenCallback onComplete = null)
         {
             // Disable the input readers
             gameInputReader.Disable();
@@ -245,6 +258,8 @@ namespace GoodLuckValley.UI.Menus.Pause
 
             // Post the backtrack event
             backtrackEvent.Post(gameObject);
+
+            Debug.Log("Back Track");
         }
 
         /// <summary>
@@ -283,11 +298,6 @@ namespace GoodLuckValley.UI.Menus.Pause
         /// Save the game
         /// </summary>
         public void Save() => saveLoadSystem.SaveGame();
-
-        /// <summary>
-        /// Set the state to unpaused
-        /// </summary>
-        public void Back() => state = -1;
 
         /// <summary>
         /// Handle Fade Tweening for the Pause Menu
