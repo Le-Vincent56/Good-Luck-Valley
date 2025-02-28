@@ -29,8 +29,6 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
             // Nullify the currently selected game object for the EventSystem
             EventSystem.current.SetSelectedGameObject(null);
-
-            Debug.Log("Entered Resume State");
         }
 
         public override void OnExit()

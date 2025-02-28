@@ -47,6 +47,7 @@ namespace GoodLuckValley.Audio.Triggers
                     break;
 
                 case Type.Stop:
+                    MusicManager.Instance.Stop();
                     break;
 
                 case Type.StateChange:
