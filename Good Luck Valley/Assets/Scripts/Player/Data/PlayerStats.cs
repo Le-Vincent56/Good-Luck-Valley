@@ -43,6 +43,7 @@ namespace GoodLuckValley.Player.Data
         public float JumpGravityScale = 2.8f;
         public float BounceGravityScale = 2.2f;
         public float WallSlideGravityScale = 1.3f;
+        public float TimeWarpGravityScale = 0.5f;
 
         [Header("Fall"), Space]
         public float FastFallMultiplier = 2f;
