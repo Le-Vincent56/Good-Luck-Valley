@@ -2,6 +2,7 @@ using DG.Tweening;
 using GoodLuckValley.Events.Fireflies;
 using GoodLuckValley.Events;
 using UnityEngine;
+using GoodLuckValley.Timers;
 
 namespace GoodLuckValley.World.Revealables
 {
@@ -9,6 +10,10 @@ namespace GoodLuckValley.World.Revealables
     {
         [Header("Channel")]
         [SerializeField] protected int channel;
+
+        [Header("Delay")]
+        [SerializeField] private float delay;
+        protected CountdownTimer delayTimer;
 
         [Header("Tweening Variables")]
         [SerializeField] protected float fadeDuration;
@@ -31,6 +36,7 @@ namespace GoodLuckValley.World.Revealables
         {
             // Kill the Fade Tween if it exists
             fadeTween?.Kill();
+            delayTimer?.Dispose();
         }
 
         /// <summary>
@@ -41,8 +47,15 @@ namespace GoodLuckValley.World.Revealables
             // Exit case - the event channel does not match the Revealable channel
             if (eventData.Channel != channel) return;
 
-            // Reveal the Revealable
-            Reveal();
+            // Check if the delay timer is set
+            if(delayTimer == null)
+            {
+                delayTimer = new CountdownTimer(delay);
+                delayTimer.OnTimerStop += () => Reveal();
+            }
+
+            // Start the delay timer
+            delayTimer.Start();
         }
 
         /// <summary>
