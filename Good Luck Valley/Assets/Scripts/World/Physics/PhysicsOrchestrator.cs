@@ -23,7 +23,7 @@ namespace GoodLuckValley.World.Physics
 
         private void Update()
         {
-            float delta = Time.deltaTime;
+            float delta = Time.unscaledDeltaTime;
             time += delta;
 
             // Update the physics objects
@@ -38,7 +38,7 @@ namespace GoodLuckValley.World.Physics
 
         private void FixedUpdate()
         {
-            float delta = Time.deltaTime;
+            float delta = Time.unscaledDeltaTime;
 
             // Update the physics objects
             foreach (IPhysicsObject physicsObject in physicsObjects)

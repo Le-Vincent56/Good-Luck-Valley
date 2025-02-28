@@ -85,9 +85,18 @@ namespace GoodLuckValley.Potentiates
 
             // Start buffering the Potentiate
             useBufferTimer.Start();
+        }
 
-            // Fade out the Potentiate
-            Fade(0f);
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            // Exit case - there is no PlayerController on the collision object
+            if (!collision.TryGetComponent(out PotentiateHandler handler)) return;
+
+            // Exit the Potentiate strategy
+            strategy.OnExit(handler.Controller, handler);
+
+            // Set this as the last Potentiate
+            handler.SetLastPotentiate(this);
         }
 
         /// <summary>

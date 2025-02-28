@@ -5,6 +5,7 @@ namespace GoodLuckValley.Potentiates
     public abstract class PotentiateStrategy
     {
         public abstract bool Potentiate(PlayerController controller, PotentiateHandler handler);
+        public abstract void OnExit(PlayerController controller, PotentiateHandler handler);
         public abstract void Deplete();
     }
 }

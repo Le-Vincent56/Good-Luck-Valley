@@ -43,8 +43,8 @@ namespace GoodLuckValley.Player.Movement
         private bool cachedQueryTriggers;
         public const float GRAVITY_SCALE = 1f;
         private float lastGravityScale;
-        private float lastConstantGravity;
-        private bool frozenInAir;
+        private float lastConstantForce;
+
 
         private float delta;
         private float time;
@@ -538,24 +538,26 @@ namespace GoodLuckValley.Player.Movement
             forcedMoveDirection = eventData.ForcedMoveDirection;
         }
 
+        /// <summary>
+        /// Set the time warp gravity
+        /// </summary>
         private void SetTimeWarpGravity(TimeWarpCollected eventData)
         {
             // Check if entering the Time Warp
             if (eventData.Entering)
             {
-                // Save the last gravity variables
+                currentFrameSpeedModifier = new Vector2(0.5f, 0.75f);
                 lastGravityScale = rb.gravityScale;
-                lastConstantGravity = constForce.force.y;
+                lastConstantForce = constForce.force.y;
 
-                // Set the gravity
                 rb.gravityScale = stats.TimeWarpGravityScale;
                 constForce.force = Vector2.zero;
             }
             else
             {
-                // Check if exiting the Time Warp
+                currentFrameSpeedModifier = Vector2.one;
                 rb.gravityScale = lastGravityScale;
-                constForce.force = new Vector2(0, lastConstantGravity);
+                constForce.force = new Vector2(0, lastConstantForce);
             }
         }
 
