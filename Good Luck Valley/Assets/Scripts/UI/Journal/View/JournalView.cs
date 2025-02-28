@@ -24,6 +24,7 @@ namespace GoodLuckValley.UI.Journal.View
         [SerializeField] private List<TabButton> tabs;
         [SerializeField] private List<TabButtonEffect> tabEffects;
         [SerializeField] private List<EntryButton> entries;
+        [SerializeField] private Image emptyContentImage;
 
 
         [Header("Tweening Variables")]
@@ -33,6 +34,7 @@ namespace GoodLuckValley.UI.Journal.View
         private Tween canvasFadeTween;
         private Tween entriesFadeTween;
         private Tween contentFadeTween;
+        private Tween emptyContentFadeTween;
 
         public List<EntryButton> Entries { get => entries; }
         public List<TabButton> Tabs { get => tabs; }
@@ -82,6 +84,7 @@ namespace GoodLuckValley.UI.Journal.View
             canvasFadeTween?.Kill();
             entriesFadeTween?.Kill();
             contentFadeTween?.Kill();
+            emptyContentFadeTween?.Kill();
         }
 
         /// <summary>
@@ -175,6 +178,7 @@ namespace GoodLuckValley.UI.Journal.View
         public void ShowEntryContent(EntryButton button)
         {
             // Fade out
+            FadeImage(emptyContentFadeTween, emptyContentImage, 0f, contentFadeDuration / 2f);
             Fade(contentFadeTween, contentGroup, 0f, contentFadeDuration / 2f, () =>
             {
                 // Check if the button is empty
@@ -183,6 +187,9 @@ namespace GoodLuckValley.UI.Journal.View
                     // Set the content
                     contentTitle.text = string.Empty;
                     contentText.text = string.Empty;
+
+                    // Fade in the empty content image
+                    FadeImage(emptyContentFadeTween, emptyContentImage, 1f, contentFadeDuration / 2f);
                 } else
                 {
                     // Set the content
@@ -295,7 +302,7 @@ namespace GoodLuckValley.UI.Journal.View
         }
 
         /// <summary>
-        /// Handle Fade Tweening for the Journal
+        /// Handle Fade Tweening for Canvas Groups in the Journal
         /// </summary>
         private void Fade(Tween fadeTween, CanvasGroup canvasGroup, float endValue, float duration, TweenCallback onComplete = null)
         {
@@ -304,6 +311,25 @@ namespace GoodLuckValley.UI.Journal.View
 
             // Set the Fade Tween
             fadeTween = canvasGroup.DOFade(endValue, duration).SetUpdate(true);
+
+            // Exit case - there's no completion action
+            if (onComplete == null) return;
+
+            // Hook up the completion action
+            fadeTween.onComplete += onComplete;
+        }
+
+        /// <summary>
+        /// Handle Fade Tweening for Images in the Journal
+        /// </summary>
+        private void FadeImage(Tween fadeTween, Image image, float endValue, float duration, TweenCallback onComplete = null)
+        {
+            // Kill the Fade Tween if it exists
+            fadeTween?.Kill();
+
+            // Set the Fade Tween
+
+            fadeTween = image.DOFade(endValue, duration).SetUpdate(true);
 
             // Exit case - there's no completion action
             if (onComplete == null) return;
