@@ -14,7 +14,6 @@ namespace GoodLuckValley.Potentiates
     [RequireComponent(typeof(BoxCollider2D))]
     public class Potentiate : MonoBehaviour
     {
-        private SpriteRenderer sprite;
         [SerializeField] private PotentiateType type;
         [SerializeField] private float potentiateDuration;
         private PotentiateStrategy strategy;
@@ -37,9 +36,6 @@ namespace GoodLuckValley.Potentiates
 
         private void Awake()
         {
-            // Get components
-            sprite = GetComponent<SpriteRenderer>();
-
             // Set variables
             canPotentiate = true;
 
@@ -97,24 +93,6 @@ namespace GoodLuckValley.Potentiates
 
             // Set this as the last Potentiate
             handler.SetLastPotentiate(this);
-        }
-
-        /// <summary>
-        /// Handle fade tweening for the Potentiate sprite
-        /// </summary>
-        public void Fade(float endValue, TweenCallback onComplete = null)
-        {
-            // Kill the Fade tween
-            fadeTween?.Kill();
-
-            // Set the Fade tween
-            fadeTween = sprite.DOFade(endValue, fadeDuration);
-
-            // Exit case - there's no completion action
-            if (onComplete == null) return;
-
-            // Hook up completion action
-            fadeTween.onComplete += onComplete;
         }
 
         /// <summary>

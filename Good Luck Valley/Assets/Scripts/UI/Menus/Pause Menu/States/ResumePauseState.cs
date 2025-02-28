@@ -14,22 +14,23 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
         public override void OnEnter()
         {
-            Fade(0f, fadeDuration, Ease.InOutSine, () =>
+            controller.Paused = false;
+
+            // Hide the Pause Menu background
+            controller.HideBackgroundExit(() =>
             {
+                // Set unpaused and resume time
+                
+                Time.timeScale = 1f;
+
                 screen.interactable = false;
                 screen.blocksRaycasts = false;
             });
 
-            // Hide the Pause Menu background
-            controller.HideBackground(() =>
-            {
-                // Set unpaused and resume time
-                controller.Paused = false;
-                Time.timeScale = 1f;
-            });
-
             // Nullify the currently selected game object for the EventSystem
             EventSystem.current.SetSelectedGameObject(null);
+
+            Debug.Log("Entered Resume State");
         }
 
         public override void OnExit()

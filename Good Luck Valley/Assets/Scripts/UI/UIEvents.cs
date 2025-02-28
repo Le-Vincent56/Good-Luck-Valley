@@ -1,4 +1,4 @@
-using UnityEngine;
+using GoodLuckValley.UI.Triggers;
 
 namespace GoodLuckValley.Events.UI
 {
@@ -6,5 +6,6 @@ namespace GoodLuckValley.Events.UI
     {
         public int ID;
         public bool FadeIn;
+        public GraphicTrigger Trigger;
     }
 }

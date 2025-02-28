@@ -25,6 +25,8 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
             // Set the menu controller
             controller.SetMenuController(menuController);
+
+            Debug.Log("Entered Pause State");
         }
     }
 }

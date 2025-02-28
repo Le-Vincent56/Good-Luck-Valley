@@ -23,17 +23,20 @@ namespace GoodLuckValley.UI.Triggers
             OnEnter(controller);
         }
 
+        /// <summary>
+        /// Flag the Graphic Fader as raised
+        /// </summary>
+        public void Raise() => raised = true;
+
         public override void OnEnter(PlayerController controller)
         {
             // Raise the event to fade in the Graphic
             EventBus<FadeGraphic>.Raise(new FadeGraphic()
             {
                 ID = id,
-                FadeIn = true
+                FadeIn = true,
+                Trigger = this,
             });
-
-            // Flag the event as raised
-            raised = true;
         }
 
         public override void OnExit(PlayerController controller)
@@ -42,7 +45,8 @@ namespace GoodLuckValley.UI.Triggers
             EventBus<FadeGraphic>.Raise(new FadeGraphic()
             {
                 ID = id,
-                FadeIn = false
+                FadeIn = false,
+                Trigger = this,
             });
 
             // Flag the event as raised

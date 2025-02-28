@@ -16,17 +16,16 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
         public override void OnEnter()
         {
-            // Fade out the Canvas Group
-            Fade(0f, fadeDuration, Ease.InOutSine, () =>
+            controller.HideBackground(() =>
             {
                 screen.interactable = false;
                 screen.blocksRaycasts = false;
-
-                Debug.Log("Faded out");
             });
 
             // Show the Journal
             EventBus<ShowJournalPause>.Raise(new ShowJournalPause());
+
+            Debug.Log("Entered Journal State");
         }
 
         public override void OnExit()
