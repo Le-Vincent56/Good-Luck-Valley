@@ -21,6 +21,8 @@ namespace GoodLuckValley.UI.Menus.Pause.States
             {
                 screen.interactable = false;
                 screen.blocksRaycasts = false;
+
+                Debug.Log("Faded out");
             });
 
             // Show the Journal
