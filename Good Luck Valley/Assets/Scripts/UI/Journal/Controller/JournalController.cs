@@ -9,15 +9,18 @@ namespace GoodLuckValley.UI.Journal.Controller
     {
         public class Builder
         {
-            private readonly JournalModel model = new JournalModel();
+            private JournalModel model;
 
             /// <summary>
             /// Build with initial Journal Datas
             /// </summary>
             public Builder WithJournalEntries(JournalData[] journalDatas)
             {
+                // Create a new Journal Model
+                model = new JournalModel();
+
                 // Iterate through each Journal Data
-                foreach(JournalData journalData in journalDatas)
+                foreach (JournalData journalData in journalDatas)
                 {
                     // Add a Journal Entry with the associated Journal Data
                     // to the Journal Model

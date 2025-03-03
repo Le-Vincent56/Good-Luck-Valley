@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus
 {
-    public class MenuButton : Selectable, ISubmitHandler
+    public class MenuButton : Selectable, ISubmitHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [Space(10), Header("References")]
         [SerializeField] private Text textToSelect;
+
+        [Header("Fields")]
+        private bool submitted;
 
         [Header("Default Variables")]
         [SerializeField] private int defaultFontSize;
@@ -56,6 +59,33 @@ namespace GoodLuckValley.UI.Menus
             colorTween?.Kill();
         }
 
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            base.OnPointerEnter(eventData);
+
+            // Select the Menu Button
+            OnSelect(eventData);
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            // Exit case - if submitting the button
+            if (submitted) return;
+
+            base.OnPointerExit(eventData);
+
+            // Deselect the Menu Button
+            OnDeselect(eventData);
+        }
+
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+            base.OnPointerUp(eventData);
+
+            // Submit the Menu Button
+            OnSubmit(eventData);
+        }
+
         public override void OnSelect(BaseEventData eventData)
         {
             // Call the parent OnSelect()
@@ -81,6 +111,8 @@ namespace GoodLuckValley.UI.Menus
 
         public void OnSubmit(BaseEventData eventData)
         {
+            submitted = true;
+
             // Play the enter sound
             selectSound.Post(gameObject);
 
@@ -90,6 +122,7 @@ namespace GoodLuckValley.UI.Menus
                 Scale(selectedFontSize, submitDuration, Ease.OutBack, () =>
                 {
                     OnClick.Invoke();
+                    submitted = false;
                 });
             });
             ChangeColor(selectedColor, submitDuration / 2f);

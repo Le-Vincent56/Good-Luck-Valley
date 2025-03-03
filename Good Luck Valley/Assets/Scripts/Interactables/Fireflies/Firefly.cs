@@ -57,6 +57,9 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// </summary>
         public void TickUpdate(float time, float delta, List<Firefly> fireflies)
         {
+            // Exit case - if paused
+            if (Time.timeScale <= 0f) return;
+
             // Get the current transform position
             position = transform.position;
             
