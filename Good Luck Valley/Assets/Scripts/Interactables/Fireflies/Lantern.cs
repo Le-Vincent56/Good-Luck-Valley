@@ -14,6 +14,8 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private int channel;
         [SerializeField] private Light2D activateLight;
         [SerializeField] private List<ParticleSystem> lanternParticles;
+        [SerializeField] private Sprite inactiveSprite;
+        [SerializeField] private Sprite activeSprite;
 
         [Header("Wwise Events")]
         [SerializeField] private AK.Wwise.Event lanternPlaceEvent;
@@ -96,6 +98,9 @@ namespace GoodLuckValley.Interactables.Fireflies
                 // Play the Particle System
                 lanternParticle.Play();
             }
+
+            // Swap the sprite
+            interactableSprite.sprite = activeSprite;
 
             // Pay the Lantern Place SFX
             lanternPlaceEvent.Post(gameObject);

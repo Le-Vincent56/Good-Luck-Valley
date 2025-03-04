@@ -243,7 +243,7 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""dea0369b-17a4-4329-81b7-ffc821ad92c1"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard and Mouse"",
@@ -602,6 +602,15 @@ namespace GoodLuckValley.Input.Actions
                     ""name"": ""ShiftModifier"",
                     ""type"": ""Button"",
                     ""id"": ""0789d4c3-f7b5-4153-9161-2fd83d977c69"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""763d6945-e730-4a68-8284-e24d1a4f81eb"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1048,6 +1057,50 @@ namespace GoodLuckValley.Input.Actions
                     ""action"": ""ShiftModifier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89b43553-3169-4907-91f1-222cd7a764f8"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e927c059-5c0d-4e5d-b725-45c9dc3a8f2c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""60791852-fc4f-49e9-8692-f0367824af7c"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PlayStation"",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""789f1f1c-3204-4bd8-84f0-9d05bb69e945"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Xbox Controller"",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1120,6 +1173,7 @@ namespace GoodLuckValley.Input.Actions
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
             m_UI_AltModifier = m_UI.FindAction("AltModifier", throwIfNotFound: true);
             m_UI_ShiftModifier = m_UI.FindAction("ShiftModifier", throwIfNotFound: true);
+            m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
         }
 
         ~@GameplayActions()
@@ -1325,6 +1379,7 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_UI_TrackedDeviceOrientation;
         private readonly InputAction m_UI_AltModifier;
         private readonly InputAction m_UI_ShiftModifier;
+        private readonly InputAction m_UI_Start;
         public struct UIActions
         {
             private @GameplayActions m_Wrapper;
@@ -1341,6 +1396,7 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
             public InputAction @AltModifier => m_Wrapper.m_UI_AltModifier;
             public InputAction @ShiftModifier => m_Wrapper.m_UI_ShiftModifier;
+            public InputAction @Start => m_Wrapper.m_UI_Start;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1386,6 +1442,9 @@ namespace GoodLuckValley.Input.Actions
                 @ShiftModifier.started += instance.OnShiftModifier;
                 @ShiftModifier.performed += instance.OnShiftModifier;
                 @ShiftModifier.canceled += instance.OnShiftModifier;
+                @Start.started += instance.OnStart;
+                @Start.performed += instance.OnStart;
+                @Start.canceled += instance.OnStart;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -1426,6 +1485,9 @@ namespace GoodLuckValley.Input.Actions
                 @ShiftModifier.started -= instance.OnShiftModifier;
                 @ShiftModifier.performed -= instance.OnShiftModifier;
                 @ShiftModifier.canceled -= instance.OnShiftModifier;
+                @Start.started -= instance.OnStart;
+                @Start.performed -= instance.OnStart;
+                @Start.canceled -= instance.OnStart;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -1498,6 +1560,7 @@ namespace GoodLuckValley.Input.Actions
             void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
             void OnAltModifier(InputAction.CallbackContext context);
             void OnShiftModifier(InputAction.CallbackContext context);
+            void OnStart(InputAction.CallbackContext context);
         }
     }
 }

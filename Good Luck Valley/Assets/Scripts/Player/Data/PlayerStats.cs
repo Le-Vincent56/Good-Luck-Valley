@@ -35,6 +35,7 @@ namespace GoodLuckValley.Player.Data
         public float Acceleration = 50;
         public float Friction = 30;
         public float AirFrictionMultiplier = 0.5f;
+        public float WallAirFrictionMultiplier = 0.225f;
         public float DirectionCorrectionMultiplier = 3f;
         public float MaxWalkableSlope = 50;
 

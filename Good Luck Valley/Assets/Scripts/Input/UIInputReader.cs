@@ -19,6 +19,7 @@ namespace GoodLuckValley.Input
         public UnityAction<bool> MiddleClick = delegate { };
         public UnityAction<bool> AltModifier = delegate { };
         public UnityAction<bool> ShiftModifier = delegate { };
+        public UnityAction<bool> Start = delegate { };
         
 
         private GameplayActions inputActions;
@@ -193,6 +194,19 @@ namespace GoodLuckValley.Input
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
                     ShiftModifier.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnStart(InputAction.CallbackContext context)
+        {
+            switch (context.phase)
+            {
+                case InputActionPhase.Started:
+                    Start.Invoke(true);
+                    break;
+                case InputActionPhase.Canceled:
+                    Start.Invoke(false);
                     break;
             }
         }

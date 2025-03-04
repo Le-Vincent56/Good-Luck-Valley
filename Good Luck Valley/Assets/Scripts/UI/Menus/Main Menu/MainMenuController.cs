@@ -67,7 +67,7 @@ namespace GoodLuckValley.UI.Menus.Main
 
         private void OnEnable()
         {
-            inputReader.Submit += OpenMainMenu;
+            inputReader.Start += OpenMainMenu;
             inputReader.Cancel += Backtrack;
             saveLoadSystem.Release += Cleanup;
             saveLoadSystem.SettingsSet += PlayMenuMusic;
@@ -75,7 +75,7 @@ namespace GoodLuckValley.UI.Menus.Main
 
         private void OnDisable()
         {
-            inputReader.Submit -= OpenMainMenu;
+            inputReader.Start -= OpenMainMenu;
             inputReader.Cancel -= Backtrack;
 
             Cleanup();

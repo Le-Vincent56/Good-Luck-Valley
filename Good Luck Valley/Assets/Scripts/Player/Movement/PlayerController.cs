@@ -415,7 +415,9 @@ namespace GoodLuckValley.Player.Movement
             } 
             else
             {
-                step *= Stats.AirFrictionMultiplier;
+                // Calculate and apply the air friction
+                float airFriction = WallJump.IsWallJumping ? Stats.WallAirFrictionMultiplier : Stats.AirFrictionMultiplier;
+                step *= airFriction;
 
                 // Check if the wall jump input nerf point is less than 1 and if the directions of the wall jump match
                 if (wallJump.WallJumpInputNerfPoint < 1 && (int)Mathf.Sign(xDirection.x) == (int)Mathf.Sign(wallJump.WallDirectionForJump))
@@ -515,7 +517,8 @@ namespace GoodLuckValley.Player.Movement
             FrameData.PreviousTotalTransientVelocity = Vector2.zero;
 
             // Get the decay factor
-            float decay = Stats.Friction * Stats.AirFrictionMultiplier * Stats.ExternalVelocityDecayRate;
+            float airFriction = WallJump.IsWallJumping ? Stats.WallAirFrictionMultiplier : Stats.AirFrictionMultiplier;
+            float decay = Stats.Friction * airFriction * Stats.ExternalVelocityDecayRate;
 
             if ((velocityBeforeReduction.x < 0 && decayingTransientVelocity.x < velocityBeforeReduction.x) ||
                 (velocityBeforeReduction.x > 0 && decayingTransientVelocity.x > velocityBeforeReduction.x) ||

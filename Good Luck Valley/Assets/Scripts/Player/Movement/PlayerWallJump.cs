@@ -110,9 +110,6 @@ namespace GoodLuckValley.Player.Movement
             // Exit case - if forcing a move
             if (controller.ForcedMove) return;
 
-            // Set to not wall jumping
-            isWallJumping = false;
-
             // Get the raycast direction
             float rayDir = isOnWall ? wallDirection : wallDirectionThisFrame;
 
