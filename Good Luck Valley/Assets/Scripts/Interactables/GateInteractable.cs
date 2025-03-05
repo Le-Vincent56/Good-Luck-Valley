@@ -1,4 +1,6 @@
 using GoodLuckValley.Architecture.Optionals;
+using GoodLuckValley.Events.UI;
+using GoodLuckValley.Events;
 using UnityEngine;
 
 namespace GoodLuckValley.Interactables
@@ -6,7 +8,7 @@ namespace GoodLuckValley.Interactables
     public abstract class GateInteractable : Interactable
     {
         protected bool hasKey;
-        private float noKeyOpacity = 0.5f;
+        [SerializeField] private float noKeyOpacity = 0.5f;
 
         protected override void Awake()
         {
@@ -36,11 +38,25 @@ namespace GoodLuckValley.Interactables
 
             // Check if the player has the key
             if (hasKey) 
-                // If so, fade in the Feedback Sprite to full opacity
-                FadeFeedback(1f, fadeDuration);
+            {
+                // Fade in the interactable UI
+                EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+                {
+                    ID = id,
+                    Value = 1f,
+                    Duration = fadeDuration
+                });
+            }
             else
-                // If not, fade in the feedback Sprite to the no-key opacity
-                FadeFeedback(noKeyOpacity, fadeDuration);
+            {
+                // If not, fade in the interactable UI to the no-key opacity
+                EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+                {
+                    ID = id,
+                    Value = noKeyOpacity,
+                    Duration = fadeDuration
+                });
+            }
 
             // Set triggered
             triggered = true;
@@ -68,11 +84,25 @@ namespace GoodLuckValley.Interactables
 
             // Check if the player has the key
             if (hasKey)
-                // If so, fade in the Feedback Sprite to full opacity
-                FadeFeedback(1f, fadeDuration);
+            {
+                // Fade in the interactable UI
+                EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+                {
+                    ID = id,
+                    Value = 1f,
+                    Duration = fadeDuration
+                });
+            }
             else
-                // If not, fade in the feedback Sprite to the no-key opacity
-                FadeFeedback(noKeyOpacity, fadeDuration);
+            {
+                // If not, fade in the interactable UI to the no-key opacity
+                EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+                {
+                    ID = id,
+                    Value = noKeyOpacity,
+                    Duration = fadeDuration
+                });
+            }
 
             // Set triggered
             triggered = true;
@@ -100,8 +130,13 @@ namespace GoodLuckValley.Interactables
             // Nullify the Interactable Handler
             this.handler = Optional<InteractableHandler>.NoValue;
 
-            // Fade out the feedback sprite
-            FadeFeedback(0f, fadeDuration);
+            // Fade out the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 0f,
+                Duration = fadeDuration
+            });
 
             // Set to not triggered
             triggered = false;

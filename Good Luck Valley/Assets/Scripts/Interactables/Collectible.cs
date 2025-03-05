@@ -1,4 +1,6 @@
 using GoodLuckValley.Architecture.Optionals;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.UI;
 using GoodLuckValley.Persistence;
 using UnityEngine;
 
@@ -64,8 +66,13 @@ namespace GoodLuckValley.Interactables
             // Fade out the sprites and deactivate
             FadeInteractable(0f, fadeDuration);
 
-            // Fade out the feedback sprite
-            FadeFeedback(0f, fadeDuration);
+            // Fade in the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 0f,
+                Duration = fadeDuration
+            });
 
             // Set collected
             collected = true;

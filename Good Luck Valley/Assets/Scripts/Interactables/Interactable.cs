@@ -1,7 +1,8 @@
 using DG.Tweening;
 using GoodLuckValley.Architecture.Optionals;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.UI;
 using GoodLuckValley.World.Triggers;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley.Interactables
@@ -12,17 +13,14 @@ namespace GoodLuckValley.Interactables
         protected Optional<InteractableHandler> handler = Optional<InteractableHandler>.None();
         protected InteractableStrategy strategy;
         [SerializeField] protected SpriteRenderer interactableSprite;
-        [SerializeField] protected SpriteRenderer[] feedbackSprites;
 
         [Header("Fields")]
+        [SerializeField] protected int id;
         [SerializeField] protected bool triggered;
-        [SerializeField] private int numberOfFeedbackSprites;
-        [SerializeField] private bool multipleFeedbackSprites;
         [SerializeField] protected bool canInteract;
 
         [Header("Tweening Variables")]
         [SerializeField] protected float fadeDuration;
-        private Sequence feedbackFadeSequence;
         private Tween interactableFadeTween;
 
         protected virtual void Awake()
@@ -30,37 +28,21 @@ namespace GoodLuckValley.Interactables
             // Get the Interactable sprite
             interactableSprite = GetComponent<SpriteRenderer>();
 
-            // Get all child sprites
-            List<SpriteRenderer> allSprites = new List<SpriteRenderer>();
-            GetComponentsInChildren(allSprites);
-
-            // Decide how many sprites to take after skipping the first one (the base sprite)
-            int count = multipleFeedbackSprites ? numberOfFeedbackSprites : 1;
-
-            // Ensure we don't try to copy more than we have
-            int available = Mathf.Min(count, allSprites.Count - 1);
-
-            // Create the array for feedback sprites
-            feedbackSprites = new SpriteRenderer[available];
-
-            // Iterate through each available sprite
-            for(int i = 0; i < available; i++)
-            {
-                // Set the sprite
-                feedbackSprites[i] = allSprites[i + 1];
-            }
-
             // Set variables
             canInteract = true;
 
-            // Fade out the feedback sprite
-            FadeFeedback(0f, 0f);
+            // Fade out the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 0f,
+                Duration = 0f
+            });
         }
 
         protected virtual void OnDestroy()
         {
             // Kill any existing Tweens
-            feedbackFadeSequence?.Kill();
             interactableFadeTween?.Kill();
         }
 
@@ -78,8 +60,13 @@ namespace GoodLuckValley.Interactables
             // Set this Interactable to be handled
             handler.SetInteractable(this);
 
-            // Fade in the feedback sprite
-            FadeFeedback(1f, fadeDuration);
+            // Fade in the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 1f,
+                Duration = fadeDuration
+            });
 
             // Set triggered
             triggered = true;
@@ -102,8 +89,13 @@ namespace GoodLuckValley.Interactables
             // Set this Interactable to be handled
             handler.SetInteractable(this);
 
-            // Fade in the feedback sprite
-            FadeFeedback(1f, fadeDuration);
+            // Fade in the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 1f,
+                Duration = fadeDuration
+            });
 
             // Set triggered
             triggered = true;
@@ -131,8 +123,13 @@ namespace GoodLuckValley.Interactables
             // Nullify the Interactable Handler
             this.handler = Optional<InteractableHandler>.NoValue;
 
-            // Fade out the feedback sprite
-            FadeFeedback(0f, fadeDuration);
+            // Fade out the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup() 
+            { 
+                ID = id, 
+                Value = 0f, 
+                Duration = fadeDuration 
+            });
 
             // Set not triggered
             triggered = false;
@@ -165,8 +162,13 @@ namespace GoodLuckValley.Interactables
             // Set un-interactable
             canInteract = false;
 
-            // Fade out the feedback sprite
-            FadeFeedback(0f, fadeDuration);
+            // Fade out the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 0f,
+                Duration = fadeDuration
+            });
         }
 
         /// <summary>
@@ -185,31 +187,6 @@ namespace GoodLuckValley.Interactables
 
             // Hook up completion actions
             interactableFadeTween.onComplete = onComplete;
-        }
-
-        /// <summary>
-        /// Handle Fade Tweening for the Feedback sprite
-        /// </summary>
-        protected void FadeFeedback(float endValue, float duration, TweenCallback onComplete = null)
-        {
-            // Kill the Fade Tween if it exists
-            feedbackFadeSequence?.Kill();
-
-            // Create a new Feedback Fade Sequence
-            feedbackFadeSequence = DOTween.Sequence();
-
-            // Iterate through each Feedback Sprite
-            foreach(SpriteRenderer feedbackSprite in feedbackSprites)
-            {
-                // Join Fade Tweens into the Sequence
-                feedbackFadeSequence.Join(feedbackSprite.DOFade(endValue, duration));
-            }
-
-            // Exit case - there's no completion action
-            if (onComplete == null) return;
-
-            // Hook up completion actions
-            feedbackFadeSequence.onComplete = onComplete;
         }
     }
 }
