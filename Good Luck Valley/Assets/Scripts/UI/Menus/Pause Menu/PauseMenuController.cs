@@ -258,8 +258,6 @@ namespace GoodLuckValley.UI.Menus.Pause
 
             // Post the backtrack event
             backtrackEvent.Post(gameObject);
-
-            Debug.Log("Back Track");
         }
 
         /// <summary>

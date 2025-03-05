@@ -10,6 +10,8 @@ namespace GoodLuckValley.Cameras
         private CameraController cameraController;
         [SerializeField] private CinemachineVirtualCamera leftCamera;
         [SerializeField] private CinemachineVirtualCamera rightCamera;
+        [SerializeField] private CinemachineVirtualCamera upCamera;
+        [SerializeField] private CinemachineVirtualCamera downCamera;
 
         private void Start()
         {
@@ -19,5 +21,7 @@ namespace GoodLuckValley.Cameras
 
         protected override void OnRight() => cameraController.PrioritizeCamera(rightCamera);
         protected override void OnLeft() => cameraController.PrioritizeCamera(leftCamera);
+        protected override void OnUp() => cameraController.PrioritizeCamera(upCamera);
+        protected override void OnDown() => cameraController.PrioritizeCamera(downCamera);
     }
 }

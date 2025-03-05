@@ -2,6 +2,7 @@ using DG.Tweening;
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Fireflies;
+using GoodLuckValley.Events.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -77,8 +78,13 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Set un-interactable
             canInteract = false;
 
-            // Fade out the sprites and deactivate
-            FadeFeedback(0f, fadeDuration);
+            // Fade out the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 0f,
+                Duration = fadeDuration
+            });
         }
 
         /// <summary>

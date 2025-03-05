@@ -1,6 +1,8 @@
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Events.UI;
+using GoodLuckValley.Events;
 using GoodLuckValley.Interactables.Fireflies.States;
 using GoodLuckValley.World.Physics;
 using UnityEngine;
@@ -165,8 +167,13 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Set un-interactable
             canInteract = false;
 
-            // Fade out the feedback
-            FadeFeedback(0f, fadeDuration);
+            // Fade out the interactable UI
+            EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
+            {
+                ID = id,
+                Value = 0f,
+                Duration = fadeDuration
+            });
         }
 
         /// <summary>
