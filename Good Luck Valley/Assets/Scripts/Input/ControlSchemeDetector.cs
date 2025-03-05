@@ -1,5 +1,6 @@
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.UI.Input;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,13 +8,13 @@ using UnityEngine.InputSystem;
 
 namespace GoodLuckValley.Input
 {
-    public class ControlSchemeDetector : MonoBehaviour
+    public class ControlSchemeDetector : SerializedMonoBehaviour
     {
         [Header("References")]
         [SerializeField] InputActionAsset inputActionAsset;
         [SerializeField] private string currentControlScheme;
 
-        private List<ITransmutableInputUI> transmutableUIs;
+        [SerializeField] private List<ITransmutableInputUI> transmutableUIs;
 
         private void Awake()
         {
@@ -65,28 +66,39 @@ namespace GoodLuckValley.Input
         /// </summary>
         private void UpdateControlScheme(InputDevice device = null)
         {
-            // Check if there's no device
-            if (device == null)
+            // Prioritize the last-used device
+            InputDevice lastDevice = InputSystem.devices.FirstOrDefault(
+                device => device.lastUpdateTime == InputSystem.devices.Max(
+                    deviceTwo => deviceTwo.lastUpdateTime
+                )
+            );
+
+            // If there's a last device, set the last device as the updating device
+            if (lastDevice != null)
             {
-                // Fallback on the last used device
-                InputDevice lastDevice = InputSystem.devices.FirstOrDefault(
-                    device => device.lastUpdateTime == InputSystem.devices.Max(
-                        deviceTwo => deviceTwo.lastUpdateTime
-                    )
-                );
-
-                // Check if there was a last used device
-                if (lastDevice != null)
-                {
-                    // Update the control scheme
-                    UpdateControlScheme(lastDevice);
-                    return;
-                }
-
-                // Default the control scheme to Keyboard & Mouse
-                currentControlScheme = inputActionAsset.controlSchemes[0].name;
+                SetControlScheme(lastDevice);
+                return;
             }
 
+            // If there's no last device, set the given device as the updating device
+            if (device != null)
+            {
+                SetControlScheme(device);
+                return;
+            }
+
+            // Default the control scheme to Keyboard & Mouse
+            currentControlScheme = inputActionAsset.controlSchemes[0].name;
+
+            // Process the control scheme
+            ProcessControlScheme();
+        }
+
+        /// <summary>
+        /// Set the control scheme based on a given device
+        /// </summary>
+        private void SetControlScheme(InputDevice device)
+        {
             // Iterate through each control scheme
             foreach (InputControlScheme controlScheme in inputActionAsset.controlSchemes)
             {

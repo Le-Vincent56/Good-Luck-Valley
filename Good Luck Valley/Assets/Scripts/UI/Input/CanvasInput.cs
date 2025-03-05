@@ -64,16 +64,10 @@ namespace GoodLuckValley.UI.Input
         /// </summary>
         private void SwitchCanvasGroup(CanvasGroup activeGroup)
         {
+            // Iterate through each Canvas Group
             foreach (CanvasGroup canvasGroup in canvasGroups)
             {
-                if (canvasGroup != activeGroup)
-                {
-                    canvasGroup.GetComponent<CanvasGroupBlinker>().Stop();
-                } else
-                {
-                    canvasGroup.GetComponent<CanvasGroupBlinker>().StartBlink();
-                }
-
+                // Set the alpha of the Canvas Group
                 canvasGroup.alpha = canvasGroup == activeGroup ? 1f : 0f;
             }
         }

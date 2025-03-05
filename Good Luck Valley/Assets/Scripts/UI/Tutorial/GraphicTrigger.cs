@@ -31,7 +31,7 @@ namespace GoodLuckValley.UI.Triggers
         public override void OnEnter(PlayerController controller)
         {
             // Raise the event to fade in the Graphic
-            EventBus<FadeGraphic>.Raise(new FadeGraphic()
+            EventBus<FadeTutorialCanvas>.Raise(new FadeTutorialCanvas()
             {
                 ID = id,
                 FadeIn = true,
@@ -42,7 +42,7 @@ namespace GoodLuckValley.UI.Triggers
         public override void OnExit(PlayerController controller)
         {
             // Raise the event to fade out the Graphic
-            EventBus<FadeGraphic>.Raise(new FadeGraphic()
+            EventBus<FadeTutorialCanvas>.Raise(new FadeTutorialCanvas()
             {
                 ID = id,
                 FadeIn = false,

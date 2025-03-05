@@ -2,7 +2,7 @@ using GoodLuckValley.UI.Triggers;
 
 namespace GoodLuckValley.Events.UI
 {
-    public struct FadeGraphic : IEvent
+    public struct FadeTutorialCanvas : IEvent
     {
         public int ID;
         public bool FadeIn;

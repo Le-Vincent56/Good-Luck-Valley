@@ -19,7 +19,7 @@ namespace GoodLuckValley.Interactables.Mushroom
             // Unlock the Mushroom
             handler.GetComponentInChildren<MushroomSpawner>().UnlockMushroom();
 
-            EventBus<FadeGraphic>.Raise(new FadeGraphic()
+            EventBus<FadeTutorialCanvas>.Raise(new FadeTutorialCanvas()
             {
                 ID = parent.Hash,
                 FadeIn = true
