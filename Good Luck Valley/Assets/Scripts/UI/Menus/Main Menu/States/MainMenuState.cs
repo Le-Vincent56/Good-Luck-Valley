@@ -40,6 +40,9 @@ namespace GoodLuckValley.UI.Menus.Main.States
                 screen.interactable = true;
                 screen.blocksRaycasts = true;
 
+                // Enable all buttons
+                optionMenu.EnableAllButtons();
+
                 // Update the first selected of the Option Menu
                 optionMenu.SelectFirst();
             });
@@ -51,6 +54,9 @@ namespace GoodLuckValley.UI.Menus.Main.States
 
         public virtual void OnExit()
         {
+            // Disable all buttons
+            optionMenu.DisableAllButtons();
+
             FadeGroup(0f, fadeDuration, Ease.InOutSine, () =>
             {
                 screen.interactable = false;

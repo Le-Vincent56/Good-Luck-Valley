@@ -1,4 +1,5 @@
 using GoodLuckValley.Architecture.Optionals;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,7 +12,40 @@ namespace GoodLuckValley.UI.Menus.OptionMenus
         [SerializeField] private Selectable backOption;
         [SerializeField] private bool initialEveryTime;
         private Optional<Selectable> lastOption = Optional<Selectable>.None();
+        [SerializeField] private List<MenuButton> menuButtons;
 
+        private void Awake()
+        {
+            // Get components
+            menuButtons = new List<MenuButton>();
+            GetComponentsInChildren(menuButtons);
+        }
+
+        /// <summary>
+        /// Disable all buttons
+        /// </summary>
+        public void DisableAllButtons()
+        {
+            foreach(MenuButton menuButton in menuButtons)
+            {
+                menuButton.Active = false;
+            }
+        }
+
+        /// <summary>
+        /// Enable all buttons
+        /// </summary>
+        public void EnableAllButtons()
+        {
+            foreach (MenuButton menuButton in menuButtons)
+            {
+                menuButton.Active = true;
+            }
+        }
+
+        /// <summary>
+        /// Select the first option
+        /// </summary>
         public void SelectFirst()
         {
             // Check if a last option exists
@@ -48,6 +82,9 @@ namespace GoodLuckValley.UI.Menus.OptionMenus
             );
         }
 
+        /// <summary>
+        /// Update the first option
+        /// </summary>
         public void UpdateFirst()
         {
             // Set the last option as the currently selected Selectable

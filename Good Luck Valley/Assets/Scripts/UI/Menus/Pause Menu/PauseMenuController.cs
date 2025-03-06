@@ -11,6 +11,7 @@ using GoodLuckValley.Persistence;
 using GoodLuckValley.Scenes;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.Pause.States;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -179,14 +180,24 @@ namespace GoodLuckValley.UI.Menus.Pause
         /// <summary>
         /// Show the Pause Menu background
         /// </summary>
-        public void ShowBackground()
+        public void ShowBackground(Action onShown = null)
         {
             // Disable the input readers
             gameInputReader.Disable();
             menuInputReader.Disable();
 
             // Fade and re-enable the menu input reader
-            Fade(0.8f, fadeDuration, () => menuInputReader.Enable());
+            Fade(0.8f, fadeDuration, () =>
+            {
+                // Enable the menu input reader
+                menuInputReader.Enable();
+
+                // Exit case - there is no completion action
+                if (onShown == null) return;
+
+                // Call the completion action
+                onShown();
+            });
         }
 
         public void HideBackground(TweenCallback onComplete = null)

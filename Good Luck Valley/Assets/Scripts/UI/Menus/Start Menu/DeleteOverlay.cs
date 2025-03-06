@@ -24,6 +24,8 @@ namespace GoodLuckValley.UI.Menus.Start
         public int POPUP { get => 1; }
         public int DELETING { get => 2; }
 
+        public int State { get => state; }
+
         private void Awake()
         {
             // Get components
@@ -84,5 +86,10 @@ namespace GoodLuckValley.UI.Menus.Start
         /// Set the Save Slot data
         /// </summary>
         public void SetSlotData() => controller.SetSlotData();
+
+        /// <summary>
+        /// Return to the Slot Deleter
+        /// </summary>
+        public void ReturnToSlotDeleter() => controller.SetAndEnableSlots(false);
     }
 }

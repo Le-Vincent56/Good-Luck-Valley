@@ -56,7 +56,6 @@ namespace GoodLuckValley.UI.Menus.Start
         /// <summary>
         /// Set the selected save slot
         /// </summary>
-        /// <param name="saveSlot"></param>
         public void SetSelectedSlot(SaveSlot saveSlot) => selectedSlot = saveSlot;
 
         /// <summary>
@@ -232,14 +231,8 @@ namespace GoodLuckValley.UI.Menus.Start
             // Reset the slot data to reflect changes
             SetSlotData();
 
-            // Move the cursor off of the delete button andd back to the slot
-            EventSystem.current.SetSelectedGameObject(selectedSlot.gameObject);
-
-            // Enable the save slots
-            foreach (SaveSlot saveSlot in saveSlots)
-            {
-                saveSlot.Enable();
-            }
+            // Set and enable save slots
+            SetAndEnableSlots();
 
             // Re-enable input
             inputReader.Enable();
@@ -247,8 +240,43 @@ namespace GoodLuckValley.UI.Menus.Start
         }
 
         /// <summary>
+        /// Set and Enable Save Slots
+        /// </summary>
+        public void SetAndEnableSlots(bool selectSlot = true)
+        {
+            // Choose what to select (either the Selected Slot or its Slot Deleter)
+            GameObject objectToSelect = !selectSlot && !selectedSlot.IsEmpty ? selectedSlot.Deleter.gameObject : selectedSlot.gameObject;
+
+            // Move the cursor off of the delete button andd back to the slot
+            EventSystem.current.SetSelectedGameObject(objectToSelect);
+
+            // Enable the save slots
+            foreach (SaveSlot saveSlot in saveSlots)
+            {
+                saveSlot.Enable();
+            }
+        }
+
+        /// <summary>
         /// Leave the Start menu
         /// </summary>
-        public void Back() => mainMenuController.SetState(mainMenuController.INITIAL);
+        public void Back()
+        {
+            // Exit case - currently deleting
+            if (deleteOverlay.State == deleteOverlay.DELETING) return;
+
+            // Exit case - in the delete popup
+            if (deleteOverlay.State == deleteOverlay.POPUP)
+            {
+                // Set the state back to idle
+                deleteOverlay.SetState(deleteOverlay.IDLE);
+
+                deleteOverlay.ReturnToSlotDeleter();
+                return;
+            }
+
+            // Go back to the main menu
+            mainMenuController.SetState(mainMenuController.INITIAL);
+        }
     }
 }

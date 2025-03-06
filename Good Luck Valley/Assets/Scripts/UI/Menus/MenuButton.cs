@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus
 {
-    public class MenuButton : Selectable, ISubmitHandler, IPointerEnterHandler, IPointerExitHandler
+    public class MenuButton : Selectable, ISubmitHandler, IPointerEnterHandler, IPointerClickHandler
     {
         [Space(10), Header("References")]
         [SerializeField] private Text textToSelect;
 
         [Header("Fields")]
         private bool submitted;
+        private bool active;
 
         [Header("Default Variables")]
         [SerializeField] private int defaultFontSize;
@@ -38,6 +39,8 @@ namespace GoodLuckValley.UI.Menus
 
         public UnityEvent OnClick = new UnityEvent();
 
+        public bool Active { get => active; set => active = value; }
+
         protected override void Awake()
         {
             // Call the parent Awake()
@@ -61,33 +64,28 @@ namespace GoodLuckValley.UI.Menus
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
+            // Exit case - if not active
+            if(!active) return;
+
             base.OnPointerEnter(eventData);
 
-            // Select the Menu Button
-            OnSelect(eventData);
+            EventSystem.current.SetSelectedGameObject(gameObject);
         }
 
-        public override void OnPointerExit(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
         {
-            // Exit case - if submitting the button
-            if (submitted) return;
-
-            base.OnPointerExit(eventData);
-
-            // Deselect the Menu Button
-            OnDeselect(eventData);
-        }
-
-        public override void OnPointerUp(PointerEventData eventData)
-        {
-            base.OnPointerUp(eventData);
-
             // Submit the Menu Button
             OnSubmit(eventData);
         }
 
         public override void OnSelect(BaseEventData eventData)
         {
+            // Exit case - if not active
+            if (!active) return;
+
+            // Exit case - if a Menu Button is being submitted
+            if (submitted) return;
+
             // Call the parent OnSelect()
             base.OnSelect(eventData);
 
@@ -101,6 +99,9 @@ namespace GoodLuckValley.UI.Menus
 
         public override void OnDeselect(BaseEventData eventData)
         {
+            // Exit case - if a Menu Button is being submitted
+            if (submitted) return;
+
             // Call the parent OnDeselect()
             base.OnDeselect(eventData);
 
@@ -111,6 +112,10 @@ namespace GoodLuckValley.UI.Menus
 
         public void OnSubmit(BaseEventData eventData)
         {
+            // Exit case - if not active
+            if (!active) return;
+
+            // Notify submitted
             submitted = true;
 
             // Play the enter sound
@@ -121,7 +126,10 @@ namespace GoodLuckValley.UI.Menus
             {
                 Scale(selectedFontSize, submitDuration, Ease.OutBack, () =>
                 {
+                    // Invoke the OnClick() event
                     OnClick.Invoke();
+
+                    // Notify unsubmitted
                     submitted = false;
                 });
             });

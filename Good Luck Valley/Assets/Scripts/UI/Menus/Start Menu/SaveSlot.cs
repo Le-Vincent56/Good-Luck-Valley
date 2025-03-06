@@ -34,6 +34,7 @@ namespace GoodLuckValley.UI.Menus.Start
         public int Slot { get => slot; }
         public string Name { get => saveName; set => saveName = value; }
         public bool IsEmpty { get => isEmpty; }
+        public SlotDeleter Deleter { get => deleter; }
 
         private void OnDestroy()
         {

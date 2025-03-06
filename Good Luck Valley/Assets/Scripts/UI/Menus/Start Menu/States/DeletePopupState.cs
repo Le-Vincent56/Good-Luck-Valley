@@ -38,6 +38,8 @@ namespace GoodLuckValley.UI.Menus.Start.States
                 {
                     // Set the idle state
                     controller.SetState(controller.IDLE);
+
+                    controller.ReturnToSlotDeleter();
                 }
             );
         }

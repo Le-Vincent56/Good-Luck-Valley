@@ -21,6 +21,9 @@ namespace GoodLuckValley.UI.Menus.Pause.States
                 screen.interactable = true;
                 screen.blocksRaycasts = true;
 
+                // Enable all buttons
+                optionMenu.EnableAllButtons();
+
                 // Update the first selected of the Option Menu
                 optionMenu.SelectFirst();
 

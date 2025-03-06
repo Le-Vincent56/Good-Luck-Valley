@@ -20,7 +20,6 @@ namespace GoodLuckValley.UI.Menus.Pause.States
             controller.HideBackgroundExit(() =>
             {
                 // Set unpaused and resume time
-                
                 Time.timeScale = 1f;
 
                 screen.interactable = false;
@@ -33,7 +32,8 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
         public override void OnExit()
         {
-            // Noop
+            // Disable all buttons
+            optionMenu.DisableAllButtons();
         }
     }
 }

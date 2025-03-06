@@ -21,7 +21,7 @@ namespace GoodLuckValley.UI.Menus.Pause.States
             Time.timeScale = 0f;
 
             // Show the pause menu background
-            controller.ShowBackground();
+            controller.ShowBackground(() => optionMenu.EnableAllButtons());
 
             // Set the menu controller
             controller.SetMenuController(menuController);
