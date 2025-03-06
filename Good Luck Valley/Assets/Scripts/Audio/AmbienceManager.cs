@@ -42,6 +42,9 @@ namespace GoodLuckValley.Audio.Ambience
             // Exit case - already playing ambience
             if (isPlayingAmbience) return;
 
+            // Set default RTPC values
+            SetDefaultRTPCValues();
+
             // Post the ambient events
             ambientBed.Post(gameObject);
             ambient2D.Post(gameObject);
