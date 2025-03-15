@@ -127,6 +127,15 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ContinueToMain"",
+                    ""type"": ""Button"",
+                    ""id"": ""f620e1f3-ea6c-49b4-94b5-0ee828d393f9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -490,6 +499,50 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""groups"": "";PlayStation"",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff9cf5f1-b0be-4142-a01a-f5ccd876132f"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""ContinueToMain"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d6c37173-7562-4466-b175-6e4a51118f92"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard and Mouse"",
+                    ""action"": ""ContinueToMain"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""540309cf-eca6-4e35-8b9c-1b00a16e1456"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Xbox Controller"",
+                    ""action"": ""ContinueToMain"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b413873a-fc5d-42c6-94a7-b8c24fc850f4"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PlayStation"",
+                    ""action"": ""ContinueToMain"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1159,6 +1212,7 @@ namespace GoodLuckValley.Input.Actions
             m_Player_NoClip = m_Player.FindAction("NoClip", throwIfNotFound: true);
             m_Player_Journal = m_Player.FindAction("Journal", throwIfNotFound: true);
             m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+            m_Player_ContinueToMain = m_Player.FindAction("ContinueToMain", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1252,6 +1306,7 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_Player_NoClip;
         private readonly InputAction m_Player_Journal;
         private readonly InputAction m_Player_Pause;
+        private readonly InputAction m_Player_ContinueToMain;
         public struct PlayerActions
         {
             private @GameplayActions m_Wrapper;
@@ -1267,6 +1322,7 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @NoClip => m_Wrapper.m_Player_NoClip;
             public InputAction @Journal => m_Wrapper.m_Player_Journal;
             public InputAction @Pause => m_Wrapper.m_Player_Pause;
+            public InputAction @ContinueToMain => m_Wrapper.m_Player_ContinueToMain;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1309,6 +1365,9 @@ namespace GoodLuckValley.Input.Actions
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @ContinueToMain.started += instance.OnContinueToMain;
+                @ContinueToMain.performed += instance.OnContinueToMain;
+                @ContinueToMain.canceled += instance.OnContinueToMain;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1346,6 +1405,9 @@ namespace GoodLuckValley.Input.Actions
                 @Pause.started -= instance.OnPause;
                 @Pause.performed -= instance.OnPause;
                 @Pause.canceled -= instance.OnPause;
+                @ContinueToMain.started -= instance.OnContinueToMain;
+                @ContinueToMain.performed -= instance.OnContinueToMain;
+                @ContinueToMain.canceled -= instance.OnContinueToMain;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1545,6 +1607,7 @@ namespace GoodLuckValley.Input.Actions
             void OnNoClip(InputAction.CallbackContext context);
             void OnJournal(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
+            void OnContinueToMain(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
