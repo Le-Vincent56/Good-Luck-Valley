@@ -29,7 +29,7 @@ namespace GoodLuckValley.Interactables
             if(collected)
             {
                 // Trigger any extra collection logic
-                Collect();
+                CollectBySave();
             }
 
             // Check if the game object should be active
@@ -66,7 +66,7 @@ namespace GoodLuckValley.Interactables
             // Fade out the sprites and deactivate
             FadeInteractable(0f, fadeDuration);
 
-            // Fade in the interactable UI
+            // Fade out the interactable UI
             EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
             {
                 ID = id,
@@ -83,5 +83,7 @@ namespace GoodLuckValley.Interactables
         }
 
         protected virtual void Collect() { }
+
+        protected virtual void CollectBySave() { }
     }
 }

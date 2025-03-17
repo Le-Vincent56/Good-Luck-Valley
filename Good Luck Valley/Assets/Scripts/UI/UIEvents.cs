@@ -2,6 +2,11 @@ using GoodLuckValley.UI.Triggers;
 
 namespace GoodLuckValley.Events.UI
 {
+    public struct SetPaused : IEvent
+    {
+        public bool Paused;
+    }
+
     public struct FadeTutorialCanvasGroup : IEvent
     {
         public int ID;

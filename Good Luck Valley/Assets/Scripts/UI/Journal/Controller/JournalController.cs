@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio;
 using GoodLuckValley.UI.Journal.Model;
 using GoodLuckValley.UI.Journal.View;
 using GoodLuckValley.Utilities.Preconditions;
@@ -10,6 +11,7 @@ namespace GoodLuckValley.UI.Journal.Controller
         public class Builder
         {
             private JournalModel model;
+            private JournalSFX sfx;
 
             /// <summary>
             /// Build with initial Journal Datas
@@ -31,6 +33,16 @@ namespace GoodLuckValley.UI.Journal.Controller
             }
 
             /// <summary>
+            /// Build with SFX
+            /// </summary>
+            public Builder WithSFX(JournalSFX sfx)
+            {
+                this.sfx = sfx;
+
+                return this;
+            }
+
+            /// <summary>
             /// Build the Journal Controller
             /// </summary>
             public JournalController Build(JournalView view)
@@ -38,22 +50,28 @@ namespace GoodLuckValley.UI.Journal.Controller
                 // Ensure that the Journal View is not null
                 Preconditions.CheckNotNull(view);
 
-                return new JournalController(model, view);
+                return new JournalController(model, view, sfx);
             }
         }
 
         private readonly JournalModel model;
         private readonly JournalView view;
+        private readonly JournalSFX sfx;
+        private bool open;
         private bool unlocked;
         private bool fromPause;
 
         public JournalModel Model { get => model; }
         public JournalView View { get => view; }
+        public bool Open { get => open; set => open = value; }
 
-        public JournalController(JournalModel model, JournalView view)
+        public JournalController(JournalModel model, JournalView view, JournalSFX sfx)
         {
             this.model = model;
             this.view = view;
+            this.sfx = sfx;
+
+            open = false;
 
             // Connect the Model and the View
             ConnectModel();
@@ -109,22 +127,31 @@ namespace GoodLuckValley.UI.Journal.Controller
         /// </summary>
         private void OnEntryClicked(EntryButton button)
         {
+            // Play the entry selected sound
+            sfx.EntrySelected(button.Empty);
+
             view.ShowEntryContent(button);
         }
 
         /// <summary>
         /// Open the Journal View
         /// </summary>
-        public bool Open(bool fromPause = false)
+        public bool OpenJournal(bool fromPause = false)
         {
             // Exit case - the Journal is not unlocked
             if (!unlocked) return false;
 
+            // Exit case - if already open
+            if (open) return false;
+
             // Set whether or not the Player is coming from the pause menu
             this.fromPause = fromPause;
 
+            // Play the open journal sound
+            sfx.Open();
+
             // Show the Journal View
-            view.Show();
+            view.Show(this);
 
             return true;
         }
@@ -132,7 +159,17 @@ namespace GoodLuckValley.UI.Journal.Controller
         /// <summary>
         /// Close the Journal View
         /// </summary>
-        public void Close() => view.Hide(fromPause);
+        public void CloseJournal()
+        {
+            // Exit case - if not already open
+            if (!open) return;
+
+            // Play the close journal sound
+            sfx.Close();
+
+            // Hide the Journal View
+            view.Hide(this, fromPause);
+        }
 
         /// <summary>
         /// Select the last selected Tab

@@ -13,6 +13,9 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
+            // Play the double jump sound
+            sfx.DoubleJump();
+
             animator.EnterWarpJump();
         }
     }

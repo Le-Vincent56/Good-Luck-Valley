@@ -1,6 +1,8 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Animation;
 using GoodLuckValley.Events.Potentiates;
+using GoodLuckValley.Events.UI;
+using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
 using UnityEngine;
@@ -10,9 +12,14 @@ namespace GoodLuckValley.Player.Animation
 {
     public class AnimationController : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private GameInputReader inputReader;
         private PlayerController playerController;
         private Animator animator;
         private SpriteRenderer spriteRenderer;
+
+        [Header("Fields")]
+        [SerializeField] private bool active;
         [SerializeField] private float crossFadeDuration;
         private bool updateFacingDirection;
         private float lastFacingXDirection;
@@ -29,11 +36,15 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int BOUNCE_HASH = Animator.StringToHash("Bounce");
         private static readonly int FALL_HASH = Animator.StringToHash("Fall");
 
+        private EventBinding<SetPaused> onSetPaused;
         private EventBinding<PotentiateFeedback> onPotentiateFeedback;
         private EventBinding<ForceDirectionChange> onForceDirectionChange;
 
         private void OnEnable()
         {
+            onSetPaused = new EventBinding<SetPaused>(SetActive);
+            EventBus<SetPaused>.Register(onSetPaused);
+
             onPotentiateFeedback = new EventBinding<PotentiateFeedback>(ChangeColor);
             EventBus<PotentiateFeedback>.Register(onPotentiateFeedback);
 
@@ -43,18 +54,27 @@ namespace GoodLuckValley.Player.Animation
 
         private void OnDisable()
         {
+            EventBus<SetPaused>.Deregister(onSetPaused);
             EventBus<PotentiateFeedback>.Deregister(onPotentiateFeedback);
             EventBus<ForceDirectionChange>.Deregister(onForceDirectionChange);
         }
 
         private void Update()
         {
+            // Exit case - if not active
+            if (!active) return;
+
             // Exit case - should not update the facing direction
             if (!updateFacingDirection) return;
 
             // Check the facing direction of the sprite
             CheckFacingDirection();
         }
+
+        /// <summary>
+        /// Set whether or not the AnimationController is active
+        /// </summary>
+        private void SetActive(SetPaused eventData) => active = !eventData.Paused;
 
         /// <summary>
         /// Initialize the AnimatorController

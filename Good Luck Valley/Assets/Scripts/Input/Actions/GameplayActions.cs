@@ -441,7 +441,7 @@ namespace GoodLuckValley.Input.Actions
                 {
                     ""name"": """",
                     ""id"": ""40cc6fb4-4b48-48ee-b423-db6a2153aefd"",
-                    ""path"": ""<XInputController>/select"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Xbox Controller"",

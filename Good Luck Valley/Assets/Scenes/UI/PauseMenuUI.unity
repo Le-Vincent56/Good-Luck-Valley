@@ -1089,19 +1089,7 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1648229141}
-        m_TargetAssemblyTypeName: GoodLuckValley.PauseMenuController, Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!224 &175423235
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2606,6 +2594,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 463372339}
+        m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
+        m_MethodName: OnChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 463372337}
         m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
         m_MethodName: OnChange
@@ -2641,11 +2641,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 499328029}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -2684,11 +2684,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 717114091}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -3313,7 +3313,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 499860090}
+      - m_Target: {fileID: 463372339}
+        m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
+        m_MethodName: OnChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 463372337}
         m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
         m_MethodName: OnChange
         m_Mode: 0
@@ -3348,11 +3360,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 2062050827}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -3391,11 +3403,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 1071903022}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -4530,19 +4542,7 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 66f69bc64a8c7134093d5cf2f9a3b7dd, type: 2}
   OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1648229141}
-        m_TargetAssemblyTypeName: GoodLuckValley.PauseMenuController, Assembly-CSharp
-        m_MethodName: SetState
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!224 &694274781
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9674,6 +9674,7 @@ MonoBehaviour:
   initialOption: {fileID: 457204306}
   backOption: {fileID: 0}
   initialEveryTime: 0
+  menuButtons: []
 --- !u!225 &1438228036
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10558,6 +10559,7 @@ MonoBehaviour:
   initialOption: {fileID: 1483524870}
   backOption: {fileID: 0}
   initialEveryTime: 0
+  menuButtons: []
 --- !u!114 &1543019578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11012,6 +11014,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1577067460}
+        m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
+        m_MethodName: OnChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1577067458}
         m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
         m_MethodName: OnChange
@@ -11047,11 +11061,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 687234082}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -11090,11 +11104,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 55368294}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -12095,6 +12109,7 @@ MonoBehaviour:
   initialOption: {fileID: 1577067457}
   backOption: {fileID: 0}
   initialEveryTime: 1
+  menuButtons: []
 --- !u!225 &1822481039
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -12417,7 +12432,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1849838189}
+      - m_Target: {fileID: 463372339}
+        m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
+        m_MethodName: OnChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 463372337}
         m_TargetAssemblyTypeName: GoodLuckValley.SelectLabel, Assembly-CSharp
         m_MethodName: OnChange
         m_Mode: 0
@@ -12452,11 +12479,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 695675489}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -12495,11 +12522,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSelect: {fileID: 1452104191}
-  defaultFontSize: 0
+  defaultFontSize: 40
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedFontSize: 0
+  selectedFontSize: 48
   selectedColor: {r: 0.96862745, g: 0.3529412, b: 0.48235294, a: 1}
-  changedFontSize: 0
+  changedFontSize: 38
   selectDuration: 0.5
   deslectDuration: 0.1
   changeDuration: 0.2
@@ -12988,6 +13015,7 @@ MonoBehaviour:
   initialOption: {fileID: 1466500467}
   backOption: {fileID: 0}
   initialEveryTime: 1
+  menuButtons: []
 --- !u!225 &1873867632
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -14401,6 +14429,7 @@ MonoBehaviour:
   initialOption: {fileID: 980749173}
   backOption: {fileID: 0}
   initialEveryTime: 1
+  menuButtons: []
 --- !u!225 &2117273577
 CanvasGroup:
   m_ObjectHideFlags: 0

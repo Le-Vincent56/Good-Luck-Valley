@@ -1,3 +1,5 @@
+using GoodLuckValley.Events.UI;
+using GoodLuckValley.Events;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using UnityEngine;
 
@@ -19,6 +21,8 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
             // Set the time scale to 0
             Time.timeScale = 0f;
+
+            EventBus<SetPaused>.Raise(new SetPaused() { Paused = true });
 
             // Show the pause menu background
             controller.ShowBackground(() => optionMenu.EnableAllButtons());

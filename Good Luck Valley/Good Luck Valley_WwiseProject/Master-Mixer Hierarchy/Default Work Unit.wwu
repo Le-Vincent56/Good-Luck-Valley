@@ -227,7 +227,15 @@
 										<Bus Name="MUSHROOM_BOUNCE" ID="{E79F0ECB-3E40-4C89-92D7-4049E1C407DD}"/>
 										<Bus Name="MUSHROOM_GROW" ID="{AE5C3F6A-D61C-4FAC-A3BA-9BB24ECFFDFB}"/>
 										<Bus Name="MUSHROOM_PICKUP" ID="{F9314B62-89ED-4320-B1EA-5489B238D8BF}"/>
-										<Bus Name="MUSHROOM_DISSIPATE" ID="{CE09299F-EABD-4C54-BB6F-6346B2A93182}"/>
+										<Bus Name="MUSHROOM_DISSIPATE" ID="{CE09299F-EABD-4C54-BB6F-6346B2A93182}">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-8</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+										</Bus>
 									</ChildrenList>
 								</Bus>
 								<Bus Name="MASTER_PLAYER" ID="{9DAE2CA4-5848-4DA3-9853-165EB67FA107}">
@@ -241,6 +249,7 @@
 										<Bus Name="PLAYER_LAND" ID="{1FB244E9-50EB-41BB-8072-142C258BA48E}"/>
 										<Bus Name="PLAYER_JUMP" ID="{5F58570A-47C4-47ED-9805-18EF47110749}"/>
 										<Bus Name="PLAYER_FALL" ID="{EE003B7D-0569-4299-9611-15DAA728AE9C}"/>
+										<Bus Name="PLAYER_DOUBLE_JUMP" ID="{7E48686C-8025-4428-A5D6-F35684EB5E8C}"/>
 									</ChildrenList>
 								</Bus>
 								<Bus Name="MASTER_NPC" ID="{75FB7574-7580-4FB4-B039-DEAF943C649B}"/>
@@ -303,6 +312,23 @@
 												</ObjectList>
 											</ObjectLists>
 										</Bus>
+									</ChildrenList>
+								</Bus>
+								<Bus Name="MASTER_JOURNAL" ID="{66F56B14-0BA1-4CD7-8471-7507901B3CF2}">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ChildrenList>
+										<Bus Name="JOURNAL_OPEN" ID="{A9FDC529-EA4E-45E3-80DA-0E855424FBBB}"/>
+										<Bus Name="JOURNAL_CLOSE" ID="{59136E8B-C387-4EC4-BB88-D3B33F990A57}"/>
+										<Bus Name="JOURNAL_PICKUP" ID="{49264B07-BB15-467E-AD98-8294D835A8A4}"/>
+										<Bus Name="JOURNAL_ENTRY_COLLECTED" ID="{5BF9FA95-1C99-45F9-AA99-8CF9E8D314C0}"/>
+										<Bus Name="JOURNAL_ENTRY_SELECT_FULL" ID="{3FBD8E85-E28C-4B26-A6C8-399D896456E2}"/>
+										<Bus Name="JOURNAL_ENTRY_SELET_EMPTY" ID="{7AB57339-2E2A-4CAD-8476-B6FABCB76A31}"/>
 									</ChildrenList>
 								</Bus>
 							</ChildrenList>

@@ -1,4 +1,3 @@
-using DG.Tweening;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Journal;
 using GoodLuckValley.UI.Menus.OptionMenus;
@@ -24,8 +23,6 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
             // Show the Journal
             EventBus<ShowJournalPause>.Raise(new ShowJournalPause());
-
-            Debug.Log("Entered Journal State");
         }
 
         public override void OnExit()

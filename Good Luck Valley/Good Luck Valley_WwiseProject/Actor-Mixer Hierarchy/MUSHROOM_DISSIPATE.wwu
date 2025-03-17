@@ -7,34 +7,8 @@
 				<Property Name="OverrideColor" Type="bool" Value="True"/>
 			</PropertyList>
 			<ChildrenList>
-				<Sound Name="MUSHROOM_DISSIPATE" ID="{59D4D51B-8D54-49BA-B7C9-1B6AE17EECB1}" ShortID="785458990">
-					<PropertyList>
-						<Property Name="3DSpatialization" Type="int16" Value="1"/>
-						<Property Name="Color" Type="int16" Value="4"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-						<Property Name="Pitch" Type="int32">
-							<ModifierList>
-								<ModifierInfo>
-									<Modifier Name="" ID="{9924543B-9B6B-4480-9317-784BBCC8F47D}">
-										<PropertyList>
-											<Property Name="Enabled" Type="bool" Value="True"/>
-											<Property Name="Max" Type="Real64" Value="100"/>
-											<Property Name="Min" Type="Real64" Value="-100"/>
-										</PropertyList>
-									</Modifier>
-								</ModifierInfo>
-							</ModifierList>
-						</Property>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>3</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
+				<Sound Name="MUSHROOM_DISSIPATE" ID="{668BE063-EBD5-475E-A5CD-DE6743F29C43}" ShortID="1028333987">
 					<ReferenceList>
-						<Reference Name="Attenuation">
-							<ObjectRef Name="ATT_GENERIC_25M" ID="{2552CD39-4DF2-493A-A1FD-C10913CFB304}" WorkUnitID="{655D93F1-AAB8-46AC-BC6B-860699C2E8F1}"/>
-						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 						</Reference>
@@ -43,7 +17,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<AudioFileSource Name="MUSHROOM_DISSIPATE" ID="{988C4431-2E28-492F-A57C-18A86A3731E6}">
+						<AudioFileSource Name="MUSHROOM_DISSIPATE" ID="{F6A07A75-074E-4869-A89B-0B3389A3BB8D}">
 							<Language>SFX</Language>
 							<AudioFile>Mushroom\Dissipate\MUSHROOM_DISSIPATE.wav</AudioFile>
 							<MediaIDList>
@@ -52,7 +26,7 @@
 						</AudioFileSource>
 					</ChildrenList>
 					<ActiveSourceList>
-						<ActiveSource Name="MUSHROOM_DISSIPATE" ID="{988C4431-2E28-492F-A57C-18A86A3731E6}" Platform="Linked"/>
+						<ActiveSource Name="MUSHROOM_DISSIPATE" ID="{F6A07A75-074E-4869-A89B-0B3389A3BB8D}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
 			</ChildrenList>

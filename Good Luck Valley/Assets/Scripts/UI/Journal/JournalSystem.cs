@@ -1,3 +1,4 @@
+using GoodLuckValley.Audio;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Journal;
 using GoodLuckValley.Input;
@@ -32,8 +33,6 @@ namespace GoodLuckValley.UI.Journal
         {
             gameInputReader.Journal += OpenJournal;
             uiInputReader.Cancel += CloseJournal;
-            uiInputReader.Navigate += EnterTabs;
-            uiInputReader.Navigate += TabNavigation;
 
             onUnlockJournal = new EventBinding<UnlockJournal>(Unlock);
             EventBus<UnlockJournal>.Register(onUnlockJournal);
@@ -52,8 +51,6 @@ namespace GoodLuckValley.UI.Journal
         {
             gameInputReader.Journal -= OpenJournal;
             uiInputReader.Cancel -= CloseJournal;
-            uiInputReader.Navigate -= EnterTabs;
-            uiInputReader.Navigate -= TabNavigation;
 
             EventBus<UnlockJournal>.Deregister(onUnlockJournal);
             EventBus<UnlockJournalEntry>.Deregister(onAddJournalEntry);
@@ -63,9 +60,13 @@ namespace GoodLuckValley.UI.Journal
 
         private void Start()
         {
+            // Get the Journal SFX
+            JournalSFX sfx = GetComponent<JournalSFX>();
+
             // Build the Journal Controller with the data and the view
             controller = new JournalController.Builder()
                 .WithJournalEntries(journalDatas)
+                .WithSFX(sfx)
                 .Build(view);
         }
 
@@ -174,7 +175,7 @@ namespace GoodLuckValley.UI.Journal
         private void ShowJournalFromPause()
         {
             // Exit case - if opening the Journal fails
-            if (!controller.Open(true)) return;
+            if (!controller.OpenJournal(true)) return;
 
             // Enable UI input
             gameInputReader.Disable();
@@ -187,7 +188,7 @@ namespace GoodLuckValley.UI.Journal
         private void HideJournalToPause()
         {
             // Close the Journal
-            controller.Close();
+            controller.CloseJournal();
 
             // Enable UI input
             gameInputReader.Disable();
@@ -200,7 +201,7 @@ namespace GoodLuckValley.UI.Journal
         private void OpenJournal(bool started)
         {
             // Exit case - if opening the Journal fails
-            if (!controller.Open()) return;
+            if (!controller.OpenJournal()) return;
 
             // Enable UI input
             gameInputReader.Disable();
@@ -213,7 +214,7 @@ namespace GoodLuckValley.UI.Journal
         private void CloseJournal(bool started)
         {
             // Close the Journal
-            controller.Close();
+            controller.CloseJournal();
 
             // Enable game input
             uiInputReader.Disable();

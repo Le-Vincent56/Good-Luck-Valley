@@ -102,12 +102,25 @@ namespace GoodLuckValley.Player.Mushroom
 
     public class DissipateState : MushroomState
     {
+        private readonly MushroomSFX sfx;
         private CountdownTimer dissipateTimer;
 
-        public DissipateState(MushroomObject mushroomObject, Animator animator) : base(mushroomObject, animator) { }
+        public DissipateState(MushroomObject mushroomObject, Animator animator, MushroomSFX sfx) : base(mushroomObject, animator)
+        {
+            this.sfx = sfx;
+        }
+
+        ~DissipateState()
+        {
+            // Dispose of the timer
+            dissipateTimer.Dispose();
+        }
 
         public override void OnEnter()
         {
+            // Play the sound
+            sfx.Dissipate();
+
             // Cross fade into the animation
             animator.CrossFade(DissipateHash, crossFadeDuration);
 

@@ -1,4 +1,5 @@
-using DG.Tweening;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.UI;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,6 +25,8 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
                 screen.interactable = false;
                 screen.blocksRaycasts = false;
+
+                EventBus<SetPaused>.Raise(new SetPaused() { Paused = false });
             });
 
             // Nullify the currently selected game object for the EventSystem

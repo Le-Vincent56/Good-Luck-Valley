@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{2CDA8D8C-13F2-F7B0-EC28-9740A83A284E}",
+    "Hash": "{9C9103E7-AE2F-B704-5996-7FE454EFC4E6}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -64,8 +64,20 @@
     },
     "Busses": [
      {
+      "Id": "404720619",
+      "Name": "JOURNAL_CLOSE"
+     },
+     {
       "Id": "579657244",
       "Name": "MASTER_POTENTIATES"
+     },
+     {
+      "Id": "604567059",
+      "Name": "MASTER_JOURNAL"
+     },
+     {
+      "Id": "694825602",
+      "Name": "JOURNAL_ENTRY_SELECT_FULL"
      },
      {
       "Id": "860652252",
@@ -74,6 +86,10 @@
      {
       "Id": "873669539",
       "Name": "FIREFLIES_FEED"
+     },
+     {
+      "Id": "963736939",
+      "Name": "JOURNAL_ENTRY_COLLECTED"
      },
      {
       "Id": "1042698302",
@@ -86,6 +102,10 @@
      {
       "Id": "1305133589",
       "Name": "PLAYER_JUMP"
+     },
+     {
+      "Id": "1329115477",
+      "Name": "PLAYER_DOUBLE_JUMP"
      },
      {
       "Id": "1375983526",
@@ -134,6 +154,10 @@
       "Name": "MASTER_MUSHROOM"
      },
      {
+      "Id": "2362228609",
+      "Name": "JOURNAL_PICKUP"
+     },
+     {
       "Id": "2424732109",
       "Name": "POTENTIATES_TIMEWARP",
       "PluginRefs": {
@@ -157,6 +181,10 @@
       "Name": "PLAYER_FALL"
      },
      {
+      "Id": "2919997485",
+      "Name": "JOURNAL_OPEN"
+     },
+     {
       "Id": "2933154324",
       "Name": "FIREFLIES_PICK"
      },
@@ -175,6 +203,10 @@
      {
       "Id": "3578646088",
       "Name": "FIREFLIES_MAGIC"
+     },
+     {
+      "Id": "3589700203",
+      "Name": "JOURNAL_ENTRY_SELET_EMPTY"
      },
      {
       "Id": "3591553651",
@@ -603,7 +635,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{D17B0211-6641-FFA1-629E-D9BAB2311200}",
+    "Hash": "{DA732985-4CF4-7BDE-891D-16643F03E60E}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -936,6 +968,14 @@
       "CachePath": "5D/{5D17F400-A222-6295-BE91-AF98809D3493}.wem"
      },
      {
+      "Id": "308427295",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Journal\\JOURNAL_ENTRY_SELECT_FULL.wav",
+      "CachePath": "6F/{6FDC8E28-59F2-DF05-89B0-BA89C27649F7}.wem"
+     },
+     {
       "Id": "309120472",
       "Language": "SFX",
       "Streaming": "false",
@@ -1038,6 +1078,14 @@
       "Location": "Memory",
       "ShortName": "Potentiates\\Time Warp\\TIMEWARP_TICK.wav",
       "CachePath": "CF/{CF8600CE-3282-0C0F-0133-ED316011638C}.wem"
+     },
+     {
+      "Id": "379015083",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Journal\\JOURNAL_ENTRY_COLLECTED.wav",
+      "CachePath": "DB/{DBB6F961-75BB-0618-F8F1-20924B01448E}.wem"
      },
      {
       "Id": "386684471",
@@ -1400,6 +1448,14 @@
       "CachePath": "A0/{A09AA5E9-4C72-2553-2682-F4EB22A52E90}.wem"
      },
      {
+      "Id": "662324158",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Journal\\JOURNAL_ENTRY_SELECT_EMPTY.wav",
+      "CachePath": "39/{395B53C9-77C0-41CD-3AA5-2531A7630C50}.wem"
+     },
+     {
       "Id": "666131792",
       "Language": "SFX",
       "Streaming": "false",
@@ -1422,6 +1478,14 @@
       "Location": "Memory",
       "ShortName": "TestFiles\\SFX_TEST_BEEP.wav",
       "CachePath": "9C/{9CB0FBDA-C342-28C6-A71A-F935854E37BA}.wem"
+     },
+     {
+      "Id": "691145554",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Journal\\JOURNAL_OPEN.wav",
+      "CachePath": "1B/{1BC547EE-49C2-5666-103E-E425EED5C3D5}.wem"
      },
      {
       "Id": "694414589",
@@ -1462,6 +1526,14 @@
       "Location": "Memory",
       "ShortName": "Mushroom\\Bounce\\MUSHROOM_BOUNCE_NOISE_01.wav",
       "CachePath": "C6/{C6AE1644-3FE3-3E1D-200D-1B52E7E3871D}.wem"
+     },
+     {
+      "Id": "729880842",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Journal\\JOURNAL_CLOSE.wav",
+      "CachePath": "00/{0002D8CE-BEE3-4CC8-F73F-896269E34BC5}.wem"
      },
      {
       "Id": "731454556",
@@ -1632,6 +1704,14 @@
       "CachePath": "A1/{A1F640DD-F542-B8B1-F432-F60BEF0BA493}.wem"
      },
      {
+      "Id": "878423021",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Player\\Double Jump\\PLAYER_DOUBLE_JUMP.wav",
+      "CachePath": "7D/{7D7A162F-6BFB-280D-45E8-C89AC844102A}.wem"
+     },
+     {
       "Id": "888344012",
       "Language": "SFX",
       "Streaming": "false",
@@ -1678,6 +1758,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Locomotion\\Impacts\\Light\\Stone\\STONE_IMPACT_LIGHT_03.wav",
       "CachePath": "B1/{B198B872-6C73-BFAC-F644-406539A89D74}.wem"
+     },
+     {
+      "Id": "926238639",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Journal\\JOURNAL_PICKUP.wav",
+      "CachePath": "B4/{B472DBA1-3EFA-817A-F449-AC9DCB65DBD4}.wem"
      },
      {
       "Id": "926564563",
@@ -2461,6 +2549,78 @@
       ]
      },
      {
+      "Id": "1578246370",
+      "Name": "PLAY_JOURNAL_CLOSE",
+      "DurationType": "OneShot",
+      "DurationMin": "1.5954167",
+      "DurationMax": "1.5954167",
+      "MediaRefs": [
+       {
+        "Id": "729880842"
+       }
+      ]
+     },
+     {
+      "Id": "3111598358",
+      "Name": "PLAY_JOURNAL_ENTRY_COLLECTED",
+      "DurationType": "OneShot",
+      "DurationMin": "2.6650388",
+      "DurationMax": "2.9914052",
+      "MediaRefs": [
+       {
+        "Id": "379015083"
+       }
+      ]
+     },
+     {
+      "Id": "198936803",
+      "Name": "PLAY_JOURNAL_ENTRY_SELECT_EMPTY",
+      "DurationType": "OneShot",
+      "DurationMin": "0.522011",
+      "DurationMax": "0.6576926",
+      "MediaRefs": [
+       {
+        "Id": "662324158"
+       }
+      ]
+     },
+     {
+      "Id": "215026063",
+      "Name": "PLAY_JOURNAL_ENTRY_SELECT_FULL",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5530513",
+      "DurationMax": "0.62077916",
+      "MediaRefs": [
+       {
+        "Id": "308427295"
+       }
+      ]
+     },
+     {
+      "Id": "3158012214",
+      "Name": "PLAY_JOURNAL_OPEN",
+      "DurationType": "OneShot",
+      "DurationMin": "1.1505417",
+      "DurationMax": "1.1505417",
+      "MediaRefs": [
+       {
+        "Id": "691145554"
+       }
+      ]
+     },
+     {
+      "Id": "2825379338",
+      "Name": "PLAY_JOURNAL_PICKUP",
+      "DurationType": "OneShot",
+      "DurationMin": "3.6667082",
+      "DurationMax": "3.6667082",
+      "MediaRefs": [
+       {
+        "Id": "926238639"
+       }
+      ]
+     },
+     {
       "Id": "3172914513",
       "Name": "PLAY_LOTUS_PICK",
       "DurationType": "OneShot",
@@ -2496,10 +2656,9 @@
      {
       "Id": "937795333",
       "Name": "PLAY_MUSHROOM_DISSIPATE",
-      "MaxAttenuation": "25",
       "DurationType": "OneShot",
-      "DurationMin": "2.1001005",
-      "DurationMax": "2.3572834",
+      "DurationMin": "2.2249792",
+      "DurationMax": "2.2249792",
       "MediaRefs": [
        {
         "Id": "608636374"
@@ -2667,6 +2826,18 @@
           ]
          }
         ]
+       }
+      ]
+     },
+     {
+      "Id": "2440480106",
+      "Name": "PLAY_PLAYER_DOUBLE_JUMP",
+      "DurationType": "OneShot",
+      "DurationMin": "1.8207464",
+      "DurationMax": "2.2939968",
+      "MediaRefs": [
+       {
+        "Id": "878423021"
        }
       ]
      },
@@ -3851,6 +4022,6 @@
     ]
    }
   ],
-  "FileHash": "{3087909B-2959-0416-7356-6A82868F8861}"
+  "FileHash": "{1C8D3054-DB5C-F2AC-98DC-A43E6D27833C}"
  }
 }

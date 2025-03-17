@@ -5,6 +5,8 @@ namespace GoodLuckValley.World.Triggers
 {
     public abstract class EnterExitTrigger : BaseTrigger
     {
+        private bool inTrigger;
+
         protected void OnTriggerEnter2D(Collider2D collision)
         {
             // Exit case - the collision object is not a PlayerController
@@ -12,6 +14,25 @@ namespace GoodLuckValley.World.Triggers
 
             // Handle the enter function
             OnEnter(controller);
+
+            // Set to inside the trigger
+            inTrigger = true;
+        }
+
+        protected void OnTriggerStay2D(Collider2D collision)
+        {
+            // Exit case - if inside the trigger
+            if (inTrigger) return;
+
+            // Exit case - the collision object is not a PlayerController
+            if (!collision.TryGetComponent(out PlayerController controller)) return;
+
+            // Handle the enter function
+            OnEnter(controller);
+
+            // Set to inside the trigger
+            inTrigger = true;
+
         }
 
         protected void OnTriggerExit2D(Collider2D collision)
@@ -21,6 +42,9 @@ namespace GoodLuckValley.World.Triggers
 
             // Handle the exit function
             OnExit(controller);
+
+            // Set to outside the trigger
+            inTrigger = false;
         }
 
         /// <summary>

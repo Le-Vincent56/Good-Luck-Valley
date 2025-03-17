@@ -2,6 +2,8 @@ using UnityEngine;
 using AK.Wwise;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Audio.Ambience;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.UI;
 
 namespace GoodLuckValley.Audio
 {
@@ -24,6 +26,7 @@ namespace GoodLuckValley.Audio
 
         [Header("Jump")]
         [SerializeField] private AK.Wwise.Event jumpEvent;
+        [SerializeField] private AK.Wwise.Event doubleJumpEvent;
 
         [Header("Land")]
         [SerializeField] private AK.Wwise.Event landEvent;
@@ -50,6 +53,8 @@ namespace GoodLuckValley.Audio
         public float WALK => 2.0f;
         public float RUN => 3.1f;
 
+        private EventBinding<SetPaused> onSetPaused;
+
         private void Awake()
         {
             // Get components
@@ -60,12 +65,38 @@ namespace GoodLuckValley.Audio
         {
             layerDetection.OnGroundLayerChange += SetSFXGroundLayer;
             layerDetection.OnWallTypeChange += SetSFXWallLayer;
+
+            onSetPaused = new EventBinding<SetPaused>(PauseSounds);
+            EventBus<SetPaused>.Register(onSetPaused);
         }
 
         private void OnDisable()
         {
             layerDetection.OnGroundLayerChange -= SetSFXGroundLayer;
             layerDetection.OnWallTypeChange -= SetSFXWallLayer;
+
+            EventBus<SetPaused>.Deregister(onSetPaused);
+        }
+
+        private void PauseSounds(SetPaused eventData)
+        {
+            if (eventData.Paused)
+            {
+                StopGroundImpacts(true);
+                StopFall(true);
+                StopWallSlide(true);
+
+                return;
+            }
+
+            if (playingGroundImpacts)
+                StartGroundImpacts();
+
+            if (playingFall)
+                StartFall();
+
+            if (playingWallSlide)
+                StartWallSlide();
         }
 
         /// <summary>
@@ -156,18 +187,23 @@ namespace GoodLuckValley.Audio
             if (playingGroundImpacts) return;
 
             startGroundImpactsEvent.Post(gameObject);
+
             playingGroundImpacts = true;
         }
 
         /// <summary>
         /// Stop playing the sound effect for ground impacts
         /// </summary>
-        public void StopGroundImpacts()
+        public void StopGroundImpacts(bool soft = false)
         {
             // Exit case - if not already playing ground impacts
             if (!playingGroundImpacts) return;
 
             stopGroundImpactsEvent.Post(gameObject);
+
+            // Exit case - if a soft stop
+            if (soft) return;
+
             playingGroundImpacts = false;
         }
 
@@ -175,6 +211,11 @@ namespace GoodLuckValley.Audio
         /// Play the sound effect for jumping
         /// </summary>
         public void Jump() => jumpEvent.Post(gameObject);
+
+        /// <summary>
+        /// Play the sound effect for double jumping
+        /// </summary>
+        public void DoubleJump() => doubleJumpEvent.Post(gameObject);
 
         /// <summary>
         /// Play the sound effect for landing
@@ -195,18 +236,23 @@ namespace GoodLuckValley.Audio
             if (playingFall) return;
 
             startFallEvent.Post(gameObject);
+
             playingFall = true;
         }
 
         /// <summary>
         /// Stop the falling sound effect
         /// </summary>
-        public void StopFall()
+        public void StopFall(bool soft = false)
         {
             // Exit case - if not already playing the fall sound
             if (!playingFall) return;
 
             stopFallEvent.Post(gameObject);
+
+            // Exit case - if a soft start
+            if (soft) return;
+
             playingFall = false;
         }
 
@@ -225,12 +271,16 @@ namespace GoodLuckValley.Audio
         /// <summary>
         /// Stop the wall sliding sound effect
         /// </summary>
-        public void StopWallSlide()
+        public void StopWallSlide(bool soft = false)
         {
             // Exit case - if not already playing the wall slide sound
             if (!playingWallSlide) return;
 
             stopWallSlideEvent.Post(gameObject);
+
+            // Exit case - if a soft stop
+            if (soft) return;
+
             playingWallSlide = false;
         }
 

@@ -6,6 +6,9 @@ namespace GoodLuckValley.Interactables.Journal
 {
     public class JournalPickup : Collectible
     {
+        [Header("Wwise Events")]
+        [SerializeField] private AK.Wwise.Event journalPickup;
+
         private ParticleSystem particles;
         private Light2D journalLight;
 
@@ -54,7 +57,23 @@ namespace GoodLuckValley.Interactables.Journal
             Float();
         }
 
+        /// <summary>
+        /// Deactivate the Journal once collected
+        /// </summary>
         protected override void Collect()
+        {
+            // Play the Journal Pickup sound
+            journalPickup.Post(gameObject);
+
+            // Stop the Particle System
+            particles.Stop();
+            journalLight.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Despawn the particles and the journal light
+        /// </summary>
+        protected override void CollectBySave()
         {
             // Stop the Particle System
             particles.Stop();

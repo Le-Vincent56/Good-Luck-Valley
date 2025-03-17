@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{2CDA8D8C-13F2-F7B0-EC28-9740A83A284E}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{9C9103E7-AE2F-B704-5996-7FE454EFC4E6}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -25,12 +25,17 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
+				<Bus Id="404720619" Name="JOURNAL_CLOSE"/>
 				<Bus Id="579657244" Name="MASTER_POTENTIATES"/>
+				<Bus Id="604567059" Name="MASTER_JOURNAL"/>
+				<Bus Id="694825602" Name="JOURNAL_ENTRY_SELECT_FULL"/>
 				<Bus Id="860652252" Name="UI_NAVIGATION"/>
 				<Bus Id="873669539" Name="FIREFLIES_FEED"/>
+				<Bus Id="963736939" Name="JOURNAL_ENTRY_COLLECTED"/>
 				<Bus Id="1042698302" Name="MUSHROOM_DISSIPATE"/>
 				<Bus Id="1168632360" Name="MASTER_UI"/>
 				<Bus Id="1305133589" Name="PLAYER_JUMP"/>
+				<Bus Id="1329115477" Name="PLAYER_DOUBLE_JUMP"/>
 				<Bus Id="1375983526" Name="PLAYER_LOCOMOTION"/>
 				<Bus Id="1705038622" Name="AMBIENCE_2D"/>
 				<Bus Id="1721816425" Name="AMBIENCE_3D"/>
@@ -47,6 +52,7 @@
 				<Bus Id="1919967482" Name="MUSHROOM_PICKUP"/>
 				<Bus Id="2012620565" Name="FIREFLIES_LANTERN_PLACE"/>
 				<Bus Id="2228101040" Name="MASTER_MUSHROOM"/>
+				<Bus Id="2362228609" Name="JOURNAL_PICKUP"/>
 				<Bus Id="2424732109" Name="POTENTIATES_TIMEWARP">
 					<PluginRefs>
 						<ShareSets>
@@ -57,11 +63,13 @@
 				<Bus Id="2453119373" Name="MASTER_PLAYER"/>
 				<Bus Id="2505162442" Name="UI_BUTTON"/>
 				<Bus Id="2551268862" Name="PLAYER_FALL"/>
+				<Bus Id="2919997485" Name="JOURNAL_OPEN"/>
 				<Bus Id="2933154324" Name="FIREFLIES_PICK"/>
 				<Bus Id="2940948846" Name="PLAYER_LOCOMOTION_IMPACTS"/>
 				<Bus Id="3006080354" Name="UI_TOGGLE"/>
 				<Bus Id="3462011115" Name="MASTER_SFX"/>
 				<Bus Id="3578646088" Name="FIREFLIES_MAGIC"/>
+				<Bus Id="3589700203" Name="JOURNAL_ENTRY_SELET_EMPTY"/>
 				<Bus Id="3591553651" Name="MASTER_NPC"/>
 				<Bus Id="3614903352" Name="PLAYER_LOCOMOTION_SLIDE"/>
 				<Bus Id="3629196698" Name="PLAYER_LAND"/>
@@ -228,7 +236,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{D17B0211-6641-FFA1-629E-D9BAB2311200}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{DA732985-4CF4-7BDE-891D-16643F03E60E}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -396,6 +404,10 @@
 					<ShortName>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_06.wav</ShortName>
 					<CachePath>5D/{5D17F400-A222-6295-BE91-AF98809D3493}.wem</CachePath>
 				</File>
+				<File Id="308427295" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Journal\JOURNAL_ENTRY_SELECT_FULL.wav</ShortName>
+					<CachePath>6F/{6FDC8E28-59F2-DF05-89B0-BA89C27649F7}.wem</CachePath>
+				</File>
 				<File Id="309120472" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Fireflies\FIREFLIES_LANTERN_PLACE.wav</ShortName>
 					<CachePath>32/{32A4237B-5617-06EA-8571-430EDDB64825}.wem</CachePath>
@@ -447,6 +459,10 @@
 				<File Id="372653540" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Potentiates\Time Warp\TIMEWARP_TICK.wav</ShortName>
 					<CachePath>CF/{CF8600CE-3282-0C0F-0133-ED316011638C}.wem</CachePath>
+				</File>
+				<File Id="379015083" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Journal\JOURNAL_ENTRY_COLLECTED.wav</ShortName>
+					<CachePath>DB/{DBB6F961-75BB-0618-F8F1-20924B01448E}.wem</CachePath>
 				</File>
 				<File Id="386684471" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>UI\Toggle\UI_TOGGLE_OFF.wav</ShortName>
@@ -628,6 +644,10 @@
 					<ShortName>Player\Land\Medium Fall\PLAYER_MEDIUMFALL_GRASS.wav</ShortName>
 					<CachePath>A0/{A09AA5E9-4C72-2553-2682-F4EB22A52E90}.wem</CachePath>
 				</File>
+				<File Id="662324158" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Journal\JOURNAL_ENTRY_SELECT_EMPTY.wav</ShortName>
+					<CachePath>39/{395B53C9-77C0-41CD-3AA5-2531A7630C50}.wem</CachePath>
+				</File>
 				<File Id="666131792" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Fall\PLAYER_FALL_SLOWMEDIUMFALL.wav</ShortName>
 					<CachePath>E5/{E5298D4D-84B1-827E-326A-A81E62B32F1E}.wem</CachePath>
@@ -639,6 +659,10 @@
 				<File Id="668500464" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TestFiles\SFX_TEST_BEEP.wav</ShortName>
 					<CachePath>9C/{9CB0FBDA-C342-28C6-A71A-F935854E37BA}.wem</CachePath>
+				</File>
+				<File Id="691145554" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Journal\JOURNAL_OPEN.wav</ShortName>
+					<CachePath>1B/{1BC547EE-49C2-5666-103E-E425EED5C3D5}.wem</CachePath>
 				</File>
 				<File Id="694414589" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Lanterns\WORLD_LANTERN_SQUEAK_3.wav</ShortName>
@@ -659,6 +683,10 @@
 				<File Id="719128731" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_01.wav</ShortName>
 					<CachePath>C6/{C6AE1644-3FE3-3E1D-200D-1B52E7E3871D}.wem</CachePath>
+				</File>
+				<File Id="729880842" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Journal\JOURNAL_CLOSE.wav</ShortName>
+					<CachePath>00/{0002D8CE-BEE3-4CC8-F73F-896269E34BC5}.wem</CachePath>
 				</File>
 				<File Id="731454556" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_01.wav</ShortName>
@@ -744,6 +772,10 @@
 					<ShortName>Cinematics\L1\CINEMATIC_L1_ROCKFALL.wav</ShortName>
 					<CachePath>A1/{A1F640DD-F542-B8B1-F432-F60BEF0BA493}.wem</CachePath>
 				</File>
+				<File Id="878423021" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Player\Double Jump\PLAYER_DOUBLE_JUMP.wav</ShortName>
+					<CachePath>7D/{7D7A162F-6BFB-280D-45E8-C89AC844102A}.wem</CachePath>
+				</File>
 				<File Id="888344012" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\Slide Ends\Dirt\DIRT_SLIDE_END_02.wav</ShortName>
 					<CachePath>0C/{0CE442EB-5392-C4F5-CBBA-3F3DEC5CA840}.wem</CachePath>
@@ -767,6 +799,10 @@
 				<File Id="898367430" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Light\Stone\STONE_IMPACT_LIGHT_03.wav</ShortName>
 					<CachePath>B1/{B198B872-6C73-BFAC-F644-406539A89D74}.wem</CachePath>
+				</File>
+				<File Id="926238639" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Journal\JOURNAL_PICKUP.wav</ShortName>
+					<CachePath>B4/{B472DBA1-3EFA-817A-F449-AC9DCB65DBD4}.wem</CachePath>
 				</File>
 				<File Id="926564563" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_INSECTS.wav</ShortName>
@@ -1090,6 +1126,36 @@
 						<MediaRef Id="542524992"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1578246370" Name="PLAY_JOURNAL_CLOSE" DurationType="OneShot" DurationMin="1.5954167" DurationMax="1.5954167">
+					<MediaRefs>
+						<MediaRef Id="729880842"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3111598358" Name="PLAY_JOURNAL_ENTRY_COLLECTED" DurationType="OneShot" DurationMin="2.6650388" DurationMax="2.9914052">
+					<MediaRefs>
+						<MediaRef Id="379015083"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="198936803" Name="PLAY_JOURNAL_ENTRY_SELECT_EMPTY" DurationType="OneShot" DurationMin="0.522011" DurationMax="0.6576926">
+					<MediaRefs>
+						<MediaRef Id="662324158"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="215026063" Name="PLAY_JOURNAL_ENTRY_SELECT_FULL" DurationType="OneShot" DurationMin="0.5530513" DurationMax="0.62077916">
+					<MediaRefs>
+						<MediaRef Id="308427295"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3158012214" Name="PLAY_JOURNAL_OPEN" DurationType="OneShot" DurationMin="1.1505417" DurationMax="1.1505417">
+					<MediaRefs>
+						<MediaRef Id="691145554"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2825379338" Name="PLAY_JOURNAL_PICKUP" DurationType="OneShot" DurationMin="3.6667082" DurationMax="3.6667082">
+					<MediaRefs>
+						<MediaRef Id="926238639"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3172914513" Name="PLAY_LOTUS_PICK" DurationType="OneShot" DurationMin="5.1938777" DurationMax="5.1938777">
 					<MediaRefs>
 						<MediaRef Id="1045333109"/>
@@ -1103,7 +1169,7 @@
 						<MediaRef Id="1073226493"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="937795333" Name="PLAY_MUSHROOM_DISSIPATE" MaxAttenuation="25" DurationType="OneShot" DurationMin="2.1001005" DurationMax="2.3572834">
+				<Event Id="937795333" Name="PLAY_MUSHROOM_DISSIPATE" DurationType="OneShot" DurationMin="2.2249792" DurationMax="2.2249792">
 					<MediaRefs>
 						<MediaRef Id="608636374"/>
 					</MediaRefs>
@@ -1186,6 +1252,11 @@
 							</Children>
 						</SwitchContainer>
 					</SwitchContainers>
+				</Event>
+				<Event Id="2440480106" Name="PLAY_PLAYER_DOUBLE_JUMP" DurationType="OneShot" DurationMin="1.8207464" DurationMax="2.2939968">
+					<MediaRefs>
+						<MediaRef Id="878423021"/>
+					</MediaRefs>
 				</Event>
 				<Event Id="1306343379" Name="PLAY_PLAYER_FALL" DurationType="Infinite">
 					<SwitchContainers>
@@ -1695,5 +1766,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{99D42F39-87D8-8953-10B4-C60F5943779C}</FileHash>
+	<FileHash>{408EC039-DC3F-E378-64F7-58672E837D95}</FileHash>
 </SoundBanksInfo>

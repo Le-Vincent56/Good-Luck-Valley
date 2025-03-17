@@ -1,6 +1,7 @@
 using DG.Tweening;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Pause;
+using GoodLuckValley.UI.Journal.Controller;
 using GoodLuckValley.UI.Journal.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -271,12 +272,16 @@ namespace GoodLuckValley.UI.Journal.View
         /// <summary>
         /// Show the Journal
         /// </summary>
-        public void Show()
+        public void Show(JournalController controller)
         {
             Fade(canvasFadeTween, canvasGroup, 1f, fadeDuration, () =>
             {
+                // Set canvas group settings
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
+
+                // Set the Journal as open
+                controller.Open = true;
 
                 // Select the last selected Entry
                 SelectLastEntry();
@@ -286,12 +291,16 @@ namespace GoodLuckValley.UI.Journal.View
         /// <summary>
         /// Hide the Journal
         /// </summary>
-        public void Hide(bool fromPause = false)
+        public void Hide(JournalController controller, bool fromPause = false)
         {
             Fade(canvasFadeTween, canvasGroup, 0f, fadeDuration, () =>
             {
+                // Set canvas group settings
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
+
+                // Set the Journal as closed
+                controller.Open = false;
 
                 // Exit case - if not coming from the pause menu
                 if (!fromPause) return;

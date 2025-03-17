@@ -1,17 +1,17 @@
-using DG.Tweening;
-using GoodLuckValley.Events;
 using GoodLuckValley.Events.Journal;
-using GoodLuckValley.Timers;
+using GoodLuckValley.Events;
 using UnityEngine;
-using UnityEngine.UI;
+using GoodLuckValley.Timers;
+using DG.Tweening;
+using GoodLuckValley.Input;
 
-namespace GoodLuckValley.UI.Journal.Notifications
+namespace GoodLuckValley.UI.Journal.View
 {
-    public class JournalNotification : MonoBehaviour
+    public class JournalTutorialNotification : MonoBehaviour
     {
         [Header("References")]
+        [SerializeField] private GameInputReader inputReader;
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private Text notificationText;
 
         [Header("Notification Fields")]
         [SerializeField] private float notificationTime;
@@ -22,7 +22,7 @@ namespace GoodLuckValley.UI.Journal.Notifications
         [SerializeField] private float fadeDuration;
         private Tween fadeTween;
 
-        private EventBinding<UnlockJournalEntry> onAddJournalEntry;
+        private EventBinding<UnlockJournal> onAddJournalEntry;
 
         private void Awake()
         {
@@ -36,13 +36,17 @@ namespace GoodLuckValley.UI.Journal.Notifications
 
         private void OnEnable()
         {
-            onAddJournalEntry = new EventBinding<UnlockJournalEntry>(Notify);
-            EventBus<UnlockJournalEntry>.Register(onAddJournalEntry);
+            inputReader.Journal += HideNotification;
+
+            onAddJournalEntry = new EventBinding<UnlockJournal>(Notify);
+            EventBus<UnlockJournal>.Register(onAddJournalEntry);
         }
 
         private void OnDisable()
         {
-            EventBus<UnlockJournalEntry>.Deregister(onAddJournalEntry);
+            inputReader.Journal -= HideNotification;
+
+            EventBus<UnlockJournal>.Deregister(onAddJournalEntry);
         }
 
         private void OnDestroy()
@@ -57,13 +61,18 @@ namespace GoodLuckValley.UI.Journal.Notifications
         /// <summary>
         /// Notify the player of a new Journal Entry
         /// </summary>
-        private void Notify(UnlockJournalEntry unlockJournalEntry)
-        {
-            // Set the Notification text
-            notificationText.text = unlockJournalEntry.Data.Title;
+        private void Notify(UnlockJournal unlockJournalEntry) => Show();
 
-            // Show the Notification
-            Show();
+        /// <summary>
+        /// Hide the notification is the journal is activated
+        /// </summary>
+        private void HideNotification(bool started)
+        {
+            // Exit case - if the button is being held down
+            if (started) return;
+
+            // Hide the Notification
+            notificationTimer?.Stop();
         }
 
         /// <summary>

@@ -34,7 +34,7 @@ namespace GoodLuckValley.Player.Mushroom
             GrowState growState = new GrowState(this, animator);
             IdleState idleState = new IdleState(this, animator);
             BounceState bounceState = new BounceState(this, animator, sfx);
-            DissipateState dissipateState = new DissipateState(this, animator);
+            DissipateState dissipateState = new DissipateState(this, animator, sfx);
 
             // Define state transitions
             stateMachine.At(growState, idleState, new FuncPredicate(() => !growing));
