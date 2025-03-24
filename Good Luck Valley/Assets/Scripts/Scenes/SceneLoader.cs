@@ -8,6 +8,8 @@ using GoodLuckValley.Events.Player;
 using GoodLuckValley.Events.Scenes;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Input;
+using GoodLuckValley.Events.Mushroom;
 
 namespace GoodLuckValley.Scenes
 {
@@ -16,6 +18,7 @@ namespace GoodLuckValley.Scenes
         private SaveLoadSystem saveLoadSystem;
 
         [Header("Scenes")]
+        [SerializeField] private GameInputReader inputReader;
         [SerializeField] private SceneGroupData sceneGroupData;
         private bool isLoading;
         public SceneGroupManager Manager;
@@ -45,6 +48,12 @@ namespace GoodLuckValley.Scenes
                 {
                     ForcedMove = false,
                     ForcedMoveDirection = 0
+                });
+
+                // Allow the player to input the mushroom
+                EventBus<SetMushroomInput>.Raise(new SetMushroomInput()
+                {
+                    CanInputMushroom = true
                 });
             };
 
@@ -145,6 +154,12 @@ namespace GoodLuckValley.Scenes
                 EaseType = Ease.InQuad,
                 OnComplete = async () => await Manager.LoadScenes(index, sceneGroupData.SceneGroups[index], progress, true)
             });
+
+            // Don't allow the player to input the mushroom
+            EventBus<SetMushroomInput>.Raise(new SetMushroomInput()
+            {
+                CanInputMushroom = false
+            });
         }
 
         /// <summary>
@@ -191,13 +206,27 @@ namespace GoodLuckValley.Scenes
                 });
 
                 // Exit case - if not forcing a movement direction
-                if (forcedMoveDirection == 0) return;
+                if (forcedMoveDirection == 0)
+                {
+                    // Allow the player to input the mushroom
+                    EventBus<SetMushroomInput>.Raise(new SetMushroomInput()
+                    {
+                        CanInputMushroom = true
+                    });
+                    return;
+                }
 
                 // Force player movement
                 EventBus<ForcePlayerMove>.Raise(new ForcePlayerMove()
                 {
                     ForcedMove = true,
                     ForcedMoveDirection = forcedMoveDirection
+                });
+
+                // Don't allow the player to input the mushroom
+                EventBus<SetMushroomInput>.Raise(new SetMushroomInput()
+                {
+                    CanInputMushroom = false
                 });
 
                 // Start the release movement Timer

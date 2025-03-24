@@ -31,6 +31,10 @@ namespace GoodLuckValley.UI.Menus.Pause.States
 
             // Nullify the currently selected game object for the EventSystem
             EventSystem.current.SetSelectedGameObject(null);
+
+            // Hide the cursor
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public override void OnExit()

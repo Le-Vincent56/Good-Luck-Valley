@@ -9,6 +9,7 @@ using GoodLuckValley.Events.Pause;
 using GoodLuckValley.Input;
 using GoodLuckValley.Persistence;
 using GoodLuckValley.Scenes;
+using GoodLuckValley.UI.Input;
 using GoodLuckValley.UI.Menus.OptionMenus;
 using GoodLuckValley.UI.Menus.Pause.States;
 using System;
@@ -18,7 +19,7 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus.Pause
 {
-    public class PauseMenuController : MonoBehaviour
+    public class PauseMenuController : MonoBehaviour, ITransmutableInputUI
     {
         [Header("References")]
         [SerializeField] private GameInputReader gameInputReader;
@@ -28,6 +29,7 @@ namespace GoodLuckValley.UI.Menus.Pause
         [SerializeField] private List<IOptionMenu> optionMenus;
         [SerializeField] private List<IMenuController> menuControllers;
         private IMenuController currentMenuController;
+        private ControlSchemeDetector inputDetector;
         private SaveLoadSystem saveLoadSystem;
         private SceneLoader sceneLoader;
 
@@ -78,6 +80,7 @@ namespace GoodLuckValley.UI.Menus.Pause
             // Get services
             saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
             sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+            inputDetector = ServiceLocator.Global.Get<ControlSchemeDetector>();
         }
 
         private void OnEnable()
@@ -90,6 +93,8 @@ namespace GoodLuckValley.UI.Menus.Pause
 
             onUpdateJournalUnlock = new EventBinding<UpdateJournalUnlock>(UpdateJournalUnlock);
             EventBus<UpdateJournalUnlock>.Register(onUpdateJournalUnlock);
+
+            inputDetector.Register(this);
         }
 
         private void OnDisable()
@@ -99,6 +104,8 @@ namespace GoodLuckValley.UI.Menus.Pause
 
             EventBus<ShowPauseMenuFromJournal>.Deregister(onShowPauseMenuFromJournal);
             EventBus<UpdateJournalUnlock>.Deregister(onUpdateJournalUnlock);
+
+            inputDetector.Deregister(this);
         }
 
         private void Update()
@@ -345,6 +352,29 @@ namespace GoodLuckValley.UI.Menus.Pause
 
             // Load the Scene Group
             sceneLoader.ChangeSceneGroupSystem(0);
+        }
+
+        public void Transmute(string currentControlScheme)
+        {
+            // Exit case - not paused
+            if (!paused) return;
+
+            // Check if the cursor should be shown
+            switch (currentControlScheme)
+            {
+                case "Keyboard and Mouse":
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                    break;
+                case "Xbox Controller":
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+                case "PlayStation":
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+            }
         }
     }
 }

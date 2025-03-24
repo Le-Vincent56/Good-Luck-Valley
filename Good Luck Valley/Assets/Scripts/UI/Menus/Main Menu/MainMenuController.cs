@@ -9,14 +9,16 @@ using UnityEngine.UI;
 using GoodLuckValley.UI.Menus.Main.States;
 using GoodLuckValley.Audio;
 using GoodLuckValley.Persistence;
+using GoodLuckValley.UI.Input;
 
 namespace GoodLuckValley.UI.Menus.Main
 {
-    public class MainMenuController : SerializedMonoBehaviour
+    public class MainMenuController : SerializedMonoBehaviour, ITransmutableInputUI
     {
         [Header("References")]
         [SerializeField] private UIInputReader inputReader;
         [SerializeField] private Image darkerBackground;
+        private ControlSchemeDetector inputDetector;
         private SaveLoadSystem saveLoadSystem;
 
         [Header("States")]
@@ -63,6 +65,7 @@ namespace GoodLuckValley.UI.Menus.Main
 
             // Get services
             saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
+            inputDetector = ServiceLocator.Global.Get<ControlSchemeDetector>();
         }
 
         private void OnEnable()
@@ -71,12 +74,16 @@ namespace GoodLuckValley.UI.Menus.Main
             inputReader.Cancel += Backtrack;
             saveLoadSystem.Release += Cleanup;
             saveLoadSystem.SettingsSet += PlayMenuMusic;
+
+            inputDetector.Register(this);
         }
 
         private void OnDisable()
         {
             inputReader.Start -= OpenMainMenu;
             inputReader.Cancel -= Backtrack;
+
+            inputDetector.Deregister(this);
 
             Cleanup();
         }
@@ -195,5 +202,27 @@ namespace GoodLuckValley.UI.Menus.Main
         /// Quit the game
         /// </summary>
         public void QuitGame() => Application.Quit();
+
+        /// <summary>
+        /// Check if the cursor is enabled
+        /// </summary>
+        public void Transmute(string currentControlScheme)
+        {
+            switch (currentControlScheme)
+            {
+                case "Keyboard and Mouse":
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                    break;
+                case "Xbox Controller":
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+                case "PlayStation":
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+            }
+        }
     }
 }

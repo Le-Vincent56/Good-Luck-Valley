@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Input;
 using GoodLuckValley.Scenes;
@@ -10,9 +11,14 @@ namespace GoodLuckValley.World.Cinematics
         [Header("References")]
         [SerializeField] private GameInputReader inputReader;
         [SerializeField] private SceneLoader sceneLoader;
+        [SerializeField] private CanvasGroup canvasGroup;
 
         [Header("Fields")]
         [SerializeField] private bool active;
+
+        [Header("Tweening Variables")]
+        [SerializeField] private float fadeDuration;
+        private Tween fadeTween;
 
         private void Awake()
         {
@@ -33,6 +39,12 @@ namespace GoodLuckValley.World.Cinematics
         {
             inputReader.ContinueToMain -= ContinueToMain;
             inputReader.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            // Kill the Fade Tween if it exists
+            fadeTween?.Kill();
         }
 
         /// <summary>
@@ -56,6 +68,25 @@ namespace GoodLuckValley.World.Cinematics
         /// <summary>
         /// Allow the Player to return to the Main Menu by activating
         /// </summary>
-        public void Activate() => active = true;
+        public void Activate()
+        {
+            // Set to active
+            active = true;
+
+            // Fade in the input canvas
+            Fade(1f, fadeDuration);
+        }
+
+        /// <summary>
+        /// Fade the input Canvas Group
+        /// </summary>
+        private void Fade(float endValue, float duration)
+        {
+            // Exit case - kill the Fade Tween if it exists
+            fadeTween?.Kill();
+
+            // Fade the canvas group
+            fadeTween = canvasGroup.DOFade(endValue, duration);
+        }
     }
 }

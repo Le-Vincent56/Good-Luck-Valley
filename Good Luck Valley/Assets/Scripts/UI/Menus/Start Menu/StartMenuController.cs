@@ -176,6 +176,10 @@ namespace GoodLuckValley.UI.Menus.Start
             // Validate that the Save Slot exists
             if (saveSlots.Contains(saveSlot))
             {
+                // Hide the cursor
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+
                 // Load the save file
                 saveLoadSystem.LoadGame(saveSlot.Name);
             }

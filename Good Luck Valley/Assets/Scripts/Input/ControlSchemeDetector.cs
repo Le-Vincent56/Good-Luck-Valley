@@ -16,6 +16,8 @@ namespace GoodLuckValley.Input
 
         [SerializeField] private List<ITransmutableInputUI> transmutableUIs;
 
+        public bool AllowCursor { get; private set; }
+
         private void Awake()
         {
             // Initialize the list of transmutable UIs to track and process
@@ -124,6 +126,19 @@ namespace GoodLuckValley.Input
             {
                 // Transmute them with the current control scheme
                 transmutableInputUI.Transmute(currentControlScheme);
+            }
+
+            switch (currentControlScheme)
+            {
+                case "Keyboard and Mouse":
+                    AllowCursor = true;
+                    break;
+                case "Xbox Controller":
+                    AllowCursor = false;
+                    break;
+                case "PlayStation":
+                    AllowCursor = false;
+                    break;
             }
         }
 

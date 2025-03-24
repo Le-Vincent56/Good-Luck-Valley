@@ -1,3 +1,5 @@
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Mushroom;
 using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
 using System.Collections.Generic;
@@ -17,9 +19,12 @@ namespace GoodLuckValley.Player.Mushroom
 
         [Header("Variables")]
         [SerializeField] private bool canSpawnShroom;
+        [SerializeField] private bool canInputMushroom;
         [SerializeField] private float castDistance;
         [SerializeField] private LayerMask shroomableLayers;
         private Vector2 castPosition;
+
+        private EventBinding<SetMushroomInput> onSetMushroomInput;
 
         private void Awake()
         {
@@ -28,18 +33,25 @@ namespace GoodLuckValley.Player.Mushroom
 
             // Initialize the list
             mushrooms = new List<MushroomObject>();
+
+            canInputMushroom = false;
         }
 
         private void OnEnable()
         {
             inputReader.Bounce += Spawn;
             inputReader.Recall += Recall;
+
+            onSetMushroomInput = new EventBinding<SetMushroomInput>(AllowMushroomInput);
+            EventBus<SetMushroomInput>.Register(onSetMushroomInput);
         }
 
         private void OnDisable()
         {
             inputReader.Bounce -= Spawn;
             inputReader.Recall -= Recall;
+
+            EventBus<SetMushroomInput>.Deregister(onSetMushroomInput);
         }
 
         /// <summary>
@@ -52,6 +64,9 @@ namespace GoodLuckValley.Player.Mushroom
 
             // Exit case - if cannot spawn a Mushroom
             if (!canSpawnShroom) return;
+
+            // Exit case - the player cannot input the mushroom
+            if(!canInputMushroom) return;
 
             // Exit case - the Player is crawling
             if (playerController.Crawl.Crawling) return;
@@ -182,6 +197,8 @@ namespace GoodLuckValley.Player.Mushroom
                 mushroom.StartDissipating();
             }
         }
+
+        private void AllowMushroomInput(SetMushroomInput eventData) => canInputMushroom = eventData.CanInputMushroom;
 
         /// <summary>
         /// Unlock the Mushroom by allowing the Player to spawn the Mushroom
