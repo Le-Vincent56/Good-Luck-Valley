@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{2C0A75D7-964A-43F9-895E-2E6F30840C31}" SchemaVersion="123" RootDocumentID="{5268C64C-36C8-4DF5-A1EA-D4C01B7EC3E2}" ParentDocumentID="{5268C64C-36C8-4DF5-A1EA-D4C01B7EC3E2}">
+	<AudioObjects>
+		<WorkUnit Name="MUSHROOM_GROW" ID="{2C0A75D7-964A-43F9-895E-2E6F30840C31}" OwnerID="{5268C64C-36C8-4DF5-A1EA-D4C01B7EC3E2}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<SwitchContainer Name="MUSHROOM_GROW_GROUNDMATSWITCH" ID="{20F4126E-43B4-4060-A4CE-A978911309E0}" ShortID="287782368">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="OverridePositioning" Type="bool" Value="True"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="ATT_GENERIC_25M" ID="{2552CD39-4DF2-493A-A1FD-C10913CFB304}" WorkUnitID="{655D93F1-AAB8-46AC-BC6B-860699C2E8F1}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="GRASS" ID="{E5FD6F15-50F5-4AA2-97FC-098927275C71}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="MUSHROOM_GROW" ID="{AE5C3F6A-D61C-4FAC-A3BA-9BB24ECFFDFB}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="MUSHROOMGROUNDMATSWITCH" ID="{1DE9E77F-B956-4A75-9C88-F1C2C2DEEE5D}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="MUSHROOM_GROW_DIRT" ID="{156E043C-D743-493F-A5A6-F287BE602508}" ShortID="938076798">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="MUSHROOM_GROW_DIRT_01" ID="{2F814596-FF50-465A-9E61-C3B0DD1F1A87}" ShortID="38862056">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_DIRT_01" ID="{26C70632-B285-400D-B857-3ECC53C9B5AC}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Dirt\MUSHROOM_GROW_DIRT_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="470491804"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_DIRT_01" ID="{26C70632-B285-400D-B857-3ECC53C9B5AC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="MUSHROOM_GROW_DIRT_02" ID="{DD2955D6-789B-422E-A8B9-F8F62A1AFA33}" ShortID="773390652">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_DIRT_02" ID="{FB04F54E-408A-4277-A356-E9CA070BA81F}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Dirt\MUSHROOM_GROW_DIRT_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="950606184"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_DIRT_02" ID="{FB04F54E-408A-4277-A356-E9CA070BA81F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="MUSHROOM_GROW_DIRT_03" ID="{ACB7FE73-4D26-411C-95E9-D901DD1A3DE3}" ShortID="29148028">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_DIRT_03" ID="{148C8B99-2936-41C1-ADCA-5B8D916B17EA}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Dirt\MUSHROOM_GROW_DIRT_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="251322523"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_DIRT_03" ID="{148C8B99-2936-41C1-ADCA-5B8D916B17EA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="MUSHROOM_GROW_GRASS" ID="{2D54C0B9-31E0-4BC4-B819-DB4977ED158A}" ShortID="878319090">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="MUSHROOM_GROW_GRASS_01" ID="{ACB9033B-DB21-431C-A409-46545A45D57D}" ShortID="528343852">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_GRASS_01" ID="{A856F093-162C-46C0-8007-6AADC3633F15}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="731454556"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_GRASS_01" ID="{A856F093-162C-46C0-8007-6AADC3633F15}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="MUSHROOM_GROW_GRASS_02" ID="{7FB1E709-576F-45E3-8922-32B916319A68}" ShortID="129279923">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_GRASS_02" ID="{7C9AF488-D0DB-4926-97EE-53FF8A839F88}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="842389699"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_GRASS_02" ID="{7C9AF488-D0DB-4926-97EE-53FF8A839F88}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="MUSHROOM_GROW_GRASS_03" ID="{90A01CD4-7BB1-4816-A95C-E3AAC3DD1FC6}" ShortID="1001256188">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_GRASS_03" ID="{FEEA0096-7C1A-4B6C-92A4-901A2BD8ED59}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Grass\MUSHROOM_GROW_GRASS_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="52620900"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_GRASS_03" ID="{FEEA0096-7C1A-4B6C-92A4-901A2BD8ED59}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="MUSHROOM_GROW_STONE" ID="{B1E90636-CE2B-4512-9249-D9F270B365D1}" ShortID="560882995">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="MUSHROOM_GROW_STONE_01" ID="{0DF5DB49-120E-4986-B14C-5243C5A12DF4}" ShortID="351574611">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_STONE_01" ID="{9BC2F936-406D-489C-A493-428CD76CD341}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="349520910"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_STONE_01" ID="{9BC2F936-406D-489C-A493-428CD76CD341}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="MUSHROOM_GROW_STONE_02" ID="{C19DFC9F-A4A2-41B1-BE70-340366D578AE}" ShortID="367952665">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_STONE_02" ID="{D8EF0C3A-A006-48B0-91A8-C94D4B547033}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="480407674"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_STONE_02" ID="{D8EF0C3A-A006-48B0-91A8-C94D4B547033}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="MUSHROOM_GROW_STONE_03" ID="{38D0078F-05A2-4E3D-8B23-B0D5D699DC63}" ShortID="594053283">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUSHROOM_GROW_STONE_03" ID="{8F3971EE-9971-47CC-9193-206390822E24}">
+											<Language>SFX</Language>
+											<AudioFile>Mushroom\Grow\Stone\MUSHROOM_GROW_STONE_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="148344986"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MUSHROOM_GROW_STONE_03" ID="{8F3971EE-9971-47CC-9193-206390822E24}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="MUSHROOM_GROW_STONE" ID="{B1E90636-CE2B-4512-9249-D9F270B365D1}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="MUSHROOM_GROW_DIRT" ID="{156E043C-D743-493F-A5A6-F287BE602508}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="MUSHROOM_GROW_GRASS" ID="{2D54C0B9-31E0-4BC4-B819-DB4977ED158A}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="GRASS" ID="{E5FD6F15-50F5-4AA2-97FC-098927275C71}"/>
+								<ItemList>
+									<ItemRef Name="MUSHROOM_GROW_GRASS" ID="{2D54C0B9-31E0-4BC4-B819-DB4977ED158A}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="DIRT" ID="{855F7780-7D3D-4788-A94B-EB5D2321204E}"/>
+								<ItemList>
+									<ItemRef Name="MUSHROOM_GROW_DIRT" ID="{156E043C-D743-493F-A5A6-F287BE602508}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="STONE" ID="{FE47F7BE-5068-4364-B687-67875982FF4D}"/>
+								<ItemList>
+									<ItemRef Name="MUSHROOM_GROW_STONE" ID="{B1E90636-CE2B-4512-9249-D9F270B365D1}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

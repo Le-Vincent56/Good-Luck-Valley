@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{666788AB-74A6-4900-974A-E5C0A64B8460}" SchemaVersion="123" RootDocumentID="{B0890F70-C2CD-4636-B6AB-38484CB16640}" ParentDocumentID="{B0890F70-C2CD-4636-B6AB-38484CB16640}">
+	<Events>
+		<WorkUnit Name="UI_TOGGLE" ID="{666788AB-74A6-4900-974A-E5C0A64B8460}" OwnerID="{B0890F70-C2CD-4636-B6AB-38484CB16640}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="PLAY_UI_TOGGLE_ON" ID="{39A299AD-1A52-4051-BB90-1D27989EBBBB}">
+					<ChildrenList>
+						<Action Name="" ID="{EC2D06BB-554E-4C68-AF48-598E3FF57FDC}" ShortID="721658829">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="UI_TOGGLE_ON" ID="{97B053CE-E4BE-4A1E-91F3-543C812D214A}" WorkUnitID="{AE380B41-60EE-4667-9E0F-491FC16971D8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="PLAY_UI_TOGGLE_OFF" ID="{89D3AB26-5801-42C7-B76B-369AB1D34CA6}">
+					<ChildrenList>
+						<Action Name="" ID="{3D1BC9DA-7C0F-4A06-B6B6-A0E66092DBB4}" ShortID="371492867">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="UI_TOGGLE_OFF" ID="{0A15D258-946C-4CA2-AA54-045FAE8DD582}" WorkUnitID="{AE380B41-60EE-4667-9E0F-491FC16971D8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{ED64E320-F047-4438-8910-E839510EAD58}" SchemaVersion="123" RootDocumentID="{95660C8A-CACE-4574-A1DD-81F55040A8F6}" ParentDocumentID="{95660C8A-CACE-4574-A1DD-81F55040A8F6}">
+	<Events>
+		<WorkUnit Name="PLAYER_LOCOMOTION" ID="{ED64E320-F047-4438-8910-E839510EAD58}" OwnerID="{95660C8A-CACE-4574-A1DD-81F55040A8F6}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="PLAY_PLAYER_IMPACTS" ID="{BCE93F04-2847-4AC9-A2A0-76D28824C163}">
+					<ChildrenList>
+						<Action Name="" ID="{E9219E88-E0A6-47C8-98EF-95AA7DC099D0}" ShortID="405628117">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH" ID="{43D9D0F3-4A70-4040-BA82-3959BF628297}" WorkUnitID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="STOP_PLAYER_IMPACTS" ID="{8422C3EC-D4FF-439D-B451-DC71DD92D880}">
+					<ChildrenList>
+						<Action Name="" ID="{C70C1A2C-FE4F-4DBB-8209-B3971954A812}" ShortID="837567332">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH" ID="{43D9D0F3-4A70-4040-BA82-3959BF628297}" WorkUnitID="{C09B868F-669D-4DB1-AFF1-2F24A57A8F03}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
