@@ -1,5 +1,6 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Animation;
+using GoodLuckValley.Events.Development;
 using GoodLuckValley.Events.Potentiates;
 using GoodLuckValley.Events.UI;
 using GoodLuckValley.Input;
@@ -39,24 +40,25 @@ namespace GoodLuckValley.Player.Animation
         private EventBinding<SetPaused> onSetPaused;
         private EventBinding<PotentiateFeedback> onPotentiateFeedback;
         private EventBinding<ForceDirectionChange> onForceDirectionChange;
+        private EventBinding<ChangeDevelopmentTools> onChangeDevelopmentTools;
 
         private void OnEnable()
         {
             onSetPaused = new EventBinding<SetPaused>(SetActive);
             EventBus<SetPaused>.Register(onSetPaused);
 
-            onPotentiateFeedback = new EventBinding<PotentiateFeedback>(ChangeColor);
-            EventBus<PotentiateFeedback>.Register(onPotentiateFeedback);
-
             onForceDirectionChange = new EventBinding<ForceDirectionChange>(ForceDirectionChange);
             EventBus<ForceDirectionChange>.Register(onForceDirectionChange);
+
+            onChangeDevelopmentTools = new EventBinding<ChangeDevelopmentTools>(SetVisibility);
+            EventBus<ChangeDevelopmentTools>.Register(onChangeDevelopmentTools);
         }
 
         private void OnDisable()
         {
             EventBus<SetPaused>.Deregister(onSetPaused);
-            EventBus<PotentiateFeedback>.Deregister(onPotentiateFeedback);
             EventBus<ForceDirectionChange>.Deregister(onForceDirectionChange);
+            EventBus<ChangeDevelopmentTools>.Deregister(onChangeDevelopmentTools);
         }
 
         private void Update()
@@ -187,9 +189,12 @@ namespace GoodLuckValley.Player.Animation
             correctFacingTimer.Start();
         }
 
-        public void ChangeColor(PotentiateFeedback eventData)
+        /// <summary>
+        /// Set the visibility of the player sprite
+        /// </summary>
+        private void SetVisibility(ChangeDevelopmentTools eventData)
         {
-            spriteRenderer.color = eventData.Color;
+            spriteRenderer.enabled = !eventData.Invisible;
         }
 
         // Animation Entering Functions

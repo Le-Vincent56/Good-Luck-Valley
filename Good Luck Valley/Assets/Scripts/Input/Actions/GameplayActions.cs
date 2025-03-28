@@ -111,6 +111,15 @@ namespace GoodLuckValley.Input.Actions
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Invisibility"",
+                    ""type"": ""Button"",
+                    ""id"": ""bec93c6a-9bf1-42d7-87f9-e87823ad7456"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Journal"",
                     ""type"": ""Button"",
                     ""id"": ""bd434fb2-feeb-4816-9d57-87828e6f0706"",
@@ -543,6 +552,17 @@ namespace GoodLuckValley.Input.Actions
                     ""processors"": """",
                     ""groups"": "";PlayStation"",
                     ""action"": ""ContinueToMain"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14bd3288-b5e3-4b01-a769-5425379efffa"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invisibility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1210,6 +1230,7 @@ namespace GoodLuckValley.Input.Actions
             m_Player_Recall = m_Player.FindAction("Recall", throwIfNotFound: true);
             m_Player_Dev = m_Player.FindAction("Dev", throwIfNotFound: true);
             m_Player_NoClip = m_Player.FindAction("NoClip", throwIfNotFound: true);
+            m_Player_Invisibility = m_Player.FindAction("Invisibility", throwIfNotFound: true);
             m_Player_Journal = m_Player.FindAction("Journal", throwIfNotFound: true);
             m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             m_Player_ContinueToMain = m_Player.FindAction("ContinueToMain", throwIfNotFound: true);
@@ -1304,6 +1325,7 @@ namespace GoodLuckValley.Input.Actions
         private readonly InputAction m_Player_Recall;
         private readonly InputAction m_Player_Dev;
         private readonly InputAction m_Player_NoClip;
+        private readonly InputAction m_Player_Invisibility;
         private readonly InputAction m_Player_Journal;
         private readonly InputAction m_Player_Pause;
         private readonly InputAction m_Player_ContinueToMain;
@@ -1320,6 +1342,7 @@ namespace GoodLuckValley.Input.Actions
             public InputAction @Recall => m_Wrapper.m_Player_Recall;
             public InputAction @Dev => m_Wrapper.m_Player_Dev;
             public InputAction @NoClip => m_Wrapper.m_Player_NoClip;
+            public InputAction @Invisibility => m_Wrapper.m_Player_Invisibility;
             public InputAction @Journal => m_Wrapper.m_Player_Journal;
             public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputAction @ContinueToMain => m_Wrapper.m_Player_ContinueToMain;
@@ -1359,6 +1382,9 @@ namespace GoodLuckValley.Input.Actions
                 @NoClip.started += instance.OnNoClip;
                 @NoClip.performed += instance.OnNoClip;
                 @NoClip.canceled += instance.OnNoClip;
+                @Invisibility.started += instance.OnInvisibility;
+                @Invisibility.performed += instance.OnInvisibility;
+                @Invisibility.canceled += instance.OnInvisibility;
                 @Journal.started += instance.OnJournal;
                 @Journal.performed += instance.OnJournal;
                 @Journal.canceled += instance.OnJournal;
@@ -1399,6 +1425,9 @@ namespace GoodLuckValley.Input.Actions
                 @NoClip.started -= instance.OnNoClip;
                 @NoClip.performed -= instance.OnNoClip;
                 @NoClip.canceled -= instance.OnNoClip;
+                @Invisibility.started -= instance.OnInvisibility;
+                @Invisibility.performed -= instance.OnInvisibility;
+                @Invisibility.canceled -= instance.OnInvisibility;
                 @Journal.started -= instance.OnJournal;
                 @Journal.performed -= instance.OnJournal;
                 @Journal.canceled -= instance.OnJournal;
@@ -1605,6 +1634,7 @@ namespace GoodLuckValley.Input.Actions
             void OnRecall(InputAction.CallbackContext context);
             void OnDev(InputAction.CallbackContext context);
             void OnNoClip(InputAction.CallbackContext context);
+            void OnInvisibility(InputAction.CallbackContext context);
             void OnJournal(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
             void OnContinueToMain(InputAction.CallbackContext context);

@@ -1,4 +1,5 @@
 using GoodLuckValley.Player.Data;
+using GoodLuckValley.Player.Development;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace GoodLuckValley.Player.Movement
         }
 
         private PlayerController controller;
+        private DevelopmentTools devTools;
         private BoxCollider2D boxCollider;
         private CapsuleCollider2D airborneCollider;
 
@@ -40,11 +42,13 @@ namespace GoodLuckValley.Player.Movement
 
         public CollisionHandler(
             PlayerController controller,
+            DevelopmentTools devTools,
             BoxCollider2D boxCollider,
             CapsuleCollider2D airborneCollider
         )
         {
             this.controller = controller;
+            this.devTools = devTools;
             this.boxCollider = boxCollider;
             this.airborneCollider = airborneCollider;
         }
@@ -195,7 +199,12 @@ namespace GoodLuckValley.Player.Movement
             {
                 //GroundedChanged?.Invoke(false, 0);
                 controller.Jump.TimeLeftGrounded = controller.Time;
-                controller.RB.gravityScale = controller.Stats.JumpGravityScale;
+
+                // Check if not noclipping
+                if(!devTools.NoClip)
+                    // Set the gravity scale
+                    controller.RB.gravityScale = controller.Stats.JumpGravityScale;
+
                 SetColliderMode(ColliderMode.Airborne);
             }
         }

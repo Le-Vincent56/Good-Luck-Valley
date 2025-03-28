@@ -1,4 +1,5 @@
 using GoodLuckValley.Events;
+using GoodLuckValley.Events.Cinematics;
 using GoodLuckValley.Events.Journal;
 
 namespace GoodLuckValley.Interactables.Journal

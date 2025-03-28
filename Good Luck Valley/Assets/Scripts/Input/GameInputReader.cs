@@ -33,6 +33,7 @@ namespace GoodLuckValley.Input
 
         public event UnityAction<bool> Dev = delegate { };
         public event UnityAction<bool> NoClip = delegate { };
+        public event UnityAction<bool> Invisible = delegate { };
 
         public int NormMoveX { get; private set; }
         public int NormMoveY { get; private set; }
@@ -259,6 +260,22 @@ namespace GoodLuckValley.Input
                 // If canceled, invoke with false
                 case InputActionPhase.Canceled:
                     NoClip.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnInvisibility(InputAction.CallbackContext context)
+        {
+            // Check the context phase
+            switch (context.phase)
+            {
+                // If starting, invoke with true
+                case InputActionPhase.Started:
+                    Invisible.Invoke(true);
+                    break;
+                // If canceled, invoke with false
+                case InputActionPhase.Canceled:
+                    Invisible.Invoke(false);
                     break;
             }
         }

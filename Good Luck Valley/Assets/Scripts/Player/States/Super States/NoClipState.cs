@@ -19,5 +19,10 @@ namespace GoodLuckValley.Player.States
             controller.SetVelocity(Vector2.zero);
             controller.ConstantForce.force = Vector2.zero;
         }
+
+        public override void OnExit()
+        {
+            controller.SetGravityScale(controller.Stats.JumpGravityScale);
+        }
     }
 }

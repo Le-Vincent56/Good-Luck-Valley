@@ -20,6 +20,9 @@ namespace GoodLuckValley.Player.Development
         [SerializeField] private bool noClip;
         [SerializeField] private float noClipSpeed = 10f;
 
+        [Header("Invisible")]
+        [SerializeField] private bool invisible;
+
         public bool NoClip { get => noClip; }
 
         private void Awake()
@@ -32,12 +35,14 @@ namespace GoodLuckValley.Player.Development
         {
             inputReader.Dev += ToggleDev;
             inputReader.NoClip += ToggleNoClip;
+            inputReader.Invisible += ToggleInvisibility;
         }
 
         private void OnDisable()
         {
             inputReader.Dev -= ToggleDev;
             inputReader.NoClip -= ToggleNoClip;
+            inputReader.Invisible -= ToggleInvisibility;
         }
 
         private void Update()
@@ -109,8 +114,32 @@ namespace GoodLuckValley.Player.Development
             EventBus<ChangeDevelopmentTools>.Raise(new ChangeDevelopmentTools() 
             { 
                 Debug = debug, 
-                NoClip = noClip 
+                NoClip = noClip,
+                Invisible = invisible
             }); 
+        }
+
+        /// <summary>
+        /// Handle input for toggling invisibility
+        /// </summary>
+        private void ToggleInvisibility(bool started)
+        {
+            // Exit case - the button is being lifted
+            if (!started) return;
+
+            // Exit case - Developemnt Tools are not active
+            if (!active) return;
+
+            // Toggle invisibility
+            invisible = !invisible;
+
+            // Raise the change event
+            EventBus<ChangeDevelopmentTools>.Raise(new ChangeDevelopmentTools()
+            {
+                Debug = debug,
+                NoClip = noClip,
+                Invisible = invisible
+            });
         }
     }
 }

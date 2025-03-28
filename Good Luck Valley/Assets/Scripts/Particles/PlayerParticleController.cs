@@ -1,3 +1,5 @@
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Development;
 using GoodLuckValley.Input;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.Timers;
@@ -83,6 +85,8 @@ namespace GoodLuckValley.Particles
         [SerializeField] private float initialStoneJumpVelocityMaxX;
         [SerializeField] private int direction;
 
+        private EventBinding<ChangeDevelopmentTools> onChangeDevelopmentTools;
+
         private void Awake()
         {
             List<ParticleSystem> particleSystems = new List<ParticleSystem>();
@@ -155,6 +159,9 @@ namespace GoodLuckValley.Particles
             layerDetection.OnGroundLayerChange += SetParticleGroundLayer;
             layerDetection.OnWallTypeChange += SetParticleWallLayer;
             layerDetection.OnWallDirectionChange += UpdateWallDirection;
+
+            onChangeDevelopmentTools = new EventBinding<ChangeDevelopmentTools>(SetVisibility);
+            EventBus<ChangeDevelopmentTools>.Register(onChangeDevelopmentTools);
         }
 
         private void OnDisable()
@@ -163,6 +170,8 @@ namespace GoodLuckValley.Particles
             layerDetection.OnGroundLayerChange -= SetParticleGroundLayer;
             layerDetection.OnWallTypeChange -= SetParticleWallLayer;
             layerDetection.OnWallDirectionChange -= UpdateWallDirection;
+
+            EventBus<ChangeDevelopmentTools>.Deregister(onChangeDevelopmentTools);
         }
 
         private void OnDestroy()
@@ -521,6 +530,15 @@ namespace GoodLuckValley.Particles
             grassJumpingParticles.transform.localScale = jumpLocalScale;
             dirtJumpingParticles.transform.localScale = jumpLocalScale;
             stoneJumpingParticles.transform.localScale = jumpLocalScale;
+        }
+
+        /// <summary>
+        /// Set whether or not to play the particles depending on visibility
+        /// </summary>
+        private void SetVisibility(ChangeDevelopmentTools changeDevelopmentTools)
+        {
+            // Set the active state
+            playParticles = !changeDevelopmentTools.Invisible;
         }
     }
 }

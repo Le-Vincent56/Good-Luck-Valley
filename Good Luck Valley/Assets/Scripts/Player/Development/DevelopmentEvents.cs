@@ -11,5 +11,6 @@ namespace GoodLuckValley.Events.Development
     {
         public bool Debug;
         public bool NoClip;
+        public bool Invisible;
     }
 }

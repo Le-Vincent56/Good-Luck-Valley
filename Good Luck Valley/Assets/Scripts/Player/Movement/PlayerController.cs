@@ -8,6 +8,7 @@ using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
 using GoodLuckValley.Particles;
+using GoodLuckValley.Player.Development;
 
 
 namespace GoodLuckValley.Player.Movement
@@ -26,6 +27,7 @@ namespace GoodLuckValley.Player.Movement
         private PlayerStateMachine stateMachine;
         private LayerDetection layerDetection;
         private PlayerParticleController particles;
+        private DevelopmentTools devTools;
 
         [Header("Movement Components")]
         [SerializeField] private bool active;
@@ -75,6 +77,7 @@ namespace GoodLuckValley.Player.Movement
         public PlayerBounce Bounce { get => bounce; }
         public PlayerWallJump WallJump { get => wallJump; }
         public PlayerParticleController Particles { get => particles; }
+        public DevelopmentTools DevTools { get => devTools; }
 
         public GeneratedCharacterSize CharacterSize { get => characterSize; }
         public bool CachedQueryMode { get => cachedQueryMode; }
@@ -168,6 +171,7 @@ namespace GoodLuckValley.Player.Movement
 
             // Get components
             particles = GetComponentInChildren<PlayerParticleController>();
+            devTools = GetComponent<DevelopmentTools>();
 
             // Get the Colliders
             boxCollider = GetComponent<BoxCollider2D>();
@@ -176,7 +180,7 @@ namespace GoodLuckValley.Player.Movement
             frameData = new FrameData(this);
 
             // Initialize the Collision Handler
-            collisionHandler = new CollisionHandler(this, boxCollider, airborneCollider);
+            collisionHandler = new CollisionHandler(this, devTools, boxCollider, airborneCollider);
             collisionHandler.Setup();
 
             // Initialize movement components
