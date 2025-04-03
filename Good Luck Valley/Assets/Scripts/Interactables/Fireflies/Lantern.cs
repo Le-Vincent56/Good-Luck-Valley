@@ -13,7 +13,7 @@ namespace GoodLuckValley.Interactables.Fireflies
     {
         [Header("Lantern")]
         [SerializeField] private int channel;
-        [SerializeField] private Light2D activateLight;
+        [SerializeField] private Light2D onLight;
         [SerializeField] private List<ParticleSystem> lanternParticles;
         [SerializeField] private Sprite inactiveSprite;
         [SerializeField] private Sprite activeSprite;
@@ -22,11 +22,16 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private AK.Wwise.Event lanternPlaceEvent;
 
         [Header("Tweening Variables")]
+        [SerializeField] private float toFlash;
         [SerializeField] private float toOuterRadius;
         [SerializeField] private float lightOutRatio;
+        [SerializeField] private float flashOutDuration;
+        [SerializeField] private float flashInDuration;
+        private float initialFlash;
         private float initialOuterRadius;
         private float illuminateDuration;
         private Tween illuminateTween;
+        private Tween flashTween;
 
         protected override void Awake()
         {
@@ -37,12 +42,13 @@ namespace GoodLuckValley.Interactables.Fireflies
             strategy = new LanternStrategy(this);
 
             // Get components
-            activateLight = GetComponentInChildren<Light2D>();
+            onLight = GetComponentInChildren<Light2D>();
             GetComponentsInChildren(lanternParticles);
 
             // Set variables
+            initialFlash = onLight.intensity;
             illuminateDuration = lanternParticles[0].main.duration;
-            initialOuterRadius = activateLight.pointLightOuterRadius;
+            initialOuterRadius = onLight.pointLightOuterRadius;
         }
 
         protected override void OnDestroy()
@@ -50,8 +56,9 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Call the parent OnDestroy()
             base.OnDestroy();
 
-            // Kill the Illuminate Tween if it exists
+            // Kill existing Tweens
             illuminateTween?.Kill();
+            flashTween?.Kill();
         }
 
         public override void Interact()
@@ -121,6 +128,15 @@ namespace GoodLuckValley.Interactables.Fireflies
                     Illuminate(initialOuterRadius, illuminateDuration * 2f, Ease.OutQuad);
                 });
             });
+
+            Flash(toFlash, flashOutDuration, Ease.InOutSine, () =>
+            {
+                Flash(toFlash, 0.5f, Ease.InOutSine, () =>
+                {
+                    // Flash the light back to the initial value
+                    Flash(initialFlash, illuminateDuration * 2f, Ease.InOutSine);
+                });
+            });
         }
 
         /// <summary>
@@ -158,10 +174,10 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Kill the Illuminate Tween if it exists
             illuminateTween?.Kill();
 
-            // Tween the m_TrackedObjectOffset to the endValue using the duration and set an Ease
+            // Tween the outer radius to the endValue using the duration and set an Ease
             illuminateTween = DOTween.To(
-                () => activateLight.pointLightOuterRadius,
-                    x => activateLight.pointLightOuterRadius = x,
+                () => onLight.pointLightOuterRadius,
+                    x => onLight.pointLightOuterRadius = x,
                     endValue,
                     duration
             );
@@ -174,6 +190,29 @@ namespace GoodLuckValley.Interactables.Fireflies
 
             // Hook up the completion action
             illuminateTween.onComplete += onComplete;
+        }
+
+        private void Flash(float endValue, float duration, Ease easeType, TweenCallback onComplete = null)
+        {
+            // Kill the Flash Tween if it exists
+            flashTween?.Kill();
+
+            // Tween the intensity to the endValue using the duration and set an Ease
+            flashTween = DOTween.To(
+                () => onLight.intensity,
+                    x => onLight.intensity = x,
+                    endValue,
+                    duration
+            );
+
+            // Set the Ease type
+            flashTween.SetEase(easeType);
+
+            // Exit case - if there is no completion actino
+            if (onComplete == null) return;
+
+            // Hook up the completion action
+            flashTween.onComplete += onComplete;
         }
     }
 }

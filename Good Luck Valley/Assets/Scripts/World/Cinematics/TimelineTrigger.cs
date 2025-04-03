@@ -1,6 +1,5 @@
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Cinematics;
-using GoodLuckValley.Events.Player;
 using GoodLuckValley.World.Triggers;
 using UnityEngine;
 using UnityEngine.Playables;
