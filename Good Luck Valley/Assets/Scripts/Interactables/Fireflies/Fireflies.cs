@@ -6,6 +6,8 @@ using GoodLuckValley.Events;
 using GoodLuckValley.Interactables.Fireflies.States;
 using GoodLuckValley.World.Physics;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using DG.Tweening;
 
 namespace GoodLuckValley.Interactables.Fireflies
 {
@@ -13,6 +15,7 @@ namespace GoodLuckValley.Interactables.Fireflies
     {
         private Transform target;
         private PhysicsOrchestrator physicsOrchestrator;
+        private Light2D feedbackLight;
 
         [Header("Movement")]
         [SerializeField] private Vector2 velocity;
@@ -25,6 +28,11 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private bool pendingPlacement;
         [SerializeField] private bool placed;
 
+        [Header("Tweening Variables")]
+        [SerializeField] private float flashDuration;
+        private float toLightIntensity;
+        private Tween intensityTween;
+
         private StateMachine stateMachine;
 
         public Transform Target { get => target; }
@@ -36,6 +44,10 @@ namespace GoodLuckValley.Interactables.Fireflies
 
             // Set the strategy
             strategy = new FireflyStrategy(this);
+
+            feedbackLight = GetComponentInChildren<Light2D>();
+            toLightIntensity = feedbackLight.intensity;
+            feedbackLight.intensity = 0f;
         }
 
         private void Start()
@@ -57,6 +69,14 @@ namespace GoodLuckValley.Interactables.Fireflies
         {
             // Update the State Machine
             stateMachine.FixedUpdate();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            // Kill any existing Tweens
+            intensityTween?.Kill();
         }
 
         /// <summary>
@@ -174,6 +194,12 @@ namespace GoodLuckValley.Interactables.Fireflies
                 Value = 0f,
                 Duration = fadeDuration
             });
+
+            // Flash the feedback light
+            Flash(toLightIntensity, flashDuration / 2f, () =>
+            {
+                Flash(0f, flashDuration / 2f);
+            });
         }
 
         /// <summary>
@@ -216,6 +242,26 @@ namespace GoodLuckValley.Interactables.Fireflies
             );
 
             return hasKey;
+        }
+
+        private void Flash(float flashValue, float flashDuration, TweenCallback onComplete = null)
+        {
+            // Kill the Flash Sequence if it exists
+            intensityTween?.Kill();
+
+            // Set the light to the flash value
+            intensityTween = DOTween.To(
+                () => feedbackLight.intensity,
+                    x => feedbackLight.intensity = x,
+                    flashValue,
+                    flashDuration / 2f
+            ).SetEase(Ease.InOutSine);
+
+            // Exit case - if there is no completion actino
+            if (onComplete == null) return;
+
+            // Hook up the completion action
+            intensityTween.onComplete += onComplete;
         }
     }
 }
