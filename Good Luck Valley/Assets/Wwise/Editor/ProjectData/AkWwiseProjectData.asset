@@ -1046,7 +1046,7 @@ MonoBehaviour:
     ParentPath: Events\AMBIENCE
     guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
     GuidInternal: 
-    m_lastTime: -8584587604798799624
+    m_lastTime: -8584575464980717968
     List:
     - name: PLAY_AMBIENCE2D_MAIN
       guid: af34d8c9ef38c84d934e63ba6df5ad2b
@@ -1672,6 +1672,82 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8584587604798759623
     List: []
+  - PhysicalPath: Events\ONESHOTS.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: AMBIENCE
+      ObjectType: 12
+      guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
+    - ElementName: ONESHOTS
+      ObjectType: 12
+      guid: 82c4daf1b197824f91bb8765bf7cde9f
+    ParentPath: Events\AMBIENCE\ONESHOTS
+    guid: 82c4daf1b197824f91bb8765bf7cde9f
+    GuidInternal: 
+    m_lastTime: -8584575476665267903
+    List:
+    - name: PLAY_THUNDER_1
+      guid: ffe21414b555664cb4495286ac09916c
+      id: 2142929832
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AMBIENCE
+        ObjectType: 12
+        guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
+      - ElementName: ONESHOTS
+        ObjectType: 12
+        guid: 82c4daf1b197824f91bb8765bf7cde9f
+      - ElementName: PLAY_THUNDER_1
+        ObjectType: 3
+        guid: ffe21414b555664cb4495286ac09916c
+      Path: Events\AMBIENCE\ONESHOTS\PLAY_THUNDER_1
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: PLAY_THUNDER_2
+      guid: b7cc31002d58d54a8cf06ad1bc9a3675
+      id: 2142929835
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AMBIENCE
+        ObjectType: 12
+        guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
+      - ElementName: ONESHOTS
+        ObjectType: 12
+        guid: 82c4daf1b197824f91bb8765bf7cde9f
+      - ElementName: PLAY_THUNDER_2
+        ObjectType: 3
+        guid: b7cc31002d58d54a8cf06ad1bc9a3675
+      Path: Events\AMBIENCE\ONESHOTS\PLAY_THUNDER_2
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: PLAY_THUNDER_3
+      guid: 60280319ca621140979a2a4c2545bae2
+      id: 2142929834
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AMBIENCE
+        ObjectType: 12
+        guid: 4d0b77aa3f56e54a8ee5aa879ded5bb3
+      - ElementName: ONESHOTS
+        ObjectType: 12
+        guid: 82c4daf1b197824f91bb8765bf7cde9f
+      - ElementName: PLAY_THUNDER_3
+        ObjectType: 3
+        guid: 60280319ca621140979a2a4c2545bae2
+      Path: Events\AMBIENCE\ONESHOTS\PLAY_THUNDER_3
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\PLAYER.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2414,7 +2490,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3b98b877b8191e4d997b0521d7f4095a
     GuidInternal: 
-    m_lastTime: -8584587604798709626
+    m_lastTime: -8584575467018392666
     List:
     - name: RTPC_DISTANCE
       guid: 291ab848b708ba459bbebca64800530d
@@ -2514,6 +2590,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: 429f3c093dbf2447b560ae9865ba9623
       Path: Game Parameters\Default Work Unit\RTPC_TIMEWARP_TICK
+    - name: RTPC_WETNESS
+      guid: bcbcf94ca2596a489f5a5d84dfd98e0c
+      id: 2612323176
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 3b98b877b8191e4d997b0521d7f4095a
+      - ElementName: RTPC_WETNESS
+        ObjectType: 13
+        guid: bcbcf94ca2596a489f5a5d84dfd98e0c
+      Path: Game Parameters\Default Work Unit\RTPC_WETNESS
   - PhysicalPath: Game Parameters\Volume Controls.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -3218,7 +3308,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: eec5568e802376459ca10605a1f0e57b
     GuidInternal: 
-    m_lastTime: -8584587604765735797
+    m_lastTime: -8584575468051674874
     List:
     - name: DISTANCESWITCH
       guid: 622fcafe08b4b042be219ee090a6dfe1
@@ -3627,6 +3717,56 @@ MonoBehaviour:
         - ElementName: WALK
           ObjectType: 10
           guid: e2963d81b8b19c40acb3bbfa220bf95d
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: WETNESSSWITCH
+      guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+      id: 197954834
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: eec5568e802376459ca10605a1f0e57b
+      - ElementName: WETNESSSWITCH
+        ObjectType: 11
+        guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+      Path: Switches\Default Work Unit\WETNESSSWITCH
+      values:
+      - name: DRY
+        guid: 0ed986a77639ad4b85a7e4508bdb7f89
+        id: 630539344
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: eec5568e802376459ca10605a1f0e57b
+        - ElementName: WETNESSSWITCH
+          ObjectType: 11
+          guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+        - ElementName: DRY
+          ObjectType: 10
+          guid: 0ed986a77639ad4b85a7e4508bdb7f89
+      - name: WET
+        guid: ecbbf817f2cb7640a75f8bf5f00b4d21
+        id: 1181096339
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: eec5568e802376459ca10605a1f0e57b
+        - ElementName: WETNESSSWITCH
+          ObjectType: 11
+          guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+        - ElementName: WET
+          ObjectType: 10
+          guid: ecbbf817f2cb7640a75f8bf5f00b4d21
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []

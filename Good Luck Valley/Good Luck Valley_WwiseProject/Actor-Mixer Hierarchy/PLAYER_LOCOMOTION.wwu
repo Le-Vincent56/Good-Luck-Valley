@@ -1435,9 +1435,148 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
+								<SwitchContainer Name="WETNESSTEMPLATE" ID="{22ACC706-F2E4-4501-92B2-2FB8CF525D49}" ShortID="508595689">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="DefaultSwitchOrState">
+											<ObjectRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+										<Reference Name="SwitchGroupOrStateGroup">
+											<ObjectRef Name="WETNESSSWITCH" ID="{4C2461BC-A98E-47BB-A790-2DDE4F1E6A2C}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="DRY" ID="{C480D5C0-5AB5-49BB-AB71-E44F5D43FB16}" ShortID="925315753">
+											<PropertyList>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="WET" ID="{DCAEA23B-227E-4964-9D55-317009ADD121}" ShortID="425624506">
+											<PropertyList>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+									<GroupingInfo>
+										<GroupingBehaviorList>
+											<GroupingBehavior>
+												<ItemRef Name="WET" ID="{DCAEA23B-227E-4964-9D55-317009ADD121}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="DRY" ID="{C480D5C0-5AB5-49BB-AB71-E44F5D43FB16}"/>
+											</GroupingBehavior>
+										</GroupingBehaviorList>
+										<GroupingList>
+											<Grouping>
+												<SwitchRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}"/>
+												<ItemList>
+													<ItemRef Name="DRY" ID="{C480D5C0-5AB5-49BB-AB71-E44F5D43FB16}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="WET" ID="{17F8BBEC-CBF2-4076-A75F-8BF5F00B4D21}"/>
+												<ItemList>
+													<ItemRef Name="WET" ID="{DCAEA23B-227E-4964-9D55-317009ADD121}"/>
+												</ItemList>
+											</Grouping>
+										</GroupingList>
+									</GroupingInfo>
+								</SwitchContainer>
+								<SwitchContainer Name="PLAYER_RUN_IMPACTS_WETNESSSWITCH" ID="{90F5AA66-1530-455C-A39E-17FE727B4B3A}" ShortID="93829383">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="DefaultSwitchOrState">
+											<ObjectRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+										<Reference Name="SwitchGroupOrStateGroup">
+											<ObjectRef Name="WETNESSSWITCH" ID="{4C2461BC-A98E-47BB-A790-2DDE4F1E6A2C}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="DRY" ID="{48311462-1B30-4F0B-90E6-69F19BEBDBA5}" ShortID="159128996">
+											<PropertyList>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="WET" ID="{046CD648-68BB-4270-A3B4-F73B3132704A}" ShortID="264556399">
+											<PropertyList>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+									<GroupingInfo>
+										<GroupingBehaviorList>
+											<GroupingBehavior>
+												<ItemRef Name="WET" ID="{046CD648-68BB-4270-A3B4-F73B3132704A}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="DRY" ID="{48311462-1B30-4F0B-90E6-69F19BEBDBA5}"/>
+											</GroupingBehavior>
+										</GroupingBehaviorList>
+										<GroupingList>
+											<Grouping>
+												<SwitchRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}"/>
+												<ItemList>
+													<ItemRef Name="DRY" ID="{48311462-1B30-4F0B-90E6-69F19BEBDBA5}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="WET" ID="{17F8BBEC-CBF2-4076-A75F-8BF5F00B4D21}"/>
+												<ItemList>
+													<ItemRef Name="WET" ID="{046CD648-68BB-4270-A3B4-F73B3132704A}"/>
+												</ItemList>
+											</Grouping>
+										</GroupingList>
+									</GroupingInfo>
+								</SwitchContainer>
 							</ChildrenList>
 							<GroupingInfo>
 								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="WETNESSTEMPLATE" ID="{22ACC706-F2E4-4501-92B2-2FB8CF525D49}"/>
+									</GroupingBehavior>
 									<GroupingBehavior>
 										<ItemRef Name="PLAYER_RUN_IMPACTS_GRASS" ID="{4E10FD10-DB38-4C1D-B9D8-2BDEF100EDA6}"/>
 									</GroupingBehavior>
@@ -1446,6 +1585,9 @@
 									</GroupingBehavior>
 									<GroupingBehavior>
 										<ItemRef Name="PLAYER_RUN_IMPACTS_STONE" ID="{1B511215-9201-448B-A21E-D8334B5995B9}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="PLAYER_RUN_IMPACTS_WETNESSSWITCH" ID="{90F5AA66-1530-455C-A39E-17FE727B4B3A}"/>
 									</GroupingBehavior>
 								</GroupingBehaviorList>
 								<GroupingList>

@@ -21,736 +21,59 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<SwitchContainer Name="AMBIENCEBEDS_MAIN_BIOMESWITCH" ID="{AB7B40A5-6340-43EA-8AA6-5CFB2738082A}" ShortID="233095536">
-							<PropertyList>
-								<Property Name="Color" Type="int16" Value="4"/>
-								<Property Name="OverrideColor" Type="bool" Value="True"/>
-								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-							</PropertyList>
+						<SwitchContainer Name="AMBIENCEBEDS_MAIN_WETNESSSWITCH" ID="{43E52282-6002-4052-8BA3-AFFAFE64CCC1}" ShortID="20288622">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 								</Reference>
 								<Reference Name="DefaultSwitchOrState">
-									<ObjectRef Name="FOREST" ID="{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+									<ObjectRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+									<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 								</Reference>
 								<Reference Name="SwitchGroupOrStateGroup">
-									<ObjectRef Name="AMBIENCEBIOMESWITCH" ID="{60A99DC1-F455-429C-9506-4AFCDEE27EF8}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+									<ObjectRef Name="WETNESSSWITCH" ID="{4C2461BC-A98E-47BB-A790-2DDE4F1E6A2C}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<BlendContainer Name="CAVE" ID="{D09E0466-F392-4989-AD20-2F3AC008AD9E}" ShortID="759942249">
-									<PropertyList>
-										<Property Name="BlendBehavior" Type="int16" Value="1"/>
-										<Property Name="Color" Type="int16" Value="4"/>
-										<Property Name="OverrideColor" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>5</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
+								<SwitchContainer Name="AMBIENCEBEDS_WET_BIOMESWITCH" ID="{EDD92D85-F9F9-4753-A113-4D33A0DF52DC}" ShortID="1010638409">
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<Sound Name="AMBIENCEBEDS_CAVE_WIND" ID="{86AA03CA-FAA7-4FA2-B7BF-E1C29E9F0597}" ShortID="58821561">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="AMBIENCEBEDS_CAVE_WIND" ID="{39DC7999-B0AF-4C20-A246-C5A36EE10C51}">
-													<Language>SFX</Language>
-													<AudioFile>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WIND.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="436027017"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="AMBIENCEBEDS_CAVE_WIND" ID="{39DC7999-B0AF-4C20-A246-C5A36EE10C51}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="AMBIENCEBEDS_CAVE_WATERDROP" ID="{C5562014-FD33-4D08-B62F-931CFF79D002}" ShortID="746344876">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-8</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="AMBIENCEBEDS_CAVE_WATERDROP" ID="{24CA0BF1-2C93-455F-95A8-4E73274CA178}">
-													<Language>SFX</Language>
-													<AudioFile>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERDROP.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="249687352"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="AMBIENCEBEDS_CAVE_WATERDROP" ID="{24CA0BF1-2C93-455F-95A8-4E73274CA178}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="AMBIENCEBEDS_CAVE_WATERFLOW" ID="{01BC8219-1662-4752-9984-2EF3E5A8F134}" ShortID="191795390">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-14</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="AMBIENCEBEDS_CAVE_WATERFLOW" ID="{0E29E13A-7DC8-458A-8492-9599750FF2C4}">
-													<Language>SFX</Language>
-													<AudioFile>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERFLOW.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="968818107"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="AMBIENCEBEDS_CAVE_WATERFLOW" ID="{0E29E13A-7DC8-458A-8492-9599750FF2C4}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<SwitchContainer Name="LANTERNSWITCH" ID="{9FCA1D09-D4BF-4372-9701-2361349F7242}" ShortID="585743648">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="DefaultSwitchOrState">
-													<ObjectRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-												<Reference Name="SwitchGroupOrStateGroup">
-													<ObjectRef Name="LANTERNAREASWITCH" ID="{39D3E30F-7516-4D69-A1BF-084A7A1CE641}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<Sound Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}" ShortID="948024075">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<SourcePlugin Name="Silence" ID="{75296591-6448-45C5-9DBD-2EBECCAE6426}" ShortID="1051325896" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
-															<PropertyList>
-																<Property Name="Length" Type="Real32" Value="20"/>
-																<Property Name="LengthMax" Type="Real32" Value="10"/>
-																<Property Name="LengthMin" Type="Real32" Value="-10"/>
-															</PropertyList>
-															<Language>SFX</Language>
-														</SourcePlugin>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="Silence" ID="{75296591-6448-45C5-9DBD-2EBECCAE6426}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}" ShortID="586225491">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{772ED01C-E132-4B16-9D12-EA65D72F603D}">
-															<Language>SFX</Language>
-															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="587809570"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{772ED01C-E132-4B16-9D12-EA65D72F603D}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-											</ChildrenList>
-											<GroupingInfo>
-												<GroupingBehaviorList>
-													<GroupingBehavior>
-														<ItemRef Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}"/>
-													</GroupingBehavior>
-													<GroupingBehavior>
-														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}"/>
-													</GroupingBehavior>
-												</GroupingBehaviorList>
-												<GroupingList>
-													<Grouping>
-														<SwitchRef Name="LANTERNS" ID="{E360FFD1-1AFD-493C-B844-93532B06AB34}"/>
-														<ItemList>
-															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}"/>
-														</ItemList>
-													</Grouping>
-													<Grouping>
-														<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
-														<ItemList>
-															<ItemRef Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}"/>
-														</ItemList>
-													</Grouping>
-												</GroupingList>
-											</GroupingInfo>
-										</SwitchContainer>
-										<SwitchContainer Name="FIREFLIESSWITCH" ID="{C9CDD39B-DC4C-4A40-A7E1-5895BCBD87DB}" ShortID="908879983">
-											<PropertyList>
-												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="DefaultSwitchOrState">
-													<ObjectRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-												<Reference Name="SwitchGroupOrStateGroup">
-													<ObjectRef Name="FIREFLIESSWITCH" ID="{16BA02A5-2FB4-47DA-B51C-B50A133C537B}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<Sound Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}" ShortID="340447505">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{D53F62DB-EF83-49E0-B618-4365DEE8D4F0}">
-															<PropertyList>
-																<Property Name="FadeInDuration" Type="Real64" Value="1"/>
-																<Property Name="FadeOutDuration" Type="Real64" Value="1"/>
-															</PropertyList>
-															<Language>SFX</Language>
-															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="481153050"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{D53F62DB-EF83-49E0-B618-4365DEE8D4F0}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}" ShortID="148579863">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<SourcePlugin Name="Silence" ID="{A8171DE3-5355-4ADC-9343-6E757D1D0F88}" ShortID="149914936" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
-															<PropertyList>
-																<Property Name="Length" Type="Real32" Value="20"/>
-																<Property Name="LengthMax" Type="Real32" Value="10"/>
-																<Property Name="LengthMin" Type="Real32" Value="-10"/>
-															</PropertyList>
-															<Language>SFX</Language>
-														</SourcePlugin>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="Silence" ID="{A8171DE3-5355-4ADC-9343-6E757D1D0F88}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-											</ChildrenList>
-											<GroupingInfo>
-												<GroupingBehaviorList>
-													<GroupingBehavior>
-														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}"/>
-														<PropertyList>
-															<Property Name="FadeInTime" Type="Real64">
-																<ValueList>
-																	<Value>1</Value>
-																</ValueList>
-															</Property>
-															<Property Name="FadeOutTime" Type="Real64">
-																<ValueList>
-																	<Value>2</Value>
-																</ValueList>
-															</Property>
-														</PropertyList>
-													</GroupingBehavior>
-													<GroupingBehavior>
-														<ItemRef Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}"/>
-													</GroupingBehavior>
-												</GroupingBehaviorList>
-												<GroupingList>
-													<Grouping>
-														<SwitchRef Name="FIREFLIES" ID="{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"/>
-														<ItemList>
-															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}"/>
-														</ItemList>
-													</Grouping>
-													<Grouping>
-														<SwitchRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"/>
-														<ItemList>
-															<ItemRef Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}"/>
-														</ItemList>
-													</Grouping>
-												</GroupingList>
-											</GroupingInfo>
-										</SwitchContainer>
-									</ChildrenList>
-								</BlendContainer>
-								<BlendContainer Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}" ShortID="134399443">
-									<PropertyList>
-										<Property Name="BlendBehavior" Type="int16" Value="1"/>
-										<Property Name="Color" Type="int16" Value="4"/>
-										<Property Name="OverrideColor" Type="bool" Value="True"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										<Reference Name="DefaultSwitchOrState">
+											<ObjectRef Name="FOREST" ID="{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 										</Reference>
+										<Reference Name="SwitchGroupOrStateGroup">
+											<ObjectRef Name="AMBIENCEBIOMESWITCH" ID="{60A99DC1-F455-429C-9506-4AFCDEE27EF8}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{BCEE280E-E6E7-41CB-A157-BB4F2C22FC9A}" ShortID="638755702">
+										<BlendContainer Name="FOREST" ID="{41F5C0F3-BDA2-498C-B6F6-ADFB5CCA10C3}" ShortID="171391059">
 											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-19</Value>
-													</ValueList>
-												</Property>
+												<Property Name="BlendBehavior" Type="int16" Value="1"/>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+													<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{99B7C591-2E34-4DDC-8991-6217B12C5B73}">
-													<Language>SFX</Language>
-													<AudioFile>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_INSECTS.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="926564563"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ObjectLists>
-												<ObjectList Name="RTPC">
-													<Reference>
-														<Local>
-															<RTPC Name="" ID="{D06EB441-E37F-4B50-AD1D-73103DB785DC}" ShortID="326261505">
-																<PropertyList>
-																	<Property Name="PropertyName" Type="string" Value="Volume"/>
-																</PropertyList>
-																<ReferenceList>
-																	<Reference Name="ControlInput">
-																		<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
-																	</Reference>
-																	<Reference Name="Curve">
-																		<Custom>
-																			<Curve Name="" ID="{2209294B-DA6A-4BBF-81F5-39962E5548F0}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="3"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>0</XPos>
-																						<YPos>-7</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>100</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</Custom>
-																	</Reference>
-																</ReferenceList>
-															</RTPC>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{99B7C591-2E34-4DDC-8991-6217B12C5B73}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="AMBIENCEBEDS_FOREST_WIND" ID="{E2C23255-C13D-48DC-8F15-A56394F6E7A8}" ShortID="135038817">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{B94B199B-F15B-45D6-8894-3E9E617C7BFF}">
-													<Language>SFX</Language>
-													<AudioFile>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_WIND.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="638326763"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ObjectLists>
-												<ObjectList Name="RTPC">
-													<Reference>
-														<Local>
-															<RTPC Name="" ID="{7E3F3A67-9C7F-43E0-972D-3DC9B647618F}" ShortID="620894528">
-																<PropertyList>
-																	<Property Name="PropertyName" Type="string" Value="Volume"/>
-																</PropertyList>
-																<ReferenceList>
-																	<Reference Name="ControlInput">
-																		<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
-																	</Reference>
-																	<Reference Name="Curve">
-																		<Custom>
-																			<Curve Name="" ID="{CC27273E-D7C9-4EED-925E-EF1CDE660AF2}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="3"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>0</XPos>
-																						<YPos>-7</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>100</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</Custom>
-																	</Reference>
-																</ReferenceList>
-															</RTPC>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{B94B199B-F15B-45D6-8894-3E9E617C7BFF}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<SwitchContainer Name="LANTERNSWITCH" ID="{AA5D569B-A922-4F53-8C5E-93F77FB0D195}" ShortID="672183269">
-											<PropertyList>
-												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>2</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="DefaultSwitchOrState">
-													<ObjectRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-												<Reference Name="SwitchGroupOrStateGroup">
-													<ObjectRef Name="LANTERNAREASWITCH" ID="{39D3E30F-7516-4D69-A1BF-084A7A1CE641}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<Sound Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}" ShortID="534825115">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<SourcePlugin Name="Silence" ID="{16E7C46E-F7DA-41B5-85FD-58226629583E}" ShortID="680081601" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
-															<PropertyList>
-																<Property Name="Length" Type="Real32" Value="20"/>
-																<Property Name="LengthMax" Type="Real32" Value="10"/>
-																<Property Name="LengthMin" Type="Real32" Value="-10"/>
-															</PropertyList>
-															<Language>SFX</Language>
-														</SourcePlugin>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="Silence" ID="{16E7C46E-F7DA-41B5-85FD-58226629583E}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}" ShortID="160354449">
+												<Sound Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{D45FC1F0-C5E0-4385-B672-EEB9BDCE78BF}" ShortID="319658802">
 													<PropertyList>
 														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-													</PropertyList>
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}">
-															<PropertyList>
-																<Property Name="FadeInDuration" Type="Real64" Value="0.19928479034629"/>
-																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-															</PropertyList>
-															<Language>SFX</Language>
-															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="37599359"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-											</ChildrenList>
-											<GroupingInfo>
-												<GroupingBehaviorList>
-													<GroupingBehavior>
-														<ItemRef Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}"/>
-													</GroupingBehavior>
-													<GroupingBehavior>
-														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}"/>
-														<PropertyList>
-															<Property Name="FadeInTime" Type="Real64">
-																<ValueList>
-																	<Value>1</Value>
-																</ValueList>
-															</Property>
-															<Property Name="FadeOutTime" Type="Real64">
-																<ValueList>
-																	<Value>2</Value>
-																</ValueList>
-															</Property>
-														</PropertyList>
-													</GroupingBehavior>
-												</GroupingBehaviorList>
-												<GroupingList>
-													<Grouping>
-														<SwitchRef Name="LANTERNS" ID="{E360FFD1-1AFD-493C-B844-93532B06AB34}"/>
-														<ItemList>
-															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}"/>
-														</ItemList>
-													</Grouping>
-													<Grouping>
-														<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
-														<ItemList>
-															<ItemRef Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}"/>
-														</ItemList>
-													</Grouping>
-												</GroupingList>
-											</GroupingInfo>
-										</SwitchContainer>
-										<SwitchContainer Name="FIREFLIESSWITCH" ID="{7E1DFEE4-5FA8-4902-B11D-86FD7B63229E}" ShortID="963346775">
-											<PropertyList>
-												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>2</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="DefaultSwitchOrState">
-													<ObjectRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-												<Reference Name="SwitchGroupOrStateGroup">
-													<ObjectRef Name="FIREFLIESSWITCH" ID="{16BA02A5-2FB4-47DA-B51C-B50A133C537B}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<Sound Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}" ShortID="287477350">
-													<PropertyList>
-														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-													</PropertyList>
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{A4E40C48-6D46-4FD3-81EB-F74F45AEBD34}">
-															<PropertyList>
-																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-															</PropertyList>
-															<Language>SFX</Language>
-															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="862827106"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{A4E40C48-6D46-4FD3-81EB-F74F45AEBD34}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}" ShortID="118004062">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<SourcePlugin Name="Silence" ID="{C133EB15-83E5-4082-B7C1-DB9177F89A32}" ShortID="710891349" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
-															<PropertyList>
-																<Property Name="Length" Type="Real32" Value="20"/>
-																<Property Name="LengthMax" Type="Real32" Value="10"/>
-																<Property Name="LengthMin" Type="Real32" Value="-10"/>
-															</PropertyList>
-															<Language>SFX</Language>
-														</SourcePlugin>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="Silence" ID="{C133EB15-83E5-4082-B7C1-DB9177F89A32}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-											</ChildrenList>
-											<GroupingInfo>
-												<GroupingBehaviorList>
-													<GroupingBehavior>
-														<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}"/>
-														<PropertyList>
-															<Property Name="FadeInTime" Type="Real64">
-																<ValueList>
-																	<Value>1</Value>
-																</ValueList>
-															</Property>
-															<Property Name="FadeOutTime" Type="Real64">
-																<ValueList>
-																	<Value>2</Value>
-																</ValueList>
-															</Property>
-														</PropertyList>
-													</GroupingBehavior>
-													<GroupingBehavior>
-														<ItemRef Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}"/>
-													</GroupingBehavior>
-												</GroupingBehaviorList>
-												<GroupingList>
-													<Grouping>
-														<SwitchRef Name="FIREFLIES" ID="{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"/>
-														<ItemList>
-															<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}"/>
-														</ItemList>
-													</Grouping>
-													<Grouping>
-														<SwitchRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"/>
-														<ItemList>
-															<ItemRef Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}"/>
-														</ItemList>
-													</Grouping>
-												</GroupingList>
-											</GroupingInfo>
-										</SwitchContainer>
-										<SwitchContainer Name="LOTUSSWITCH" ID="{9CF01171-3A92-446B-B29A-98BFB11EC78B}" ShortID="997439529">
-											<PropertyList>
-												<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>4</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
-												</Reference>
-												<Reference Name="DefaultSwitchOrState">
-													<ObjectRef Name="NOLOTUS" ID="{6B76815F-1E63-4F65-A979-103E0FB67D80}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
-												</Reference>
-												<Reference Name="SwitchGroupOrStateGroup">
-													<ObjectRef Name="LOTUSSWITCH" ID="{4362CA85-3D56-45E4-85B7-B34695004A59}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<Sound Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}" ShortID="144267008">
-													<PropertyList>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>3</Value>
+																<Value>-19</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -763,11 +86,11 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="AMB_LOTUS_HUM" ID="{3C156DCE-7CA0-4AA5-8FCE-7C3430863747}">
+														<AudioFileSource Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{BCFB3B08-55AC-40E4-906A-737103DFFF72}">
 															<Language>SFX</Language>
-															<AudioFile>Ambience\Beds\Lotus\AMB_LOTUS_HUM.wav</AudioFile>
+															<AudioFile>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_INSECTS.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="940884523"/>
+																<MediaID ID="926564563"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -775,7 +98,7 @@
 														<ObjectList Name="RTPC">
 															<Reference>
 																<Local>
-																	<RTPC Name="" ID="{D4EFEBE4-40AC-4EAF-9557-0D2A0CE377FF}" ShortID="857618651">
+																	<RTPC Name="" ID="{8244771C-52E2-4BB3-B629-E6A61B2AF893}" ShortID="319250300">
 																		<PropertyList>
 																			<Property Name="PropertyName" Type="string" Value="Volume"/>
 																		</PropertyList>
@@ -785,19 +108,19 @@
 																			</Reference>
 																			<Reference Name="Curve">
 																				<Custom>
-																					<Curve Name="" ID="{1829C7BE-C7D6-4DD1-A51C-2533BAEE1A56}">
+																					<Curve Name="" ID="{E72ED121-99AC-4B05-9811-377F08FCA2A7}">
 																						<PropertyList>
 																							<Property Name="Flags" Type="int32" Value="3"/>
 																						</PropertyList>
 																						<PointList>
 																							<Point>
 																								<XPos>0</XPos>
-																								<YPos>0</YPos>
+																								<YPos>-7</YPos>
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
-																								<YPos>-9</YPos>
+																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
 																						</PointList>
@@ -811,117 +134,1019 @@
 														</ObjectList>
 													</ObjectLists>
 													<ActiveSourceList>
-														<ActiveSource Name="AMB_LOTUS_HUM" ID="{3C156DCE-7CA0-4AA5-8FCE-7C3430863747}" Platform="Linked"/>
+														<ActiveSource Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{BCFB3B08-55AC-40E4-906A-737103DFFF72}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}" ShortID="170376748">
+												<Sound Name="AMBIENCEBEDS_FOREST_WIND" ID="{274CF0D3-3293-40FD-A43C-FCA2D2EF8041}" ShortID="590606860">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<SourcePlugin Name="Silence" ID="{94BAFFD9-68ED-4BD8-8A81-0B6813E56327}" ShortID="887566741" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
-															<PropertyList>
-																<Property Name="Length" Type="Real32" Value="20"/>
-																<Property Name="LengthMax" Type="Real32" Value="10"/>
-																<Property Name="LengthMin" Type="Real32" Value="-10"/>
-															</PropertyList>
+														<AudioFileSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{106C35AF-4A94-492A-B06C-A1A8306C8E03}">
 															<Language>SFX</Language>
-														</SourcePlugin>
+															<AudioFile>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_WIND.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="638326763"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="RTPC">
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{A8D8BD05-DC67-4E43-8439-8433F49C6F0A}" ShortID="971281165">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{CD84C797-3D9A-424A-A320-9FA16A33D5D3}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>-7</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>100</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{106C35AF-4A94-492A-B06C-A1A8306C8E03}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMBIENCEBEDS_FOREST_RAIN" ID="{3AA25538-3A2C-438E-A846-E4B9A69EA888}" ShortID="581759453">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-9</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMBIENCEBEDS_FOREST_RAIN" ID="{B6AC56C4-E01D-4738-A669-54BA9C3D8CF8}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_RAIN.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="639139461"/>
+															</MediaIDList>
+														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
-														<ActiveSource Name="Silence" ID="{94BAFFD9-68ED-4BD8-8A81-0B6813E56327}" Platform="Linked"/>
+														<ActiveSource Name="AMBIENCEBEDS_FOREST_RAIN" ID="{B6AC56C4-E01D-4738-A669-54BA9C3D8CF8}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
-											<GroupingInfo>
-												<GroupingBehaviorList>
-													<GroupingBehavior>
-														<ItemRef Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}"/>
-														<PropertyList>
-															<Property Name="FadeInTime" Type="Real64">
-																<ValueList>
-																	<Value>1</Value>
-																</ValueList>
-															</Property>
-															<Property Name="FadeOutTime" Type="Real64">
-																<ValueList>
-																	<Value>1</Value>
-																</ValueList>
-															</Property>
-														</PropertyList>
-													</GroupingBehavior>
-													<GroupingBehavior>
-														<ItemRef Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}"/>
-													</GroupingBehavior>
-												</GroupingBehaviorList>
-												<GroupingList>
-													<Grouping>
-														<SwitchRef Name="LOTUS" ID="{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"/>
-														<ItemList>
-															<ItemRef Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}"/>
-														</ItemList>
-													</Grouping>
-													<Grouping>
-														<SwitchRef Name="NOLOTUS" ID="{6B76815F-1E63-4F65-A979-103E0FB67D80}"/>
-														<ItemList>
-															<ItemRef Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}"/>
-														</ItemList>
-													</Grouping>
-												</GroupingList>
-											</GroupingInfo>
-										</SwitchContainer>
+										</BlendContainer>
 									</ChildrenList>
-								</BlendContainer>
+									<GroupingInfo>
+										<GroupingBehaviorList>
+											<GroupingBehavior>
+												<ItemRef Name="FOREST" ID="{41F5C0F3-BDA2-498C-B6F6-ADFB5CCA10C3}"/>
+											</GroupingBehavior>
+										</GroupingBehaviorList>
+										<GroupingList>
+											<Grouping>
+												<SwitchRef Name="FOREST" ID="{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}"/>
+												<ItemList>
+													<ItemRef Name="FOREST" ID="{41F5C0F3-BDA2-498C-B6F6-ADFB5CCA10C3}"/>
+												</ItemList>
+											</Grouping>
+										</GroupingList>
+									</GroupingInfo>
+								</SwitchContainer>
+								<SwitchContainer Name="AMBIENCEBEDS_DRY_BIOMESWITCH" ID="{351C787D-17C9-429D-9D62-926DE152766F}" ShortID="598244249">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+										</Reference>
+										<Reference Name="DefaultSwitchOrState">
+											<ObjectRef Name="FOREST" ID="{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+										</Reference>
+										<Reference Name="SwitchGroupOrStateGroup">
+											<ObjectRef Name="AMBIENCEBIOMESWITCH" ID="{60A99DC1-F455-429C-9506-4AFCDEE27EF8}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<BlendContainer Name="CAVE" ID="{D09E0466-F392-4989-AD20-2F3AC008AD9E}" ShortID="759942249">
+											<PropertyList>
+												<Property Name="BlendBehavior" Type="int16" Value="1"/>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="AMBIENCEBEDS_CAVE_WIND" ID="{86AA03CA-FAA7-4FA2-B7BF-E1C29E9F0597}" ShortID="58821561">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-4</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMBIENCEBEDS_CAVE_WIND" ID="{39DC7999-B0AF-4C20-A246-C5A36EE10C51}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WIND.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="436027017"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMBIENCEBEDS_CAVE_WIND" ID="{39DC7999-B0AF-4C20-A246-C5A36EE10C51}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMBIENCEBEDS_CAVE_WATERDROP" ID="{C5562014-FD33-4D08-B62F-931CFF79D002}" ShortID="746344876">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-8</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMBIENCEBEDS_CAVE_WATERDROP" ID="{24CA0BF1-2C93-455F-95A8-4E73274CA178}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERDROP.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="249687352"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMBIENCEBEDS_CAVE_WATERDROP" ID="{24CA0BF1-2C93-455F-95A8-4E73274CA178}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMBIENCEBEDS_CAVE_WATERFLOW" ID="{01BC8219-1662-4752-9984-2EF3E5A8F134}" ShortID="191795390">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-14</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMBIENCEBEDS_CAVE_WATERFLOW" ID="{0E29E13A-7DC8-458A-8492-9599750FF2C4}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERFLOW.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="968818107"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMBIENCEBEDS_CAVE_WATERFLOW" ID="{0E29E13A-7DC8-458A-8492-9599750FF2C4}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<SwitchContainer Name="LANTERNSWITCH" ID="{9FCA1D09-D4BF-4372-9701-2361349F7242}" ShortID="585743648">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="DefaultSwitchOrState">
+															<ObjectRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+														<Reference Name="SwitchGroupOrStateGroup">
+															<ObjectRef Name="LANTERNAREASWITCH" ID="{39D3E30F-7516-4D69-A1BF-084A7A1CE641}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<Sound Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}" ShortID="948024075">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<SourcePlugin Name="Silence" ID="{75296591-6448-45C5-9DBD-2EBECCAE6426}" ShortID="1051325896" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+																	<PropertyList>
+																		<Property Name="Length" Type="Real32" Value="20"/>
+																		<Property Name="LengthMax" Type="Real32" Value="10"/>
+																		<Property Name="LengthMin" Type="Real32" Value="-10"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																</SourcePlugin>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="Silence" ID="{75296591-6448-45C5-9DBD-2EBECCAE6426}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Sound Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}" ShortID="586225491">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{772ED01C-E132-4B16-9D12-EA65D72F603D}">
+																	<Language>SFX</Language>
+																	<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="587809570"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{772ED01C-E132-4B16-9D12-EA65D72F603D}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+													</ChildrenList>
+													<GroupingInfo>
+														<GroupingBehaviorList>
+															<GroupingBehavior>
+																<ItemRef Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}"/>
+															</GroupingBehavior>
+															<GroupingBehavior>
+																<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}"/>
+															</GroupingBehavior>
+														</GroupingBehaviorList>
+														<GroupingList>
+															<Grouping>
+																<SwitchRef Name="LANTERNS" ID="{E360FFD1-1AFD-493C-B844-93532B06AB34}"/>
+																<ItemList>
+																	<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{6844AF80-E6C2-4735-86B6-7F87C4F5E5F0}"/>
+																</ItemList>
+															</Grouping>
+															<Grouping>
+																<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
+																<ItemList>
+																	<ItemRef Name="SILENCE" ID="{04F43251-72E9-4EC5-974B-861A882787CB}"/>
+																</ItemList>
+															</Grouping>
+														</GroupingList>
+													</GroupingInfo>
+												</SwitchContainer>
+												<SwitchContainer Name="FIREFLIESSWITCH" ID="{C9CDD39B-DC4C-4A40-A7E1-5895BCBD87DB}" ShortID="908879983">
+													<PropertyList>
+														<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="DefaultSwitchOrState">
+															<ObjectRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+														<Reference Name="SwitchGroupOrStateGroup">
+															<ObjectRef Name="FIREFLIESSWITCH" ID="{16BA02A5-2FB4-47DA-B51C-B50A133C537B}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<Sound Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}" ShortID="340447505">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{D53F62DB-EF83-49E0-B618-4365DEE8D4F0}">
+																	<PropertyList>
+																		<Property Name="FadeInDuration" Type="Real64" Value="1"/>
+																		<Property Name="FadeOutDuration" Type="Real64" Value="1"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																	<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="481153050"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{D53F62DB-EF83-49E0-B618-4365DEE8D4F0}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Sound Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}" ShortID="148579863">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<SourcePlugin Name="Silence" ID="{A8171DE3-5355-4ADC-9343-6E757D1D0F88}" ShortID="149914936" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+																	<PropertyList>
+																		<Property Name="Length" Type="Real32" Value="20"/>
+																		<Property Name="LengthMax" Type="Real32" Value="10"/>
+																		<Property Name="LengthMin" Type="Real32" Value="-10"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																</SourcePlugin>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="Silence" ID="{A8171DE3-5355-4ADC-9343-6E757D1D0F88}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+													</ChildrenList>
+													<GroupingInfo>
+														<GroupingBehaviorList>
+															<GroupingBehavior>
+																<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}"/>
+																<PropertyList>
+																	<Property Name="FadeInTime" Type="Real64">
+																		<ValueList>
+																			<Value>1</Value>
+																		</ValueList>
+																	</Property>
+																	<Property Name="FadeOutTime" Type="Real64">
+																		<ValueList>
+																			<Value>2</Value>
+																		</ValueList>
+																	</Property>
+																</PropertyList>
+															</GroupingBehavior>
+															<GroupingBehavior>
+																<ItemRef Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}"/>
+															</GroupingBehavior>
+														</GroupingBehaviorList>
+														<GroupingList>
+															<Grouping>
+																<SwitchRef Name="FIREFLIES" ID="{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"/>
+																<ItemList>
+																	<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{FEAEE006-24F5-400B-8F5B-03BE44011C04}"/>
+																</ItemList>
+															</Grouping>
+															<Grouping>
+																<SwitchRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"/>
+																<ItemList>
+																	<ItemRef Name="SILENCE" ID="{F9507ADD-9BC1-4415-9EE0-AFCD672CA500}"/>
+																</ItemList>
+															</Grouping>
+														</GroupingList>
+													</GroupingInfo>
+												</SwitchContainer>
+											</ChildrenList>
+										</BlendContainer>
+										<BlendContainer Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}" ShortID="134399443">
+											<PropertyList>
+												<Property Name="BlendBehavior" Type="int16" Value="1"/>
+												<Property Name="Color" Type="int16" Value="4"/>
+												<Property Name="OverrideColor" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{BCEE280E-E6E7-41CB-A157-BB4F2C22FC9A}" ShortID="638755702">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-19</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{99B7C591-2E34-4DDC-8991-6217B12C5B73}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_INSECTS.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="926564563"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="RTPC">
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{D06EB441-E37F-4B50-AD1D-73103DB785DC}" ShortID="326261505">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{2209294B-DA6A-4BBF-81F5-39962E5548F0}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>-7</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>100</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="AMBIENCEBEDS_FOREST_INSECTS" ID="{99B7C591-2E34-4DDC-8991-6217B12C5B73}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMBIENCEBEDS_FOREST_WIND" ID="{E2C23255-C13D-48DC-8F15-A56394F6E7A8}" ShortID="135038817">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{B94B199B-F15B-45D6-8894-3E9E617C7BFF}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_WIND.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="638326763"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="RTPC">
+															<Reference>
+																<Local>
+																	<RTPC Name="" ID="{7E3F3A67-9C7F-43E0-972D-3DC9B647618F}" ShortID="620894528">
+																		<PropertyList>
+																			<Property Name="PropertyName" Type="string" Value="Volume"/>
+																		</PropertyList>
+																		<ReferenceList>
+																			<Reference Name="ControlInput">
+																				<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																			</Reference>
+																			<Reference Name="Curve">
+																				<Custom>
+																					<Curve Name="" ID="{CC27273E-D7C9-4EED-925E-EF1CDE660AF2}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>-7</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>100</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</Custom>
+																			</Reference>
+																		</ReferenceList>
+																	</RTPC>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="AMBIENCEBEDS_FOREST_WIND" ID="{B94B199B-F15B-45D6-8894-3E9E617C7BFF}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<SwitchContainer Name="LANTERNSWITCH" ID="{AA5D569B-A922-4F53-8C5E-93F77FB0D195}" ShortID="672183269">
+													<PropertyList>
+														<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>2</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="DefaultSwitchOrState">
+															<ObjectRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+														<Reference Name="SwitchGroupOrStateGroup">
+															<ObjectRef Name="LANTERNAREASWITCH" ID="{39D3E30F-7516-4D69-A1BF-084A7A1CE641}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<Sound Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}" ShortID="534825115">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<SourcePlugin Name="Silence" ID="{16E7C46E-F7DA-41B5-85FD-58226629583E}" ShortID="680081601" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+																	<PropertyList>
+																		<Property Name="Length" Type="Real32" Value="20"/>
+																		<Property Name="LengthMax" Type="Real32" Value="10"/>
+																		<Property Name="LengthMin" Type="Real32" Value="-10"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																</SourcePlugin>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="Silence" ID="{16E7C46E-F7DA-41B5-85FD-58226629583E}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Sound Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}" ShortID="160354449">
+															<PropertyList>
+																<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}">
+																	<PropertyList>
+																		<Property Name="FadeInDuration" Type="Real64" Value="0.19928479034629"/>
+																		<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																	<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="37599359"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{8838804E-AD5B-4B2A-A420-E9A51D4C25B3}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+													</ChildrenList>
+													<GroupingInfo>
+														<GroupingBehaviorList>
+															<GroupingBehavior>
+																<ItemRef Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}"/>
+															</GroupingBehavior>
+															<GroupingBehavior>
+																<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}"/>
+																<PropertyList>
+																	<Property Name="FadeInTime" Type="Real64">
+																		<ValueList>
+																			<Value>1</Value>
+																		</ValueList>
+																	</Property>
+																	<Property Name="FadeOutTime" Type="Real64">
+																		<ValueList>
+																			<Value>2</Value>
+																		</ValueList>
+																	</Property>
+																</PropertyList>
+															</GroupingBehavior>
+														</GroupingBehaviorList>
+														<GroupingList>
+															<Grouping>
+																<SwitchRef Name="LANTERNS" ID="{E360FFD1-1AFD-493C-B844-93532B06AB34}"/>
+																<ItemList>
+																	<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{4AF7D3D6-851E-4293-9497-4BFBA81FE7AF}"/>
+																</ItemList>
+															</Grouping>
+															<Grouping>
+																<SwitchRef Name="NOLANTERNS" ID="{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"/>
+																<ItemList>
+																	<ItemRef Name="SILENCE" ID="{FF0EC748-7A26-4615-A66B-B25ED1B4C226}"/>
+																</ItemList>
+															</Grouping>
+														</GroupingList>
+													</GroupingInfo>
+												</SwitchContainer>
+												<SwitchContainer Name="FIREFLIESSWITCH" ID="{7E1DFEE4-5FA8-4902-B11D-86FD7B63229E}" ShortID="963346775">
+													<PropertyList>
+														<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>2</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="DefaultSwitchOrState">
+															<ObjectRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+														<Reference Name="SwitchGroupOrStateGroup">
+															<ObjectRef Name="FIREFLIESSWITCH" ID="{16BA02A5-2FB4-47DA-B51C-B50A133C537B}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<Sound Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}" ShortID="287477350">
+															<PropertyList>
+																<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{A4E40C48-6D46-4FD3-81EB-F74F45AEBD34}">
+																	<PropertyList>
+																		<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																	<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="862827106"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{A4E40C48-6D46-4FD3-81EB-F74F45AEBD34}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Sound Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}" ShortID="118004062">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<SourcePlugin Name="Silence" ID="{C133EB15-83E5-4082-B7C1-DB9177F89A32}" ShortID="710891349" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+																	<PropertyList>
+																		<Property Name="Length" Type="Real32" Value="20"/>
+																		<Property Name="LengthMax" Type="Real32" Value="10"/>
+																		<Property Name="LengthMin" Type="Real32" Value="-10"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																</SourcePlugin>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="Silence" ID="{C133EB15-83E5-4082-B7C1-DB9177F89A32}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+													</ChildrenList>
+													<GroupingInfo>
+														<GroupingBehaviorList>
+															<GroupingBehavior>
+																<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}"/>
+																<PropertyList>
+																	<Property Name="FadeInTime" Type="Real64">
+																		<ValueList>
+																			<Value>1</Value>
+																		</ValueList>
+																	</Property>
+																	<Property Name="FadeOutTime" Type="Real64">
+																		<ValueList>
+																			<Value>2</Value>
+																		</ValueList>
+																	</Property>
+																</PropertyList>
+															</GroupingBehavior>
+															<GroupingBehavior>
+																<ItemRef Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}"/>
+															</GroupingBehavior>
+														</GroupingBehaviorList>
+														<GroupingList>
+															<Grouping>
+																<SwitchRef Name="FIREFLIES" ID="{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"/>
+																<ItemList>
+																	<ItemRef Name="AMB_LANTERNS_MAGIC" ID="{9DEC7F04-D1A6-4C91-97A4-7E852449E299}"/>
+																</ItemList>
+															</Grouping>
+															<Grouping>
+																<SwitchRef Name="NOFIREFLIES" ID="{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"/>
+																<ItemList>
+																	<ItemRef Name="SILENCE" ID="{00634C0E-DB3A-4600-843F-44D2E8315986}"/>
+																</ItemList>
+															</Grouping>
+														</GroupingList>
+													</GroupingInfo>
+												</SwitchContainer>
+												<SwitchContainer Name="LOTUSSWITCH" ID="{9CF01171-3A92-446B-B29A-98BFB11EC78B}" ShortID="997439529">
+													<PropertyList>
+														<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>4</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="DefaultSwitchOrState">
+															<ObjectRef Name="NOLOTUS" ID="{6B76815F-1E63-4F65-A979-103E0FB67D80}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+														<Reference Name="SwitchGroupOrStateGroup">
+															<ObjectRef Name="LOTUSSWITCH" ID="{4362CA85-3D56-45E4-85B7-B34695004A59}" WorkUnitID="{1D390D89-6FAA-4A44-8D35-D51423E241E9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<Sound Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}" ShortID="144267008">
+															<PropertyList>
+																<Property Name="Volume" Type="Real64">
+																	<ValueList>
+																		<Value>3</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="AMB_LOTUS_HUM" ID="{3C156DCE-7CA0-4AA5-8FCE-7C3430863747}">
+																	<Language>SFX</Language>
+																	<AudioFile>Ambience\Beds\Lotus\AMB_LOTUS_HUM.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="940884523"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ObjectLists>
+																<ObjectList Name="RTPC">
+																	<Reference>
+																		<Local>
+																			<RTPC Name="" ID="{D4EFEBE4-40AC-4EAF-9557-0D2A0CE377FF}" ShortID="857618651">
+																				<PropertyList>
+																					<Property Name="PropertyName" Type="string" Value="Volume"/>
+																				</PropertyList>
+																				<ReferenceList>
+																					<Reference Name="ControlInput">
+																						<ObjectRef Name="RTPC_LOTUSDISTANCE" ID="{F7DC75C8-AE58-4101-90FD-59EF016568FE}" WorkUnitID="{77B8983B-19B8-4D1E-997B-0521D7F4095A}"/>
+																					</Reference>
+																					<Reference Name="Curve">
+																						<Custom>
+																							<Curve Name="" ID="{1829C7BE-C7D6-4DD1-A51C-2533BAEE1A56}">
+																								<PropertyList>
+																									<Property Name="Flags" Type="int32" Value="3"/>
+																								</PropertyList>
+																								<PointList>
+																									<Point>
+																										<XPos>0</XPos>
+																										<YPos>0</YPos>
+																										<Flags>5</Flags>
+																									</Point>
+																									<Point>
+																										<XPos>100</XPos>
+																										<YPos>-9</YPos>
+																										<Flags>37</Flags>
+																									</Point>
+																								</PointList>
+																							</Curve>
+																						</Custom>
+																					</Reference>
+																				</ReferenceList>
+																			</RTPC>
+																		</Local>
+																	</Reference>
+																</ObjectList>
+															</ObjectLists>
+															<ActiveSourceList>
+																<ActiveSource Name="AMB_LOTUS_HUM" ID="{3C156DCE-7CA0-4AA5-8FCE-7C3430863747}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Sound Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}" ShortID="170376748">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="AMBIENCE_2D" ID="{1B585CB4-EAFD-417F-A764-D005CF137D6F}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<SourcePlugin Name="Silence" ID="{94BAFFD9-68ED-4BD8-8A81-0B6813E56327}" ShortID="887566741" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+																	<PropertyList>
+																		<Property Name="Length" Type="Real32" Value="20"/>
+																		<Property Name="LengthMax" Type="Real32" Value="10"/>
+																		<Property Name="LengthMin" Type="Real32" Value="-10"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																</SourcePlugin>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="Silence" ID="{94BAFFD9-68ED-4BD8-8A81-0B6813E56327}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+													</ChildrenList>
+													<GroupingInfo>
+														<GroupingBehaviorList>
+															<GroupingBehavior>
+																<ItemRef Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}"/>
+																<PropertyList>
+																	<Property Name="FadeInTime" Type="Real64">
+																		<ValueList>
+																			<Value>1</Value>
+																		</ValueList>
+																	</Property>
+																	<Property Name="FadeOutTime" Type="Real64">
+																		<ValueList>
+																			<Value>1</Value>
+																		</ValueList>
+																	</Property>
+																</PropertyList>
+															</GroupingBehavior>
+															<GroupingBehavior>
+																<ItemRef Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}"/>
+															</GroupingBehavior>
+														</GroupingBehaviorList>
+														<GroupingList>
+															<Grouping>
+																<SwitchRef Name="LOTUS" ID="{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"/>
+																<ItemList>
+																	<ItemRef Name="AMB_LOTUS_HUM" ID="{1358ED74-3B0A-4132-884A-F39954B4D99D}"/>
+																</ItemList>
+															</Grouping>
+															<Grouping>
+																<SwitchRef Name="NOLOTUS" ID="{6B76815F-1E63-4F65-A979-103E0FB67D80}"/>
+																<ItemList>
+																	<ItemRef Name="SILENCE" ID="{3D93DEE4-3705-4F56-81C6-D351C6B70932}"/>
+																</ItemList>
+															</Grouping>
+														</GroupingList>
+													</GroupingInfo>
+												</SwitchContainer>
+											</ChildrenList>
+										</BlendContainer>
+									</ChildrenList>
+									<GroupingInfo>
+										<GroupingBehaviorList>
+											<GroupingBehavior>
+												<ItemRef Name="CAVE" ID="{D09E0466-F392-4989-AD20-2F3AC008AD9E}"/>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}"/>
+											</GroupingBehavior>
+										</GroupingBehaviorList>
+										<GroupingList>
+											<Grouping>
+												<SwitchRef Name="FOREST" ID="{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}"/>
+												<ItemList>
+													<ItemRef Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="CAVE" ID="{C5E520D5-792B-4A0E-B15F-864D89565062}"/>
+												<ItemList>
+													<ItemRef Name="CAVE" ID="{D09E0466-F392-4989-AD20-2F3AC008AD9E}"/>
+												</ItemList>
+											</Grouping>
+										</GroupingList>
+									</GroupingInfo>
+								</SwitchContainer>
 							</ChildrenList>
 							<GroupingInfo>
 								<GroupingBehaviorList>
 									<GroupingBehavior>
-										<ItemRef Name="CAVE" ID="{D09E0466-F392-4989-AD20-2F3AC008AD9E}"/>
-										<PropertyList>
-											<Property Name="FadeInTime" Type="Real64">
-												<ValueList>
-													<Value>2.5</Value>
-												</ValueList>
-											</Property>
-											<Property Name="FadeOutTime" Type="Real64">
-												<ValueList>
-													<Value>2.5</Value>
-												</ValueList>
-											</Property>
-										</PropertyList>
+										<ItemRef Name="AMBIENCEBEDS_DRY_BIOMESWITCH" ID="{351C787D-17C9-429D-9D62-926DE152766F}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
-										<ItemRef Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}"/>
-										<PropertyList>
-											<Property Name="FadeInTime" Type="Real64">
-												<ValueList>
-													<Value>2.5</Value>
-												</ValueList>
-											</Property>
-											<Property Name="FadeOutTime" Type="Real64">
-												<ValueList>
-													<Value>2.5</Value>
-												</ValueList>
-											</Property>
-										</PropertyList>
+										<ItemRef Name="AMBIENCEBEDS_WET_BIOMESWITCH" ID="{EDD92D85-F9F9-4753-A113-4D33A0DF52DC}"/>
 									</GroupingBehavior>
 								</GroupingBehaviorList>
 								<GroupingList>
 									<Grouping>
-										<SwitchRef Name="FOREST" ID="{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}"/>
+										<SwitchRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}"/>
 										<ItemList>
-											<ItemRef Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}"/>
+											<ItemRef Name="AMBIENCEBEDS_DRY_BIOMESWITCH" ID="{351C787D-17C9-429D-9D62-926DE152766F}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
-										<SwitchRef Name="CAVE" ID="{C5E520D5-792B-4A0E-B15F-864D89565062}"/>
+										<SwitchRef Name="WET" ID="{17F8BBEC-CBF2-4076-A75F-8BF5F00B4D21}"/>
 										<ItemList>
-											<ItemRef Name="CAVE" ID="{D09E0466-F392-4989-AD20-2F3AC008AD9E}"/>
+											<ItemRef Name="AMBIENCEBEDS_WET_BIOMESWITCH" ID="{EDD92D85-F9F9-4753-A113-4D33A0DF52DC}"/>
 										</ItemList>
 									</Grouping>
 								</GroupingList>
@@ -2659,6 +2884,7 @@
 						</SwitchContainer>
 					</ChildrenList>
 				</ActorMixer>
+				<WorkUnit Name="AMBIENCE_ONESHOTS" ID="{79302EDA-CC1C-4405-B224-41D895F603F9}" PersistMode="Reference"/>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

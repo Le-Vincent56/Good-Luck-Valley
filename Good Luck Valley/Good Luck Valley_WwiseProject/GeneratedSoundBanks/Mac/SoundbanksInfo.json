@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{9C9103E7-AE2F-B704-5996-7FE454EFC4E6}",
+    "Hash": "{39B03E84-D25D-58E0-F2B4-F1727261EB4F}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -319,6 +319,10 @@
       "Name": "RTPC_PLAYERFALLSPEED"
      },
      {
+      "Id": "2612323176",
+      "Name": "RTPC_WETNESS"
+     },
+     {
       "Id": "2653406601",
       "Name": "RTPC_PLAYERSPEED"
      },
@@ -465,6 +469,23 @@
        {
         "Id": "3696588959",
         "Name": "NOFIREFLIES"
+       }
+      ]
+     },
+     {
+      "Id": "197954834",
+      "Name": "WETNESSSWITCH",
+      "GameParameterRef": {
+       "Id": "2612323176"
+      },
+      "Switches": [
+       {
+        "Id": "630539344",
+        "Name": "DRY"
+       },
+       {
+        "Id": "1181096339",
+        "Name": "WET"
        }
       ]
      },
@@ -635,7 +656,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{DA732985-4CF4-7BDE-891D-16643F03E60E}",
+    "Hash": "{5BB616B1-CCF7-A917-8490-B6D1F54348EE}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -1240,6 +1261,14 @@
       "CachePath": "BB/{BB9C0A92-C920-D02A-4A40-2C7764C0683A}.wem"
      },
      {
+      "Id": "493960833",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Oneshots\\Thunder\\AMBIENCE_THUNDER_2.wav",
+      "CachePath": "08/{08ABC1D4-606B-DC9C-0F6A-6CB3177EBA06}.wem"
+     },
+     {
       "Id": "498523602",
       "Language": "SFX",
       "Streaming": "false",
@@ -1414,6 +1443,14 @@
       "Location": "Memory",
       "ShortName": "Ambience\\Beds\\Forest\\AMBIENCEBEDS_FOREST_WIND.wav",
       "CachePath": "6C/{6C0D71EC-7A70-22C5-2CB1-5E76F87F3CFE}.wem"
+     },
+     {
+      "Id": "639139461",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Forest\\AMBIENCEBEDS_FOREST_RAIN.wav",
+      "CachePath": "49/{499D4D40-5A0C-3592-AADF-6CCBE42BF462}.wem"
      },
      {
       "Id": "647585239",
@@ -1614,6 +1651,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Jump\\Grass\\PLAYER_JUMP_GRASS_02.wav",
       "CachePath": "C9/{C92C6263-0368-A94A-ECB0-CE41C9BB9225}.wem"
+     },
+     {
+      "Id": "810369089",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Oneshots\\Thunder\\AMBIENCE_THUNDER_1.wav",
+      "CachePath": "07/{075463CE-ADD2-6FA4-CF7E-3DB38DE3DBF8}.wem"
      },
      {
       "Id": "815469409",
@@ -1846,6 +1891,14 @@
       "Location": "Memory",
       "ShortName": "Ambience\\2D\\Forest\\Insect Chirps\\AMBIENCE2D_FOREST_INSECTCHIRP_01.wav",
       "CachePath": "37/{37F5919C-509D-FF25-9653-8DA271D2A24C}.wem"
+     },
+     {
+      "Id": "977015349",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Oneshots\\Thunder\\AMBIENCE_THUNDER_3.wav",
+      "CachePath": "77/{77C955D1-8663-B66D-8983-6EA5E21B3535}.wem"
      },
      {
       "Id": "1002172523",
@@ -2318,173 +2371,211 @@
        {
         "SwitchValue": {
          "GroupType": "Switch",
-         "GroupId": "1097908491",
-         "Id": "491961918",
+         "GroupId": "197954834",
+         "Id": "630539344",
          "Default": "true"
         },
-        "MediaRefs": [
-         {
-          "Id": "638326763"
-         },
-         {
-          "Id": "926564563"
-         }
-        ],
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "Switch",
-           "GroupId": "2139255308",
-           "Id": "1333297618"
+           "GroupId": "1097908491",
+           "Id": "491961918",
+           "Default": "true"
           },
           "MediaRefs": [
            {
-            "Id": "37599359"
+            "Id": "638326763"
+           },
+           {
+            "Id": "926564563"
+           }
+          ],
+          "Children": [
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "2139255308",
+             "Id": "1333297618"
+            },
+            "MediaRefs": [
+             {
+              "Id": "37599359"
+             }
+            ]
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "2139255308",
+             "Id": "135296687",
+             "Default": "true"
+            },
+            "PluginRefs": {
+             "Custom": [
+              {
+               "Id": "680081601"
+              }
+             ]
+            }
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "174011288",
+             "Id": "1126065684"
+            },
+            "MediaRefs": [
+             {
+              "Id": "862827106"
+             }
+            ]
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "174011288",
+             "Id": "3696588959",
+             "Default": "true"
+            },
+            "PluginRefs": {
+             "Custom": [
+              {
+               "Id": "710891349"
+              }
+             ]
+            }
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "1582413998",
+             "Id": "137712726"
+            },
+            "MediaRefs": [
+             {
+              "Id": "940884523"
+             }
+            ]
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "1582413998",
+             "Id": "2031016961",
+             "Default": "true"
+            },
+            "PluginRefs": {
+             "Custom": [
+              {
+               "Id": "887566741"
+              }
+             ]
+            }
            }
           ]
          },
          {
           "SwitchValue": {
            "GroupType": "Switch",
-           "GroupId": "2139255308",
-           "Id": "135296687",
-           "Default": "true"
-          },
-          "PluginRefs": {
-           "Custom": [
-            {
-             "Id": "680081601"
-            }
-           ]
-          }
-         },
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "174011288",
-           "Id": "1126065684"
+           "GroupId": "1097908491",
+           "Id": "4122393694"
           },
           "MediaRefs": [
            {
-            "Id": "862827106"
-           }
-          ]
-         },
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "174011288",
-           "Id": "3696588959",
-           "Default": "true"
-          },
-          "PluginRefs": {
-           "Custom": [
-            {
-             "Id": "710891349"
-            }
-           ]
-          }
-         },
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "1582413998",
-           "Id": "137712726"
-          },
-          "MediaRefs": [
+            "Id": "249687352"
+           },
            {
-            "Id": "940884523"
+            "Id": "436027017"
+           },
+           {
+            "Id": "968818107"
+           }
+          ],
+          "Children": [
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "2139255308",
+             "Id": "1333297618"
+            },
+            "MediaRefs": [
+             {
+              "Id": "587809570"
+             }
+            ]
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "2139255308",
+             "Id": "135296687",
+             "Default": "true"
+            },
+            "PluginRefs": {
+             "Custom": [
+              {
+               "Id": "1051325896"
+              }
+             ]
+            }
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "174011288",
+             "Id": "1126065684"
+            },
+            "MediaRefs": [
+             {
+              "Id": "481153050"
+             }
+            ]
+           },
+           {
+            "SwitchValue": {
+             "GroupType": "Switch",
+             "GroupId": "174011288",
+             "Id": "3696588959",
+             "Default": "true"
+            },
+            "PluginRefs": {
+             "Custom": [
+              {
+               "Id": "149914936"
+              }
+             ]
+            }
            }
           ]
-         },
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "1582413998",
-           "Id": "2031016961",
-           "Default": "true"
-          },
-          "PluginRefs": {
-           "Custom": [
-            {
-             "Id": "887566741"
-            }
-           ]
-          }
          }
         ]
        },
        {
         "SwitchValue": {
          "GroupType": "Switch",
-         "GroupId": "1097908491",
-         "Id": "4122393694"
+         "GroupId": "197954834",
+         "Id": "1181096339"
         },
-        "MediaRefs": [
-         {
-          "Id": "249687352"
-         },
-         {
-          "Id": "436027017"
-         },
-         {
-          "Id": "968818107"
-         }
-        ],
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "Switch",
-           "GroupId": "2139255308",
-           "Id": "1333297618"
+           "GroupId": "1097908491",
+           "Id": "491961918",
+           "Default": "true"
           },
           "MediaRefs": [
            {
-            "Id": "587809570"
-           }
-          ]
-         },
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "2139255308",
-           "Id": "135296687",
-           "Default": "true"
-          },
-          "PluginRefs": {
-           "Custom": [
-            {
-             "Id": "1051325896"
-            }
-           ]
-          }
-         },
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "174011288",
-           "Id": "1126065684"
-          },
-          "MediaRefs": [
+            "Id": "638326763"
+           },
            {
-            "Id": "481153050"
+            "Id": "639139461"
+           },
+           {
+            "Id": "926564563"
            }
           ]
-         },
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "174011288",
-           "Id": "3696588959",
-           "Default": "true"
-          },
-          "PluginRefs": {
-           "Custom": [
-            {
-             "Id": "149914936"
-            }
-           ]
-          }
          }
         ]
        }
@@ -3594,6 +3685,42 @@
       ]
      },
      {
+      "Id": "2142929832",
+      "Name": "PLAY_THUNDER_1",
+      "DurationType": "OneShot",
+      "DurationMin": "6.552604",
+      "DurationMax": "6.552604",
+      "MediaRefs": [
+       {
+        "Id": "810369089"
+       }
+      ]
+     },
+     {
+      "Id": "2142929835",
+      "Name": "PLAY_THUNDER_2",
+      "DurationType": "OneShot",
+      "DurationMin": "2.928125",
+      "DurationMax": "2.928125",
+      "MediaRefs": [
+       {
+        "Id": "493960833"
+       }
+      ]
+     },
+     {
+      "Id": "2142929834",
+      "Name": "PLAY_THUNDER_3",
+      "DurationType": "OneShot",
+      "DurationMin": "11.715333",
+      "DurationMax": "11.715333",
+      "MediaRefs": [
+       {
+        "Id": "977015349"
+       }
+      ]
+     },
+     {
       "Id": "3704528693",
       "Name": "PLAY_TIMEWARP_TICK",
       "DurationType": "Infinite",
@@ -3798,6 +3925,10 @@
       "Name": "RTPC_PLAYERFALLSPEED"
      },
      {
+      "Id": "2612323176",
+      "Name": "RTPC_WETNESS"
+     },
+     {
       "Id": "2653406601",
       "Name": "RTPC_PLAYERSPEED"
      }
@@ -3896,6 +4027,23 @@
        {
         "Id": "3696588959",
         "Name": "NOFIREFLIES"
+       }
+      ]
+     },
+     {
+      "Id": "197954834",
+      "Name": "WETNESSSWITCH",
+      "GameParameterRef": {
+       "Id": "2612323176"
+      },
+      "Switches": [
+       {
+        "Id": "630539344",
+        "Name": "DRY"
+       },
+       {
+        "Id": "1181096339",
+        "Name": "WET"
        }
       ]
      },
@@ -4022,6 +4170,6 @@
     ]
    }
   ],
-  "FileHash": "{1C8D3054-DB5C-F2AC-98DC-A43E6D27833C}"
+  "FileHash": "{F1F160D7-277D-7273-73ED-B6DDCBFCBD04}"
  }
 }
