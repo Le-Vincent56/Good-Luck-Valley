@@ -13,9 +13,11 @@ namespace GoodLuckValley.Interactables.Fireflies
 {
     public class Fireflies : GateInteractable, IPhysicsObject
     {
+        [Header("References")]
         private Transform target;
         private PhysicsOrchestrator physicsOrchestrator;
         private Light2D feedbackLight;
+        [SerializeField] private ParticleSystem feedbackParticles;
 
         [Header("Movement")]
         [SerializeField] private Vector2 velocity;
@@ -200,6 +202,9 @@ namespace GoodLuckValley.Interactables.Fireflies
             {
                 Flash(0f, flashDuration / 2f);
             });
+
+            // Play the particles
+            feedbackParticles.Play();
         }
 
         /// <summary>
