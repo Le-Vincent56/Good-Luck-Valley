@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Cameras.Persistence;
 using GoodLuckValley.Interactables;
@@ -37,11 +38,6 @@ namespace GoodLuckValley.Persistence
         private FileSettingsDataService settingsDataService;
         private SceneLoader sceneLoader;
 
-        public Action PrepareDataBind = delegate { };
-        public Action<int> DataBinded = delegate { };
-        public Action SettingsSet = delegate { };
-        public Action Release = delegate { };
-
         public bool Debug { get => debug; }
         public GameData GameData { get => selectedData; }
         public Dictionary<string, GameData> Saves { get { return saves; } }
@@ -67,48 +63,18 @@ namespace GoodLuckValley.Persistence
                 NewSettings();
         }
 
-        private void Start()
-        {
-            // Ensure that the Scene Loader is retrieved
-            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
-
-            sceneLoader.Release += Cleanup;
-            sceneLoader.Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
-        }
-
-        private void OnDestroy()
-        {
-            // Release all events
-            Release.Invoke();
-        }
-
         /// <summary>
-        /// Clean up by unsubscribing from events from the Scene Loader
+        /// Bind all game data
         /// </summary>
-        private void Cleanup()
-        {
-            // Ensure that the Scene Loader is retrieved
-            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
-
-            sceneLoader.Release -= Cleanup;
-            sceneLoader.Manager.OnSceneGroupLoaded -= OnSceneGroupLoaded;
-        }
-
-        private void OnSceneGroupLoaded(int index)
+        private void BindData()
         {
             // Bind Settings
             Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
             Bind<VideoSaveHandler, VideoData>(settingsData.Video);
             Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
 
-            // Notify settings binded
-            SettingsSet.Invoke();
-
             // Exit case - no selected data
             if (selectedData == null) return;
-
-            // Prepare for data binding
-            PrepareDataBind.Invoke();
 
             // Bind Data
             Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
@@ -116,9 +82,6 @@ namespace GoodLuckValley.Persistence
             Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
             Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
             Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
-
-            // Notify data binded
-            DataBinded.Invoke(index);
         }
 
         /// <summary>
@@ -340,6 +303,17 @@ namespace GoodLuckValley.Persistence
             }
 
             return mostRecentSaveName;
+        }
+
+        /// <summary>
+        /// Task the Load Save
+        /// </summary>
+        public UniTask LoadSaveTask()
+        {
+            // Bind the data
+            BindData();
+
+            return UniTask.DelayFrame(1);
         }
     }
 }

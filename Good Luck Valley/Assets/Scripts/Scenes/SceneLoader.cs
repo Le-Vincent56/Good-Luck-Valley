@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using GoodLuckValley.Events;
 using GoodLuckValley.Timers;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using GoodLuckValley.Events.Player;
@@ -30,7 +29,7 @@ namespace GoodLuckValley.Scenes
         private int forcedMoveDirection = 0;
         private CountdownTimer releaseMovementTimer;
 
-        private LinkedList<UniTask> taskQueue;
+        private Queue<UniTask> taskQueue;
 
         public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
 
@@ -41,8 +40,20 @@ namespace GoodLuckValley.Scenes
         public bool IsLoading { get => isLoading; }
         public int ForcedMoveDirection { get => forcedMoveDirection; set=> forcedMoveDirection = value; }
 
+
+        private delegate UniTask LoadTask();
+        private LoadTask[] taskOrder;
+
+
         private void Awake()
         {
+            // Set the task order
+            taskOrder = new LoadTask[2]
+            {
+                GetSaveTask,
+                GetParallaxTask
+            };
+
             Manager = new SceneGroupManager();
 
             // Create the Countdown Timer
@@ -65,7 +76,7 @@ namespace GoodLuckValley.Scenes
             };
 
             // Create the task queue
-            taskQueue = new LinkedList<UniTask>();
+            taskQueue = new Queue<UniTask>();
 
             // Register this as a service
             ServiceLocator.Global.Register(this);
@@ -81,8 +92,15 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
+            Manager.OnSceneGroupLoaded += QueryTasks;
+
             saveLoadSystem.Release += Cleanup;
             saveLoadSystem.DataBinded += SetPlayerPosition;
+        }
+
+        private void OnDisable()
+        {
+            Manager.OnSceneGroupLoaded -= QueryTasks;
         }
 
         private void OnDestroy()
@@ -99,6 +117,8 @@ namespace GoodLuckValley.Scenes
         /// </summary>
         private void Cleanup()
         {
+            Manager.OnSceneGroupLoaded -= QueryTasks;
+
             saveLoadSystem.Release -= Cleanup;
             saveLoadSystem.DataBinded -= SetPlayerPosition;
         }
@@ -121,6 +141,41 @@ namespace GoodLuckValley.Scenes
             }
 
             HandleLoading(false, forcedMoveDirection);
+        }
+
+        private async void QueryTasks(int index)
+        {
+            // Clear the current queue
+            taskQueue.Clear();
+
+            // Iterate through each task in the order
+            for (int i = 0; i < taskOrder.Length; i++)
+            {
+                // Get the task
+                UniTask task = taskOrder[i].Invoke();
+
+                // Add the task to the queue
+                taskQueue.Enqueue(task);
+            }
+
+            await ProcessTasks();
+
+            // Start the task queue
+            async UniTask ProcessTasks()
+            {
+                // Iterate through each task in the queue
+                while (taskQueue.Count > 0)
+                {
+                    // Get the task
+                    UniTask task = taskQueue.Dequeue();
+
+                    // Await the task
+                    await task;
+                }
+
+                // Set the loading to false
+                HandleLoading(false, forcedMoveDirection);
+            }
         }
 
         /// <summary>
@@ -242,6 +297,13 @@ namespace GoodLuckValley.Scenes
                 // Start the release movement Timer
                 releaseMovementTimer.Start();
             }
+        }
+
+        private UniTask GetSaveTask() => saveLoadSystem.LoadSaveTask();
+
+        private UniTask GetParallaxTask()
+        {
+            return new UniTask();
         }
     }
 }
