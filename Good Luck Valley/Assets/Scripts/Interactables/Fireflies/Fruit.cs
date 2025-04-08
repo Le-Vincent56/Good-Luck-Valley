@@ -59,13 +59,13 @@ namespace GoodLuckValley.Interactables.Fireflies
             handler.FireflyHandler.SetFruit(Optional<Fruit>.NoValue);
 
             // Fade in the Fruit and allow interaction
-            FadeInteractable(1f, fadeDuration, () => canInteract = true);
+            //FadeInteractable(1f, fadeDuration, () => canInteract = true);
 
-            // Tween the light back in
-            Illuminate(toIntensity, sendIntensityDuration, Ease.OutQuad);
+            //// Tween the light back in
+            //Illuminate(toIntensity, sendIntensityDuration, Ease.OutQuad);
 
-            // Play the particles
-            ambientParticles.Play();
+            //// Play the particles
+            //ambientParticles.Play();
         }
 
         protected override void Collect()
