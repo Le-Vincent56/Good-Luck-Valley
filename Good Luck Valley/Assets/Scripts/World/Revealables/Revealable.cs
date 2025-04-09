@@ -3,6 +3,7 @@ using GoodLuckValley.Events.Fireflies;
 using GoodLuckValley.Events;
 using UnityEngine;
 using GoodLuckValley.Timers;
+using System.Collections.Generic;
 
 namespace GoodLuckValley.World.Revealables
 {
@@ -19,7 +20,16 @@ namespace GoodLuckValley.World.Revealables
         [SerializeField] protected float fadeDuration;
         protected Tween fadeTween;
 
+        private List<ParticleSystem> particles;
+
         private EventBinding<ActivateLantern> onActivateLantern;
+
+        protected virtual void Awake()
+        {
+            // Get components
+            particles = new List<ParticleSystem>();
+            GetComponentsInChildren(particles);
+        }
 
         private void OnEnable()
         {
@@ -48,10 +58,21 @@ namespace GoodLuckValley.World.Revealables
             if (eventData.Channel != channel) return;
 
             // Check if the delay timer is set
-            if(delayTimer == null)
+            if (delayTimer == null)
             {
                 delayTimer = new CountdownTimer(delay);
-                delayTimer.OnTimerStop += () => Reveal();
+                delayTimer.OnTimerStop += () =>
+                {
+                    // Iterate through each particle system
+                    foreach (ParticleSystem ps in particles)
+                    {
+                        // Play the particle system
+                        ps.Play();
+                    }
+
+                    // Reveal the revealable
+                    Reveal();
+                };
             }
 
             // Start the delay timer

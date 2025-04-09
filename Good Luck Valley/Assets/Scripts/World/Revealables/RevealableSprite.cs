@@ -1,16 +1,22 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace GoodLuckValley.World.Revealables
 {
     public class RevealableSprite : Revealable
     {
+        private TilemapCollider2D tilemapCollider;
         private SpriteRenderer spriteRenderer;
 
-        private void Awake()
+        protected override void Awake()
         {
+            // Call the parent Awake()
+            base.Awake();
+
             // Get the SpriteRenderer
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            tilemapCollider = GetComponent<TilemapCollider2D>();
 
             // Fade out and disable the Sprite Renderer
             Fade(0f, 0f);
@@ -24,6 +30,9 @@ namespace GoodLuckValley.World.Revealables
         {
             // Enable the SpriteRenderer
             spriteRenderer.enabled = true;
+
+            // Enable the tilemap
+            tilemapCollider.enabled = true;
 
             // Fade in the Revealable
             Fade(1f, fadeDuration);
