@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{6649B3E5-DD7B-DB9C-02CF-1D10743A7B8E}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{001BF838-F485-21CF-25BE-D8A1E8DEB341}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -115,6 +115,7 @@
 				<GameParameter Id="647674338" Name="RTPC_TIMEWARP_DISTORT"/>
 				<GameParameter Id="983576458" Name="RTPC_TIMEWARP_TICK"/>
 				<GameParameter Id="2290256636" Name="RTPC_PLAYERFALLSPEED"/>
+				<GameParameter Id="2612323176" Name="RTPC_WETNESS"/>
 				<GameParameter Id="2653406601" Name="RTPC_PLAYERSPEED"/>
 				<GameParameter Id="2972739263" Name="RTPC_AMBIENCE"/>
 				<GameParameter Id="3438452020" Name="RTPC_SFX"/>
@@ -171,6 +172,13 @@
 					<Switches>
 						<Switch Id="1126065684" Name="FIREFLIES"/>
 						<Switch Id="3696588959" Name="NOFIREFLIES"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="197954834" Name="WETNESSSWITCH">
+					<GameParameterRef Id="2612323176"/>
+					<Switches>
+						<Switch Id="630539344" Name="DRY"/>
+						<Switch Id="1181096339" Name="WET"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
@@ -236,7 +244,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{DA732985-4CF4-7BDE-891D-16643F03E60E}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{5BB616B1-CCF7-A917-8490-B6D1F54348EE}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -540,6 +548,10 @@
 					<ShortName>Player\Locomotion\Impacts\Light\Grass\GRASS_IMPACT_LIGHT_01.wav</ShortName>
 					<CachePath>BB/{BB9C0A92-C920-D02A-4A40-2C7764C0683A}.wem</CachePath>
 				</File>
+				<File Id="493960833" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Oneshots\Thunder\AMBIENCE_THUNDER_2.wav</ShortName>
+					<CachePath>08/{08ABC1D4-606B-DC9C-0F6A-6CB3177EBA06}.wem</CachePath>
+				</File>
 				<File Id="498523602" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_04.wav</ShortName>
 					<CachePath>5C/{5C9D75CA-06AA-6897-4757-8A0E488B9D23}.wem</CachePath>
@@ -627,6 +639,10 @@
 				<File Id="638326763" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_WIND.wav</ShortName>
 					<CachePath>6C/{6C0D71EC-7A70-22C5-2CB1-5E76F87F3CFE}.wem</CachePath>
+				</File>
+				<File Id="639139461" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Forest\AMBIENCEBEDS_FOREST_RAIN.wav</ShortName>
+					<CachePath>49/{499D4D40-5A0C-3592-AADF-6CCBE42BF462}.wem</CachePath>
 				</File>
 				<File Id="647585239" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Impacts\Hard\Grass\GRASS_IMPACT_HARD_03.wav</ShortName>
@@ -727,6 +743,10 @@
 				<File Id="787034995" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Jump\Grass\PLAYER_JUMP_GRASS_02.wav</ShortName>
 					<CachePath>C9/{C92C6263-0368-A94A-ECB0-CE41C9BB9225}.wem</CachePath>
+				</File>
+				<File Id="810369089" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Oneshots\Thunder\AMBIENCE_THUNDER_1.wav</ShortName>
+					<CachePath>07/{075463CE-ADD2-6FA4-CF7E-3DB38DE3DBF8}.wem</CachePath>
 				</File>
 				<File Id="815469409" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Tree Noises\AMBIENCE2D_FOREST_TREENOISE_01.wav</ShortName>
@@ -843,6 +863,10 @@
 				<File Id="974159613" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\2D\Forest\Insect Chirps\AMBIENCE2D_FOREST_INSECTCHIRP_01.wav</ShortName>
 					<CachePath>37/{37F5919C-509D-FF25-9653-8DA271D2A24C}.wem</CachePath>
+				</File>
+				<File Id="977015349" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Oneshots\Thunder\AMBIENCE_THUNDER_3.wav</ShortName>
+					<CachePath>77/{77C955D1-8663-B66D-8983-6EA5E21B3535}.wem</CachePath>
 				</File>
 				<File Id="1002172523" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_03.wav</ShortName>
@@ -1011,91 +1035,109 @@
 				<Event Id="1808419977" Name="PLAY_AMBIENCEBED_MAIN" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="491961918" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="638326763"/>
-								<MediaRef Id="926564563"/>
-							</MediaRefs>
+							<SwitchValue GroupType="Switch" GroupId="197954834" Id="630539344" Default="true"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
+									<SwitchValue GroupType="Switch" GroupId="1097908491" Id="491961918" Default="true"/>
 									<MediaRefs>
-										<MediaRef Id="37599359"/>
+										<MediaRef Id="638326763"/>
+										<MediaRef Id="926564563"/>
 									</MediaRefs>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
+											<MediaRefs>
+												<MediaRef Id="37599359"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="2139255308" Id="135296687" Default="true"/>
+											<PluginRefs>
+												<Custom>
+													<PluginRef Id="680081601"/>
+												</Custom>
+											</PluginRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="174011288" Id="1126065684"/>
+											<MediaRefs>
+												<MediaRef Id="862827106"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="174011288" Id="3696588959" Default="true"/>
+											<PluginRefs>
+												<Custom>
+													<PluginRef Id="710891349"/>
+												</Custom>
+											</PluginRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="1582413998" Id="137712726"/>
+											<MediaRefs>
+												<MediaRef Id="940884523"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="1582413998" Id="2031016961" Default="true"/>
+											<PluginRefs>
+												<Custom>
+													<PluginRef Id="887566741"/>
+												</Custom>
+											</PluginRefs>
+										</SwitchContainer>
+									</Children>
 								</SwitchContainer>
 								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="135296687" Default="true"/>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="680081601"/>
-										</Custom>
-									</PluginRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="174011288" Id="1126065684"/>
+									<SwitchValue GroupType="Switch" GroupId="1097908491" Id="4122393694"/>
 									<MediaRefs>
-										<MediaRef Id="862827106"/>
+										<MediaRef Id="249687352"/>
+										<MediaRef Id="436027017"/>
+										<MediaRef Id="968818107"/>
 									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="174011288" Id="3696588959" Default="true"/>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="710891349"/>
-										</Custom>
-									</PluginRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="1582413998" Id="137712726"/>
-									<MediaRefs>
-										<MediaRef Id="940884523"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="1582413998" Id="2031016961" Default="true"/>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="887566741"/>
-										</Custom>
-									</PluginRefs>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
+											<MediaRefs>
+												<MediaRef Id="587809570"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="2139255308" Id="135296687" Default="true"/>
+											<PluginRefs>
+												<Custom>
+													<PluginRef Id="1051325896"/>
+												</Custom>
+											</PluginRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="174011288" Id="1126065684"/>
+											<MediaRefs>
+												<MediaRef Id="481153050"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="174011288" Id="3696588959" Default="true"/>
+											<PluginRefs>
+												<Custom>
+													<PluginRef Id="149914936"/>
+												</Custom>
+											</PluginRefs>
+										</SwitchContainer>
+									</Children>
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="1097908491" Id="4122393694"/>
-							<MediaRefs>
-								<MediaRef Id="249687352"/>
-								<MediaRef Id="436027017"/>
-								<MediaRef Id="968818107"/>
-							</MediaRefs>
+							<SwitchValue GroupType="Switch" GroupId="197954834" Id="1181096339"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="1333297618"/>
+									<SwitchValue GroupType="Switch" GroupId="1097908491" Id="491961918" Default="true"/>
 									<MediaRefs>
-										<MediaRef Id="587809570"/>
+										<MediaRef Id="638326763"/>
+										<MediaRef Id="639139461"/>
+										<MediaRef Id="926564563"/>
 									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="2139255308" Id="135296687" Default="true"/>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="1051325896"/>
-										</Custom>
-									</PluginRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="174011288" Id="1126065684"/>
-									<MediaRefs>
-										<MediaRef Id="481153050"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="174011288" Id="3696588959" Default="true"/>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="149914936"/>
-										</Custom>
-									</PluginRefs>
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
@@ -1614,6 +1656,21 @@
 						<MediaRef Id="201240048"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="2142929832" Name="PLAY_THUNDER_1" DurationType="OneShot" DurationMin="6.552604" DurationMax="6.552604">
+					<MediaRefs>
+						<MediaRef Id="810369089"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2142929835" Name="PLAY_THUNDER_2" DurationType="OneShot" DurationMin="2.928125" DurationMax="2.928125">
+					<MediaRefs>
+						<MediaRef Id="493960833"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2142929834" Name="PLAY_THUNDER_3" DurationType="OneShot" DurationMin="11.715333" DurationMax="11.715333">
+					<MediaRefs>
+						<MediaRef Id="977015349"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3704528693" Name="PLAY_TIMEWARP_TICK" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="372653540"/>
@@ -1674,6 +1731,7 @@
 			<GameParameters>
 				<GameParameter Id="482870237" Name="RTPC_LOTUSDISTANCE"/>
 				<GameParameter Id="2290256636" Name="RTPC_PLAYERFALLSPEED"/>
+				<GameParameter Id="2612323176" Name="RTPC_WETNESS"/>
 				<GameParameter Id="2653406601" Name="RTPC_PLAYERSPEED"/>
 			</GameParameters>
 			<StateGroups>
@@ -1713,6 +1771,13 @@
 					<Switches>
 						<Switch Id="1126065684" Name="FIREFLIES"/>
 						<Switch Id="3696588959" Name="NOFIREFLIES"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="197954834" Name="WETNESSSWITCH">
+					<GameParameterRef Id="2612323176"/>
+					<Switches>
+						<Switch Id="630539344" Name="DRY"/>
+						<Switch Id="1181096339" Name="WET"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
@@ -1766,5 +1831,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{B2BB0A55-E806-DD80-6FCC-B71AD802FEB1}</FileHash>
+	<FileHash>{E183AAB1-9261-E28E-E4BD-A0CD3D0A1E1D}</FileHash>
 </SoundBanksInfo>

@@ -14,6 +14,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         [Header("Lantern")]
         [SerializeField] private int channel;
         [SerializeField] private Light2D onLight;
+        [SerializeField] private Light2D playerLight;
         [SerializeField] private List<ParticleSystem> lanternParticles;
         [SerializeField] private Sprite inactiveSprite;
         [SerializeField] private Sprite activeSprite;
@@ -26,12 +27,11 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private float toOuterRadius;
         [SerializeField] private float lightOutRatio;
         [SerializeField] private float flashOutDuration;
-        [SerializeField] private float flashInDuration;
-        private float initialFlash;
-        private float initialOuterRadius;
         private float illuminateDuration;
+        private float playerLightIntensity;
         private Tween illuminateTween;
         private Tween flashTween;
+        private Tween playerLightTween;
 
         protected override void Awake()
         {
@@ -42,13 +42,16 @@ namespace GoodLuckValley.Interactables.Fireflies
             strategy = new LanternStrategy(this);
 
             // Get components
-            onLight = GetComponentInChildren<Light2D>();
+            Light2D[] lights = GetComponentsInChildren<Light2D>();
+            onLight = lights[0];
+            playerLight = lights[1];
+
             GetComponentsInChildren(lanternParticles);
 
             // Set variables
-            initialFlash = onLight.intensity;
             illuminateDuration = lanternParticles[0].main.duration;
-            initialOuterRadius = onLight.pointLightOuterRadius;
+            playerLightIntensity = playerLight.intensity;
+            playerLight.intensity = 0f;
         }
 
         protected override void OnDestroy()
@@ -59,6 +62,7 @@ namespace GoodLuckValley.Interactables.Fireflies
             // Kill existing Tweens
             illuminateTween?.Kill();
             flashTween?.Kill();
+            playerLightTween?.Kill();
         }
 
         public override void Interact()
@@ -119,24 +123,13 @@ namespace GoodLuckValley.Interactables.Fireflies
             lanternPlaceEvent.Post(gameObject);
 
             // Increase the outer light radius to the far value
-            Illuminate(toOuterRadius, illuminateDuration * lightOutRatio, Ease.OutQuad, () =>
-            {
-                // Wait for a second
-                Illuminate(toOuterRadius, 1f, Ease.OutQuad, () =>
-                {
-                    // Decrease the outer light radius back to the initial value
-                    Illuminate(initialOuterRadius, illuminateDuration * 2f, Ease.OutQuad);
-                });
-            });
+            Illuminate(toOuterRadius, illuminateDuration * lightOutRatio, Ease.OutQuad);
 
-            Flash(toFlash, flashOutDuration, Ease.InOutSine, () =>
-            {
-                Flash(toFlash, 0.5f, Ease.InOutSine, () =>
-                {
-                    // Flash the light back to the initial value
-                    Flash(initialFlash, illuminateDuration * 2f, Ease.InOutSine);
-                });
-            });
+            // Increase the lantern's intensity for the environment
+            Intensify(flashTween, onLight, toFlash, flashOutDuration, Ease.InOutSine);
+
+            // Increase the lantern's intensity for the player
+            Intensify(playerLightTween, playerLight, playerLightIntensity, flashOutDuration, Ease.InOutSine);
         }
 
         /// <summary>
@@ -169,7 +162,7 @@ namespace GoodLuckValley.Interactables.Fireflies
         /// <summary>
         /// Handle light illumination tweening for the Lantern
         /// </summary>
-        private void Illuminate(float endValue, float duration, Ease easeType, TweenCallback onComplete = null)
+        private void Illuminate(float endValue, float duration, Ease easeType)
         {
             // Kill the Illuminate Tween if it exists
             illuminateTween?.Kill();
@@ -184,35 +177,23 @@ namespace GoodLuckValley.Interactables.Fireflies
 
             // Set the Ease type
             illuminateTween.SetEase(easeType);
-
-            // Exit case - if there is no completion actino
-            if (onComplete == null) return;
-
-            // Hook up the completion action
-            illuminateTween.onComplete += onComplete;
         }
 
-        private void Flash(float endValue, float duration, Ease easeType, TweenCallback onComplete = null)
+        private void Intensify(Tween tween, Light2D light, float endValue, float duration, Ease easeType)
         {
             // Kill the Flash Tween if it exists
-            flashTween?.Kill();
+            tween?.Kill();
 
             // Tween the intensity to the endValue using the duration and set an Ease
-            flashTween = DOTween.To(
-                () => onLight.intensity,
-                    x => onLight.intensity = x,
+            tween = DOTween.To(
+                () => light.intensity,
+                    x => light.intensity = x,
                     endValue,
                     duration
             );
 
             // Set the Ease type
-            flashTween.SetEase(easeType);
-
-            // Exit case - if there is no completion actino
-            if (onComplete == null) return;
-
-            // Hook up the completion action
-            flashTween.onComplete += onComplete;
+            tween.SetEase(easeType);
         }
     }
 }

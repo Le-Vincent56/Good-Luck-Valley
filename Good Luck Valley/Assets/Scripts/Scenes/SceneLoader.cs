@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using GoodLuckValley.Events;
 using GoodLuckValley.Timers;
@@ -10,6 +11,8 @@ using GoodLuckValley.Persistence;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Input;
 using GoodLuckValley.Events.Mushroom;
+using System.Collections.Generic;
+using System;
 
 namespace GoodLuckValley.Scenes
 {
@@ -27,7 +30,11 @@ namespace GoodLuckValley.Scenes
         private int forcedMoveDirection = 0;
         private CountdownTimer releaseMovementTimer;
 
+        private LinkedList<UniTask> taskQueue;
+
         public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
+
+        public Action QueueTasks = delegate { };
 
         public UnityAction Release = delegate { };
 
@@ -56,6 +63,9 @@ namespace GoodLuckValley.Scenes
                     CanInputMushroom = true
                 });
             };
+
+            // Create the task queue
+            taskQueue = new LinkedList<UniTask>();
 
             // Register this as a service
             ServiceLocator.Global.Register(this);
@@ -116,7 +126,7 @@ namespace GoodLuckValley.Scenes
         /// <summary>
         /// Load a Scene Group
         /// </summary>
-        public async Task LoadSceneGroup(int index)
+        public async UniTask LoadSceneGroup(int index)
         {
             // Exit case - the index is not valid
             if (index < 0 || index >= sceneGroupData.SceneGroups.Length) return;

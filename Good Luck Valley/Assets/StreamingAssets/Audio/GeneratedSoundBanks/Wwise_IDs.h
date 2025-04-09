@@ -44,6 +44,9 @@ namespace AK
         static const AkUniqueID PLAY_TESTBEEP_3D = 1681067324U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP = 523232931U;
         static const AkUniqueID PLAY_TESTBEEP_LOOP_3D = 3475882615U;
+        static const AkUniqueID PLAY_THUNDER_1 = 2142929832U;
+        static const AkUniqueID PLAY_THUNDER_2 = 2142929835U;
+        static const AkUniqueID PLAY_THUNDER_3 = 2142929834U;
         static const AkUniqueID PLAY_TIMEWARP_TICK = 3704528693U;
         static const AkUniqueID PLAY_UI_BUTTON_ENTER = 1352870076U;
         static const AkUniqueID PLAY_UI_BUTTON_EXIT = 2891287198U;
@@ -253,6 +256,17 @@ namespace AK
             } // namespace SWITCH
         } // namespace PLAYERSPEEDSWITCH
 
+        namespace WETNESSSWITCH
+        {
+            static const AkUniqueID GROUP = 197954834U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID DRY = 630539344U;
+                static const AkUniqueID WET = 1181096339U;
+            } // namespace SWITCH
+        } // namespace WETNESSSWITCH
+
     } // namespace SWITCHES
 
     namespace GAME_PARAMETERS
@@ -268,6 +282,7 @@ namespace AK
         static const AkUniqueID RTPC_SFX = 3438452020U;
         static const AkUniqueID RTPC_TIMEWARP_DISTORT = 647674338U;
         static const AkUniqueID RTPC_TIMEWARP_TICK = 983576458U;
+        static const AkUniqueID RTPC_WETNESS = 2612323176U;
     } // namespace GAME_PARAMETERS
 
     namespace BANKS

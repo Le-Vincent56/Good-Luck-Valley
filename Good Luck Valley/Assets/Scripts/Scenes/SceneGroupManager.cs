@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace GoodLuckValley.Scenes
         /// <summary>
         /// Load scenes for a SceneGroup
         /// </summary>
-        public async Task LoadScenes(int groupIndex, SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false)
+        public async UniTask LoadScenes(int groupIndex, SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false)
         {
             // Set the active scene group
             ActiveSceneGroup = group;
@@ -132,7 +133,7 @@ namespace GoodLuckValley.Scenes
                 progress?.Report((operationGroup.Progress + handleGroup.Progress) / 2);
 
                 // Add some delay
-                await Task.Delay(100);
+                await UniTask.Delay(100);
             }
 
             // Get the Active Scene
@@ -153,7 +154,7 @@ namespace GoodLuckValley.Scenes
         /// <summary>
         /// Unload scenes for the active Scene Group
         /// </summary>
-        public async Task UnloadScenes()
+        public async UniTask UnloadScenes()
         {
             // Create a container for the unloaded scenes
             List<string> unloadedScenes = new List<string>();
@@ -211,7 +212,7 @@ namespace GoodLuckValley.Scenes
                 // Check if the handle is valid
                 if (handle.IsValid())
                     // If so, unload it asynchronously
-                    Addressables.UnloadSceneAsync(handle);
+                    await Addressables.UnloadSceneAsync(handle).ToUniTask();
             }
 
             // Clear the handles group
@@ -221,7 +222,7 @@ namespace GoodLuckValley.Scenes
             while(!operationGroup.IsDone)
             {
                 // Delay to avoid tight loop
-                await Task.Delay(1000);
+                await UniTask.Delay(1000);
             }
         }
     }
