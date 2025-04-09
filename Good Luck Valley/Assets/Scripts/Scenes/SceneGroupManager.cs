@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -127,13 +126,13 @@ namespace GoodLuckValley.Scenes
             }
 
             // Wait until all AsyncOperations and AsyncOperationHadles in the groups are done
-            while(!operationGroup.IsDone || !handleGroup.IsDone)
+            while (!operationGroup.IsDone || !handleGroup.IsDone)
             {
                 // Report the progress
                 progress?.Report((operationGroup.Progress + handleGroup.Progress) / 2);
 
                 // Add some delay
-                await UniTask.Delay(100);
+                await UniTask.Delay(100, true);
             }
 
             // Get the Active Scene
@@ -222,7 +221,7 @@ namespace GoodLuckValley.Scenes
             while(!operationGroup.IsDone)
             {
                 // Delay to avoid tight loop
-                await UniTask.Delay(1000);
+                await UniTask.Delay(1000, true);
             }
         }
     }

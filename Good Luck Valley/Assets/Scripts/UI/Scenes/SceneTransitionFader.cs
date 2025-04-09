@@ -9,12 +9,15 @@ namespace GoodLuckValley.UI.Scenes
     public class SceneTransitionFader : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private Image loadingImage;
+        [SerializeField] private Image loadingBackground;
+        [SerializeField] private Image loadingAnari;
 
         [Header("Tweening Variables")]
-        [SerializeField] private float fadeOutDuration;
-        [SerializeField] private float fadeInDuration;
-        private Tween fadeTween;
+        [SerializeField] private float backgroundOutDuration;
+        [SerializeField] private float backgroundInDuration;
+        [SerializeField] private float anariOutDuration;
+        [SerializeField] private float anariInDuration;
+        private Sequence fadeSequence;
 
         private EventBinding<FadeScene> onFadeScene;
 
@@ -32,7 +35,7 @@ namespace GoodLuckValley.UI.Scenes
         private void OnDestroy()
         {
             // Kill the Fade Tween
-            fadeTween?.Kill();
+            fadeSequence?.Kill();
         }
 
         /// <summary>
@@ -44,31 +47,43 @@ namespace GoodLuckValley.UI.Scenes
             if(eventData.FadeIn)
             {
                 // Fade in the loading image
-                Fade(0f, fadeInDuration, eventData.EaseType, eventData.OnComplete);
+                FadeSequence(0f, backgroundInDuration, anariInDuration, eventData.EaseType, eventData.OnComplete);
             } else
             {
                 // Fade out using the loading image
-                Fade(1f, fadeOutDuration, eventData.EaseType, eventData.OnComplete);
+                FadeSequence(1f, backgroundOutDuration, anariOutDuration, eventData.EaseType, eventData.OnComplete);
             }
+        }
+
+        private void FadeSequence(float endValue, float backgroundDuration, float anariDuration, Ease easeType, TweenCallback onComplete = null)
+        {
+            // Kill the sequence if it exists
+            fadeSequence?.Kill();
+
+            // Create the sequence
+            fadeSequence = DOTween.Sequence().SetUpdate(true);
+
+            // Fade out the loading background
+            fadeSequence.Append(Fade(loadingBackground, endValue, backgroundDuration, easeType));
+            fadeSequence.Join(Fade(loadingAnari, endValue, anariDuration, easeType));
+
+            // Hook up completion actions
+            fadeSequence.onComplete += onComplete;
+
+            // Play the seqeuence
+            fadeSequence.Play();
         }
 
         /// <summary>
         /// Handle the fading for loading
         /// </summary>
-        private void Fade(float endValue, float duration, Ease easeType, TweenCallback onComplete = null)
+        private Tween Fade(Image image, float endValue, float duration, Ease easeType)
         {
-            // Kill the Fade Tween if it exists
-            fadeTween?.Kill();
-
             // Set the Fade Tween
-            fadeTween = loadingImage.DOFade(endValue, duration);
+            Tween fadeTween = image.DOFade(endValue, duration);
             fadeTween.SetEase(easeType).SetUpdate(true);
 
-            // Exit case - there is no completion action
-            if (onComplete == null) return;
-
-            // Hook up completion actions
-            fadeTween.onComplete = onComplete;
+            return fadeTween;
         }
     }
 }

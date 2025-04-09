@@ -2,24 +2,20 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using GoodLuckValley.Events;
 using GoodLuckValley.Timers;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Events;
 using GoodLuckValley.Events.Player;
 using GoodLuckValley.Events.Scenes;
-using GoodLuckValley.Persistence;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Input;
 using GoodLuckValley.Events.Mushroom;
 using System.Collections.Generic;
 using System;
+using ZLinq;
 
 namespace GoodLuckValley.Scenes
 {
     public class SceneLoader : MonoBehaviour
     {
-        private SaveLoadSystem saveLoadSystem;
-
         [Header("Scenes")]
         [SerializeField] private GameInputReader inputReader;
         [SerializeField] private SceneGroupData sceneGroupData;
@@ -30,16 +26,16 @@ namespace GoodLuckValley.Scenes
         private int forcedMoveDirection = 0;
         private CountdownTimer releaseMovementTimer;
 
-        private LinkedList<UniTask> taskQueue;
+        private List<(UniTask Task, int Priority)> taskQueue;
 
         public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
 
-        public Action QueueTasks = delegate { };
-
-        public UnityAction Release = delegate { };
+        public Action QueryTasks = delegate { };
 
         public bool IsLoading { get => isLoading; }
         public int ForcedMoveDirection { get => forcedMoveDirection; set=> forcedMoveDirection = value; }
+
+
 
         private void Awake()
         {
@@ -64,14 +60,11 @@ namespace GoodLuckValley.Scenes
                 });
             };
 
-            // Create the task queue
-            taskQueue = new LinkedList<UniTask>();
+            // Create the task list
+            taskQueue = new List<(UniTask task, int Priority)>();
 
             // Register this as a service
             ServiceLocator.Global.Register(this);
-
-            // get services
-            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
         }
 
         private async void Start()
@@ -81,46 +74,53 @@ namespace GoodLuckValley.Scenes
 
         private void OnEnable()
         {
-            saveLoadSystem.Release += Cleanup;
-            saveLoadSystem.DataBinded += SetPlayerPosition;
+            Manager.OnSceneGroupLoaded += QueryAndResolveTasks;
+        }
+
+        private void OnDisable()
+        {
+            Manager.OnSceneGroupLoaded -= QueryAndResolveTasks;
         }
 
         private void OnDestroy()
         {
             // Dispose of the Timer
             releaseMovementTimer?.Dispose();
-
-            // Clean up events
-            Release.Invoke();
         }
 
         /// <summary>
-        /// Cleanup by unsubscribing from events from the Save Load System
+        /// Query and resolve loading tasks
         /// </summary>
-        private void Cleanup()
+        private async void QueryAndResolveTasks(int index)
         {
-            saveLoadSystem.Release -= Cleanup;
-            saveLoadSystem.DataBinded -= SetPlayerPosition;
-        }
+            // Clear the current queue
+            taskQueue.Clear();
 
-        /// <summary>
-        /// Event for when a Scene Group is loaded
-        /// </summary>
-        private void SetPlayerPosition(int index)
-        {
-            // Set the time scale
-            Time.timeScale = 1f;
+            // Add the tasks to the queue
+            QueryTasks.Invoke();
 
-            if (forcedMoveDirection != 0)
+            // Sort the queue by priority
+            taskQueue.AsValueEnumerable().OrderBy(task => task.Priority);
+
+            // Process the tasks
+            await ProcessTasks();
+
+            // Start the task queue
+            async UniTask ProcessTasks()
             {
-                // Place the player
-                EventBus<PlacePlayer>.Raise(new PlacePlayer()
+                // Iterate through the task queue
+                for(int i = 0; i < taskQueue.Count; i++)
                 {
-                    Position = sceneGroupData.GetActiveScene(index).GetGate(toGate)
-                });
-            }
+                    // Get the task
+                    UniTask task = taskQueue[i].Task;
 
-            HandleLoading(false, forcedMoveDirection);
+                    // Execute the task
+                    await task;
+                }
+
+                // Set the player position
+                SetPlayerPosition(index);
+            }
         }
 
         /// <summary>
@@ -243,5 +243,30 @@ namespace GoodLuckValley.Scenes
                 releaseMovementTimer.Start();
             }
         }
+
+        /// <summary>
+        /// Event for when a Scene Group is loaded
+        /// </summary>
+        private void SetPlayerPosition(int index)
+        {
+            // Set the time scale
+            Time.timeScale = 1f;
+
+            if (forcedMoveDirection != 0)
+            {
+                // Place the player
+                EventBus<PlacePlayer>.Raise(new PlacePlayer()
+                {
+                    Position = sceneGroupData.GetActiveScene(index).GetGate(toGate)
+                });
+            }
+
+            HandleLoading(false, forcedMoveDirection);
+        }
+
+        /// <summary>
+        /// Register a task to be processed after loading the scene group
+        /// </summary>
+        public void RegisterTask(UniTask task, int priority) => taskQueue.Add((task, priority));
     }
 }

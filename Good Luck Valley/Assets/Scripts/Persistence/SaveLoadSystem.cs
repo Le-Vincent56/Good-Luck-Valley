@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Cameras.Persistence;
 using GoodLuckValley.Interactables;
@@ -26,7 +27,7 @@ namespace GoodLuckValley.Persistence
         void Bind(TData data);
     }
 
-    public class SaveLoadSystem : MonoBehaviour
+    public class SaveLoadSystem : MonoBehaviour, ILoadingTask
     {
         [SerializeField] private bool debug;
         [SerializeField] private GameData selectedData;
@@ -36,11 +37,6 @@ namespace GoodLuckValley.Persistence
         private FileGameDataService gameDataService;
         private FileSettingsDataService settingsDataService;
         private SceneLoader sceneLoader;
-
-        public Action PrepareDataBind = delegate { };
-        public Action<int> DataBinded = delegate { };
-        public Action SettingsSet = delegate { };
-        public Action Release = delegate { };
 
         public bool Debug { get => debug; }
         public GameData GameData { get => selectedData; }
@@ -69,56 +65,21 @@ namespace GoodLuckValley.Persistence
 
         private void Start()
         {
-            // Ensure that the Scene Loader is retrieved
-            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
-
-            sceneLoader.Release += Cleanup;
-            sceneLoader.Manager.OnSceneGroupLoaded += OnSceneGroupLoaded;
+            // Get the scene loader if it was not set
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
         }
 
-        private void OnDestroy()
+        private void OnEnable()
         {
-            // Release all events
-            Release.Invoke();
+            // Get the scene loader if it was not set
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+
+            sceneLoader.QueryTasks += RegisterTask;
         }
 
-        /// <summary>
-        /// Clean up by unsubscribing from events from the Scene Loader
-        /// </summary>
-        private void Cleanup()
+        private void OnDisable()
         {
-            // Ensure that the Scene Loader is retrieved
-            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
-
-            sceneLoader.Release -= Cleanup;
-            sceneLoader.Manager.OnSceneGroupLoaded -= OnSceneGroupLoaded;
-        }
-
-        private void OnSceneGroupLoaded(int index)
-        {
-            // Bind Settings
-            Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
-            Bind<VideoSaveHandler, VideoData>(settingsData.Video);
-            Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
-
-            // Notify settings binded
-            SettingsSet.Invoke();
-
-            // Exit case - no selected data
-            if (selectedData == null) return;
-
-            // Prepare for data binding
-            PrepareDataBind.Invoke();
-
-            // Bind Data
-            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
-            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
-            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
-            Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
-            Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
-
-            // Notify data binded
-            DataBinded.Invoke(index);
+            sceneLoader.QueryTasks -= RegisterTask;
         }
 
         /// <summary>
@@ -340,6 +301,38 @@ namespace GoodLuckValley.Persistence
             }
 
             return mostRecentSaveName;
+        }
+
+        /// <summary>
+        /// Register the task to bind data
+        /// </summary>
+        public void RegisterTask() => sceneLoader.RegisterTask(BindData(), 1);
+
+        /// <summary>
+        /// Task the Load Save
+        /// </summary>
+        public async UniTask BindData()
+        {
+            // Bind Settings
+            Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
+            Bind<VideoSaveHandler, VideoData>(settingsData.Video);
+            Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
+
+            // Exit case - no selected data
+            if (selectedData == null)
+            {
+                await UniTask.Delay(500, true);
+                return;
+            }
+
+            // Bind Data
+            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
+            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
+            Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
+            Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
+
+            await UniTask.Delay(500, true);
         }
     }
 }
