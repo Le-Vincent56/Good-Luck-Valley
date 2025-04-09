@@ -93,8 +93,6 @@ namespace GoodLuckValley.Scenes
         /// </summary>
         private async void QueryAndResolveTasks(int index)
         {
-            Debug.Log("Querying Tasks");
-
             // Clear the current queue
             taskQueue.Clear();
 

@@ -1,3 +1,6 @@
+using Cysharp.Threading.Tasks;
+using GoodLuckValley.Architecture.ServiceLocator;
+using GoodLuckValley.Scenes;
 using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
@@ -8,11 +11,12 @@ namespace GoodLuckValley.Cameras.Parallax
 {
     [BurstCompile]
     [ExecuteInEditMode]
-    public class ParallaxSystem : MonoBehaviour
+    public class ParallaxSystem : MonoBehaviour, ILoadingTask
     {
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Vector3 cameraStartPosition;
         [SerializeField] private List<ParallaxLayer> layers;
+        private SceneLoader sceneLoader;
 
         private NativeArray<ParallaxData> layersNative;
 
@@ -22,16 +26,18 @@ namespace GoodLuckValley.Cameras.Parallax
             Setup();
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            // Set up Parallax for gameplay
-            Setup();
+            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+            sceneLoader.QueryTasks += RegisterTask;
         }
 
         private void OnDisable()
         {
             // Dispose of the Native Layers if disabled
-            if(layersNative.IsCreated) layersNative.Dispose();
+            if (layersNative.IsCreated) layersNative.Dispose();
+
+            sceneLoader.QueryTasks -= RegisterTask;
         }
 
         private void OnDestroy()
@@ -66,6 +72,9 @@ namespace GoodLuckValley.Cameras.Parallax
             }
         }
 
+        /// <summary>
+        /// Set up the parallax
+        /// </summary>
         private void Setup()
         {
             // Dispose of the Native Layers if not playing
@@ -171,6 +180,22 @@ namespace GoodLuckValley.Cameras.Parallax
                     HorizontalOnly = layers[i].HorizontalOnly
                 };
             };
+        }
+
+        /// <summary>
+        /// Register this task to the Scene Loader
+        /// </summary>
+        public void RegisterTask() => sceneLoader.RegisterTask(SetParallaxTask(), 10);
+
+        /// <summary>
+        /// Set the Parallax Task
+        /// </summary>
+        public async UniTask SetParallaxTask()
+        {
+            // Set up the parallax
+            Setup();
+
+            await UniTask.Delay(100, true);
         }
     }
 }
