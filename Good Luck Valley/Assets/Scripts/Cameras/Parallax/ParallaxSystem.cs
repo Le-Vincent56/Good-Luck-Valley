@@ -26,7 +26,7 @@ namespace GoodLuckValley.Cameras.Parallax
             Setup();
         }
 
-        private void OnEnable()
+        private void Start()
         {
             if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
             sceneLoader.QueryTasks += RegisterTask;
@@ -36,14 +36,15 @@ namespace GoodLuckValley.Cameras.Parallax
         {
             // Dispose of the Native Layers if disabled
             if (layersNative.IsCreated) layersNative.Dispose();
-
-            sceneLoader.QueryTasks -= RegisterTask;
         }
 
         private void OnDestroy()
         {
             // Dispose of the Native Layers if destroyed
             if(layersNative.IsCreated) layersNative.Dispose();
+
+            if (sceneLoader == null) return;
+            sceneLoader.QueryTasks -= RegisterTask;
         }
 
         private void Update()

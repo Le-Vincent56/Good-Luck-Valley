@@ -12,7 +12,7 @@ namespace GoodLuckValley.World.Revealables
         private TilemapCollider2D tilemapCollider;
         private Color originalColor;
 
-        private void Awake()
+        protected override void Awake()
         {
             // Get the tilemap
             tilemap = GetComponent<Tilemap>();

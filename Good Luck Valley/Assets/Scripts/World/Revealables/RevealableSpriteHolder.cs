@@ -9,7 +9,7 @@ namespace GoodLuckValley.World.Revealables
         private List<SpriteRenderer> spriteRenderers;
         private Sequence fadeSequence;
 
-        private void Awake()
+        protected override void Awake()
         {
             spriteRenderers = new List<SpriteRenderer>();
 
