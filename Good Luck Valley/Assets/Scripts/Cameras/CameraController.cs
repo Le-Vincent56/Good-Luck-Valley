@@ -1,22 +1,20 @@
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using GoodLuckValley.Architecture.ServiceLocator;
-using GoodLuckValley.Persistence;
-using GoodLuckValley.Timers;
+using GoodLuckValley.Scenes;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GoodLuckValley
 {
-    public class CameraController : MonoBehaviour
+    public class CameraController : MonoBehaviour, ILoadingTask
     {
-        private SaveLoadSystem saveLoadSystem;
-
         [SerializeField] private CinemachineBrain cinemachineBrain;
         [SerializeField] private List<CinemachineVirtualCamera> virtualCameras;
         [SerializeField] private CinemachineVirtualCamera initialCamera;
         private CinemachineBlendDefinition originalBlend;
+        private SceneLoader sceneLoader;
 
-        private CountdownTimer correctBlendTimer;
 
         private void Awake()
         {
@@ -28,27 +26,21 @@ namespace GoodLuckValley
             // Cache the original blend settings
             originalBlend = cinemachineBrain.m_DefaultBlend;
 
-            correctBlendTimer = new CountdownTimer(0.2f);
-            correctBlendTimer.OnTimerStop += () => EnableBlends();
-
             // Register this as a service
             ServiceLocator.ForSceneOf(this).Register(this);
-
-            // Get services
-            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
         }
 
         private void OnEnable()
         {
-            // Add event listeners
-           saveLoadSystem.Release += Cleanup;
-           saveLoadSystem.PrepareDataBind += DisableBlends;
+            // Get the scene loader if it was not set
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+
+            sceneLoader.QueryTasks += RegisterTask;
         }
 
         private void OnDisable()
         {
-            // Cleanup
-            Cleanup();
+            sceneLoader.QueryTasks -= RegisterTask;
         }
 
         private void Start()
@@ -64,39 +56,9 @@ namespace GoodLuckValley
                     // Otherwise, lower the priorities of the other cameras
                     cam.Priority = 10;
             }
-        }
 
-        private void OnDestroy()
-        {
-            // Dispose of the correct blend timer
-            correctBlendTimer?.Dispose();
-        }
-
-        /// <summary>
-        /// Clean up by removing the event listeners
-        /// </summary>
-        private void Cleanup()
-        {
-            saveLoadSystem.Release -= Cleanup;
-            saveLoadSystem.PrepareDataBind -= DisableBlends;
-        }
-
-        /// <summary>
-        /// Disable the Cinemachine Brain's blends
-        /// </summary>
-        private void DisableBlends()
-        {
-            // Set the default blend to a cut
-            cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
-
-            // Start the correct blend timer
-            correctBlendTimer.Start();
-        }
-
-        private void EnableBlends()
-        {
-            // Set the original blends
-            cinemachineBrain.m_DefaultBlend = originalBlend;
+            // Get the scene loader if it was not set
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
         }
 
         /// <summary>
@@ -121,6 +83,40 @@ namespace GoodLuckValley
                     continue;
                 }
             }
+        }
+
+        /// <summary>
+        /// Register the tasks to disable and enable camera blending during loading
+        /// </summary>
+        public void RegisterTask()
+        {
+            // Register disable blends first
+            sceneLoader.RegisterTask(DisableBlends(), 0);
+
+            // Register enable blends third
+            sceneLoader.RegisterTask(EnableBlends(), 2);
+        }
+
+        /// <summary>
+        /// Disable the blends for loading
+        /// </summary>
+        public async UniTask DisableBlends()
+        {
+            // Set the default blend to a cut
+            cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
+
+            await UniTask.Delay(500, true);
+        }
+
+        /// <summary>
+        /// Enable the blends after loading
+        /// </summary>
+        private async UniTask EnableBlends()
+        {
+            // Set the original blends
+            cinemachineBrain.m_DefaultBlend = originalBlend;
+
+            await UniTask.Delay(10, true);
         }
     }
 }

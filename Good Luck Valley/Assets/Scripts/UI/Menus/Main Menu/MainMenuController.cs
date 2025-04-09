@@ -8,18 +8,19 @@ using GoodLuckValley.Architecture.ServiceLocator;
 using UnityEngine.UI;
 using GoodLuckValley.UI.Menus.Main.States;
 using GoodLuckValley.Audio;
-using GoodLuckValley.Persistence;
 using GoodLuckValley.UI.Input;
+using GoodLuckValley.Scenes;
+using Cysharp.Threading.Tasks;
 
 namespace GoodLuckValley.UI.Menus.Main
 {
-    public class MainMenuController : SerializedMonoBehaviour, ITransmutableInputUI
+    public class MainMenuController : SerializedMonoBehaviour, ITransmutableInputUI, ILoadingTask
     {
         [Header("References")]
         [SerializeField] private UIInputReader inputReader;
         [SerializeField] private Image darkerBackground;
         private ControlSchemeDetector inputDetector;
-        private SaveLoadSystem saveLoadSystem;
+        private SceneLoader sceneLoader;
 
         [Header("States")]
         [SerializeField] private int currentState;
@@ -60,22 +61,25 @@ namespace GoodLuckValley.UI.Menus.Main
             // Set the UI input reader
             inputReader.Set();
 
-            // Register as a service
-            ServiceLocator.ForSceneOf(this).Register(this);
-
             // Get services
-            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
             inputDetector = ServiceLocator.Global.Get<ControlSchemeDetector>();
+        }
+
+        private void Start()
+        {
+            // Get the scene loader if it was not set
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
         }
 
         private void OnEnable()
         {
             inputReader.Start += OpenMainMenu;
             inputReader.Cancel += Backtrack;
-            saveLoadSystem.Release += Cleanup;
-            saveLoadSystem.SettingsSet += PlayMenuMusic;
 
             inputDetector.Register(this);
+
+            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+            sceneLoader.QueryTasks += RegisterTask;
         }
 
         private void OnDisable()
@@ -85,22 +89,13 @@ namespace GoodLuckValley.UI.Menus.Main
 
             inputDetector.Deregister(this);
 
-            Cleanup();
+            sceneLoader.QueryTasks -= RegisterTask;
         }
 
         private void Update()
         {
             // Update the State Machine
             stateMachine.Update();
-        }
-
-        /// <summary>
-        /// Cleanup by unsubscribing from events from the Save Load System
-        /// </summary>
-        private void Cleanup()
-        {
-            saveLoadSystem.Release -= Cleanup;
-            saveLoadSystem.SettingsSet -= PlayMenuMusic;
         }
 
         /// <summary>
@@ -143,13 +138,15 @@ namespace GoodLuckValley.UI.Menus.Main
             stateMachine.SetState(openState);
         }
 
-        private void PlayMenuMusic()
+        private async UniTask PlayMenuMusic()
         {
             // Set the menu state
             MusicManager.Instance.SetState(menuState);
 
             // Ensure the menu music is playing
             MusicManager.Instance.Play();
+
+            await UniTask.Delay(10, true);
         }
 
         /// <summary>
@@ -224,5 +221,10 @@ namespace GoodLuckValley.UI.Menus.Main
                     break;
             }
         }
+
+        /// <summary>
+        /// Register the task to play the menu music
+        /// </summary>
+        public void RegisterTask() => sceneLoader.RegisterTask(PlayMenuMusic(), 100);
     }
 }

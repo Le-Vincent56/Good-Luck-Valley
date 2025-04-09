@@ -27,7 +27,7 @@ namespace GoodLuckValley.Persistence
         void Bind(TData data);
     }
 
-    public class SaveLoadSystem : MonoBehaviour
+    public class SaveLoadSystem : MonoBehaviour, ILoadingTask
     {
         [SerializeField] private bool debug;
         [SerializeField] private GameData selectedData;
@@ -63,25 +63,23 @@ namespace GoodLuckValley.Persistence
                 NewSettings();
         }
 
-        /// <summary>
-        /// Bind all game data
-        /// </summary>
-        private void BindData()
+        private void Start()
         {
-            // Bind Settings
-            Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
-            Bind<VideoSaveHandler, VideoData>(settingsData.Video);
-            Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
+            // Get the scene loader if it was not set
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+        }
 
-            // Exit case - no selected data
-            if (selectedData == null) return;
+        private void OnEnable()
+        {
+            // Get the scene loader if it was not set
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
 
-            // Bind Data
-            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
-            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
-            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
-            Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
-            Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
+            sceneLoader.QueryTasks += RegisterTask;
+        }
+
+        private void OnDisable()
+        {
+            sceneLoader.QueryTasks -= RegisterTask;
         }
 
         /// <summary>
@@ -306,14 +304,35 @@ namespace GoodLuckValley.Persistence
         }
 
         /// <summary>
+        /// Register the task to bind data
+        /// </summary>
+        public void RegisterTask() => sceneLoader.RegisterTask(BindData(), 1);
+
+        /// <summary>
         /// Task the Load Save
         /// </summary>
-        public UniTask LoadSaveTask()
+        public async UniTask BindData()
         {
-            // Bind the data
-            BindData();
+            // Bind Settings
+            Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
+            Bind<VideoSaveHandler, VideoData>(settingsData.Video);
+            Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
 
-            return UniTask.DelayFrame(1);
+            // Exit case - no selected data
+            if (selectedData == null)
+            {
+                await UniTask.Delay(500, true);
+                return;
+            }
+
+            // Bind Data
+            Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
+            Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
+            Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
+            Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
+
+            await UniTask.Delay(500, true);
         }
     }
 }
