@@ -35,7 +35,7 @@ namespace GoodLuckValley.World.Revealables
             tilemapCollider.enabled = true;
 
             // Fade in the Revealable
-            Fade(1f, fadeDuration);
+            //Fade(1f, fadeDuration);
         }
 
         /// <summary>
