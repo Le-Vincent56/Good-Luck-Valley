@@ -62,7 +62,7 @@ namespace GoodLuckValley.World.Cinematics
             lightningSequence.Join(ChangeColor(lightningColor, halvedDuration));
 
             // Set the ending of the strike
-            lightningSequence.Append(IntensifyLight(1f, halvedDuration));
+            lightningSequence.Append(IntensifyLight(0f, halvedDuration));
             lightningSequence.Join(ChangeColor(Color.white, halvedDuration));
 
             // Play the sequence
