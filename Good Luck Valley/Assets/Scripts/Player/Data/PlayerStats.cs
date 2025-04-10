@@ -21,7 +21,6 @@ namespace GoodLuckValley.Player.Data
         public LayerMask TraceableLayers;
         public CharacterSize CharacterSize;
 
-
         // Controller Setup
         [Header("Controller Setup"), Space] public float VerticalDeadZoneThreshold = 0.3f;
         public double HorizontalDeadZoneThreshold = 0.1f;
@@ -37,7 +36,10 @@ namespace GoodLuckValley.Player.Data
         public float AirFrictionMultiplier = 0.5f;
         public float WallAirFrictionMultiplier = 0.225f;
         public float DirectionCorrectionMultiplier = 3f;
-        public float MaxWalkableSlope = 50;
+        public float MaxWalkableSlope = 45;
+        public float WallSlideMaxSpeed = 7f;
+        public float SlidingMaxSpeed = 7f;
+        public float FallingMaxSpeed = 11f;
 
         [Header("Gravity")]
         public float FallGravityScale = 1.5f;
@@ -45,6 +47,7 @@ namespace GoodLuckValley.Player.Data
         public float BounceGravityScale = 2.2f;
         public float WallSlideGravityScale = 1.3f;
         public float TimeWarpGravityScale = 0.5f;
+        public float SlideGravityScale = 0.75f;
 
         [Header("Fall"), Space]
         public float FastFallMultiplier = 2f;

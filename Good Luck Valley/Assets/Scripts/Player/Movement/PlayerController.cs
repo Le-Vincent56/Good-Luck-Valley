@@ -33,6 +33,8 @@ namespace GoodLuckValley.Player.Movement
         [SerializeField] private bool active;
         [SerializeField] private bool forcedMove;
         [SerializeField] private int forcedMoveDirection;
+        [SerializeField] private float currentMaxSpeed;
+        [SerializeField] private bool capSpeed;
         [SerializeField] private CollisionHandler collisionHandler;
         private FrameData frameData;
         [SerializeField] private PlayerJump jump;
@@ -85,6 +87,8 @@ namespace GoodLuckValley.Player.Movement
 
         public float Delta { get => delta; }
         public float Time { get => time; }
+        public float CurrentMaxSpeed { get => currentMaxSpeed; set => currentMaxSpeed = value; }
+        public bool CapSpeed { get => capSpeed; set => capSpeed = value; }
 
         public Vector2 Velocity { get; set; }
         public Vector2 ImmediateMove { get => immediateMove; }
@@ -256,6 +260,12 @@ namespace GoodLuckValley.Player.Movement
 
             // Clean the frame data
             frameData.Clean();
+
+            // Exit case - the velocity is not capped
+            if (!capSpeed) return;
+
+            // Set velocity
+            SetVelocity(Vector2.ClampMagnitude(Velocity, currentMaxSpeed));
 
             //if (debug) DebugMovement(false);
         }

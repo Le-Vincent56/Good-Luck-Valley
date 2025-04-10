@@ -36,6 +36,7 @@ namespace GoodLuckValley.Player.Animation
         private static readonly int WALL_SLIDE_HASH = Animator.StringToHash("Wall Slide");
         private static readonly int BOUNCE_HASH = Animator.StringToHash("Bounce");
         private static readonly int FALL_HASH = Animator.StringToHash("Fall");
+        private static readonly int SLIDE_HASH = Animator.StringToHash("Slide");
 
         private EventBinding<SetPaused> onSetPaused;
         private EventBinding<PotentiateFeedback> onPotentiateFeedback;
@@ -118,6 +119,18 @@ namespace GoodLuckValley.Player.Animation
                 return;
             }
 
+            // Check if sliding
+            if(playerController.Collisions.IsSliding)
+            {
+                directionToFace = playerController.Collisions.SlideDirection;
+
+                Vector3 slopeScale = transform.localScale;
+                slopeScale.x = directionToFace;
+                transform.localScale = slopeScale;
+
+                return;
+            }
+
             // Create a container for the x-velocity
             float xVelocity;
             
@@ -190,6 +203,19 @@ namespace GoodLuckValley.Player.Animation
         }
 
         /// <summary>
+        /// Correct the Player sprite on a slope
+        /// </summary>
+        public void CorrectPlayerSlope()
+        {
+            // Get the normal of the surface
+            //float angle = playerController.Collisions.LastSteepSlopeAngle - 45f;
+            float angle = 45f - playerController.Collisions.LastSteepSlopeAngle;
+
+            // Apply the rotation to the sprite
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        /// <summary>
         /// Set the visibility of the player sprite
         /// </summary>
         private void SetVisibility(ChangeDevelopmentTools eventData)
@@ -208,5 +234,6 @@ namespace GoodLuckValley.Player.Animation
         public void EnterWallSlide() => animator.CrossFade(WALL_SLIDE_HASH, crossFadeDuration);
         public void EnterBounce() => animator.CrossFade(BOUNCE_HASH, crossFadeDuration);
         public void EnterFall() => animator.CrossFade(FALL_HASH, crossFadeDuration);
+        public void EnterSlide() => animator.CrossFade(SLIDE_HASH, crossFadeDuration);
     }
 }

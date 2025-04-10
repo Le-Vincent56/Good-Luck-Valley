@@ -16,6 +16,9 @@ namespace GoodLuckValley.Player.States
             // Enter the Bounce animation
             animator.EnterBounce();
 
+            // Correct the player rotation
+            animator.CorrectPlayerRotation();
+
             // Set controller variables
             controller.RB.gravityScale = controller.Stats.BounceGravityScale;
         }

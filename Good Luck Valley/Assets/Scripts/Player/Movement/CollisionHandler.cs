@@ -27,10 +27,14 @@ namespace GoodLuckValley.Player.Movement
         private int lastGroundLayer;
         [SerializeField] private bool grounded;
         [SerializeField] private bool isOnSlope;
+        [SerializeField] private bool isSliding;
+        private float lastSteepSlopeAngle;
+        private int slideDirection;
         private float currentStepDownLength;
 
         private float GrounderLength => controller.CharacterSize.StepHeight + SKIN_WIDTH;
         public bool IsOnSlope => isOnSlope;
+        public bool IsSliding  { get => isSliding; set => isSliding = value; }
         public Vector2 RayPoint => controller.FrameData.Position + controller.Up * (controller.CharacterSize.StepHeight + SKIN_WIDTH);
 
         public bool Grounded { get => grounded; }
@@ -39,6 +43,8 @@ namespace GoodLuckValley.Player.Movement
         public float CurrentStepDownLength { get => currentStepDownLength; set => currentStepDownLength = value; }
         public float SkinWidth { get => SKIN_WIDTH; }
         public int LastGroundLayer { get => lastGroundLayer; }
+        public int SlideDirection { get => slideDirection; }
+        public float LastSteepSlopeAngle { get => lastSteepSlopeAngle; }
 
         public CollisionHandler(
             PlayerController controller,
@@ -146,8 +152,25 @@ namespace GoodLuckValley.Player.Movement
             // If no ground detected, return false
             if (!groundHit) return false;
 
-            // Exit cae - if the angle from the ground hit normal and the up vector is greater than the max walkable slope
-            if (groundAngle > controller.Stats.MaxWalkableSlope) return false;
+            // Exit case - if the angle from the ground hit normal and the up vector is greater than the max walkable slope
+            if (groundAngle > controller.Stats.MaxWalkableSlope)
+            {
+                // Start sliding and remove player movement
+                isSliding = true;
+                controller.Active = false;
+                slideDirection = (int)Mathf.Sign(groundHit.normal.x);
+                lastSteepSlopeAngle = groundAngle;
+
+                return false;
+            }
+
+            // Check if sliding
+            if(isSliding)
+            {
+                // Stop sliding and allow for player movement
+                isSliding = false;
+                controller.Active = true;
+            }
 
             // Get the layer of the ground hit object
             lastGroundLayer = groundHit.collider.gameObject.layer;

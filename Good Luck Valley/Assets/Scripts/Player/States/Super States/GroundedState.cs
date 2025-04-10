@@ -22,6 +22,9 @@ namespace GoodLuckValley.Player.States
 
         public override void OnEnter()
         {
+            // Correct the rotation
+            animator.CorrectPlayerRotation();
+
             // Set the idle as the default state
             subStates.SetState(idle);
 

@@ -32,7 +32,7 @@ namespace GoodLuckValley.Player.Data
 
         // Buffer distance for ground check rays, preventing issues with slope navigation and drop edges
         [Range(0.01f, 0.2f), Tooltip("The outer buffer distance of the grounder rays. Reducing this too much can cause problems on slopes, too big and you can get stuck on the sides of drops.")]
-        public float RayInset = 0.1f;
+        public float RayInset = 0.065f;
 
         [Range(0.0f, 0.2f), Tooltip("The offset to buffer the rays")]
         public float RayOffset = 0.0f;

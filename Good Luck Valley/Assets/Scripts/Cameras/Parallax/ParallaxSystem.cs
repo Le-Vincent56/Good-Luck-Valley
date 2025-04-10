@@ -10,7 +10,9 @@ using UnityEngine;
 namespace GoodLuckValley.Cameras.Parallax
 {
     [BurstCompile]
+#if UNITY_EDITOR
     [ExecuteInEditMode]
+#endif
     public class ParallaxSystem : MonoBehaviour, ILoadingTask
     {
         [SerializeField] private Camera mainCamera;
@@ -28,6 +30,10 @@ namespace GoodLuckValley.Cameras.Parallax
 
         private void Start()
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) return;
+#endif
+
             if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
             sceneLoader.QueryTasks += RegisterTask;
         }

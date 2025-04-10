@@ -2,6 +2,7 @@ using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
+using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
@@ -22,6 +23,10 @@ namespace GoodLuckValley.Player.States
             sfx.StartWallSlide();
 
             controller.RB.gravityScale = controller.Stats.WallSlideGravityScale;
+
+            // Set a max speed
+            controller.CurrentMaxSpeed = controller.Stats.WallSlideMaxSpeed;
+            controller.CapSpeed = true;
         }
 
         public override void SetupSubStateMachine() { }
@@ -36,6 +41,9 @@ namespace GoodLuckValley.Player.States
 
             // Set the gravity scale back to normal
             controller.RB.gravityScale = controller.Stats.JumpGravityScale;
+
+            // Remove the max speed cap
+            controller.CapSpeed = false;
         }
     }
 }

@@ -1,8 +1,8 @@
-using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
+using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {
@@ -23,10 +23,17 @@ namespace GoodLuckValley.Player.States
 
             // Set the normal fall as the default state
             //subStates.SetState(normalFall);
+
+            // Set a max speed
+            controller.CurrentMaxSpeed = controller.Stats.FallingMaxSpeed;
+            controller.CapSpeed = true;
         }
 
         public override void OnExit()
         {
+            // Remove the max speed cap
+            controller.CapSpeed = false;
+
             // Stop the float particles if they exist
             //particles.StopFloatParticles();
         }
