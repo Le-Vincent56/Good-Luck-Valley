@@ -82,8 +82,8 @@ namespace GoodLuckValley
             superMachine.At(noClip, falling, new FuncPredicate(() => !devTools.NoClip && !controller.Collisions.Grounded));
             superMachine.At(noClip, bouncing, new FuncPredicate(() => !devTools.NoClip && controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
             superMachine.At(noClip, wallSliding, new FuncPredicate(() => !devTools.NoClip && controller.WallJump.IsOnWall));
-            
-            superMachine.At(sliding, falling, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Collisions.IsSliding));
+
+            superMachine.At(sliding, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0 && !controller.Collisions.IsSliding));
             superMachine.At(sliding, grounded, new FuncPredicate(() => controller.Collisions.Grounded && !controller.Collisions.IsSliding));
             superMachine.At(sliding, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing));
 

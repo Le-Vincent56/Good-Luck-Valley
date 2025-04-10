@@ -24,6 +24,9 @@ namespace GoodLuckValley.Player.States
             // Set the normal fall as the default state
             //subStates.SetState(normalFall);
 
+            // Correct the player sprite
+            animator.CorrectPlayerRotation();
+
             // Set a max speed
             controller.CurrentMaxSpeed = controller.Stats.FallingMaxSpeed;
             controller.CapSpeed = true;

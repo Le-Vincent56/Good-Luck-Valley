@@ -113,6 +113,14 @@ namespace GoodLuckValley.Player.Movement
             if (groundAngle != 0 && !isOnSlope) isOnSlope = true;
             else if (groundAngle == 0 && isOnSlope) isOnSlope = false;
 
+            // Check if not on a slope
+            if(!isOnSlope)
+            {
+                // Stop sliding and allow for player movement
+                isSliding = false;
+                controller.Active = true;
+            }
+
             // Check if currently grounded, but not grounded before
             if (isGroundedThisFrame && !grounded) 
             {
@@ -164,13 +172,9 @@ namespace GoodLuckValley.Player.Movement
                 return false;
             }
 
-            // Check if sliding
-            if(isSliding)
-            {
-                // Stop sliding and allow for player movement
-                isSliding = false;
-                controller.Active = true;
-            }
+            // Stop sliding and allow for player movement
+            isSliding = false;
+            controller.Active = true;
 
             // Get the layer of the ground hit object
             lastGroundLayer = groundHit.collider.gameObject.layer;
@@ -227,6 +231,10 @@ namespace GoodLuckValley.Player.Movement
                 if(!devTools.NoClip)
                     // Set the gravity scale
                     controller.RB.gravityScale = controller.Stats.JumpGravityScale;
+
+                // Set slope variables
+                isOnSlope = false;
+                isSliding = false;
 
                 SetColliderMode(ColliderMode.Airborne);
             }
