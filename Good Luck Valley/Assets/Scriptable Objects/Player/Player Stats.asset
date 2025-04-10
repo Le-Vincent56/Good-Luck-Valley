@@ -29,7 +29,7 @@ MonoBehaviour:
     Width: 0.62
     StepHeight: 0.14
     SlopeStepHeight: 0.2
-    CrouchHeight: 0.4
+    CrouchHeight: 1
     RayInset: 0.03
     RayOffset: 0
   VerticalDeadZoneThreshold: 0.3
@@ -42,7 +42,9 @@ MonoBehaviour:
   WallAirFrictionMultiplier: 0.225
   DirectionCorrectionMultiplier: 3
   MaxWalkableSlope: 46
-  MaxSpeed: 7
+  WallSlideMaxSpeed: 7
+  SlidingMaxSpeed: 7
+  FallingMaxSpeed: 11
   FallGravityScale: 1.5
   JumpGravityScale: 2.8
   BounceGravityScale: 2.2

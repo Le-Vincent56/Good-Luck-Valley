@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GoodLuckValley.Architecture.StateMachine
 {
@@ -68,8 +69,12 @@ namespace GoodLuckValley.Architecture.StateMachine
             // Exit the previous State
             previousState?.OnExit();
 
+            UnityEngine.Debug.Log($"Exited State: {previousState.GetType()}");
+
             // Enter the next State
             nextState?.OnEnter();
+
+            UnityEngine.Debug.Log($"Entered State: {nextState.GetType()}");
 
             // Set the current state
             current = nodes[state.GetType()];

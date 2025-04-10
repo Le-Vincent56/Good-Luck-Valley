@@ -54,7 +54,7 @@ namespace GoodLuckValley
             superMachine.At(grounded, jumping, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
             superMachine.At(grounded, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0));
             superMachine.At(grounded, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
-            superMachine.At(grounded, sliding, new FuncPredicate(() => controller.Collisions.Grounded && controller.Collisions.IsSliding));
+            superMachine.At(grounded, sliding, new FuncPredicate(() => controller.Collisions.IsSliding));
 
             superMachine.At(wallSliding, grounded, new FuncPredicate(() => !controller.WallJump.IsOnWall && controller.Collisions.Grounded));
             superMachine.At(wallSliding, jumping, new FuncPredicate(() => !controller.WallJump.IsOnWall && controller.RB.linearVelocity.y > 0));
@@ -83,7 +83,7 @@ namespace GoodLuckValley
             superMachine.At(noClip, bouncing, new FuncPredicate(() => !devTools.NoClip && controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
             superMachine.At(noClip, wallSliding, new FuncPredicate(() => !devTools.NoClip && controller.WallJump.IsOnWall));
 
-            superMachine.At(sliding, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0 && !controller.Collisions.IsSliding));
+            superMachine.At(sliding, falling, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Collisions.IsSliding));
             superMachine.At(sliding, grounded, new FuncPredicate(() => controller.Collisions.Grounded && !controller.Collisions.IsSliding));
             superMachine.At(sliding, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing));
 

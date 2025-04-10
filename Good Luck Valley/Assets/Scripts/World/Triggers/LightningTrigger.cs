@@ -1,19 +1,16 @@
-using UnityEngine;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.World;
+using GoodLuckValley.Player.Movement;
 
-namespace GoodLuckValley
+namespace GoodLuckValley.World.Triggers
 {
-    public class LightningTrigger : MonoBehaviour
+    public class LightningTrigger : EnterExitTrigger
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public override void OnEnter(PlayerController controller)
         {
-        
+            EventBus<StrikeLightning>.Raise(new StrikeLightning());
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        public override void OnExit(PlayerController controller) { }
     }
 }

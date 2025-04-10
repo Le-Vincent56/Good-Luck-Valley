@@ -12,9 +12,11 @@ namespace GoodLuckValley.World.Cinematics
         [SerializeField] private Light2D globalLight;
 
         [Header("Tweening Variables")]
+        [SerializeField] private Color lightningColor;
         [SerializeField] private float lightningIntensity;
         [SerializeField] private float strikeDuration;
-        private Tween lightningTween;
+
+        private Sequence lightningSequence;
 
         private EventBinding<StrikeLightning> onStrikeLightning;
 
@@ -37,8 +39,8 @@ namespace GoodLuckValley.World.Cinematics
 
         private void OnDestroy()
         {
-            // Kill any existing tweens
-            lightningTween?.Kill();
+            // Kill any existing tweens or sequences
+            lightningSequence?.Kill();
         }
 
         /// <summary>
@@ -46,27 +48,34 @@ namespace GoodLuckValley.World.Cinematics
         /// </summary>
         private void InvokeLightning()
         {
-            // Set the halved duration
+            // Kill the Lightning Sequence if it exists
+            lightningSequence?.Kill();
+
+            // Create a new sequence
+            lightningSequence = DOTween.Sequence();
+
+            // Calculate the halved duration
             float halvedDuration = strikeDuration / 2f;
 
-            // Set the light to the flash value
-            Intensify(30f, halvedDuration / 2f, () =>
-            {
-                // Set the light back to 1
-                Intensify(1f, halvedDuration / 2f);
-            });
+            // Set the beginning of the strike
+            lightningSequence.Append(IntensifyLight(lightningIntensity, halvedDuration));
+            lightningSequence.Join(ChangeColor(lightningColor, halvedDuration));
+
+            // Set the ending of the strike
+            lightningSequence.Append(IntensifyLight(1f, halvedDuration));
+            lightningSequence.Join(ChangeColor(Color.white, halvedDuration));
+
+            // Play the sequence
+            lightningSequence.Play();
         }
         
         /// <summary>
         /// Tween the global light intensity
         /// </summary>
-        private void Intensify(float endValue, float duration, TweenCallback onComplete = null)
+        private Tween IntensifyLight(float endValue, float duration, TweenCallback onComplete = null)
         {
-            // Kill the Lightning Tween if it exists
-            lightningTween?.Kill();
-
             // Set the light to the flash value
-            lightningTween = DOTween.To(
+            Tween flashTween = DOTween.To(
                 () => globalLight.intensity,
                     x => globalLight.intensity = x,
                     endValue,
@@ -74,10 +83,31 @@ namespace GoodLuckValley.World.Cinematics
             );
 
             // Exit case - no completion action was given
-            if (onComplete == null) return;
+            if (onComplete == null) return flashTween;
 
             // Hook up the completion action
-            lightningTween.onComplete += onComplete;
+            flashTween.onComplete += onComplete;
+
+            return flashTween;
+        }
+
+        private Tween ChangeColor(Color endValue, float duration, TweenCallback onComplete = null)
+        {
+            // Set the color of the light
+            Tween colorTween = DOTween.To(
+                () => globalLight.color,
+                    x => globalLight.color = x,
+                    endValue,
+                    duration
+            );
+
+            // Exit case - no completion action was given
+            if (onComplete == null) return colorTween;
+
+            // Hook up the completion action
+            colorTween.onComplete += onComplete;
+
+            return colorTween;
         }
     }
 }

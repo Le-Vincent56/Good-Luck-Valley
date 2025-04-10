@@ -113,14 +113,6 @@ namespace GoodLuckValley.Player.Movement
             if (groundAngle != 0 && !isOnSlope) isOnSlope = true;
             else if (groundAngle == 0 && isOnSlope) isOnSlope = false;
 
-            // Check if not on a slope
-            if(!isOnSlope)
-            {
-                // Stop sliding and allow for player movement
-                isSliding = false;
-                controller.Active = true;
-            }
-
             // Check if currently grounded, but not grounded before
             if (isGroundedThisFrame && !grounded) 
             {
@@ -158,12 +150,17 @@ namespace GoodLuckValley.Player.Movement
             Debug.DrawRay(point, -controller.Up * (GrounderLength + currentStepDownLength), Color.blue);
 
             // If no ground detected, return false
-            if (!groundHit) return false;
+            if (!groundHit)
+            {
+                isSliding = false;
+                return false;
+            }
 
             // Exit case - if the angle from the ground hit normal and the up vector is greater than the max walkable slope
             if (groundAngle > controller.Stats.MaxWalkableSlope)
             {
                 // Start sliding and remove player movement
+                isOnSlope = true;
                 isSliding = true;
                 controller.Active = false;
                 slideDirection = (int)Mathf.Sign(groundHit.normal.x);
