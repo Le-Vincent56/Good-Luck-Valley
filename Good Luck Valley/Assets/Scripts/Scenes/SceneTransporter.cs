@@ -39,7 +39,7 @@ namespace GoodLuckValley.Scenes
             if (!collision.TryGetComponent(out PlayerController controller)) return;
 
             // Exit case - already being forced to move
-            if(controller.ForcedMove) return;
+            if(controller.ForcedMove && controller.ForcedMoveDirection != 0) return;
 
             // Remove manual move
             controller.ForcedMove = true;

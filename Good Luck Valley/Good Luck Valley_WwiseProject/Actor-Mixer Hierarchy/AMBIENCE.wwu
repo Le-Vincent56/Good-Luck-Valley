@@ -22,22 +22,28 @@
 					</ReferenceList>
 					<ChildrenList>
 						<SwitchContainer Name="AMBIENCEBEDS_MAIN_WETNESSSWITCH" ID="{43E52282-6002-4052-8BA3-AFFAFE64CCC1}" ShortID="20288622">
+							<PropertyList>
+								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 								</Reference>
 								<Reference Name="DefaultSwitchOrState">
-									<ObjectRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+									<ObjectRef Name="DRY" ID="{1F98DEDB-6D30-45C1-B6A4-A0BF5825FB5B}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 								</Reference>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="AMBIENCEBEDS_2D" ID="{2023FBDF-031D-450E-9292-7A9C7FF383C1}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 								</Reference>
 								<Reference Name="SwitchGroupOrStateGroup">
-									<ObjectRef Name="WETNESSSWITCH" ID="{4C2461BC-A98E-47BB-A790-2DDE4F1E6A2C}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
+									<ObjectRef Name="WETNESSSWITCH" ID="{C31FB6AD-5A82-42EE-A76C-CCDD2F373D6A}" WorkUnitID="{8E56C5EE-2380-4576-9CA1-0605A1F0E57B}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
 								<SwitchContainer Name="AMBIENCEBEDS_WET_BIOMESWITCH" ID="{EDD92D85-F9F9-4753-A113-4D33A0DF52DC}" ShortID="1010638409">
+									<PropertyList>
+										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -73,7 +79,7 @@
 														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-19</Value>
+																<Value>-30</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -140,6 +146,11 @@
 												<Sound Name="AMBIENCEBEDS_FOREST_WIND" ID="{274CF0D3-3293-40FD-A43C-FCA2D2EF8041}" ShortID="590606860">
 													<PropertyList>
 														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-4</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -205,7 +216,7 @@
 													<PropertyList>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-9</Value>
+																<Value>-3</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -250,6 +261,9 @@
 									</GroupingInfo>
 								</SwitchContainer>
 								<SwitchContainer Name="AMBIENCEBEDS_DRY_BIOMESWITCH" ID="{351C787D-17C9-429D-9D62-926DE152766F}" ShortID="598244249">
+									<PropertyList>
+										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
@@ -1100,14 +1114,154 @@
 												</SwitchContainer>
 											</ChildrenList>
 										</BlendContainer>
+										<BlendContainer Name="SKY" ID="{3FA1DA5D-2877-48FD-8573-B2942F92FE87}" ShortID="558288632">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="AMB_SKY_WHISTLING" ID="{5926F14C-567E-4DF9-B29B-E80C4118D9B0}" ShortID="488210696">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-16</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_SKY_WHISTLING" ID="{2D33977E-9194-4B9B-9013-17D05E3B9B1E}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Sky\AMB_SKY_WHISTLING.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1002925217"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_SKY_WHISTLING" ID="{2D33977E-9194-4B9B-9013-17D05E3B9B1E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMB_SKY_WIND" ID="{7F6BBC64-F047-407A-A0A6-0EE7A71BC245}" ShortID="518801075">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-4</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_SKY_WIND" ID="{0DC5B36C-EC04-49EC-A00E-CFCCD27C7E4F}">
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Sky\AMB_SKY_WIND.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="247184293"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_SKY_WIND" ID="{0DC5B36C-EC04-49EC-A00E-CFCCD27C7E4F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="AMB_LANTERNS_MAGIC" ID="{80C8D9E3-C058-4006-9721-063DBEC94304}" ShortID="140028114">
+													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-8</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="AMB_LANTERNS_MAGIC" ID="{ECE6AB59-4528-4B00-8FA5-278140196203}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.19928479034629"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>Ambience\Beds\Lanterns\AMB_LANTERNS_MAGIC.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="37599359"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="AMB_LANTERNS_MAGIC" ID="{ECE6AB59-4528-4B00-8FA5-278140196203}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</BlendContainer>
 									</ChildrenList>
 									<GroupingInfo>
 										<GroupingBehaviorList>
 											<GroupingBehavior>
+												<ItemRef Name="SKY" ID="{3FA1DA5D-2877-48FD-8573-B2942F92FE87}"/>
+												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>2</Value>
+														</ValueList>
+													</Property>
+												</PropertyList>
+											</GroupingBehavior>
+											<GroupingBehavior>
 												<ItemRef Name="CAVE" ID="{D09E0466-F392-4989-AD20-2F3AC008AD9E}"/>
+												<PropertyList>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>1</Value>
+														</ValueList>
+													</Property>
+												</PropertyList>
 											</GroupingBehavior>
 											<GroupingBehavior>
 												<ItemRef Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}"/>
+												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>3</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>1</Value>
+														</ValueList>
+													</Property>
+												</PropertyList>
 											</GroupingBehavior>
 										</GroupingBehaviorList>
 										<GroupingList>
@@ -1115,6 +1269,12 @@
 												<SwitchRef Name="FOREST" ID="{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}"/>
 												<ItemList>
 													<ItemRef Name="FOREST" ID="{AC49CEA3-C953-4C56-BCF0-8409868178C0}"/>
+												</ItemList>
+											</Grouping>
+											<Grouping>
+												<SwitchRef Name="SKY" ID="{DCC59DCE-D4C0-4899-9F54-2326AECB01C5}"/>
+												<ItemList>
+													<ItemRef Name="SKY" ID="{3FA1DA5D-2877-48FD-8573-B2942F92FE87}"/>
 												</ItemList>
 											</Grouping>
 											<Grouping>
@@ -1131,22 +1291,36 @@
 								<GroupingBehaviorList>
 									<GroupingBehavior>
 										<ItemRef Name="AMBIENCEBEDS_DRY_BIOMESWITCH" ID="{351C787D-17C9-429D-9D62-926DE152766F}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>2</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
 									</GroupingBehavior>
 									<GroupingBehavior>
 										<ItemRef Name="AMBIENCEBEDS_WET_BIOMESWITCH" ID="{EDD92D85-F9F9-4753-A113-4D33A0DF52DC}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>3</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
 									</GroupingBehavior>
 								</GroupingBehaviorList>
 								<GroupingList>
 									<Grouping>
-										<SwitchRef Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}"/>
+										<SwitchRef Name="WET" ID="{D33EA3AA-FD94-494C-ACCA-3B6F6F7FAEE6}"/>
 										<ItemList>
-											<ItemRef Name="AMBIENCEBEDS_DRY_BIOMESWITCH" ID="{351C787D-17C9-429D-9D62-926DE152766F}"/>
+											<ItemRef Name="AMBIENCEBEDS_WET_BIOMESWITCH" ID="{EDD92D85-F9F9-4753-A113-4D33A0DF52DC}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>
-										<SwitchRef Name="WET" ID="{17F8BBEC-CBF2-4076-A75F-8BF5F00B4D21}"/>
+										<SwitchRef Name="DRY" ID="{1F98DEDB-6D30-45C1-B6A4-A0BF5825FB5B}"/>
 										<ItemList>
-											<ItemRef Name="AMBIENCEBEDS_WET_BIOMESWITCH" ID="{EDD92D85-F9F9-4753-A113-4D33A0DF52DC}"/>
+											<ItemRef Name="AMBIENCEBEDS_DRY_BIOMESWITCH" ID="{351C787D-17C9-429D-9D62-926DE152766F}"/>
 										</ItemList>
 									</Grouping>
 								</GroupingList>

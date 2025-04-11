@@ -52,7 +52,7 @@ namespace GoodLuckValley
 
             // Define state transitions
             superMachine.At(grounded, jumping, new FuncPredicate(() => !controller.Collisions.Grounded && !controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
-            superMachine.At(grounded, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0));
+            superMachine.At(grounded, falling, new FuncPredicate(() => !controller.Collisions.Grounded && controller.RB.linearVelocity.y < 0 && !controller.Bounce.Bouncing));
             superMachine.At(grounded, bouncing, new FuncPredicate(() => controller.Bounce.Bouncing && controller.RB.linearVelocity.y > 0));
             superMachine.At(grounded, sliding, new FuncPredicate(() => controller.Collisions.IsSliding));
 

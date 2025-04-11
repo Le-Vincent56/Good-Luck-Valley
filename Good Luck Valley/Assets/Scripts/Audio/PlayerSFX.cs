@@ -78,6 +78,13 @@ namespace GoodLuckValley.Audio
             EventBus<SetPaused>.Deregister(onSetPaused);
         }
 
+        private void OnDestroy()
+        {
+            StopGroundImpacts();
+            StopFall();
+            StopWallSlide();
+        }
+
         private void PauseSounds(SetPaused eventData)
         {
             if (eventData.Paused)

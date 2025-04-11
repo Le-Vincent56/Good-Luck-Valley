@@ -222,39 +222,11 @@
 						<Switch Name="STONE" ID="{FE47F7BE-5068-4364-B687-67875982FF4D}"/>
 					</ChildrenList>
 				</SwitchGroup>
-				<SwitchGroup Name="WETNESSSWITCH" ID="{4C2461BC-A98E-47BB-A790-2DDE4F1E6A2C}">
-					<PropertyList>
-						<Property Name="UseGameParameter" Type="bool" Value="True"/>
-					</PropertyList>
+				<SwitchGroup Name="WETNESSSWITCH" ID="{C31FB6AD-5A82-42EE-A76C-CCDD2F373D6A}">
 					<ChildrenList>
-						<Switch Name="DRY" ID="{A786D90E-3976-4BAD-85A7-E4508BDB7F89}"/>
-						<Switch Name="WET" ID="{17F8BBEC-CBF2-4076-A75F-8BF5F00B4D21}"/>
+						<Switch Name="WET" ID="{D33EA3AA-FD94-494C-ACCA-3B6F6F7FAEE6}"/>
+						<Switch Name="DRY" ID="{1F98DEDB-6D30-45C1-B6A4-A0BF5825FB5B}"/>
 					</ChildrenList>
-					<SwitchOnRTPC>
-						<GameParameterRef Name="RTPC_WETNESS" ID="{4CF9BCBC-59A2-486A-9F5A-5D84DFD98E0C}"/>
-						<Curve Name="" ID="{895C6230-7132-4721-B529-1620E3F6C81F}">
-							<PropertyList>
-								<Property Name="Flags" Type="int32" Value="65537"/>
-							</PropertyList>
-							<PointList>
-								<Point>
-									<XPos>0</XPos>
-									<YPos>1</YPos>
-									<Flags>5</Flags>
-								</Point>
-								<Point>
-									<XPos>0.5</XPos>
-									<YPos>2</YPos>
-									<Flags>0</Flags>
-								</Point>
-								<Point>
-									<XPos>1</XPos>
-									<YPos>0</YPos>
-									<Flags>37</Flags>
-								</Point>
-							</PointList>
-						</Curve>
-					</SwitchOnRTPC>
 				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>

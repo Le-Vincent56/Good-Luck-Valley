@@ -261,13 +261,14 @@ namespace GoodLuckValley.Player.Movement
             // Clean the frame data
             frameData.Clean();
 
+            //if (debug) DebugMovement(false);
+
             // Exit case - the velocity is not capped
             if (!capSpeed) return;
 
             // Set velocity
+            if (Velocity.y >= 0) return; 
             SetVelocity(Vector2.ClampMagnitude(Velocity, currentMaxSpeed));
-
-            //if (debug) DebugMovement(false);
         }
 
         private void DebugMovement(bool before)
@@ -279,7 +280,6 @@ namespace GoodLuckValley.Player.Movement
             //    $"\nLinear Velocity: {rb.linearVelocity}" +
             //    $"\nDecaying Transient Velocity: {DecayingTransientVelocity}" +
             //    $"\nTransient Velocity: {FrameData.TransientVelocity}" +
-            //    $"\nExtra Constant Gravity: {extraConstantGravity}" +
             //    $"\nForce to Apply: {FrameData.ForceToApply}" +
             //    $"\nAdditional Frame Velocities: {FrameData.AdditionalFrameVelocities()}" +
             //    $"\nConstant Force: {constForce.force}"

@@ -2,7 +2,6 @@ using GoodLuckValley.Audio;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
-using UnityEngine;
 
 namespace GoodLuckValley.Player.States
 {

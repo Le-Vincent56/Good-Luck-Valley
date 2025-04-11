@@ -13,8 +13,6 @@ namespace GoodLuckValley.World.Cinematics
 
         [Header("Tweening Variables")]
         [SerializeField] private Color lightningColor;
-        [SerializeField] private float lightningIntensity;
-        [SerializeField] private float strikeDuration;
 
         private Sequence lightningSequence;
 
@@ -46,7 +44,7 @@ namespace GoodLuckValley.World.Cinematics
         /// <summary>
         /// Invoke the lightning to flash the screen
         /// </summary>
-        private void InvokeLightning()
+        private void InvokeLightning(StrikeLightning eventData)
         {
             // Kill the Lightning Sequence if it exists
             lightningSequence?.Kill();
@@ -55,10 +53,10 @@ namespace GoodLuckValley.World.Cinematics
             lightningSequence = DOTween.Sequence();
 
             // Calculate the halved duration
-            float halvedDuration = strikeDuration / 2f;
+            float halvedDuration = eventData.Duration / 2f;
 
             // Set the beginning of the strike
-            lightningSequence.Append(IntensifyLight(lightningIntensity, halvedDuration));
+            lightningSequence.Append(IntensifyLight(eventData.Intensity, halvedDuration));
             lightningSequence.Join(ChangeColor(lightningColor, halvedDuration));
 
             // Set the ending of the strike

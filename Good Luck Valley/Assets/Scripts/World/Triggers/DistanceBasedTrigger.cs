@@ -35,7 +35,6 @@ namespace GoodLuckValley.World.Triggers
             Bounds bounds = GetComponent<BoxCollider2D>().bounds;
 
             // Get the total distance bounds
-            totalDistance = bounds.size.x;
             center = bounds.center;
 
             // Calculate the target value depending on the Scale Direction
@@ -43,18 +42,22 @@ namespace GoodLuckValley.World.Triggers
             {
                 case Direction.Left:
                     target = bounds.min.x;
+                    totalDistance = bounds.size.x;
                     break;
 
                 case Direction.Right:
                     target = bounds.max.x;
+                    totalDistance = bounds.size.x;
                     break;
 
                 case Direction.Up:
                     target = bounds.max.y;
+                    totalDistance = bounds.size.y;
                     break;
 
                 case Direction.Down:
                     target = bounds.min.y;
+                    totalDistance = bounds.size.y;
                     break;
 
                 case Direction.None:

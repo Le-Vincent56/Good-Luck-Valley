@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{39B03E84-D25D-58E0-F2B4-F1727261EB4F}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{9C9103E7-AE2F-B704-5996-7FE454EFC4E6}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -115,7 +115,6 @@
 				<GameParameter Id="647674338" Name="RTPC_TIMEWARP_DISTORT"/>
 				<GameParameter Id="983576458" Name="RTPC_TIMEWARP_TICK"/>
 				<GameParameter Id="2290256636" Name="RTPC_PLAYERFALLSPEED"/>
-				<GameParameter Id="2612323176" Name="RTPC_WETNESS"/>
 				<GameParameter Id="2653406601" Name="RTPC_PLAYERSPEED"/>
 				<GameParameter Id="2972739263" Name="RTPC_AMBIENCE"/>
 				<GameParameter Id="3438452020" Name="RTPC_SFX"/>
@@ -175,7 +174,6 @@
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="197954834" Name="WETNESSSWITCH">
-					<GameParameterRef Id="2612323176"/>
 					<Switches>
 						<Switch Id="630539344" Name="DRY"/>
 						<Switch Id="1181096339" Name="WET"/>
@@ -184,6 +182,7 @@
 				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
 					<Switches>
 						<Switch Id="491961918" Name="FOREST"/>
+						<Switch Id="611348932" Name="SKY"/>
 						<Switch Id="4122393694" Name="CAVE"/>
 					</Switches>
 				</SwitchGroup>
@@ -244,7 +243,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{5BB616B1-CCF7-A917-8490-B6D1F54348EE}">
+		<SoundBank Id="3626155605" Type="User" Language="SFX" Hash="{4B3F9B71-620F-061D-47D4-0EC5FC0DBB46}">
 			<ShortName>GAME_SOUNDBANK</ShortName>
 			<Path>GAME_SOUNDBANK.bnk</Path>
 			<Media>
@@ -383,6 +382,10 @@
 				<File Id="241136007" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Jump\Dirt\PLAYER_JUMP_DIRT_01.wav</ShortName>
 					<CachePath>B8/{B8D988EA-60E8-48BE-B0DD-9B289A4FC350}.wem</CachePath>
+				</File>
+				<File Id="247184293" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Sky\AMB_SKY_WIND.wav</ShortName>
+					<CachePath>10/{1042E4BD-3C4F-3CEA-3EB2-72C7F9FB3BD6}.wem</CachePath>
 				</File>
 				<File Id="249687352" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Ambience\Beds\Cave\AMBIENCEBEDS_CAVE_WATERDROP.wav</ShortName>
@@ -872,6 +875,10 @@
 					<ShortName>Mushroom\Bounce\MUSHROOM_BOUNCE_NOISE_03.wav</ShortName>
 					<CachePath>09/{090056A6-54C8-1F8F-EB1B-E7EE3732C1FF}.wem</CachePath>
 				</File>
+				<File Id="1002925217" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience\Beds\Sky\AMB_SKY_WHISTLING.wav</ShortName>
+					<CachePath>49/{490CFAD1-31E1-905E-1AE6-2158DB9B8B3F}.wem</CachePath>
+				</File>
 				<File Id="1012852993" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Player\Locomotion\Slide\STONE_SLIDE.wav</ShortName>
 					<CachePath>06/{062654D3-78E3-4A29-0B81-297062F1FF79}.wem</CachePath>
@@ -1035,6 +1042,19 @@
 				<Event Id="1808419977" Name="PLAY_AMBIENCEBED_MAIN" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="197954834" Id="1181096339"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1097908491" Id="491961918" Default="true"/>
+									<MediaRefs>
+										<MediaRef Id="638326763"/>
+										<MediaRef Id="639139461"/>
+										<MediaRef Id="926564563"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="197954834" Id="630539344" Default="true"/>
 							<Children>
 								<SwitchContainer>
@@ -1089,6 +1109,14 @@
 									</Children>
 								</SwitchContainer>
 								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1097908491" Id="611348932"/>
+									<MediaRefs>
+										<MediaRef Id="37599359"/>
+										<MediaRef Id="247184293"/>
+										<MediaRef Id="1002925217"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1097908491" Id="4122393694"/>
 									<MediaRefs>
 										<MediaRef Id="249687352"/>
@@ -1125,19 +1153,6 @@
 											</PluginRefs>
 										</SwitchContainer>
 									</Children>
-								</SwitchContainer>
-							</Children>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="197954834" Id="1181096339"/>
-							<Children>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="1097908491" Id="491961918" Default="true"/>
-									<MediaRefs>
-										<MediaRef Id="638326763"/>
-										<MediaRef Id="639139461"/>
-										<MediaRef Id="926564563"/>
-									</MediaRefs>
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
@@ -1731,7 +1746,6 @@
 			<GameParameters>
 				<GameParameter Id="482870237" Name="RTPC_LOTUSDISTANCE"/>
 				<GameParameter Id="2290256636" Name="RTPC_PLAYERFALLSPEED"/>
-				<GameParameter Id="2612323176" Name="RTPC_WETNESS"/>
 				<GameParameter Id="2653406601" Name="RTPC_PLAYERSPEED"/>
 			</GameParameters>
 			<StateGroups>
@@ -1774,7 +1788,6 @@
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="197954834" Name="WETNESSSWITCH">
-					<GameParameterRef Id="2612323176"/>
 					<Switches>
 						<Switch Id="630539344" Name="DRY"/>
 						<Switch Id="1181096339" Name="WET"/>
@@ -1783,6 +1796,7 @@
 				<SwitchGroup Id="1097908491" Name="AMBIENCEBIOMESWITCH">
 					<Switches>
 						<Switch Id="491961918" Name="FOREST"/>
+						<Switch Id="611348932" Name="SKY"/>
 						<Switch Id="4122393694" Name="CAVE"/>
 					</Switches>
 				</SwitchGroup>
@@ -1831,5 +1845,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{1FA1648C-D347-1612-33F1-E780A23F2518}</FileHash>
+	<FileHash>{9D609DB7-CA97-AC42-FB1D-9140F74F5EC8}</FileHash>
 </SoundBanksInfo>

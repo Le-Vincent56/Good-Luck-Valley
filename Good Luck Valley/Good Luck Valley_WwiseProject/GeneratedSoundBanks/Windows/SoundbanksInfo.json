@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{001BF838-F485-21CF-25BE-D8A1E8DEB341}",
+    "Hash": "{6649B3E5-DD7B-DB9C-02CF-1D10743A7B8E}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -319,10 +319,6 @@
       "Name": "RTPC_PLAYERFALLSPEED"
      },
      {
-      "Id": "2612323176",
-      "Name": "RTPC_WETNESS"
-     },
-     {
       "Id": "2653406601",
       "Name": "RTPC_PLAYERSPEED"
      },
@@ -475,9 +471,6 @@
      {
       "Id": "197954834",
       "Name": "WETNESSSWITCH",
-      "GameParameterRef": {
-       "Id": "2612323176"
-      },
       "Switches": [
        {
         "Id": "630539344",
@@ -496,6 +489,10 @@
        {
         "Id": "491961918",
         "Name": "FOREST"
+       },
+       {
+        "Id": "611348932",
+        "Name": "SKY"
        },
        {
         "Id": "4122393694",
@@ -656,7 +653,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{5BB616B1-CCF7-A917-8490-B6D1F54348EE}",
+    "Hash": "{4B3F9B71-620F-061D-47D4-0EC5FC0DBB46}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -931,6 +928,14 @@
       "Location": "Memory",
       "ShortName": "Player\\Jump\\Dirt\\PLAYER_JUMP_DIRT_01.wav",
       "CachePath": "B8/{B8D988EA-60E8-48BE-B0DD-9B289A4FC350}.wem"
+     },
+     {
+      "Id": "247184293",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Sky\\AMB_SKY_WIND.wav",
+      "CachePath": "10/{1042E4BD-3C4F-3CEA-3EB2-72C7F9FB3BD6}.wem"
      },
      {
       "Id": "249687352",
@@ -1909,6 +1914,14 @@
       "CachePath": "09/{090056A6-54C8-1F8F-EB1B-E7EE3732C1FF}.wem"
      },
      {
+      "Id": "1002925217",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Ambience\\Beds\\Sky\\AMB_SKY_WHISTLING.wav",
+      "CachePath": "49/{490CFAD1-31E1-905E-1AE6-2158DB9B8B3F}.wem"
+     },
+     {
       "Id": "1012852993",
       "Language": "SFX",
       "Streaming": "false",
@@ -2372,6 +2385,34 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "197954834",
+         "Id": "1181096339"
+        },
+        "Children": [
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1097908491",
+           "Id": "491961918",
+           "Default": "true"
+          },
+          "MediaRefs": [
+           {
+            "Id": "638326763"
+           },
+           {
+            "Id": "639139461"
+           },
+           {
+            "Id": "926564563"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "197954834",
          "Id": "630539344",
          "Default": "true"
         },
@@ -2479,6 +2520,24 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "1097908491",
+           "Id": "611348932"
+          },
+          "MediaRefs": [
+           {
+            "Id": "37599359"
+           },
+           {
+            "Id": "247184293"
+           },
+           {
+            "Id": "1002925217"
+           }
+          ]
+         },
+         {
+          "SwitchValue": {
+           "GroupType": "Switch",
+           "GroupId": "1097908491",
            "Id": "4122393694"
           },
           "MediaRefs": [
@@ -2546,34 +2605,6 @@
               }
              ]
             }
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "SwitchValue": {
-         "GroupType": "Switch",
-         "GroupId": "197954834",
-         "Id": "1181096339"
-        },
-        "Children": [
-         {
-          "SwitchValue": {
-           "GroupType": "Switch",
-           "GroupId": "1097908491",
-           "Id": "491961918",
-           "Default": "true"
-          },
-          "MediaRefs": [
-           {
-            "Id": "638326763"
-           },
-           {
-            "Id": "639139461"
-           },
-           {
-            "Id": "926564563"
            }
           ]
          }
@@ -3925,10 +3956,6 @@
       "Name": "RTPC_PLAYERFALLSPEED"
      },
      {
-      "Id": "2612323176",
-      "Name": "RTPC_WETNESS"
-     },
-     {
       "Id": "2653406601",
       "Name": "RTPC_PLAYERSPEED"
      }
@@ -4033,9 +4060,6 @@
      {
       "Id": "197954834",
       "Name": "WETNESSSWITCH",
-      "GameParameterRef": {
-       "Id": "2612323176"
-      },
       "Switches": [
        {
         "Id": "630539344",
@@ -4054,6 +4078,10 @@
        {
         "Id": "491961918",
         "Name": "FOREST"
+       },
+       {
+        "Id": "611348932",
+        "Name": "SKY"
        },
        {
         "Id": "4122393694",
@@ -4170,6 +4198,6 @@
     ]
    }
   ],
-  "FileHash": "{312C3DBC-AA3E-1797-5FC8-690EDC153623}"
+  "FileHash": "{B0684310-BAFE-EF69-24EA-79CB0E3D35E7}"
  }
 }

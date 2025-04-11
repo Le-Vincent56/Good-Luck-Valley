@@ -2490,7 +2490,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3b98b877b8191e4d997b0521d7f4095a
     GuidInternal: 
-    m_lastTime: -8584574388315919463
+    m_lastTime: -8584572141748115875
     List:
     - name: RTPC_DISTANCE
       guid: 291ab848b708ba459bbebca64800530d
@@ -2590,20 +2590,6 @@ MonoBehaviour:
         ObjectType: 13
         guid: 429f3c093dbf2447b560ae9865ba9623
       Path: Game Parameters\Default Work Unit\RTPC_TIMEWARP_TICK
-    - name: RTPC_WETNESS
-      guid: bcbcf94ca2596a489f5a5d84dfd98e0c
-      id: 2612323176
-      PathAndIcons:
-      - ElementName: Game Parameters
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 3b98b877b8191e4d997b0521d7f4095a
-      - ElementName: RTPC_WETNESS
-        ObjectType: 13
-        guid: bcbcf94ca2596a489f5a5d84dfd98e0c
-      Path: Game Parameters\Default Work Unit\RTPC_WETNESS
   - PhysicalPath: Game Parameters\Volume Controls.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -3095,7 +3081,7 @@ MonoBehaviour:
     ParentPath: Switches\Ambience Switches
     guid: 890d391daa6f444a8d35d51423e241e9
     GuidInternal: 
-    m_lastTime: -8584587604765735797
+    m_lastTime: -8584572034769135188
     List:
     - name: AMBIENCEBIOMESWITCH
       guid: c19da96055f49c4295064afcdee27ef8
@@ -3144,6 +3130,22 @@ MonoBehaviour:
         - ElementName: FOREST
           ObjectType: 10
           guid: 319fdbec5ebfc3409d6ad87abe8a046d
+      - name: SKY
+        guid: ce9dc5dcc0d499489f542326aecb01c5
+        id: 611348932
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Ambience Switches
+          ObjectType: 12
+          guid: 890d391daa6f444a8d35d51423e241e9
+        - ElementName: AMBIENCEBIOMESWITCH
+          ObjectType: 11
+          guid: c19da96055f49c4295064afcdee27ef8
+        - ElementName: SKY
+          ObjectType: 10
+          guid: ce9dc5dcc0d499489f542326aecb01c5
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -3308,7 +3310,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: eec5568e802376459ca10605a1f0e57b
     GuidInternal: 
-    m_lastTime: -8584574388312662181
+    m_lastTime: -8584572142583311478
     List:
     - name: DISTANCESWITCH
       guid: 622fcafe08b4b042be219ee090a6dfe1
@@ -3721,7 +3723,7 @@ MonoBehaviour:
       ValueIcons: []
       valuesInternal: []
     - name: WETNESSSWITCH
-      guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+      guid: adb61fc3825aee42a76cccdd2f373d6a
       id: 197954834
       PathAndIcons:
       - ElementName: Switches
@@ -3732,11 +3734,11 @@ MonoBehaviour:
         guid: eec5568e802376459ca10605a1f0e57b
       - ElementName: WETNESSSWITCH
         ObjectType: 11
-        guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+        guid: adb61fc3825aee42a76cccdd2f373d6a
       Path: Switches\Default Work Unit\WETNESSSWITCH
       values:
       - name: DRY
-        guid: 0ed986a77639ad4b85a7e4508bdb7f89
+        guid: dbde981f306dc145b6a4a0bf5825fb5b
         id: 630539344
         PathAndIcons:
         - ElementName: Switches
@@ -3747,12 +3749,12 @@ MonoBehaviour:
           guid: eec5568e802376459ca10605a1f0e57b
         - ElementName: WETNESSSWITCH
           ObjectType: 11
-          guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+          guid: adb61fc3825aee42a76cccdd2f373d6a
         - ElementName: DRY
           ObjectType: 10
-          guid: 0ed986a77639ad4b85a7e4508bdb7f89
+          guid: dbde981f306dc145b6a4a0bf5825fb5b
       - name: WET
-        guid: ecbbf817f2cb7640a75f8bf5f00b4d21
+        guid: aaa33ed394fd4c49acca3b6f6f7faee6
         id: 1181096339
         PathAndIcons:
         - ElementName: Switches
@@ -3763,10 +3765,10 @@ MonoBehaviour:
           guid: eec5568e802376459ca10605a1f0e57b
         - ElementName: WETNESSSWITCH
           ObjectType: 11
-          guid: bc61244c8ea9bb47a7902dde4f1e6a2c
+          guid: adb61fc3825aee42a76cccdd2f373d6a
         - ElementName: WET
           ObjectType: 10
-          guid: ecbbf817f2cb7640a75f8bf5f00b4d21
+          guid: aaa33ed394fd4c49acca3b6f6f7faee6
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -3785,7 +3787,7 @@ MonoBehaviour:
     m_lastTime: -8584587604765735797
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 050000000c0000000d0000001000000013000000140000001600000018000000190000001a0000001c0000002300000024000000250000002600000028000000290000002b0000002c0000002d0000002f000000310000003200000033000000340000003600000038000000390000003a0000003b0000003e00000041000000420000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000510000005500000056000000570000005a0000005b0000005c0000005d0000007400000077000000
+  ExpandedWaapiItemIds: 010000000500000006000000070000000d0000001000000013000000140000001600000018000000190000001a000000240000002500000026000000280000002b0000002c0000002d0000002f00000031000000330000003400000036000000380000003a0000003b0000003e00000041000000420000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f00000050000000510000005500000056000000570000005a0000005b0000005c0000005d0000007400000077000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

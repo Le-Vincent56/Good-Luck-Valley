@@ -7,7 +7,7 @@ namespace GoodLuckValley.Events.UI
         public bool Paused;
     }
 
-    public struct FadeTutorialCanvasGroup : IEvent
+    public struct FadeCanvasGroup : IEvent
     {
         public int ID;
         public bool FadeIn;

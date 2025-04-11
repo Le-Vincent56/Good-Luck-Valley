@@ -155,6 +155,7 @@ namespace AK
             {
                 static const AkUniqueID CAVE = 4122393694U;
                 static const AkUniqueID FOREST = 491961918U;
+                static const AkUniqueID SKY = 611348932U;
             } // namespace SWITCH
         } // namespace AMBIENCEBIOMESWITCH
 
@@ -282,7 +283,6 @@ namespace AK
         static const AkUniqueID RTPC_SFX = 3438452020U;
         static const AkUniqueID RTPC_TIMEWARP_DISTORT = 647674338U;
         static const AkUniqueID RTPC_TIMEWARP_TICK = 983576458U;
-        static const AkUniqueID RTPC_WETNESS = 2612323176U;
     } // namespace GAME_PARAMETERS
 
     namespace BANKS

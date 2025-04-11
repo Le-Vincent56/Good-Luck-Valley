@@ -1,6 +1,7 @@
 using GoodLuckValley.Audio.Ambience;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.World.Triggers;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,7 +71,7 @@ namespace GoodLuckValley.Audio.Triggers
                 // Set the switch value
                 @switch.SetValue(AmbienceManager.Instance.gameObject);
             }
-
+            
             // Set to outside trigger
             inTrigger = false;
         }

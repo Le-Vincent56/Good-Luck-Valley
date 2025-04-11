@@ -11,8 +11,11 @@ namespace GoodLuckValley.UI.Triggers
         [SerializeField] private int id;
         [SerializeField] private bool raised;
 
-        private void OnTriggerStay2D(Collider2D collision)
+        protected override void OnTriggerStay2D(Collider2D collision)
         {
+            // Exit case - already inside the trigger
+            if (inTrigger) return;
+
             // Exit case - if the event was already raised
             if (raised) return;
 
@@ -31,7 +34,7 @@ namespace GoodLuckValley.UI.Triggers
         public override void OnEnter(PlayerController controller)
         {
             // Raise the event to fade in the Graphic
-            EventBus<FadeTutorialCanvasGroup>.Raise(new FadeTutorialCanvasGroup()
+            EventBus<FadeCanvasGroup>.Raise(new FadeCanvasGroup()
             {
                 ID = id,
                 FadeIn = true,
@@ -42,7 +45,7 @@ namespace GoodLuckValley.UI.Triggers
         public override void OnExit(PlayerController controller)
         {
             // Raise the event to fade out the Graphic
-            EventBus<FadeTutorialCanvasGroup>.Raise(new FadeTutorialCanvasGroup()
+            EventBus<FadeCanvasGroup>.Raise(new FadeCanvasGroup()
             {
                 ID = id,
                 FadeIn = false,
