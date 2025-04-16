@@ -47,15 +47,15 @@ namespace GoodLuckValley.UI.Scenes
             if(eventData.FadeIn)
             {
                 // Fade in the loading image
-                FadeSequence(0f, backgroundInDuration, anariInDuration, eventData.EaseType, eventData.OnComplete);
+                FadeSequence(0f, backgroundInDuration, anariInDuration, eventData.ShowLoadingSymbol, eventData.EaseType, eventData.OnComplete);
             } else
             {
                 // Fade out using the loading image
-                FadeSequence(1f, backgroundOutDuration, anariOutDuration, eventData.EaseType, eventData.OnComplete);
+                FadeSequence(1f, backgroundOutDuration, anariOutDuration, eventData.ShowLoadingSymbol, eventData.EaseType, eventData.OnComplete);
             }
         }
 
-        private void FadeSequence(float endValue, float backgroundDuration, float anariDuration, Ease easeType, TweenCallback onComplete = null)
+        private void FadeSequence(float endValue, float backgroundDuration, float anariDuration, bool showSymbol, Ease easeType, TweenCallback onComplete = null)
         {
             // Kill the sequence if it exists
             fadeSequence?.Kill();
@@ -65,7 +65,11 @@ namespace GoodLuckValley.UI.Scenes
 
             // Fade out the loading background
             fadeSequence.Append(Fade(loadingBackground, endValue, backgroundDuration, easeType));
-            fadeSequence.Join(Fade(loadingAnari, endValue, anariDuration, easeType));
+
+            // Check if showing the symbol
+            if(showSymbol)
+                // Fade in the loading symbol simultaneously
+                fadeSequence.Join(Fade(loadingAnari, endValue, anariDuration, easeType));
 
             // Hook up completion actions
             fadeSequence.onComplete += onComplete;

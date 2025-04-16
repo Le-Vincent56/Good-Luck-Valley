@@ -59,7 +59,7 @@ namespace GoodLuckValley.World.Cinematics
             if (started) return;
 
             // Change the scene to the main menu
-            sceneLoader.ChangeSceneGroupSystem(0);
+            sceneLoader.ChangeSceneGroupSystem(0, false);
 
             // Disable the input reader
             inputReader.Disable();

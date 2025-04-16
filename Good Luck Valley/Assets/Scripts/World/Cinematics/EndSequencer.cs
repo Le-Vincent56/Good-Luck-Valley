@@ -25,7 +25,7 @@ namespace GoodLuckValley
             postCutTimer.OnTimerStop += () =>
             {
                 // Load the end scene
-                sceneLoader.ChangeSceneGroupSystem(5);
+                sceneLoader.ChangeSceneGroupSystem(5, false);
             };
         }
 

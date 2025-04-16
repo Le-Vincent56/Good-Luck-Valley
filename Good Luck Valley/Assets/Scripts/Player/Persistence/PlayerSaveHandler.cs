@@ -49,6 +49,9 @@ namespace GoodLuckValley.Player.Persistence
             // Exit case - if debugging
             if (saveLoadSystem.Debug) return;
 
+            // Exit case - if forced move (going to a gate)
+            if (sceneLoader.LoadingFromGate) return;
+
             // Set the player position
             transform.position = playerData.Position;
         }

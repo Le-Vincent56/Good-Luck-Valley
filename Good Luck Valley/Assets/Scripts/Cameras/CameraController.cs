@@ -105,7 +105,7 @@ namespace GoodLuckValley
             // Set the default blend to a cut
             cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
 
-            await UniTask.Delay(500, true);
+            await UniTask.NextFrame();
         }
 
         /// <summary>
@@ -113,10 +113,10 @@ namespace GoodLuckValley
         /// </summary>
         private async UniTask EnableBlends()
         {
+            await UniTask.NextFrame();
+
             // Set the original blends
             cinemachineBrain.m_DefaultBlend = originalBlend;
-
-            await UniTask.Delay(10, true);
         }
     }
 }

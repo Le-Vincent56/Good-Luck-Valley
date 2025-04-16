@@ -59,7 +59,7 @@ namespace GoodLuckValley.Player.Movement
             if (!controller.Stats.AllowCrouching) return;
 
             // Check if not crawling, but attempting to crawl, and grounded
-            if (!crawling && CrawlPressed && controller.Collisions.Grounded)
+            if (!crawling && CrawlPressed && controller.Collisions.Grounded && !controller.ForcedMove)
                 // Start crawling
                 ToggleCrawling(true);
             // Otherwise check if currently crawling and either the crawl is not pressed, the player is not grounded,

@@ -20,6 +20,7 @@ namespace GoodLuckValley.Scenes
         private SceneLoader sceneLoader;
 
         [Header("Other")]
+        [SerializeField] private bool showLoadingSymbol = true;
         [SerializeField] private int moveDirection;
         [SerializeField] private SceneGate toGate;
 
@@ -45,8 +46,11 @@ namespace GoodLuckValley.Scenes
             controller.ForcedMove = true;
             controller.ForcedMoveDirection = moveDirection;
 
+            // Set loading from gate
+            sceneLoader.LoadingFromGate = true;
+
             // Start changing the scene group
-            sceneLoader.ChangeSceneGroupLevel(sceneIndexToLoad, toGate, moveDirection);
+            sceneLoader.ChangeSceneGroupLevel(sceneIndexToLoad, toGate, showLoadingSymbol, moveDirection);
         }
     }
 }

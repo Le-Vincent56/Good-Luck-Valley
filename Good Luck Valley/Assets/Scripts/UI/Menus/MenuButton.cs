@@ -12,8 +12,8 @@ namespace GoodLuckValley.UI.Menus
         [SerializeField] private Text textToSelect;
 
         [Header("Fields")]
-        private bool submitted;
-        private bool active;
+        [SerializeField] private bool submitted;
+        [SerializeField] private bool active;
 
         [Header("Default Variables")]
         [SerializeField] private int defaultFontSize;
@@ -100,7 +100,7 @@ namespace GoodLuckValley.UI.Menus
         public override void OnDeselect(BaseEventData eventData)
         {
             // Exit case - if a Menu Button is being submitted
-            if (submitted) return;
+            if (submitted && interactable) return;
 
             // Call the parent OnDeselect()
             base.OnDeselect(eventData);
@@ -108,6 +108,8 @@ namespace GoodLuckValley.UI.Menus
             // Deselect the text
             Scale(defaultFontSize, deslectDuration, Ease.InOutSine);
             ChangeColor(defaultColor, deslectDuration);
+
+            submitted = false;
         }
 
         public void OnSubmit(BaseEventData eventData)

@@ -1,6 +1,4 @@
 using DG.Tweening;
-using GoodLuckValley.Events;
-using GoodLuckValley.Events.Fireflies;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -33,9 +31,6 @@ namespace GoodLuckValley.World.Revealables
         {
             // Enable the tilemap
             tilemapCollider.enabled = true;
-
-            // Fade in the Revealable
-            //Fade(1f, fadeDuration);
         }
 
         /// <summary>
