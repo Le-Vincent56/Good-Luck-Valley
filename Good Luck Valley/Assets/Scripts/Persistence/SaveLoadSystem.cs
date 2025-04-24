@@ -306,12 +306,12 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Register the task to bind data
         /// </summary>
-        public void RegisterTask() => sceneLoader.RegisterTask(BindData(), 1);
+        public void RegisterTask() => sceneLoader.RegisterPreTask(BindData, 3);
 
         /// <summary>
         /// Task the Load Save
         /// </summary>
-        public async UniTask BindData()
+        public UniTask BindData()
         {
             // Bind Settings
             Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
@@ -319,11 +319,7 @@ namespace GoodLuckValley.Persistence
             Bind<ControlsSaveHandler, ControlsData>(settingsData.Controls);
 
             // Exit case - no selected data
-            if (selectedData == null)
-            {
-                await UniTask.Delay(500, true);
-                return;
-            }
+            if (selectedData == null) return UniTask.NextFrame();
 
             // Bind Data
             Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
@@ -332,7 +328,7 @@ namespace GoodLuckValley.Persistence
             Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
             Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
 
-            await UniTask.Delay(500, true);
+            return UniTask.DelayFrame(30);
         }
     }
 }

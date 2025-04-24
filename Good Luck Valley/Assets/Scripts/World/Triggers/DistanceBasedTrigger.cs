@@ -29,10 +29,13 @@ namespace GoodLuckValley.World.Triggers
         [SerializeField] protected float totalDistance;
         protected Vector3 center;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            // Get components
+            boxCollider = GetComponent<BoxCollider2D>();
+
             // Get the bounds of the BoxCollider2D
-            Bounds bounds = GetComponent<BoxCollider2D>().bounds;
+            Bounds bounds = boxCollider.bounds;
 
             // Get the total distance bounds
             center = bounds.center;
@@ -64,6 +67,9 @@ namespace GoodLuckValley.World.Triggers
                     target = 0;
                     break;
             }
+
+            // Disable the box collider
+            boxCollider.enabled = false;
         }
 
         protected virtual void OnDestroy() { /* Noop */}

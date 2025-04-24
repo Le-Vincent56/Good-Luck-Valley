@@ -9,11 +9,6 @@ namespace GoodLuckValley.World.Triggers
         [SerializeField] protected float maxDistanceValue;
         [SerializeField] protected float currentDistanceValue;
 
-        [Header("Tweening Variables")]
-        [SerializeField] protected Ease correctionEase;
-        [SerializeField] protected float correctionDuration;
-        private Tween correctionTween;
-
         protected override void CalculateDistanceValue(float currentDistance)
         {
             // Calculate easing t-value

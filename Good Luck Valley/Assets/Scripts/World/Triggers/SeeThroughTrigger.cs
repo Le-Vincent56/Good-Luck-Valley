@@ -15,8 +15,11 @@ namespace GoodLuckValley.World.Triggers
         [SerializeField] private float fadeDuration;
         private Tween fadeTween;
 
-        private void Awake()
+        protected override void Awake()
         {
+            // Call the parent Awake()
+            base.Awake();
+
             // Get the material
             material = spriteRenderer.material;
         }

@@ -1,5 +1,5 @@
-using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Player.Movement;
+using GoodLuckValley.World.Triggers;
 using UnityEngine;
 
 namespace GoodLuckValley.Scenes
@@ -10,14 +10,11 @@ namespace GoodLuckValley.Scenes
         Exit
     }
 
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(BoxCollider2D))]
-    public class SceneTransporter : MonoBehaviour
+    public class SceneTransporter : EnterExitTrigger
     {
         [Header("References")]
         [SerializeField] private SceneGroupData sceneGroupData;
         [SerializeField, HideInInspector] private int sceneIndexToLoad;
-        private SceneLoader sceneLoader;
 
         [Header("Other")]
         [SerializeField] private bool showLoadingSymbol = true;
@@ -28,19 +25,10 @@ namespace GoodLuckValley.Scenes
 
         public SceneGroupData SceneGroupData { get => sceneGroupData; }
 
-        private void Awake()
+        public override void OnEnter(PlayerController controller)
         {
-            // Get the Scene Loader
-            sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            // Exit case - the collision is not the Player
-            if (!collision.TryGetComponent(out PlayerController controller)) return;
-
             // Exit case - already being forced to move
-            if(controller.ForcedMove && controller.ForcedMoveDirection != 0) return;
+            if (controller.ForcedMove && controller.ForcedMoveDirection != 0) return;
 
             // Remove manual move
             controller.ForcedMove = true;
@@ -52,5 +40,7 @@ namespace GoodLuckValley.Scenes
             // Start changing the scene group
             sceneLoader.ChangeSceneGroupLevel(sceneIndexToLoad, toGate, showLoadingSymbol, moveDirection);
         }
+
+        public override void OnExit(PlayerController controller) { /* Noop */ }
     }
 }

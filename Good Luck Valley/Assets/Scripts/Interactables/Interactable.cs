@@ -23,8 +23,11 @@ namespace GoodLuckValley.Interactables
         [SerializeField] protected float fadeDuration;
         private Tween interactableFadeTween;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            // Call the parent Awake()
+            base.Awake();
+
             // Get the Interactable sprite
             interactableSprite = GetComponent<SpriteRenderer>();
 

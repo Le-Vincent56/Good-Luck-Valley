@@ -9,6 +9,7 @@ using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
 using GoodLuckValley.Particles;
 using GoodLuckValley.Player.Development;
+using GoodLuckValley.Scenes;
 
 
 namespace GoodLuckValley.Player.Movement
@@ -28,6 +29,7 @@ namespace GoodLuckValley.Player.Movement
         private LayerDetection layerDetection;
         private PlayerParticleController particles;
         private DevelopmentTools devTools;
+        private SceneLoader sceneLoader;
 
         [Header("Movement Components")]
         [SerializeField] private bool active;

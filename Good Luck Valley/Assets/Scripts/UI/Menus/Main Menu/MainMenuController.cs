@@ -138,7 +138,10 @@ namespace GoodLuckValley.UI.Menus.Main
             stateMachine.SetState(openState);
         }
 
-        private async UniTask PlayMenuMusic()
+        /// <summary>
+        /// The task to play the menu music
+        /// </summary>
+        private UniTask PlayMenuMusic()
         {
             // Set the menu state
             MusicManager.Instance.SetState(menuState);
@@ -146,7 +149,7 @@ namespace GoodLuckValley.UI.Menus.Main
             // Ensure the menu music is playing
             MusicManager.Instance.Play();
 
-            await UniTask.Delay(10, true);
+            return UniTask.NextFrame();
         }
 
         /// <summary>
@@ -225,6 +228,6 @@ namespace GoodLuckValley.UI.Menus.Main
         /// <summary>
         /// Register the task to play the menu music
         /// </summary>
-        public void RegisterTask() => sceneLoader.RegisterTask(PlayMenuMusic(), 100);
+        public void RegisterTask() => sceneLoader.RegisterPreTask(PlayMenuMusic, 100);
     }
 }

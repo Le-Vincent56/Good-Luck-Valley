@@ -17,7 +17,6 @@ namespace GoodLuckValley.Interactables.Fireflies
         [SerializeField] private float flashDuration;
         [SerializeField] private float withdrawIntensityDuration;
         [SerializeField] private float sendIntensityDuration;
-        private float toIntensity;
         private Sequence intensitySequence;
         private Sequence flashSequence;
 
@@ -37,9 +36,6 @@ namespace GoodLuckValley.Interactables.Fireflies
             ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
             ambientParticles = particles[0];
             collectParticles = particles[1];
-
-            // Set variables
-            toIntensity = backLight.intensity;
         }
 
         protected override void OnDestroy()
@@ -57,15 +53,6 @@ namespace GoodLuckValley.Interactables.Fireflies
         {
             // Remove the Firefly Handler's Fruit
             handler.FireflyHandler.SetFruit(Optional<Fruit>.NoValue);
-
-            // Fade in the Fruit and allow interaction
-            //FadeInteractable(1f, fadeDuration, () => canInteract = true);
-
-            //// Tween the light back in
-            //Illuminate(toIntensity, sendIntensityDuration, Ease.OutQuad);
-
-            //// Play the particles
-            //ambientParticles.Play();
         }
 
         protected override void Collect()

@@ -192,17 +192,17 @@ namespace GoodLuckValley.Cameras.Parallax
         /// <summary>
         /// Register this task to the Scene Loader
         /// </summary>
-        public void RegisterTask() => sceneLoader.RegisterTask(SetParallaxTask(), 10);
+        public void RegisterTask() => sceneLoader.RegisterPreTask(SetParallaxTask, 1);
 
         /// <summary>
         /// Set the Parallax Task
         /// </summary>
-        public async UniTask SetParallaxTask()
+        public UniTask SetParallaxTask()
         {
             // Set up the parallax
             Setup();
 
-            await UniTask.Delay(100, true);
+            return UniTask.NextFrame();
         }
     }
 }

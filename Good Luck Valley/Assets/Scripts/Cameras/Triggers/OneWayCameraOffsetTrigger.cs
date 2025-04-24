@@ -17,8 +17,11 @@ namespace GoodLuckValley.Cameras
         [SerializeField] private Ease easeType;
         private Tween translateTween;
 
-        private void Awake()
+        protected override void Awake()
         {
+            // Call the parent Awake()
+            base.Awake();
+
             // Get the Framing Trasnposer
             framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         }

@@ -149,10 +149,7 @@ namespace GoodLuckValley.Cameras.Persistence
             virtualCamera.m_Lens.OrthographicSize = data.OrthographicSize;
 
             // Exit case - there's no Component Base
-            if (component == null)
-            {
-                return;
-            }
+            if (component == null) return;
 
             // Check if the component is a Framing Transposer
             if (component is CinemachineFramingTransposer)

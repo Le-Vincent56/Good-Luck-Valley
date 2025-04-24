@@ -10,7 +10,6 @@ using GoodLuckValley.Input;
 using GoodLuckValley.Events.Mushroom;
 using System.Collections.Generic;
 using System;
-using ZLinq;
 
 namespace GoodLuckValley.Scenes
 {
@@ -29,7 +28,8 @@ namespace GoodLuckValley.Scenes
         [SerializeField] private bool showLoadingSymbol = true;
         private CountdownTimer releaseMovementTimer;
 
-        private List<(UniTask Task, int Priority)> taskQueue;
+        private List<(Func<UniTask> Task, int Priority)> prePlaceActions;
+        private List<(Func<UniTask> Task, int Priority)> postPlaceActions;
 
         public SceneGroup[] SceneGroups { get => sceneGroupData.SceneGroups; }
 
@@ -62,8 +62,9 @@ namespace GoodLuckValley.Scenes
                 });
             };
 
-            // Create the task list
-            taskQueue = new List<(UniTask task, int Priority)>();
+            // Create the task lists
+            prePlaceActions = new List<(Func<UniTask> Task, int Priority)>();
+            postPlaceActions = new List<(Func<UniTask> Task, int Priority)>();
 
             // Register this as a service
             ServiceLocator.Global.Register(this);
@@ -95,14 +96,16 @@ namespace GoodLuckValley.Scenes
         /// </summary>
         private async void QueryAndResolveTasks(int index)
         {
-            // Clear the current queue
-            taskQueue.Clear();
+            // Clear the current task queues
+            prePlaceActions.Clear();
+            postPlaceActions.Clear();
 
             // Add the tasks to the queue
             QueryTasks.Invoke();
 
-            // Sort the queue by priority
-            taskQueue.AsValueEnumerable().OrderBy(task => task.Priority);
+            // Sort the queues by priority
+            prePlaceActions.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+            postPlaceActions.Sort((a, b) => a.Priority.CompareTo(b.Priority));
 
             // Process the tasks
             await ProcessTasks();
@@ -111,10 +114,10 @@ namespace GoodLuckValley.Scenes
             async UniTask ProcessTasks()
             {
                 // Iterate through the task queue
-                for(int i = 0; i < taskQueue.Count; i++)
+                for(int i = 0; i < prePlaceActions.Count; i++)
                 {
                     // Get the task
-                    UniTask task = taskQueue[i].Task;
+                    UniTask task = prePlaceActions[i].Task.Invoke();
 
                     // Execute the task
                     await task;
@@ -122,6 +125,18 @@ namespace GoodLuckValley.Scenes
 
                 // Set the player position
                 SetPlayerPosition(index);
+
+                // Iterate through the task queue
+                for (int i = 0; i < postPlaceActions.Count; i++)
+                {
+                    // Get the task
+                    UniTask task = postPlaceActions[i].Task.Invoke();
+
+                    // Execute the task
+                    await task;
+                }
+
+                HandleLoading(false, showLoadingSymbol, forcedMoveDirection);
             }
         }
 
@@ -252,7 +267,7 @@ namespace GoodLuckValley.Scenes
         }
 
         /// <summary>
-        /// Event for when a Scene Group is loaded
+        /// Set the player position on load
         /// </summary>
         private void SetPlayerPosition(int index)
         {
@@ -269,13 +284,16 @@ namespace GoodLuckValley.Scenes
             }
 
             loadingFromGate = false;
-
-            HandleLoading(false, showLoadingSymbol, forcedMoveDirection);
         }
 
         /// <summary>
-        /// Register a task to be processed after loading the scene group
+        /// Register a task to be processed after loading the scene group and before the player is placed
         /// </summary>
-        public void RegisterTask(UniTask task, int priority) => taskQueue.Add((task, priority));
+        public void RegisterPreTask(Func<UniTask> task, int priority) => prePlaceActions.Add((task, priority));
+
+        /// <summary>
+        /// Register a task to be processed before loading the scene group and after the player is placed
+        /// </summary>
+        public void RegisterPostTask(Func<UniTask> task, int priority) => postPlaceActions.Add((task, priority));
     }
 }

@@ -10,13 +10,15 @@ namespace GoodLuckValley.World.Triggers
     public class ForceMovementTrigger : EnterExitTrigger
     {
         [Header("Fields")]
-        [SerializeField] private SceneLoader sceneLoader;
         [SerializeField] private bool forceMovement;
         [SerializeField] private int direction;
         [SerializeField] private bool fromGate = false;
 
-        private void Awake()
+        protected override void Awake()
         {
+            // Call the parent Awake()
+            base.Awake();
+
             sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
         }
 

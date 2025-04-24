@@ -13,6 +13,7 @@ namespace GoodLuckValley
         [SerializeField] private List<CinemachineVirtualCamera> virtualCameras;
         [SerializeField] private CinemachineVirtualCamera initialCamera;
         private CinemachineBlendDefinition originalBlend;
+        private CinemachineBlenderSettings originalBlendSettings;
         private SceneLoader sceneLoader;
 
 
@@ -25,6 +26,7 @@ namespace GoodLuckValley
 
             // Cache the original blend settings
             originalBlend = cinemachineBrain.m_DefaultBlend;
+            originalBlendSettings = cinemachineBrain.m_CustomBlends;
 
             // Register this as a service
             ServiceLocator.ForSceneOf(this).Register(this);
@@ -43,22 +45,15 @@ namespace GoodLuckValley
             sceneLoader.QueryTasks -= RegisterTask;
         }
 
-        private void Start()
+        private UniTask InitializeCamera()
         {
-            // Iterate through each virtual camera
-            foreach(CinemachineVirtualCamera cam in virtualCameras)
-            {
-                // Check if the camera is the initial camera
-                if (cam == initialCamera)
-                    // Make sure the initial camera has the highest priotity
-                    cam.Priority = 15;
-                else
-                    // Otherwise, lower the priorities of the other cameras
-                    cam.Priority = 10;
-            }
+            // Prioritize the initial camera
+            PrioritizeCamera(initialCamera);
 
             // Get the scene loader if it was not set
             if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+
+            return UniTask.NextFrame();
         }
 
         /// <summary>
@@ -90,33 +85,48 @@ namespace GoodLuckValley
         /// </summary>
         public void RegisterTask()
         {
+            // Register the task to initialize the camera
+            sceneLoader.RegisterPreTask(InitializeCamera, 0);
+
             // Register disable blends first
-            sceneLoader.RegisterTask(DisableBlends(), 0);
+            sceneLoader.RegisterPreTask(DisableBlends, 2);
+
+            // Register a blend buffer to allow for the camera to settle
+            sceneLoader.RegisterPostTask(BlendBuffer, 1);
 
             // Register enable blends third
-            sceneLoader.RegisterTask(EnableBlends(), 2);
+            sceneLoader.RegisterPostTask(EnableBlends, 2);
         }
 
         /// <summary>
         /// Disable the blends for loading
         /// </summary>
-        public async UniTask DisableBlends()
+        public UniTask DisableBlends()
         {
+            // Remove the blend settings
+            cinemachineBrain.m_CustomBlends = null;
+
             // Set the default blend to a cut
             cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
 
-            await UniTask.NextFrame();
+            return UniTask.NextFrame();
         }
+
+        /// <summary>
+        /// Wait for a bit to allow the camera to settle
+        /// </summary>
+        private UniTask BlendBuffer() => UniTask.Delay(300, true);
 
         /// <summary>
         /// Enable the blends after loading
         /// </summary>
-        private async UniTask EnableBlends()
+        private UniTask EnableBlends()
         {
-            await UniTask.NextFrame();
-
             // Set the original blends
             cinemachineBrain.m_DefaultBlend = originalBlend;
+            cinemachineBrain.m_CustomBlends = originalBlendSettings;
+
+            return UniTask.NextFrame();
         }
     }
 }
