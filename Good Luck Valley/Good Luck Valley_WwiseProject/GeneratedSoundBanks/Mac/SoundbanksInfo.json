@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{9C9103E7-AE2F-B704-5996-7FE454EFC4E6}",
+    "Hash": "{FC55DED9-445A-4F25-E515-7604FE3F2A1E}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -345,6 +345,20 @@
     ],
     "StateGroups": [
      {
+      "Id": "140949108",
+      "Name": "STATES_CINEMATICS",
+      "States": [
+       {
+        "Id": "748895195",
+        "Name": "None"
+       },
+       {
+        "Id": "1240403123",
+        "Name": "STATE_INTRO"
+       }
+      ]
+     },
+     {
       "Id": "708499520",
       "Name": "STATES_GAME",
       "States": [
@@ -359,6 +373,10 @@
        {
         "Id": "2967546505",
         "Name": "IN_GAME"
+       },
+       {
+        "Id": "3724487062",
+        "Name": "IN_CINEMATIC"
        }
       ]
      },
@@ -653,7 +671,7 @@
     "Id": "3626155605",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{4B3F9B71-620F-061D-47D4-0EC5FC0DBB46}",
+    "Hash": "{8F654110-00BD-75C5-CA4B-8FC97789D380}",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -1336,6 +1354,14 @@
       "Location": "Memory",
       "ShortName": "Ambience\\2D\\Forest\\Bird Calls\\AMBIENCE2D_FOREST_BIRDCALL_01.wav",
       "CachePath": "26/{2644C0F3-6590-6AD8-E1E3-B3AC176AF49F}.wem"
+     },
+     {
+      "Id": "550842822",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Music\\Cinematics\\Intro\\MSC_INTRO_LIKERAINWEFALL_FULL_70BPM6-8,100BPM4-4_L58M.wav",
+      "CachePath": "07/{0782BCA8-2392-3C87-5B21-F0C6261F1EBB}.wem"
      },
      {
       "Id": "555169335",
@@ -2948,6 +2974,27 @@
           ]
          }
         ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "708499520",
+         "Id": "3724487062"
+        },
+        "Children": [
+         {
+          "SwitchValue": {
+           "GroupType": "State",
+           "GroupId": "140949108",
+           "Id": "1240403123"
+          },
+          "MediaRefs": [
+           {
+            "Id": "550842822"
+           }
+          ]
+         }
+        ]
        }
       ]
      },
@@ -3962,6 +4009,20 @@
     ],
     "StateGroups": [
      {
+      "Id": "140949108",
+      "Name": "STATES_CINEMATICS",
+      "States": [
+       {
+        "Id": "748895195",
+        "Name": "None"
+       },
+       {
+        "Id": "1240403123",
+        "Name": "STATE_INTRO"
+       }
+      ]
+     },
+     {
       "Id": "708499520",
       "Name": "STATES_GAME",
       "States": [
@@ -3976,6 +4037,10 @@
        {
         "Id": "2967546505",
         "Name": "IN_GAME"
+       },
+       {
+        "Id": "3724487062",
+        "Name": "IN_CINEMATIC"
        }
       ]
      },
@@ -4198,6 +4263,6 @@
     ]
    }
   ],
-  "FileHash": "{4DE17983-43E9-C533-1691-60A033E2076C}"
+  "FileHash": "{067D9BCA-75F2-243D-F16F-0781A4B484B9}"
  }
 }

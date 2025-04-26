@@ -10,6 +10,7 @@ using GoodLuckValley.Input;
 using GoodLuckValley.Events.Mushroom;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace GoodLuckValley.Scenes
 {
@@ -113,8 +114,11 @@ namespace GoodLuckValley.Scenes
             // Start the task queue
             async UniTask ProcessTasks()
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 // Iterate through the task queue
-                for(int i = 0; i < prePlaceActions.Count; i++)
+                for (int i = 0; i < prePlaceActions.Count; i++)
                 {
                     // Get the task
                     UniTask task = prePlaceActions[i].Task.Invoke();

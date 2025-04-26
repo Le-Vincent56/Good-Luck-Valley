@@ -83,6 +83,17 @@ namespace AK
             } // namespace STATE
         } // namespace STATES_AREA
 
+        namespace STATES_CINEMATICS
+        {
+            static const AkUniqueID GROUP = 140949108U;
+
+            namespace STATE
+            {
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID STATE_INTRO = 1240403123U;
+            } // namespace STATE
+        } // namespace STATES_CINEMATICS
+
         namespace STATES_FOREST_P1_CUES
         {
             static const AkUniqueID GROUP = 1606666624U;
@@ -102,6 +113,7 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID IN_CINEMATIC = 3724487062U;
                 static const AkUniqueID IN_GAME = 2967546505U;
                 static const AkUniqueID IN_MENU = 1631528850U;
                 static const AkUniqueID NONE = 748895195U;
