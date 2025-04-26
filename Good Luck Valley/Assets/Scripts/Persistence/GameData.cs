@@ -26,7 +26,7 @@ namespace GoodLuckValley.Persistence
 
         public PlayerData()
         {
-            LevelIndex = 11;
+            LevelIndex = 10;
             Position = new Vector3(-340.84f, 133f, 0.0f);
         }
     }
