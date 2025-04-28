@@ -28,13 +28,13 @@ namespace GoodLuckValley.Cameras.Parallax
             Setup();
         }
 
-        private void Start()
+        private void OnEnable()
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying) return;
 #endif
 
-            if(sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+            if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
             sceneLoader.QueryTasks += RegisterTask;
         }
 
@@ -201,6 +201,9 @@ namespace GoodLuckValley.Cameras.Parallax
         {
             // Set up the parallax
             Setup();
+
+            // Register this as a service
+            ServiceLocator.ForSceneOf(this).Register(this);
 
             return UniTask.NextFrame();
         }

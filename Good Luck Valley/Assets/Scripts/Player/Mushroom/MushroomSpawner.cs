@@ -165,7 +165,7 @@ namespace GoodLuckValley.Player.Mushroom
             // Check if there are Mushrooms stored - this is necessary because there might be 
             // Mushrooms dissipating while another Mushroom is spawning, so this allows them
             // time to dissipate before being deleted
-            if(mushrooms.Count > 0)
+            if (mushrooms.Count > 0)
             {
                 // Iterate through each mushroom
                 foreach(MushroomObject mushroom in mushrooms)
@@ -198,6 +198,9 @@ namespace GoodLuckValley.Player.Mushroom
             }
         }
 
+        /// <summary>
+        /// Allow mushroom input
+        /// </summary>
         private void AllowMushroomInput(SetMushroomInput eventData) => canInputMushroom = eventData.CanInputMushroom;
 
         /// <summary>

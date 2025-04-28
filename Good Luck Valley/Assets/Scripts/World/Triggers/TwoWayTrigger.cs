@@ -13,6 +13,7 @@ namespace GoodLuckValley.World.Triggers
         }
 
         protected Vector3 center;
+        protected BoxCollider2D boxCollider;
         [SerializeField] protected Alignment alignment;
 
         protected override void Awake()
@@ -23,9 +24,6 @@ namespace GoodLuckValley.World.Triggers
             // Set the center of the trigger
             Bounds bounds = boxCollider.bounds;
             center = bounds.center;
-
-            // Disable the box collider
-            boxCollider.enabled = false;
         }
 
         protected virtual void OnTriggerExit2D(Collider2D collision)

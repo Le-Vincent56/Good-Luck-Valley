@@ -39,10 +39,8 @@ namespace GoodLuckValley.Interactables.Journal
             floatTween?.Kill();
         }
 
-        protected override void OnDisable()
+        protected void OnDisable()
         {
-            base.OnDisable();
-
             // Kill the Float Tween if it exists
             floatTween?.Kill();
         }

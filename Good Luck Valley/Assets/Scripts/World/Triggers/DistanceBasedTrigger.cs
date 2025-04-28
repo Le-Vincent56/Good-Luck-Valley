@@ -28,6 +28,7 @@ namespace GoodLuckValley.World.Triggers
         [SerializeField] protected float target;
         [SerializeField] protected float totalDistance;
         protected Vector3 center;
+        protected BoxCollider2D boxCollider;
 
         protected override void Awake()
         {
@@ -67,9 +68,6 @@ namespace GoodLuckValley.World.Triggers
                     target = 0;
                     break;
             }
-
-            // Disable the box collider
-            boxCollider.enabled = false;
         }
 
         protected virtual void OnDestroy() { /* Noop */}

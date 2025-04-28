@@ -10,7 +10,6 @@ using GoodLuckValley.Input;
 using GoodLuckValley.Events.Mushroom;
 using System.Collections.Generic;
 using System;
-using System.Diagnostics;
 
 namespace GoodLuckValley.Scenes
 {
@@ -26,7 +25,9 @@ namespace GoodLuckValley.Scenes
         private SceneGate toGate;
         [SerializeField] private bool loadingFromGate = false;
         [SerializeField] private int forcedMoveDirection = 0;
+        [SerializeField] private bool forcedMove;
         [SerializeField] private bool showLoadingSymbol = true;
+        [SerializeField] private bool setCameraData;
         private CountdownTimer releaseMovementTimer;
 
         private List<(Func<UniTask> Task, int Priority)> prePlaceActions;
@@ -39,6 +40,7 @@ namespace GoodLuckValley.Scenes
         public bool IsLoading { get => isLoading; }
         public bool LoadingFromGate { get => loadingFromGate; set => loadingFromGate = value; }
         public int ForcedMoveDirection { get => forcedMoveDirection; set=> forcedMoveDirection = value; }
+        public bool SetCameraData { get => setCameraData; set => setCameraData = value; }
 
         private void Awake()
         {
@@ -61,6 +63,8 @@ namespace GoodLuckValley.Scenes
                 {
                     CanInputMushroom = true
                 });
+
+                forcedMove = false;
             };
 
             // Create the task lists
@@ -114,8 +118,8 @@ namespace GoodLuckValley.Scenes
             // Start the task queue
             async UniTask ProcessTasks()
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
+                // Disable input
+                if(!forcedMove) inputReader.Disable();
 
                 // Iterate through the task queue
                 for (int i = 0; i < prePlaceActions.Count; i++)
@@ -139,6 +143,9 @@ namespace GoodLuckValley.Scenes
                     // Execute the task
                     await task;
                 }
+
+                // Enable input
+                inputReader.Enable();
 
                 HandleLoading(false, showLoadingSymbol, forcedMoveDirection);
             }

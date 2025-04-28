@@ -306,7 +306,7 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Register the task to bind data
         /// </summary>
-        public void RegisterTask() => sceneLoader.RegisterPreTask(BindData, 3);
+        public void RegisterTask() => sceneLoader.RegisterPreTask(BindData, 2);
 
         /// <summary>
         /// Task the Load Save
@@ -321,6 +321,9 @@ namespace GoodLuckValley.Persistence
             // Exit case - no selected data
             if (selectedData == null) return UniTask.NextFrame();
 
+            // Set that camera data has not been set
+            sceneLoader.SetCameraData = false;
+
             // Bind Data
             Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
             Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
@@ -328,7 +331,7 @@ namespace GoodLuckValley.Persistence
             Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);
             Bind<TimelineSaveHandler, TimelineData>(selectedData.TimelineDatas);
 
-            return UniTask.DelayFrame(30);
+            return UniTask.CompletedTask;
         }
     }
 }

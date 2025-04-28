@@ -1,3 +1,4 @@
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Player.Movement;
 using GoodLuckValley.World.Triggers;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace GoodLuckValley.Scenes
         [Header("References")]
         [SerializeField] private SceneGroupData sceneGroupData;
         [SerializeField, HideInInspector] private int sceneIndexToLoad;
+        protected SceneLoader sceneLoader;
 
         [Header("Other")]
         [SerializeField] private bool showLoadingSymbol = true;
@@ -24,6 +26,12 @@ namespace GoodLuckValley.Scenes
         public int SceneIndexToLoad { get => sceneIndexToLoad; set => sceneIndexToLoad = value; }
 
         public SceneGroupData SceneGroupData { get => sceneGroupData; }
+
+        protected override void Awake()
+        {
+            // Get the scene loader
+            sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+        }
 
         public override void OnEnter(PlayerController controller)
         {

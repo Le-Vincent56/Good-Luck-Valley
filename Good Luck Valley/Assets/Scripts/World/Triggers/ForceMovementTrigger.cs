@@ -9,6 +9,8 @@ namespace GoodLuckValley.World.Triggers
 {
     public class ForceMovementTrigger : EnterExitTrigger
     {
+        protected SceneLoader sceneLoader;
+
         [Header("Fields")]
         [SerializeField] private bool forceMovement;
         [SerializeField] private int direction;

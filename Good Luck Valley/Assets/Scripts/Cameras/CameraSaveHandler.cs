@@ -1,6 +1,7 @@
 using Cinemachine;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Persistence;
+using GoodLuckValley.Scenes;
 using GoodLuckValley.Timers;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace GoodLuckValley.Cameras.Persistence
     public class CameraSaveHandler : MonoBehaviour, IBind<CameraData>
     {
         private SaveLoadSystem saveLoadSystem;
+        private SceneLoader sceneLoader;
         private CinemachineVirtualCamera virtualCamera;
         private CinemachineComponentBase component;
         private bool dampingCorrected = true;
@@ -22,6 +24,7 @@ namespace GoodLuckValley.Cameras.Persistence
         {
             // Get services
             saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
+            sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
         }
 
         private void OnDestroy()
@@ -147,6 +150,9 @@ namespace GoodLuckValley.Cameras.Persistence
             transform.position = data.Position;
             virtualCamera.Priority = data.Priority;
             virtualCamera.m_Lens.OrthographicSize = data.OrthographicSize;
+
+            // Notify that camera data has been set
+            sceneLoader.SetCameraData = true;
 
             // Exit case - there's no Component Base
             if (component == null) return;
