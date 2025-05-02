@@ -98,7 +98,7 @@ namespace GoodLuckValley
         {
             // Register the task to initialize the camera
             sceneLoader.RegisterPreTask(SetLoadCamera, 0);
-            sceneLoader.RegisterPreTask(SetInitialCamera, 3);
+            sceneLoader.RegisterPostTask(SetInitialCamera, 3);
         }
     }
 }

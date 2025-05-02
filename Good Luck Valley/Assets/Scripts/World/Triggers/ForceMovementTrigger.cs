@@ -34,6 +34,9 @@ namespace GoodLuckValley.World.Triggers
                 ForcedMove = forceMovement,
                 ForcedMoveDirection = direction
             });
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public override void OnExit(PlayerController controller) { }
