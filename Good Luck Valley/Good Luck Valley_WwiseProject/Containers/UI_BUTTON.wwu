@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{43EC7E96-F5E3-44DA-9BE0-3916334BFDCF}" SchemaVersion="131" RootDocumentID="{1A8F39C6-086D-4B09-9FA4-CD75461F0D61}" ParentDocumentID="{1A8F39C6-086D-4B09-9FA4-CD75461F0D61}">
+	<Containers>
+		<WorkUnit Name="UI_BUTTON" ID="{43EC7E96-F5E3-44DA-9BE0-3916334BFDCF}" OwnerID="{1A8F39C6-086D-4B09-9FA4-CD75461F0D61}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<Sound Name="UI_BUTTON_ENTER" ID="{AC842FA2-36FA-47CD-9C73-8DCEB54E70A4}" ShortID="447929909">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>-200</Value>
+							</ValueList>
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{D6D0CE3D-A356-4B65-A5F0-FB7C06096E92}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Max" Type="Real64" Value="200"/>
+											<Property Name="Min" Type="Real64" Value="-200"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="UI_BUTTON" ID="{D2CF1D96-3345-4D34-9426-AA30C1CBB320}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="UI_BUTTON_ENTER" ID="{14ECA1A8-98D8-4EB6-874F-500F301ECC4B}">
+							<Language>SFX</Language>
+							<AudioFile>UI\Button\UI_BUTTON_ENTER.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="937076294"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="UI_BUTTON_ENTER" ID="{14ECA1A8-98D8-4EB6-874F-500F301ECC4B}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="UI_BUTTON_EXIT" ID="{A612DDA7-98A4-4DFA-8F95-48AEEEA4227D}" ShortID="1033454342">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>200</Value>
+							</ValueList>
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{95EC672E-56AD-4D37-98C5-6B0725CDE6AD}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Max" Type="Real64" Value="200"/>
+											<Property Name="Min" Type="Real64" Value="-200"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="UI_BUTTON" ID="{D2CF1D96-3345-4D34-9426-AA30C1CBB320}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="UI_BUTTON_EXIT" ID="{DD5383A6-E71F-4E6E-AF3B-FE68C690A10E}">
+							<Language>SFX</Language>
+							<AudioFile>UI\Button\UI_BUTTON_EXIT.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="196321541"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="UI_BUTTON_EXIT" ID="{DD5383A6-E71F-4E6E-AF3B-FE68C690A10E}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="UI_BUTTON_GENERAL" ID="{3F304040-483B-4B51-844B-840A63DABD23}" ShortID="913068907">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{530D4999-740F-4C31-93CA-F83031F2332C}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Max" Type="Real64" Value="200"/>
+											<Property Name="Min" Type="Real64" Value="-200"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="UI_BUTTON" ID="{D2CF1D96-3345-4D34-9426-AA30C1CBB320}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="UI_BUTTON_GENERAL" ID="{71759AC4-4F95-4E41-9336-D4E813C8EC48}">
+							<Language>SFX</Language>
+							<AudioFile>UI\Button\UI_BUTTON_GENERAL.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="98917059"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="UI_BUTTON_GENERAL" ID="{71759AC4-4F95-4E41-9336-D4E813C8EC48}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="UI_BUTTON_RESET" ID="{F2214B63-7A04-45C9-8361-CA76E725A039}" ShortID="282040110">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{A8A20E5D-12FE-467A-9847-EC34D3A41A45}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Max" Type="Real64" Value="200"/>
+											<Property Name="Min" Type="Real64" Value="-200"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="UI_BUTTON" ID="{D2CF1D96-3345-4D34-9426-AA30C1CBB320}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="UI_BUTTON_RESET" ID="{27A84C53-A627-4909-B150-33C72696222A}">
+							<Language>SFX</Language>
+							<AudioFile>UI\Button\UI_BUTTON_RESET.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="932593123"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="UI_BUTTON_RESET" ID="{27A84C53-A627-4909-B150-33C72696222A}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</Containers>
+</WwiseDocument>

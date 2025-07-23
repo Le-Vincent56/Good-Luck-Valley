@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{628F97D7-9CD6-4E95-951C-02BA31D39BBA}" SchemaVersion="131">
+	<Containers>
+		<WorkUnit Name="LOTUS" ID="{628F97D7-9CD6-4E95-951C-02BA31D39BBA}" PersistMode="Standalone">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<Sound Name="LOTUS_PICK" ID="{BA5AAF3C-BC5F-4DD2-9E15-D1EF411417AE}" ShortID="60770980">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="LOTUS_PICK" ID="{D48BC9F7-EFA6-4AEA-9136-EDB9286B4048}">
+							<Language>SFX</Language>
+							<AudioFile>Lotus\LOTUS_PICK.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="1045333109"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="LOTUS_PICK" ID="{D48BC9F7-EFA6-4AEA-9136-EDB9286B4048}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</Containers>
+</WwiseDocument>

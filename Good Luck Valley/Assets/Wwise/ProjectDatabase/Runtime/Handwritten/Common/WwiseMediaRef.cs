@@ -12,29 +12,29 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 #if UNITY_EDITOR
 public class WwiseMediaRef: global::System.IDisposable
 {
-    private global::System.IntPtr swigCPtr;
-    protected bool swigCMemOwn;
+    private global::System.IntPtr projectDatabasePtr;
+    protected bool bDeletesManually;
 
     internal WwiseMediaRef(global::System.IntPtr cPtr, bool cMemoryOwn)
     {
-        swigCMemOwn = cMemoryOwn;
-        swigCPtr = cPtr;
+        bDeletesManually = cMemoryOwn;
+        projectDatabasePtr = cPtr;
     }
 
     internal static global::System.IntPtr getCPtr(WwiseMediaRef obj)
     {
-        return (obj == null) ? global::System.IntPtr.Zero : obj.swigCPtr;
+        return (obj == null) ? global::System.IntPtr.Zero : obj.projectDatabasePtr;
     }
 
     internal virtual void setCPtr(global::System.IntPtr cPtr)
     {
         Dispose();
-        swigCPtr = cPtr;
+        projectDatabasePtr = cPtr;
     }
 
     ~WwiseMediaRef()
@@ -52,15 +52,15 @@ public class WwiseMediaRef: global::System.IDisposable
     {
         lock (this)
         {
-            if (swigCPtr != global::System.IntPtr.Zero)
+            if (projectDatabasePtr != global::System.IntPtr.Zero)
             {
-                if (swigCMemOwn)
+                if (bDeletesManually)
                 {
-                    swigCMemOwn = false;
-                    WwiseProjectDatabase.DeleteMediaRef(swigCPtr);
+                    bDeletesManually = false;
+                    WwiseProjectDatabase.DeleteMediaRef(projectDatabasePtr);
                 }
 
-                swigCPtr = global::System.IntPtr.Zero;
+                projectDatabasePtr = global::System.IntPtr.Zero;
             }
 
             global::System.GC.SuppressFinalize(this);
@@ -70,12 +70,12 @@ public class WwiseMediaRef: global::System.IDisposable
     public WwiseMediaRef(global::System.IntPtr cPtr) : this(cPtr, true)
     {
     }
-    public string Name => WwiseProjectDatabase.GetMediaName(swigCPtr);
-    public string Path => WwiseProjectDatabase.GetMediaPath(swigCPtr);
-    public uint ShortId => WwiseProjectDatabase.GetMediaShortId(swigCPtr);
-    public string Language => WwiseProjectDatabase.GetMediaLanguage(swigCPtr);
-    public bool IsStreaming => WwiseProjectDatabase.GetMediaIsStreaming(swigCPtr);
-    public uint Location => WwiseProjectDatabase.GetMediaLocation(swigCPtr);
-    public string CachePath => WwiseProjectDatabase.GetMediaCachePath(swigCPtr);
+    public string Name => WwiseProjectDatabase.GetMediaName(projectDatabasePtr);
+    public string Path => WwiseProjectDatabase.GetMediaPath(projectDatabasePtr);
+    public uint ShortId => WwiseProjectDatabase.GetMediaShortId(projectDatabasePtr);
+    public string Language => WwiseProjectDatabase.GetMediaLanguage(projectDatabasePtr);
+    public bool IsStreaming => WwiseProjectDatabase.GetMediaIsStreaming(projectDatabasePtr);
+    public uint Location => WwiseProjectDatabase.GetMediaLocation(projectDatabasePtr);
+    public string CachePath => WwiseProjectDatabase.GetMediaCachePath(projectDatabasePtr);
 }
 #endif

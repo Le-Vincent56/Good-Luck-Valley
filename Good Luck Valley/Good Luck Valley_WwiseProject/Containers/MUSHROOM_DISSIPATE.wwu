@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{8F836D47-50F9-4932-9230-18E46F406168}" SchemaVersion="131" RootDocumentID="{5268C64C-36C8-4DF5-A1EA-D4C01B7EC3E2}" ParentDocumentID="{5268C64C-36C8-4DF5-A1EA-D4C01B7EC3E2}">
+	<Containers>
+		<WorkUnit Name="MUSHROOM_DISSIPATE" ID="{8F836D47-50F9-4932-9230-18E46F406168}" OwnerID="{5268C64C-36C8-4DF5-A1EA-D4C01B7EC3E2}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="4"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<Sound Name="MUSHROOM_DISSIPATE" ID="{668BE063-EBD5-475E-A5CD-DE6743F29C43}" ShortID="1028333987">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="MUSHROOM_DISSIPATE" ID="{CE09299F-EABD-4C54-BB6F-6346B2A93182}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="MUSHROOM_DISSIPATE" ID="{F6A07A75-074E-4869-A89B-0B3389A3BB8D}">
+							<Language>SFX</Language>
+							<AudioFile>Mushroom\Dissipate\MUSHROOM_DISSIPATE.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="608636374"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="MUSHROOM_DISSIPATE" ID="{F6A07A75-074E-4869-A89B-0B3389A3BB8D}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</Containers>
+</WwiseDocument>

@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 [UnityEditor.CustomEditor(typeof(AkRoom), true)]
@@ -26,7 +26,8 @@ public class AkRoomInspector : UnityEditor.Editor
 	private UnityEditor.SerializedProperty reverbAuxBus;
 	private UnityEditor.SerializedProperty reverbLevel;
 	private UnityEditor.SerializedProperty transmissionLoss;
-	private UnityEditor.SerializedProperty roomToneEvent;
+    private UnityEditor.SerializedProperty subtractFromParent;
+    private UnityEditor.SerializedProperty roomToneEvent;
 	private UnityEditor.SerializedProperty roomToneAuxSend;
 
 	private void OnEnable()
@@ -38,7 +39,8 @@ public class AkRoomInspector : UnityEditor.Editor
 		reverbAuxBus = serializedObject.FindProperty("reverbAuxBus");
 		reverbLevel = serializedObject.FindProperty("reverbLevel");
 		transmissionLoss = serializedObject.FindProperty("transmissionLoss");
-		priority = serializedObject.FindProperty("priority");
+		subtractFromParent = serializedObject.FindProperty("subtractFromParent");
+        priority = serializedObject.FindProperty("priority");
 		roomToneEvent = serializedObject.FindProperty("roomToneEvent");
 		roomToneAuxSend = serializedObject.FindProperty("roomToneAuxSend");
 	}
@@ -52,6 +54,7 @@ public class AkRoomInspector : UnityEditor.Editor
 			UnityEditor.EditorGUILayout.PropertyField(reverbAuxBus);
 			UnityEditor.EditorGUILayout.PropertyField(reverbLevel);
 			UnityEditor.EditorGUILayout.PropertyField(transmissionLoss);
+			UnityEditor.EditorGUILayout.PropertyField(subtractFromParent);
 
 			UnityEditor.EditorGUILayout.PropertyField(priority);
 

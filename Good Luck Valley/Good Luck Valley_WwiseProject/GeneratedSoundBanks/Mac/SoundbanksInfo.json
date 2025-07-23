@@ -3,7 +3,7 @@
   "Platform": "Mac",
   "BasePlatform": "Mac",
   "SchemaVersion": "16",
-  "SoundBankVersion": "154",
+  "SoundBankVersion": "168",
   "RootPaths": {
    "ProjectRoot": "../..",
    "SourceFilesRoot": "../../.cache",
@@ -16,8 +16,10 @@
    {
     "Id": "1355168291",
     "Type": "User",
+    "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{FC55DED9-445A-4F25-E515-7604FE3F2A1E}",
+    "Hash": "{D29FA01E-C7F8-8D36-78F5-75C71196AF65}",
+    "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -25,24 +27,32 @@
       {
        "Id": "702543456",
        "Name": "Tunnel1",
+       "ObjectPath": "\\Effects\\Factory Effects\\Matrix Reverb\\Tunnel1",
+       "GUID": "{CC44B890-9865-4157-965F-86FED27BC4C6}",
        "LibName": "Wwise Matrix Reverb",
        "LibId": "7536643"
       },
       {
        "Id": "1008402193",
        "Name": "Low_Pass_20KHz",
+       "ObjectPath": "\\Effects\\Factory Effects\\Parametric EQ\\Low Pass Filters\\Low_Pass_20KHz",
+       "GUID": "{830124FB-B9D5-4AE8-846E-E94A74652666}",
        "LibName": "Wwise Parametric EQ",
        "LibId": "6881283"
       },
       {
        "Id": "2171127646",
        "Name": "Hall_Conversation",
+       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Halls\\Hall_Conversation",
+       "GUID": "{E2C3BD70-E5E4-46A5-BDA6-99A92FAAC1AC}",
        "LibName": "Wwise RoomVerb",
        "LibId": "7733251"
       },
       {
        "Id": "3604890626",
        "Name": "High_Pass_60Hz",
+       "ObjectPath": "\\Effects\\Factory Effects\\Parametric EQ\\High Pass Filters\\High_Pass_60Hz",
+       "GUID": "{F9627628-0B10-4272-BC30-D4C20423CB38}",
        "LibName": "Wwise Parametric EQ",
        "LibId": "6881283"
       }
@@ -51,12 +61,16 @@
       {
        "Id": "2317455096",
        "Name": "No_Output",
+       "ObjectPath": "\\Devices\\Default Work Unit\\No_Output",
+       "GUID": "{5F6BB950-6CE8-452D-8ED3-2BB67A7B686B}",
        "LibName": "No Output",
        "LibId": "11862023"
       },
       {
        "Id": "3859886410",
        "Name": "System",
+       "ObjectPath": "\\Devices\\Default Work Unit\\System",
+       "GUID": "{E95A1757-0B23-4485-941A-8FE93E56A132}",
        "LibName": "System",
        "LibId": "11403271"
       }
@@ -65,71 +79,105 @@
     "Busses": [
      {
       "Id": "404720619",
-      "Name": "JOURNAL_CLOSE"
+      "Name": "JOURNAL_CLOSE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL\\JOURNAL_CLOSE",
+      "GUID": "{59136E8B-C387-4EC4-BB88-D3B33F990A57}"
      },
      {
       "Id": "579657244",
-      "Name": "MASTER_POTENTIATES"
+      "Name": "MASTER_POTENTIATES",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_POTENTIATES",
+      "GUID": "{48B6BF6C-7FA7-4D0E-A4CC-65DFC5D62096}"
      },
      {
       "Id": "604567059",
-      "Name": "MASTER_JOURNAL"
+      "Name": "MASTER_JOURNAL",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL",
+      "GUID": "{66F56B14-0BA1-4CD7-8471-7507901B3CF2}"
      },
      {
       "Id": "694825602",
-      "Name": "JOURNAL_ENTRY_SELECT_FULL"
+      "Name": "JOURNAL_ENTRY_SELECT_FULL",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL\\JOURNAL_ENTRY_SELECT_FULL",
+      "GUID": "{3FBD8E85-E28C-4B26-A6C8-399D896456E2}"
      },
      {
       "Id": "860652252",
-      "Name": "UI_NAVIGATION"
+      "Name": "UI_NAVIGATION",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_UI\\UI_NAVIGATION",
+      "GUID": "{8687C963-A32E-470F-83BD-C53875B7B2E2}"
      },
      {
       "Id": "873669539",
-      "Name": "FIREFLIES_FEED"
+      "Name": "FIREFLIES_FEED",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_FIREFLIES\\FIREFLIES_FEED",
+      "GUID": "{D94762C4-13FE-4FA6-8248-1A46BD55FC2B}"
      },
      {
       "Id": "963736939",
-      "Name": "JOURNAL_ENTRY_COLLECTED"
+      "Name": "JOURNAL_ENTRY_COLLECTED",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL\\JOURNAL_ENTRY_COLLECTED",
+      "GUID": "{5BF9FA95-1C99-45F9-AA99-8CF9E8D314C0}"
      },
      {
       "Id": "1042698302",
-      "Name": "MUSHROOM_DISSIPATE"
+      "Name": "MUSHROOM_DISSIPATE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_MUSHROOM\\MUSHROOM_DISSIPATE",
+      "GUID": "{CE09299F-EABD-4C54-BB6F-6346B2A93182}"
      },
      {
       "Id": "1168632360",
-      "Name": "MASTER_UI"
+      "Name": "MASTER_UI",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_UI",
+      "GUID": "{9A119AA7-031D-42CA-905B-21D3D9BB3BEC}"
      },
      {
       "Id": "1305133589",
-      "Name": "PLAYER_JUMP"
+      "Name": "PLAYER_JUMP",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER\\PLAYER_JUMP",
+      "GUID": "{5F58570A-47C4-47ED-9805-18EF47110749}"
      },
      {
       "Id": "1329115477",
-      "Name": "PLAYER_DOUBLE_JUMP"
+      "Name": "PLAYER_DOUBLE_JUMP",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER\\PLAYER_DOUBLE_JUMP",
+      "GUID": "{7E48686C-8025-4428-A5D6-F35684EB5E8C}"
      },
      {
       "Id": "1375983526",
-      "Name": "PLAYER_LOCOMOTION"
+      "Name": "PLAYER_LOCOMOTION",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER\\PLAYER_LOCOMOTION",
+      "GUID": "{46EBA906-EB48-4062-ADA3-61C3D531FFF4}"
      },
      {
       "Id": "1705038622",
-      "Name": "AMBIENCE_2D"
+      "Name": "AMBIENCE_2D",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_AMBIENCE\\AMBIENCE_2D",
+      "GUID": "{1B585CB4-EAFD-417F-A764-D005CF137D6F}"
      },
      {
       "Id": "1721816425",
-      "Name": "AMBIENCE_3D"
+      "Name": "AMBIENCE_3D",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_AMBIENCE\\AMBIENCE_3D",
+      "GUID": "{A257F4A4-D6AC-480E-97D2-BBF7DDC5F645}"
      },
      {
       "Id": "1874415497",
-      "Name": "MASTER_FIREFLIES"
+      "Name": "MASTER_FIREFLIES",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_FIREFLIES",
+      "GUID": "{E2E68EC4-DF69-4D96-AA60-EDD996091F25}"
      },
      {
       "Id": "1890054062",
-      "Name": "AMBIENCEBEDS_2D"
+      "Name": "AMBIENCEBEDS_2D",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_AMBIENCE\\AMBIENCEBEDS_2D",
+      "GUID": "{2023FBDF-031D-450E-9292-7A9C7FF383C1}"
      },
      {
       "Id": "1900298039",
       "Name": "MASTER_MUSIC",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_MUSIC",
+      "GUID": "{66327182-3D3A-47D6-B6C1-58308EC3F8FB}",
       "PluginRefs": {
        "ShareSets": [
         {
@@ -143,23 +191,33 @@
      },
      {
       "Id": "1919967482",
-      "Name": "MUSHROOM_PICKUP"
+      "Name": "MUSHROOM_PICKUP",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_MUSHROOM\\MUSHROOM_PICKUP",
+      "GUID": "{F9314B62-89ED-4320-B1EA-5489B238D8BF}"
      },
      {
       "Id": "2012620565",
-      "Name": "FIREFLIES_LANTERN_PLACE"
+      "Name": "FIREFLIES_LANTERN_PLACE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_FIREFLIES\\FIREFLIES_LANTERN_PLACE",
+      "GUID": "{F7AB8250-CBBA-4B6F-871A-4C13F88A8EEA}"
      },
      {
       "Id": "2228101040",
-      "Name": "MASTER_MUSHROOM"
+      "Name": "MASTER_MUSHROOM",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_MUSHROOM",
+      "GUID": "{5A4F2A31-C479-4CCA-BEF6-F9EF2AEE6D4D}"
      },
      {
       "Id": "2362228609",
-      "Name": "JOURNAL_PICKUP"
+      "Name": "JOURNAL_PICKUP",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL\\JOURNAL_PICKUP",
+      "GUID": "{49264B07-BB15-467E-AD98-8294D835A8A4}"
      },
      {
       "Id": "2424732109",
       "Name": "POTENTIATES_TIMEWARP",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_POTENTIATES\\POTENTIATES_TIMEWARP",
+      "GUID": "{9B05156E-DC26-4BA7-BA2F-C8042CA7C355}",
       "PluginRefs": {
        "ShareSets": [
         {
@@ -170,75 +228,111 @@
      },
      {
       "Id": "2453119373",
-      "Name": "MASTER_PLAYER"
+      "Name": "MASTER_PLAYER",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER",
+      "GUID": "{9DAE2CA4-5848-4DA3-9853-165EB67FA107}"
      },
      {
       "Id": "2505162442",
-      "Name": "UI_BUTTON"
+      "Name": "UI_BUTTON",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_UI\\UI_BUTTON",
+      "GUID": "{D2CF1D96-3345-4D34-9426-AA30C1CBB320}"
      },
      {
       "Id": "2551268862",
-      "Name": "PLAYER_FALL"
+      "Name": "PLAYER_FALL",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER\\PLAYER_FALL",
+      "GUID": "{EE003B7D-0569-4299-9611-15DAA728AE9C}"
      },
      {
       "Id": "2919997485",
-      "Name": "JOURNAL_OPEN"
+      "Name": "JOURNAL_OPEN",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL\\JOURNAL_OPEN",
+      "GUID": "{A9FDC529-EA4E-45E3-80DA-0E855424FBBB}"
      },
      {
       "Id": "2933154324",
-      "Name": "FIREFLIES_PICK"
+      "Name": "FIREFLIES_PICK",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_FIREFLIES\\FIREFLIES_PICK",
+      "GUID": "{AF270238-FF2B-4D71-9D7E-6213F6F9505F}"
      },
      {
       "Id": "2940948846",
-      "Name": "PLAYER_LOCOMOTION_IMPACTS"
+      "Name": "PLAYER_LOCOMOTION_IMPACTS",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS",
+      "GUID": "{A4606D64-AADE-43C9-8290-4680919CAC11}"
      },
      {
       "Id": "3006080354",
-      "Name": "UI_TOGGLE"
+      "Name": "UI_TOGGLE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_UI\\UI_TOGGLE",
+      "GUID": "{764673FF-B077-47F6-BA48-9883191E2EB4}"
      },
      {
       "Id": "3462011115",
-      "Name": "MASTER_SFX"
+      "Name": "MASTER_SFX",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX",
+      "GUID": "{8718B277-04DB-4078-AC4B-77429E4BED7B}"
      },
      {
       "Id": "3578646088",
-      "Name": "FIREFLIES_MAGIC"
+      "Name": "FIREFLIES_MAGIC",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_FIREFLIES\\FIREFLIES_MAGIC",
+      "GUID": "{B6AEE860-6620-4324-BBFF-3B1F804742B6}"
      },
      {
       "Id": "3589700203",
-      "Name": "JOURNAL_ENTRY_SELET_EMPTY"
+      "Name": "JOURNAL_ENTRY_SELET_EMPTY",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL\\JOURNAL_ENTRY_SELET_EMPTY",
+      "GUID": "{7AB57339-2E2A-4CAD-8476-B6FABCB76A31}"
      },
      {
       "Id": "3591553651",
-      "Name": "MASTER_NPC"
+      "Name": "MASTER_NPC",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_NPC",
+      "GUID": "{75FB7574-7580-4FB4-B039-DEAF943C649B}"
      },
      {
       "Id": "3614903352",
-      "Name": "PLAYER_LOCOMOTION_SLIDE"
+      "Name": "PLAYER_LOCOMOTION_SLIDE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_SLIDE",
+      "GUID": "{F3B9F419-2115-494B-AC1A-D49E30D628DD}"
      },
      {
       "Id": "3629196698",
-      "Name": "PLAYER_LAND"
+      "Name": "PLAYER_LAND",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_PLAYER\\PLAYER_LAND",
+      "GUID": "{1FB244E9-50EB-41BB-8072-142C258BA48E}"
      },
      {
       "Id": "3803692087",
-      "Name": "Master Audio Bus"
+      "Name": "Master Audio Bus",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus",
+      "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
      },
      {
       "Id": "3987036369",
-      "Name": "UI_SLIDER"
+      "Name": "UI_SLIDER",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_UI\\UI_SLIDER",
+      "GUID": "{BB6A864B-9917-4547-ACFF-4BB924AE45AD}"
      },
      {
       "Id": "4011678951",
-      "Name": "MUSHROOM_GROW"
+      "Name": "MUSHROOM_GROW",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_MUSHROOM\\MUSHROOM_GROW",
+      "GUID": "{AE5C3F6A-D61C-4FAC-A3BA-9BB24ECFFDFB}"
      },
      {
       "Id": "4126136622",
-      "Name": "MUSHROOM_BOUNCE"
+      "Name": "MUSHROOM_BOUNCE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_MUSHROOM\\MUSHROOM_BOUNCE",
+      "GUID": "{E79F0ECB-3E40-4C89-92D7-4049E1C407DD}"
      },
      {
       "Id": "4286911030",
       "Name": "MASTER_AMBIENCE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_AMBIENCE",
+      "GUID": "{3CDFE549-5C5B-428C-AB6F-DF9D18D38C8C}",
       "PluginRefs": {
        "ShareSets": [
         {
@@ -255,218 +349,314 @@
      {
       "Id": "323187407",
       "Name": "REVERB_CAVE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS\\REVERB_CAVE",
+      "GUID": "{E866CDD0-A6F4-4684-B40D-3EDDD3952251}",
       "AuxBusRefs": [
        {
         "Id": "3545700988",
-        "Name": "REVERBS"
+        "Name": "REVERBS",
+        "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS",
+        "GUID": "{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}"
        }
       ]
      },
      {
       "Id": "591468168",
       "Name": "REVERB_LARGEROOM",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS\\REVERB_LARGEROOM",
+      "GUID": "{033BE84F-2D9C-4675-B901-8439FB9A69C5}",
       "AuxBusRefs": [
        {
         "Id": "3545700988",
-        "Name": "REVERBS"
+        "Name": "REVERBS",
+        "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS",
+        "GUID": "{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}"
        }
       ]
      },
      {
       "Id": "1578973140",
       "Name": "REVERB_OUTDOOR",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS\\REVERB_OUTDOOR",
+      "GUID": "{0977F823-489F-4E0D-A887-A833B7073D6E}",
       "AuxBusRefs": [
        {
         "Id": "3545700988",
-        "Name": "REVERBS"
+        "Name": "REVERBS",
+        "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS",
+        "GUID": "{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}"
        }
       ]
      },
      {
       "Id": "3292698384",
       "Name": "REVERB_SMALLROOM",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS\\REVERB_SMALLROOM",
+      "GUID": "{13864DAC-2EAA-40A8-9FA7-8D181B2FA821}",
       "AuxBusRefs": [
        {
         "Id": "3545700988",
-        "Name": "REVERBS"
+        "Name": "REVERBS",
+        "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS",
+        "GUID": "{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}"
        }
       ]
      },
      {
       "Id": "3545700988",
-      "Name": "REVERBS"
+      "Name": "REVERBS",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\REVERBS",
+      "GUID": "{9A9F3841-3403-4845-B5B3-1D9F21E90F6D}"
      }
     ],
     "GameParameters": [
      {
       "Id": "262290038",
-      "Name": "RTPC_DISTANCE"
+      "Name": "RTPC_DISTANCE",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_DISTANCE",
+      "GUID": "{48B81A29-08B7-45BA-9BBE-BCA64800530D}"
      },
      {
       "Id": "482870237",
-      "Name": "RTPC_LOTUSDISTANCE"
+      "Name": "RTPC_LOTUSDISTANCE",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_LOTUSDISTANCE",
+      "GUID": "{F7DC75C8-AE58-4101-90FD-59EF016568FE}"
      },
      {
       "Id": "647674338",
-      "Name": "RTPC_TIMEWARP_DISTORT"
+      "Name": "RTPC_TIMEWARP_DISTORT",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_TIMEWARP_DISTORT",
+      "GUID": "{A4151685-AEA2-4044-83DC-9ADCF6165A62}"
      },
      {
       "Id": "983576458",
-      "Name": "RTPC_TIMEWARP_TICK"
+      "Name": "RTPC_TIMEWARP_TICK",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_TIMEWARP_TICK",
+      "GUID": "{093C9F42-BF3D-4724-B560-AE9865BA9623}"
      },
      {
       "Id": "2290256636",
-      "Name": "RTPC_PLAYERFALLSPEED"
+      "Name": "RTPC_PLAYERFALLSPEED",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_PLAYERFALLSPEED",
+      "GUID": "{E3CE08EC-41D3-4C6F-B310-7826E821DA86}"
      },
      {
       "Id": "2653406601",
-      "Name": "RTPC_PLAYERSPEED"
+      "Name": "RTPC_PLAYERSPEED",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_PLAYERSPEED",
+      "GUID": "{0A3B4CA3-C574-423D-8CC0-D680EF6A0E75}"
      },
      {
       "Id": "2972739263",
-      "Name": "RTPC_AMBIENCE"
+      "Name": "RTPC_AMBIENCE",
+      "ObjectPath": "\\Game Parameters\\Volume Controls\\RTPC_AMBIENCE",
+      "GUID": "{A317D2AA-2B28-4028-807C-21F6628310E5}"
      },
      {
       "Id": "3438452020",
-      "Name": "RTPC_SFX"
+      "Name": "RTPC_SFX",
+      "ObjectPath": "\\Game Parameters\\Volume Controls\\RTPC_SFX",
+      "GUID": "{FF44F029-A44B-41E2-8677-98A476F50F4B}"
      },
      {
       "Id": "3445598977",
-      "Name": "RTPC_MASTER"
+      "Name": "RTPC_MASTER",
+      "ObjectPath": "\\Game Parameters\\Volume Controls\\RTPC_MASTER",
+      "GUID": "{FF962EE4-9E13-4717-9676-10C9558DA919}"
      },
      {
       "Id": "3709650428",
-      "Name": "RTPC_MUSIC"
+      "Name": "RTPC_MUSIC",
+      "ObjectPath": "\\Game Parameters\\Volume Controls\\RTPC_MUSIC",
+      "GUID": "{2113EC83-BA58-41C8-A2DD-549483EF3815}"
      },
      {
       "Id": "4221177039",
-      "Name": "RTPC_FIREFLYCOUNT"
+      "Name": "RTPC_FIREFLYCOUNT",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_FIREFLYCOUNT",
+      "GUID": "{A213CAF3-5CF0-4D71-AE1F-01F95C0FBF24}"
      }
     ],
     "StateGroups": [
      {
       "Id": "140949108",
       "Name": "STATES_CINEMATICS",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_CINEMATICS",
+      "GUID": "{B6753892-C1F9-43A5-9C26-CAD425A37493}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_CINEMATICS\\None",
+        "GUID": "{CACCBA0D-7E07-42B5-8637-2D12A2DD1702}"
        },
        {
         "Id": "1240403123",
-        "Name": "STATE_INTRO"
+        "Name": "STATE_INTRO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_CINEMATICS\\STATE_INTRO",
+        "GUID": "{4B847F2A-3246-4146-9BBC-531E025C1F7E}"
        }
       ]
      },
      {
       "Id": "708499520",
       "Name": "STATES_GAME",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME",
+      "GUID": "{D5E43FC6-43EC-4C20-B195-0C524C7AB21A}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\None",
+        "GUID": "{302CEB88-32D6-4FA2-8F06-B38958038C0E}"
        },
        {
         "Id": "1631528850",
-        "Name": "IN_MENU"
+        "Name": "IN_MENU",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\IN_MENU",
+        "GUID": "{206FBDD7-D971-4F2D-80C3-65C74D62F355}"
        },
        {
         "Id": "2967546505",
-        "Name": "IN_GAME"
+        "Name": "IN_GAME",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\IN_GAME",
+        "GUID": "{E767F48B-6633-40A3-942F-EB186BB23D21}"
        },
        {
         "Id": "3724487062",
-        "Name": "IN_CINEMATIC"
+        "Name": "IN_CINEMATIC",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\IN_CINEMATIC",
+        "GUID": "{D0CE34E1-2C54-483F-A434-B43A5276EC8C}"
        }
       ]
      },
      {
       "Id": "1161428141",
       "Name": "STATES_AREA",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA",
+      "GUID": "{D280762A-C805-46E2-BF41-ABB4105E0034}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA\\None",
+        "GUID": "{E9167E28-20D5-46D3-A80F-880793B44E35}"
        },
        {
         "Id": "3843590704",
-        "Name": "STATE_CAVE"
+        "Name": "STATE_CAVE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA\\STATE_CAVE",
+        "GUID": "{A61906DC-68A6-4A27-9EFD-9915C1BE43A4}"
        },
        {
         "Id": "4216640728",
-        "Name": "STATE_FOREST"
+        "Name": "STATE_FOREST",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA\\STATE_FOREST",
+        "GUID": "{58DC37AF-5AFF-4048-8A31-81FC4209378A}"
        }
       ]
      },
      {
       "Id": "1500888219",
       "Name": "STATES_ROOM",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_ROOM",
+      "GUID": "{E267853A-C4FD-49F7-A543-5B23E2F10E4F}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_ROOM\\None",
+        "GUID": "{85672C85-73F9-42F5-8807-CF079CA23944}"
        },
        {
         "Id": "3825359022",
-        "Name": "STATE_INDOOR"
+        "Name": "STATE_INDOOR",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_ROOM\\STATE_INDOOR",
+        "GUID": "{C20D63C6-7D87-404C-97AD-AD9B579A0702}"
        },
        {
         "Id": "3990655221",
-        "Name": "STATE_OUTDOOR"
+        "Name": "STATE_OUTDOOR",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_ROOM\\STATE_OUTDOOR",
+        "GUID": "{B8314DB3-9BE5-40AB-B630-7253E9D5D36E}"
        }
       ]
      },
      {
       "Id": "1606666624",
       "Name": "STATES_FOREST_P1_CUES",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES",
+      "GUID": "{7438170C-920A-4E76-BBBD-66B994F04B57}",
       "States": [
        {
         "Id": "374353676",
-        "Name": "STATES_FOREST_THREE"
+        "Name": "STATES_FOREST_THREE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\STATES_FOREST_THREE",
+        "GUID": "{42873458-2EF5-4510-AF30-DFDF168D9EE7}"
        },
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\None",
+        "GUID": "{F1F649CC-CB3E-4EAE-9E19-5E696983F236}"
        },
        {
         "Id": "3477480738",
-        "Name": "STATES_FOREST_TWO"
+        "Name": "STATES_FOREST_TWO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\STATES_FOREST_TWO",
+        "GUID": "{B4938A49-34DA-4F79-9ECA-FE0D8AD78630}"
        },
        {
         "Id": "3625080944",
-        "Name": "STATES_FOREST_ONE"
+        "Name": "STATES_FOREST_ONE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\STATES_FOREST_ONE",
+        "GUID": "{B442B2E5-B7FE-402F-BD5F-4BB74F627FF5}"
        }
       ]
      },
      {
       "Id": "1702361322",
       "Name": "STATES_PHASES",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES",
+      "GUID": "{5422FF44-E9C8-45DF-B284-929966E5B24C}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\None",
+        "GUID": "{EC12BD7D-9CEE-4E70-A885-75B20C751C10}"
        },
        {
         "Id": "1240403123",
-        "Name": "STATE_INTRO"
+        "Name": "STATE_INTRO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\STATE_INTRO",
+        "GUID": "{38604D77-E177-48E3-9754-07C4228D6236}"
        },
        {
         "Id": "3548780380",
-        "Name": "STATE_PHASEONE"
+        "Name": "STATE_PHASEONE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\STATE_PHASEONE",
+        "GUID": "{26024E43-9A34-44D0-A103-ABC1C10F559F}"
        },
        {
         "Id": "3930281454",
-        "Name": "STATE_PHASETWO"
+        "Name": "STATE_PHASETWO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\STATE_PHASETWO",
+        "GUID": "{430DE243-D4AF-44EC-B772-0F2AA5EC8A02}"
        }
       ]
      },
      {
       "Id": "1857190249",
       "Name": "STATES_PLAYER",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_PLAYER",
+      "GUID": "{B65B5215-2E65-4F68-8CF1-73D44A4317B1}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PLAYER\\None",
+        "GUID": "{BF8E5EB8-EE68-40B3-862A-DA004C7C6164}"
        }
       ]
      }
@@ -475,193 +665,275 @@
      {
       "Id": "174011288",
       "Name": "FIREFLIESSWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\FIREFLIESSWITCH",
+      "GUID": "{16BA02A5-2FB4-47DA-B51C-B50A133C537B}",
       "Switches": [
        {
         "Id": "1126065684",
-        "Name": "FIREFLIES"
+        "Name": "FIREFLIES",
+        "ObjectPath": "\\Switches\\Ambience Switches\\FIREFLIESSWITCH\\FIREFLIES",
+        "GUID": "{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"
        },
        {
         "Id": "3696588959",
-        "Name": "NOFIREFLIES"
+        "Name": "NOFIREFLIES",
+        "ObjectPath": "\\Switches\\Ambience Switches\\FIREFLIESSWITCH\\NOFIREFLIES",
+        "GUID": "{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"
        }
       ]
      },
      {
       "Id": "197954834",
       "Name": "WETNESSSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\WETNESSSWITCH",
+      "GUID": "{C31FB6AD-5A82-42EE-A76C-CCDD2F373D6A}",
       "Switches": [
        {
         "Id": "630539344",
-        "Name": "DRY"
+        "Name": "DRY",
+        "ObjectPath": "\\Switches\\Default Work Unit\\WETNESSSWITCH\\DRY",
+        "GUID": "{1F98DEDB-6D30-45C1-B6A4-A0BF5825FB5B}"
        },
        {
         "Id": "1181096339",
-        "Name": "WET"
+        "Name": "WET",
+        "ObjectPath": "\\Switches\\Default Work Unit\\WETNESSSWITCH\\WET",
+        "GUID": "{D33EA3AA-FD94-494C-ACCA-3B6F6F7FAEE6}"
        }
       ]
      },
      {
       "Id": "1097908491",
       "Name": "AMBIENCEBIOMESWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH",
+      "GUID": "{60A99DC1-F455-429C-9506-4AFCDEE27EF8}",
       "Switches": [
        {
         "Id": "491961918",
-        "Name": "FOREST"
+        "Name": "FOREST",
+        "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH\\FOREST",
+        "GUID": "{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}"
        },
        {
         "Id": "611348932",
-        "Name": "SKY"
+        "Name": "SKY",
+        "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH\\SKY",
+        "GUID": "{DCC59DCE-D4C0-4899-9F54-2326AECB01C5}"
        },
        {
         "Id": "4122393694",
-        "Name": "CAVE"
+        "Name": "CAVE",
+        "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH\\CAVE",
+        "GUID": "{C5E520D5-792B-4A0E-B15F-864D89565062}"
        }
       ]
      },
      {
       "Id": "1426187460",
       "Name": "MUSHROOMGROUNDMATSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH",
+      "GUID": "{1DE9E77F-B956-4A75-9C88-F1C2C2DEEE5D}",
       "Switches": [
        {
         "Id": "1216965916",
-        "Name": "STONE"
+        "Name": "STONE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH\\STONE",
+        "GUID": "{FE47F7BE-5068-4364-B687-67875982FF4D}"
        },
        {
         "Id": "2195636714",
-        "Name": "DIRT"
+        "Name": "DIRT",
+        "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH\\DIRT",
+        "GUID": "{855F7780-7D3D-4788-A94B-EB5D2321204E}"
        },
        {
         "Id": "4248645337",
-        "Name": "GRASS"
+        "Name": "GRASS",
+        "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH\\GRASS",
+        "GUID": "{E5FD6F15-50F5-4AA2-97FC-098927275C71}"
        }
       ]
      },
      {
       "Id": "1582413998",
       "Name": "LOTUSSWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\LOTUSSWITCH",
+      "GUID": "{4362CA85-3D56-45E4-85B7-B34695004A59}",
       "Switches": [
        {
         "Id": "137712726",
-        "Name": "LOTUS"
+        "Name": "LOTUS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LOTUSSWITCH\\LOTUS",
+        "GUID": "{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"
        },
        {
         "Id": "2031016961",
-        "Name": "NOLOTUS"
+        "Name": "NOLOTUS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LOTUSSWITCH\\NOLOTUS",
+        "GUID": "{6B76815F-1E63-4F65-A979-103E0FB67D80}"
        }
       ]
      },
      {
       "Id": "2051106367",
       "Name": "PLAYERSPEEDSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH",
+      "GUID": "{EDEFC7E6-3D41-42D5-AD6C-F7C27C6D6D67}",
       "GameParameterRef": {
        "Id": "2653406601"
       },
       "Switches": [
        {
         "Id": "712161704",
-        "Name": "RUN"
+        "Name": "RUN",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH\\RUN",
+        "GUID": "{EA7C6930-8566-467A-AAC4-356489DF7D43}"
        },
        {
         "Id": "2108779966",
-        "Name": "WALK"
+        "Name": "WALK",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH\\WALK",
+        "GUID": "{813D96E2-B1B8-409C-ACB3-BBFA220BF95D}"
        },
        {
         "Id": "3115216662",
-        "Name": "CRAWL"
+        "Name": "CRAWL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH\\CRAWL",
+        "GUID": "{CE6F3E8C-2A66-4676-A822-900680365A4E}"
        }
       ]
      },
      {
       "Id": "2054088970",
       "Name": "PLAYERFALLSPEEDSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH",
+      "GUID": "{E62C8679-B3AA-461E-A46E-FE5DAD0894E5}",
       "GameParameterRef": {
        "Id": "2290256636"
       },
       "Switches": [
        {
         "Id": "3857355556",
-        "Name": "FASTFALL"
+        "Name": "FASTFALL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH\\FASTFALL",
+        "GUID": "{461FD7FB-F57C-4188-BFAA-75FEDBBE6881}"
        },
        {
         "Id": "3936714913",
-        "Name": "SLOWFALL"
+        "Name": "SLOWFALL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH\\SLOWFALL",
+        "GUID": "{55086A10-7959-452F-9767-C28CC1EBF297}"
        },
        {
         "Id": "3946497219",
-        "Name": "MEDIUMFALL"
+        "Name": "MEDIUMFALL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH\\MEDIUMFALL",
+        "GUID": "{588AD144-1C14-4E33-BCAF-546EEF5BB32B}"
        }
       ]
      },
      {
       "Id": "2139255308",
       "Name": "LANTERNAREASWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\LANTERNAREASWITCH",
+      "GUID": "{39D3E30F-7516-4D69-A1BF-084A7A1CE641}",
       "Switches": [
        {
         "Id": "135296687",
-        "Name": "NOLANTERNS"
+        "Name": "NOLANTERNS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LANTERNAREASWITCH\\NOLANTERNS",
+        "GUID": "{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"
        },
        {
         "Id": "1333297618",
-        "Name": "LANTERNS"
+        "Name": "LANTERNS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LANTERNAREASWITCH\\LANTERNS",
+        "GUID": "{E360FFD1-1AFD-493C-B844-93532B06AB34}"
        }
       ]
      },
      {
       "Id": "3260060478",
       "Name": "GROUNDMATSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH",
+      "GUID": "{D27FD05C-8199-471B-BB6C-C34996E40AAB}",
       "Switches": [
        {
         "Id": "1216965916",
-        "Name": "STONE"
+        "Name": "STONE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH\\STONE",
+        "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
        },
        {
         "Id": "2195636714",
-        "Name": "DIRT"
+        "Name": "DIRT",
+        "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH\\DIRT",
+        "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
        },
        {
         "Id": "4248645337",
-        "Name": "GRASS"
+        "Name": "GRASS",
+        "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH\\GRASS",
+        "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"
        }
       ]
      },
      {
       "Id": "3582311692",
       "Name": "DISTANCESWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH",
+      "GUID": "{FECA2F62-B408-42B0-BE21-9EE090A6DFE1}",
       "GameParameterRef": {
        "Id": "262290038"
       },
       "Switches": [
        {
         "Id": "614582933",
-        "Name": "FIFTY"
+        "Name": "FIFTY",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\FIFTY",
+        "GUID": "{58976AC2-A3C7-4D20-A278-3428FB565061}"
        },
        {
         "Id": "787714852",
-        "Name": "FIFTEEN"
+        "Name": "FIFTEEN",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\FIFTEEN",
+        "GUID": "{0390486C-1873-4640-B963-77B420D1688B}"
        },
        {
         "Id": "913095698",
-        "Name": "TEN"
+        "Name": "TEN",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\TEN",
+        "GUID": "{2DDED09E-65E6-4E87-83EA-ECC8B45F0DF8}"
        },
        {
         "Id": "1064933119",
-        "Name": "ONE"
+        "Name": "ONE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\ONE",
+        "GUID": "{5B2AF6AC-4724-4DCC-A6AB-C4853950AFED}"
        },
        {
         "Id": "1461002489",
-        "Name": "ONEHUNDRED"
+        "Name": "ONEHUNDRED",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\ONEHUNDRED",
+        "GUID": "{84A3AA1E-7D1F-4966-8979-21D6C1FD23E7}"
        },
        {
         "Id": "2611770117",
-        "Name": "FIVE"
+        "Name": "FIVE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\FIVE",
+        "GUID": "{4FD9C42A-2166-49CC-9F7C-84EE855902E7}"
        },
        {
         "Id": "2688829901",
-        "Name": "TWOFIVE"
+        "Name": "TWOFIVE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\TWOFIVE",
+        "GUID": "{00BBFBB5-433D-4B68-A821-7592C312A01C}"
        },
        {
         "Id": "3772991054",
-        "Name": "TWENTYFIVE"
+        "Name": "TWENTYFIVE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\DISTANCESWITCH\\TWENTYFIVE",
+        "GUID": "{EA64D311-4FB3-4832-BEAF-EE0311F5FC05}"
        }
       ]
      }
@@ -670,8 +942,10 @@
    {
     "Id": "3626155605",
     "Type": "User",
+    "GUID": "{3BEF868C-27FC-48E3-9E4E-E297B6818463}",
     "Language": "SFX",
-    "Hash": "{A1A240CA-25DF-062E-2766-FD92F0EE1CEF}",
+    "Hash": "{DC718376-CCD2-F7DD-1CF3-9DC6C2A46EE3}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\GAME_SOUNDBANK",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
     "Media": [
@@ -2009,6 +2283,8 @@
       {
        "Id": "10454007",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\CAVE\\AMBIENCE2D_MAIN_ROCKCRUMBLE\\SILENCE\\Silence",
+       "GUID": "{15C23929-4B67-4006-AECC-48A31E1314F0}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2016,6 +2292,8 @@
       {
        "Id": "64624005",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_TREENOISES\\SILENCE\\Silence",
+       "GUID": "{1A8B60F6-E197-4428-B700-D67C24164B87}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2023,6 +2301,8 @@
       {
        "Id": "142525318",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_WINDNOISES\\SILENCE\\Silence",
+       "GUID": "{8E605BCD-E96B-477D-90F7-D9E66E224169}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2030,6 +2310,8 @@
       {
        "Id": "149914936",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCEBEDS_MAIN_MIXER\\AMBIENCEBEDS_MAIN_WETNESSSWITCH\\AMBIENCEBEDS_DRY_BIOMESWITCH\\CAVE\\FIREFLIESSWITCH\\SILENCE\\Silence",
+       "GUID": "{A8171DE3-5355-4ADC-9343-6E757D1D0F88}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2037,6 +2319,8 @@
       {
        "Id": "208210880",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_LANTERNSWITCH\\AMBIENCE2D_MAIN_LANTERNS\\SILENCE\\Silence",
+       "GUID": "{859FBAA9-69A5-4AB2-A7BC-A0CF2CF66D12}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2044,6 +2328,8 @@
       {
        "Id": "237276252",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_WALK_GROUNDMATSWITCH\\PLAYER_WALK_IMPACTS_STONE\\INTERVAL SILENCE\\Silence",
+       "GUID": "{9A064545-1DCA-4FB7-876A-C9981C118C91}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2051,6 +2337,8 @@
       {
        "Id": "241202866",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_BIRDCALLS\\SILENCE\\Silence",
+       "GUID": "{B81759C4-15B0-4672-AFA9-5C1C1A88EDD9}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2058,6 +2346,8 @@
       {
        "Id": "263127081",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_RUN_GROUNDMATSWITCH\\PLAYER_RUN_IMPACTS_DIRT\\INTERVAL SILENCE\\Silence",
+       "GUID": "{DA140D24-546A-452B-8888-71977E6E832E}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2065,6 +2355,8 @@
       {
        "Id": "288949125",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_WALK_GROUNDMATSWITCH\\PLAYER_WALK_IMPACTS_GRASS\\INTERVAL SILENCE\\Silence",
+       "GUID": "{54E70025-9A34-47CF-A2D4-9AC311EBCA00}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2072,6 +2364,8 @@
       {
        "Id": "296854467",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_LOTUSSWITCH\\AMBIENCE2D_MAIN_LOTUS\\SILENCE\\Silence",
+       "GUID": "{1CD0BD25-602A-4A4D-B300-BDD75E7301FF}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2079,6 +2373,8 @@
       {
        "Id": "365416699",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_INSECTCHIRPS\\SILENCE\\Silence",
+       "GUID": "{07032631-9D5B-4C75-B55E-903AF277BEB6}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2086,6 +2382,8 @@
       {
        "Id": "445525001",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_LOTUSSWITCH\\SILENCE\\Silence",
+       "GUID": "{42DCD56E-41C4-4E53-A970-A2A7F35E5DF1}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2093,6 +2391,8 @@
       {
        "Id": "567386646",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_CRAWL_GROUNDMATSWITCH\\PLAYER_CRAWL_IMPACTS_DIRT\\INTERVAL SILENCE\\Silence",
+       "GUID": "{A7B05AA6-0247-40E4-BCBA-D70D8F288AD0}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2100,6 +2400,8 @@
       {
        "Id": "680081601",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCEBEDS_MAIN_MIXER\\AMBIENCEBEDS_MAIN_WETNESSSWITCH\\AMBIENCEBEDS_DRY_BIOMESWITCH\\FOREST\\LANTERNSWITCH\\SILENCE\\Silence",
+       "GUID": "{16E7C46E-F7DA-41B5-85FD-58226629583E}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2107,6 +2409,8 @@
       {
        "Id": "710891349",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCEBEDS_MAIN_MIXER\\AMBIENCEBEDS_MAIN_WETNESSSWITCH\\AMBIENCEBEDS_DRY_BIOMESWITCH\\FOREST\\FIREFLIESSWITCH\\SILENCE\\Silence",
+       "GUID": "{C133EB15-83E5-4082-B7C1-DB9177F89A32}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2114,6 +2418,8 @@
       {
        "Id": "784623767",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_CRAWL_GROUNDMATSWITCH\\PLAYER_CRAWL_IMPACTS_STONE\\INTERVAL SILENCE\\Silence",
+       "GUID": "{8608A014-B78B-4E33-B031-4247BF481E2D}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2121,6 +2427,8 @@
       {
        "Id": "804672598",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCE2D_MAIN_MIXER\\AMBIENCE2D_MAIN_BIOMESWITCH\\FOREST\\AMBIENCE2D_MAIN_LANTERNSWITCH\\SILENCE\\Silence",
+       "GUID": "{C0D57735-2BFF-47AE-94AC-3A8895F9B451}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2128,6 +2436,8 @@
       {
        "Id": "871620857",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_RUN_GROUNDMATSWITCH\\PLAYER_RUN_IMPACTS_STONE\\INTERVAL SILENCE\\Silence",
+       "GUID": "{735E3245-B891-4486-B8DC-EA304AA55206}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2135,6 +2445,8 @@
       {
        "Id": "887566741",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCEBEDS_MAIN_MIXER\\AMBIENCEBEDS_MAIN_WETNESSSWITCH\\AMBIENCEBEDS_DRY_BIOMESWITCH\\FOREST\\LOTUSSWITCH\\SILENCE\\Silence",
+       "GUID": "{94BAFFD9-68ED-4BD8-8A81-0B6813E56327}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2142,6 +2454,8 @@
       {
        "Id": "906514980",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_RUN_GROUNDMATSWITCH\\PLAYER_RUN_IMPACTS_GRASS\\INTERVAL SILENCE\\Silence",
+       "GUID": "{4482582B-7A47-4D0D-92FF-AD4D19030054}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2149,6 +2463,8 @@
       {
        "Id": "986804516",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_WALK_GROUNDMATSWITCH\\PLAYER_WALK_IMPACTS_DIRT\\INTERVAL SILENCE\\Silence",
+       "GUID": "{306CADFF-C4E7-4161-9C9F-071876472204}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2156,6 +2472,8 @@
       {
        "Id": "1051325896",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\AMBIENCE\\AMBIENCEBEDS_MAIN_MIXER\\AMBIENCEBEDS_MAIN_WETNESSSWITCH\\AMBIENCEBEDS_DRY_BIOMESWITCH\\CAVE\\LANTERNSWITCH\\SILENCE\\Silence",
+       "GUID": "{75296591-6448-45C5-9DBD-2EBECCAE6426}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2163,6 +2481,8 @@
       {
        "Id": "1053425351",
        "Name": "Silence",
+       "ObjectPath": "\\Containers\\PLAYER\\PLAYER_LOCOMOTION\\PLAYER_LOCOMOTION_IMPACTS_SPEEDSWITCH\\PLAYER_CRAWL_GROUNDMATSWITCH\\PLAYER_CRAWL_IMPACTS_GRASS\\INTERVAL SILENCE\\Silence",
+       "GUID": "{E2E66BAB-C71D-4A8B-9F96-CA038DA29CCD}",
        "Color": "4",
        "LibName": "Wwise Silence",
        "LibId": "6619138"
@@ -2173,6 +2493,8 @@
      {
       "Id": "2735935537",
       "Name": "PAUSE_MUSIC",
+      "ObjectPath": "\\Events\\MUSIC\\PAUSE_MUSIC",
+      "GUID": "{4CB9667E-3825-4845-A290-82695E976A5A}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -2181,6 +2503,8 @@
      {
       "Id": "2609132508",
       "Name": "PLAY_AMBIENCE2D_MAIN",
+      "ObjectPath": "\\Events\\AMBIENCE\\PLAY_AMBIENCE2D_MAIN",
+      "GUID": "{C9D834AF-38EF-4DC8-934E-63BA6DF5AD2B}",
       "DurationType": "Infinite",
       "SwitchContainers": [
        {
@@ -2188,6 +2512,7 @@
          "GroupType": "Switch",
          "GroupId": "1097908491",
          "Id": "491961918",
+         "GUID": "{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}",
          "Default": "true"
         },
         "MediaRefs": [
@@ -2276,7 +2601,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "2139255308",
-           "Id": "1333297618"
+           "Id": "1333297618",
+           "GUID": "{E360FFD1-1AFD-493C-B844-93532B06AB34}"
           },
           "MediaRefs": [
            {
@@ -2305,6 +2631,7 @@
            "GroupType": "Switch",
            "GroupId": "2139255308",
            "Id": "135296687",
+           "GUID": "{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}",
            "Default": "true"
           },
           "PluginRefs": {
@@ -2319,7 +2646,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "1582413998",
-           "Id": "137712726"
+           "Id": "137712726",
+           "GUID": "{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"
           },
           "MediaRefs": [
            {
@@ -2357,6 +2685,7 @@
            "GroupType": "Switch",
            "GroupId": "1582413998",
            "Id": "2031016961",
+           "GUID": "{6B76815F-1E63-4F65-A979-103E0FB67D80}",
            "Default": "true"
           },
           "PluginRefs": {
@@ -2373,7 +2702,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "1097908491",
-         "Id": "4122393694"
+         "Id": "4122393694",
+         "GUID": "{C5E520D5-792B-4A0E-B15F-864D89565062}"
         },
         "MediaRefs": [
          {
@@ -2405,13 +2735,16 @@
      {
       "Id": "1808419977",
       "Name": "PLAY_AMBIENCEBED_MAIN",
+      "ObjectPath": "\\Events\\AMBIENCE\\PLAY_AMBIENCEBED_MAIN",
+      "GUID": "{FF77F9D9-0C75-4740-B171-715A5FD01F1F}",
       "DurationType": "Infinite",
       "SwitchContainers": [
        {
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "197954834",
-         "Id": "1181096339"
+         "Id": "1181096339",
+         "GUID": "{D33EA3AA-FD94-494C-ACCA-3B6F6F7FAEE6}"
         },
         "Children": [
          {
@@ -2419,6 +2752,7 @@
            "GroupType": "Switch",
            "GroupId": "1097908491",
            "Id": "491961918",
+           "GUID": "{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -2440,6 +2774,7 @@
          "GroupType": "Switch",
          "GroupId": "197954834",
          "Id": "630539344",
+         "GUID": "{1F98DEDB-6D30-45C1-B6A4-A0BF5825FB5B}",
          "Default": "true"
         },
         "Children": [
@@ -2448,6 +2783,7 @@
            "GroupType": "Switch",
            "GroupId": "1097908491",
            "Id": "491961918",
+           "GUID": "{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -2463,7 +2799,8 @@
             "SwitchValue": {
              "GroupType": "Switch",
              "GroupId": "2139255308",
-             "Id": "1333297618"
+             "Id": "1333297618",
+             "GUID": "{E360FFD1-1AFD-493C-B844-93532B06AB34}"
             },
             "MediaRefs": [
              {
@@ -2476,6 +2813,7 @@
              "GroupType": "Switch",
              "GroupId": "2139255308",
              "Id": "135296687",
+             "GUID": "{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}",
              "Default": "true"
             },
             "PluginRefs": {
@@ -2490,7 +2828,8 @@
             "SwitchValue": {
              "GroupType": "Switch",
              "GroupId": "174011288",
-             "Id": "1126065684"
+             "Id": "1126065684",
+             "GUID": "{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"
             },
             "MediaRefs": [
              {
@@ -2503,6 +2842,7 @@
              "GroupType": "Switch",
              "GroupId": "174011288",
              "Id": "3696588959",
+             "GUID": "{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}",
              "Default": "true"
             },
             "PluginRefs": {
@@ -2517,7 +2857,8 @@
             "SwitchValue": {
              "GroupType": "Switch",
              "GroupId": "1582413998",
-             "Id": "137712726"
+             "Id": "137712726",
+             "GUID": "{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"
             },
             "MediaRefs": [
              {
@@ -2530,6 +2871,7 @@
              "GroupType": "Switch",
              "GroupId": "1582413998",
              "Id": "2031016961",
+             "GUID": "{6B76815F-1E63-4F65-A979-103E0FB67D80}",
              "Default": "true"
             },
             "PluginRefs": {
@@ -2546,7 +2888,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "1097908491",
-           "Id": "611348932"
+           "Id": "611348932",
+           "GUID": "{DCC59DCE-D4C0-4899-9F54-2326AECB01C5}"
           },
           "MediaRefs": [
            {
@@ -2564,7 +2907,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "1097908491",
-           "Id": "4122393694"
+           "Id": "4122393694",
+           "GUID": "{C5E520D5-792B-4A0E-B15F-864D89565062}"
           },
           "MediaRefs": [
            {
@@ -2582,7 +2926,8 @@
             "SwitchValue": {
              "GroupType": "Switch",
              "GroupId": "2139255308",
-             "Id": "1333297618"
+             "Id": "1333297618",
+             "GUID": "{E360FFD1-1AFD-493C-B844-93532B06AB34}"
             },
             "MediaRefs": [
              {
@@ -2595,6 +2940,7 @@
              "GroupType": "Switch",
              "GroupId": "2139255308",
              "Id": "135296687",
+             "GUID": "{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}",
              "Default": "true"
             },
             "PluginRefs": {
@@ -2609,7 +2955,8 @@
             "SwitchValue": {
              "GroupType": "Switch",
              "GroupId": "174011288",
-             "Id": "1126065684"
+             "Id": "1126065684",
+             "GUID": "{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"
             },
             "MediaRefs": [
              {
@@ -2622,6 +2969,7 @@
              "GroupType": "Switch",
              "GroupId": "174011288",
              "Id": "3696588959",
+             "GUID": "{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}",
              "Default": "true"
             },
             "PluginRefs": {
@@ -2641,6 +2989,8 @@
      {
       "Id": "3122541869",
       "Name": "PLAY_CINEMATICS_L1_ROCKFALL",
+      "ObjectPath": "\\Events\\CINEMATICS\\L1\\PLAY_CINEMATICS_L1_ROCKFALL",
+      "GUID": "{EC707B5D-8365-41B8-9A9B-82B9D942C888}",
       "DurationType": "OneShot",
       "DurationMin": "6.7523694",
       "DurationMax": "6.7523694",
@@ -2653,6 +3003,8 @@
      {
       "Id": "3983967792",
       "Name": "PLAY_FIREFLIES_FEED",
+      "ObjectPath": "\\Events\\FIREFLIES\\PLAY_FIREFLIES_FEED",
+      "GUID": "{C5750178-2C6B-4703-BDA1-46BDBE5E3155}",
       "DurationType": "OneShot",
       "DurationMin": "3.5369167",
       "DurationMax": "3.5369167",
@@ -2665,6 +3017,8 @@
      {
       "Id": "686783032",
       "Name": "PLAY_FIREFLIES_LANTERN_PLACE",
+      "ObjectPath": "\\Events\\FIREFLIES\\PLAY_FIREFLIES_LANTERN_PLACE",
+      "GUID": "{C19F9897-3F04-4BA4-8570-0F8318946998}",
       "DurationType": "OneShot",
       "DurationMin": "2.6079166",
       "DurationMax": "2.6079166",
@@ -2677,6 +3031,8 @@
      {
       "Id": "4219816853",
       "Name": "PLAY_FIREFLIES_MAGIC",
+      "ObjectPath": "\\Events\\FIREFLIES\\PLAY_FIREFLIES_MAGIC",
+      "GUID": "{B54892B5-23FE-4C02-909F-8991CC8807F4}",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -2687,6 +3043,8 @@
      {
       "Id": "2095185455",
       "Name": "PLAY_FIREFLIES_PICK",
+      "ObjectPath": "\\Events\\FIREFLIES\\PLAY_FIREFLIES_PICK",
+      "GUID": "{0E437D8F-47C2-4EE6-B396-7C8DC95B85AD}",
       "DurationType": "OneShot",
       "DurationMin": "3.2778332",
       "DurationMax": "3.2778332",
@@ -2699,6 +3057,8 @@
      {
       "Id": "1578246370",
       "Name": "PLAY_JOURNAL_CLOSE",
+      "ObjectPath": "\\Events\\JOURNAL\\PLAY_JOURNAL_CLOSE",
+      "GUID": "{867108A2-34C3-46A3-AB0E-CBB0F7FC4F5A}",
       "DurationType": "OneShot",
       "DurationMin": "1.5954167",
       "DurationMax": "1.5954167",
@@ -2711,6 +3071,8 @@
      {
       "Id": "3111598358",
       "Name": "PLAY_JOURNAL_ENTRY_COLLECTED",
+      "ObjectPath": "\\Events\\JOURNAL\\PLAY_JOURNAL_ENTRY_COLLECTED",
+      "GUID": "{FA55A137-A999-4B52-A484-A9BA74B6B863}",
       "DurationType": "OneShot",
       "DurationMin": "2.6650388",
       "DurationMax": "2.9914052",
@@ -2723,6 +3085,8 @@
      {
       "Id": "198936803",
       "Name": "PLAY_JOURNAL_ENTRY_SELECT_EMPTY",
+      "ObjectPath": "\\Events\\JOURNAL\\PLAY_JOURNAL_ENTRY_SELECT_EMPTY",
+      "GUID": "{28238F4D-3D19-4412-AC03-FF827D4C3B6B}",
       "DurationType": "OneShot",
       "DurationMin": "0.522011",
       "DurationMax": "0.6576926",
@@ -2735,6 +3099,8 @@
      {
       "Id": "215026063",
       "Name": "PLAY_JOURNAL_ENTRY_SELECT_FULL",
+      "ObjectPath": "\\Events\\JOURNAL\\PLAY_JOURNAL_ENTRY_SELECT_FULL",
+      "GUID": "{9A3B325D-602F-4116-96D7-5A66FFA3F74F}",
       "DurationType": "OneShot",
       "DurationMin": "0.5530513",
       "DurationMax": "0.62077916",
@@ -2747,6 +3113,8 @@
      {
       "Id": "3158012214",
       "Name": "PLAY_JOURNAL_OPEN",
+      "ObjectPath": "\\Events\\JOURNAL\\PLAY_JOURNAL_OPEN",
+      "GUID": "{FCECA2E0-F270-4C17-B8C7-CA347FB2E225}",
       "DurationType": "OneShot",
       "DurationMin": "1.1505417",
       "DurationMax": "1.1505417",
@@ -2759,6 +3127,8 @@
      {
       "Id": "2825379338",
       "Name": "PLAY_JOURNAL_PICKUP",
+      "ObjectPath": "\\Events\\JOURNAL\\PLAY_JOURNAL_PICKUP",
+      "GUID": "{A56632BD-D9C8-4496-A44D-A23043B164CA}",
       "DurationType": "OneShot",
       "DurationMin": "3.6667082",
       "DurationMax": "3.6667082",
@@ -2771,6 +3141,8 @@
      {
       "Id": "3172914513",
       "Name": "PLAY_LOTUS_PICK",
+      "ObjectPath": "\\Events\\LOTUS\\PLAY_LOTUS_PICK",
+      "GUID": "{64A98940-9D29-4726-AE37-40597B193511}",
       "DurationType": "OneShot",
       "DurationMin": "5.1938777",
       "DurationMax": "5.1938777",
@@ -2783,6 +3155,8 @@
      {
       "Id": "4286947103",
       "Name": "PLAY_MUSHROOM_BOUNCE",
+      "ObjectPath": "\\Events\\MUSHROOM\\MUSHROOM_BOUNCE\\PLAY_MUSHROOM_BOUNCE",
+      "GUID": "{B6D9EAA3-473E-4722-AFF3-17E77470592F}",
       "DurationType": "OneShot",
       "DurationMin": "0.49917716",
       "DurationMax": "0.7122138",
@@ -2804,6 +3178,8 @@
      {
       "Id": "937795333",
       "Name": "PLAY_MUSHROOM_DISSIPATE",
+      "ObjectPath": "\\Events\\MUSHROOM\\MUSHROOM_DISSIPATE\\PLAY_MUSHROOM_DISSIPATE",
+      "GUID": "{2F1816BB-AF2F-4F92-AF19-916E65589831}",
       "DurationType": "OneShot",
       "DurationMin": "2.2249792",
       "DurationMax": "2.2249792",
@@ -2816,6 +3192,8 @@
      {
       "Id": "1531298894",
       "Name": "PLAY_MUSHROOM_GROW",
+      "ObjectPath": "\\Events\\MUSHROOM\\MUSHROOM_GROW\\PLAY_MUSHROOM_GROW",
+      "GUID": "{3FBB844F-EAA4-4713-8598-8EC6AE1BF94E}",
       "MaxAttenuation": "25",
       "DurationType": "OneShot",
       "DurationMin": "1.0598541",
@@ -2826,6 +3204,7 @@
          "GroupType": "Switch",
          "GroupId": "1426187460",
          "Id": "4248645337",
+         "GUID": "{E5FD6F15-50F5-4AA2-97FC-098927275C71}",
          "Default": "true"
         },
         "MediaRefs": [
@@ -2844,7 +3223,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "1426187460",
-         "Id": "2195636714"
+         "Id": "2195636714",
+         "GUID": "{855F7780-7D3D-4788-A94B-EB5D2321204E}"
         },
         "MediaRefs": [
          {
@@ -2862,7 +3242,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "1426187460",
-         "Id": "1216965916"
+         "Id": "1216965916",
+         "GUID": "{FE47F7BE-5068-4364-B687-67875982FF4D}"
         },
         "MediaRefs": [
          {
@@ -2881,6 +3262,8 @@
      {
       "Id": "195236087",
       "Name": "PLAY_MUSHROOM_PICKUP",
+      "ObjectPath": "\\Events\\MUSHROOM\\MUSHROOM_PICKUP\\PLAY_MUSHROOM_PICKUP",
+      "GUID": "{0A611B7C-BF60-4BAD-9498-66872207529F}",
       "DurationType": "OneShot",
       "DurationMin": "10.979115",
       "DurationMax": "10.979115",
@@ -2893,13 +3276,16 @@
      {
       "Id": "2932040671",
       "Name": "PLAY_MUSIC",
+      "ObjectPath": "\\Events\\MUSIC\\PLAY_MUSIC",
+      "GUID": "{182D17B8-2B4F-4F4A-8DA3-2695014768CE}",
       "DurationType": "Infinite",
       "SwitchContainers": [
        {
         "SwitchValue": {
          "GroupType": "State",
          "GroupId": "708499520",
-         "Id": "1631528850"
+         "Id": "1631528850",
+         "GUID": "{206FBDD7-D971-4F2D-80C3-65C74D62F355}"
         },
         "MediaRefs": [
          {
@@ -2911,21 +3297,24 @@
         "SwitchValue": {
          "GroupType": "State",
          "GroupId": "708499520",
-         "Id": "2967546505"
+         "Id": "2967546505",
+         "GUID": "{E767F48B-6633-40A3-942F-EB186BB23D21}"
         },
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "State",
            "GroupId": "1161428141",
-           "Id": "4216640728"
+           "Id": "4216640728",
+           "GUID": "{58DC37AF-5AFF-4048-8A31-81FC4209378A}"
           },
           "Children": [
            {
             "SwitchValue": {
              "GroupType": "State",
              "GroupId": "1702361322",
-             "Id": "3548780380"
+             "Id": "3548780380",
+             "GUID": "{26024E43-9A34-44D0-A103-ABC1C10F559F}"
             },
             "MediaRefs": [
              {
@@ -2937,7 +3326,8 @@
               "SwitchValue": {
                "GroupType": "State",
                "GroupId": "1606666624",
-               "Id": "3625080944"
+               "Id": "3625080944",
+               "GUID": "{B442B2E5-B7FE-402F-BD5F-4BB74F627FF5}"
               },
               "MediaRefs": [
                {
@@ -2949,7 +3339,8 @@
               "SwitchValue": {
                "GroupType": "State",
                "GroupId": "1606666624",
-               "Id": "3477480738"
+               "Id": "3477480738",
+               "GUID": "{B4938A49-34DA-4F79-9ECA-FE0D8AD78630}"
               },
               "MediaRefs": [
                {
@@ -2963,7 +3354,8 @@
             "SwitchValue": {
              "GroupType": "State",
              "GroupId": "1702361322",
-             "Id": "1240403123"
+             "Id": "1240403123",
+             "GUID": "{38604D77-E177-48E3-9754-07C4228D6236}"
             },
             "MediaRefs": [
              {
@@ -2979,14 +3371,16 @@
         "SwitchValue": {
          "GroupType": "State",
          "GroupId": "708499520",
-         "Id": "3724487062"
+         "Id": "3724487062",
+         "GUID": "{D0CE34E1-2C54-483F-A434-B43A5276EC8C}"
         },
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "State",
            "GroupId": "140949108",
-           "Id": "1240403123"
+           "Id": "1240403123",
+           "GUID": "{4B847F2A-3246-4146-9BBC-531E025C1F7E}"
           },
           "MediaRefs": [
            {
@@ -3001,6 +3395,8 @@
      {
       "Id": "2440480106",
       "Name": "PLAY_PLAYER_DOUBLE_JUMP",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_DOUBLE_JUMP\\PLAY_PLAYER_DOUBLE_JUMP",
+      "GUID": "{55671CE2-B47D-46C3-9CCC-D26DC11CDE27}",
       "DurationType": "OneShot",
       "DurationMin": "1.8207464",
       "DurationMax": "2.2939968",
@@ -3013,6 +3409,8 @@
      {
       "Id": "1306343379",
       "Name": "PLAY_PLAYER_FALL",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_FALL\\PLAY_PLAYER_FALL",
+      "GUID": "{307D50B1-A58A-4C1B-9DD6-F80160656AB3}",
       "DurationType": "Infinite",
       "SwitchContainers": [
        {
@@ -3020,6 +3418,7 @@
          "GroupType": "Switch",
          "GroupId": "2054088970",
          "Id": "3936714913",
+         "GUID": "{55086A10-7959-452F-9767-C28CC1EBF297}",
          "Default": "true"
         },
         "MediaRefs": [
@@ -3032,7 +3431,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "2054088970",
-         "Id": "3946497219"
+         "Id": "3946497219",
+         "GUID": "{588AD144-1C14-4E33-BCAF-546EEF5BB32B}"
         },
         "MediaRefs": [
          {
@@ -3044,7 +3444,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "2054088970",
-         "Id": "3857355556"
+         "Id": "3857355556",
+         "GUID": "{461FD7FB-F57C-4188-BFAA-75FEDBBE6881}"
         },
         "MediaRefs": [
          {
@@ -3057,6 +3458,8 @@
      {
       "Id": "2773402369",
       "Name": "PLAY_PLAYER_IMPACTS",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_LOCOMOTION\\PLAY_PLAYER_IMPACTS",
+      "GUID": "{BCE93F04-2847-4AC9-A2A0-76D28824C163}",
       "DurationType": "Infinite",
       "SwitchContainers": [
        {
@@ -3064,6 +3467,7 @@
          "GroupType": "Switch",
          "GroupId": "2051106367",
          "Id": "712161704",
+         "GUID": "{EA7C6930-8566-467A-AAC4-356489DF7D43}",
          "Default": "true"
         },
         "Children": [
@@ -3071,7 +3475,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "1216965916"
+           "Id": "1216965916",
+           "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
           },
           "MediaRefs": [
            {
@@ -3103,6 +3508,7 @@
            "GroupType": "Switch",
            "GroupId": "3260060478",
            "Id": "4248645337",
+           "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -3131,7 +3537,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "2195636714"
+           "Id": "2195636714",
+           "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
           },
           "MediaRefs": [
            {
@@ -3167,14 +3574,16 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "2051106367",
-         "Id": "3115216662"
+         "Id": "3115216662",
+         "GUID": "{CE6F3E8C-2A66-4676-A822-900680365A4E}"
         },
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "1216965916"
+           "Id": "1216965916",
+           "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
           },
           "MediaRefs": [
            {
@@ -3209,6 +3618,7 @@
            "GroupType": "Switch",
            "GroupId": "3260060478",
            "Id": "4248645337",
+           "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -3243,7 +3653,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "2195636714"
+           "Id": "2195636714",
+           "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
           },
           "MediaRefs": [
            {
@@ -3276,14 +3687,16 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "2051106367",
-         "Id": "2108779966"
+         "Id": "2108779966",
+         "GUID": "{813D96E2-B1B8-409C-ACB3-BBFA220BF95D}"
         },
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "1216965916"
+           "Id": "1216965916",
+           "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
           },
           "MediaRefs": [
            {
@@ -3318,6 +3731,7 @@
            "GroupType": "Switch",
            "GroupId": "3260060478",
            "Id": "4248645337",
+           "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -3352,7 +3766,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "2195636714"
+           "Id": "2195636714",
+           "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
           },
           "MediaRefs": [
            {
@@ -3386,6 +3801,8 @@
      {
       "Id": "562256996",
       "Name": "PLAY_PLAYER_JUMP",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_JUMP\\PLAY_PLAYER_JUMP",
+      "GUID": "{7C5EB705-6488-409A-94BA-22F0D94AC7AB}",
       "DurationType": "OneShot",
       "DurationMin": "0.25502303",
       "DurationMax": "0.92703027",
@@ -3394,7 +3811,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "1216965916"
+         "Id": "1216965916",
+         "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
         },
         "MediaRefs": [
          {
@@ -3419,6 +3837,7 @@
          "GroupType": "Switch",
          "GroupId": "3260060478",
          "Id": "4248645337",
+         "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}",
          "Default": "true"
         },
         "MediaRefs": [
@@ -3443,7 +3862,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "2195636714"
+         "Id": "2195636714",
+         "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
         },
         "MediaRefs": [
          {
@@ -3465,6 +3885,8 @@
      {
       "Id": "4249207015",
       "Name": "PLAY_PLAYER_LAND",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_LAND\\PLAY_PLAYER_LAND",
+      "GUID": "{4A6566E7-F6F4-4687-B68A-D5BEBA5721A3}",
       "DurationType": "OneShot",
       "DurationMin": "0.38397917",
       "DurationMax": "2.016401",
@@ -3474,6 +3896,7 @@
          "GroupType": "Switch",
          "GroupId": "2054088970",
          "Id": "3936714913",
+         "GUID": "{55086A10-7959-452F-9767-C28CC1EBF297}",
          "Default": "true"
         },
         "Children": [
@@ -3481,7 +3904,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "1216965916"
+           "Id": "1216965916",
+           "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
           },
           "MediaRefs": [
            {
@@ -3494,6 +3918,7 @@
            "GroupType": "Switch",
            "GroupId": "3260060478",
            "Id": "4248645337",
+           "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -3506,7 +3931,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "2195636714"
+           "Id": "2195636714",
+           "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
           },
           "MediaRefs": [
            {
@@ -3520,14 +3946,16 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "2054088970",
-         "Id": "3946497219"
+         "Id": "3946497219",
+         "GUID": "{588AD144-1C14-4E33-BCAF-546EEF5BB32B}"
         },
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "1216965916"
+           "Id": "1216965916",
+           "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
           },
           "MediaRefs": [
            {
@@ -3540,6 +3968,7 @@
            "GroupType": "Switch",
            "GroupId": "3260060478",
            "Id": "4248645337",
+           "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -3552,7 +3981,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "2195636714"
+           "Id": "2195636714",
+           "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
           },
           "MediaRefs": [
            {
@@ -3566,14 +3996,16 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "2054088970",
-         "Id": "3857355556"
+         "Id": "3857355556",
+         "GUID": "{461FD7FB-F57C-4188-BFAA-75FEDBBE6881}"
         },
         "Children": [
          {
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "1216965916"
+           "Id": "1216965916",
+           "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
           },
           "MediaRefs": [
            {
@@ -3586,6 +4018,7 @@
            "GroupType": "Switch",
            "GroupId": "3260060478",
            "Id": "4248645337",
+           "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}",
            "Default": "true"
           },
           "MediaRefs": [
@@ -3598,7 +4031,8 @@
           "SwitchValue": {
            "GroupType": "Switch",
            "GroupId": "3260060478",
-           "Id": "2195636714"
+           "Id": "2195636714",
+           "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
           },
           "MediaRefs": [
            {
@@ -3613,13 +4047,16 @@
      {
       "Id": "2938653347",
       "Name": "PLAY_PLAYER_WALLSLIDE",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_WALLSLIDE\\PLAY_PLAYER_WALLSLIDE",
+      "GUID": "{1A335365-C1B2-4F9B-A15A-F91A42DF8465}",
       "DurationType": "Infinite",
       "SwitchContainers": [
        {
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "1216965916"
+         "Id": "1216965916",
+         "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
         },
         "MediaRefs": [
          {
@@ -3631,7 +4068,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "4248645337"
+         "Id": "4248645337",
+         "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"
         },
         "MediaRefs": [
          {
@@ -3643,7 +4081,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "2195636714"
+         "Id": "2195636714",
+         "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
         },
         "MediaRefs": [
          {
@@ -3656,6 +4095,8 @@
      {
       "Id": "2197273061",
       "Name": "PLAY_PLAYER_WALLSLIDE_END",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_WALLSLIDE\\PLAY_PLAYER_WALLSLIDE_END",
+      "GUID": "{3FAE7A28-6252-479A-90EE-1FC4A5D1DADD}",
       "DurationType": "OneShot",
       "DurationMin": "0.50153154",
       "DurationMax": "0.97556686",
@@ -3664,7 +4105,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "1216965916"
+         "Id": "1216965916",
+         "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
         },
         "MediaRefs": [
          {
@@ -3682,7 +4124,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "4248645337"
+         "Id": "4248645337",
+         "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"
         },
         "MediaRefs": [
          {
@@ -3700,7 +4143,8 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "3260060478",
-         "Id": "2195636714"
+         "Id": "2195636714",
+         "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
         },
         "MediaRefs": [
          {
@@ -3719,6 +4163,8 @@
      {
       "Id": "1955951874",
       "Name": "PLAY_TESTBEEP",
+      "ObjectPath": "\\Events\\TEST_EVENTS\\PLAY_TESTBEEP",
+      "GUID": "{83A84DB2-88F9-41F2-AF2D-62FE91CCD987}",
       "DurationType": "OneShot",
       "DurationMin": "0.12770975",
       "DurationMax": "0.12770975",
@@ -3731,6 +4177,8 @@
      {
       "Id": "1681067324",
       "Name": "PLAY_TESTBEEP_3D",
+      "ObjectPath": "\\Events\\TEST_EVENTS\\PLAY_TESTBEEP_3D",
+      "GUID": "{3367EDBF-B14C-4784-BAB6-7861C03F7A49}",
       "MaxAttenuation": "50",
       "DurationType": "OneShot",
       "DurationMin": "0.12770975",
@@ -3744,6 +4192,8 @@
      {
       "Id": "523232931",
       "Name": "PLAY_TESTBEEP_LOOP",
+      "ObjectPath": "\\Events\\TEST_EVENTS\\PLAY_TESTBEEP_LOOP",
+      "GUID": "{0E3AD8E0-F445-4768-9EB9-3F9BBE7FB714}",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3754,6 +4204,8 @@
      {
       "Id": "3475882615",
       "Name": "PLAY_TESTBEEP_LOOP_3D",
+      "ObjectPath": "\\Events\\TEST_EVENTS\\PLAY_TESTBEEP_LOOP_3D",
+      "GUID": "{9853FABF-8106-4E3C-9E63-6143627C28AA}",
       "MaxAttenuation": "50",
       "DurationType": "Infinite",
       "MediaRefs": [
@@ -3765,6 +4217,8 @@
      {
       "Id": "2142929832",
       "Name": "PLAY_THUNDER_1",
+      "ObjectPath": "\\Events\\AMBIENCE\\ONESHOTS\\PLAY_THUNDER_1",
+      "GUID": "{1414E2FF-55B5-4C66-B449-5286AC09916C}",
       "DurationType": "OneShot",
       "DurationMin": "6.552604",
       "DurationMax": "6.552604",
@@ -3777,6 +4231,8 @@
      {
       "Id": "2142929835",
       "Name": "PLAY_THUNDER_2",
+      "ObjectPath": "\\Events\\AMBIENCE\\ONESHOTS\\PLAY_THUNDER_2",
+      "GUID": "{0031CCB7-582D-4AD5-8CF0-6AD1BC9A3675}",
       "DurationType": "OneShot",
       "DurationMin": "2.928125",
       "DurationMax": "2.928125",
@@ -3789,6 +4245,8 @@
      {
       "Id": "2142929834",
       "Name": "PLAY_THUNDER_3",
+      "ObjectPath": "\\Events\\AMBIENCE\\ONESHOTS\\PLAY_THUNDER_3",
+      "GUID": "{19032860-62CA-4011-979A-2A4C2545BAE2}",
       "DurationType": "OneShot",
       "DurationMin": "11.715333",
       "DurationMax": "11.715333",
@@ -3801,6 +4259,8 @@
      {
       "Id": "3704528693",
       "Name": "PLAY_TIMEWARP_TICK",
+      "ObjectPath": "\\Events\\POTENTIATES\\TIMEWARP\\PLAY_TIMEWARP_TICK",
+      "GUID": "{9E94FAAC-73AA-49ED-B420-D023F68B9BFC}",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -3811,6 +4271,8 @@
      {
       "Id": "1352870076",
       "Name": "PLAY_UI_BUTTON_ENTER",
+      "ObjectPath": "\\Events\\UI\\UI_BUTTON\\PLAY_UI_BUTTON_ENTER",
+      "GUID": "{A03CEEE2-D87B-46AB-A373-7BCE5AA83790}",
       "DurationType": "OneShot",
       "DurationMin": "0.6573125",
       "DurationMax": "0.8281619",
@@ -3823,6 +4285,8 @@
      {
       "Id": "2891287198",
       "Name": "PLAY_UI_BUTTON_EXIT",
+      "ObjectPath": "\\Events\\UI\\UI_BUTTON\\PLAY_UI_BUTTON_EXIT",
+      "GUID": "{735393C0-2E8E-4BC0-804E-AEDFBDCF411F}",
       "DurationType": "OneShot",
       "DurationMin": "1.1139421",
       "DurationMax": "1.4034792",
@@ -3835,6 +4299,8 @@
      {
       "Id": "4245379566",
       "Name": "PLAY_UI_BUTTON_GENERAL",
+      "ObjectPath": "\\Events\\UI\\UI_BUTTON\\PLAY_UI_BUTTON_GENERAL",
+      "GUID": "{01CF6619-A451-4229-A1AE-AE1010C1DF84}",
       "DurationType": "OneShot",
       "DurationMin": "1.0683546",
       "DurationMax": "1.3460425",
@@ -3847,6 +4313,8 @@
      {
       "Id": "578422583",
       "Name": "PLAY_UI_BUTTON_RESET",
+      "ObjectPath": "\\Events\\UI\\UI_BUTTON\\PLAY_UI_BUTTON_RESET",
+      "GUID": "{D60AB668-3771-4700-883E-B9AB8E4AB295}",
       "DurationType": "OneShot",
       "DurationMin": "0.6664665",
       "DurationMax": "0.83969516",
@@ -3859,6 +4327,8 @@
      {
       "Id": "2669659209",
       "Name": "PLAY_UI_NAVIGATION",
+      "ObjectPath": "\\Events\\UI\\UI_NAVIGATION\\PLAY_UI_NAVIGATION",
+      "GUID": "{72191F98-747E-4FE1-A88A-DD3EE8AC191F}",
       "DurationType": "OneShot",
       "DurationMin": "0.46950608",
       "DurationMax": "0.49742436",
@@ -3871,6 +4341,8 @@
      {
       "Id": "2007211132",
       "Name": "PLAY_UI_SLIDER",
+      "ObjectPath": "\\Events\\UI\\UI_SLIDER\\PLAY_UI_SLIDER",
+      "GUID": "{50A4573B-EB82-4FFB-AFBF-780B20C22ECC}",
       "DurationType": "OneShot",
       "DurationMin": "0.15166017",
       "DurationMax": "0.16067836",
@@ -3883,6 +4355,8 @@
      {
       "Id": "3797685809",
       "Name": "PLAY_UI_TOGGLE_OFF",
+      "ObjectPath": "\\Events\\UI\\UI_TOGGLE\\PLAY_UI_TOGGLE_OFF",
+      "GUID": "{89D3AB26-5801-42C7-B76B-369AB1D34CA6}",
       "DurationType": "OneShot",
       "DurationMin": "0.6437857",
       "DurationMax": "0.81111914",
@@ -3895,6 +4369,8 @@
      {
       "Id": "599040677",
       "Name": "PLAY_UI_TOGGLE_ON",
+      "ObjectPath": "\\Events\\UI\\UI_TOGGLE\\PLAY_UI_TOGGLE_ON",
+      "GUID": "{39A299AD-1A52-4051-BB90-1D27989EBBBB}",
       "DurationType": "OneShot",
       "DurationMin": "1.0559562",
       "DurationMax": "1.3304214",
@@ -3907,6 +4383,8 @@
      {
       "Id": "2940177080",
       "Name": "RESUME_MUSIC",
+      "ObjectPath": "\\Events\\MUSIC\\RESUME_MUSIC",
+      "GUID": "{89B20F5B-1EEC-44CF-A09A-641D2410EFE0}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3915,6 +4393,8 @@
      {
       "Id": "1773902918",
       "Name": "STOP_AMBIENCE2D_MAIN",
+      "ObjectPath": "\\Events\\AMBIENCE\\STOP_AMBIENCE2D_MAIN",
+      "GUID": "{7501CC83-4B0E-4BD7-8C27-C9D0C2384002}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3923,6 +4403,8 @@
      {
       "Id": "3275901679",
       "Name": "STOP_AMBIENCEBED_MAIN",
+      "ObjectPath": "\\Events\\AMBIENCE\\STOP_AMBIENCEBED_MAIN",
+      "GUID": "{185138E2-E669-4B50-81AD-DEE80E19C142}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3931,6 +4413,8 @@
      {
       "Id": "3067235291",
       "Name": "STOP_FIREFLIES_MAGIC",
+      "ObjectPath": "\\Events\\FIREFLIES\\STOP_FIREFLIES_MAGIC",
+      "GUID": "{9E83F3C3-86AF-4960-B10D-BB2E2C373BF1}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3939,6 +4423,8 @@
      {
       "Id": "2837384057",
       "Name": "STOP_MUSIC",
+      "ObjectPath": "\\Events\\MUSIC\\STOP_MUSIC",
+      "GUID": "{BA47C465-B1CC-46C4-867F-6F0C5FB563E7}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3947,6 +4433,8 @@
      {
       "Id": "3680109729",
       "Name": "STOP_PLAYER_FALL",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_FALL\\STOP_PLAYER_FALL",
+      "GUID": "{18A1DF86-67C3-4AF0-8FEE-28B1F8780307}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3955,6 +4443,8 @@
      {
       "Id": "2961941791",
       "Name": "STOP_PLAYER_IMPACTS",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_LOCOMOTION\\STOP_PLAYER_IMPACTS",
+      "GUID": "{8422C3EC-D4FF-439D-B451-DC71DD92D880}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3963,6 +4453,8 @@
      {
       "Id": "3996749609",
       "Name": "STOP_PLAYER_WALLSLIDE",
+      "ObjectPath": "\\Events\\PLAYER\\PLAYER_WALLSLIDE\\STOP_PLAYER_WALLSLIDE",
+      "GUID": "{9C99620B-250E-4541-9EB3-095AF7FE3E0F}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3971,6 +4463,8 @@
      {
       "Id": "2989390457",
       "Name": "STOP_TESTBEEP_LOOP",
+      "ObjectPath": "\\Events\\TEST_EVENTS\\STOP_TESTBEEP_LOOP",
+      "GUID": "{003F5C4E-984B-4616-8543-188C59528844}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3979,6 +4473,8 @@
      {
       "Id": "304008745",
       "Name": "STOP_TESTBEEP_LOOP_3D",
+      "ObjectPath": "\\Events\\TEST_EVENTS\\STOP_TESTBEEP_LOOP_3D",
+      "GUID": "{8469DCAF-CCA8-4B23-8907-29CAB62900FA}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3987,6 +4483,8 @@
      {
       "Id": "1365342371",
       "Name": "STOP_TIMEWARP_TICK",
+      "ObjectPath": "\\Events\\POTENTIATES\\TIMEWARP\\STOP_TIMEWARP_TICK",
+      "GUID": "{1916D116-5AF9-49ED-94C7-31C1E12242B7}",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -3996,113 +4494,163 @@
     "GameParameters": [
      {
       "Id": "482870237",
-      "Name": "RTPC_LOTUSDISTANCE"
+      "Name": "RTPC_LOTUSDISTANCE",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_LOTUSDISTANCE",
+      "GUID": "{F7DC75C8-AE58-4101-90FD-59EF016568FE}"
      },
      {
       "Id": "2290256636",
-      "Name": "RTPC_PLAYERFALLSPEED"
+      "Name": "RTPC_PLAYERFALLSPEED",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_PLAYERFALLSPEED",
+      "GUID": "{E3CE08EC-41D3-4C6F-B310-7826E821DA86}"
      },
      {
       "Id": "2653406601",
-      "Name": "RTPC_PLAYERSPEED"
+      "Name": "RTPC_PLAYERSPEED",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_PLAYERSPEED",
+      "GUID": "{0A3B4CA3-C574-423D-8CC0-D680EF6A0E75}"
      }
     ],
     "StateGroups": [
      {
       "Id": "140949108",
       "Name": "STATES_CINEMATICS",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_CINEMATICS",
+      "GUID": "{B6753892-C1F9-43A5-9C26-CAD425A37493}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_CINEMATICS\\None",
+        "GUID": "{CACCBA0D-7E07-42B5-8637-2D12A2DD1702}"
        },
        {
         "Id": "1240403123",
-        "Name": "STATE_INTRO"
+        "Name": "STATE_INTRO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_CINEMATICS\\STATE_INTRO",
+        "GUID": "{4B847F2A-3246-4146-9BBC-531E025C1F7E}"
        }
       ]
      },
      {
       "Id": "708499520",
       "Name": "STATES_GAME",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME",
+      "GUID": "{D5E43FC6-43EC-4C20-B195-0C524C7AB21A}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\None",
+        "GUID": "{302CEB88-32D6-4FA2-8F06-B38958038C0E}"
        },
        {
         "Id": "1631528850",
-        "Name": "IN_MENU"
+        "Name": "IN_MENU",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\IN_MENU",
+        "GUID": "{206FBDD7-D971-4F2D-80C3-65C74D62F355}"
        },
        {
         "Id": "2967546505",
-        "Name": "IN_GAME"
+        "Name": "IN_GAME",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\IN_GAME",
+        "GUID": "{E767F48B-6633-40A3-942F-EB186BB23D21}"
        },
        {
         "Id": "3724487062",
-        "Name": "IN_CINEMATIC"
+        "Name": "IN_CINEMATIC",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_GAME\\IN_CINEMATIC",
+        "GUID": "{D0CE34E1-2C54-483F-A434-B43A5276EC8C}"
        }
       ]
      },
      {
       "Id": "1161428141",
       "Name": "STATES_AREA",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA",
+      "GUID": "{D280762A-C805-46E2-BF41-ABB4105E0034}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA\\None",
+        "GUID": "{E9167E28-20D5-46D3-A80F-880793B44E35}"
        },
        {
         "Id": "3843590704",
-        "Name": "STATE_CAVE"
+        "Name": "STATE_CAVE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA\\STATE_CAVE",
+        "GUID": "{A61906DC-68A6-4A27-9EFD-9915C1BE43A4}"
        },
        {
         "Id": "4216640728",
-        "Name": "STATE_FOREST"
+        "Name": "STATE_FOREST",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_AREA\\STATE_FOREST",
+        "GUID": "{58DC37AF-5AFF-4048-8A31-81FC4209378A}"
        }
       ]
      },
      {
       "Id": "1606666624",
       "Name": "STATES_FOREST_P1_CUES",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES",
+      "GUID": "{7438170C-920A-4E76-BBBD-66B994F04B57}",
       "States": [
        {
         "Id": "374353676",
-        "Name": "STATES_FOREST_THREE"
+        "Name": "STATES_FOREST_THREE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\STATES_FOREST_THREE",
+        "GUID": "{42873458-2EF5-4510-AF30-DFDF168D9EE7}"
        },
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\None",
+        "GUID": "{F1F649CC-CB3E-4EAE-9E19-5E696983F236}"
        },
        {
         "Id": "3477480738",
-        "Name": "STATES_FOREST_TWO"
+        "Name": "STATES_FOREST_TWO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\STATES_FOREST_TWO",
+        "GUID": "{B4938A49-34DA-4F79-9ECA-FE0D8AD78630}"
        },
        {
         "Id": "3625080944",
-        "Name": "STATES_FOREST_ONE"
+        "Name": "STATES_FOREST_ONE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_FOREST_P1_CUES\\STATES_FOREST_ONE",
+        "GUID": "{B442B2E5-B7FE-402F-BD5F-4BB74F627FF5}"
        }
       ]
      },
      {
       "Id": "1702361322",
       "Name": "STATES_PHASES",
+      "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES",
+      "GUID": "{5422FF44-E9C8-45DF-B284-929966E5B24C}",
       "States": [
        {
         "Id": "748895195",
-        "Name": "None"
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\None",
+        "GUID": "{EC12BD7D-9CEE-4E70-A885-75B20C751C10}"
        },
        {
         "Id": "1240403123",
-        "Name": "STATE_INTRO"
+        "Name": "STATE_INTRO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\STATE_INTRO",
+        "GUID": "{38604D77-E177-48E3-9754-07C4228D6236}"
        },
        {
         "Id": "3548780380",
-        "Name": "STATE_PHASEONE"
+        "Name": "STATE_PHASEONE",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\STATE_PHASEONE",
+        "GUID": "{26024E43-9A34-44D0-A103-ABC1C10F559F}"
        },
        {
         "Id": "3930281454",
-        "Name": "STATE_PHASETWO"
+        "Name": "STATE_PHASETWO",
+        "ObjectPath": "\\States\\Default Work Unit\\STATES_PHASES\\STATE_PHASETWO",
+        "GUID": "{430DE243-D4AF-44EC-B772-0F2AA5EC8A02}"
        }
       ]
      }
@@ -4111,158 +4659,222 @@
      {
       "Id": "174011288",
       "Name": "FIREFLIESSWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\FIREFLIESSWITCH",
+      "GUID": "{16BA02A5-2FB4-47DA-B51C-B50A133C537B}",
       "Switches": [
        {
         "Id": "1126065684",
-        "Name": "FIREFLIES"
+        "Name": "FIREFLIES",
+        "ObjectPath": "\\Switches\\Ambience Switches\\FIREFLIESSWITCH\\FIREFLIES",
+        "GUID": "{8E4FBD75-25C4-4E24-AA74-2F7D9DD32EEE}"
        },
        {
         "Id": "3696588959",
-        "Name": "NOFIREFLIES"
+        "Name": "NOFIREFLIES",
+        "ObjectPath": "\\Switches\\Ambience Switches\\FIREFLIESSWITCH\\NOFIREFLIES",
+        "GUID": "{03B46B83-ABCD-432D-90EC-A51D9EC5E20F}"
        }
       ]
      },
      {
       "Id": "197954834",
       "Name": "WETNESSSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\WETNESSSWITCH",
+      "GUID": "{C31FB6AD-5A82-42EE-A76C-CCDD2F373D6A}",
       "Switches": [
        {
         "Id": "630539344",
-        "Name": "DRY"
+        "Name": "DRY",
+        "ObjectPath": "\\Switches\\Default Work Unit\\WETNESSSWITCH\\DRY",
+        "GUID": "{1F98DEDB-6D30-45C1-B6A4-A0BF5825FB5B}"
        },
        {
         "Id": "1181096339",
-        "Name": "WET"
+        "Name": "WET",
+        "ObjectPath": "\\Switches\\Default Work Unit\\WETNESSSWITCH\\WET",
+        "GUID": "{D33EA3AA-FD94-494C-ACCA-3B6F6F7FAEE6}"
        }
       ]
      },
      {
       "Id": "1097908491",
       "Name": "AMBIENCEBIOMESWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH",
+      "GUID": "{60A99DC1-F455-429C-9506-4AFCDEE27EF8}",
       "Switches": [
        {
         "Id": "491961918",
-        "Name": "FOREST"
+        "Name": "FOREST",
+        "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH\\FOREST",
+        "GUID": "{ECDB9F31-BF5E-40C3-9D6A-D87ABE8A046D}"
        },
        {
         "Id": "611348932",
-        "Name": "SKY"
+        "Name": "SKY",
+        "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH\\SKY",
+        "GUID": "{DCC59DCE-D4C0-4899-9F54-2326AECB01C5}"
        },
        {
         "Id": "4122393694",
-        "Name": "CAVE"
+        "Name": "CAVE",
+        "ObjectPath": "\\Switches\\Ambience Switches\\AMBIENCEBIOMESWITCH\\CAVE",
+        "GUID": "{C5E520D5-792B-4A0E-B15F-864D89565062}"
        }
       ]
      },
      {
       "Id": "1426187460",
       "Name": "MUSHROOMGROUNDMATSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH",
+      "GUID": "{1DE9E77F-B956-4A75-9C88-F1C2C2DEEE5D}",
       "Switches": [
        {
         "Id": "1216965916",
-        "Name": "STONE"
+        "Name": "STONE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH\\STONE",
+        "GUID": "{FE47F7BE-5068-4364-B687-67875982FF4D}"
        },
        {
         "Id": "2195636714",
-        "Name": "DIRT"
+        "Name": "DIRT",
+        "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH\\DIRT",
+        "GUID": "{855F7780-7D3D-4788-A94B-EB5D2321204E}"
        },
        {
         "Id": "4248645337",
-        "Name": "GRASS"
+        "Name": "GRASS",
+        "ObjectPath": "\\Switches\\Default Work Unit\\MUSHROOMGROUNDMATSWITCH\\GRASS",
+        "GUID": "{E5FD6F15-50F5-4AA2-97FC-098927275C71}"
        }
       ]
      },
      {
       "Id": "1582413998",
       "Name": "LOTUSSWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\LOTUSSWITCH",
+      "GUID": "{4362CA85-3D56-45E4-85B7-B34695004A59}",
       "Switches": [
        {
         "Id": "137712726",
-        "Name": "LOTUS"
+        "Name": "LOTUS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LOTUSSWITCH\\LOTUS",
+        "GUID": "{45A86A50-9E15-4F4C-B7EC-AB1F74D96519}"
        },
        {
         "Id": "2031016961",
-        "Name": "NOLOTUS"
+        "Name": "NOLOTUS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LOTUSSWITCH\\NOLOTUS",
+        "GUID": "{6B76815F-1E63-4F65-A979-103E0FB67D80}"
        }
       ]
      },
      {
       "Id": "2051106367",
       "Name": "PLAYERSPEEDSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH",
+      "GUID": "{EDEFC7E6-3D41-42D5-AD6C-F7C27C6D6D67}",
       "GameParameterRef": {
        "Id": "2653406601"
       },
       "Switches": [
        {
         "Id": "712161704",
-        "Name": "RUN"
+        "Name": "RUN",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH\\RUN",
+        "GUID": "{EA7C6930-8566-467A-AAC4-356489DF7D43}"
        },
        {
         "Id": "2108779966",
-        "Name": "WALK"
+        "Name": "WALK",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH\\WALK",
+        "GUID": "{813D96E2-B1B8-409C-ACB3-BBFA220BF95D}"
        },
        {
         "Id": "3115216662",
-        "Name": "CRAWL"
+        "Name": "CRAWL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERSPEEDSWITCH\\CRAWL",
+        "GUID": "{CE6F3E8C-2A66-4676-A822-900680365A4E}"
        }
       ]
      },
      {
       "Id": "2054088970",
       "Name": "PLAYERFALLSPEEDSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH",
+      "GUID": "{E62C8679-B3AA-461E-A46E-FE5DAD0894E5}",
       "GameParameterRef": {
        "Id": "2290256636"
       },
       "Switches": [
        {
         "Id": "3857355556",
-        "Name": "FASTFALL"
+        "Name": "FASTFALL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH\\FASTFALL",
+        "GUID": "{461FD7FB-F57C-4188-BFAA-75FEDBBE6881}"
        },
        {
         "Id": "3936714913",
-        "Name": "SLOWFALL"
+        "Name": "SLOWFALL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH\\SLOWFALL",
+        "GUID": "{55086A10-7959-452F-9767-C28CC1EBF297}"
        },
        {
         "Id": "3946497219",
-        "Name": "MEDIUMFALL"
+        "Name": "MEDIUMFALL",
+        "ObjectPath": "\\Switches\\Default Work Unit\\PLAYERFALLSPEEDSWITCH\\MEDIUMFALL",
+        "GUID": "{588AD144-1C14-4E33-BCAF-546EEF5BB32B}"
        }
       ]
      },
      {
       "Id": "2139255308",
       "Name": "LANTERNAREASWITCH",
+      "ObjectPath": "\\Switches\\Ambience Switches\\LANTERNAREASWITCH",
+      "GUID": "{39D3E30F-7516-4D69-A1BF-084A7A1CE641}",
       "Switches": [
        {
         "Id": "135296687",
-        "Name": "NOLANTERNS"
+        "Name": "NOLANTERNS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LANTERNAREASWITCH\\NOLANTERNS",
+        "GUID": "{222DA3E4-8907-4DB6-BE79-DEDEA58BB1AC}"
        },
        {
         "Id": "1333297618",
-        "Name": "LANTERNS"
+        "Name": "LANTERNS",
+        "ObjectPath": "\\Switches\\Ambience Switches\\LANTERNAREASWITCH\\LANTERNS",
+        "GUID": "{E360FFD1-1AFD-493C-B844-93532B06AB34}"
        }
       ]
      },
      {
       "Id": "3260060478",
       "Name": "GROUNDMATSWITCH",
+      "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH",
+      "GUID": "{D27FD05C-8199-471B-BB6C-C34996E40AAB}",
       "Switches": [
        {
         "Id": "1216965916",
-        "Name": "STONE"
+        "Name": "STONE",
+        "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH\\STONE",
+        "GUID": "{42A4D538-702F-410F-9F68-41DF4E8055B2}"
        },
        {
         "Id": "2195636714",
-        "Name": "DIRT"
+        "Name": "DIRT",
+        "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH\\DIRT",
+        "GUID": "{01370578-06CA-400C-8487-843841E77CBE}"
        },
        {
         "Id": "4248645337",
-        "Name": "GRASS"
+        "Name": "GRASS",
+        "ObjectPath": "\\Switches\\Default Work Unit\\GROUNDMATSWITCH\\GRASS",
+        "GUID": "{42FCEB43-CB66-4EE1-9D4B-C6EA4F37CE56}"
        }
       ]
      }
     ]
    }
   ],
-  "FileHash": "{7226BB01-2681-FB01-B8B5-149559B49A81}"
+  "FileHash": "{1F3492C5-4F46-13E0-E685-4BC41F8ED330}"
  }
 }

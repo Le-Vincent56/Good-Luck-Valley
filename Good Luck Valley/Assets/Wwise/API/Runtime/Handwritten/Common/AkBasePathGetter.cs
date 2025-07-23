@@ -13,10 +13,12 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
+using System.IO;
 using System.Text.RegularExpressions;
+using UnityEditor;
 
 /// <summary>
 ///     This class is responsible for determining the path where sound banks are located. When using custom platforms, this
@@ -75,7 +77,7 @@ public partial class AkBasePathGetter
 		if (!string.IsNullOrEmpty(platformBasePathEditor))
 			return platformBasePathEditor;
 
-		var fullBasePath = AkWwiseEditorSettings.Instance.SoundbankPath;
+		var fullBasePath = AkWwiseEditorSettings.Instance.WwiseStreamingAssetsPath;
 #else
 		var fullBasePath = string.Empty;
 #endif
@@ -83,20 +85,7 @@ public partial class AkBasePathGetter
 		if (string.IsNullOrEmpty(fullBasePath))
 			fullBasePath = AkWwiseInitializationSettings.ActivePlatformSettings.SoundbankPath;
 
-#if !UNITY_EDITOR && UNITY_WEBGL
-		fullBasePath = System.IO.Path.Combine(UnityEngine.Application.persistentDataPath, fullBasePath);
-#elif UNITY_EDITOR || !UNITY_ANDROID
-		fullBasePath = System.IO.Path.Combine(UnityEngine.Application.streamingAssetsPath, fullBasePath);
-#endif
-
-#if UNITY_SWITCH
-		if (fullBasePath.StartsWith("/"))
-			fullBasePath = fullBasePath.Substring(1);
-#endif
-
-#if UNITY_OPENHARMONY
-		fullBasePath = fullBasePath.Substring(fullBasePath.IndexOf("Data"));
-#endif
+		AdjustFullBasePathForPlatform(ref fullBasePath);
 
 		// Combine base path with platform sub-folder
 		var platformBasePath = System.IO.Path.Combine(fullBasePath, platformName);
@@ -135,24 +124,9 @@ public partial class AkBasePathGetter
 	/// <returns>The absolute sound bank base path.</returns>
 	public static string GetFullSoundBankPathEditor()
 	{
-		string fullBasePath = System.IO.Path.Combine(UnityEngine.Application.streamingAssetsPath, AkWwiseEditorSettings.Instance.SoundbankPath);
+		string fullBasePath = System.IO.Path.Combine(UnityEngine.Application.streamingAssetsPath, AkWwiseEditorSettings.Instance.WwiseStreamingAssetsPath);
 		AkUtilities.FixSlashes(ref fullBasePath);
 		return fullBasePath;
-	}
-	
-	public static string GetWwiseRootOutputPath(string wwiseAbsolutePath = "")
-	{
-		string wwiseRootOuputPath = AkUtilities.GetRootOutputPath(wwiseAbsolutePath == "" ? AkWwiseEditorSettings.WwiseProjectAbsolutePath : wwiseAbsolutePath);
-#if UNITY_EDITOR_OSX
-		wwiseRootOuputPath = AkUtilities.ParseOsxPathFromWinePath(wwiseRootOuputPath);
-#endif
-		if (System.IO.Path.IsPathRooted(wwiseRootOuputPath))
-		{
-			return wwiseRootOuputPath;
-		}
-		var combinedPath = System.IO.Path.Combine(GetWwiseProjectDirectory(wwiseAbsolutePath), wwiseRootOuputPath);
-		AkUtilities.FixSlashes(ref combinedPath);
-		return combinedPath;
 	}
 
 	public static string GetWwiseProjectPath()
@@ -167,9 +141,14 @@ public partial class AkBasePathGetter
 		return System.IO.Path.GetDirectoryName(projectPath);
 	}
 
-	public static string GetDefaultGeneratedSoundbanksPath()
+	public static string GetDefaultRootOutputPath()
 	{
-		return System.IO.Path.Combine(GetWwiseProjectPath(), "GeneratedSoundBanks");
+		string path = Path.GetDirectoryName(GetWwiseProjectPath());
+		if (path == null)
+		{
+			return null;
+		}
+		return System.IO.Path.Combine(path, "GeneratedSoundBanks");
 	}
 
 	/// <summary>
@@ -246,12 +225,7 @@ public partial class AkBasePathGetter
 
 	public void EvaluateGamePaths()
 	{
-#if UNITY_SWITCH && !UNITY_EDITOR
-		// Calling Application.persistentDataPath crashes Switch
-		string tempPersistentDataPath = null;
-#else
-		string tempPersistentDataPath = UnityEngine.Application.persistentDataPath;
-#endif
+		string tempPersistentDataPath = GetPersistentDataPath();
 
 		PersistentDataPath = tempPersistentDataPath;
 
@@ -269,14 +243,7 @@ public partial class AkBasePathGetter
 			tempSoundBankBasePath = GetPlatformBasePath();
 
 #if !AK_WWISE_ADDRESSABLES //Don't log this if we're using addressables
-#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_OPENHARMONY)
-			// Can't use File.Exists on Android, assume banks are there
-			var InitBnkFound = true;
-#else
-			var InitBnkFound = System.IO.File.Exists(System.IO.Path.Combine(tempSoundBankBasePath, "Init.bnk"));
-#endif
-			
-			if (string.IsNullOrEmpty(tempSoundBankBasePath) || !InitBnkFound)
+			if (string.IsNullOrEmpty(tempSoundBankBasePath) || !InitBankExists(tempSoundBankBasePath))
 			{
 				if (LogWarnings)
 				{
@@ -292,19 +259,7 @@ public partial class AkBasePathGetter
 		}
 
 		SoundBankBasePath = tempSoundBankBasePath;
-
-		string tempDecodedBankFullPath = null;
-
-#if !UNITY_SWITCH || UNITY_EDITOR
-#if (UNITY_ANDROID ||  UNITY_IOS) && !UNITY_EDITOR
-		// This is for platforms that only have a specific file location for persistent data.
-		tempDecodedBankFullPath = System.IO.Path.Combine(tempPersistentDataPath, DecodedBankFolder);
-#else
-		tempDecodedBankFullPath = System.IO.Path.Combine(tempSoundBankBasePath, DecodedBankFolder);
-#endif
-#endif
-
-		DecodedBankFullPath = tempDecodedBankFullPath;
+		DecodedBankFullPath = GetDecodedBankPath();
 	}
 
 	public string SoundBankBasePath { get; private set; }

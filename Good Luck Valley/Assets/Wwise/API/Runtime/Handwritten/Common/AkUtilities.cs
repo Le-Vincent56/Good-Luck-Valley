@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 #if !(UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
@@ -57,6 +57,8 @@ public partial class AkUtilities
 		AkAmbient_v2019_1_0 = 17,
 		NewScriptableObjectFolder_v2019_2_0 = 18,
 		AutoDefinedSoundBanks_v2023_1_0 = 19,
+		RootOutputPath_v2025_1_0 = 20,
+		
 		/// <summary>
 		/// The value that is currently in the Version.txt file.
 		/// </summary>
@@ -93,6 +95,26 @@ public partial class AkUtilities
 	}
 
 	private static int migrationStartIndex = MigrationStopIndex;
+	
+	private static void MigrateRootOutputPath(string WwiseProjectPath)
+	{
+		if (string.IsNullOrEmpty(AkWwiseEditorSettings.Instance.RootOutputPath))
+		{
+			var doc = new System.Xml.XmlDocument { PreserveWhitespace = true };
+			doc.Load(WwiseProjectPath);
+			var Navigator = doc.CreateNavigator();
+
+			// Navigate the wproj file (XML format) to where our setting should be
+			var pathInXml = string.Format("/WwiseDocument/ProjectInfo/Project/PropertyList/Property[@Name='{0}']", "SoundBankHeaderFilePath");
+			var expression = System.Xml.XPath.XPathExpression.Compile(pathInXml);
+			var rootOutputPath = Navigator.SelectSingleNode(expression).GetAttribute("Value", "");
+			rootOutputPath = AkUtilities.GetFullPath(System.IO.Path.GetDirectoryName(WwiseProjectPath), rootOutputPath);
+			rootOutputPath = AkUtilities.MakeRelativePath(UnityEngine.Application.dataPath, rootOutputPath);
+			AkWwiseEditorSettings.Instance.RootOutputPath = rootOutputPath;
+			AkWwiseEditorSettings.Instance.SaveSettings();
+			UnityEngine.Debug.Log($"wwiseunity: MIGRATION: migrating RootOutputPath to {rootOutputPath}");
+		}
+	}
 	#endregion
 
 	private static readonly System.Collections.Generic.Dictionary<string, string> s_ProjectBankPaths =
@@ -167,11 +189,13 @@ public partial class AkUtilities
 		return null;
 	}
 
+	public static bool GeneratingSoundBanks = false;
+
 	// Generate all the SoundBanks for all the supported platforms in the Wwise project. This effectively calls Wwise for the project
 	// that is configured in the UnityWwise integration.
 	public static void GenerateSoundbanks(System.Collections.Generic.List<string> platforms = null)
 	{
-
+		GeneratingSoundBanks = true;
 #if AK_WWISE_ADDRESSABLES && UNITY_ADDRESSABLES
 		AkWwiseEditorSettings.Instance.CheckGeneratedBanksPath();
 #endif
@@ -215,6 +239,11 @@ public partial class AkUtilities
 			}
 		}
 
+		System.Threading.Tasks.Task.Run(() => RunSoundBankGeneration(command, arguments));
+	}
+
+	private static void RunSoundBankGeneration(string command, string arguments)
+	{
 		var output = ExecuteCommandLine(command, arguments);
 		if (output.Contains("Process completed successfully."))
 		{
@@ -228,7 +257,7 @@ public partial class AkUtilities
 		{
 			UnityEngine.Debug.LogErrorFormat("WwiseUnity: SoundBanks generation error:\n{0}", output);
 		}
-
+		GeneratingSoundBanks = false;
 		UnityEditor.AssetDatabase.Refresh();
 	}
 
@@ -362,17 +391,106 @@ public partial class AkUtilities
 		AkWwiseInitializationSettings.Instance.IsAutoBankEnabled = s_AutoBankEnabled;
 	}
 	
-	public static string GetRootOutputPath(string WwiseProjectPath)
+	public static string GetRootOutputPath()
 	{
-		var doc = new System.Xml.XmlDocument { PreserveWhitespace = true };
-		doc.Load(WwiseProjectPath);
-		var Navigator = doc.CreateNavigator();
+		if (AkWwiseEditorSettings.Instance.RootOutputPath == null)
+		{
+			MigrateRootOutputPath(AkUtilities.GetFullPath(UnityEngine.Application.dataPath,AkWwiseEditorSettings.Instance.WwiseProjectPath));
+		}
+		return GetFullPath(UnityEngine.Application.dataPath, AkWwiseEditorSettings.Instance.RootOutputPath);
+	}
+	
+	public static void SetWwiseRootOutputPath(string WwiseProjectPath, string destinationPath)
+	{
+		try
+		{
+			if (WwiseProjectPath.Length == 0)
+			{
+				return;
+			}
 
-		// Navigate the wproj file (XML format) to where our setting should be
-		var pathInXml = string.Format("/WwiseDocument/ProjectInfo/Project/PropertyList/Property[@Name='{0}']", "SoundBankHeaderFilePath");
-		var expression = System.Xml.XPath.XPathExpression.Compile(pathInXml);
-		var rootOutputPath = Navigator.SelectSingleNode(expression).GetAttribute("Value", "");
-		return rootOutputPath;
+			if (!System.IO.File.Exists(WwiseProjectPath))
+			{
+				return;
+			}
+
+			s_ProjectBankPaths.Clear();
+
+			var doc = new System.Xml.XmlDocument();
+			doc.Load(WwiseProjectPath);
+			var Navigator = doc.CreateNavigator();
+
+			// Navigate the wproj file (XML format) to where generated SoundBank paths are stored
+			var it = Navigator.Select("//Property[@Name='SoundBankHeaderFilePath']");
+			foreach (System.Xml.XPath.XPathNavigator node in it)
+			{
+				if (node.MoveToAttribute("Value", ""))
+				{
+					var path = $"{destinationPath}";
+					FixSlashes(ref path);
+					node.SetValue(path);
+				}
+			}
+			doc.Save(WwiseProjectPath);
+		}
+		catch (System.Exception ex)
+		{
+			UnityEngine.Debug.LogError("WwiseUnity: Error while reading project " + WwiseProjectPath + ". Exception: " + ex.Message);
+		}
+	}
+	
+	public static void SetPlatformsSoundBankPath(string WwiseProjectPath, string destinationPath)
+	{
+		try
+		{
+			if (WwiseProjectPath.Length == 0)
+			{
+				return;
+			}
+
+			if (!System.IO.File.Exists(WwiseProjectPath))
+			{
+				return;
+			}
+
+			s_ProjectBankPaths.Clear();
+
+			var doc = new System.Xml.XmlDocument();
+			doc.Load(WwiseProjectPath);
+			var Navigator = doc.CreateNavigator();
+
+			// Gather the mapping of Custom platform to Base platform
+			var itpf = Navigator.Select("//Platform");
+			s_BaseToCustomPF.Clear();
+			foreach (System.Xml.XPath.XPathNavigator node in itpf)
+			{
+				System.Collections.Generic.List<string> customList = null;
+				var basePF = node.GetAttribute("ReferencePlatform", "");
+				if (!s_BaseToCustomPF.TryGetValue(basePF, out customList))
+				{
+					customList = new System.Collections.Generic.List<string>();
+					s_BaseToCustomPF[basePF] = customList;
+				}
+
+				customList.Add(node.GetAttribute("Name", ""));
+			}
+
+			// Navigate the wproj file (XML format) to where generated SoundBank paths are stored
+			var it = Navigator.Select("//Property[@Name='SoundBankPaths']/ValueList/Value");
+			foreach (System.Xml.XPath.XPathNavigator node in it)
+			{
+				var pf = node.GetAttribute("Platform", "");
+				var path = $"{destinationPath}/{pf}";
+				FixSlashes(ref path);
+				node.SetValue(path);
+				s_ProjectBankPaths[pf] = path;
+			}
+			doc.Save(WwiseProjectPath);
+		}
+		catch (System.Exception ex)
+		{
+			UnityEngine.Debug.LogError("WwiseUnity: Error while reading project " + WwiseProjectPath + ". Exception: " + ex.Message);
+		}
 	}
 
 	public static void SetSoundbanksDestinationFoldersInWproj(string WwiseProjectPath, string destinationPath)
@@ -430,6 +548,44 @@ public partial class AkUtilities
 					FixSlashes(ref path);
 					node.SetValue(path);
 				}
+			}
+			doc.Save(WwiseProjectPath);
+		}
+		catch (System.Exception ex)
+		{
+			UnityEngine.Debug.LogError("WwiseUnity: Error while reading project " + WwiseProjectPath + ". Exception: " + ex.Message);
+		}
+	}
+	
+	public static void SetExternalSourceDestinationFolderInWproj(string WwiseProjectPath, string destinationPath)
+	{
+		try
+		{
+			if (WwiseProjectPath.Length == 0)
+			{
+				return;
+			}
+
+			if (!System.IO.File.Exists(WwiseProjectPath))
+			{
+				return;
+			}
+
+			s_ProjectBankPaths.Clear();
+
+			var doc = new System.Xml.XmlDocument();
+			doc.Load(WwiseProjectPath);
+			var navigator = doc.CreateNavigator();
+
+			// Navigate the wproj file (XML format) to where generated SoundBank paths are stored
+			var it = navigator.Select("//Property[@Name='ExternalSourcesOutputPath']/ValueList/Value");
+			foreach (System.Xml.XPath.XPathNavigator node in it)
+			{
+				var pf = node.GetAttribute("Platform", "");
+				var path = $"{destinationPath}/{pf}";
+				FixSlashes(ref path);
+				node.SetValue(path);
+				s_ProjectBankPaths[pf] = path;
 			}
 			doc.Save(WwiseProjectPath);
 		}
@@ -538,6 +694,14 @@ public partial class AkUtilities
 
 	public static bool SetSoundbankHeaderFilePath(string WwiseProjectPath, string SoundbankPath)
 	{
+		if (string.IsNullOrEmpty(AkWwiseEditorSettings.Instance.RootOutputPath))
+		{
+			var defaultRootOutputPath = AkBasePathGetter.GetDefaultRootOutputPath();
+			var pathRelativeToApplicationDataPath = AkUtilities.MakeRelativePath(UnityEngine.Application.dataPath, defaultRootOutputPath);
+			AkWwiseEditorSettings.Instance.RootOutputPath = pathRelativeToApplicationDataPath;
+			AkWwiseEditorSettings.Instance.SaveSettings();
+		}
+		string pathRelativeToWwiseProject = AkUtilities.MakeRelativePath(System.IO.Path.GetDirectoryName(WwiseProjectPath), SoundbankPath);
 		try
 		{
 			if (WwiseProjectPath.Length == 0)
@@ -567,7 +731,12 @@ public partial class AkUtilities
 				return false;
 			}
 
-			node.SetValue(SoundbankPath);
+			node.SetValue(pathRelativeToWwiseProject);
+			if (IsMigrationRequired(MigrationStep.RootOutputPath_v2025_1_0))
+			{
+				MigrateRootOutputPath(WwiseProjectPath);
+			}
+
 			doc.Save(WwiseProjectPath);
 			return true;
 		}
@@ -968,7 +1137,7 @@ public partial class AkUtilities
 			path += separatorChar;
 		}
 	}
-
+	
 	public static void FixSlashes(ref string path)
 	{
 		var separatorChar = System.IO.Path.DirectorySeparatorChar;

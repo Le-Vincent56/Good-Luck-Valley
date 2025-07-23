@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 using System;
@@ -77,9 +77,13 @@ namespace Wwise.API.Editor.SoundBankDirectoryWatcher.Common
 			}
 			
 			if (System.DateTime.Now.Subtract(s_lastFileCheck).Seconds >= SecondsBetweenChecks &&
-			    !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
+			    !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode && !AkUtilities.GeneratingSoundBanks)
 			{
-				var filename = System.IO.Path.Combine(AkBasePathGetter.GetWwiseRootOutputPath());
+				var filename = AkUtilities.GetRootOutputPath();
+				if (string.IsNullOrEmpty(filename))
+				{
+					return;
+				}
 				var wProjPath = System.IO.Path.Combine(AkBasePathGetter.GetWwiseProjectPath());
 				var time = System.IO.File.GetLastWriteTime(filename);
 				Task.Run(() => InitProjectDB(filename, wProjPath, time));
@@ -91,13 +95,15 @@ namespace Wwise.API.Editor.SoundBankDirectoryWatcher.Common
 		{
 			Execute();
 		}
-		
+
 		private async Task InitProjectDB(string filename, string wProjPath, DateTime time)
 		{
 			if (time > s_lastSoundBankDirectoryUpdate || forceUpdate)
 			{
+				forceUpdate = false;
+				s_lastSoundBankDirectoryUpdate = time;
 				if (!await WwiseProjectDatabase.InitAsync(filename, platformName))
-				{	
+				{
 					var userWarning = "";
 					if (!AkUtilities.IsSettingEnabled(wProjPath,"GenerateSoundBankJSON"))
 					{
@@ -110,8 +116,6 @@ namespace Wwise.API.Editor.SoundBankDirectoryWatcher.Common
 
 					UnityEngine.Debug.LogError("WwiseUnity: Cannot find ProjectInfo.json at " + filename + ". " + userWarning);
 				}
-				s_lastSoundBankDirectoryUpdate = time;
-				forceUpdate = false;
 
 				initCallbackRequired = true;
 			}

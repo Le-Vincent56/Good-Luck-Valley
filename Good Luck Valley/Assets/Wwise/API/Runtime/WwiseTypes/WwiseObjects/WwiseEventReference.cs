@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 
@@ -38,6 +38,7 @@ public class WwiseEventReference : WwiseObjectReference
 	public override WwiseObjectType WwiseObjectType { get { return WwiseObjectType.Event; } }
 	public bool IsInUserDefinedSoundBank = false;
 	private uint m_BankID = AkUnitySoundEngine.AK_INVALID_UNIQUE_ID;
+	[System.NonSerialized]
 	public bool IsAutoBankLoaded = false;
 	
 	private AkBankTypeEnum BankType
@@ -139,8 +140,7 @@ public class WwiseEventReference : WwiseObjectReference
 		}
 		else
 		{
-			UnityEngine.Debug.LogWarning("Wwise Addressable asset for AutoBank:" + DisplayName + " couldn't be found.  If the event is in an User Defined Soundbank, make sure" +
-			                             " to check the \"Is In User Define SoundBank\" box in the editor.");
+			UnityEngine.Debug.LogWarning("Wwise Addressable asset for AutoBank: " + DisplayName + " couldn't be found. If the event is in a User-Defined Soundbank, make sure to check the \"Is In User-Defined SoundBank\" box in the editor.");
 		}
 	}
 #else

@@ -12,29 +12,29 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 #if UNITY_EDITOR
 public class WwisePluginRef: global::System.IDisposable
 {
-    private global::System.IntPtr swigCPtr;
-    protected bool swigCMemOwn;
+    private global::System.IntPtr projectDatabasePtr;
+    protected bool bDeletesManually;
 
     internal WwisePluginRef(global::System.IntPtr cPtr, bool cMemoryOwn)
     {
-        swigCMemOwn = cMemoryOwn;
-        swigCPtr = cPtr;
+        bDeletesManually = cMemoryOwn;
+        projectDatabasePtr = cPtr;
     }
 
     internal static global::System.IntPtr getCPtr(WwisePluginRef obj)
     {
-        return (obj == null) ? global::System.IntPtr.Zero : obj.swigCPtr;
+        return (obj == null) ? global::System.IntPtr.Zero : obj.projectDatabasePtr;
     }
 
     internal virtual void setCPtr(global::System.IntPtr cPtr)
     {
         Dispose();
-        swigCPtr = cPtr;
+        projectDatabasePtr = cPtr;
     }
 
     ~WwisePluginRef()
@@ -52,15 +52,15 @@ public class WwisePluginRef: global::System.IDisposable
     {
         lock (this)
         {
-            if (swigCPtr != global::System.IntPtr.Zero)
+            if (projectDatabasePtr != global::System.IntPtr.Zero)
             {
-                if (swigCMemOwn)
+                if (bDeletesManually)
                 {
-                    swigCMemOwn = false;
-                    WwiseProjectDatabase.DeletePluginRef(swigCPtr);
+                    bDeletesManually = false;
+                    WwiseProjectDatabase.DeletePluginRef(projectDatabasePtr);
                 }
 
-                swigCPtr = global::System.IntPtr.Zero;
+                projectDatabasePtr = global::System.IntPtr.Zero;
             }
 
             global::System.GC.SuppressFinalize(this);
@@ -70,9 +70,9 @@ public class WwisePluginRef: global::System.IDisposable
     {
     }
     
-    public uint Id => WwiseProjectDatabase.GetPluginId(swigCPtr);
-    public string Name => WwiseProjectDatabase.GetPluginName(swigCPtr);
-    public string DLL => WwiseProjectDatabase.GetPluginDLL(swigCPtr);
-    public string StaticLib => WwiseProjectDatabase.GetPluginStaticLib(swigCPtr);
+    public uint Id => WwiseProjectDatabase.GetPluginId(projectDatabasePtr);
+    public string Name => WwiseProjectDatabase.GetPluginName(projectDatabasePtr);
+    public string DLL => WwiseProjectDatabase.GetPluginDLL(projectDatabasePtr);
+    public string StaticLib => WwiseProjectDatabase.GetPluginStaticLib(projectDatabasePtr);
 }
 #endif

@@ -15,7 +15,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 [UnityEditor.CustomEditor(typeof(AkEnvironmentPortal), true)]
@@ -125,14 +125,17 @@ public class AkEnvironmentPortalInspector : UnityEditor.Editor
 
 		AkGameObjectInspector.RigidbodyCheck(m_envPortal.gameObject);
 	}
-
+	
 	private string GetEnvironmentName(AkEnvironment in_env)
 	{
-		foreach (var wwu in AkWwiseProjectInfo.GetData().AuxBusWwu)
-			foreach (var env in wwu.List)
-				if (in_env.data.Id == env.Id)
-					return env.Name;
-
+		foreach (var wwu in AkWwiseProjectInfo.GetData().BusRoot)
+		{
+			var found = wwu.Find(in_env.data.Id);
+			if (found != null)
+			{
+				return found.Name;
+			}
+		}
 		return string.Empty;
 	}
 

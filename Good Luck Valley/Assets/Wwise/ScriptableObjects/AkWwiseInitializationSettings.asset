@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505cf58e0040bae4faab09f2d9d64740, type: 3}
+  m_Script: {fileID: 11500000, guid: 2afbab140c6372d409b993cd1aeafb9d, type: 3}
   m_Name: AkWwiseInitializationSettings
   m_EditorClassIdentifier: 
   PlatformSettingsNameList:
@@ -58,6 +58,9 @@ MonoBehaviour:
       m_MaxDiffractionAngleDegrees: 180
       m_SmoothingConstantMs: 0
       m_TransmissionOperation: 2
+      m_ClusteringMinPoints: 0
+      m_ClusteringMaxDistance: 5
+      m_ClusteringDeadZoneDistance: 10
   AdvancedSettings:
     m_IOMemorySize: 2097152
     m_TargetAutoStreamBufferLengthMs: 380
@@ -73,6 +76,7 @@ MonoBehaviour:
     m_SuspendAudioDuringFocusLoss: 1
     m_RenderDuringFocusLoss: 0
     m_SoundBankPersistentDataPath: 
+    m_UseSubFoldersForGeneratedFiles: 0
     m_MemoryPrimarySbaInitSize: 2097152
     m_MemoryPrimaryTlsfInitSize: 2097152
     m_MemoryPrimaryTlsfSpanSize: 2097152

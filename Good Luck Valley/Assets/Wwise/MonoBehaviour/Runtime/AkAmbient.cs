@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 public enum MultiPositionTypeLabel
@@ -48,7 +48,7 @@ public class AkAmbient : AkEvent
 	public static System.Collections.Generic.Dictionary<uint, AkMultiPosEvent> multiPosEventTree =
 		new System.Collections.Generic.Dictionary<uint, AkMultiPosEvent>();
 
-	public AkMultiPositionType MultiPositionType = AkMultiPositionType.MultiPositionType_MultiSources;
+	public AkMultiPositionType MultiPositionType = AkMultiPositionType.AkMultiPositionType_MultiSources;
 	public MultiPositionTypeLabel multiPositionTypeLabel = MultiPositionTypeLabel.Simple_Mode;
 
 	private static UnityEngine.Color SPHERE_DEFAULT_COLOR = new UnityEngine.Color(1.0f, 0.0f, 0.0f, 0.1f);
@@ -143,8 +143,14 @@ public class AkAmbient : AkEvent
 				AkUnitySoundEngine.SetMultiplePositions(eventPosList.list[0].gameObject, positionArray, (ushort) positionArray.Count, MultiPositionType);
 			}
 		}
-        
-        base.OnDisable();
+	}
+	
+	protected new void OnDestroy()
+	{
+		if (multiPositionTypeLabel != MultiPositionTypeLabel.MultiPosition_Mode)
+		{
+			base.OnDestroy();
+		}
 	}
 
 	public override void HandleEvent(UnityEngine.GameObject in_gameObject)

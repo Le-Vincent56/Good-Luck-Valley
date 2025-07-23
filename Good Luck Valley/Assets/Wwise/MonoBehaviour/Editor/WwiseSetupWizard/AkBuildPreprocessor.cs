@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 ﻿#if UNITY_EDITOR
@@ -106,7 +106,7 @@ public partial class AkBuildPreprocessor : UnityEditor.Build.IPreprocessBuild, U
 			return false;
 		}
 
-		UnityEngine.Debug.LogFormat("WwiseUnity: Copied SoundBank folder to streaming assets folder <{0}> for <{1}> platform build", destinationFolder, platformName);
+		UnityEngine.Debug.Log($"WwiseUnity: Copied SoundBank folder from <{sourceFolder}> to streaming assets folder <{destinationFolder}> for <{platformName}> platform build");
 		return true;
 	}
 
@@ -122,10 +122,10 @@ public partial class AkBuildPreprocessor : UnityEditor.Build.IPreprocessBuild, U
 
 	public void OnPreprocessBuildInternal(UnityEditor.BuildTarget target, string path)
 	{
+		var platformName = GetPlatformName(target);
 #if !(AK_WWISE_ADDRESSABLES && UNITY_ADDRESSABLES)
 		if (AkWwiseEditorSettings.Instance.CopySoundBanksAsPreBuildStep)
 		{
-			var platformName = GetPlatformName(target);
 			if (!CopySoundbanks(AkWwiseEditorSettings.Instance.GenerateSoundBanksAsPreBuildStep, platformName, ref destinationSoundBankFolder))
 			{
 				UnityEngine.Debug.LogErrorFormat("WwiseUnity: SoundBank folder has not been copied for <{0}> target at <{1}>. This will likely result in a build without sound!!!", target, path);
@@ -136,7 +136,9 @@ public partial class AkBuildPreprocessor : UnityEditor.Build.IPreprocessBuild, U
 		{
 			config.OnPreprocessBuild(path);
 		}
-		// @todo sjl - only update for target platform
+		
+		// Init ProjectDB for platform being built
+		WwiseProjectDatabase.Init(AkUtilities.GetRootOutputPath(), platformName);
 		AkPluginActivator.ForceUpdate();
 		AkPluginActivator.ActivatePluginsForDeployment(target, true);
 	}
@@ -152,6 +154,9 @@ public partial class AkBuildPreprocessor : UnityEditor.Build.IPreprocessBuild, U
 		DeleteSoundbanks(destinationSoundBankFolder);
 #endif
 		destinationSoundBankFolder = string.Empty;
+		
+		// Point the ProjectDB back on the current editor platform
+		WwiseProjectDatabase.Init(AkUtilities.GetRootOutputPath(), AkBasePathGetter.GetPlatformName());
 	}
 
 #if UNITY_2018_1_OR_NEWER

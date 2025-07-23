@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 [UnityEngine.AddComponentMenu("Wwise/Spatial Audio/AkRoom")]
@@ -49,6 +49,9 @@ public class AkRoom : AkTriggerHandler
 	[UnityEngine.Range(0, 1)]
 	/// Loss value modeling transmission through walls.
 	public float transmissionLoss = 1;
+
+	/// [Experimental] Determines how a room interacts with the distance calculation of other rooms that it overlaps or is nested within.
+	public AkRoomDistanceBehavior subtractFromParent = AkRoomDistanceBehavior.AkRoomDistanceBehavior_Default;
 
 	/// Wwise Event to be posted on the room game object.
 	public AK.Wwise.Event roomToneEvent = new AK.Wwise.Event();
@@ -360,8 +363,9 @@ public class AkRoom : AkTriggerHandler
 
 			RoomGameObj_AuxSendLevelToSelf = roomToneAuxSend,
 			RoomGameObj_KeepRegistered = roomToneEvent.IsValid(),
-			RoomPriority = priority
-		};
+			RoomPriority = priority,
+			DistanceBehavior = subtractFromParent
+        };
 
 		if (bSentToWwise == false)
 		{

@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 using System;
@@ -75,11 +75,6 @@ public class AkWaapiUtilities
 	/// </summary>
 	static AkWaapiUtilities()
 	{
-		if (UnityEditor.AssetDatabase.IsAssetImportWorkerProcess())
-		{
-			return;
-		}
-
 #if UNITY_2019_1_OR_NEWER
 		UnityEditor.Compilation.CompilationPipeline.compilationStarted += (object context) => FireDisconnect(true);
 #else
@@ -305,7 +300,7 @@ public class AkWaapiUtilities
 	{
 		if (AkWwiseEditorSettings.Instance.UseWaapi)
 		{
-			// If WAAPI connection settings have changed, unsubcribe and close the connection.
+			// If WAAPI connection settings have changed, unsubscribe and close the connection.
 			if (ConnectionSettingsChanged() && WaapiClient.IsConnected())
 			{
 				FireDisconnect(false);
@@ -413,7 +408,7 @@ public class AkWaapiUtilities
 	}
 
 	/// <summary>
-	/// Starts the diconnection process. 
+	/// Starts the disconnection process. 
 	/// Invokes Disconnecting() so that other classes using WAAPI can clean up and add commands to unsubscribe from topics.
 	/// Consumes the last batch of commands in the command queue then closes the client.
 	/// </summary>
@@ -478,38 +473,46 @@ public class AkWaapiUtilities
 	/// Returns a rich text string representing the current WAAPI connection status.
 	/// </summary>
 	/// <returns></returns>
-	public static string GetStatusString()
+	public static string GetStatusString(out bool connected)
 	{
+		connected = false;
 		var returnString = "";
 		if (!AkWwiseEditorSettings.Instance.UseWaapi)
 		{
-			returnString += "<color=red> Waapi disabled in project settings </color>";
+			returnString += "WAAPI disabled in project settings";
 		}
 		else if (WaapiClient.wamp != null)
 		{
 			var state = WaapiClient.wamp.SocketState();
+			if (state == System.Net.WebSockets.WebSocketState.Open && ErrorMessage == string.Empty)
+			{
+				returnString += "Connected to Wwise.";
+				connected = true;
+				return returnString;
+			}
 			switch (state)
 			{
-				case System.Net.WebSockets.WebSocketState.Open:
-					returnString += "<color=green> Connected</color>";
-					break;
 				case System.Net.WebSockets.WebSocketState.Closed:
-					returnString += "<color=red> Disconnected </color>";
+					returnString += "Disconnected.";
 					break;
+				case System.Net.WebSockets.WebSocketState.Open:
 				case System.Net.WebSockets.WebSocketState.Connecting:
-					returnString += $"<color=orange> Connecting to { GetUri()}</color>";
+					returnString += $"Connecting to { GetUri()}.";
 					break;
 				default:
-					returnString += $"<color=orange> Connecting to { GetUri()}</color>";
+					returnString += $"Connecting to { GetUri()}.";
 					break;
 			}
 		}
 		else
 		{
-			returnString += "<color=red> Disconnected </color>";
+			returnString += "Disconnected.";
 		}
+
 		if (ErrorMessage != string.Empty)
-			returnString += $" <color=red>{ErrorMessage}</color>";
+		{
+			returnString += $" {ErrorMessage}";
+		}
 		return returnString;
 	}
 
@@ -750,8 +753,11 @@ public class AkWaapiUtilities
 	/// <param name="guid">GUID of the object to be found.</param>
 	public static void OpenWorkUnitInExplorer(System.Guid guid)
 	{
-		waapiCommandQueue.Enqueue(new WaapiCommand(
-			async () => await OpenWorkUnitInExplorerAsync(guid)));
+		if(!guid.Equals(Guid.Empty))
+		{
+			waapiCommandQueue.Enqueue(new WaapiCommand(
+				async () => await OpenWorkUnitInExplorerAsync(guid)));
+		}
 	}
 
 	/// <summary>

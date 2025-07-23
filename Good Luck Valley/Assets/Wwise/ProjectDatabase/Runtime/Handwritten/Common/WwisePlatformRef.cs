@@ -12,29 +12,29 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 #if UNITY_EDITOR
 public class WwisePlatformRef: global::System.IDisposable
 {
-    private global::System.IntPtr swigCPtr;
-    protected bool swigCMemOwn;
+    private global::System.IntPtr projectDatabasePtr;
+    protected bool bDeletesManually;
 
     internal WwisePlatformRef(global::System.IntPtr cPtr, bool cMemoryOwn)
     {
-        swigCMemOwn = cMemoryOwn;
-        swigCPtr = cPtr;
+        bDeletesManually = cMemoryOwn;
+        projectDatabasePtr = cPtr;
     }
 
     internal static global::System.IntPtr getCPtr(WwisePlatformRef obj)
     {
-        return (obj == null) ? global::System.IntPtr.Zero : obj.swigCPtr;
+        return (obj == null) ? global::System.IntPtr.Zero : obj.projectDatabasePtr;
     }
 
     internal virtual void setCPtr(global::System.IntPtr cPtr)
     {
         Dispose();
-        swigCPtr = cPtr;
+        projectDatabasePtr = cPtr;
     }
 
     ~WwisePlatformRef()
@@ -52,15 +52,15 @@ public class WwisePlatformRef: global::System.IDisposable
     {
         lock (this)
         {
-            if (swigCPtr != global::System.IntPtr.Zero)
+            if (projectDatabasePtr != global::System.IntPtr.Zero)
             {
-                if (swigCMemOwn)
+                if (bDeletesManually)
                 {
-                    swigCMemOwn = false;
-                    WwiseProjectDatabase.DeletePlatformRef(swigCPtr);
+                    bDeletesManually = false;
+                    WwiseProjectDatabase.DeletePlatformRef(projectDatabasePtr);
                 }
 
-                swigCPtr = global::System.IntPtr.Zero;
+                projectDatabasePtr = global::System.IntPtr.Zero;
             }
 
             global::System.GC.SuppressFinalize(this);
@@ -75,8 +75,8 @@ public class WwisePlatformRef: global::System.IDisposable
     {
     }
     
-    public string Name => WwiseProjectDatabase.GetPlatformName(swigCPtr);
-    public System.IntPtr Guid => WwiseProjectDatabase.GetPlatformGuid(swigCPtr);
+    public string Name => WwiseProjectDatabase.GetPlatformName(projectDatabasePtr);
+    public System.Guid Guid => WwiseProjectDatabase.GetPlatformGuid(projectDatabasePtr);
 
 }
 #endif

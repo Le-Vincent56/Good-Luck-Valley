@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 public class AkWwiseInitializationSettings : AkCommonPlatformSettings
@@ -99,6 +99,9 @@ public class AkWwiseInitializationSettings : AkCommonPlatformSettings
 		"UserSettings.m_SpatialAudioSettings.m_EnableGeometricDiffractionAndTransmission",
 		"UserSettings.m_SpatialAudioSettings.m_CalcEmitterVirtualPosition",
 		"UserSettings.m_SpatialAudioSettings.m_LoadBalancingSpread",
+		"UserSettings.m_SpatialAudioSettings.m_ClusteringMinPoints",
+		"UserSettings.m_SpatialAudioSettings.m_ClusteringMaxDistance",
+		"UserSettings.m_SpatialAudioSettings.m_ClusteringDeadZoneDistance",
 		"CommsSettings.m_PoolSize",
 		"CommsSettings.m_DiscoveryBroadcastPort",
 		"CommsSettings.m_CommandPort",
@@ -327,7 +330,6 @@ public class AkWwiseInitializationSettings : AkCommonPlatformSettings
 		else if (m_Instance != this)
 		{
 			UnityEngine.Debug.LogWarning("WwiseUnity: There are multiple AkWwiseInitializationSettings objects instantiated; only one will be used.");
-
 		}
 	}
 
@@ -678,6 +680,7 @@ public class AkWwiseInitializationSettings : AkCommonPlatformSettings
 			base.OnDeactivate();
 			if(Instance.ActiveSettingsHaveChanged)
 			{
+				WwiseProjectDatabase.SetCurrentLanguage(AkWwiseInitializationSettings.ActivePlatformSettings.InitialLanguage);
 				if (AkWwiseEditorSettings.Instance.LoadSoundEngineInEditMode && !AkUnitySoundEngine.IsInitialized())
 				{
 					AkUnitySoundEngineInitialization.Instance.ResetSoundEngine();
