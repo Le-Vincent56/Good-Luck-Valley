@@ -7,7 +7,7 @@ using UnityEngine;
 using GoodLuckValley.World.Physics;
 using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Potentiates;
-using GoodLuckValley.Particles;
+using GoodLuckValley.VFX.Particles;
 using GoodLuckValley.Player.Development;
 using GoodLuckValley.Scenes;
 

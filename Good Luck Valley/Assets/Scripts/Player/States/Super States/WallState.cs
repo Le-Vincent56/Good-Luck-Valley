@@ -1,5 +1,5 @@
 using GoodLuckValley.Audio;
-using GoodLuckValley.Particles;
+using GoodLuckValley.VFX.Particles;
 using GoodLuckValley.Player.Animation;
 using GoodLuckValley.Player.Movement;
 using UnityEngine;
