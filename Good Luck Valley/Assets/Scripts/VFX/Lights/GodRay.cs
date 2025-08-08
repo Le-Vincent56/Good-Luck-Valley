@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -6,44 +7,39 @@ namespace GoodLuckValley.VFX.Lights
     [RequireComponent(typeof(Light2D))]
     public class GodRay : MonoBehaviour, ILightAnimator
     {
-        [Header("Configuration")] 
+        [Header("References")] 
         [SerializeField] private GodRayAnimationProfile profile;
-
-        [Header("Runtime Control")] 
-        [SerializeField] private bool animationEnabled = true;
-
-        [Header("Debug")] 
-        [SerializeField] private bool showDebugInfo = false;
-        
         private Light2D targetLight;
 
+        [Header("Fields")]
+        [SerializeField] private bool animationEnabled = true;
         [SerializeField] private float baseIntensity;
         [SerializeField] private float currentIntensity;
         private float noiseOffset;
         private float timeOffset;
-
-        [SerializeField] private float cachedNoiseValue;
         private float lastUpdateTime;
         private const float UPDATE_FREQUENCY = 0.016f; // ~60 FPS update rate
+
+        [Header("Tweening Fields")] 
+        [SerializeField] private bool usesTweening = false;
+        [SerializeField] private float tweenDuration;
+        [SerializeField] private bool filterOnFinished = true;
+        [SerializeField] private bool runningTween = false;
+        private float finalValue;
+        private Tween intensityTween;
 
         private void Awake()
         {
             Initialize(GetComponent<Light2D>());
         }
 
-        private void OnEnable()
-        {
-            // Exit case - no target light exists yet
-            if (!targetLight) return;
-
-            // Enable the animation
-            animationEnabled = true;
-        }
-
         private void OnDisable()
         {
             // Reset to the base values
             ResetToBaseValues();
+
+            // Kill any existing tweens
+            intensityTween?.Kill();
         }
 
         private void Update()
@@ -51,6 +47,10 @@ namespace GoodLuckValley.VFX.Lights
             // Exit case - the animation isn't enabled, or not
             // profile is set
             if (!animationEnabled || !profile) return;
+            
+            // Exit case - if filtering on finished tween but the
+            // tween hasn't finished yet
+            if (usesTweening && filterOnFinished && runningTween) return;
             
             // Update the animation
             UpdateAnimation(Time.deltaTime);
@@ -79,6 +79,14 @@ namespace GoodLuckValley.VFX.Lights
             // Set the intensities
             baseIntensity = targetLight.intensity;
             currentIntensity = baseIntensity;
+
+            if (usesTweening)
+            {
+                targetLight.intensity = 0f;
+                finalValue = baseIntensity;
+            }
+
+            runningTween = false;
             
             // Exit case - if there's no profile set or not randomizing the offset
             if (!profile || !profile.useRandomOffset) return;
@@ -128,9 +136,6 @@ namespace GoodLuckValley.VFX.Lights
             // Apply to the light
             currentIntensity = baseIntensity * smoothedMultiplier;
             targetLight.intensity = currentIntensity;
-            
-            // Cache for debug
-            cachedNoiseValue = shapedNoise;
         }
 
         /// <summary>
@@ -157,6 +162,30 @@ namespace GoodLuckValley.VFX.Lights
 
             targetLight.intensity = baseIntensity;
             currentIntensity = baseIntensity;
+        }
+
+        /// <summary>
+        /// Turn the god ray on
+        /// </summary>
+        public void On()
+        {
+            // Kill the intensity tween if it exists already
+            intensityTween?.Kill();
+            
+            // Set the light to the flash value
+            intensityTween = DOTween.To(
+                () => targetLight.intensity,
+                x => targetLight.intensity = x,
+                finalValue,
+                tweenDuration
+            ).SetEase(Ease.InOutSine);
+
+            intensityTween.OnStart(() => runningTween = true);
+            intensityTween.OnComplete(() =>
+            {
+                runningTween = false;
+                animationEnabled = true;
+            });
         }
     }
 }
