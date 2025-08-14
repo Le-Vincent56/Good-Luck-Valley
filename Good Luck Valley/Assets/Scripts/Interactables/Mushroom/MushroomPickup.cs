@@ -1,5 +1,7 @@
 using GoodLuckValley.Architecture.Optionals;
 using GoodLuckValley.Architecture.StateMachine;
+using GoodLuckValley.Events;
+using GoodLuckValley.Events.Cinematics;
 using GoodLuckValley.Interactables.Mushroom.States;
 using GoodLuckValley.Timers;
 using UnityEngine;
@@ -11,6 +13,8 @@ namespace GoodLuckValley.Interactables.Mushroom
     {
         [SerializeField] private int hash;
         [SerializeField] private float effectTime;
+        [SerializeField] private ParticleSystem ambientParticles;
+        [SerializeField] private ParticleSystem pickParticles;
         private StateMachine stateMachine;
         private CountdownTimer effectTimer;
         private bool triggerEffect;
@@ -87,11 +91,15 @@ namespace GoodLuckValley.Interactables.Mushroom
             // Check if any other collection logic is needed
             Collect();
         }
-        
+
         /// <summary>
         /// Hide the mushroom
         /// </summary>
-        public void HideShroom() => FadeInteractable(0f, fadeDuration);
+        public void HideShroom()
+        {
+            FadeInteractable(0f, fadeDuration);
+            EventBus<EndCinematic>.Raise(new EndCinematic());
+        }
 
         private void CreateEffectTimer()
         {
@@ -120,6 +128,8 @@ namespace GoodLuckValley.Interactables.Mushroom
             triggerEffect = false;
             effectTimer.Start();
         }
+        
+        public void PlayParticles() => pickParticles?.Play();
 
         private void SetupStateMachine()
         {
@@ -127,11 +137,10 @@ namespace GoodLuckValley.Interactables.Mushroom
             stateMachine = new StateMachine();
             
             Animator animator = GetComponent<Animator>();
-            ParticleSystem particleSystem = GetComponent<ParticleSystem>();
             
             // Create states
-            MushroomIdleState idle = new MushroomIdleState(this, animator, particleSystem);
-            MushroomParticleState effect = new MushroomParticleState(this, animator, particleSystem);
+            MushroomIdleState idle = new MushroomIdleState(this, animator, ambientParticles);
+            MushroomParticleState effect = new MushroomParticleState(this, animator, ambientParticles);
             
             // Define state transitions
             stateMachine.At(idle, effect, new FuncPredicate(() => triggerEffect));
