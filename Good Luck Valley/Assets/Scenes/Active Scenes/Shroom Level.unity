@@ -23049,6 +23049,8 @@ GameObject:
   m_Component:
   - component: {fileID: 498688512}
   - component: {fileID: 498688513}
+  - component: {fileID: 498688514}
+  - component: {fileID: 498688515}
   m_Layer: 0
   m_Name: Shroom Screen Light
   m_TagString: Untagged
@@ -23064,12 +23066,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498688511}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.6, y: -4.01, z: 0.27958938}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -130.53296, y: -110.20955, z: 2.8530226}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2106032381}
+  m_Father: {fileID: 1218541656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &498688513
 MonoBehaviour:
@@ -23088,7 +23090,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 1
   m_ApplyToSortingLayers: 95b748eb
@@ -23112,7 +23114,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
+  m_PointLightOuterRadius: 2
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -23123,6 +23125,58 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &498688514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498688511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b705e1dbb91d34f8e6ae0999c40816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLight: {fileID: 498688513}
+  outIntensity: 50
+  outOuterRadius: 30
+  outInnerRadius: 15
+  inIntensity: 0
+  inOuterRadius: 30
+  inInnerRadius: 15
+  outDuration: 1.25
+  inDuration: 2
+--- !u!114 &498688515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498688511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: a6faf9a5f7a48234dbad24a48787fd73, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 498688514}
+          m_TargetAssemblyTypeName: GoodLuckValley.VFX.Lights.OutwardAnimatedLight,
+            Assembly-CSharp
+          m_MethodName: Animate
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &509773838
 GameObject:
   m_ObjectHideFlags: 0
@@ -34106,6 +34160,8 @@ PlayableDirector:
     value: {fileID: 1711344470}
   - key: {fileID: 8075262905378454672, guid: e8259319907b4d6488e5f18c1ce39fae, type: 2}
     value: {fileID: 848629816}
+  - key: {fileID: 3516956483600231611, guid: e8259319907b4d6488e5f18c1ce39fae, type: 2}
+    value: {fileID: 498688515}
   m_ExposedReferences:
     m_References:
     - 82b1dee70a089d24187d82cb46769bcc: {fileID: 1807630953}
@@ -56988,6 +57044,7 @@ Transform:
   - {fileID: 553087503}
   - {fileID: 116100326}
   - {fileID: 1694962903}
+  - {fileID: 498688512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1229426019
@@ -87945,7 +88002,6 @@ Transform:
   - {fileID: 1929976924}
   - {fileID: 449366641}
   - {fileID: 1563556757}
-  - {fileID: 498688512}
   m_Father: {fileID: 2132706240}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2106032382
