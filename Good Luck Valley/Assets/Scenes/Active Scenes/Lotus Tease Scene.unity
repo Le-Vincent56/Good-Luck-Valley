@@ -7152,7 +7152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneGroupData: {fileID: 11400000, guid: 69eee45c10fdab44b976ef16daf72d4c, type: 2}
-  sceneIndexToLoad: 9
+  sceneIndexToLoad: 4
+  showLoadingSymbol: 1
   moveDirection: -1
   toGate: 1
 --- !u!61 &361965164
@@ -8311,6 +8312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinemachineBrain: {fileID: 519420033}
   virtualCameras: []
+  loadCamera: {fileID: 0}
   initialCamera: {fileID: 1800805934}
 --- !u!1 &449366640
 GameObject:
@@ -12555,8 +12557,6 @@ MonoBehaviour:
   minDistanceValue: 100
   maxDistanceValue: 50
   currentDistanceValue: 0
-  correctionEase: 1
-  correctionDuration: 0.1
   rtpc:
     idInternal: 0
     valueGuidInternal: 

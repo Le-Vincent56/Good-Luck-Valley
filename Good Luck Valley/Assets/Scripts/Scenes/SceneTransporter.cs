@@ -37,6 +37,9 @@ namespace GoodLuckValley.Scenes
         {
             // Exit case - already being forced to move
             if (controller.ForcedMove && controller.ForcedMoveDirection != 0) return;
+            
+            // Exit case - already loading from gate
+            if (sceneLoader.LoadingFromGate) return;
 
             // Remove manual move
             controller.ForcedMove = true;
