@@ -18,11 +18,21 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{CA6B8B6D-3A1B-B0E6-1A4B-7663F0D92335}",
+    "Hash": "{DB49A0A9-68BD-A1F4-A010-5902B270FE99}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
+     "Custom": [
+      {
+       "Id": "52776034",
+       "Name": "Parametric EQ (Custom)",
+       "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_MUSIC\\MASTER_BACKGROUND\\[Effect Slot [0]: (Parametric EQ)]\\Parametric EQ (Custom)",
+       "GUID": "{78D18C06-AEF1-4BF9-BE9F-C297CB656F86}",
+       "LibName": "Wwise Parametric EQ",
+       "LibId": "6881283"
+      }
+     ],
      "ShareSets": [
       {
        "Id": "702543456",
@@ -39,14 +49,6 @@
        "GUID": "{830124FB-B9D5-4AE8-846E-E94A74652666}",
        "LibName": "Wwise Parametric EQ",
        "LibId": "6881283"
-      },
-      {
-       "Id": "2171127646",
-       "Name": "Hall_Conversation",
-       "ObjectPath": "\\Effects\\Factory Effects\\RoomVerb\\Halls\\Hall_Conversation",
-       "GUID": "{E2C3BD70-E5E4-46A5-BDA6-99A92FAAC1AC}",
-       "LibName": "Wwise RoomVerb",
-       "LibId": "7733251"
       },
       {
        "Id": "3604890626",
@@ -100,6 +102,19 @@
       "Name": "JOURNAL_ENTRY_SELECT_FULL",
       "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_JOURNAL\\JOURNAL_ENTRY_SELECT_FULL",
       "GUID": "{3FBD8E85-E28C-4B26-A6C8-399D896456E2}"
+     },
+     {
+      "Id": "733646754",
+      "Name": "MASTER_BACKGROUND",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_MUSIC\\MASTER_BACKGROUND",
+      "GUID": "{F30C7101-3099-4E5A-BB8D-A5CD2D585B8C}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "52776034"
+        }
+       ]
+      }
      },
      {
       "Id": "860652252",
@@ -177,17 +192,7 @@
       "Id": "1900298039",
       "Name": "MASTER_MUSIC",
       "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_MUSIC",
-      "GUID": "{66327182-3D3A-47D6-B6C1-58308EC3F8FB}",
-      "PluginRefs": {
-       "ShareSets": [
-        {
-         "Id": "1008402193"
-        },
-        {
-         "Id": "2171127646"
-        }
-       ]
-      }
+      "GUID": "{66327182-3D3A-47D6-B6C1-58308EC3F8FB}"
      },
      {
       "Id": "1919967482",
@@ -206,6 +211,12 @@
       "Name": "MASTER_MUSHROOM",
       "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_SFX\\MASTER_MUSHROOM",
       "GUID": "{5A4F2A31-C479-4CCA-BEF6-F9EF2AEE6D4D}"
+     },
+     {
+      "Id": "2241232287",
+      "Name": "MASTER_STINGERS",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Master Audio Bus\\MASTER_MUSIC\\MASTER_STINGERS",
+      "GUID": "{C06F1BE2-F7DA-4A27-8C36-760CE66890ED}"
      },
      {
       "Id": "2362228609",
@@ -433,6 +444,12 @@
       "Name": "RTPC_TIMEWARP_TICK",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_TIMEWARP_TICK",
       "GUID": "{093C9F42-BF3D-4724-B560-AE9865BA9623}"
+     },
+     {
+      "Id": "1210195803",
+      "Name": "RTPC_MUSICMUFFLE",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\RTPC_MUSICMUFFLE",
+      "GUID": "{CD0EF5EF-B348-4312-A2B0-8100009B6FED}"
      },
      {
       "Id": "2290256636",
@@ -944,7 +961,7 @@
     "Type": "User",
     "GUID": "{3BEF868C-27FC-48E3-9E4E-E297B6818463}",
     "Language": "SFX",
-    "Hash": "{FF9783EB-444E-1DFA-6159-6AE9BCB9BCC0}",
+    "Hash": "{6A29B819-17D5-0776-01C5-9273A3A114F5}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\GAME_SOUNDBANK",
     "ShortName": "GAME_SOUNDBANK",
     "Path": "GAME_SOUNDBANK.bnk",
@@ -1188,6 +1205,14 @@
       "Location": "Memory",
       "ShortName": "TestFiles\\SFX_TEST_BEEP_LOOP.wav",
       "CachePath": "C3/{C3BF0188-255A-9B9F-B2A7-104878A93FFC}.wem"
+     },
+     {
+      "Id": "203146098",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Music\\Stingers\\MSC_MOTIF_112BPM4-4_L3M.wav",
+      "CachePath": "4C/{4C5064B5-6533-C5CA-ED62-409EE286E5E0}.wem"
      },
      {
       "Id": "209160380",
@@ -3153,6 +3178,20 @@
       ]
      },
      {
+      "Id": "487429775",
+      "Name": "PLAY_MOTIF",
+      "ObjectPath": "\\Events\\MUSIC\\STINGERS\\PLAY_MOTIF",
+      "GUID": "{468291EE-1E06-4F9B-90D2-B561891A8A2C}",
+      "DurationType": "OneShot",
+      "DurationMin": "6.428583",
+      "DurationMax": "6.428583",
+      "MediaRefs": [
+       {
+        "Id": "203146098"
+       }
+      ]
+     },
+     {
       "Id": "4286947103",
       "Name": "PLAY_MUSHROOM_BOUNCE",
       "ObjectPath": "\\Events\\MUSHROOM\\MUSHROOM_BOUNCE\\PLAY_MUSHROOM_BOUNCE",
@@ -4875,6 +4914,6 @@
     ]
    }
   ],
-  "FileHash": "{953AD0AA-0E05-A0F6-9C1F-0D87F1F3D787}"
+  "FileHash": "{BD75F09E-C560-00CA-9FD3-D55A478DDA55}"
  }
 }

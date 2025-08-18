@@ -27,7 +27,7 @@ namespace GoodLuckValley.Interactables.Mushroom
             parent.Active = false;
             
             // Unlock the Mushroom
-            handler.GetComponentInChildren<MushroomSpawner>().UnlockMushroom();
+            handler.GetComponentInChildren<MushroomSaveHandler>().UnlockMushroom();
             
             EventBus<FadeInteractableCanvasGroup>.Raise(new FadeInteractableCanvasGroup()
             {

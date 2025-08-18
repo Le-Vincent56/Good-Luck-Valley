@@ -28,6 +28,7 @@ namespace AK
         static const AkUniqueID PLAY_JOURNAL_OPEN = 3158012214U;
         static const AkUniqueID PLAY_JOURNAL_PICKUP = 2825379338U;
         static const AkUniqueID PLAY_LOTUS_PICK = 3172914513U;
+        static const AkUniqueID PLAY_MOTIF = 487429775U;
         static const AkUniqueID PLAY_MUSHROOM_BOUNCE = 4286947103U;
         static const AkUniqueID PLAY_MUSHROOM_DISSIPATE = 937795333U;
         static const AkUniqueID PLAY_MUSHROOM_GROW = 1531298894U;
@@ -290,6 +291,7 @@ namespace AK
         static const AkUniqueID RTPC_LOTUSDISTANCE = 482870237U;
         static const AkUniqueID RTPC_MASTER = 3445598977U;
         static const AkUniqueID RTPC_MUSIC = 3709650428U;
+        static const AkUniqueID RTPC_MUSICMUFFLE = 1210195803U;
         static const AkUniqueID RTPC_PLAYERFALLSPEED = 2290256636U;
         static const AkUniqueID RTPC_PLAYERSPEED = 2653406601U;
         static const AkUniqueID RTPC_SFX = 3438452020U;
@@ -320,6 +322,7 @@ namespace AK
         static const AkUniqueID JOURNAL_PICKUP = 2362228609U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MASTER_AMBIENCE = 4286911030U;
+        static const AkUniqueID MASTER_BACKGROUND = 733646754U;
         static const AkUniqueID MASTER_FIREFLIES = 1874415497U;
         static const AkUniqueID MASTER_JOURNAL = 604567059U;
         static const AkUniqueID MASTER_MUSHROOM = 2228101040U;
@@ -328,6 +331,7 @@ namespace AK
         static const AkUniqueID MASTER_PLAYER = 2453119373U;
         static const AkUniqueID MASTER_POTENTIATES = 579657244U;
         static const AkUniqueID MASTER_SFX = 3462011115U;
+        static const AkUniqueID MASTER_STINGERS = 2241232287U;
         static const AkUniqueID MASTER_UI = 1168632360U;
         static const AkUniqueID MUSHROOM_BOUNCE = 4126136622U;
         static const AkUniqueID MUSHROOM_DISSIPATE = 1042698302U;

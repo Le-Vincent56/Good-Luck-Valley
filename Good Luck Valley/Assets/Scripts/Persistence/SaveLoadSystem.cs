@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GoodLuckValley.Player.Mushroom;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -170,6 +171,7 @@ namespace GoodLuckValley.Persistence
                 Name = sb.ToString(),
                 LastUpdated = DateTime.Now.ToBinary(),
                 PlayerData = new PlayerData(),
+                MushroomData = new MushroomData(),
                 CameraDatas = new List<CameraData>(),
                 JournalData = new JournalData(),
                 CollectibleDatas = new List<CollectibleSaveData>(),
@@ -178,7 +180,7 @@ namespace GoodLuckValley.Persistence
             };
 
             SaveGame();
-
+            
             // Exit case - not loading the game
             if (!loadGame) return;
 
@@ -311,7 +313,7 @@ namespace GoodLuckValley.Persistence
         /// <summary>
         /// Task the Load Save
         /// </summary>
-        public UniTask BindData()
+        private UniTask BindData()
         {
             // Bind Settings
             Bind<AudioSaveHandler, AudioData>(settingsData.Audio);
@@ -326,6 +328,7 @@ namespace GoodLuckValley.Persistence
 
             // Bind Data
             Bind<PlayerSaveHandler, PlayerData>(selectedData.PlayerData);
+            Bind<MushroomSaveHandler, MushroomData>(selectedData.MushroomData);
             Bind<JournalSaveHandler, JournalData>(selectedData.JournalData);
             Bind<Collectible, CollectibleSaveData>(selectedData.CollectibleDatas);
             Bind<CameraSaveHandler, CameraData>(selectedData.CameraDatas);

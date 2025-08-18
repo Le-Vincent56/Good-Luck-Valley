@@ -25,6 +25,8 @@ namespace GoodLuckValley.Player.Mushroom
         private Vector2 castPosition;
 
         private EventBinding<SetMushroomInput> onSetMushroomInput;
+        
+        public bool CanSpawnShroom { get => canSpawnShroom; set => canSpawnShroom = value; }
 
         private void Awake()
         {
@@ -202,10 +204,5 @@ namespace GoodLuckValley.Player.Mushroom
         /// Allow mushroom input
         /// </summary>
         private void AllowMushroomInput(SetMushroomInput eventData) => canInputMushroom = eventData.CanInputMushroom;
-
-        /// <summary>
-        /// Unlock the Mushroom by allowing the Player to spawn the Mushroom
-        /// </summary>
-        public bool UnlockMushroom() => canSpawnShroom = true;
     }
 }

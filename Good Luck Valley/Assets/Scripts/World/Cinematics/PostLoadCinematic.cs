@@ -39,6 +39,9 @@ namespace GoodLuckValley.World.Cinematics
         private UniTask PlayCinematic()
         {
             // Play the director
+            director.time = 0;
+            director.RebuildGraph();
+            director.Evaluate();
             director.Play();
 
             return UniTask.CompletedTask;

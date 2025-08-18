@@ -13,8 +13,8 @@ namespace GoodLuckValley.World.Triggers
         [SerializeField] private bool useX = true;
         [SerializeField] private bool useY;
         
-        [Header("Debug")]
-        [SerializeField] private float currentIntensity = 0f;
+        [Header("Fields")]
+        [SerializeField] protected float currentIntensity = 0f;
         [SerializeField] private bool playerInTrigger = false;
         
         protected override void Awake()

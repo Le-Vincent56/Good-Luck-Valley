@@ -10,6 +10,7 @@ namespace GoodLuckValley.Persistence
         public int Slot;
         public long LastUpdated;
         public PlayerData PlayerData;
+        public MushroomData MushroomData;
         public JournalData JournalData;
         public List<CollectibleSaveData> CollectibleDatas;
         public List<CameraData> CameraDatas;
@@ -26,8 +27,20 @@ namespace GoodLuckValley.Persistence
 
         public PlayerData()
         {
-            LevelIndex = 10;
+            LevelIndex = 2;
             Position = new Vector3(-340.84f, 133f, 0.0f);
+        }
+    }
+
+    [Serializable]
+    public class MushroomData : ISaveable
+    {
+        [field: SerializeField] public SerializableGuid ID { get; set; }
+        public bool Unlocked;
+        
+        public MushroomData()
+        {
+            Unlocked = false;
         }
     }
 

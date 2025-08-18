@@ -8,6 +8,7 @@ namespace GoodLuckValley.World.Cinematics
     {
         [Header("Wwise States")]
         [SerializeField] private List<AK.Wwise.State> statesToSet;
+        [SerializeField] private bool restartOnChange = true;
 
         /// <summary>
         /// Change the music
@@ -17,8 +18,9 @@ namespace GoodLuckValley.World.Cinematics
             // Set each state
             MusicManager.Instance.SetStates(statesToSet);
 
-            // Play the music
-            MusicManager.Instance.Play();
+            // Restart the music if required, otherwise play it normally
+            if (restartOnChange) MusicManager.Instance.Restart();
+            else MusicManager.Instance.Play();
         }
     }
 }

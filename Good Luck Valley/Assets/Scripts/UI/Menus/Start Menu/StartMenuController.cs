@@ -157,32 +157,30 @@ namespace GoodLuckValley.UI.Menus.Start
         /// Create a new game within a Save Slot
         /// </summary>
         /// <param name="saveSlot">The Save Slot to start a new game in</param>
-        public void NewData(SaveSlot saveSlot)
+        private void NewData(SaveSlot saveSlot)
         {
             // Validate that the Save Slot exists
-            if (saveSlots.Contains(saveSlot))
-            {
-                // Start a new game
-                saveLoadSystem.NewGame(saveSlot.Slot, true);
-            }
+            if (!saveSlots.Contains(saveSlot)) return;
+            
+            // Start a new game
+            saveLoadSystem.NewGame(saveSlot.Slot, true);
         }
 
         /// <summary>
         /// Load data wtihin a Save Slot
         /// </summary>
         /// <param name="saveSlot">The Save Slot to load data from</param>
-        public void LoadData(SaveSlot saveSlot)
+        private void LoadData(SaveSlot saveSlot)
         {
             // Validate that the Save Slot exists
-            if (saveSlots.Contains(saveSlot))
-            {
-                // Hide the cursor
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+            if (!saveSlots.Contains(saveSlot)) return;
+            
+            // Hide the cursor
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
 
-                // Load the save file
-                saveLoadSystem.LoadGame(saveSlot.Name);
-            }
+            // Load the save file
+            saveLoadSystem.LoadGame(saveSlot.Name);
         }
 
         /// <summary>

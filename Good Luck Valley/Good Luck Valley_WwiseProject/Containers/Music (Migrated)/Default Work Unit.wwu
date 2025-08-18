@@ -9,7 +9,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{01AACF10-8E57-4649-B29A-686ECB55EE12}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="MASTER_MUSIC" ID="{66327182-3D3A-47D6-B6C1-58308EC3F8FB}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
+							<ObjectRef Name="MASTER_BACKGROUND" ID="{F30C7101-3099-4E5A-BB8D-A5CD2D585B8C}" WorkUnitID="{668C1B8F-AD11-4CC3-9986-6B8F5ED1DBAC}"/>
 						</Reference>
 						<Reference Name="TransitionRoot">
 							<Custom>
@@ -197,6 +197,8 @@
 												<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
 												<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
 												<Property Name="ExitSourceAt" Type="int16" Value="0"/>
+												<Property Name="PlayDestinationPreEntry" Type="bool" Value="False"/>
+												<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
 												<Property Name="SourceContextType" Type="int16" Value="2"/>
 											</PropertyList>
 											<ReferenceList>
@@ -211,7 +213,7 @@
 												<SourceFadeOut>
 													<MusicFade Name="Source Fade-out" ID="{CDD8A18A-EA32-4948-AC22-20D00D735B77}">
 														<PropertyList>
-															<Property Name="FadeTime" Type="Real64" Value="1"/>
+															<Property Name="FadeTime" Type="Real64" Value="0.3"/>
 															<Property Name="FadeType" Type="int16" Value="1"/>
 														</PropertyList>
 													</MusicFade>
@@ -219,7 +221,7 @@
 												<DestinationFadeIn>
 													<MusicFade Name="Destination Fade-in" ID="{7FAD4D4C-5DF5-47A0-A9EB-F580CB754C78}">
 														<PropertyList>
-															<Property Name="FadeTime" Type="Real64" Value="1"/>
+															<Property Name="FadeTime" Type="Real64" Value="0.2"/>
 														</PropertyList>
 													</MusicFade>
 												</DestinationFadeIn>
@@ -1680,6 +1682,7 @@
 						</ObjectList>
 					</ObjectLists>
 				</MusicSwitchContainer>
+				<WorkUnit Name="STINGERS" ID="{5F5C9F6E-3A25-4B7E-9065-293E42541E4E}" PersistMode="Reference"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Containers>
