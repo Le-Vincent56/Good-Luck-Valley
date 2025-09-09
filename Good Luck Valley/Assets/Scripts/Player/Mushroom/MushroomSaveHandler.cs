@@ -29,8 +29,8 @@ namespace GoodLuckValley.Player.Mushroom
         public void Bind(MushroomData data)
         {
             // Bind the data
-            this.mushroomData = mushroomData;
-            this.mushroomData.ID = ID;
+            mushroomData = data;
+            mushroomData.ID = ID;
             
             unlocked = mushroomData.Unlocked;
             spawner.CanSpawnShroom = unlocked;

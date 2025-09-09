@@ -1,8 +1,10 @@
 using GoodLuckValley.Architecture.Optionals;
+using GoodLuckValley.Architecture.ServiceLocator;
 using GoodLuckValley.Architecture.StateMachine;
 using GoodLuckValley.Events;
 using GoodLuckValley.Events.Cinematics;
 using GoodLuckValley.Interactables.Mushroom.States;
+using GoodLuckValley.Persistence;
 using GoodLuckValley.Timers;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -17,6 +19,7 @@ namespace GoodLuckValley.Interactables.Mushroom
         [SerializeField] private ParticleSystem pickParticles;
         private StateMachine stateMachine;
         private CountdownTimer effectTimer;
+        private SaveLoadSystem saveLoadSystem;
         private bool triggerEffect;
         
         
@@ -35,6 +38,8 @@ namespace GoodLuckValley.Interactables.Mushroom
             SetupStateMachine();
 
             Active = true;
+            
+            saveLoadSystem = ServiceLocator.Global.Get<SaveLoadSystem>();
             
             // Set the strategy
             strategy = new MushroomPickupStrategy(this, fadeDuration, GetComponent<PlayableDirector>());
@@ -95,10 +100,11 @@ namespace GoodLuckValley.Interactables.Mushroom
         /// <summary>
         /// Hide the mushroom
         /// </summary>
-        public void HideShroom()
+        public void CollectShroom()
         {
             FadeInteractable(0f, fadeDuration);
             EventBus<EndCinematic>.Raise(new EndCinematic());
+            saveLoadSystem.SaveGame();
         }
 
         private void CreateEffectTimer()
