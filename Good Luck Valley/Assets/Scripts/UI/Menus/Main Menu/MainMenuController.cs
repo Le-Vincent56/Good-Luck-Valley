@@ -42,6 +42,8 @@ namespace GoodLuckValley.UI.Menus.Main
         public int AUDIO => 4;
         public int VIDEO => 5;
         public int CONTROLS => 6;
+        
+        public bool SetCursor { get; set; }
 
         private void Awake()
         {
@@ -69,6 +71,8 @@ namespace GoodLuckValley.UI.Menus.Main
         {
             // Get the scene loader if it was not set
             if (sceneLoader == null) sceneLoader = ServiceLocator.Global.Get<SceneLoader>();
+
+            SetCursor = true;
         }
 
         private void OnEnable()
@@ -208,6 +212,8 @@ namespace GoodLuckValley.UI.Menus.Main
         /// </summary>
         public void Transmute(string currentControlScheme)
         {
+            if (!SetCursor) return;
+            
             switch (currentControlScheme)
             {
                 case "Keyboard and Mouse":
