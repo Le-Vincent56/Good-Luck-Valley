@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GoodLuckValley.UI.Menus.Start
 {
-    public class SlotDeleter : Selectable, ISelectHandler, ISubmitHandler
+    public class SlotDeleter : Selectable, ISubmitHandler, IPointerClickHandler
     {
         [Header("References")]
         [SerializeField] private StartMenuController controller;
@@ -130,7 +130,22 @@ namespace GoodLuckValley.UI.Menus.Start
         /// </summary>
         public void OnSubmit(BaseEventData eventData)
         {
-            // Eixt case - not interactable
+            // Exitt case - not interactable
+            if (!interactable) return;
+
+            // Delete the game data
+            DeleteSaveData();
+
+            // Play the select sound
+            selectSound.Post(gameObject);
+        }
+
+        /// <summary>
+        /// Handle clicking the Slot Deleter
+        /// </summary>
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            // Exitt case - not interactable
             if (!interactable) return;
 
             // Delete the game data

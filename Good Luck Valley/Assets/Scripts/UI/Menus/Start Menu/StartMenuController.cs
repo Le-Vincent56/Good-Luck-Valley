@@ -143,6 +143,9 @@ namespace GoodLuckValley.UI.Menus.Start
 
             // Stop the music
             MusicManager.Instance.SetState(gameState);
+            
+            // Prevent the main menu from showing the cursor (by transmuting)
+            mainMenuController.SetCursor = false;
 
             // Check if the selected Save Slot is empty
             if (selectedSlot.IsEmpty)
@@ -161,6 +164,9 @@ namespace GoodLuckValley.UI.Menus.Start
         {
             // Validate that the Save Slot exists
             if (!saveSlots.Contains(saveSlot)) return;
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             
             // Start a new game
             saveLoadSystem.NewGame(saveSlot.Slot, true);
