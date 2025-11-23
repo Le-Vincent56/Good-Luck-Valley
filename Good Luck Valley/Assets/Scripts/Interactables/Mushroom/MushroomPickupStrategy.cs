@@ -2,7 +2,6 @@ using GoodLuckValley.Events;
 using GoodLuckValley.Events.Cinematics;
 using GoodLuckValley.Events.UI;
 using GoodLuckValley.Player.Mushroom;
-using UnityEngine;
 using UnityEngine.Playables;
 
 namespace GoodLuckValley.Interactables.Mushroom

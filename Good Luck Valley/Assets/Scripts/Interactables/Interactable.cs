@@ -23,6 +23,8 @@ namespace GoodLuckValley.Interactables
         [SerializeField] protected float fadeDuration;
         private Tween interactableFadeTween;
 
+        public int ID => id;
+
         protected override void Awake()
         {
             // Call the parent Awake()
