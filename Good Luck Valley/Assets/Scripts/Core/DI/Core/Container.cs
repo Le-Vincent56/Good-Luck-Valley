@@ -204,6 +204,18 @@ namespace GoodLuckValley.Core.DI.Core
         internal void RemoveChild(Container child) => _children.Remove(child);
 
         /// <summary>
+        /// Adds a registration after the container has been constructed.
+        /// Used exclusively during the build process for factory registrations that
+        /// require a container reference (which doesn't exist at registration time).
+        /// </summary>
+        /// <param name="type">The resolution key type.</param>
+        /// <param name="registration">The registration to add.</param>
+        internal void AddPostBuildRegistration(Type type, Registration registration)
+        {
+            _registrations[type] = registration;
+        }
+
+        /// <summary>
         /// Checks whether ths given type can be resolved from this container,
         /// either the local registrations or through the import chain to parent scopes.
         /// Does not create instances - used by ScopeBuilder to validate imports at build time.

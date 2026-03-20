@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GoodLuckValley.Core.DI.Exceptions;
+using GoodLuckValley.Core.DI.Factories;
 using GoodLuckValley.Core.DI.Injection;
 using GoodLuckValley.Core.DI.Interfaces;
 using UnityEngine;
@@ -113,7 +114,14 @@ namespace GoodLuckValley.Core.DI.Core
         /// <typeparam name="T">The type the factory will create.</typeparam>
         public void RegisterFactory<T>() where T : class
         {
-            throw new NotImplementedException();
+            _registrations.AddPostBuildAction(container =>
+            {
+                Factory<T> factory = new Factory<T>(container);
+                container.AddPostBuildRegistration(
+                    typeof(IFactory<T>),
+                    new Registration(typeof(IFactory<T>), factory)
+                );
+            });
         }
 
         /// <summary>
@@ -124,7 +132,14 @@ namespace GoodLuckValley.Core.DI.Core
         /// <typeparam name="T">The MonoBehaviour type on the prefab.</typeparam>
         public void RegisterPrefabFactory<T>(T prefab) where T : MonoBehaviour
         {
-            throw new NotImplementedException();
+            _registrations.AddPostBuildAction(container =>
+            {
+                PrefabFactory<T> prefabFactory = new PrefabFactory<T>(prefab, container);
+                container.AddPostBuildRegistration(
+                    typeof(IPrefabFactory<T>),
+                    new Registration(typeof(IPrefabFactory<T>), prefabFactory)
+                );
+            });
         }
 
         /// <summary>
@@ -142,6 +157,7 @@ namespace GoodLuckValley.Core.DI.Core
             );
             
             _parent.AddChild(container);
+            _registrations.RunPostBuildActions(container);
             _registrations.InjectSceneObjects(container.Resolve);
 
             return container;

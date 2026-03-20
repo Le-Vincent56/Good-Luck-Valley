@@ -13,11 +13,13 @@ namespace GoodLuckValley.Core.DI.Core
     {
         private readonly Dictionary<Type, Registration> _registrations;
         private readonly List<SceneObjectEntry> _sceneObjects;
+        private readonly List<Action<Container>> _postBuildActions;
 
         public RegistrationCollection()
         {
             _registrations = new Dictionary<Type, Registration>();
             _sceneObjects = new List<SceneObjectEntry>();
+            _postBuildActions = new List<Action<Container>>();
         }
 
         /// <summary>
@@ -79,6 +81,29 @@ namespace GoodLuckValley.Core.DI.Core
                 if (!info.HasInjectables) continue;
                 
                 info.InjectInto(entry.Instance, resolver);
+            }
+        }
+
+        /// <summary>
+        /// Stores a deferred action to run after the container is constructed.
+        /// Used by factory registrations that need a container reference at creation time.
+        /// </summary>
+        /// <param name="action">The action to run, receiving the built container.</param>
+        public void AddPostBuildAction(Action<Container> action)
+        {
+            _postBuildActions.Add(action);
+        }
+
+        /// <summary>
+        /// Executes all stored post-build actions against the given container.
+        /// Called by builders after container construction, before scene object injection.
+        /// </summary>
+        /// <param name="container">The newly built container.</param>
+        public void RunPostBuildActions(Container container)
+        {
+            foreach (Action<Container> action in _postBuildActions)
+            {
+                action.Invoke(container);
             }
         }
 
