@@ -38,6 +38,8 @@ namespace GoodLuckValley.Core.SceneManagement.Data
         {
             if (string.IsNullOrEmpty(sceneID)) return null;
 
+            // TODO: Replace string-based scene ID lookup with int-based identifier
+            // (e.g., hashed IDs or ScriptableObject reference equality) for performance
             for (int i = 0; i < _entries.Count; i++)
             {
                 if (_entries[i].SceneID != sceneID) continue;
