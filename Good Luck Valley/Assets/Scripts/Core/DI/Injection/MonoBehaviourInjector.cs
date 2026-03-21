@@ -24,20 +24,18 @@ namespace GoodLuckValley.Core.DI.Injection
         /// <exception cref="InjectionException">Thrown if no component of type T exists in the scene.</exception>
         public static T FindInScene<T>(Scene scene) where T : MonoBehaviour
         {
-            GameObject[] roots = scene.GetRootGameObjects();
+            T component = Utilities.SceneUtility.FindComponentInScene<T>(scene);
 
-            foreach (GameObject root in roots)
+            if (!component)
             {
-                T component = root.GetComponentInChildren<T>(true);
-
-                if (component != null) return component;
+                throw new InjectionException(
+                    $"Could not find {typeof(T).Name} in scene '{scene.name}'. " +
+                    $"Ensure the MonoBehaviour exists in the scene and is registered " +
+                    $"in the installer via RegisterFromScene<{typeof(T).Name}>()."
+                );
             }
 
-            throw new InjectionException(
-                $"Could not find {typeof(T).Name} in scene '{scene.name}'. " +
-                $"Ensure the MonoBehaviour exists in the scene and is registered " +
-                $"in the installer via RegisterFromScene<{typeof(T).Name}>()."
-            );
+            return component;
         }
 
         /// <summary>
@@ -49,16 +47,7 @@ namespace GoodLuckValley.Core.DI.Injection
         /// <returns>A list of all matching components found. May be empty.</returns>
         public static List<T> FindAllInScene<T>(Scene scene) where T : MonoBehaviour
         {
-            List<T> results = new List<T>();
-            GameObject[] roots = scene.GetRootGameObjects();
-
-            foreach (GameObject root in roots)
-            {
-                T[] components = root.GetComponentsInChildren<T>(true);
-                results.AddRange(components);
-            }
-
-            return results;
+            return Utilities.SceneUtility.FindAllComponentsInScene<T>(scene);
         }
 
         /// <summary>
