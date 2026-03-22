@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using GoodLuckValley.Core.DI.Interfaces;
 using GoodLuckValley.Core.DI.Lifecycle;
 using GoodLuckValley.Core.SceneManagement.Adapters;
@@ -27,7 +28,7 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         /// <summary>
         /// True if a scene is currently being loaded or installed.
         /// </summary>
-        public bool IsBusy => _loadState == SceneLoadState.Loading || _loadState == SceneLoadState.Installing;
+        public bool IsBusy => _loadState is SceneLoadState.Loading or SceneLoadState.Installing;
 
         /// <summary>
         /// Fired before a scene begins loading.
@@ -239,7 +240,7 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         /// </exception>
         private void InstallContainer(Scene scene, SceneEntry entry, IContainer parentContainer)
         {
-            Type installerType = Type.GetType(entry.InstallerTypeName);
+            Type installerType = ResolveInstallerType(entry.InstallerTypeName);
 
             if (installerType == null)
             {
@@ -268,6 +269,35 @@ namespace GoodLuckValley.Core.SceneManagement.Services
                 IInstaller installer = (IInstaller)Activator.CreateInstance(installerType);
                 ContainerRegistry.InstallScene(scene, installer);
             }
+        }
+
+        /// <summary>
+        /// Resolves a type from its name within the currently loaded assemblies.
+        /// Searches for a type by stripping the assembly qualifier from the provided type name and iterates
+        /// through all assemblies loaded in the current application domain to locate the type.
+        /// </summary>
+        /// <param name="typeName">The fully qualified type name to resolve. This may optionally include an assembly qualifier, which will be ignored during the search.</param>
+        /// <returns>The <see cref="Type"/> object of the resolved type if found; otherwise, <see langword="null"/> if the type could not be located.</returns>
+        private static Type ResolveInstallerType(string typeName)
+        {
+            // Strip assembly qualifier if present — we search all assemblies directly
+            int commaIndex = typeName.IndexOf(',');
+            string nameOnly = commaIndex >= 0
+                ? typeName.Substring(0, commaIndex).Trim()
+                : typeName;
+
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            for (int i = 0; i < assemblies.Length; i++)
+            {
+                Type type = assemblies[i].GetType(nameOnly);
+                
+                if (type == null) continue;
+                
+                return type;
+            }
+
+            return null;
         }
     }
 }

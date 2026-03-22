@@ -1,7 +1,10 @@
+using System;
 using GoodLuckValley.Core.DI.Core;
 using GoodLuckValley.Core.DI.Interfaces;
 using GoodLuckValley.Core.DI.Lifecycle;
 using GoodLuckValley.Core.SceneManagement.Data;
+using GoodLuckValley.Core.SceneManagement.Interfaces;
+using GoodLuckValley.Core.SceneManagement.Services;
 using GoodLuckValley.World.LevelManagement.Data;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -17,7 +20,8 @@ namespace GoodLuckValley.Bootstrap
     {
         /// <summary>
         /// Builds the application-scoped container before any scene loads.
-        /// Application services persist for the entire game session.
+        /// Reserved for pre-Addressables setup that must happen before the
+        /// initial scene's Awake() calls
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Initialize()
@@ -27,40 +31,60 @@ namespace GoodLuckValley.Bootstrap
         }
 
         /// <summary>
-        /// Installs the initial scene's container after Unity loads the first scene.
-        /// Awake() has already fired; Start() fires next frame - injection slots in between.
+        /// Called after Unity loads the initial scene. Loads configuration assets
+        /// via Addressables, builds the application container, and kicks off the scene
+        /// management initialization sequence
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static async void OnInitialSceneLoaded()
         {
-            ContainerBuilder appBuilder = new ContainerBuilder("Application");
-            
-            // Load configuration assets from Addressables
-            SceneRegistry sceneRegistry = await LoadAssetAsync<SceneRegistry>("SceneRegistry");
-            LevelRegistry levelRegistry = await LoadAssetAsync<LevelRegistry>("LevelRegistry");
-
-            if (!sceneRegistry)
+            try
             {
-                Debug.LogError(
-                    "[Bootstrapper] Failed to load SceneRegistry from Addressables. " +
-                    "Scene management will not function."
-                );
-                
-                return;
-            }
+                // Load configuration assets from Addressables
+                SceneRegistry sceneRegistry = await LoadAssetAsync<SceneRegistry>("SceneRegistry");
+                LevelRegistry levelRegistry = await LoadAssetAsync<LevelRegistry>("LevelRegistry");
 
-            if (!levelRegistry)
-            {
-                Debug.LogError(
-                    "[Bootstrapper] Failed to load LevelRegistry from Addressables. " +
-                    "Level management will not function."
-                );
-                
-                return;
+                if (!sceneRegistry)
+                {
+                    Debug.LogError(
+                        "[Bootstrapper] Failed to load SceneRegistry from Addressables. " +
+                        "Scene management will not function."
+                    );
+
+                    return;
+                }
+
+                if (!levelRegistry)
+                {
+                    Debug.LogError(
+                        "[Bootstrapper] Failed to load LevelRegistry from Addressables. " +
+                        "Level management will not function."
+                    );
+
+                    return;
+                }
+
+                // Build the application-scoped container
+                ContainerBuilder appBuilder = new ContainerBuilder("Application");
+
+                appBuilder.RegisterInstance<SceneRegistry>(sceneRegistry);
+                appBuilder.RegisterInstance<LevelRegistry>(levelRegistry);
+                appBuilder.RegisterSingleton<ISceneLoader, AddressablesSceneLoader>();
+                appBuilder.RegisterSingleton<ITransitionService, TransitionService>();
+                appBuilder.RegisterSingleton<ISceneService, SceneService>();
+
+                IContainer appContainer = appBuilder.Build();
+                ContainerRegistry.SetApplicationContainer(appContainer);
+
+                // Iniitalize scene management (loads transition scene, then initial scene)
+                ISceneService sceneService = appContainer.Resolve<ISceneService>();
+                await sceneService.InitializeAsync();
             }
-            
-            IContainer appContainer = appBuilder.Build();
-            ContainerRegistry.SetApplicationContainer(appContainer);
+            catch (Exception ex)
+            {
+                Debug.LogError("[Bootstrapper] Initialization failed: " + ex.Message);
+                Debug.LogException(ex);
+            }
         }
         
         /// <summary>

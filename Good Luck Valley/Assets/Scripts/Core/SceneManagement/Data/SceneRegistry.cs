@@ -7,12 +7,12 @@ namespace GoodLuckValley.Core.SceneManagement.Data
     /// ScriptableObject that maps scene IDs to Addressable references and DI installer type names.
     /// Central configuration for the scene management system.
     /// </summary>
-    [CreateAssetMenu(fileName = "SceneRegistry", menuName = "GoodLuckValley/Scene Management/Scene Registry")]
+    [CreateAssetMenu(fileName = "SceneRegistry", menuName = "Good Luck Valley/Scene Management/Scene Registry")]
     public class SceneRegistry : ScriptableObject
     {
         [SerializeField] private List<SceneEntry> _entries = new List<SceneEntry>();
-        [SerializeField] private string _transitionSceneID;
-        [SerializeField] private string _initialSceneID;
+        [SerializeField] private string transitionSceneID;
+        [SerializeField] private string initialSceneID;
         
         /// <summary>
         /// All configured scene entries.
@@ -22,12 +22,12 @@ namespace GoodLuckValley.Core.SceneManagement.Data
         /// <summary>
         /// The scene ID of the persistent transition scene (loaded at app start, never unloads)
         /// </summary>
-        public string TransitionSceneID => _transitionSceneID;
+        public string TransitionSceneID => transitionSceneID;
         
         /// <summary>
         /// The scene ID of the initial scene to load after initialization (e.g., main menu).
         /// </summary>
-        public string InitialSceneID => _initialSceneID;
+        public string InitialSceneID => initialSceneID;
 
         /// <summary>
         /// Looks up a scene entry by its ID.
@@ -65,8 +65,8 @@ namespace GoodLuckValley.Core.SceneManagement.Data
         {
             SceneRegistry registry = CreateInstance<SceneRegistry>();
             registry._entries = new List<SceneEntry>(entries);
-            registry._transitionSceneID = transitionSceneID;
-            registry._initialSceneID = initialSceneID;
+            registry.transitionSceneID = transitionSceneID;
+            registry.initialSceneID = initialSceneID;
             return registry;
         }
     }

@@ -8,55 +8,45 @@ namespace GoodLuckValley.Core.SceneManagement.Data
     /// Serializable entry mapping a scene ID to its Addressable reference
     /// and DI installer configuration. Used by <see cref="SceneRegistry"/>.
     /// </summary>
+    [Serializable]
     public class SceneEntry
     {
-        [SerializeField] private string _sceneID;
-        [SerializeField] private AssetReference _sceneReference;
-        [SerializeField] private string _installerTypeName;
-        [SerializeField] private bool _isScoped;
-        [SerializeField] private bool _skipContainerInstallation;
+        [SerializeField] private string sceneID;
+        [SerializeField] private AssetReference sceneReference;
+        [SerializeField] private string installerTypeName;
+        [SerializeField] private bool isScoped;
+        [SerializeField] private bool skipContainerInstallation;
         
         /// <summary>
         /// The unique identifier for this scene.
         /// </summary>
-        public string SceneID => _sceneID;
+        public string SceneID => sceneID;
 
         /// <summary>
         /// Addressable asset reference for loading the scene.
         /// </summary>
-        public AssetReference SceneReference => _sceneReference;
+        public AssetReference SceneReference => sceneReference;
         
         /// <summary>
         /// Fully qualified type name of the installer class.
         /// Resolved via <see cref="Activator.CreateInstance"/> at load time.
         /// Must have a parameterless constructor.
         /// </summary>
-        public string InstallerTypeName => _installerTypeName;
+        public string InstallerTypeName => installerTypeName;
         
         /// <summary>
         /// True if the installer implements IScopedInstaller (receives IScopeBuilder with Import support);
         /// false if it implements IInstaller (receives IContainerBuilder).
         /// </summary>
-        public bool IsScoped => _isScoped;
+        public bool IsScoped => isScoped;
         
         /// <summary>
         /// True to skip DI container installation for this scene
         /// (e.g., persistent transition scene, splash screen).
         /// </summary>
-        public bool SkipContainerInstallation => _skipContainerInstallation;
-
-        /// <summary>
-        /// Returns the Addressable address string for loading.
-        /// Falls back to <see cref="SceneID"/> if no AssetReference is configured.
-        /// </summary>
-        /// <returns></returns>
-        public string GetAddress()
-        {
-            if(_sceneReference != null && _sceneReference.RuntimeKeyIsValid())
-                return _sceneReference.RuntimeKey.ToString();
-
-            return _sceneID;
-        }
+        public bool SkipContainerInstallation => skipContainerInstallation;
+        
+        private SceneEntry() { }
 
         internal SceneEntry(
             string sceneID,
@@ -65,10 +55,23 @@ namespace GoodLuckValley.Core.SceneManagement.Data
             bool skipContainerInstallation
         )
         {
-            _sceneID = sceneID;
-            _installerTypeName = installerTypeName;
-            _isScoped = isScoped;
-            _skipContainerInstallation = skipContainerInstallation;
+            this.sceneID = sceneID;
+            this.installerTypeName = installerTypeName;
+            this.isScoped = isScoped;
+            this.skipContainerInstallation = skipContainerInstallation;
+        }
+
+        /// <summary>
+        /// Returns the Addressable address string for loading.
+        /// Falls back to <see cref="SceneID"/> if no AssetReference is configured.
+        /// </summary>
+        /// <returns></returns>
+        public string GetAddress()
+        {
+            if(sceneReference != null && sceneReference.RuntimeKeyIsValid())
+                return sceneReference.RuntimeKey.ToString();
+
+            return sceneID;
         }
     }
 }
