@@ -2,6 +2,9 @@ using System;
 using GoodLuckValley.Core.DI.Core;
 using GoodLuckValley.Core.DI.Interfaces;
 using GoodLuckValley.Core.DI.Lifecycle;
+using GoodLuckValley.Core.Input.Adapters;
+using GoodLuckValley.Core.Input.Interfaces;
+using GoodLuckValley.Core.Input.Services;
 using GoodLuckValley.Core.SceneManagement.Data;
 using GoodLuckValley.Core.SceneManagement.Interfaces;
 using GoodLuckValley.Core.SceneManagement.Services;
@@ -72,7 +75,19 @@ namespace GoodLuckValley.Bootstrap
                 appBuilder.RegisterSingleton<ISceneLoader, AddressablesSceneLoader>();
                 appBuilder.RegisterSingleton<ITransitionService, TransitionService>();
                 appBuilder.RegisterSingleton<ISceneService, SceneService>();
-
+                
+                // Input
+                InputService inputService = new InputService(() => Time.time);
+                appBuilder.RegisterInstance<IPlayerInput>(inputService);
+                appBuilder.RegisterInstance<IUIInput>(inputService);
+                appBuilder.RegisterInstance<IInputContextService>(inputService);
+                
+                // Create persistent InputAdapter GameObject and wire to InputService
+                GameObject inputAdapterGo = new GameObject("InputAdapter");
+                UnityEngine.Object.DontDestroyOnLoad(inputAdapterGo);
+                InputAdapter inputAdapter = inputAdapterGo.AddComponent<InputAdapter>();
+                inputAdapter.Initialize(inputService);
+                
                 IContainer appContainer = appBuilder.Build();
                 ContainerRegistry.SetApplicationContainer(appContainer);
 
