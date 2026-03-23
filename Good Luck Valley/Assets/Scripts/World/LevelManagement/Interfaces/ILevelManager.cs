@@ -22,7 +22,7 @@ namespace GoodLuckValley.World.LevelManagement.Interfaces
         /// The currently loaded level's scene, or default if no level is loaded.
         /// </summary>
         Scene CurrentLevelScene { get; }
-        
+
         /// <summary>
         /// Fired when a level transition begins.
         /// </summary>
@@ -47,16 +47,17 @@ namespace GoodLuckValley.World.LevelManagement.Interfaces
         /// unloads the current level, loads the target, finds the spawn point,
         /// and reveals. Ignored if a transition is already in progress.
         /// </summary>
-        /// <param name="targetSceneID">Scene ID of the target level.</param>
+        /// <param name="targetLevel">The LevelData of the target level.</param>
         /// <param name="targetSpawnPointID">Spawn point ID to position the player at.</param>
         /// <param name="transitionConfig">
         /// Optional override. Falls back to the target level's default, then to
         /// LevelRegistry's default.
         /// </param>
         Awaitable TransitionToLevelAsync(
-            string targetSceneID,
+            LevelData targetLevel,
             string targetSpawnPointID,
-            TransitionConfig transitionConfig = null);
+            TransitionConfig transitionConfig = null
+        );
 
         /// <summary>
         /// Unloads the current level scene and disposes its container.

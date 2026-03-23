@@ -10,31 +10,32 @@ namespace GoodLuckValley.World.LevelManagement.Data
     [CreateAssetMenu(fileName = "LevelRegistry", menuName = "Good Luck Valley/Levels/Level Registry")]
     public class LevelRegistry : ScriptableObject
     {
-        [SerializeField] private List<LevelData> _allLevels = new List<LevelData>();
-        [SerializeField] private LevelData _startingLevel;
-        [SerializeField] private string _startingSpawnPointID;
-        [SerializeField] private TransitionConfig _defaultTransitionConfig;
-
+        [SerializeField] private List<LevelData> allLevels = new List<LevelData>();
+        [SerializeField] private LevelData startingLevel;
+        [SerializeField] private string startingSpawnPointID;
+        [SerializeField] private TransitionConfig defaultTransitionConfig;
+        private Dictionary<int, LevelData> _lookupByStableID;
+        
         /// <summary>
         /// All levels in the game, in order.
         /// </summary>
-        public IReadOnlyList<LevelData> AllLevels => _allLevels;
+        public IReadOnlyList<LevelData> AllLevels => allLevels;
 
         /// <summary>
         /// The first level loaded when starting a new game.
         /// </summary>
-        public LevelData StartingLevel => _startingLevel;
+        public LevelData StartingLevel => startingLevel;
 
         /// <summary>
         /// The spawn point ID to use when loading the starting level.
         /// </summary>
-        public string StartingSpawnPointID => _startingSpawnPointID;
+        public string StartingSpawnPointID => startingSpawnPointID;
 
         /// <summary>
         /// System-wide default transition config. Used when neither the trigger
         /// nor the target level specifies a transition config.
         /// </summary>
-        public TransitionConfig DefaultTransitionConfig => _defaultTransitionConfig;
+        public TransitionConfig DefaultTransitionConfig => defaultTransitionConfig;
 
         /// <summary>
         /// Looks up a level by its scene ID.
@@ -44,18 +45,50 @@ namespace GoodLuckValley.World.LevelManagement.Data
         public LevelData GetLevelBySceneID(string sceneID)
         {
             if (string.IsNullOrEmpty(sceneID)) return null;
-
-            // TODO: Replace string-based scene ID lookup with int-based identifier
-            // (e.g., hashed IDs or ScriptableObject reference equality) for performance
-            for (int i = 0; i < _allLevels.Count; i++)
+            
+            for (int i = 0; i < allLevels.Count; i++)
             {
-                if (_allLevels[i].SceneID == sceneID)
+                if (allLevels[i].SceneID == sceneID)
                 {
-                    return _allLevels[i];
+                    return allLevels[i];
                 }
             }
 
             return null;
+        }
+        
+        /// <summary>
+        /// Looks up a level by its stable ID. Uses an O(1) dictionary lookup
+        /// built lazily on first access.
+        /// </summary>
+        /// <param name="stableID">The stable ID to search for.</param>
+        /// <returns>The matching LevelData, or null if not found.</returns>
+        public LevelData GetLevelByStableID(int stableID)
+        {
+            EnsureLookupBuilt();
+
+            return _lookupByStableID.GetValueOrDefault(stableID);
+        }
+
+        /// <summary>
+        /// Ensures that a lookup dictionary mapping stable IDs to levels is built and initialized.
+        /// This method populates the dictionary with valid LevelData objects from the list of levels
+        /// using their StableID as the key, only if the dictionary has not been created yet.
+        /// </summary>
+        private void EnsureLookupBuilt()
+        {
+            if (_lookupByStableID != null) return;
+
+            _lookupByStableID = new Dictionary<int, LevelData>();
+
+            for (int i = 0; i < allLevels.Count; i++)
+            {
+                LevelData level = allLevels[i];
+
+                if (!level || level.StableID == 0) continue;
+                
+                _lookupByStableID[level.StableID] = level;
+            }
         }
 
         /// <summary>
@@ -69,10 +102,10 @@ namespace GoodLuckValley.World.LevelManagement.Data
         )
         {
             LevelRegistry registry = CreateInstance<LevelRegistry>();
-            registry._allLevels = new List<LevelData>(allLevels);
-            registry._startingLevel = startingLevel;
-            registry._startingSpawnPointID = startingSpawnPointId;
-            registry._defaultTransitionConfig = defaultTransitionConfig;
+            registry.allLevels = new List<LevelData>(allLevels);
+            registry.startingLevel = startingLevel;
+            registry.startingSpawnPointID = startingSpawnPointId;
+            registry.defaultTransitionConfig = defaultTransitionConfig;
             return registry;
         }
     }

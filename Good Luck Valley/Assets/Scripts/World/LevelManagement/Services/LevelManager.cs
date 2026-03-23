@@ -72,7 +72,8 @@ namespace GoodLuckValley.World.LevelManagement.Services
         /// </param>
         public async Awaitable LoadFirstLevelAsync(IContainer gameplaySessionContainer)
         {
-            _gameplaySessionContainer = gameplaySessionContainer ?? throw new ArgumentNullException(nameof(gameplaySessionContainer));
+            _gameplaySessionContainer = gameplaySessionContainer ??
+                                        throw new ArgumentNullException(nameof(gameplaySessionContainer));
 
             LevelData startingLevel = _levelRegistry.StartingLevel;
 
@@ -80,12 +81,13 @@ namespace GoodLuckValley.World.LevelManagement.Services
                 throw new SceneManagementException("No starting level configured in LevelRegistry.");
 
             SceneLoadResult result = await _sceneService.LoadAdditiveSceneAsync(
-                startingLevel.SceneID, 
+                startingLevel.StableID,
                 _gameplaySessionContainer
             );
 
             if (!result.Success)
-                throw new SceneManagementException($"Failed to load starting level '{startingLevel.SceneID}'': {result.ErrorMessage}");
+                throw new SceneManagementException(
+                    $"Failed to load starting level '{startingLevel.SceneID}'': {result.ErrorMessage}");
 
             _currentLevel = startingLevel;
             _currentLevelScene = result.Scene;
@@ -101,31 +103,27 @@ namespace GoodLuckValley.World.LevelManagement.Services
         /// unloads the current level, loads the target, finds the spawn point,
         /// and reveals. Ignored if a transition is already in progress.
         /// </summary>
-        /// <param name="targetSceneID">Scene ID of the target level.</param>
+        /// <param name="targetLevel">The LevelData of the target level.</param>
         /// <param name="targetSpawnPointID">Spawn point ID to position the player at.</param>
         /// <param name="transitionConfig">
         /// Optional override. Falls back to the target level's default, then to
         /// LevelRegistry's default.
         /// </param>
         public async Awaitable TransitionToLevelAsync(
-            string targetSceneID,
+            LevelData targetLevel,
             string targetSpawnPointID,
             TransitionConfig transitionConfig = null)
         {
             if (_transitionService.IsTransitioning)
-            {
                 return;
-            }
-
-            OnLevelTransitionStarted?.Invoke(targetSceneID);
-
-            LevelData targetLevel = _levelRegistry.GetLevelBySceneID(targetSceneID);
 
             if (!targetLevel)
-                throw new SceneManagementException($"No LevelData found for scene ID '{targetSceneID}' in LevelRegistry.");
+                throw new SceneManagementException("Target level is null.");
+
+            OnLevelTransitionStarted?.Invoke(targetLevel.SceneID);
 
             // Resolve transition config: per-call override -> level default -> registry default
-            TransitionConfig config = transitionConfig 
+            TransitionConfig config = transitionConfig
                                       ?? targetLevel.DefaultEntryTransition
                                       ?? _levelRegistry.DefaultTransitionConfig;
 
@@ -143,24 +141,25 @@ namespace GoodLuckValley.World.LevelManagement.Services
             if (_currentLevelScene.IsValid())
                 await _sceneService.UnloadSceneAsync(_currentLevelScene);
 
-            // Load the new level
+            // Load the new level via stable ID
             SceneLoadResult result = await _sceneService.LoadAdditiveSceneAsync(
-                targetSceneID, _gameplaySessionContainer);
+                targetLevel.StableID, _gameplaySessionContainer);
 
             if (!result.Success)
             {
                 _currentLevel = null;
                 _currentLevelScene = default;
-                
+
                 await _transitionService.RevealAsync();
-                
-                throw new SceneManagementException($"Failed to load level '{targetSceneID}': {result.ErrorMessage}" );
+
+                throw new SceneManagementException(
+                    $"Failed to load level '{targetLevel.SceneID}': {result.ErrorMessage}");
             }
 
             _currentLevel = targetLevel;
             _currentLevelScene = result.Scene;
 
-            // TODO: Find SpawnPointMarker by targetSpawnPointId and position player.
+            // TODO: Find SpawnPointMarker by targetSpawnPointID and position player.
             // Requires Gameplay layer integration (IPlayerStateCapture).
 
             // Reveal the screen

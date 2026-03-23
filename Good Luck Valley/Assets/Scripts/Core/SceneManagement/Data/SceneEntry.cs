@@ -16,6 +16,7 @@ namespace GoodLuckValley.Core.SceneManagement.Data
         [SerializeField] private string installerTypeName;
         [SerializeField] private bool isScoped;
         [SerializeField] private bool skipContainerInstallation;
+        [SerializeField] private int stableID;
         
         /// <summary>
         /// The unique identifier for this scene.
@@ -46,19 +47,27 @@ namespace GoodLuckValley.Core.SceneManagement.Data
         /// </summary>
         public bool SkipContainerInstallation => skipContainerInstallation;
         
+        /// <summary>
+        /// Deterministic integer hash of <see cref="SceneID"/>, computed
+        /// via <see cref="Utilities.HashUtility.ComputeStableHash"/> at edit time.
+        /// </summary>
+        public int StableID => stableID;
+        
         private SceneEntry() { }
 
         internal SceneEntry(
             string sceneID,
             string installerTypeName,
             bool isScoped,
-            bool skipContainerInstallation
+            bool skipContainerInstallation,
+            int stableID = 0
         )
         {
             this.sceneID = sceneID;
             this.installerTypeName = installerTypeName;
             this.isScoped = isScoped;
             this.skipContainerInstallation = skipContainerInstallation;
+            this.stableID = stableID;
         }
 
         /// <summary>
@@ -73,5 +82,11 @@ namespace GoodLuckValley.Core.SceneManagement.Data
 
             return sceneID;
         }
+
+        /// <summary>
+        /// Sets the stable ID for the scene entry. Used by editor tooling.
+        /// </summary>
+        /// <param name="id">The stable ID to assign to the scene entry.</param>
+        internal void SetStableID(int id) => stableID = id;
     }
 }

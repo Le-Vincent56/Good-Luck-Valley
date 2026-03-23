@@ -19,12 +19,12 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         private readonly ITransitionService _transitionService;
 
         private SceneLoadState _loadState;
-        
+
         /// <summary>
         /// The current state of the last scene load operation.
         /// </summary>
         public SceneLoadState LoadState => _loadState;
-        
+
         /// <summary>
         /// True if a scene is currently being loaded or installed.
         /// </summary>
@@ -34,17 +34,17 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         /// Fired before a scene begins loading.
         /// </summary>
         public event Action<string> OnSceneLoadStarted;
-        
+
         /// <summary>
         /// Fired after a scene is loaded and its container is installed.
         /// </summary>
         public event Action<string, Scene> OnSceneLoadCompleted;
-        
+
         /// <summary>
         /// Fired when a scene load or container installation fails.
         /// </summary>
         public event Action<string, string> OnSceneLoadFailed;
-        
+
         /// <summary>
         /// Fired after a scene is unloaded and its container is disposed.
         /// </summary>
@@ -57,8 +57,10 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         )
         {
             _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
-            _sceneRegistry = sceneRegistry ?? throw new ArgumentNullException(nameof(sceneRegistry));;
-            _transitionService = transitionService ?? throw new ArgumentNullException(nameof(transitionService));;
+            _sceneRegistry = sceneRegistry ?? throw new ArgumentNullException(nameof(sceneRegistry));
+            ;
+            _transitionService = transitionService ?? throw new ArgumentNullException(nameof(transitionService));
+            ;
         }
 
         /// <summary>
@@ -72,14 +74,15 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         {
             // Step 1: Load persistent transition scene
             string transitionSceneID = _sceneRegistry.TransitionSceneID;
-            
-            if(string.IsNullOrEmpty(transitionSceneID))
+
+            if (string.IsNullOrEmpty(transitionSceneID))
                 throw new SceneManagementException("TransitionSceneID is not configured in SceneRegistry.");
 
             SceneEntry transitionEntry = _sceneRegistry.GetEntry(transitionSceneID);
 
             if (transitionEntry == null)
-                throw new SceneManagementException($"Transition scene entry not found in SceneRegistry for ID '{transitionSceneID}'..");
+                throw new SceneManagementException(
+                    $"Transition scene entry not found in SceneRegistry for ID '{transitionSceneID}'..");
 
             SceneLoadResult transitionResult = await _sceneLoader.LoadSceneAsync(
                 transitionEntry.GetAddress(),
@@ -88,9 +91,10 @@ namespace GoodLuckValley.Core.SceneManagement.Services
 
             if (!transitionResult.Success)
                 throw new SceneManagementException($"Failed to load transition scene: {transitionResult.ErrorMessage}");
-            
+
             // Step 2: Find TransitioNCanvasAdapter and wire to ITransitionService
-            TransitionCanvasAdapter adapter = Utilities.SceneUtility.FindComponentInScene<TransitionCanvasAdapter>(transitionResult.Scene);
+            TransitionCanvasAdapter adapter =
+                Utilities.SceneUtility.FindComponentInScene<TransitionCanvasAdapter>(transitionResult.Scene);
 
             if (!adapter)
             {
@@ -100,9 +104,9 @@ namespace GoodLuckValley.Core.SceneManagement.Services
                     "TransitionCanvasAdapter component"
                 );
             }
-            
+
             _transitionService.SetCanvasAdapter(adapter);
-            
+
             // Step 3: Load initial scene
             string initialSceneID = _sceneRegistry.InitialSceneID;
 
@@ -129,25 +133,59 @@ namespace GoodLuckValley.Core.SceneManagement.Services
             IContainer parentContainer = null
         )
         {
+            SceneEntry entry = _sceneRegistry.GetEntry(sceneID);
+            return await LoadSceneInternal(sceneID, entry, parentContainer);
+        }
+
+        /// <summary>
+        /// Loads a scene asynchronously based on the provided stable identifier.
+        /// The method resolves the scene's metadata from the registry and initiates the loading process.
+        /// If metadata is not available, the method will attempt to load the scene using the stable identifier as a fallback.
+        /// </summary>
+        /// <param name="stableID">The unique identifier of the scene to load, typically used to resolve scene metadata.</param>
+        /// <param name="parentContainer">Optional scoped dependency injection container to be used for the scene's lifecycle. Null if no container is required.</param>
+        /// <returns>A task that resolves to a <see cref="SceneLoadResult"/> representing the outcome of the scene loading process.</returns>
+        public async Awaitable<SceneLoadResult> LoadSceneAsync(
+            int stableID,
+            IContainer parentContainer = null
+        )
+        {
+            SceneEntry entry = _sceneRegistry.GetEntryByStableID(stableID);
+            string sceneID = entry != null ? entry.SceneID : stableID.ToString();
+            return await LoadSceneInternal(sceneID, entry, parentContainer);
+        }
+
+        /// <summary>
+        /// Loads a scene internally, including necessary setup such as resolving the scene entry,
+        /// loading the scene via Addressables, and optionally installing a dependency injection container.
+        /// </summary>
+        /// <param name="sceneID">The unique identifier of the scene to be loaded.</param>
+        /// <param name="entry">The scene entry containing data about the scene to load, such as its address and installer configuration.</param>
+        /// <param name="parentContainer">The parent dependency injection container to use for setting up the scene's scoped container. Can be null.</param>
+        /// <returns>A task that resolves to a <see cref="SceneLoadResult"/> object, which indicates the success or failure of the operation.</returns>
+        private async Awaitable<SceneLoadResult> LoadSceneInternal(
+            string sceneID,
+            SceneEntry entry,
+            IContainer parentContainer
+        )
+        {
             if (IsBusy)
             {
-                string error = $"Scene service is busy (state: {_loadState}. Cannot load {sceneID}.";
+                string error = $"Scene service is busy (state: {_loadState}). Cannot load '{sceneID}'.";
                 OnSceneLoadFailed?.Invoke(sceneID, error);
                 return SceneLoadResult.Failed(error);
             }
 
-            SceneEntry entry = _sceneRegistry.GetEntry(sceneID);
-
             if (entry == null)
             {
-                string error = "No SceneEntry found for scene ID '{sceneID}'.";
+                string error = $"No SceneEntry found for scene ID '{sceneID}'.";
                 OnSceneLoadFailed?.Invoke(sceneID, error);
                 return SceneLoadResult.Failed(error);
             }
 
             _loadState = SceneLoadState.Loading;
             OnSceneLoadStarted?.Invoke(sceneID);
-            
+
             // Load the scene via Addressables
             SceneLoadResult result = await _sceneLoader.LoadSceneAsync(
                 entry.GetAddress(),
@@ -158,9 +196,9 @@ namespace GoodLuckValley.Core.SceneManagement.Services
             {
                 _loadState = SceneLoadState.Error;
                 OnSceneLoadFailed?.Invoke(sceneID, result.ErrorMessage);
-                return result;;
+                return result;
             }
-            
+
             // Install DI container if configured
             if (!entry.SkipContainerInstallation && !string.IsNullOrEmpty(entry.InstallerTypeName))
             {
@@ -178,7 +216,7 @@ namespace GoodLuckValley.Core.SceneManagement.Services
                     return SceneLoadResult.Failed(error);
                 }
             }
-            
+
             _loadState = SceneLoadState.Ready;
             OnSceneLoadCompleted?.Invoke(sceneID, result.Scene);
             return result;
@@ -205,6 +243,21 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         }
 
         /// <summary>
+        /// Loads an additional scene into the current scene context in an additive manner.
+        /// Utilizes the specified parent container for dependency injection purposes.
+        /// </summary>
+        /// <param name="stableID">The stable identifier of the scene to load.</param>
+        /// <param name="parentContainer">The optional parent dependency injection container for the scene's dependencies.</param>
+        /// <returns>Returns a <see cref="SceneLoadResult"/> representing the result of the scene loading operation.</returns>
+        public async Awaitable<SceneLoadResult> LoadAdditiveSceneAsync(
+            int stableID,
+            IContainer parentContainer
+        )
+        {
+            return await LoadSceneAsync(stableID, parentContainer);
+        }
+
+        /// <summary>
         /// Unloads a specified scene and cleans up its associated resources.
         /// 1. Unregisters the scene's container from the container registry.
         /// 2. Initiates asynchronous unloading of the scene.
@@ -215,10 +268,10 @@ namespace GoodLuckValley.Core.SceneManagement.Services
         public async Awaitable<bool> UnloadSceneAsync(Scene scene)
         {
             ContainerRegistry.UnregisterSceneContainer(scene);
-            
+
             bool success = await _sceneLoader.UnloadSceneAsync(scene);
-            
-            if(success) OnSceneUnloaded?.Invoke(scene);
+
+            if (success) OnSceneUnloaded?.Invoke(scene);
 
             return success;
         }
@@ -291,9 +344,9 @@ namespace GoodLuckValley.Core.SceneManagement.Services
             for (int i = 0; i < assemblies.Length; i++)
             {
                 Type type = assemblies[i].GetType(nameOnly);
-                
+
                 if (type == null) continue;
-                
+
                 return type;
             }
 

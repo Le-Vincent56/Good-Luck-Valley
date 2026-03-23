@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef1c97008944f0bb4181388e51794e8, type: 3}
   m_Name: SceneRegistry
   m_EditorClassIdentifier: GoodLuckValley.Core::GoodLuckValley.Core.SceneManagement.Data.SceneRegistry
-  _entries:
+  entries:
   - sceneID: Transition
     sceneReference:
       m_AssetGUID: 383571fcd61b6274898e694de5410763
@@ -23,27 +23,29 @@ MonoBehaviour:
     installerTypeName: 
     isScoped: 0
     skipContainerInstallation: 1
+    stableID: -425926142
   - sceneID: MainMenu
     sceneReference:
       m_AssetGUID: ed005e055fa1d014fab1440175d612c4
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
-      m_EditorAssetChanged: 0
-    installerTypeName: GoodLuckValley.Bootstrap.Installers.MainMenuInstaller, GoodLuckValley.Bootstrap
+      m_EditorAssetChanged: 1
+    installerTypeName: GoodLuckValley.Bootstrap.Installers.MainMenuInstaller
     isScoped: 1
     skipContainerInstallation: 0
+    stableID: -761311953
   - sceneID: GameplaySession
     sceneReference:
       m_AssetGUID: 016a38d7ff6c43c4d9cd83fe5a8efe5a
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
-      m_EditorAssetChanged: 0
-    installerTypeName: GoodLuckValley.Bootstrap.Installers.GameplaySessionInstaller,
-      GoodLuckValley.Bootstrap
+      m_EditorAssetChanged: 1
+    installerTypeName: GoodLuckValley.Bootstrap.Installers.GameplaySessionInstaller
     isScoped: 1
     skipContainerInstallation: 0
+    stableID: 1432969703
   - sceneID: SampleLevel01
     sceneReference:
       m_AssetGUID: a4909b4aea5494542afe2050c96914a4
@@ -51,9 +53,9 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    installerTypeName: GoodLuckValley.Bootstrap.Installers.SampleLevelInstaller,
-      GoodLuckValley.Bootstrap
+    installerTypeName: GoodLuckValley.Bootstrap.Installers.SampleLevelInstaller
     isScoped: 1
     skipContainerInstallation: 0
+    stableID: 2085332572
   transitionSceneID: Transition
   initialSceneID: MainMenu

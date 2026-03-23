@@ -15,7 +15,15 @@ MonoBehaviour:
   sceneID: SampleLevel01
   displayName: Sample Level
   areaID: TestArea
-  spawnPointIDs:
-  - SpawnA
-  - SpawnB
+  stableID: 0
+  bakedSpawnPoints:
+  - id: SpawnA
+    stableID: 298706299
+    position: {x: -5, y: 0}
+    faceRight: 1
+  - id: SpawnB
+    stableID: 315483918
+    position: {x: 5, y: 0}
+    faceRight: 0
   defaultEntryTransition: {fileID: 11400000, guid: b5a0935dce8af8343919fd016574c48d, type: 2}
+  lastBakeTimestamp: 1774199142735

@@ -14,7 +14,7 @@ namespace GoodLuckValley.World.LevelManagement.Adapters
     public class LevelTransitionTrigger : MonoBehaviour
     {
         [Header("Target")] 
-        [SerializeField] private string targetSceneID;
+        [SerializeField] private LevelData targetLevel;
         [SerializeField] private string targetSpawnPointID;
 
         [Header("Transition (optional override)")] 
@@ -25,9 +25,9 @@ namespace GoodLuckValley.World.LevelManagement.Adapters
         private bool _triggered;
 
         /// <summary>
-        /// The target scene ID this trigger transitions to.
+        /// The target level this trigger transitions to.
         /// </summary>
-        public string TargetSceneID => targetSceneID;
+        public LevelData TargetLevel => targetLevel;
 
         /// <summary>
         /// The spawn point ID in the target scene.
@@ -45,7 +45,7 @@ namespace GoodLuckValley.World.LevelManagement.Adapters
             _triggered = true;
 
             await _levelManager.TransitionToLevelAsync(
-                targetSceneID, 
+                targetLevel, 
                 targetSpawnPointID,
                 transitionConfig
             );

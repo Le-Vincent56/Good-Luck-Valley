@@ -64,6 +64,14 @@ namespace GoodLuckValley.Core.SceneManagement.Interfaces
         Awaitable<SceneLoadResult> LoadSceneAsync(string sceneID, IContainer parentContainer = null);
         
         /// <summary>
+        /// Loads a scene by its stable ID from the SceneRegistry using O(1) dictionary lookup.
+        /// </summary>
+        /// <param name="stableID">The stable ID as baked into the SceneEntry.</param>
+        /// <param name="parentContainer">An optional parent container for scoped installations.</param>
+        /// <returns>The result of the load operation.</returns>
+        Awaitable<SceneLoadResult> LoadSceneAsync(int stableID, IContainer parentContainer = null);
+        
+        /// <summary>
         /// Unloads a scene, disposing its DI container first via ContainerRegistry.
         /// </summary>
         /// <param name="scene">The scene to unload.</param>
@@ -78,5 +86,13 @@ namespace GoodLuckValley.Core.SceneManagement.Interfaces
         /// <param name="parentContainer">The parent container for scoped installation.</param>
         /// <returns>The result of the load operation.</returns>
         Awaitable<SceneLoadResult> LoadAdditiveSceneAsync(string sceneID, IContainer parentContainer);
+        
+        /// <summary>
+        /// Convenience method for loading a scene additively by stable ID with a parent container.
+        /// </summary>
+        /// <param name="stableID">The stable ID as baked into the SceneEntry.</param>
+        /// <param name="parentContainer">The parent container for scoped installation.</param>
+        /// <returns>The result of the load operation.</returns>
+        Awaitable<SceneLoadResult> LoadAdditiveSceneAsync(int stableID, IContainer parentContainer);
     }
 }

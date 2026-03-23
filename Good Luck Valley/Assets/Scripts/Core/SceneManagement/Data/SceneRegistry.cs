@@ -10,14 +10,15 @@ namespace GoodLuckValley.Core.SceneManagement.Data
     [CreateAssetMenu(fileName = "SceneRegistry", menuName = "Good Luck Valley/Scene Management/Scene Registry")]
     public class SceneRegistry : ScriptableObject
     {
-        [SerializeField] private List<SceneEntry> _entries = new List<SceneEntry>();
+        [SerializeField] private List<SceneEntry> entries = new List<SceneEntry>();
         [SerializeField] private string transitionSceneID;
         [SerializeField] private string initialSceneID;
+        private Dictionary<int, SceneEntry> _lookupByStableID;
         
         /// <summary>
         /// All configured scene entries.
         /// </summary>
-        public IReadOnlyList<SceneEntry> Entries => _entries;
+        public IReadOnlyList<SceneEntry> Entries => entries;
         
         /// <summary>
         /// The scene ID of the persistent transition scene (loaded at app start, never unloads)
@@ -37,17 +38,50 @@ namespace GoodLuckValley.Core.SceneManagement.Data
         public SceneEntry GetEntry(string sceneID)
         {
             if (string.IsNullOrEmpty(sceneID)) return null;
-
-            // TODO: Replace string-based scene ID lookup with int-based identifier
-            // (e.g., hashed IDs or ScriptableObject reference equality) for performance
-            for (int i = 0; i < _entries.Count; i++)
+            
+            for (int i = 0; i < entries.Count; i++)
             {
-                if (_entries[i].SceneID != sceneID) continue;
+                if (entries[i].SceneID != sceneID) continue;
                 
-                return _entries[i];
+                return entries[i];
             }
 
             return null;
+        }
+        
+        /// <summary>
+        /// Looks up a scene entry by its stable ID. Uses an O(1) dictionary lookup
+        /// built lazily on first access.
+        /// </summary>
+        /// <param name="stableID">The stable ID to search for.</param>
+        /// <returns>The matching entry, or null if not found.</returns>
+        public SceneEntry GetEntryByStableID(int stableID)
+        {
+            EnsureLookupBuilt();
+
+            SceneEntry entry;
+            _lookupByStableID.TryGetValue(stableID, out entry);
+            return entry;
+        }
+
+        /// <summary>
+        /// Builds a lookup dictionary for scene entries using their stable IDs as keys.
+        /// Ensures the dictionary is initialized and populated if it is not already set.
+        /// </summary>
+        private void EnsureLookupBuilt()
+        {
+            if (_lookupByStableID != null) return;
+
+            _lookupByStableID = new Dictionary<int, SceneEntry>();
+
+            for (int i = 0; i < entries.Count; i++)
+            {
+                SceneEntry entry = entries[i];
+
+                if (entry.StableID == 0) continue;
+                
+                _lookupByStableID[entry.StableID] = entry;
+            }
         }
 
         /// <summary>
@@ -64,7 +98,7 @@ namespace GoodLuckValley.Core.SceneManagement.Data
         )
         {
             SceneRegistry registry = CreateInstance<SceneRegistry>();
-            registry._entries = new List<SceneEntry>(entries);
+            registry.entries = new List<SceneEntry>(entries);
             registry.transitionSceneID = transitionSceneID;
             registry.initialSceneID = initialSceneID;
             return registry;
