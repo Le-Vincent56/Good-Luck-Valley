@@ -75,6 +75,7 @@ namespace GoodLuckValley.Core.Input.Adapters
 
             // Buffered press
             _actions.Player.Jump.performed += (ctx) => _inputService.OnJumpPerformed();
+            _actions.Player.Jump.canceled += (ctx) => _inputService.OnJumpCanceled();
             _actions.Player.Bounce.performed += (ctx) => _inputService.OnBouncePerformed();
             _actions.Player.Interact.performed += (ctx) => _inputService.OnInteractPerformed();
             _actions.Player.Previous.performed += (ctx) => _inputService.OnPreviousPerformed();

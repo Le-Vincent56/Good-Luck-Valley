@@ -19,6 +19,12 @@ namespace GoodLuckValley.Core.Input.Interfaces
         bool JumpPressed { get; }
 
         /// <summary>
+        /// Indicates whether the jump action is being continuously held down by the player.
+        /// This property is typically used to track sustained input for jump mechanics.
+        /// </summary>
+        bool JumpHeld { get; }
+
+        /// <summary>
         /// Gets a value indicating whether the bounce action has been triggered.
         /// This property is used to check if the player has pressed the input associated with the bounce mechanic,
         /// allowing specific in-game behaviors tied to bouncing to be executed.

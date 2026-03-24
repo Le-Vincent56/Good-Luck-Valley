@@ -16,6 +16,7 @@ namespace GoodLuckValley.Core.Input.Services
         
         // Held values
         private bool _crouchHeld;
+        private bool _jumpHeld;
         
         // Buffered press state
         private float _jumpPressTime = -1f;
@@ -46,6 +47,7 @@ namespace GoodLuckValley.Core.Input.Services
         public Vector2 Move => _move;
         public Vector2 Navigate => _navigate;
         public bool CrouchHeld => _crouchHeld;
+        public bool JumpHeld => _jumpHeld;
         public bool JumpPressed
         {
             get
@@ -194,7 +196,14 @@ namespace GoodLuckValley.Core.Input.Services
         {
             _jumpPressTime = _timeProvider();
             _jumpConsumed = false;
+            _jumpHeld = true;
         }
+
+        /// <summary>
+        /// Cancels the jump input action for the player.
+        /// Updates the internal state to indicate that the jump is no longer being held.
+        /// </summary>
+        public void OnJumpCanceled() => _jumpHeld = false;
 
         /// <summary>
         /// Handles the action to be performed when the "bounce" input is triggered.
@@ -282,6 +291,7 @@ namespace GoodLuckValley.Core.Input.Services
 
             // Held
             _crouchHeld = false;
+            _jumpHeld = false;
 
             // Buffered — mark all as consumed
             _jumpConsumed = true;

@@ -52,6 +52,8 @@ namespace GoodLuckValley.Tests.EditMode.Input
 
             Assert.AreEqual(expected, input.Navigate);
         }
+        
+        // --- Held Values ---
 
         [Test]
         public void CrouchHeld_DefaultsToFalse()
@@ -80,6 +82,32 @@ namespace GoodLuckValley.Tests.EditMode.Input
             _service.OnCrouchCanceled();
 
             Assert.IsFalse(input.CrouchHeld);
+        }
+        
+        [Test]
+        public void JumpHeld_WhenJumpPerformed_ReturnsTrue()
+        {
+            _service.OnJumpPerformed();
+            
+            Assert.IsTrue(_service.JumpHeld);
+        }
+
+        [Test]
+        public void JumpHeld_WhenJumpCanceled_ReturnsFalse()
+        {
+            _service.OnJumpPerformed();
+            _service.OnJumpCanceled();
+            
+            Assert.IsFalse(_service.JumpHeld);
+        }
+
+        [Test]
+        public void JumpHeld_WhenContextChanged_ClearsHeldState()
+        {
+            _service.OnJumpPerformed();
+            _service.SetContext(InputContext.UI);
+            
+            Assert.IsFalse(_service.JumpHeld);
         }
 
         // --- Buffered Press ---
